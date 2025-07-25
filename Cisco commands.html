@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İnteraktiv Cisco IOS Əmrləri Axtarış Sistemi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Neutral Harmony -->
+    <!-- Application Structure Plan: The SPA uses a two-column layout: a fixed sidebar on the left for category navigation and a main content area on the right for displaying commands. This structure allows users to first narrow down their search by category and then use a live search bar for specific queries within the main content. Each command is presented as a 'card' with a title, description, and a one-click 'copy' button. This design transforms the static command list into an efficient, interactive tool for network engineers, prioritizing quick command lookup and practical use over the original document's linear structure. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Full list of Cisco commands -> Goal: Organize, Inform, Enable Action -> Viz/Method: A filterable and searchable list of command 'cards'. -> Interaction: 1) Clickable category links in the sidebar to filter the list. 2) A live search input to filter commands by name/description. 3) A 'Copy' button on each card to copy the command syntax to the clipboard. -> Justification: This interactive approach is far more user-friendly and efficient for a technical reference guide than a static text document. It allows users to find and use commands in seconds. -> Library/Method: Vanilla JavaScript for all interactivity, Tailwind CSS for modern styling. No charts or complex graphics are needed.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f4f5; /* zinc-100 */
+        }
+        .sidebar-link {
+            display: block;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s, color 0.2s;
+            color: #3f3f46; /* zinc-700 */
+            font-weight: 500;
+        }
+        .sidebar-link:hover {
+            background-color: #e4e4e7; /* zinc-200 */
+        }
+        .sidebar-link.active {
+            background-color: #0ea5e9; /* sky-500 */
+            color: white;
+            font-weight: 600;
+        }
+        .command-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.07), 0 1px 2px -1px rgb(0 0 0 / 0.07);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .command-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .copy-btn {
+            background-color: #f4f4f5; /* zinc-100 */
+            color: #52525b; /* zinc-600 */
+            transition: background-color 0.2s;
+        }
+        .copy-btn:hover {
+            background-color: #e4e4e7; /* zinc-200 */
+        }
+    </style>
+</head>
+<body class="text-zinc-800">
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white/50 backdrop-blur-sm border-r border-zinc-200 p-4 fixed h-full hidden md:block">
+            <h1 class="text-xl font-bold text-sky-600 mb-6">Cisco Əmrləri</h1>
+            <nav id="category-nav" class="space-y-2">
+                <a href="#" class="sidebar-link active" data-category="all">Bütün Əmrlər</a>
+                <a href="#" class="sidebar-link" data-category="general">Ümumi Konfiqurasiya</a>
+                <a href="#" class="sidebar-link" data-category="interface">İnterfeys Konfiqurasiyası</a>
+                <a href="#" class="sidebar-link" data-category="routing">Marşrutlaşdırma</a>
+                <a href="#" class="sidebar-link" data-category="switch">Switchə Xüsusi</a>
+                <a href="#" class="sidebar-link" data-category="show">Göstərmə (Show)</a>
+                <a href="#" class="sidebar-link" data-category="debug">Debug</a>
+                <a href="#" class="sidebar-link" data-category="clear">Təmizləmə (Clear)</a>
+                <a href="#" class="sidebar-link" data-category="vtp">VTP Əmrləri</a>
+                <a href="#" class="sidebar-link" data-category="other">Digər Əmrlər</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 md:ml-64 p-6 md:p-10">
+            <div class="max-w-4xl mx-auto">
+                <div class="mb-8">
+                    <h2 class="text-4xl font-bold text-zinc-800">İnteraktiv Əmr Siyahısı</h2>
+                    <p class="text-zinc-600 mt-2">Cisco IOS əmrlərini asanlıqla tapmaq və istifadə etmək üçün axtarış sistemindən və kateqoriyalardan istifadə edin. Hər hansı bir əmri kopyalamaq üçün "Kopyala" düyməsinə klikləyin.</p>
+                </div>
+
+                <!-- Search Input -->
+                <div class="mb-8 sticky top-4 z-10">
+                    <input type="text" id="search-input" placeholder="Əmr axtar..." class="w-full p-4 border border-zinc-300 rounded-xl shadow-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition">
+                </div>
+                
+                <!-- Command List -->
+                <div id="command-list" class="grid grid-cols-1 gap-6">
+                    <!-- Commands will be injected here by JavaScript -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const commands = [
+            // General
+            { cmd: 'delete flash:vlan.dat', desc: '`vlan.dat` faylını flash yaddaşdan silir (Switch-də).', cat: 'general' },
+            { cmd: 'erase startup-config', desc: 'Router/Switch üçün başlanğıc konfiqurasiyasını silir.', cat: 'general' },
+            { cmd: 'reload', desc: 'Cihazı yenidən yükləyir.', cat: 'general' },
+            { cmd: 'show clock', desc: 'Cari saat tənzimləmələrini göstərir.', cat: 'show' },
+            { cmd: 'clock set HH:MM:SS Day Month Year', desc: 'Cihazın saatını təyin edir.', cat: 'general' },
+            { cmd: 'hostname <Ad>', desc: 'Cihazın adını təyin edir və ya dəyişdirir.', cat: 'general' },
+            { cmd: 'no ip domain-lookup', desc: 'İstənməyən DNS axtarışlarının qarşısını alır/deaktiv edir.', cat: 'general' },
+            { cmd: 'enable secret <parol>', desc: 'İmtiyazlı EXEC rejimi üçün şifrələnmiş parol təyin edir.', cat: 'general' },
+            { cmd: 'line console 0', desc: 'Konsol portuna daxil olur.', cat: 'general' },
+            { cmd: 'line vty 0 15', desc: 'Virtual terminal (vty) xətlərini konfiqurasiya edir.', cat: 'general' },
+            { cmd: 'service password-encryption', desc: 'Bütün açıq mətn parollarını şifrələyir.', cat: 'general' },
+            { cmd: 'banner motd #<mesaj>#', desc: 'Giriş üçün xəbərdarlıq banneri yaradır.', cat: 'general' },
+            { cmd: 'copy running-config startup-config', desc: 'Cari konfiqurasiyanı başlanğıc konfiqurasiyasına yazır.', cat: 'general' },
+            
+            // Interface
+            { cmd: 'interface <növ><nömrə>', desc: 'Müəyyən bir interfeysə daxil olur.', cat: 'interface' },
+            { cmd: 'ip address <IP> <maska>', desc: 'İnterfeysə IPv4 ünvanı təyin edir.', cat: 'interface' },
+            { cmd: 'ipv6 address <IPv6>/<prefix>', desc: 'İnterfeysə IPv6 ünvanı təyin edir.', cat: 'interface' },
+            { cmd: 'no shutdown', desc: 'İnterfeysi aktivləşdirir.', cat: 'interface' },
+            { cmd: 'shutdown', desc: 'İnterfeysi deaktiv edir.', cat: 'interface' },
+            { cmd: 'description <təsvir>', desc: 'İnterfeysə təsvir əlavə edir.', cat: 'interface' },
+            { cmd: 'clock rate <dəyər>', desc: 'Serial interfeysdə saat dərəcəsini təyin edir (DCE tərəfində).', cat: 'interface' },
+            { cmd: 'encapsulation <növ>', desc: 'İnterfeys üçün kapsulyasiya növünü təyin edir.', cat: 'interface' },
+            { cmd: 'bandwidth <dəyər>', desc: 'İnterfeysin bant genişliyini təyin edir (Kbit/s).', cat: 'interface' },
+            { cmd: 'ip helper-address <server_IP>', desc: 'DHCP və digər xidmətlər üçün helper ünvanı təyin edir.', cat: 'interface' },
+            { cmd: 'ip nat inside', desc: 'NAT daxili interfeys kimi təyin edir.', cat: 'interface' },
+            { cmd: 'ip nat outside', desc: 'NAT xarici interfeys kimi təyin edir.', cat: 'interface' },
+
+            // Routing
+            { cmd: 'router eigrp <AS>', desc: 'EIGRP marşrutlaşdırma protokolunu aktivləşdirir.', cat: 'routing' },
+            { cmd: 'router ospf <ID>', desc: 'OSPF marşrutlaşdırma protokolunu aktivləşdirir.', cat: 'routing' },
+            { cmd: 'router rip', desc: 'RIP marşrutlaşdırma protokolunu aktivləşdirir.', cat: 'routing' },
+            { cmd: 'network <şəbəkə>', desc: 'EIGRP/RIP-də şəbəkələri elan edir.', cat: 'routing' },
+            { cmd: 'network <şəbəkə> <wildcard> area <sahə>', desc: 'OSPF-də şəbəkələri elan edir.', cat: 'routing' },
+            { cmd: 'no auto-summary', desc: 'EIGRP/RIP-də avtomatik xülasəni deaktiv edir.', cat: 'routing' },
+            { cmd: 'passive-interface <interfeys>', desc: 'Müəyyən interfeysdə yeniləmələrin göndərilməsini dayandırır.', cat: 'routing' },
+            { cmd: 'ip route <şəbəkə> <maska> <növbəti_hop>', desc: 'Statik marşrut təyin edir.', cat: 'routing' },
+            { cmd: 'ip route 0.0.0.0 0.0.0.0 <növbəti_hop>', desc: 'Defolt marşrut təyin edir.', cat: 'routing' },
+
+            // Switch
+            { cmd: 'vlan <VLAN_ID>', desc: 'Yeni VLAN yaradır və ya mövcud olana daxil olur.', cat: 'switch' },
+            { cmd: 'name <VLAN_adı>', desc: 'VLAN-a ad verir.', cat: 'switch' },
+            { cmd: 'interface vlan <VLAN_ID>', desc: 'VLAN interfeysinə (SVI) daxil olur.', cat: 'switch' },
+            { cmd: 'ip default-gateway <IP>', desc: 'Switch üçün defolt qapı yolunu konfiqurasiya edir.', cat: 'switch' },
+            { cmd: 'switchport mode access', desc: 'Portu giriş (access) portu kimi təyin edir.', cat: 'switch' },
+            { cmd: 'switchport access vlan <VLAN_ID>', desc: 'Giriş portunu müəyyən bir VLAN-a təyin edir.', cat: 'switch' },
+            { cmd: 'switchport mode trunk', desc: 'Portu trunk portu kimi təyin edir.', cat: 'switch' },
+            { cmd: 'switchport trunk allowed vlan <siyahı>', desc: 'Trunk portunda icazə verilən VLAN-ları təyin edir.', cat: 'switch' },
+            { cmd: 'switchport port-security', desc: 'Port təhlükəsizliyini aktivləşdirir.', cat: 'switch' },
+            { cmd: 'spanning-tree portfast', desc: 'PortFast funksiyasını aktivləşdirir.', cat: 'switch' },
+
+            // Show
+            { cmd: 'show running-config', desc: 'Cari işləyən konfiqurasiyanı göstərir.', cat: 'show' },
+            { cmd: 'show startup-config', desc: 'Başlanğıc konfiqurasiya faylını göstərir.', cat: 'show' },
+            { cmd: 'show version', desc: 'IOS versiyasını və cihaz məlumatlarını göstərir.', cat: 'show' },
+            { cmd: 'show ip interface brief', desc: 'İnterfeyslərin IP ünvanlarını və statusunu qısa şəkildə göstərir.', cat: 'show' },
+            { cmd: 'show interfaces', desc: 'Bütün interfeyslərin ətraflı statistikalarını göstərir.', cat: 'show' },
+            { cmd: 'show ip route', desc: 'IP marşrutlaşdırma cədvəlini göstərir.', cat: 'show' },
+            { cmd: 'show ip eigrp neighbors', desc: 'EIGRP qonşularını göstərir.', cat: 'show' },
+            { cmd: 'show ip ospf neighbor', desc: 'OSPF qonşularını göstərir.', cat: 'show' },
+            { cmd: 'show cdp neighbors detail', desc: 'CDP qonşuları haqqında ətraflı məlumatı göstərir.', cat: 'show' },
+            { cmd: 'show vlan brief', desc: 'VLAN məlumatlarını qısa şəkildə göstərir.', cat: 'show' },
+            { cmd: 'show interface trunk', desc: 'Trunk interfeysləri göstərir.', cat: 'show' },
+            { cmd: 'show mac-address-table', desc: 'MAC ünvan cədvəlini göstərir.', cat: 'show' },
+
+            // Debug
+            { cmd: 'debug ip packet', desc: 'IP paketlərinin debug-unu aktivləşdirir.', cat: 'debug' },
+            { cmd: 'debug ip routing', desc: 'IP marşrutlaşdırma debug-unu aktivləşdirir.', cat: 'debug' },
+            { cmd: 'debug ip eigrp', desc: 'EIGRP debug-unu aktivləşdirir.', cat: 'debug' },
+            { cmd: 'debug ip ospf events', desc: 'OSPF hadisələrinin debug-unu aktivləşdirir.', cat: 'debug' },
+            { cmd: 'undebug all', desc: 'Bütün debug-ları deaktiv edir.', cat: 'debug' },
+
+            // Clear
+            { cmd: 'clear ip route *', desc: 'Bütün IP marşrutlarını təmizləyir.', cat: 'clear' },
+            { cmd: 'clear ip ospf process', desc: 'OSPF prosesini təmizləyir.', cat: 'clear' },
+            { cmd: 'clear ip eigrp neighbors', desc: 'EIGRP qonşuluqlarını təmizləyir.', cat: 'clear' },
+            
+            // VTP
+            { cmd: 'vtp domain <ad>', desc: 'VTP domen adını təyin edir.', cat: 'vtp' },
+            { cmd: 'vtp mode <rejim>', desc: 'VTP rejimini təyin edir (server, client, transparent).', cat: 'vtp' },
+            { cmd: 'vtp password <parol>', desc: 'VTP parolu təyin edir.', cat: 'vtp' },
+            
+            // Other
+            { cmd: 'ip domain-name <ad>', desc: 'Domen adını təyin edir.', cat: 'other' },
+            { cmd: 'ip name-server <IP>', desc: 'DNS server ünvanını təyin edir.', cat: 'other' },
+            { cmd: 'ip dhcp pool <ad>', desc: 'DHCP pool yaradır.', cat: 'other' },
+            { cmd: 'ip dhcp excluded-address <IP>', desc: 'DHCP pool-dan xaric ediləcək ünvanları təyin edir.', cat: 'other' },
+            { cmd: 'access-list <nömrə> permit|deny <şərt>', desc: 'Standart və ya genişləndirilmiş ACL yaradır.', cat: 'other' },
+        ];
+
+        const commandList = document.getElementById('command-list');
+        const searchInput = document.getElementById('search-input');
+        const categoryNav = document.getElementById('category-nav');
+
+        function renderCommands(filter = 'all', searchTerm = '') {
+            commandList.innerHTML = '';
+            const filteredCommands = commands.filter(c => {
+                const inCategory = (filter === 'all' || c.cat === filter);
+                const inSearch = (searchTerm === '' || c.cmd.toLowerCase().includes(searchTerm) || c.desc.toLowerCase().includes(searchTerm));
+                return inCategory && inSearch;
+            });
+
+            if (filteredCommands.length === 0) {
+                commandList.innerHTML = `<p class="text-zinc-500 col-span-1">Nəticə tapılmadı.</p>`;
+                return;
+            }
+
+            filteredCommands.forEach(command => {
+                const card = document.createElement('div');
+                card.className = 'command-card p-5';
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <code class="text-lg font-semibold text-sky-700 bg-sky-50 p-2 rounded-md">${command.cmd}</code>
+                            <p class="text-zinc-600 mt-3">${command.desc}</p>
+                        </div>
+                        <button class="copy-btn ml-4 px-4 py-2 rounded-lg text-sm font-semibold" onclick="copyCommand(this, '${command.cmd}')">Kopyala</button>
+                    </div>
+                `;
+                commandList.appendChild(card);
+            });
+        }
+
+        function copyCommand(button, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                button.innerText = 'Kopyalandı!';
+                button.classList.add('bg-green-200');
+                setTimeout(() => {
+                    button.innerText = 'Kopyala';
+                    button.classList.remove('bg-green-200');
+                }, 2000);
+            }).catch(err => {
+                console.error('Kopyalama uğursuz oldu: ', err);
+            });
+        }
+
+        categoryNav.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (e.target.tagName === 'A') {
+                const category = e.target.dataset.category;
+                
+                // Update active link
+                categoryNav.querySelector('.active').classList.remove('active');
+                e.target.classList.add('active');
+                
+                // Render
+                renderCommands(category, searchInput.value.toLowerCase());
+            }
+        });
+
+        searchInput.addEventListener('input', () => {
+            const activeCategory = categoryNav.querySelector('.active').dataset.category;
+            renderCommands(activeCategory, searchInput.value.toLowerCase());
+        });
+
+        // Initial render
+        renderCommands();
+    </script>
+</body>
+</html>
