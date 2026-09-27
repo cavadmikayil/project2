@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cisco IOS CLI və Rejimlər — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#square-terminal"></use></svg> Cisco IOS CLI və Rejimlər</h1>
+                <span class="lesson-badge">CCNA · Network Fundamentals</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#modes" class="nav-link">Rejimlər</a>
+                <a href="#help" class="nav-link">Kömək və qısayollar</a>
+                <a href="#configs" class="nav-link">Konfiqurasiya faylları</a>
+                <a href="#security" class="nav-link">Rejimlərin qorunması</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#square-terminal"></use></svg> Giriş: Cisco Cihazına İlk Qoşulma</h2>
+            <p class="lead">
+                Yeni router və ya switch ilk dəfə <strong>konsol kabeli</strong> ilə (9600 baud, 8 data bit, parity yox,
+                1 stop bit) PuTTY və ya TeraTerm kimi terminal proqramından konfiqurasiya olunur. IP ünvanı və SSH
+                qurulduqdan sonra idarəetmə şəbəkə üzərindən davam edir.
+            </p>
+        </section>
+
+        <section id="modes" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#layers"></use></svg> 1. CLI Rejimləri</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Rejim</th><th>Prompt</th><th>Daxil olmaq</th><th>Nə etmək olar</th></tr></thead>
+                    <tbody>
+                        <tr><td>User EXEC</td><td><code>R1&gt;</code></td><td>Qoşulduqdan sonra</td><td>Məhdud show, ping</td></tr>
+                        <tr><td>Privileged EXEC</td><td><code>R1#</code></td><td><code>enable</code></td><td>Bütün show, debug, copy, reload</td></tr>
+                        <tr><td>Global config</td><td><code>R1(config)#</code></td><td><code>configure terminal</code></td><td>Bütün cihaza aid ayarlar</td></tr>
+                        <tr><td>Interface config</td><td><code>R1(config-if)#</code></td><td><code>interface g0/0</code></td><td>İnterfeys ayarları</td></tr>
+                        <tr><td>Line config</td><td><code>R1(config-line)#</code></td><td><code>line vty 0 4</code></td><td>Konsol / VTY ayarları</td></tr>
+                        <tr><td>Router config</td><td><code>R1(config-router)#</code></td><td><code>router ospf 1</code></td><td>Marşrutlaşdırma protokolu</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg><p class="text-neutral-700"><code>exit</code> — bir səviyyə geri; <code>end</code> və ya <strong>Ctrl+Z</strong> — birbaşa Privileged EXEC-ə.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#terminal"></use></svg><p class="text-neutral-700"><code>do show ip interface brief</code> — konfiqurasiya rejimindən çıxmadan show əmri icra etmək.</p></div>
+            </div>
+        </section>
+
+        <section id="help" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#lightbulb"></use></svg> 2. Kömək və Qısayollar</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Qısayol</th><th>Nə edir</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>?</code></td><td>Mövcud rejimdəki bütün əmrlər</td></tr>
+                        <tr><td><code>sh?</code></td><td>"sh" ilə başlayan əmrlər</td></tr>
+                        <tr><td><code>show ?</code></td><td>Növbəti mümkün açar sözlər</td></tr>
+                        <tr><td><code>Tab</code></td><td>Əmrin qalanını tamamlayır (<code>conf</code> → <code>configure</code>)</td></tr>
+                        <tr><td>Qısaltma</td><td>Unikal qısaltma kifayətdir: <code>sh ip int br</code></td></tr>
+                        <tr><td><code>↑</code> / Ctrl+P</td><td>Əvvəlki əmr (history)</td></tr>
+                        <tr><td>Ctrl+A / Ctrl+E</td><td>Sətrin əvvəlinə / sonuna</td></tr>
+                        <tr><td>Ctrl+Shift+6</td><td>Uzun ping/traceroute-u dayandırır</td></tr>
+                        <tr><td><code>| include</code>, <code>| section</code>, <code>| begin</code></td><td>show çıxışını filtrləmək</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box mt-6">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#info"></use></svg>
+                <p class="text-neutral-800">Səhv yazılmış əmr hostname kimi qəbul edilir və cihaz onu DNS-də axtararkən CLI bir neçə saniyə donur. Laboratoriyada bunun qarşısını almaq üçün: <code>no ip domain-lookup</code>.</p>
+            </div>
+        </section>
+
+        <section id="configs" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#file-text"></use></svg> 3. running-config və startup-config</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#cpu"></use></svg> running-config</h3><p class="text-neutral-700">RAM-da saxlanılan aktiv konfiqurasiya. Hər əmr dərhal bura yazılır, amma cihaz yenidən başlayanda itir.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#hard-drive"></use></svg> startup-config</h3><p>NVRAM-da saxlanılır, cihaz açılanda yüklənir. Dəyişiklikləri qorumaq üçün yadda saxlamaq lazımdır.</p></div>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>R1# copy running-config startup-config
+R1# write memory
+R1# show running-config | section interface
+R1# show startup-config
+R1# erase startup-config
+R1# reload</code></pre>
+                <p class="code-note">Konfiqurasiyanı yadda saxlamaq (iki üsul), aktiv və saxlanılmış konfiqurasiyaya baxmaq, cihazı zavod vəziyyətinə qaytarmaq (erase + reload).</p>
+            </div>
+        </section>
+
+        <section id="security" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#lock"></use></svg> 4. User və Privileged Rejimlərin Qorunması</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="cli-basic">İlkin konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="cli-verify">Doğrulama</button>
+            </div>
+            <div id="cli-basic">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Router&gt; enable
+Router# configure terminal
+Router(config)# hostname R1
+R1(config)# no ip domain-lookup
+R1(config)# enable secret Guclu!Enable26
+R1(config)# line console 0
+R1(config-line)# password Konsol!26
+R1(config-line)# login
+R1(config-line)# logging synchronous
+R1(config-line)# exec-timeout 5 0
+R1(config)# service password-encryption
+R1(config)# banner motd # Yalniz icazeli giris! #
+R1(config)# end
+R1# copy running-config startup-config</code></pre>
+                    <p class="code-note">Konsol girişi parolla, Privileged rejim isə hash-lənmiş <code>enable secret</code> ilə qorunur. <code>logging synchronous</code> log mesajlarının yazdığınız əmri kəsməsinin qarşısını alır.</p>
+                </div>
+            </div>
+            <div id="cli-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show version
+show running-config | include secret|password
+show history
+show users</code></pre>
+                    <p class="code-note">IOS versiyası, uptime və konfiqurasiya registri; parolların şifrəli göründüyünü yoxlamaq; son yazılmış əmrlər və qoşulmuş istifadəçilər.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="lesson-footer py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Şəbəkə Topologiyaları — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#waypoints"></use></svg> Şəbəkə Topologiyaları</h1>
+                <span class="lesson-badge">CCNA · Network Access</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#physical" class="nav-link">Fiziki topologiyalar</a>
+                <a href="#types" class="nav-link">Şəbəkə növləri</a>
+                <a href="#soho" class="nav-link">SOHO</a>
+                <a href="#compare" class="nav-link">Seçim</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#waypoints"></use></svg> Giriş: Fiziki və Məntiqi Topologiya</h2>
+            <p class="lead">
+                <strong>Fiziki topologiya</strong> cihazların kabellərlə necə birləşdiyini, <strong>məntiqi topologiya</strong>
+                isə məlumatın hansı yolla axdığını göstərir. Məsələn, fiziki olaraq ulduz (star) quruluşda olan şəbəkə
+                VLAN-lar sayəsində məntiqi olaraq bir neçə ayrı şəbəkəyə bölünə bilər.
+            </p>
+        </section>
+
+        <section id="physical" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#network"></use></svg> 1. Fiziki Topologiyalar</h2>
+            <div class="card-grid">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#star"></use></svg> Star (ulduz)</h3><p class="text-neutral-700">Bütün cihazlar mərkəzi switch-ə qoşulur. Bir kabelin qırılması yalnız bir cihaza təsir edir. Bugünkü LAN-ların standartıdır; zəif nöqtə mərkəzi cihazdır.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#boxes"></use></svg> Extended star</h3><p class="text-neutral-700">Bir neçə ulduz bir-birinə bağlanır (məs. hər mərtəbədə access switch, onlar isə core/distribution switch-ə).</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#share-2"></use></svg> Full mesh</h3><p class="text-neutral-700">Hər cihaz hər biri ilə birbaşa bağlıdır — maksimum ehtiyat. Link sayı: <strong>n(n−1)/2</strong> (5 cihaz → 10 link). Baha başa gəlir.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#git-fork"></use></svg> Partial mesh</h3><p class="text-neutral-700">Yalnız vacib cihazlar arasında əlavə linklər — qiymət və etibarlılıq balansı. WAN və core şəbəkələrdə geniş yayılıb.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#minus"></use></svg> Bus</h3><p class="text-neutral-700">Bütün cihazlar tək kabelə qoşulur (köhnə koaksial Ethernet). Kabel qırılsa şəbəkə dayanır.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-dot"></use></svg> Ring</h3><p>Hər cihaz iki qonşuya bağlıdır, siqnal dairə boyu gedir. Metro/provayder optik şəbəkələrində ikiqat halqa kimi istifadə olunur.</p></div>
+            </div>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#globe"></use></svg> 2. Ölçüsünə Görə Şəbəkə Növləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Əhatə</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td>PAN</td><td>Bir neçə metr</td><td>Bluetooth qulaqlıq, telefon</td></tr>
+                        <tr><td>LAN</td><td>Bina, ofis</td><td>Kollecin kompüter sinfi</td></tr>
+                        <tr><td>WLAN</td><td>Bina daxili simsiz</td><td>Wi-Fi şəbəkəsi</td></tr>
+                        <tr><td>CAN (Campus)</td><td>Bir neçə bina</td><td>Universitet kampusu</td></tr>
+                        <tr><td>MAN</td><td>Şəhər</td><td>Filialları birləşdirən Metro Ethernet</td></tr>
+                        <tr><td>WAN</td><td>Ölkə, qitə</td><td>İnternet, MPLS şəbəkəsi</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="soho" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#house"></use></svg> 3. SOHO Şəbəkəsi</h2>
+            <p class="lead">
+                SOHO (Small Office / Home Office) — ev və ya kiçik ofis şəbəkəsi. Burada adətən bir cihaz
+                bir neçə rolu birlikdə yerinə yetirir:
+            </p>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#router"></use></svg><p class="text-neutral-700"><strong>Router + NAT:</strong> daxili şəbəkəni internetə çıxarır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#network"></use></svg><p class="text-neutral-700"><strong>Switch:</strong> 4–8 LAN portu.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#wifi"></use></svg><p class="text-neutral-700"><strong>Access point:</strong> Wi-Fi.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#server"></use></svg><p class="text-neutral-700"><strong>DHCP server:</strong> ünvanları avtomatik verir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#shield"></use></svg><p class="text-neutral-700"><strong>Firewall:</strong> daxilə gələn trafiki məhdudlaşdırır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#cable"></use></svg><p class="text-neutral-700"><strong>Modem/ONT:</strong> DSL, kabel və ya fiber xətti.</p></div>
+            </div>
+        </section>
+
+        <section id="compare" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#scale"></use></svg> 4. Topologiya Seçimi</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Topologiya</th><th>Etibarlılıq</th><th>Qiymət</th><th>Genişlənmə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Star</td><td>Orta (mərkəz tək nöqtədir)</td><td class="yes">Aşağı</td><td class="yes">Asan</td></tr>
+                        <tr><td>Full mesh</td><td class="yes">Çox yüksək</td><td class="no">Çox yüksək</td><td class="no">Çətin</td></tr>
+                        <tr><td>Partial mesh</td><td class="yes">Yüksək</td><td>Orta</td><td>Orta</td></tr>
+                        <tr><td>Bus</td><td class="no">Aşağı</td><td class="yes">Aşağı</td><td class="no">Çətin</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box mt-6">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#lightbulb"></use></svg>
+                <p class="text-neutral-800">Böyük şəbəkələr üçün hazır dizayn modelləri — 2-tier, 3-tier və spine-leaf — "Kampus və Spine-Leaf Dizaynı" dərsində izah olunur.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="lesson-footer py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

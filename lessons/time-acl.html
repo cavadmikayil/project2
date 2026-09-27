@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time-based ACL — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#alarm-clock"></use></svg> Time-based ACL</h1>
+                <span class="lesson-badge">CCNA · Security Fundamentals</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#timerange" class="nav-link">Time-range</a>
+                <a href="#scenario" class="nav-link">Ssenari</a>
+                <a href="#placement" class="nav-link">Yerləşdirmə</a>
+                <a href="#troubleshoot" class="nav-link">Troubleshooting</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#alarm-clock"></use></svg> Giriş: Qaydalar Vaxta Görə</h2>
+            <p class="lead">
+                Bəzən qayda yalnız müəyyən saatlarda lazımdır: tələbələr dərs vaxtı sosial şəbəkələrə girməsin,
+                qonaq Wi-Fi yalnız iş saatlarında işləsin, gecə backup serverinə yalnız ehtiyat nüsxə trafiki getsin.
+                <strong>Time-based ACL</strong> genişləndirilmiş ACL sətrinə <code>time-range</code> əlavə edir — sətir
+                yalnız həmin vaxt aralığında aktiv olur.
+            </p>
+            <div class="note-box">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#clock"></use></svg>
+                <p class="text-neutral-800">Vaxt cihazın öz saatına görə yoxlanılır. Saat səhvdirsə, qayda səhv vaxtda işləyəcək — ona görə əvvəlcə <strong>NTP</strong> və saat qurşağını düzgün qurun.</p>
+            </div>
+        </section>
+
+        <section id="timerange" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#calendar"></use></svg> 1. Time-range Növləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Sintaksis</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Periodic</td><td><code>periodic &lt;günlər&gt; hh:mm to hh:mm</code></td><td><code>periodic weekdays 08:00 to 17:00</code></td></tr>
+                        <tr><td>Periodic (günlər arası)</td><td><code>periodic &lt;gün&gt; hh:mm to &lt;gün&gt; hh:mm</code></td><td><code>periodic Friday 18:00 to Monday 08:00</code></td></tr>
+                        <tr><td>Absolute</td><td><code>absolute start … end …</code></td><td><code>absolute start 00:00 01 October 2026 end 23:59 31 October 2026</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4">Gün açar sözləri: <code>daily</code>, <code>weekdays</code> (B.e.–Cümə), <code>weekend</code> (Şənbə–Bazar) və ya konkret gün adları (<code>Monday</code> … <code>Sunday</code>).</p>
+        </section>
+
+        <section id="scenario" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#terminal"></use></svg> 2. Ssenari: Dərs Saatlarında Məhdudiyyət</h2>
+            <p class="lead">Tələbə VLAN-ı (192.168.30.0/24) iş günləri 09:00–17:00 arası yalnız DNS və veb (HTTP/HTTPS) istifadə edə bilər, dərsdən sonra isə tam çıxışı var.</p>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="ta-config">Konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="ta-verify">Doğrulama</button>
+            </div>
+            <div id="ta-config">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# clock timezone AZT 4
+R1(config)# ntp server 192.168.1.10
+
+R1(config)# time-range DERS-SAATLARI
+R1(config-time-range)# periodic weekdays 09:00 to 17:00
+
+R1(config)# ip access-list extended TELEBE-IN
+R1(config-ext-nacl)# 10 permit udp 192.168.30.0 0.0.0.255 any eq domain
+R1(config-ext-nacl)# 20 permit tcp 192.168.30.0 0.0.0.255 any eq www
+R1(config-ext-nacl)# 30 permit tcp 192.168.30.0 0.0.0.255 any eq 443
+R1(config-ext-nacl)# 40 deny ip 192.168.30.0 0.0.0.255 any time-range DERS-SAATLARI
+R1(config-ext-nacl)# 50 permit ip 192.168.30.0 0.0.0.255 any
+
+R1(config)# interface GigabitEthernet0/0.30
+R1(config-subif)# ip access-group TELEBE-IN in</code></pre>
+                    <p class="code-note">10–30: DNS və veb həmişə açıqdır. 40: dərs saatlarında qalan hər şey bloklanır — bu sətir yalnız time-range aktiv olanda işləyir. 50: dərsdən sonra digər trafikə icazə verilir.</p>
+                </div>
+            </div>
+            <div id="ta-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show clock
+show time-range
+show access-lists TELEBE-IN
+show ip interface GigabitEthernet0/0.30</code></pre>
+                    <p class="code-note">Cihazın saatı, time-range-in hazırda <strong>active</strong> və ya <strong>inactive</strong> olduğu, ACL sətirləri (qeyri-aktiv sətir "(inactive)" kimi göstərilir), match sayğacları və interfeysə tətbiq olunan ACL.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="placement" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#map"></use></svg> 3. ACL-in Yerləşdirilməsi — Xatırlatma</h2>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#target"></use></svg><p class="text-neutral-700"><strong>Genişləndirilmiş ACL</strong> mənbəyə mümkün qədər yaxın — lazımsız trafik şəbəkəyə daxil olmadan dayandırılır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#target"></use></svg><p class="text-neutral-700"><strong>Standart ACL</strong> təyinata yaxın — yalnız mənbə IP-yə baxdığı üçün mənbəyə yaxın qoyulsa, lazımlı trafiki də bloklaya bilər.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#list-ordered"></use></svg><p class="text-neutral-700">Hər interfeysdə, hər istiqamətdə, hər protokol üçün <strong>bir</strong> ACL.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-down"></use></svg><p class="text-neutral-700">Daha <strong>spesifik</strong> sətirlər yuxarıda, ümumi sətirlər aşağıda olmalıdır.</p></div>
+            </div>
+        </section>
+
+        <section id="troubleshoot" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#wrench"></use></svg> 4. ACL Troubleshooting</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Simptom</th><th>Səbəb</th></tr></thead>
+                    <tbody>
+                        <tr><td>Hər şey bloklanır</td><td>ACL-də heç bir <code>permit</code> yoxdur — gizli <code>deny any</code> hamısını atır</td></tr>
+                        <tr><td>Qayda heç işləmir (match = 0)</td><td>ACL səhv interfeysdə və ya səhv istiqamətdədir (in/out)</td></tr>
+                        <tr><td>Spesifik deny işləmir</td><td>Ondan yuxarıda daha ümumi permit sətri var — ilk uyğunluq qalib gəlir</td></tr>
+                        <tr><td>Time-based qayda səhv vaxtda işləyir</td><td>Cihazın saatı/saat qurşağı səhvdir</td></tr>
+                        <tr><td>OSPF qonşuluğu itdi</td><td>ACL OSPF (protokol 89) paketlərini bloklayır — <code>permit ospf any any</code> əlavə edin</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="lesson-footer py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

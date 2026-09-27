@@ -135,3 +135,15 @@ body.dark-mode .yes { color: #fbbf24; }
 body.dark-mode .no { color: #a3a3a3; }
 body.dark-mode .lesson-footer { border-color: #262626; }
 body.dark-mode .lesson-footer a { color: #fbbf24; }
+
+.lesson-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    background: #0a0a0a;
+    color: #fbbf24;
+    padding: 0.25rem 0.6rem;
+    border-radius: 9999px;
+    white-space: nowrap;
+}
+body.dark-mode .lesson-badge { background: #262626; }

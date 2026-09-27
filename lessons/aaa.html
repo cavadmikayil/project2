@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AAA: RADIUS və TACACS+ — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#users"></use></svg> AAA: RADIUS və TACACS+</h1>
+                <span class="lesson-badge">CCNA · Security Fundamentals</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#protocols" class="nav-link">Protokollar</a>
+                <a href="#methods" class="nav-link">Metod siyahıları</a>
+                <a href="#admin" class="nav-link">Admin girişi</a>
+                <a href="#user" class="nav-link">İstifadəçi girişi</a>
+                <a href="#commands" class="nav-link">Doğrulama</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#users"></use></svg> Giriş: Mərkəzi Hesablar</h2>
+            <p class="lead">
+                100 switch-in hər birində lokal istifadəçi saxlamaq idarə olunmazdır: işçi işdən çıxanda onun hesabını
+                hər cihazdan ayrıca silmək lazımdır. <strong>AAA</strong> hesabları mərkəzi serverdə (Cisco ISE,
+                FreeRADIUS, Windows NPS) saxlayır və hər girişi orada yoxlayır.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#user-check"></use></svg> Authentication</h3><p class="text-neutral-700">Kimdir? — istifadəçi adı, parol, sertifikat, MFA.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#key"></use></svg> Authorization</h3><p class="text-neutral-700">Nə edə bilər? — privilege səviyyəsi, icazəli əmrlər, VLAN təyinatı.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#scroll-text"></use></svg> Accounting</h3><p>Nə etdi? — giriş vaxtı, icra olunan əmrlər, sessiya müddəti.</p></div>
+            </div>
+        </section>
+
+        <section id="protocols" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#scale"></use></svg> 1. TACACS+ və RADIUS</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>TACACS+</th><th>RADIUS</th></tr></thead>
+                    <tbody>
+                        <tr><td>Standart</td><td>Cisco (sonradan açıq sənəd)</td><td>Açıq standart (RFC 2865)</td></tr>
+                        <tr><td>Nəqliyyat</td><td>TCP 49</td><td>UDP 1812 (auth), 1813 (accounting)</td></tr>
+                        <tr><td>Şifrələmə</td><td>Bütün paket</td><td>Yalnız parol</td></tr>
+                        <tr><td>AAA ayrılması</td><td>Üç funksiya ayrı-ayrı</td><td>Authentication + authorization birlikdə</td></tr>
+                        <tr><td>Əmr səviyyəsində avtorizasiya</td><td class="yes">Var</td><td class="no">Yoxdur</td></tr>
+                        <tr><td>Əsas istifadə</td><td><strong>Admin</strong> girişi (cihaz idarəetməsi)</td><td><strong>İstifadəçi</strong> girişi (802.1X, VPN, Wi-Fi)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="methods" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#list-ordered"></use></svg> 2. Metod Siyahıları</h2>
+            <p class="lead">
+                <code>aaa authentication login default group tacacs+ local</code> — metodlar soldan sağa sınanır.
+                Növbəti metoda yalnız əvvəlki <strong>cavab vermədikdə</strong> (server əlçatmaz) keçilir.
+                Server "parol səhvdir" deyirsə, lokal hesab yoxlanılmır.
+            </p>
+            <div class="note-box">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#triangle-alert"></use></svg>
+                <p class="text-neutral-800">Həmişə sonda <code>local</code> ehtiyat metodu və lokal admin hesabı saxlayın. Əks halda server əlçatmaz olanda cihaza heç kim daxil ola bilməz. <code>aaa new-model</code> yazıldığı anda VTY xətləri avtomatik olaraq defolt AAA metoduna keçir — konfiqurasiyanı konsoldan edin.</p>
+            </div>
+        </section>
+
+        <section id="admin" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#terminal"></use></svg> 3. Admin Girişi — TACACS+</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>R1(config)# username backup-admin privilege 15 algorithm-type scrypt secret Ehtiyat!2026
+R1(config)# aaa new-model
+R1(config)# tacacs server ISE
+R1(config-server-tacacs)# address ipv4 10.0.0.100
+R1(config-server-tacacs)# key TacacsKey!2026
+
+R1(config)# aaa authentication login default group tacacs+ local
+R1(config)# aaa authorization exec default group tacacs+ local
+R1(config)# aaa authorization commands 15 default group tacacs+ local
+R1(config)# aaa accounting commands 15 default start-stop group tacacs+
+
+R1(config)# line vty 0 15
+R1(config-line)# transport input ssh</code></pre>
+                <p class="code-note">Girişlər TACACS+ serverində yoxlanılır, privilege 15 əmrlərinin hər biri serverdə avtorizasiya olunur və qeydə alınır. Server əlçatmaz olduqda lokal "backup-admin" hesabı işləyir.</p>
+            </div>
+        </section>
+
+        <section id="user" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#wifi"></use></svg> 4. İstifadəçi Girişi — RADIUS</h2>
+            <p class="lead">RADIUS-dan adətən şəbəkəyə giriş üçün istifadə olunur: switch portunda 802.1X, simsiz WPA2/3-Enterprise və uzaqdan VPN.</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>SW1(config)# aaa new-model
+SW1(config)# radius server NPS
+SW1(config-radius-server)# address ipv4 10.0.0.110 auth-port 1812 acct-port 1813
+SW1(config-radius-server)# key RadiusKey!2026
+SW1(config)# aaa authentication dot1x default group radius
+SW1(config)# aaa authorization network default group radius
+SW1(config)# aaa accounting dot1x default start-stop group radius
+SW1(config)# dot1x system-auth-control</code></pre>
+                <p class="code-note">802.1X istifadəçiləri RADIUS-da yoxlanılır; <code>authorization network</code> serverin istifadəçiyə dinamik VLAN təyin etməsinə imkan verir. Port səviyyəsində konfiqurasiya "DAI, IP Source Guard və 802.1X" dərsindədir.</p>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#search"></use></svg> 5. Doğrulama</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show aaa servers
+show tacacs
+show radius statistics
+test aaa group tacacs+ admin Parol123 legacy
+debug aaa authentication</code></pre>
+                <p class="code-note">Serverlərin vəziyyəti (UP/DEAD) və statistikası, serverə test sorğusu (istifadəçi adı və parol ilə) və autentifikasiya prosesinin addım-addım izlənməsi.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="lesson-footer py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

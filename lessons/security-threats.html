@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Şəbəkə Təhlükələri və Müdafiə — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#siren"></use></svg> Şəbəkə Təhlükələri və Müdafiə</h1>
+                <span class="lesson-badge">CCNA · Security Fundamentals</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#terms" class="nav-link">Terminlər</a>
+                <a href="#attacks" class="nav-link">Hücumlar</a>
+                <a href="#passwords" class="nav-link">Parollar</a>
+                <a href="#defense" class="nav-link">Müdafiə</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#siren"></use></svg> Giriş: Təhlükəsizliyin Məqsədi — CIA</h2>
+            <div class="card-grid">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#lock"></use></svg> Confidentiality (Məxfilik)</h3><p class="text-neutral-700">Məlumatı yalnız icazəli şəxslər görə bilsin — şifrələmə, giriş nəzarəti.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#fingerprint"></use></svg> Integrity (Bütövlük)</h3><p class="text-neutral-700">Məlumat icazəsiz dəyişdirilməsin — hash, rəqəmsal imza.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#activity"></use></svg> Availability (Əlçatanlıq)</h3><p>Xidmət lazım olanda işləsin — ehtiyat sistemlər, DoS müdafiəsi.</p></div>
+            </div>
+        </section>
+
+        <section id="terms" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#book-open"></use></svg> 1. Əsas Terminlər</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Termin</th><th>Mənası</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Vulnerability (zəiflik)</td><td>Sistemdəki boşluq</td><td>Yenilənməmiş IOS, Telnet açıqdır</td></tr>
+                        <tr><td>Exploit</td><td>Zəiflikdən istifadə üsulu/aləti</td><td>Həmin boşluğu istifadə edən skript</td></tr>
+                        <tr><td>Threat (təhdid)</td><td>Zəiflikdən istifadə ehtimalı</td><td>Hücumçunun Telnet parolunu ələ keçirməsi</td></tr>
+                        <tr><td>Mitigation (müdafiə)</td><td>Riski azaldan tədbir</td><td>SSH, ACL, yeniləmə</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="attacks" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#shield-alert"></use></svg> 2. Tipik Hücumlar</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Hücum</th><th>Necə işləyir</th></tr></thead>
+                    <tbody>
+                        <tr><td>Reconnaissance (kəşfiyyat)</td><td>Hücumdan əvvəl məlumat toplamaq: port skan, ping sweep, açıq mənbələr (DNS, whois)</td></tr>
+                        <tr><td>DoS / DDoS</td><td>Xidməti sorğularla boğmaq; məs. TCP SYN flood — yarımçıq bağlantılar serverin resursunu tükədir. DDoS-da minlərlə yoluxmuş cihaz (botnet) iştirak edir</td></tr>
+                        <tr><td>Spoofing</td><td>Saxta mənbə ünvanı (IP, MAC) və ya saxta DHCP server</td></tr>
+                        <tr><td>Reflection / Amplification</td><td>Qurbanın IP-si ilə kiçik sorğu göndərmək, böyük cavabların (DNS, NTP) qurbana getməsi</td></tr>
+                        <tr><td>Man-in-the-Middle</td><td>Trafiki iki tərəf arasında gizlicə tutmaq — məs. ARP spoofing ilə gateway kimi görünmək</td></tr>
+                        <tr><td>Malware</td><td>Virus (fayla yapışır), worm (özü yayılır), trojan (faydalı proqram kimi görünür), ransomware (faylları şifrələyir)</td></tr>
+                        <tr><td>Social engineering</td><td>İnsanı aldatmaq: phishing (e-poçt), spear phishing (hədəfli), vishing (telefon), smishing (SMS), tailgating (arxasınca binaya girmək)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="passwords" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#key-round"></use></svg> 3. Parol Hücumları və Autentifikasiya</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#book-open"></use></svg><p class="text-neutral-700"><strong>Dictionary:</strong> məşhur parolların siyahısı ilə yoxlama.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#refresh-cw"></use></svg><p class="text-neutral-700"><strong>Brute force:</strong> bütün kombinasiyaların sınanması — uzun parol bunu praktiki olaraq mümkünsüz edir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#user-check"></use></svg><p class="text-neutral-700"><strong>MFA (çoxfaktorlu):</strong> bildiyin (parol) + sahib olduğun (telefon, token) + olduğun şey (barmaq izi) — iki və ya daha çox faktor.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#file-lock"></use></svg><p class="text-neutral-700"><strong>Sertifikatlar (PKI):</strong> cihaz və serverlərin kimliyini etibarlı mərkəzin (CA) imzası ilə təsdiqləmək.</p></div>
+            </div>
+            <div class="note-box">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#lightbulb"></use></svg>
+                <p class="text-neutral-800"><strong>Yaxşı parol siyasəti:</strong> uzunluq (ən azı 12–15 simvol, parol ifadəsi), təkrar istifadə etməmək, standart parolları dəyişmək, uğursuz cəhdlərdən sonra bloklama və mümkün olan hər yerdə MFA.</p>
+            </div>
+        </section>
+
+        <section id="defense" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#shield-check"></use></svg> 4. Müdafiə Tədbirləri</h2>
+            <div class="card-grid">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#users"></use></svg> İstifadəçi maarifləndirməsi</h3><p class="text-neutral-700">Mütəmadi təlim və saxta phishing kampaniyaları — ən ucuz və ən effektiv müdafiələrdən biri.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#lock-keyhole"></use></svg> Fiziki giriş nəzarəti</h3><p class="text-neutral-700">Server otağına kart/biometrik giriş, kilidli rack-lər, istifadə olunmayan portların söndürülməsi.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#layers"></use></svg> Defense in depth</h3><p class="text-neutral-700">Çoxqatlı müdafiə: firewall, IPS, ACL, port security, DHCP snooping, DAI, 802.1X, şifrələmə.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#refresh-cw"></use></svg> Yeniləmə və monitorinq</h3><p>IOS və OS yeniləmələri, Syslog/SNMP ilə izləmə, konfiqurasiya ehtiyat nüsxələri.</p></div>
+            </div>
+            <p class="text-neutral-700 mt-6">Bu tədbirlərin konfiqurasiyasını portalın digər dərslərində tapa bilərsiniz: SSH, Port Security, DHCP Snooping, DAI/802.1X, ACL, AAA, Firewall və VPN.</p>
+        </section>
+    </main>
+
+    <footer class="lesson-footer py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

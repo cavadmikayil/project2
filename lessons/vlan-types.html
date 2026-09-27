@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VLAN Növləri və Voice VLAN — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#tag"></use></svg> VLAN Növləri və Voice VLAN</h1>
+                <span class="lesson-badge">CCNA · Network Access</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#types" class="nav-link">VLAN növləri</a>
+                <a href="#native" class="nav-link">Native VLAN</a>
+                <a href="#voice" class="nav-link">Voice VLAN</a>
+                <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#tag"></use></svg> Giriş: Hər VLAN-ın Rolu Var</h2>
+            <p class="lead">
+                VLAN-lar yalnız şöbələri ayırmaq üçün deyil. Yaxşı dizayn edilmiş şəbəkədə istifadəçi, idarəetmə,
+                səs və istifadə olunmayan portlar üçün ayrıca VLAN-lar olur. Bu dərsdə hər birinin məqsədini və
+                IP telefonların <strong>Voice VLAN</strong> ilə necə qoşulduğunu öyrənəcəksiniz.
+            </p>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#list-ordered"></use></svg> 1. VLAN Növləri</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Məqsəd</th><th>Tövsiyə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Default VLAN</td><td>VLAN 1 — bütün portlar zavoddan buradadır; CDP, VTP, STP (PVST+) kimi idarəetmə trafiki də VLAN 1-də gedir</td><td>İstifadəçi trafiki üçün istifadə etməyin</td></tr>
+                        <tr><td>Data VLAN</td><td>İstifadəçi trafiki (məs. VLAN 10 — Satış)</td><td>Şöbə və ya funksiyaya görə</td></tr>
+                        <tr><td>Management VLAN</td><td>Switch-in SVI ünvanı, SSH/SNMP girişi</td><td>VLAN 1-dən fərqli, ayrıca VLAN (məs. 99)</td></tr>
+                        <tr><td>Native VLAN</td><td>Trunk-da teqsiz trafik</td><td>İstifadə olunmayan VLAN (məs. 999)</td></tr>
+                        <tr><td>Voice VLAN</td><td>IP telefon trafiki, QoS ilə prioritet</td><td>Data VLAN-dan ayrı</td></tr>
+                        <tr><td>Black hole / Parking VLAN</td><td>İstifadə olunmayan portlar</td><td>Portlar shutdown + bu VLAN-a</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#info"></use></svg>
+                <p class="text-neutral-800">Normal diapazon VLAN-lar <strong>1–1005</strong> (<code>vlan.dat</code> faylında saxlanılır), genişləndirilmiş diapazon <strong>1006–4094</strong>. VLAN 1 və 1002–1005 silinə bilməz.</p>
+            </div>
+        </section>
+
+        <section id="native" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#shield-alert"></use></svg> 2. Native VLAN və VLAN Hopping</h2>
+            <p class="lead">
+                802.1Q trunk-da native VLAN-ın çərçivələri <strong>teqsiz</strong> göndərilir. İki tərəfdə native VLAN
+                fərqlidirsə, trafik yanlış VLAN-a düşür və CDP "native VLAN mismatch" xəbərdarlığı verir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-alert"></use></svg> Double tagging hücumu</h3><p class="text-neutral-700">Hücumçu native VLAN-dadırsa, iki teqli çərçivə göndərir: birinci switch xarici teqi silir, ikinci switch daxili teqə görə çərçivəni hədəf VLAN-a ötürür.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#shield-check"></use></svg> Müdafiə</h3><p class="text-neutral-700">Native VLAN-ı heç bir hostun olmadığı VLAN-a dəyişin, DTP-ni söndürün (<code>switchport nonegotiate</code>) və ya native VLAN-ı da teqləyin (<code>vlan dot1q tag native</code>).</p></div>
+            </div>
+        </section>
+
+        <section id="voice" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#radio"></use></svg> 3. Voice VLAN</h2>
+            <p class="lead">
+                IP telefonun daxilində kiçik 3 portlu switch var: bir port divara (switch-ə), biri kompüterə, biri isə
+                telefonun özünə. Beləliklə, bir kabel həm telefonu, həm kompüteri qoşur.
+            </p>
+            <div class="code-block">
+                <pre><code>          Switch Fa0/5 (access VLAN 10, voice VLAN 110)
+                       │
+                  ┌────┴─────┐
+                  │ IP telefon│ ── səs trafiki: VLAN 110 ilə teqlənir (CoS 5)
+                  └────┬─────┘
+                       │
+                     PC  ── data trafiki: teqsiz → VLAN 10</code></pre>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#tag"></use></svg><p class="text-neutral-700">Telefon voice VLAN ID-ni switch-dən <strong>CDP</strong> (və ya LLDP-MED) ilə öyrənir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#gauge"></use></svg><p class="text-neutral-700">Səs çərçivələri 802.1p <strong>CoS 5</strong> ilə işarələnir — QoS-da prioritet alır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#network"></use></svg><p class="text-neutral-700">Port trunk deyil, <strong>access</strong> portdur — Cisco onu "multi-VLAN access port" adlandırır.</p></div>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#terminal"></use></svg> 4. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="vt-voice">Voice VLAN</button>
+                <button class="tab-btn inactive-tab" data-pane="vt-mgmt">Management və Parking</button>
+                <button class="tab-btn inactive-tab" data-pane="vt-verify">Doğrulama</button>
+            </div>
+            <div id="vt-voice">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>SW1(config)# vlan 10
+SW1(config-vlan)# name DATA
+SW1(config)# vlan 110
+SW1(config-vlan)# name VOICE
+
+SW1(config)# interface FastEthernet0/5
+SW1(config-if)# switchport mode access
+SW1(config-if)# switchport access vlan 10
+SW1(config-if)# switchport voice vlan 110
+SW1(config-if)# mls qos trust device cisco-phone
+SW1(config-if)# mls qos trust cos
+SW1(config-if)# spanning-tree portfast</code></pre>
+                    <p class="code-note">PC-nin data trafiki VLAN 10-a, telefonun səsi VLAN 110-a düşür. QoS markalanmasına yalnız qarşıda Cisco telefonu olduqda etibar edilir (bu əmrlər Catalyst modelindən asılıdır).</p>
+                </div>
+            </div>
+            <div id="vt-mgmt" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>SW1(config)# vlan 99
+SW1(config-vlan)# name MGMT
+SW1(config)# interface vlan 99
+SW1(config-if)# ip address 192.168.99.11 255.255.255.0
+SW1(config-if)# no shutdown
+SW1(config)# ip default-gateway 192.168.99.1
+
+SW1(config)# vlan 999
+SW1(config-vlan)# name PARKING
+SW1(config)# interface range FastEthernet0/20 - 24
+SW1(config-if-range)# switchport mode access
+SW1(config-if-range)# switchport access vlan 999
+SW1(config-if-range)# shutdown</code></pre>
+                    <p class="code-note">Switch-i idarə etmək üçün VLAN 99-da SVI və defolt gateway (L2 switch-də ip routing olmadığı üçün); istifadə olunmayan portlar parking VLAN-a köçürülüb söndürülür.</p>
+                </div>
+            </div>
+            <div id="vt-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show vlan brief
+show interfaces FastEthernet0/5 switchport
+show interfaces trunk
+show cdp neighbors detail</code></pre>
+                    <p class="code-note">"Access Mode VLAN" və "Voice VLAN" dəyərləri, trunk-larda native VLAN, telefonun CDP məlumatı.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="lesson-footer py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+
