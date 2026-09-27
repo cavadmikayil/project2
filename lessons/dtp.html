@@ -25,6 +25,7 @@
                 <a href="#vlan-trunking" class="nav-link">Trunking</a>
                 <a href="#dtp-modes" class="nav-link">DTP modları</a>
                 <a href="#best" class="nav-link">Tövsiyələr</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -179,6 +180,82 @@ show interfaces FastEthernet0/1 switchport</code></pre>
                 <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#power-off"></use></svg><p class="text-neutral-700"><strong>İstifadə olunmayan portlar:</strong> <code>shutdown</code> + ayrıca "parking" VLAN-a.</p></div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="dtp">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: VLAN-lar, Access və Trunk Portlar</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">İki switch arasında 802.1Q trunk qurmaq, VLAN-ları yaratmaq və DTP-ni təhlükəsiz şəkildə söndürmək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer və ya portalın CLI Simulyatoru (5-ci tapşırıq)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>40 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code> PC1 (VLAN 10) Fa0/1 \                        / Fa0/1 PC3 (VLAN 10)
+                      SW1 (Gi0/1)====(Gi0/1) SW2
+ PC2 (VLAN 20) Fa0/2 /        trunk            \ Fa0/2 PC4 (VLAN 20)</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Ünvanlama cədvəli</h3>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>VLAN</th><th>Ad</th><th>Subnet</th><th>PC-lər</th></tr></thead>
+                    <tbody>
+                        <tr><td>10</td><td>MUHASIBAT</td><td>192.168.10.0/24</td><td>PC1 .11, PC3 .13</td></tr>
+                        <tr><td>20</td><td>IT</td><td>192.168.20.0/24</td><td>PC2 .12, PC4 .14</td></tr>
+                        <tr><td>99</td><td>NATIVE</td><td>—</td><td>istifadə olunmur</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Hər iki switch-də VLAN 10, 20, 99 yaradın və adlandırın.</p></li>
+                <li><p class="text-neutral-700">Fa0/1–2 portlarını access edib müvafiq VLAN-a təyin edin.</p></li>
+                <li><p class="text-neutral-700">Gi0/1-də əvvəlcə heç nə yazmadan <code>show interfaces gi0/1 switchport</code> ilə DTP-nin nəticəsinə baxın (dynamic auto + dynamic auto = ?).</p></li>
+                <li><p class="text-neutral-700">Gi0/1-i əl ilə trunk edin, native VLAN 99, icazə verilən VLAN-lar 10,20,99 və <code>switchport nonegotiate</code>.</p></li>
+                <li><p class="text-neutral-700">PC1 → PC3 (eyni VLAN) ping uğurlu, PC1 → PC2 (fərqli VLAN) uğursuz olmalıdır — izah edin.</p></li>
+                <li><p class="text-neutral-700">Bir tərəfdə native VLAN-ı 1 edib CDP-nin native VLAN mismatch xəbərdarlığını tapın, sonra düzəldin.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show vlan brief
+show interfaces trunk
+show interfaces gi0/1 switchport
+show dtp interface gi0/1</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">auto + auto nəticəsi access-dir — trunk yaranmır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700"><code>show interfaces trunk</code>-da Gi0/1 802.1q, native 99, allowed 10,20,99.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Eyni VLAN-dakı PC-lər əlaqə qurur, fərqli VLAN-lar router olmadan qura bilmir.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>SW1(config)# vlan 10
+SW1(config-vlan)# name MUHASIBAT
+SW1(config-vlan)# vlan 20
+SW1(config-vlan)# name IT
+SW1(config-vlan)# vlan 99
+SW1(config-vlan)# name NATIVE
+SW1(config)# interface fa0/1
+SW1(config-if)# switchport mode access
+SW1(config-if)# switchport access vlan 10
+SW1(config)# interface fa0/2
+SW1(config-if)# switchport mode access
+SW1(config-if)# switchport access vlan 20
+SW1(config)# interface gi0/1
+SW1(config-if)# switchport mode trunk
+SW1(config-if)# switchport trunk native vlan 99
+SW1(config-if)# switchport trunk allowed vlan 10,20,99
+SW1(config-if)# switchport nonegotiate
+! SW2 eyni</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="dtp" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -212,6 +289,7 @@ show interfaces FastEthernet0/1 switchport</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

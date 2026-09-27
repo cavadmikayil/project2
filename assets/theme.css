@@ -286,3 +286,11 @@ body.dark-mode .site-logo { color: #0a0a0a; }
     /* Kod blokları */
     .code-block pre { font-size: 0.8rem; }
 }
+
+/* Lab bölməsi — qaranlıq rejim */
+body.dark-mode .lab-solution { background: #171717; border-color: #333333; }
+body.dark-mode .lab-solution summary { color: #fbbf24; }
+body.dark-mode .lab-footer { border-color: #333333; }
+body.dark-mode .lab-done-btn { background: #f59e0b; color: #0a0a0a; }
+body.dark-mode .lab-done-btn .icon { color: #0a0a0a; }
+body.dark-mode .lab-done-btn.is-done { background: #fbbf24; }

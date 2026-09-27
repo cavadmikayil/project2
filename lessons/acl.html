@@ -26,6 +26,7 @@
                 <a href="#wildcard" class="nav-link">Wildcard</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
                 <a href="#placement" class="nav-link">Yerləşdirmə</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -157,6 +158,72 @@ clear access-list counters</code></pre>
                 <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#file-text"></use></svg><p class="text-neutral-700"><strong>Remark yazın:</strong> <code>remark Qonaq VLAN-ı serverlərə bağlıdır</code> — 1 il sonra qaydanın niyə olduğunu biləcəksiniz.</p></div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="acl">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Standart, Genişləndirilmiş və VTY ACL</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Tələblərə uyğun ACL yazmaq, düzgün interfeys və istiqamətə tətbiq etmək və hər qaydanı sınaqdan keçirmək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>50 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code> VLAN 10 İşçilər 192.168.10.0/24 --\
+ VLAN 20 Qonaq   192.168.20.0/24 --- R1 (router-on-a-stick) --- (Gi0/1) Server-LAN 10.0.0.0/24
+ VLAN 99 Admin   192.168.99.0/24 --/                               Web 10.0.0.10, DNS 10.0.0.53</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Tələb 1: <strong>Qonaq</strong> şəbəkəsi Server-LAN-a heç çıxmasın, yalnız DNS (UDP 53) istifadə edə bilsin.</p></li>
+                <li><p class="text-neutral-700">Tələb 2: <strong>İşçilər</strong> Web serverə yalnız HTTP/HTTPS ilə çatsın, ping icazəlidir.</p></li>
+                <li><p class="text-neutral-700">Tələb 3: Router-ə SSH yalnız <strong>Admin</strong> VLAN-dan.</p></li>
+                <li><p class="text-neutral-700">Hər tələb üçün ACL növünü, adını, interfeysi və istiqaməti planlaşdırın (mənbəyə yaxın).</p></li>
+                <li><p class="text-neutral-700">Named extended ACL-lər yazın, qaydaları <code>remark</code> ilə izah edin və tətbiq edin.</p></li>
+                <li><p class="text-neutral-700">Hər qaydanı PC-lərdən sınayın və <code>show access-lists</code>-də match sayğaclarını izləyin.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show access-lists
+show ip interface gi0/0.20 | include access list
+show running-config | section access-list</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Qonaq PC-dən web server açılmır, DNS sorğusu işləyir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">İşçi PC-dən web açılır, FTP/Telnet bloklanır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Yalnız Admin VLAN-dan SSH mümkündür.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>ip access-list extended GUEST-IN
+ remark Qonaq: yalniz DNS, server LAN-a qalan hec ne
+ permit udp 192.168.20.0 0.0.0.255 host 10.0.0.53 eq 53
+ deny   ip 192.168.20.0 0.0.0.255 10.0.0.0 0.0.0.255
+ permit ip 192.168.20.0 0.0.0.255 any
+ip access-list extended STAFF-IN
+ permit tcp 192.168.10.0 0.0.0.255 host 10.0.0.10 eq 80
+ permit tcp 192.168.10.0 0.0.0.255 host 10.0.0.10 eq 443
+ permit icmp 192.168.10.0 0.0.0.255 10.0.0.0 0.0.0.255
+ permit udp 192.168.10.0 0.0.0.255 host 10.0.0.53 eq 53
+ deny   ip 192.168.10.0 0.0.0.255 10.0.0.0 0.0.0.255
+ permit ip 192.168.10.0 0.0.0.255 any
+ip access-list standard MGMT
+ permit 192.168.99.0 0.0.0.255
+interface gi0/0.20
+ ip access-group GUEST-IN in
+interface gi0/0.10
+ ip access-group STAFF-IN in
+line vty 0 4
+ access-class MGMT in</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="acl" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -190,6 +257,7 @@ clear access-list counters</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

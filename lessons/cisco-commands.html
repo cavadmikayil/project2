@@ -49,6 +49,7 @@
                 <a href="#modes" class="nav-link">Rejimlər</a>
                 <a href="#commands" class="nav-link">Əmr siyahısı</a>
                 <a href="#tips" class="nav-link">Məsləhətlər</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -108,6 +109,44 @@
                 <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#save"></use></svg><p class="text-neutral-700">Dəyişiklikdən sonra <code>copy running-config startup-config</code> (və ya <code>wr</code>) — əks halda reboot-da itir.</p></div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="cisco-commands">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Show Əmrləri ilə Şəbəkəni "Oxumaq"</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Tanış olmayan şəbəkədə yalnız show əmrləri ilə topologiyanı, ünvanları və vəziyyəti sənədləşdirmək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer (hazır və ya yoldaşınızın qurduğu topologiya)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>40 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Yoldaşınızdan və ya müəllimdən 2 router + 2 switch-li konfiqurasiya olunmuş topologiya alın (sxemə baxmadan).</p></li>
+                <li><p class="text-neutral-700"><code>show cdp neighbors detail</code> ilə fiziki topologiyanı kağıza çəkin: hansı port hansı cihaza gedir.</p></li>
+                <li><p class="text-neutral-700"><code>show ip interface brief</code> və <code>show ip route</code> ilə bütün subnet-ləri və routing protokolunu müəyyənləşdirin.</p></li>
+                <li><p class="text-neutral-700">Switch-lərdə <code>show vlan brief</code> və <code>show interfaces trunk</code> ilə VLAN-ları və trunk-ları əlavə edin.</p></li>
+                <li><p class="text-neutral-700"><code>show running-config | section</code> filtrlərindən istifadə edib ən azı 3 konfiqurasiya xüsusiyyəti tapın (məs. ACL, NAT, DHCP).</p></li>
+                <li><p class="text-neutral-700">Nəticə: tam şəbəkə diaqramı və ünvan cədvəli — sonra real sxemlə müqayisə edin.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show cdp neighbors detail
+show ip interface brief
+show ip route
+show vlan brief
+show interfaces trunk
+show running-config | section router|interface Vlan|access-list
+show running-config | include hostname|ip route</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Diaqramınız real topologiya ilə 100% uyğun gəlir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Hər subnet üçün gateway və VLAN müəyyənləşdirilib.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700"><code>| include</code>, <code>| section</code>, <code>| begin</code> filtrlərini sərbəst istifadə edirsiniz.</p></div>
+            </div>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="cisco-commands" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -141,6 +180,7 @@
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
     <script>

@@ -25,6 +25,7 @@
                 <a href="#types" class="nav-link">Şəbəkə növləri</a>
                 <a href="#soho" class="nav-link">SOHO</a>
                 <a href="#compare" class="nav-link">Seçim</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -104,6 +105,32 @@
                 <p class="text-neutral-800">Böyük şəbəkələr üçün hazır dizayn modelləri — 2-tier, 3-tier və spine-leaf — "Kampus və Spine-Leaf Dizaynı" dərsində izah olunur.</p>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="topologies">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Kiçik Ofis üçün Two-Tier Dizayn</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Tələblərə görə collapsed core (two-tier) topologiya çəkmək, ehtiyat yolları və tək nöqtəli nasazlıqları müəyyənləşdirmək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Kağız və ya draw.io + Packet Tracer</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>40 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Tələblər: 3 mərtəbə, hər mərtəbədə 40 istifadəçi, 1 server otağı, 2 internet provayderi, Wi-Fi.</p></li>
+                <li><p class="text-neutral-700">Two-tier (collapsed core) dizayn çəkin: 2 core/distribution switch, hər mərtəbədə access switch, hər access switch-dən iki core-a uplink.</p></li>
+                <li><p class="text-neutral-700">Hər link üçün növü (copper/fiber, 1G/10G) və funksiyanı (trunk, L3) yazın.</p></li>
+                <li><p class="text-neutral-700">Diaqramda <strong>single point of failure</strong> olan hər cihazı qırmızı ilə işarələyin və necə aradan qaldırılacağını yazın.</p></li>
+                <li><p class="text-neutral-700">Dizaynı Packet Tracer-də quraşdırın və bir core switch-i söndürdükdə istifadəçilərin hələ də serverə çatdığını göstərin (STP və ya L3 uplink).</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Hər access switch-in iki müstəqil uplink-i var.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">İki provayder iki fərqli router/firewall-a qoşulub (və ya bir firewall klasterinə).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Bir core switch sönəndə şəbəkə işləməyə davam edir.</p></div>
+            </div>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="topologies" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -137,6 +164,7 @@
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

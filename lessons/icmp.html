@@ -25,6 +25,7 @@
                 <a href="#ping" class="nav-link">Ping</a>
                 <a href="#traceroute" class="nav-link">Traceroute</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -131,6 +132,72 @@ traceroute -I 8.8.8.8</code></pre>
                 </div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="icmp">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Ping və Traceroute ilə Nasazlığı Tapmaq</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Əlçatanlıq problemini ping, extended ping və traceroute nəticələrinə görə dəqiq hop-a qədər lokalizə etmək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>40 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code> PC1 --- R1 (Gi0/1) 10.0.12.0/30 (Gi0/0) R2 (Gi0/1) 10.0.23.0/30 (Gi0/0) R3 --- Server
+ 192.168.1.0/24                                                        192.168.3.0/24</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Ünvanlama cədvəli</h3>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Cihaz</th><th>Interfeys</th><th>IP / maska</th></tr></thead>
+                    <tbody>
+                        <tr><td>R1</td><td>Gi0/0 / Gi0/1</td><td>192.168.1.1 /24 · 10.0.12.1 /30</td></tr>
+                        <tr><td>R2</td><td>Gi0/0 / Gi0/1</td><td>10.0.12.2 /30 · 10.0.23.1 /30</td></tr>
+                        <tr><td>R3</td><td>Gi0/0 / Gi0/1</td><td>10.0.23.2 /30 · 192.168.3.1 /24</td></tr>
+                        <tr><td>PC1 / Server</td><td>NIC</td><td>192.168.1.10 · 192.168.3.10 (gateway .1)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Topologiyanı qurun və statik marşrutlarla tam əlçatanlıq təmin edin; PC1-dən Server-ə ping və <code>tracert</code> işlədin.</p></li>
+                <li><p class="text-neutral-700">R2-də R3-ə gedən marşrutu silin (<code>no ip route 192.168.3.0 ...</code>). PC1-dən yenidən ping: hansı cavab gəlir (<code>Destination host unreachable</code> yoxsa timeout) və kim göndərir?</p></li>
+                <li><p class="text-neutral-700"><code>tracert</code> ilə problemin hansı hop-da olduğunu göstərin.</p></li>
+                <li><p class="text-neutral-700">Marşrutu qaytarın, R3-də isə geriyə (192.168.1.0) marşrutu silin. Ping nə göstərir və niyə traceroute R3-ə qədər çatır, amma cavab qayıtmır?</p></li>
+                <li><p class="text-neutral-700">R1-də extended ping ilə mənbə interfeysini <code>Gi0/0</code> seçib Server-ə 100 paket göndərin, <code>size 1500</code> və <code>df-bit</code> sınayın.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>PC1&gt; ping 192.168.3.10
+PC1&gt; tracert 192.168.3.10
+R1# ping
+Protocol [ip]:  Target IP address: 192.168.3.10  Repeat count [5]: 100
+Extended commands [n]: y   Source address or interface: GigabitEthernet0/0
+R1# traceroute 192.168.3.10 source gi0/0
+R2# show ip route</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Marşrut yoxdursa router <strong>Destination unreachable</strong> qaytarır (Cisco-da <code>U</code>), geri marşrut yoxdursa — timeout (<code>.</code>).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Traceroute problemi dəqiq hop-a qədər göstərir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Extended ping-də mənbə interfeysini seçməyin nə üçün vacib olduğunu izah edə bilirsiniz.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# ip route 192.168.3.0 255.255.255.0 10.0.12.2
+R1(config)# ip route 10.0.23.0 255.255.255.252 10.0.12.2
+R2(config)# ip route 192.168.1.0 255.255.255.0 10.0.12.1
+R2(config)# ip route 192.168.3.0 255.255.255.0 10.0.23.2
+R3(config)# ip route 192.168.1.0 255.255.255.0 10.0.23.1
+R3(config)# ip route 10.0.12.0 255.255.255.252 10.0.23.1</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="icmp" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -164,6 +231,7 @@ traceroute -I 8.8.8.8</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

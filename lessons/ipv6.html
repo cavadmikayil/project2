@@ -26,6 +26,7 @@
                 <a href="#slaac" class="nav-link">SLAAC və EUI-64</a>
                 <a href="#ndp" class="nav-link">NDP</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -166,6 +167,81 @@ ping ipv6 2001:db8:1:1::2</code></pre>
                 </div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="ipv6">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Dual-Stack, SLAAC və OSPFv3</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">İki router arasında IPv6 ünvanlama, SLAAC ilə host konfiqurasiyası və OSPFv3 marşrutlaşdırması qurmaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>45 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code> PC1 --- (Gi0/0) R1 (Gi0/1) ------ (Gi0/1) R2 (Gi0/0) --- PC2
+ 2001:db8:1:1::/64     2001:db8:1:12::/64      2001:db8:1:2::/64</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Ünvanlama cədvəli</h3>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Cihaz</th><th>Interfeys</th><th>IPv6</th><th>Link-local</th></tr></thead>
+                    <tbody>
+                        <tr><td>R1</td><td>Gi0/0</td><td>2001:db8:1:1::1/64</td><td>fe80::1</td></tr>
+                        <tr><td>R1</td><td>Gi0/1</td><td>2001:db8:1:12::1/64</td><td>fe80::1</td></tr>
+                        <tr><td>R2</td><td>Gi0/1</td><td>2001:db8:1:12::2/64</td><td>fe80::2</td></tr>
+                        <tr><td>R2</td><td>Gi0/0</td><td>2001:db8:1:2::1/64</td><td>fe80::2</td></tr>
+                        <tr><td>PC1 / PC2</td><td>NIC</td><td>SLAAC (Auto Config)</td><td>avtomatik</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Hər iki router-də <code>ipv6 unicast-routing</code> aktivləşdirin və cədvələ görə ünvanları, link-local-ları təyin edin.</p></li>
+                <li><p class="text-neutral-700">PC-lərdə IPv6 konfiqurasiyasını <strong>Auto Config</strong> edin: prefiks və gateway-in (link-local) SLAAC ilə gəldiyini yoxlayın.</p></li>
+                <li><p class="text-neutral-700">PC1-dən R1-in link-local ünvanına ping edin.</p></li>
+                <li><p class="text-neutral-700">OSPFv3 prosesi 1 qurun (router-id R1 = 1.1.1.1, R2 = 2.2.2.2) və bütün interfeysləri area 0-a daxil edin.</p></li>
+                <li><p class="text-neutral-700">PC1-dən PC2-yə ping edin; <code>show ipv6 route ospf</code>-da next-hop-un link-local olduğunu göstərin.</p></li>
+                <li><p class="text-neutral-700">Əlavə: R1–R2 linkinə IPv4 də əlavə edib (dual-stack) hər iki protokolun eyni vaxtda işlədiyini göstərin.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show ipv6 interface brief
+show ipv6 route
+show ipv6 ospf neighbor
+show ipv6 neighbors
+PC&gt; ipconfig /all
+PC&gt; ping 2001:db8:1:2::&lt;PC2&gt;</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">PC-lər <code>2001:db8:1:x::/64</code> prefiksli ünvan və gateway kimi <code>fe80::1</code> / <code>fe80::2</code> alır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">OSPFv3 qonşuluğu FULL, marşrut cədvəlində <code>O</code> marşrutu və link-local next-hop var.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">PC1 ↔ PC2 ping uğurludur.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# ipv6 unicast-routing
+R1(config)# ipv6 router ospf 1
+R1(config-rtr)# router-id 1.1.1.1
+R1(config)# interface gi0/0
+R1(config-if)# ipv6 address 2001:db8:1:1::1/64
+R1(config-if)# ipv6 address fe80::1 link-local
+R1(config-if)# ipv6 ospf 1 area 0
+R1(config-if)# no shutdown
+R1(config)# interface gi0/1
+R1(config-if)# ipv6 address 2001:db8:1:12::1/64
+R1(config-if)# ipv6 address fe80::1 link-local
+R1(config-if)# ipv6 ospf 1 area 0
+R1(config-if)# no shutdown
+! R2 eyni qayda ilə: ::2 ünvanları, fe80::2, router-id 2.2.2.2</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="ipv6" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -199,6 +275,7 @@ ping ipv6 2001:db8:1:1::2</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

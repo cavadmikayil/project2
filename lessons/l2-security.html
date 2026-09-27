@@ -26,6 +26,7 @@
                 <a href="#ipsg" class="nav-link">IP Source Guard</a>
                 <a href="#dot1x" class="nav-link">802.1X</a>
                 <a href="#commands" class="nav-link">Doğrulama</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -144,6 +145,61 @@ show authentication sessions</code></pre>
                 <p class="code-note">DAI statusu və atılan paketlər, IPSG filtrləri və binding-lər, 802.1X portları və autentifikasiya sessiyaları.</p>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="l2-security">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Dynamic ARP Inspection</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">DHCP snooping binding cədvəli əsasında ARP spoofing-in qarşısını almaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Real switch / CML (Packet Tracer DAI-ni məhdud dəstəkləyir)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>40 dəq · Çətin</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code> R1 (gateway 192.168.10.1, DHCP) ---(Gi0/1 trust)--- SW1 ---(Fa0/1)--- PC1 (DHCP)
+                                                       |---(Fa0/2)--- Attacker (Kali: arpspoof)
+                                                       |---(Fa0/3)--- Printer (statik 192.168.10.50)</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Əvvəlki labdakı kimi DHCP snooping-i VLAN 10 üçün aktivləşdirin.</p></li>
+                <li><p class="text-neutral-700"><code>ip arp inspection vlan 10</code>; uplink-i <code>ip arp inspection trust</code> edin.</p></li>
+                <li><p class="text-neutral-700">Statik IP-li printer ARP inspection tərəfindən bloklanır — səbəbini izah edin və <strong>ARP ACL</strong> ilə icazə verin.</p></li>
+                <li><p class="text-neutral-700">Attacker-dən gateway-i saxtalaşdıran ARP (<code>arpspoof -i eth0 -t 192.168.10.11 192.168.10.1</code>) göndərin — log-da <code>%SW_DAI-4-DHCP_SNOOPING_DENY</code> mesajını tapın.</p></li>
+                <li><p class="text-neutral-700">Əlavə: <code>ip arp inspection validate src-mac dst-mac ip</code>.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show ip arp inspection
+show ip arp inspection statistics vlan 10
+show ip dhcp snooping binding
+show logging | include DAI</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Saxta ARP paketləri atılır, PC1-in ARP cədvəlində gateway-in real MAC-ı qalır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Printer ARP ACL sayəsində işləyir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Statistikada Dropped sayğacı artır.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>SW1(config)# ip dhcp snooping
+SW1(config)# ip dhcp snooping vlan 10
+SW1(config)# ip arp inspection vlan 10
+SW1(config)# arp access-list STATIC-HOSTS
+SW1(config-arp-nacl)# permit ip host 192.168.10.50 mac host &lt;printer-MAC&gt;
+SW1(config)# ip arp inspection filter STATIC-HOSTS vlan 10
+SW1(config)# interface gi0/1
+SW1(config-if)# ip dhcp snooping trust
+SW1(config-if)# ip arp inspection trust</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="l2-security" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -177,6 +233,7 @@ show authentication sessions</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

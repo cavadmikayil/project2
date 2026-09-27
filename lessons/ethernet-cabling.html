@@ -26,6 +26,7 @@
                 <a href="#standards" class="nav-link">Standartlar</a>
                 <a href="#duplex" class="nav-link">Speed/Duplex</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -157,6 +158,73 @@ show controllers ethernet-controller GigabitEthernet0/1 phy</code></pre>
                 </div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="ethernet-cabling">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Kabel Növləri və Interfeys Xətaları</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Düzgün kabel növünü seçmək, speed/duplex uyğunsuzluğunu yaratmaq və interfeys sayğaclarında tapmaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>30 dəq · Başlanğıc</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code> PC1 ---(Fa0/1) SW1 (Gi0/1)=====(Gi0/1) SW2 (Fa0/1)--- PC2
+                 |
+               R1 (Gi0/0 — Fa0/24)</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Ünvanlama cədvəli</h3>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Cihaz</th><th>Interfeys</th><th>IP / maska</th></tr></thead>
+                    <tbody>
+                        <tr><td>PC1</td><td>NIC</td><td>192.168.1.10 /24</td></tr>
+                        <tr><td>PC2</td><td>NIC</td><td>192.168.1.20 /24</td></tr>
+                        <tr><td>R1</td><td>Gi0/0</td><td>192.168.1.1 /24</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Cihazları yerləşdirin və <strong>Automatic</strong> kabel seçimindən istifadə etmədən hər link üçün düzgün kabeli özünüz seçin (PC–SW, SW–SW, SW–R).</p></li>
+                <li><p class="text-neutral-700">Ünvanlama cədvəlinə görə IP-ləri təyin edin, PC1-dən PC2 və R1-ə ping edin.</p></li>
+                <li><p class="text-neutral-700">SW1 və SW2-nin Gi0/1 portlarında <code>description</code> yazın.</p></li>
+                <li><p class="text-neutral-700">SW2 Gi0/1-də <code>speed 100</code> və <code>duplex half</code>, SW1-də <code>duplex full</code> təyin edin (uyğunsuzluq).</p></li>
+                <li><p class="text-neutral-700">Hər iki tərəfdə <code>show interfaces gi0/1</code> ilə duplex, CRC, late collision sayğaclarını müqayisə edin; CDP-nin duplex mismatch xəbərdarlığını tapın.</p></li>
+                <li><p class="text-neutral-700">Hər iki tərəfi <code>speed auto</code> / <code>duplex auto</code> qaytarın və sayğacları <code>clear counters</code> ilə sıfırlayın.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show interfaces status
+show interfaces gi0/1 | include duplex|CRC|collision
+show cdp neighbors detail</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">PC–SW və SW–R üçün straight-through, SW–SW üçün (Auto-MDIX olmasa) crossover seçilib.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Duplex mismatch zamanı half tərəfdə late collision, full tərəfdə CRC/runt artır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Auto rejimə qayıtdıqdan sonra interfeys <code>Full-duplex</code> və sayğaclar artmır.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>SW1(config)# interface gi0/1
+SW1(config-if)# description Uplink-SW2
+SW2(config)# interface gi0/1
+SW2(config-if)# description Uplink-SW1
+SW2(config-if)# speed 100
+SW2(config-if)# duplex half
+! ... müşahidədən sonra
+SW2(config-if)# speed auto
+SW2(config-if)# duplex auto
+SW2# clear counters gi0/1</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="ethernet-cabling" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -190,6 +258,7 @@ show controllers ethernet-controller GigabitEthernet0/1 phy</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

@@ -31,6 +31,7 @@
                 <a href="#metrics" class="nav-link">Metrikalar</a>
                 <a href="#convergence" class="nav-link">Konvergensiya</a>
                 <a href="#practical-commands" class="nav-link">Əmrlər</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -172,6 +173,50 @@ show ip eigrp interfaces</code></pre>
                 </div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="dynamic-routing">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: RIP, OSPF və EIGRP-ni Eyni Topologiyada Müqayisə</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Eyni şəbəkədə üç protokolu növbə ilə işə salıb seçilən yolları, AD-ni və konvergensiya sürətini müqayisə etmək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>60 dəq · Çətin</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code>          R1 ------ 1 Gbps ------ R2
+          |  \                    |
+       10 Mbps  \ 100 Mbps        | 1 Gbps
+          |       \               |
+          R4 ------ 1 Gbps ------ R3 --- LAN 172.16.3.0/24</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Linkləri ünvanlayın (/30) və R1-də <code>bandwidth</code> dəyərlərini sxemə uyğun təyin edin.</p></li>
+                <li><p class="text-neutral-700"><strong>RIPv2</strong> qurun: R1-dən 172.16.3.0/24-ə hansı yol seçilir (hop sayı)?</p></li>
+                <li><p class="text-neutral-700">RIP-i saxlayaraq <strong>OSPF</strong> əlavə edin: marşrut cədvəlində hansı protokol qalır və niyə (AD 110 vs 120)?</p></li>
+                <li><p class="text-neutral-700">OSPF-in seçdiyi yolu cost ilə izah edin; <code>auto-cost reference-bandwidth 10000</code> yazıb fərqi görün.</p></li>
+                <li><p class="text-neutral-700"><strong>EIGRP</strong> əlavə edin: indi hansı protokol qalib gəlir? <code>show ip eigrp topology</code>-də feasible successor varmı?</p></li>
+                <li><p class="text-neutral-700">R1–R2 linkini söndürüb hər protokolun konvergensiya vaxtını (ping -t ilə itən paketlər) müqayisə edin.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show ip protocols
+show ip route
+show ip route 172.16.3.0
+show ip ospf interface brief
+show ip eigrp topology</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">RIP hop sayına görə 10 Mbps linki də seçə bilir; OSPF/EIGRP bant genişliyini nəzərə alır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Bir neçə protokol olduqda ən kiçik AD-li (EIGRP 90) marşrut cədvələ düşür.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">EIGRP feasible successor olduqda keçid demək olar ki, anidir.</p></div>
+            </div>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="dynamic-routing" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -205,6 +250,7 @@ show ip eigrp interfaces</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
     <script>

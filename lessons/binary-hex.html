@@ -25,6 +25,7 @@
                 <a href="#hex" class="nav-link">Hexadecimal</a>
                 <a href="#masks" class="nav-link">Maska dəyərləri</a>
                 <a href="#converter" class="nav-link">Çevirici</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -152,6 +153,33 @@ IPv6 hextet:    2001 = 0010 0000 0000 0001</code></pre>
                 })();
             </script>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="binary-hex">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Çevirmə Sürəti Məşqi</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Onluq, binar və hex çevirmələrini kağız üzərində, kalkulyatorsuz, dəqiq və sürətlə etmək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Kağız, qələm və taymer; yoxlamaq üçün portalın Subnet Kalkulyatoru</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>25 dəq · Başlanğıc</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">128–64–32–16–8–4–2–1 cədvəlini yaddaşdan 3 dəfə yazın.</p></li>
+                <li><p class="text-neutral-700">Binara çevirin (taymer: 3 dəqiqə): <code>172</code>, <code>200</code>, <code>99</code>, <code>255</code>, <code>10</code>, <code>224</code>.</p></li>
+                <li><p class="text-neutral-700">Onluğa çevirin: <code>11000000</code>, <code>10101000</code>, <code>11111100</code>, <code>01111111</code>.</p></li>
+                <li><p class="text-neutral-700">Hex-ə çevirin: <code>192</code>, <code>168</code>, <code>254</code>; onluğa: <code>0xAC</code>, <code>0x1F</code>, <code>0xFE</code>.</p></li>
+                <li><p class="text-neutral-700">Maskaları prefiksə çevirin: <code>255.255.255.224</code>, <code>255.255.248.0</code>, <code>255.192.0.0</code>.</p></li>
+                <li><p class="text-neutral-700">MAC ünvanı <code>00:1A:2B:3C:4D:5E</code>-nin ilk baytını binar yazın və 7-ci bitin (U/L) nə olduğunu tapın.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Onluq ↔ binar çevirmə bir oktet üçün 15 saniyədən az çəkir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Cavablar: 172 = 10101100, 200 = 11001000, 99 = 01100011, 224 = 11100000; 11111100 = 252; 0xAC = 172; /27, /21, /10.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Hex ↔ binar çevirmədə hər hex simvolun 4 bit olduğunu istifadə edirsiniz.</p></div>
+            </div>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="binary-hex" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -185,6 +213,7 @@ IPv6 hextet:    2001 = 0010 0000 0000 0001</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

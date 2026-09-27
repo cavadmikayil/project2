@@ -25,6 +25,7 @@
                 <a href="#help" class="nav-link">Kömək və qısayollar</a>
                 <a href="#configs" class="nav-link">Konfiqurasiya faylları</a>
                 <a href="#security" class="nav-link">Rejimlərin qorunması</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -141,6 +142,67 @@ show users</code></pre>
                 </div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="ios-cli">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: İlk Konfiqurasiya: Router-i Sıfırdan Hazırlamaq</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Yeni router-ə əsas təhlükəsizlik və idarəetmə konfiqurasiyasını yazmaq, yadda saxlamaq və reload-dan sonra yoxlamaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Portalın Cisco CLI Simulyatoru (1-ci tapşırıq) və ya Packet Tracer</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>30 dəq · Başlanğıc</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Konsol kabeli ilə qoşulun, <code>enable</code> → <code>configure terminal</code>.</p></li>
+                <li><p class="text-neutral-700">Hostname <code>R1-BAKU</code>, <code>no ip domain-lookup</code>, <code>enable secret</code>.</p></li>
+                <li><p class="text-neutral-700">Konsol xəttinə parol, <code>login</code>, <code>logging synchronous</code>, <code>exec-timeout 10 0</code>.</p></li>
+                <li><p class="text-neutral-700"><code>banner motd</code> ilə xəbərdarlıq mesajı və <code>service password-encryption</code>.</p></li>
+                <li><p class="text-neutral-700">Gi0/0-a IP ünvanı və <code>description</code> verin, <code>no shutdown</code>.</p></li>
+                <li><p class="text-neutral-700"><code>show running-config</code>-u yoxlayın, <code>copy running-config startup-config</code>, sonra <code>reload</code> və konfiqurasiyanın qaldığını təsdiqləyin.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show running-config
+show startup-config
+show ip interface brief
+show version | include uptime|register</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Reload-dan sonra hostname, parollar və IP ünvanı yerindədir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Running-config-də parollar açıq mətn deyil (<code>7</code> və ya <code>5/9</code> formatında).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Yazı səhvi olan əmr terminalı DNS axtarışı ilə dondurmur.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Router&gt; enable
+Router# configure terminal
+Router(config)# hostname R1-BAKU
+R1-BAKU(config)# no ip domain-lookup
+R1-BAKU(config)# enable secret Cisco123!
+R1-BAKU(config)# line console 0
+R1-BAKU(config-line)# password Kons0l!
+R1-BAKU(config-line)# login
+R1-BAKU(config-line)# logging synchronous
+R1-BAKU(config-line)# exec-timeout 10 0
+R1-BAKU(config-line)# exit
+R1-BAKU(config)# banner motd # Yalniz selahiyyetli giris! #
+R1-BAKU(config)# service password-encryption
+R1-BAKU(config)# interface gi0/0
+R1-BAKU(config-if)# description LAN
+R1-BAKU(config-if)# ip address 192.168.1.1 255.255.255.0
+R1-BAKU(config-if)# no shutdown
+R1-BAKU(config-if)# end
+R1-BAKU# copy running-config startup-config
+R1-BAKU# reload</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Bu labı brauzerdə portalın <a class="font-semibold underline" href="../tools/cli.html">Cisco CLI Simulyatorunda</a> da edə bilərsiniz — tapşırıqlar avtomatik yoxlanılır.</p>
+                <button type="button" class="lab-done-btn" data-lab="ios-cli" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -174,6 +236,7 @@ show users</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

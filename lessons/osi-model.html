@@ -31,6 +31,7 @@
                 <a href="#tcpip" class="nav-link">TCP/IP</a>
                 <a href="#encap" class="nav-link">Enkapsulyasiya</a>
                 <a href="#commands" class="nav-link">Troubleshooting</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -142,6 +143,45 @@ show control-plane host open-ports</code></pre>
                 </div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="osi-model">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Wireshark ilə Qatları Görmək</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Bir veb sorğusunun Ethernet, IP, TCP və HTTP başlıqlarını real paketdə tapmaq və OSI qatlarına uyğunlaşdırmaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Wireshark (kompüterinizdə) və ya Packet Tracer Simulation Mode</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>30 dəq · Başlanğıc</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code>[Kompüteriniz] ---- [Ev/ofis router] ---- (İnternet) ---- [neverssl.com]
+   Wireshark</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Wireshark-ı işə salın, aktiv interfeysi (Wi-Fi və ya Ethernet) seçib tutmağa başlayın.</p></li>
+                <li><p class="text-neutral-700">Brauzerdə <code>http://neverssl.com</code> açın (şifrələnməmiş HTTP — başlıqları görmək üçün), sonra tutmanı dayandırın.</p></li>
+                <li><p class="text-neutral-700">Filtr sahəsinə <code>http.request</code> yazın və ilk <code>GET</code> paketini seçin.</p></li>
+                <li><p class="text-neutral-700">Paket detallarında qatları tapın: <strong>Ethernet II</strong> (L2 — mənbə və təyinat MAC), <strong>Internet Protocol</strong> (L3 — IP-lər, TTL), <strong>TCP</strong> (L4 — portlar, seq/ack), <strong>HTTP</strong> (L7 — Host, User-Agent).</p></li>
+                <li><p class="text-neutral-700">Təyinat MAC ünvanının saytın deyil, <strong>router-inizin</strong> MAC-ı olduğunu <code>arp -a</code> ilə yoxlayın və səbəbini izah edin.</p></li>
+                <li><p class="text-neutral-700">Filtr <code>tcp.flags.syn == 1</code> ilə 3-way handshake-in üç paketini tapın.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>ipconfig /all          (Windows)  |  ip a        (Linux/macOS)
+arp -a                 — gateway-in MAC ünvanı
+Wireshark filtrləri:   http.request    tcp.flags.syn == 1    ip.addr == &lt;server IP&gt;</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Hər qatın başlığını adlandırıb əsas sahəsini (MAC, IP, port, Host) göstərə bilirsiniz.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Təyinat MAC = default gateway-in MAC-ı — L2 ünvanı yalnız lokal seqmentdə etibarlıdır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">SYN → SYN-ACK → ACK ardıcıllığı və təsadüfi mənbə portu (49152+) görünür.</p></div>
+            </div>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="osi-model" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -175,6 +215,7 @@ show control-plane host open-ports</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

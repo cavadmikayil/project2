@@ -27,6 +27,7 @@
                 <a href="#traffic" class="nav-link">Trafik axını</a>
                 <a href="#cloud" class="nav-link">Bulud</a>
                 <a href="#choose" class="nav-link">Seçim</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -141,6 +142,33 @@
                 <p class="text-neutral-800">Bütün modellərdə ümumi prinsiplər: <strong>ehtiyat</strong> (iki uplink, iki cihaz), <strong>modulluq</strong> (eyni blokları təkrarlamaq) və <strong>sadəlik</strong> — hər qatın vəzifəsini qarışdırmamaq.</p>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="campus-design">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Kampus Şəbəkəsinin Dizaynı</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Real tələblər üzrə three-tier kampus dizaynı hazırlamaq: topologiya, VLAN və IP planı, ehtiyat mexanizmləri.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">draw.io və ya kağız + Packet Tracer (kiçik prototip)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>90 dəq · Çətin</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Tələblər: 2 bina, cəmi 8 mərtəbə, 600 istifadəçi, 300 IP telefon, 60 AP, data mərkəzi otağı, 2 provayder.</p></li>
+                <li><p class="text-neutral-700">Topologiya: core (2 switch), hər binada distribution cütü, hər mərtəbədə access switch stack-ı. Hər linkin sürətini və növünü yazın.</p></li>
+                <li><p class="text-neutral-700">VLAN planı: data, voice, Wi-Fi korporativ, Wi-Fi qonaq, idarəetmə, printerlər, kameralar — hər bina üçün.</p></li>
+                <li><p class="text-neutral-700"><code>10.0.0.0/16</code> blokundan VLSM ilə IP planı və xülasə sərhədləri (distribution-da summarization).</p></li>
+                <li><p class="text-neutral-700">Ehtiyat: L3 access və ya HSRP/VRRP, EtherChannel uplink-lər, STP root planı, iki provayder üçün həll.</p></li>
+                <li><p class="text-neutral-700">Kiçik prototipi (1 core, 1 distribution cütü, 2 access) Packet Tracer-də qurub bir uplinkin kəsilməsini sınayın.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Hər access switch-in iki distribution-a uplink-i var; single point of failure yoxdur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">IP planı böyüməyə 30–50% yer saxlayır və bina səviyyəsində xülasə edilə bilir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Dizayn sənədi: diaqram, VLAN cədvəli, IP cədvəli, ehtiyat mexanizmlərinin izahı.</p></div>
+            </div>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="campus-design" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -174,6 +202,7 @@
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

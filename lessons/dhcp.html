@@ -25,6 +25,7 @@
                 <a href="#relay" class="nav-link">Relay</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
                 <a href="#troubleshoot" class="nav-link">Problemlər</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -146,6 +147,83 @@ debug ip dhcp server events</code></pre>
                 <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-alert"></use></svg><p class="text-neutral-700"><strong>DHCP Snooping bloklayır:</strong> uplink port <code>trust</code> edilməyib.</p></div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="dhcp">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Router DHCP Server və DHCP Relay</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Mərkəzi router-də iki VLAN üçün DHCP pool qurmaq və digər şəbəkədəki klientlərə relay (ip helper-address) ilə xidmət etmək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>45 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code> PC-A (VLAN 10) --\
+                   SW ==trunk== R1 (Gi0/0.10, Gi0/0.20) ---- 10.0.0.0/30 ---- R2 (DHCP server)
+ PC-B (VLAN 20) --/</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Ünvanlama cədvəli</h3>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Cihaz</th><th>Interfeys</th><th>IP</th></tr></thead>
+                    <tbody>
+                        <tr><td>R1</td><td>Gi0/0.10 / Gi0/0.20</td><td>192.168.10.1 · 192.168.20.1 /24</td></tr>
+                        <tr><td>R1</td><td>Gi0/1</td><td>10.0.0.1 /30</td></tr>
+                        <tr><td>R2</td><td>Gi0/0</td><td>10.0.0.2 /30</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Router-on-a-stick ilə VLAN 10 və 20-ni R1-də marşrutlaşdırın; R2-yə hər iki LAN üçün statik marşrut yazın.</p></li>
+                <li><p class="text-neutral-700">R2-də iki pool yaradın: <code>VLAN10</code> və <code>VLAN20</code> — network, default-router, dns-server (8.8.8.8), domain-name, lease 2 gün.</p></li>
+                <li><p class="text-neutral-700">Hər pool-da ilk 10 ünvanı <code>ip dhcp excluded-address</code> ilə istisna edin.</p></li>
+                <li><p class="text-neutral-700">PC-ləri DHCP rejiminə keçirin — ünvan almırlar. Səbəbi izah edin (broadcast router-dən keçmir).</p></li>
+                <li><p class="text-neutral-700">R1-in hər iki subinterfeysində <code>ip helper-address 10.0.0.2</code> yazın və PC-lərdə <code>ipconfig /renew</code>.</p></li>
+                <li><p class="text-neutral-700">R2-də binding cədvəlinə və statistikaya baxın; DORA prosesini Simulation Mode-da izləyin.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>R2# show ip dhcp binding
+R2# show ip dhcp pool
+R2# show ip dhcp conflict
+R1# show running-config | include helper
+PC&gt; ipconfig /all</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">PC-A 192.168.10.11+, PC-B 192.168.20.11+ ünvan alır; gateway və DNS düzgündür.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Relay olmadan klientlər APIPA (169.254.x.x) alır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">R2 relay-dən gələn sorğudakı giaddr-a görə düzgün pool-u seçir.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R2(config)# ip dhcp excluded-address 192.168.10.1 192.168.10.10
+R2(config)# ip dhcp excluded-address 192.168.20.1 192.168.20.10
+R2(config)# ip dhcp pool VLAN10
+R2(dhcp-config)# network 192.168.10.0 255.255.255.0
+R2(dhcp-config)# default-router 192.168.10.1
+R2(dhcp-config)# dns-server 8.8.8.8
+R2(dhcp-config)# domain-name lab.local
+R2(dhcp-config)# lease 2
+R2(config)# ip dhcp pool VLAN20
+R2(dhcp-config)# network 192.168.20.0 255.255.255.0
+R2(dhcp-config)# default-router 192.168.20.1
+R2(dhcp-config)# dns-server 8.8.8.8
+R2(config)# ip route 192.168.10.0 255.255.255.0 10.0.0.1
+R2(config)# ip route 192.168.20.0 255.255.255.0 10.0.0.1
+R1(config)# interface gi0/0.10
+R1(config-subif)# ip helper-address 10.0.0.2
+R1(config)# interface gi0/0.20
+R1(config-subif)# ip helper-address 10.0.0.2</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="dhcp" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -179,6 +257,7 @@ debug ip dhcp server events</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

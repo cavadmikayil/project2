@@ -25,6 +25,7 @@
                 <a href="#scenario" class="nav-link">Ssenari</a>
                 <a href="#placement" class="nav-link">Yerləşdirmə</a>
                 <a href="#troubleshoot" class="nav-link">Troubleshooting</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -126,6 +127,53 @@ show ip interface GigabitEthernet0/0.30</code></pre>
                 </table>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="time-acl">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: İş Saatlarına Görə İnternet Girişi</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Time-range ilə qonaq şəbəkəsinə internet girişini yalnız iş saatlarında açmaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer (router saatı əl ilə təyin olunur)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>30 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">R1-də saatı təyin edin (<code>clock set</code>) və ya NTP qurun.</p></li>
+                <li><p class="text-neutral-700"><code>time-range WORK-HOURS</code>: <code>periodic weekdays 9:00 to 18:00</code>.</p></li>
+                <li><p class="text-neutral-700">Extended ACL: qonaq şəbəkəsindən HTTP/HTTPS yalnız bu time-range-də icazəli, qalanı deny.</p></li>
+                <li><p class="text-neutral-700">Saatı 10:00 edib sınayın (icazə), sonra 20:00 edib sınayın (bloklanır).</p></li>
+                <li><p class="text-neutral-700"><code>show time-range</code> ilə vəziyyətin <code>active</code>/<code>inactive</code> dəyişdiyini göstərin.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show clock
+show time-range
+show access-lists GUEST-TIME</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">İş saatlarında ACL qaydası aktivdir, sonra (inactive) qeydi görünür.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Saat düzgün deyilsə, time-based ACL gözlənilməz işləyir — NTP-nin vacibliyi.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# time-range WORK-HOURS
+R1(config-time-range)# periodic weekdays 9:00 to 18:00
+R1(config)# ip access-list extended GUEST-TIME
+R1(config-ext-nacl)# permit udp 192.168.20.0 0.0.0.255 any eq 53
+R1(config-ext-nacl)# permit tcp 192.168.20.0 0.0.0.255 any eq 80 time-range WORK-HOURS
+R1(config-ext-nacl)# permit tcp 192.168.20.0 0.0.0.255 any eq 443 time-range WORK-HOURS
+R1(config-ext-nacl)# deny ip any any
+R1(config)# interface gi0/0.20
+R1(config-if)# ip access-group GUEST-TIME in</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="time-acl" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -159,6 +207,7 @@ show ip interface GigabitEthernet0/0.30</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

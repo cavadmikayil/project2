@@ -273,6 +273,8 @@
         .link-strong:hover { color: #0a0a0a; }
         .link-soft { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.875rem; font-weight: 600; color: #404040; }
         .link-soft:hover { color: #b45309; }
+        .lab-link.is-done { color: #b45309; }
+        body.dark-mode .lab-link.is-done { color: #fbbf24; }
         .score-badge { font-size: 0.75rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 9999px; }
         .score-good { background: #f59e0b; color: #0a0a0a; }
         .score-mid { background: #fef3c7; color: #78350f; }
@@ -617,6 +619,7 @@
         const catLabel = id => catOf(id).label;
         let done = new Set();
         let quizBest = {};
+        let labsDone = {};
         let lastOpened = null;
 
         function initials(name) {
@@ -687,6 +690,7 @@
         function loadStudentData() {
             done = new Set(Student.read(Student.key('edu-portal-done'), []));
             quizBest = Student.read(Student.key('edu-portal-quiz-best'), {});
+            labsDone = Student.read(Student.key('edu-portal-labs'), {});
             lastOpened = Student.read(Student.key('edu-portal-last'), null);
         }
 
@@ -839,6 +843,10 @@
                 const score = quizBest[l.quiz];
                 const scoreBadge = score === undefined ? ''
                     : `<span class="score-badge ${scoreClass(score)}" title="Ən yaxşı test nəticəsi">${score}%</span>`;
+                const slug = l.href.replace(/^lessons\/|\.html$/g, '');
+                const labLink = l.cat !== 'ccna' ? '' : labsDone[slug]
+                    ? `<a href="${l.href}#lab" data-lesson="${l.href}" class="link-soft lab-link is-done" title="Lab bitib">${icon('circle-check')} Lab</a>`
+                    : `<a href="${l.href}#lab" data-lesson="${l.href}" class="link-soft lab-link" title="Praktiki lab tapşırığı">${icon('flask-conical')} Lab</a>`;
                 if (viewMode === 'list') return `
                 <div class="portal-card lesson-row ${isDone ? 'done' : ''}">
                     <span class="step-num">${term ? catOf(l.cat).short + ' ' : ''}#${l.step}</span>
@@ -851,6 +859,7 @@
                     <div class="row-actions">
                         <span class="flex items-center gap-2">
                             <a href="tools/quiz.html?topic=${l.quiz}" class="link-soft">${icon('notebook-pen')} Test</a>
+                            ${labLink}
                             ${scoreBadge}
                         </span>
                         <button class="done-btn ${isDone ? 'is-done' : ''}" data-href="${l.href}" aria-pressed="${isDone}">
@@ -873,6 +882,7 @@
                         <div class="flex items-center gap-3">
                             <a href="${l.href}" data-lesson="${l.href}" class="link-strong">Dərsə bax ${icon('arrow-right')}</a>
                             <a href="tools/quiz.html?topic=${l.quiz}" class="link-soft">${icon('notebook-pen')} Test</a>
+                            ${labLink}
                             ${scoreBadge}
                         </div>
                         <button class="done-btn ${isDone ? 'is-done' : ''}" data-href="${l.href}" aria-pressed="${isDone}">
