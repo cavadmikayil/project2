@@ -160,14 +160,23 @@ Dərslərdə `"cat": "devops"` yazın. Dərs səhifəsindəki "Portal" düyməsi
 
 ### Video Dərslər (YouTube kursları)
 
-`assets/videos.js`-də `VIDEO_COURSES` siyahısına kursun playlist linkini əlavə edin (faylın əvvəlində nümunə var):
+Kurslar və videolar `assets/videos.js`-dədir (13 kurs, 257 video). Fayl Markdown siyahısından yaradılır:
 
-```js
-{ id: 'ccna', title: 'CCNA 200-301 tam kurs', desc: 'Qısa izah.', icon: 'graduation-cap',
-  playlist: 'https://www.youtube.com/playlist?list=PL...', lessons: ['osi-model', 'ipv4-subnetting'] },
+```bash
+python3 _dev/videos_import.py Kurslar.md
 ```
 
-Videoların siyahısı, sırası və adları səhifə açılanda YouTube-dan avtomatik gəlir — playlist-ə yeni video yükləyəndə portalda heç nə dəyişmək lazım deyil. Playlist **Public** və ya **Unlisted** olmalıdır, videolarda "Allow embedding" açıq olmalıdır. Tələbə "Növbəti" ilə irəliləyir, "Baxdım" ilə qeyd edir (sona qədər baxılan video avtomatik qeyd olunur), portal qaldığı videodan davam edir. `notes` ilə istənilən videoya öz izahınızı, `lessons` ilə kursa uyğun dərs vəsaitlərini əlavə edə bilərsiniz.
+Markdown formatı — hər kurs üçün başlıq, playlist linki və videolar sırası ilə:
+
+```markdown
+## 3. Fortigate Firewall Dərsləri
+🔗 [Kursa keçid](https://www.youtube.com/playlist?list=PL...)
+1. [Videonun adı](https://www.youtube.com/watch?v=VIDEO_ID&list=PL...)
+```
+
+Kursun qısa adı (linkdə `videos.html#fortigate`), izahı, ikonu, sırası və uyğun dərs vəsaitləri `_dev/videos_import.py`-dəki `COURSE_META` və `ORDER`-dədir. Yeni video çəkəndə siyahını yeniləyib skripti yenidən işlədin.
+
+Hər video öz ID-si ilə ayrıca açılır (YouTube-un playlist funksiyasından asılı deyil); iframe `referrerpolicy="strict-origin-when-cross-origin"` və `origin` ilə yaradılır — YouTube bunları tələb edir, olmasa "Error 153" verir. Tələbə "Növbəti" ilə irəliləyir, "Baxdım" ilə qeyd edir; sona qədər baxılan video avtomatik qeyd olunur və növbəti açılır, portal qaldığı videodan davam edir. Eyni video bir neçə kursdadırsa, "Baxdım" hamısında görünür.
 
 ## 7. Faydalı link əlavə etmək
 
