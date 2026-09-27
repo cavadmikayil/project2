@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#scaling"></use></svg> High Availability, Load Balancing və Auto Scaling</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#scaling"></use></svg> High Availability, Load Balancing və Auto Scaling</h1>
                 <span class="lesson-badge">Cloud · Arxitektura</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -51,29 +51,29 @@
                 <a href="#scale" class="nav-link">Auto scaling</a>
                 <a href="#dr" class="nav-link">Disaster recovery</a>
                 <a href="#waf" class="nav-link">Well-Architected</a>
-                <a href="../index.html#cloud" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#moon"></use></svg></button>
+                <a href="../index.html#cloud" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#scaling"></use></svg> Giriş: "Hər Şey Nə Vaxtsa Sıradan Çıxır"</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#scaling"></use></svg> Giriş: "Hər Şey Nə Vaxtsa Sıradan Çıxır"</h2>
             <p class="lead">
                 Amazon-un CTO-su Werner Vogels-in məşhur sözü: <em>"Everything fails, all the time."</em>
                 Cloud-da tək bir VM-in etibarlılığı ofisdəki serverdən yüksək deyil. Fərq ondadır ki, cloud-da
                 nasazlığa hazır arxitektura qurmaq ucuz və asandır: bir neçə AZ, load balancer, avtomatik əvəzləmə.
             </p>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#activity"></use></svg> High Availability</h3><p class="text-neutral-700">Komponent sıradan çıxanda xidmət qısa fasilə ilə və ya fasiləsiz davam edir.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#shield-plus"></use></svg> Fault tolerance</h3><p class="text-neutral-700">Heç bir fasilə olmadan — daha bahalı, tam ehtiyat (redundancy) tələb edir.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#life-buoy"></use></svg> Disaster recovery</h3><p>Bütöv regionun itməsindən sonra bərpa planı.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#activity"></use></svg> High Availability</h3><p class="text-neutral-700">Komponent sıradan çıxanda xidmət qısa fasilə ilə və ya fasiləsiz davam edir.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#shield-plus"></use></svg> Fault tolerance</h3><p class="text-neutral-700">Heç bir fasilə olmadan — daha bahalı, tam ehtiyat (redundancy) tələb edir.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#life-buoy"></use></svg> Disaster recovery</h3><p>Bütöv regionun itməsindən sonra bərpa planı.</p></div>
             </div>
         </section>
 
         <section id="sla" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#percent"></use></svg> 1. SLA və "Doqquzlar"</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#percent"></use></svg> 1. SLA və "Doqquzlar"</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>Availability</th><th>İldə icazəli fasilə</th><th>Ayda</th></tr></thead>
@@ -87,13 +87,13 @@
                 </table>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#calculator"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#calculator"></use></svg>
                 <p class="text-neutral-800"><strong>Ardıcıl asılılıqlar SLA-nı vurur:</strong> 99.95% veb × 99.99% DB = ~99.94%. <strong>Paralel ehtiyat SLA-nı artırır:</strong> iki müstəqil 99% instance-dan ən azı birinin işləməsi = 1 − 0.01² = 99.99%.</p>
             </div>
         </section>
 
         <section id="lb" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#split"></use></svg> 2. Load Balancing</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#split"></use></svg> 2. Load Balancing</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>Səviyyə</th><th>AWS</th><th>Azure</th><th>Nə görür</th></tr></thead>
@@ -105,17 +105,17 @@
                 </table>
             </div>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#heart-pulse"></use></svg><p class="text-neutral-700"><strong>Health check:</strong> <code>GET /health</code> 200 qaytarmayan instance trafik almır. Endpoint DB bağlantısını da yoxlamalıdır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#cookie"></use></svg><p class="text-neutral-700"><strong>Sticky session:</strong> istifadəçini eyni serverə bağlayır — amma session-u Redis kimi xarici yerdə saxlamaq daha yaxşıdır (stateless).</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#timer-reset"></use></svg><p class="text-neutral-700"><strong>Connection draining:</strong> çıxarılan instance-ın açıq sorğuları bitənə qədər gözləmək.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#heart-pulse"></use></svg><p class="text-neutral-700"><strong>Health check:</strong> <code>GET /health</code> 200 qaytarmayan instance trafik almır. Endpoint DB bağlantısını da yoxlamalıdır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#cookie"></use></svg><p class="text-neutral-700"><strong>Sticky session:</strong> istifadəçini eyni serverə bağlayır — amma session-u Redis kimi xarici yerdə saxlamaq daha yaxşıdır (stateless).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#timer-reset"></use></svg><p class="text-neutral-700"><strong>Connection draining:</strong> çıxarılan instance-ın açıq sorğuları bitənə qədər gözləmək.</p></div>
             </div>
         </section>
 
         <section id="scale" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#move-vertical"></use></svg> 3. Auto Scaling</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#move-vertical"></use></svg> 3. Auto Scaling</h2>
             <div class="card-grid mb-6">
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-up"></use></svg> Vertical (scale up)</h3><p class="text-neutral-700">Daha güclü VM. Sadədir, amma limiti var və adətən restart tələb edir.</p></div>
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-right"></use></svg> Horizontal (scale out)</h3><p class="text-neutral-700">Daha çox VM. Limitsiz, fasiləsiz — amma tətbiq stateless olmalıdır.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-up"></use></svg> Vertical (scale up)</h3><p class="text-neutral-700">Daha güclü VM. Sadədir, amma limiti var və adətən restart tələb edir.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-right"></use></svg> Horizontal (scale out)</h3><p class="text-neutral-700">Daha çox VM. Limitsiz, fasiləsiz — amma tətbiq stateless olmalıdır.</p></div>
             </div>
             <div class="table-wrap">
                 <table class="data-table">
@@ -132,7 +132,7 @@
         </section>
 
         <section id="dr" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#life-buoy"></use></svg> 4. Disaster Recovery Strategiyaları</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#life-buoy"></use></svg> 4. Disaster Recovery Strategiyaları</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>Strategiya</th><th>İkinci regionda nə var</th><th>RTO</th><th>Xərc</th></tr></thead>
@@ -148,15 +148,15 @@
         </section>
 
         <section id="waf" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#landmark"></use></svg> 5. Well-Architected Framework</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#landmark"></use></svg> 5. Well-Architected Framework</h2>
             <p class="lead">AWS və Azure arxitekturanı eyni sütunlar üzrə qiymətləndirir:</p>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#settings"></use></svg><p class="text-neutral-700"><strong>Operational Excellence:</strong> IaC, avtomatlaşdırma, monitorinq, kiçik və geri qaytarıla bilən dəyişikliklər.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#shield-check"></use></svg><p class="text-neutral-700"><strong>Security:</strong> identity, şifrələmə, hər qatda qoruma, izlənilə bilənlik.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#activity"></use></svg><p class="text-neutral-700"><strong>Reliability:</strong> çoxlu AZ, avtomatik bərpa, test olunmuş DR.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#gauge"></use></svg><p class="text-neutral-700"><strong>Performance Efficiency:</strong> düzgün resurs tipi, caching, CDN.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#wallet"></use></svg><p class="text-neutral-700"><strong>Cost Optimization:</strong> right-sizing, reserved/spot, istifadə olunmayanı söndürmək.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#leaf"></use></svg><p class="text-neutral-700"><strong>Sustainability</strong> (AWS): daha az resursla eyni nəticə.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#settings"></use></svg><p class="text-neutral-700"><strong>Operational Excellence:</strong> IaC, avtomatlaşdırma, monitorinq, kiçik və geri qaytarıla bilən dəyişikliklər.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#shield-check"></use></svg><p class="text-neutral-700"><strong>Security:</strong> identity, şifrələmə, hər qatda qoruma, izlənilə bilənlik.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#activity"></use></svg><p class="text-neutral-700"><strong>Reliability:</strong> çoxlu AZ, avtomatik bərpa, test olunmuş DR.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#gauge"></use></svg><p class="text-neutral-700"><strong>Performance Efficiency:</strong> düzgün resurs tipi, caching, CDN.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#wallet"></use></svg><p class="text-neutral-700"><strong>Cost Optimization:</strong> right-sizing, reserved/spot, istifadə olunmayanı söndürmək.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#leaf"></use></svg><p class="text-neutral-700"><strong>Sustainability</strong> (AWS): daha az resursla eyni nəticə.</p></div>
             </div>
         </section>
     </main>
@@ -165,13 +165,14 @@
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
                     <a href="../index.html#ccna">CCNA</a>
                     <a href="../tools.html">Tools</a>
+                    <a href="../videos.html">Video Dərslər</a>
                     <a href="../links.html">Faydalı Linklər</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>

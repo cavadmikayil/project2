@@ -38,6 +38,7 @@ links.html                 Faydalı Linklər səhifəsi (linklər faylın içind
 about.html                 Haqqında səhifəsi
 lessons/*.html             Dərs səhifələri (hazır, saytda açılan fayllar)
 careers.html               Karyera yolları (məlumat assets/careers.js-dədir)
+videos.html                Video Dərslər — YouTube kursları (siyahı assets/videos.js-dədir)
 tools.html                 Tools səhifəsi (alətlərin siyahısı assets/tools-catalog.js-dədir)
 tools/*.html               Alətlər: quiz, CCNA imtahan simulyatoru, CLI simulyatoru, flashcard-lar,
                            subnet, VLSM, IPv6, wildcard kalkulyatorları, port arayışı
@@ -156,6 +157,17 @@ Dərslərdə `"cat": "devops"` yazın. Dərs səhifəsindəki "Portal" düyməsi
 ```
 
 İrəliləyiş tələbənin "Oxudum" qeydlərindən hesablanır; seçilmiş yol dashboard-da göstərilir. `build.py check` yollardakı hər dərsin kataloqda olduğunu yoxlayır — yeni yol əlavə etmək üçün eyni formatda bir obyekt yazmaq kifayətdir.
+
+### Video Dərslər (YouTube kursları)
+
+`assets/videos.js`-də `VIDEO_COURSES` siyahısına kursun playlist linkini əlavə edin (faylın əvvəlində nümunə var):
+
+```js
+{ id: 'ccna', title: 'CCNA 200-301 tam kurs', desc: 'Qısa izah.', icon: 'graduation-cap',
+  playlist: 'https://www.youtube.com/playlist?list=PL...', lessons: ['osi-model', 'ipv4-subnetting'] },
+```
+
+Videoların siyahısı, sırası və adları səhifə açılanda YouTube-dan avtomatik gəlir — playlist-ə yeni video yükləyəndə portalda heç nə dəyişmək lazım deyil. Playlist **Public** və ya **Unlisted** olmalıdır, videolarda "Allow embedding" açıq olmalıdır. Tələbə "Növbəti" ilə irəliləyir, "Baxdım" ilə qeyd edir (sona qədər baxılan video avtomatik qeyd olunur), portal qaldığı videodan davam edir. `notes` ilə istənilən videoya öz izahınızı, `lessons` ilə kursa uyğun dərs vəsaitlərini əlavə edə bilərsiniz.
 
 ## 7. Faydalı link əlavə etmək
 

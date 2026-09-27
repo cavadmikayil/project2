@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Dərslər — Cavad Mikayil Təlim Portalı</title>
+    <!--SEO-->
+    <meta name="description" content="Cavad Mikayilin YouTube kursları portalda: videolar düzgün ardıcıllıqla, Növbəti və Baxdım düymələri, hər kurs üzrə irəliləyiş və uyğun dərs vəsaitləri.">
+    <link rel="canonical" href="https://cavadmikayil.github.io/project2/videos.html">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="author" content="Cavad Mikayil">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Cavad Mikayil Təlim Portalı">
+    <meta property="og:locale" content="az_AZ">
+    <meta property="og:title" content="Video Dərslər — Cavad Mikayil Təlim Portalı">
+    <meta property="og:description" content="Cavad Mikayilin YouTube kursları portalda: videolar düzgün ardıcıllıqla, Növbəti və Baxdım düymələri, hər kurs üzrə irəliləyiş və uyğun dərs vəsaitləri.">
+    <meta property="og:url" content="https://cavadmikayil.github.io/project2/videos.html">
+    <meta property="og:image" content="https://cavadmikayil.github.io/project2/assets/og/videos.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Video Dərslər — Cavad Mikayil Təlim Portalı">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Video Dərslər — Cavad Mikayil Təlim Portalı">
+    <meta name="twitter:description" content="Cavad Mikayilin YouTube kursları portalda: videolar düzgün ardıcıllıqla, Növbəti və Baxdım düymələri, hər kurs üzrə irəliləyiş və uyğun dərs vəsaitləri.">
+    <meta name="twitter:image" content="https://cavadmikayil.github.io/project2/assets/og/videos.jpg">
+    <!--/SEO-->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/lesson.css">
+    <link rel="stylesheet" href="assets/theme.css">
+    <link rel="stylesheet" href="assets/tools.css">
+    <style>
+        [hidden] { display: none !important; }
+        .hub-hero { background: #0a0a0a; color: #ffffff; border-radius: 1.25rem; padding: 2rem; margin-bottom: 1.5rem; }
+        .hub-hero h1 { font-size: 1.9rem; font-weight: 800; line-height: 1.2; }
+        .hub-hero .accent { color: #fbbf24; }
+        .hub-hero p { color: #d4d4d4; }
+        .kicker { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700; color: #fbbf24 !important; margin-bottom: 0.4rem; }
+        .course-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+        .course-card { text-align: left; display: flex; flex-direction: column; gap: 0.5rem; padding: 1.2rem; border: 1px solid #e5e5e5; border-radius: 1rem; background: #ffffff; transition: border-color .15s, transform .15s; }
+        .course-card:hover { border-color: #f59e0b; transform: translateY(-2px); }
+        .course-card.active { border: 2px solid #f59e0b; background: #fffbeb; }
+        .course-card .badge { width: 2.8rem; height: 2.8rem; border-radius: 0.8rem; background: #0a0a0a; color: #fbbf24; display: inline-flex; align-items: center; justify-content: center; }
+        .course-card h3 { font-weight: 800; font-size: 1.1rem; color: #0a0a0a; }
+        .course-card .desc { font-size: 0.88rem; color: #525252; }
+        .course-card .meta { font-size: 0.8rem; font-weight: 600; color: #737373; margin-top: auto; }
+        .mini-bar { height: 0.45rem; background: #e5e5e5; border-radius: 9999px; overflow: hidden; }
+        .mini-bar i { display: block; height: 100%; background: #f59e0b; }
+
+        .watch { display: grid; grid-template-columns: minmax(0, 1fr) 22rem; gap: 1.25rem; align-items: start; }
+        .player-frame { position: relative; aspect-ratio: 16 / 9; background: #000000; border-radius: 0.9rem; overflow: hidden; }
+        .player-frame iframe, .player-frame > div { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+        .player-msg { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; padding: 1.5rem; text-align: center; color: #d4d4d4; }
+        .player-msg .icon { width: 2.5rem; height: 2.5rem; color: #fbbf24; }
+        .now-title { font-size: 1.3rem; font-weight: 800; line-height: 1.3; color: #0a0a0a; }
+        .now-meta { font-size: 0.85rem; font-weight: 600; color: #737373; }
+        .controls { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .btn.watched { background: #fef3c7; color: #78350f; border-color: #f59e0b; }
+        .list-panel { border: 1px solid #e5e5e5; border-radius: 0.9rem; background: #ffffff; overflow: hidden; }
+        .list-head { padding: 0.9rem 1rem; border-bottom: 1px solid #e5e5e5; }
+        .list-head h3 { font-weight: 800; display: flex; align-items: center; gap: 0.4rem; }
+        .video-list { max-height: 30rem; overflow-y: auto; list-style: none; padding: 0.35rem; margin: 0; }
+        .video-row { width: 100%; display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.55rem 0.6rem; border-radius: 0.6rem; text-align: left; font-size: 0.9rem; font-weight: 600; color: #262626; }
+        .video-row:hover { background: #fafafa; }
+        .video-row .num { flex-shrink: 0; width: 1.6rem; font-size: 0.78rem; font-weight: 700; color: #a3a3a3; padding-top: 0.1rem; text-align: right; }
+        .video-row .state { flex-shrink: 0; color: #a3a3a3; }
+        .video-row.watched .state { color: #d97706; }
+        .video-row.current { background: #fffbeb; box-shadow: inset 3px 0 0 #f59e0b; }
+        .video-row.current .state { color: #d97706; }
+        .video-row .t { min-width: 0; overflow-wrap: anywhere; }
+        .video-row .t.pending { color: #a3a3a3; font-weight: 500; }
+        .lesson-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .lesson-chip { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.8rem; border: 1px solid #e5e5e5; border-radius: 9999px; font-size: 0.85rem; font-weight: 600; color: #262626; background: #ffffff; }
+        .lesson-chip:hover { border-color: #f59e0b; }
+        .lesson-chip.done .icon { color: #d97706; }
+        .empty-state { text-align: center; padding: 2.5rem 1.5rem; }
+        .empty-state .big { width: 4rem; height: 4rem; border-radius: 1rem; background: #0a0a0a; color: #fbbf24; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+        .empty-state .big .icon { width: 2rem; height: 2rem; }
+        @media (max-width: 1023px) { .watch { grid-template-columns: 1fr; } .video-list { max-height: 22rem; } }
+        @media (max-width: 767px) { .hub-hero { padding: 1.4rem; } .hub-hero h1 { font-size: 1.45rem; } .now-title { font-size: 1.1rem; } }
+        @media (max-width: 640px) {
+            .course-grid { grid-template-columns: 1fr; gap: 0.6rem; }
+            .course-card .desc { display: none; }
+            .controls .btn { flex: 1 1 auto; padding: 0.6rem 0.7rem; }
+        }
+        body.dark-mode .course-card, body.dark-mode .list-panel, body.dark-mode .lesson-chip { background: #171717; border-color: #333333; }
+        body.dark-mode .course-card.active { background: #2a2113; border-color: #f59e0b; }
+        body.dark-mode .course-card h3, body.dark-mode .now-title { color: #ffffff; }
+        body.dark-mode .course-card .desc { color: #a3a3a3; }
+        body.dark-mode .list-head { border-color: #333333; }
+        body.dark-mode .video-row, body.dark-mode .lesson-chip { color: #e5e5e5; }
+        body.dark-mode .video-row:hover { background: #1f1f1f; }
+        body.dark-mode .video-row.current { background: #2a2113; }
+        body.dark-mode .mini-bar { background: #262626; }
+        body.dark-mode .btn.watched { background: #2a2113; color: #fcd34d; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50" data-site-header>
+        <div class="container mx-auto px-6 py-3 flex flex-wrap gap-x-3 gap-y-2 justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 text-lg font-extrabold text-neutral-900">
+                <span class="site-logo"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#graduation-cap"></use></svg></span> Cavad Mikayil Təlim Portalı
+            </a>
+            <nav class="site-nav order-last md:order-none md:ml-auto" aria-label="Sayt menyusu">
+                    <a href="index.html" data-nav="home"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#house"></use></svg> Ana Səhifə</a>
+                    <a href="index.html#ccna" data-nav="ccna"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> CCNA</a>
+                    <a href="tools.html" data-nav="tools"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#toolbox"></use></svg> Tools</a>
+                    <a href="videos.html" data-nav="videos" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#circle-play"></use></svg> Video Dərslər</a>
+                    <a href="links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#library"></use></svg> Faydalı Linklər</a>
+                    <a href="about.html" data-nav="about"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#user-round"></use></svg> Haqqında</a>
+                </nav>
+            <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#moon"></use></svg></button>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section class="hub-hero">
+            <p class="kicker"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#circle-play"></use></svg> Video Dərslər</p>
+            <h1>YouTube kursları — <span class="accent">portalda, sıra ilə</span></h1>
+            <p class="mt-3 max-w-3xl">Kursu seçin və videolara burada baxın. Videolar kursdakı ardıcıllıqla gəlir; "Növbəti" ilə irəliləyin, baxdıqlarınızı "Baxdım" ilə qeyd edin. Video sona çatanda avtomatik baxılmış sayılır.</p>
+        </section>
+
+        <div id="login-note" class="note-box mb-6" hidden>
+            <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#info"></use></svg>
+            <p class="text-neutral-800">Baxdığınız videoların yadda qalması üçün <a class="font-semibold underline" href="index.html">Ana Səhifədə</a> adınızla daxil olun.</p>
+        </div>
+
+        <div class="course-grid" id="course-grid" role="tablist" aria-label="Video kurslar"></div>
+
+        <div id="course-detail"></div>
+    </main>
+
+    <footer class="brand-footer">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+                    <a href="index.html">Ana Səhifə</a>
+                    <a href="index.html#ccna">CCNA</a>
+                    <a href="tools.html">Tools</a>
+                    <a href="videos.html">Video Dərslər</a>
+                    <a href="links.html">Faydalı Linklər</a>
+                    <a href="about.html">Haqqında</a>
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
+            </div>
+            <div class="brand-footer-social-wrap">
+                <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+                    <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" data-social="instagram"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                    <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı" data-social="youtube"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></a>
+                    <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn" data-social="linkedin"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg></a>
+                    <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt" data-social="blog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></a>
+                    <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram" data-social="telegram"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg></a>
+                    <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" data-social="tiktok"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M448.5 209.9c-44 .1-87-13.6-122.8-39.2l0 178.7c0 33.1-10.1 65.4-29 92.6s-45.6 48-76.6 59.6-64.8 13.5-96.9 5.3-60.9-25.9-82.7-50.8-35.3-56-39-88.9 2.9-66.1 18.6-95.2 40-52.7 69.6-67.7 62.9-20.5 95.7-16l0 89.9c-15-4.7-31.1-4.6-46 .4s-27.9 14.6-37 27.3-14 28.1-13.9 43.9 5.2 31 14.5 43.7 22.4 22.1 37.4 26.9 31.1 4.8 46-.1 28-14.4 37.2-27.1 14.2-28.1 14.2-43.8l0-349.4 88 0c-.1 7.4 .6 14.9 1.9 22.2 3.1 16.3 9.4 31.9 18.7 45.7s21.3 25.6 35.2 34.6c19.9 13.1 43.2 20.1 67 20.1l0 87.4z"/></svg></a>
+                    <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email" data-social="email"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></a>
+                </div>
+            </div>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
+
+    <script src="assets/student.js"></script>
+    <script src="assets/catalog.js"></script>
+    <script src="assets/videos.js"></script>
+    <script>
+        const $ = id => document.getElementById(id);
+        const icon = n => `<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#${n}"></use></svg>`;
+        const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+        // ---- Məlumat ----------------------------------------------------------------
+        const playlistId = s => { const m = String(s || '').match(/[?&]list=([\w-]+)/); return m ? m[1] : (/^[\w-]{10,}$/.test(s || '') ? s : null); };
+        const COURSES = (window.VIDEO_COURSES || []).map(c => ({
+            id: c.id, title: c.title, desc: c.desc || '', icon: c.icon || 'circle-play',
+            list: playlistId(c.playlist), fixed: Array.isArray(c.videos) && c.videos.length ? c.videos.slice() : null,
+            lessons: c.lessons || [], notes: c.notes || {}
+        })).filter(c => c.id && c.title && (c.list || c.fixed));
+        const lessonBySlug = {};
+        (window.CATALOG ? CATALOG.lessons : []).forEach(l => { lessonBySlug[l.href.replace(/^lessons\/|\.html$/g, '')] = l; });
+
+        const WATCHED_KEY = Student.key('edu-portal-videos');
+        const POS_KEY = Student.key('edu-portal-video-pos');
+        const IDS_KEY = 'edu-portal-video-ids';        // playlist → video ID-ləri (bütün istifadəçilər üçün ortaq keş)
+        const TITLES_KEY = 'edu-portal-video-titles';  // video ID → ad
+        const watched = Student.read(WATCHED_KEY, {});
+        const pos = Student.read(POS_KEY, {});
+        const idsCache = Student.read(IDS_KEY, {});
+        const titles = Student.read(TITLES_KEY, {});
+        const done = new Set(Student.read(Student.key('edu-portal-done'), []));
+
+        const idsOf = c => c.fixed || idsCache[c.id] || null;
+        const progressOf = c => {
+            const ids = idsOf(c);
+            if (!ids) return null;
+            const n = ids.filter(v => watched[v]).length;
+            return { n, total: ids.length, pct: ids.length ? Math.round(100 * n / ids.length) : 0 };
+        };
+        const titleOf = (id, i) => titles[id] || `Video ${i + 1}`;
+
+        let active = null, cur = 0, player = null, ids = null;
+
+        // ---- Kurs kartları ------------------------------------------------------------
+        function renderCards() {
+            $('course-grid').innerHTML = COURSES.map(c => {
+                const pr = progressOf(c);
+                return `<button type="button" class="course-card ${c.id === active ? 'active' : ''}" data-course="${c.id}" role="tab" aria-selected="${c.id === active}">
+                    <span class="badge">${icon(c.icon)}</span>
+                    <h3>${esc(c.title)}</h3>
+                    ${c.desc ? `<span class="desc">${esc(c.desc)}</span>` : ''}
+                    <span class="mini-bar"><i style="width:${pr ? pr.pct : 0}%"></i></span>
+                    <span class="meta">${pr ? `${pr.n} / ${pr.total} video baxılıb · ${pr.pct}%` : 'Videolar kursu açanda yüklənir'}</span>
+                </button>`;
+            }).join('');
+        }
+
+        function renderEmpty() {
+            $('course-grid').hidden = true;
+            $('course-detail').innerHTML = `<section class="section-card empty-state">
+                <span class="big">${icon('clapperboard')}</span>
+                <h2 class="text-2xl font-extrabold mb-2">Kurslar tezliklə burada olacaq</h2>
+                <p class="text-neutral-600 max-w-xl mx-auto mb-5">YouTube kanalındakı kurslar bu səhifəyə əlavə olunur. O vaxta qədər kurslara birbaşa kanalda baxa bilərsiniz.</p>
+                <a class="btn btn-amber" href="${esc(window.VIDEO_CHANNEL || 'https://www.youtube.com/@cavadmikayil')}" target="_blank" rel="noopener noreferrer">${icon('brand-youtube')} YouTube-da kurslar</a>
+            </section>`;
+        }
+
+        // ---- Kursun səhifəsi ----------------------------------------------------------
+        function renderDetail(c) {
+            const related = c.lessons.map(s => lessonBySlug[s]).filter(Boolean);
+            $('course-detail').innerHTML = `
+                <section class="section-card">
+                    <div class="watch">
+                        <div>
+                            <div class="player-frame"><div id="yt-player"></div>
+                                <div class="player-msg" id="player-msg">${icon('circle-play')}<span>Video yüklənir…</span></div>
+                            </div>
+                            <div class="mt-4 flex flex-col gap-3">
+                                <div>
+                                    <p class="now-meta" id="now-meta">${esc(c.title)}</p>
+                                    <h2 class="now-title" id="now-title"></h2>
+                                    <p class="text-neutral-700 mt-2" id="now-note" hidden></p>
+                                </div>
+                                <div class="controls">
+                                    <button type="button" class="btn btn-ghost" id="prev-btn">${icon('skip-back')} Əvvəlki</button>
+                                    <button type="button" class="btn btn-ghost" id="watched-btn"></button>
+                                    <button type="button" class="btn btn-amber" id="next-btn">Növbəti ${icon('skip-forward')}</button>
+                                    <a class="btn btn-ghost" id="yt-link" target="_blank" rel="noopener noreferrer">${icon('brand-youtube')} YouTube-da aç</a>
+                                </div>
+                            </div>
+                        </div>
+                        <aside class="list-panel">
+                            <div class="list-head">
+                                <h3>${icon('list-video')} Kursun videoları</h3>
+                                <p class="now-meta mt-1" id="list-progress"></p>
+                                <div class="mini-bar mt-2"><i id="list-bar" style="width:0%"></i></div>
+                            </div>
+                            <ol class="video-list" id="video-list"></ol>
+                        </aside>
+                    </div>
+                </section>
+                ${related.length ? `<section class="section-card">
+                    <h2 class="section-title">${icon('book-open')} Kursa uyğun dərs vəsaitləri</h2>
+                    <div class="lesson-chips">${related.map(l => `<a class="lesson-chip ${done.has(l.href) ? 'done' : ''}" href="${l.href}">${icon(done.has(l.href) ? 'circle-check' : l.icon)} ${esc(l.title)}</a>`).join('')}</div>
+                </section>` : ''}`;
+            $('prev-btn').addEventListener('click', () => go(cur - 1));
+            $('next-btn').addEventListener('click', () => go(cur + 1));
+            $('watched-btn').addEventListener('click', () => ids && setWatched(ids[cur], !watched[ids[cur]]));
+            $('video-list').addEventListener('click', e => {
+                const b = e.target.closest('[data-i]');
+                if (b) go(+b.dataset.i);
+            });
+            ids = idsOf(c);
+            cur = Math.min(pos[c.id] || 0, ids ? ids.length - 1 : 0);
+            renderList(); renderNow();
+        }
+
+        function renderList() {
+            const list = $('video-list');
+            if (!list) return;
+            if (!ids) { list.innerHTML = `<li class="now-meta p-3">Siyahı yüklənir…</li>`; $('list-progress').textContent = ''; return; }
+            list.innerHTML = ids.map((v, i) => `<li><button type="button" class="video-row ${watched[v] ? 'watched' : ''} ${i === cur ? 'current' : ''}" data-i="${i}" ${i === cur ? 'aria-current="true"' : ''}>
+                <span class="num">${i + 1}</span>
+                <span class="state">${icon(i === cur ? 'circle-play' : watched[v] ? 'circle-check' : 'circle')}</span>
+                <span class="t ${titles[v] ? '' : 'pending'}" data-title="${v}">${esc(titleOf(v, i))}</span>
+            </button></li>`).join('');
+            const n = ids.filter(v => watched[v]).length;
+            $('list-progress').textContent = `${n} / ${ids.length} video baxılıb`;
+            $('list-bar').style.width = (ids.length ? Math.round(100 * n / ids.length) : 0) + '%';
+            const row = list.querySelector('.current');
+            if (row) list.scrollTop = Math.max(0, row.offsetTop - list.clientHeight / 2 + row.offsetHeight / 2);
+        }
+
+        function renderNow() {
+            const c = COURSES.find(x => x.id === active);
+            if (!$('now-title')) return;
+            const v = ids && ids[cur];
+            $('now-title').textContent = v ? titleOf(v, cur) : c.title;
+            $('now-meta').textContent = ids ? `${c.title} · Video ${cur + 1} / ${ids.length}` : c.title;
+            const note = v && c.notes[v];
+            $('now-note').hidden = !note;
+            $('now-note').textContent = note || '';
+            $('prev-btn').disabled = !ids || cur <= 0;
+            $('next-btn').disabled = !ids || cur >= ids.length - 1;
+            const w = v && watched[v];
+            $('watched-btn').disabled = !v;
+            $('watched-btn').className = 'btn ' + (w ? 'btn-ghost watched' : 'btn-ghost');
+            $('watched-btn').innerHTML = w ? `${icon('circle-check')} Baxılıb` : `${icon('check')} Baxdım`;
+            $('watched-btn').setAttribute('aria-pressed', w ? 'true' : 'false');
+            $('yt-link').href = v ? `https://www.youtube.com/watch?v=${v}${c.list ? '&list=' + c.list : ''}` : (c.list ? `https://www.youtube.com/playlist?list=${c.list}` : '#');
+        }
+
+        function setWatched(v, on) {
+            if (on) watched[v] = 1; else delete watched[v];
+            Student.write(WATCHED_KEY, watched);
+            renderList(); renderNow(); renderCards();
+        }
+
+        function setCur(i) {
+            if (!ids || i < 0 || i >= ids.length) return;
+            cur = i;
+            pos[active] = i;
+            Student.write(POS_KEY, pos);
+            renderList(); renderNow();
+        }
+
+        function go(i) {
+            if (!ids || i < 0 || i >= ids.length) return;
+            setCur(i);
+            if (player && player.playVideoAt) player.playVideoAt(i);
+        }
+
+        // ---- Video adları (YouTube oEmbed; alınmasa noembed.com) ---------------------------
+        async function fetchTitle(v) {
+            const watch = encodeURIComponent('https://www.youtube.com/watch?v=' + v);
+            for (const u of ['https://www.youtube.com/oembed?format=json&url=' + watch, 'https://noembed.com/embed?url=' + watch]) {
+                try {
+                    const r = await fetch(u);
+                    if (!r.ok) continue;
+                    const j = await r.json();
+                    if (j && j.title) return j.title;
+                } catch (e) { /* növbəti mənbə */ }
+            }
+            return null;
+        }
+        function saveTitle(v, t) {
+            if (!t || titles[v] === t) return;
+            titles[v] = t;
+            Student.write(TITLES_KEY, titles);
+            document.querySelectorAll(`[data-title="${v}"]`).forEach(el => { el.textContent = t; el.classList.remove('pending'); });
+            if (ids && ids[cur] === v) renderNow();
+        }
+        async function loadTitles(list) {
+            const queue = list.filter(v => !titles[v]);
+            const worker = async () => { while (queue.length) { const v = queue.shift(); saveTitle(v, await fetchTitle(v)); } };
+            await Promise.all([worker(), worker(), worker(), worker()]);
+        }
+
+        // ---- YouTube player ---------------------------------------------------------------
+        let ytReady = null;
+        function loadYT() {
+            if (!ytReady) ytReady = new Promise((resolve, reject) => {
+                if (window.YT && window.YT.Player) return resolve();
+                const prev = window.onYouTubeIframeAPIReady;
+                window.onYouTubeIframeAPIReady = () => { if (prev) prev(); resolve(); };
+                const s = document.createElement('script');
+                s.src = 'https://www.youtube.com/iframe_api';
+                s.onerror = () => reject(new Error('iframe_api'));
+                document.head.appendChild(s);
+                setTimeout(() => reject(new Error('timeout')), 15000);
+            });
+            return ytReady;
+        }
+
+        function playerMessage(html) {
+            const m = $('player-msg');
+            if (!m) return;
+            m.hidden = !html;
+            if (html) m.innerHTML = html;
+        }
+
+        function gotIds(c, list) {
+            if (active !== c.id || !list || !list.length) return;
+            const changed = !ids || ids.join() !== list.join();
+            ids = list;
+            if (!c.fixed) { idsCache[c.id] = list; Student.write(IDS_KEY, idsCache); }
+            if (cur >= ids.length) cur = 0;
+            if (changed) { renderList(); renderNow(); renderCards(); }
+            loadTitles(ids);
+        }
+
+        async function startPlayer(c) {
+            if (player && player.destroy) { try { player.destroy(); } catch (e) { /* köhnə player */ } }
+            player = null;
+            if (ids) loadTitles(ids);
+            try { await loadYT(); } catch (e) {
+                playerMessage(`${icon('triangle-alert')}<span>Video pleyer yüklənmədi. İnternet bağlantısını yoxlayın və ya videoya YouTube-da baxın.</span>`);
+                return;
+            }
+            if (active !== c.id) return;
+            const start = cur;
+            let cued = false;
+            player = new YT.Player('yt-player', {
+                host: 'https://www.youtube-nocookie.com',
+                width: '100%', height: '100%',
+                playerVars: Object.assign({ rel: 0, playsinline: 1, modestbranding: 1 },
+                    c.fixed ? {} : { listType: 'playlist', list: c.list }),
+                events: {
+                    onReady: () => {
+                        playerMessage('');
+                        if (c.fixed) { player.cuePlaylist(c.fixed, start); cued = true; gotIds(c, c.fixed); return; }
+                        let tries = 0;
+                        const poll = setInterval(() => {
+                            const list = player && player.getPlaylist && player.getPlaylist();
+                            if (list && list.length) {
+                                clearInterval(poll);
+                                gotIds(c, list);
+                                // İstifadəçinin qaldığı videodan davam et (avtomatik oynatmadan)
+                                if (start > 0 && start < list.length) player.cuePlaylist(list, start);
+                                cued = true;
+                            } else if (++tries > 40) {
+                                clearInterval(poll);
+                                if (!ids) playerMessage(`${icon('triangle-alert')}<span>Playlist açılmadı. Linkin düzgün və playlist-in "Public" və ya "Unlisted" olduğunu yoxlayın.</span>`);
+                            }
+                        }, 300);
+                    },
+                    onStateChange: e => {
+                        if (!cued || !player.getPlaylistIndex) return;
+                        const i = player.getPlaylistIndex();
+                        if (i >= 0 && i !== cur) setCur(i);
+                        if (e.data === YT.PlayerState.PLAYING && player.getVideoData) {
+                            const d = player.getVideoData();
+                            if (d && d.video_id && d.title) saveTitle(d.video_id, d.title);
+                        }
+                        if (e.data === YT.PlayerState.ENDED && ids && ids[cur] && !watched[ids[cur]]) setWatched(ids[cur], true);
+                    },
+                    onError: () => {
+                        playerMessage(`${icon('triangle-alert')}<span>Bu video portalda açılmır. "YouTube-da aç" düyməsi ilə baxın və ya "Növbəti"yə keçin.</span>`);
+                    }
+                }
+            });
+        }
+
+        function openCourse(id, push) {
+            const c = COURSES.find(x => x.id === id) || COURSES[0];
+            active = c.id;
+            if (push) history.replaceState(null, '', '#' + c.id);
+            renderCards();
+            renderDetail(c);
+            startPlayer(c);
+        }
+
+        $('course-grid').addEventListener('click', e => {
+            const b = e.target.closest('[data-course]');
+            if (b && b.dataset.course !== active) openCourse(b.dataset.course, true);
+        });
+        $('login-note').hidden = !!Student.current() || !COURSES.length;
+        if (!COURSES.length) renderEmpty();
+        else openCourse(location.hash.slice(1), false);
+    </script>
+    <script src="assets/theme.js"></script>
+</body>
+</html>

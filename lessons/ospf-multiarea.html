@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#layers"></use></svg> OSPF Multi-Area və Troubleshooting</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#layers"></use></svg> OSPF Multi-Area və Troubleshooting</h1>
                 <span class="lesson-badge">CCNA · IP Connectivity</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -51,28 +51,28 @@
                 <a href="#config" class="nav-link">Konfiqurasiya</a>
                 <a href="#troubleshoot" class="nav-link">Troubleshooting</a>
                 <a href="#lab" class="nav-link">Lab</a>
-                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#moon"></use></svg></button>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#layers"></use></svg> Giriş: Niyə Bir Neçə Area?</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#layers"></use></svg> Giriş: Niyə Bir Neçə Area?</h2>
             <p class="lead">
                 Single-area OSPF-də hər router bütün şəbəkənin tam xəritəsini saxlayır. Şəbəkə böyüdükcə LSDB böyüyür,
                 hər dəyişiklik bütün routerlərdə SPF hesablamasına səbəb olur. <strong>Multi-area</strong> dizayn şəbəkəni
                 sahələrə bölür: ətraflı məlumat area daxilində qalır, area-lar arasında isə yalnız xülasə gedir.
             </p>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#info"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#info"></use></svg>
                 <p class="text-neutral-800"><strong>Qızıl qayda:</strong> bütün area-lar <strong>Area 0 (backbone)</strong>-a birləşməlidir. Area-lar arası trafik həmişə backbone-dan keçir.</p>
             </div>
         </section>
 
         <section id="roles" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#router"></use></svg> 1. Router Rolları</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#router"></use></svg> 1. Router Rolları</h2>
             <div class="code-block">
                 <pre><code>   Area 1              Area 0 (backbone)             Area 2
  [R1]──[R2 ABR]──────[R3 backbone]──────[R4 ABR]──[R5]
@@ -93,7 +93,7 @@
         </section>
 
         <section id="lsa" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#scroll-text"></use></svg> 2. Əsas LSA Növləri və Marşrut Kodları</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#scroll-text"></use></svg> 2. Əsas LSA Növləri və Marşrut Kodları</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>LSA</th><th>Kim yaradır</th><th>Yayılma</th><th>Cədvəldə</th></tr></thead>
@@ -109,7 +109,7 @@
         </section>
 
         <section id="config" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#terminal"></use></svg> 3. Multi-Area Konfiqurasiyası</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#terminal"></use></svg> 3. Multi-Area Konfiqurasiyası</h2>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="ma-abr">ABR (R2)</button>
                 <button class="tab-btn inactive-tab" data-pane="ma-internal">Internal (R1)</button>
@@ -154,7 +154,7 @@ show ip route ospf</code></pre>
         </section>
 
         <section id="troubleshoot" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#wrench"></use></svg> 4. Qonşuluq Qurulmur: Yoxlama Siyahısı</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#wrench"></use></svg> 4. Qonşuluq Qurulmur: Yoxlama Siyahısı</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>Simptom</th><th>Ehtimal olunan səbəb</th><th>Yoxlamaq üçün</th></tr></thead>
@@ -179,11 +179,11 @@ undebug all</code></pre>
             </div>
         </section>
         <section id="lab" class="section-card lab-section" data-lab="ospf-multiarea">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#flask-conical"></use></svg> Lab: Multi-Area OSPF və Qonşuluq Problemləri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#flask-conical"></use></svg> Lab: Multi-Area OSPF və Qonşuluq Problemləri</h2>
             <div class="card-grid mb-6">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">ABR ilə iki area qurmaq və qəsdən yaradılmış 4 qonşuluq xətasını tapıb düzəltmək.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#timer"></use></svg> Müddət</h3><p>60 dəq · Çətin</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">ABR ilə iki area qurmaq və qəsdən yaradılmış 4 qonşuluq xətasını tapıb düzəltmək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#timer"></use></svg> Müddət</h3><p>60 dəq · Çətin</p></div>
             </div>
             <h3 class="text-xl font-bold mb-3">Topologiya</h3>
             <div class="code-block lab-topology mb-6">
@@ -209,13 +209,13 @@ debug ip ospf adj</code></pre>
             </div>
             <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
             <div class="feature-grid mb-6">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-check"></use></svg><p class="text-neutral-700">R3-də area 1 şəbəkələri <code>O IA</code> kimi görünür.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-check"></use></svg><p class="text-neutral-700">Hello/dead uyğunsuzluğu, area mismatch və maska fərqi qonşuluğu qurmur; duplicate router-id log mesajı verir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-check"></use></svg><p class="text-neutral-700">Xülasədən sonra area 0-da bir <code>/22</code> marşrutu qalır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg><p class="text-neutral-700">R3-də area 1 şəbəkələri <code>O IA</code> kimi görünür.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg><p class="text-neutral-700">Hello/dead uyğunsuzluğu, area mismatch və maska fərqi qonşuluğu qurmur; duplicate router-id log mesajı verir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg><p class="text-neutral-700">Xülasədən sonra area 0-da bir <code>/22</code> marşrutu qalır.</p></div>
             </div>
             <div class="lab-footer">
                 <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
-                <button type="button" class="lab-done-btn" data-lab="ospf-multiarea" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-dot"></use></svg> Labı bitirdim</button>
+                <button type="button" class="lab-done-btn" data-lab="ospf-multiarea" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-dot"></use></svg> Labı bitirdim</button>
             </div>
         </section>
     </main>
@@ -224,13 +224,14 @@ debug ip ospf adj</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
                     <a href="../index.html#ccna">CCNA</a>
                     <a href="../tools.html">Tools</a>
+                    <a href="../videos.html">Video Dərslər</a>
                     <a href="../links.html">Faydalı Linklər</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>

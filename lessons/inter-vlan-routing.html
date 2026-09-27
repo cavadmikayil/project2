@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#route"></use></svg> Inter-VLAN Routing</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#route"></use></svg> Inter-VLAN Routing</h1>
                 <span class="lesson-badge">CCNA · Network Access</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -51,15 +51,15 @@
                 <a href="#svi" class="nav-link">L3 Switch (SVI)</a>
                 <a href="#troubleshoot" class="nav-link">Problemlər</a>
                 <a href="#lab" class="nav-link">Lab</a>
-                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#moon"></use></svg></button>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#route"></use></svg> Giriş: VLAN-lar Arası Əlaqə</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#route"></use></svg> Giriş: VLAN-lar Arası Əlaqə</h2>
             <p class="lead">
                 Hər VLAN ayrıca broadcast domeni və ayrıca IP alt şəbəkəsidir. Switch Layer 2-də VLAN-ları
                 bir-birindən təcrid edir, ona görə VLAN 10-dakı kompüter VLAN 20-dəki printerə birbaşa çata bilməz.
@@ -68,7 +68,7 @@
         </section>
 
         <section id="methods" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#git-merge"></use></svg> 1. Üç Üsul</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#git-merge"></use></svg> 1. Üç Üsul</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Üsul</th><th>Necə işləyir</th><th>Üstünlük</th><th>Çatışmazlıq</th></tr></thead>
@@ -82,7 +82,7 @@
         </section>
 
         <section id="roas" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#router"></use></svg> 2. Router-on-a-stick</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#router"></use></svg> 2. Router-on-a-stick</h2>
             <p class="lead">
                 Switch-in router-ə baxan portu <strong>trunk</strong> olur. Router-də fiziki interfeys
                 subinterfeyslərə bölünür; hər subinterfeys bir VLAN-ın defolt gateway-idir.
@@ -133,11 +133,11 @@ Switch(config-if)# switchport access vlan 10</code></pre>
         </section>
 
         <section id="svi" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#layers"></use></svg> 3. Layer 3 Switch və SVI</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#layers"></use></svg> 3. Layer 3 Switch və SVI</h2>
             <div class="card-grid mb-6">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#network"></use></svg> SVI</h3><p class="text-neutral-700"><code>interface vlan 10</code> — VLAN üçün virtual L3 interfeys. Həmin VLAN-dakı hostların gateway-i olur.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#cable"></use></svg> Routed port</h3><p class="text-neutral-700"><code>no switchport</code> — fiziki portu router portuna çevirir (məs. router və ya firewall-a uplink).</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#settings"></use></svg> ip routing</h3><p>L3 switch-də marşrutlaşdırma defolt olaraq sönülüdür — bu əmr olmadan SVI-lər arasında paket ötürülmür.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#network"></use></svg> SVI</h3><p class="text-neutral-700"><code>interface vlan 10</code> — VLAN üçün virtual L3 interfeys. Həmin VLAN-dakı hostların gateway-i olur.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#cable"></use></svg> Routed port</h3><p class="text-neutral-700"><code>no switchport</code> — fiziki portu router portuna çevirir (məs. router və ya firewall-a uplink).</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#settings"></use></svg> ip routing</h3><p>L3 switch-də marşrutlaşdırma defolt olaraq sönülüdür — bu əmr olmadan SVI-lər arasında paket ötürülmür.</p></div>
             </div>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="svi-config">Konfiqurasiya</button>
@@ -177,22 +177,22 @@ show interfaces GigabitEthernet0/0.10</code></pre>
         </section>
 
         <section id="troubleshoot" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#wrench"></use></svg> 4. Tez-tez Rast Gəlinən Problemlər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#wrench"></use></svg> 4. Tez-tez Rast Gəlinən Problemlər</h2>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-x"></use></svg><p class="text-neutral-700"><strong>SVI down/down:</strong> VLAN yaradılmayıb və ya həmin VLAN-da heç bir aktiv port yoxdur.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-x"></use></svg><p class="text-neutral-700"><strong>Trunk qalxmayıb:</strong> switch portu access-də qalıb və ya VLAN "allowed" siyahısında deyil.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-x"></use></svg><p class="text-neutral-700"><strong>Səhv teq:</strong> <code>encapsulation dot1Q</code> nömrəsi VLAN ID ilə uyğun gəlmir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-x"></use></svg><p class="text-neutral-700"><strong>Hostda səhv gateway:</strong> PC-nin defolt gateway-i subinterfeys/SVI IP-si deyil.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-x"></use></svg><p class="text-neutral-700"><strong>ip routing yoxdur:</strong> L3 switch-də VLAN-lar öz gateway-inə ping atır, amma bir-birinə çatmır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-x"></use></svg><p class="text-neutral-700"><strong>Fiziki interfeys sönülüdür:</strong> router-də Gi0/0 "shutdown"-dadırsa bütün subinterfeyslər də down olur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-x"></use></svg><p class="text-neutral-700"><strong>SVI down/down:</strong> VLAN yaradılmayıb və ya həmin VLAN-da heç bir aktiv port yoxdur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-x"></use></svg><p class="text-neutral-700"><strong>Trunk qalxmayıb:</strong> switch portu access-də qalıb və ya VLAN "allowed" siyahısında deyil.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-x"></use></svg><p class="text-neutral-700"><strong>Səhv teq:</strong> <code>encapsulation dot1Q</code> nömrəsi VLAN ID ilə uyğun gəlmir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-x"></use></svg><p class="text-neutral-700"><strong>Hostda səhv gateway:</strong> PC-nin defolt gateway-i subinterfeys/SVI IP-si deyil.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-x"></use></svg><p class="text-neutral-700"><strong>ip routing yoxdur:</strong> L3 switch-də VLAN-lar öz gateway-inə ping atır, amma bir-birinə çatmır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-x"></use></svg><p class="text-neutral-700"><strong>Fiziki interfeys sönülüdür:</strong> router-də Gi0/0 "shutdown"-dadırsa bütün subinterfeyslər də down olur.</p></div>
             </div>
         </section>
         <section id="lab" class="section-card lab-section" data-lab="inter-vlan-routing">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#flask-conical"></use></svg> Lab: Router-on-a-Stick və Layer 3 Switch</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#flask-conical"></use></svg> Lab: Router-on-a-Stick və Layer 3 Switch</h2>
             <div class="card-grid mb-6">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">VLAN-lar arası marşrutlaşdırmanı əvvəlcə router subinterfeysləri, sonra L3 switch SVI-ləri ilə qurmaq.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer (2911 router, 3650 multilayer switch)</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#timer"></use></svg> Müddət</h3><p>50 dəq · Orta</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">VLAN-lar arası marşrutlaşdırmanı əvvəlcə router subinterfeysləri, sonra L3 switch SVI-ləri ilə qurmaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer (2911 router, 3650 multilayer switch)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#timer"></use></svg> Müddət</h3><p>50 dəq · Orta</p></div>
             </div>
             <h3 class="text-xl font-bold mb-3">Topologiya</h3>
             <div class="code-block lab-topology mb-6">
@@ -235,12 +235,12 @@ SW-L3# show interfaces vlan 10</code></pre>
             </div>
             <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
             <div class="feature-grid mb-6">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-check"></use></svg><p class="text-neutral-700">Hər iki üsulda VLAN-lar arası ping uğurludur.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-check"></use></svg><p class="text-neutral-700">Subinterfeys üçün <code>encapsulation dot1Q</code> VLAN nömrəsi switch-dəki VLAN-la eynidir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-check"></use></svg><p class="text-neutral-700">L3 switch-də <code>ip routing</code> olmadan SVI-lər arasında marşrutlaşdırma olmur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg><p class="text-neutral-700">Hər iki üsulda VLAN-lar arası ping uğurludur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg><p class="text-neutral-700">Subinterfeys üçün <code>encapsulation dot1Q</code> VLAN nömrəsi switch-dəki VLAN-la eynidir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg><p class="text-neutral-700">L3 switch-də <code>ip routing</code> olmadan SVI-lər arasında marşrutlaşdırma olmur.</p></div>
             </div>
             <details class="lab-solution mb-6">
-                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
                 <div class="code-block mt-3">
                     <button class="copy-btn">Kopyala</button>
                     <pre><code>! Hissə A
@@ -266,7 +266,7 @@ SW-L3(config-if)# no shutdown</code></pre>
             </details>
             <div class="lab-footer">
                 <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
-                <button type="button" class="lab-done-btn" data-lab="inter-vlan-routing" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-dot"></use></svg> Labı bitirdim</button>
+                <button type="button" class="lab-done-btn" data-lab="inter-vlan-routing" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-dot"></use></svg> Labı bitirdim</button>
             </div>
         </section>
     </main>
@@ -275,13 +275,14 @@ SW-L3(config-if)# no shutdown</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
                     <a href="../index.html#ccna">CCNA</a>
                     <a href="../tools.html">Tools</a>
+                    <a href="../videos.html">Video Dərslər</a>
                     <a href="../links.html">Faydalı Linklər</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>

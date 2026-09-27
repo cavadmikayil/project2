@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#cpu"></use></svg> Linux Prosesləri və Siqnallar</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#cpu"></use></svg> Linux Prosesləri və Siqnallar</h1>
                 <span class="lesson-badge">Linux · Proseslər</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -51,28 +51,28 @@
                 <a href="#jobs" class="nav-link">Job control</a>
                 <a href="#priority" class="nav-link">Prioritet</a>
                 <a href="#states" class="nav-link">Vəziyyətlər</a>
-                <a href="../index.html#linux" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#moon"></use></svg></button>
+                <a href="../index.html#linux" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#cpu"></use></svg> Giriş: Proqram və Proses</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#cpu"></use></svg> Giriş: Proqram və Proses</h2>
             <p class="lead">
                 <strong>Proqram</strong> diskdəki fayldır, <strong>proses</strong> isə onun işləyən nüsxəsi: öz PID-i, yaddaşı, açıq faylları və sahibi olan.
                 Hər proses valideyn prosesdən (<code>fork</code>) yaranır; ən birinci proses — PID 1 — müasir sistemlərdə <code>systemd</code>-dir.
             </p>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#hash"></use></svg> PID / PPID</h3><p class="text-neutral-700">Prosesin və valideyninin nömrəsi.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#user"></use></svg> UID</h3><p class="text-neutral-700">Proses hansı istifadəçinin hüququ ilə işləyir.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#layers"></use></svg> Thread</h3><p>Eyni yaddaşı paylaşan icra axınları; <code>ps -eLf</code> ilə görünür.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#hash"></use></svg> PID / PPID</h3><p class="text-neutral-700">Prosesin və valideyninin nömrəsi.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#user"></use></svg> UID</h3><p class="text-neutral-700">Proses hansı istifadəçinin hüququ ilə işləyir.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#layers"></use></svg> Thread</h3><p>Eyni yaddaşı paylaşan icra axınları; <code>ps -eLf</code> ilə görünür.</p></div>
             </div>
         </section>
 
         <section id="view" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#eye"></use></svg> 1. Proseslərə Baxış</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#eye"></use></svg> 1. Proseslərə Baxış</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>ps aux                              # bütün proseslər (BSD üslubu)
@@ -89,7 +89,7 @@ ss -tlnp                            # port dinləyən proseslər</code></pre>
         </section>
 
         <section id="signals" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#radio"></use></svg> 2. Siqnallar</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#radio"></use></svg> 2. Siqnallar</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>Siqnal</th><th>№</th><th>Mənası</th><th>Tutula bilərmi?</th></tr></thead>
@@ -115,7 +115,7 @@ killall -s TERM php-fpm</code></pre>
         </section>
 
         <section id="jobs" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#layers-3"></use></svg> 3. Job Control və Arxa Plan</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#layers-3"></use></svg> 3. Job Control və Arxa Plan</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>./backup.sh &amp;          # arxa planda başlat
@@ -131,13 +131,13 @@ tmux new -s maint      # SSH qopsa belə sessiya qalır; Ctrl+B D — ayrıl
 tmux attach -t maint</code></pre>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#lightbulb"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#lightbulb"></use></svg>
                 <p class="text-neutral-800">Uzun çəkən hər əməliyyatı (yeniləmə, böyük kopyalama, migrasiya) <strong>tmux</strong> və ya <strong>screen</strong> içində başladın — VPN qopması işi yarımçıq qoymasın.</p>
             </div>
         </section>
 
         <section id="priority" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#gauge"></use></svg> 4. Prioritet: nice, renice, ionice</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#gauge"></use></svg> 4. Prioritet: nice, renice, ionice</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code># nice: -20 (ən yüksək prioritet) ... 19 (ən aşağı); defolt 0
@@ -152,7 +152,7 @@ systemctl set-property backup.service CPUQuota=30% IOWeight=50</code></pre>
         </section>
 
         <section id="states" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#activity"></use></svg> 5. Proses Vəziyyətləri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#activity"></use></svg> 5. Proses Vəziyyətləri</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>STAT</th><th>Mənası</th><th>Qeyd</th></tr></thead>
@@ -166,7 +166,7 @@ systemctl set-property backup.service CPUQuota=30% IOWeight=50</code></pre>
                 </table>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#skull"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#skull"></use></svg>
                 <p class="text-neutral-800"><strong>OOM killer:</strong> RAM bitəndə kernel ən "ağır" prosesi öldürür. İz: <code>dmesg -T | grep -i "killed process"</code> və ya <code>journalctl -k | grep -i oom</code>.</p>
             </div>
         </section>
@@ -176,13 +176,14 @@ systemctl set-property backup.service CPUQuota=30% IOWeight=50</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
                     <a href="../index.html#ccna">CCNA</a>
                     <a href="../tools.html">Tools</a>
+                    <a href="../videos.html">Video Dərslər</a>
                     <a href="../links.html">Faydalı Linklər</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>

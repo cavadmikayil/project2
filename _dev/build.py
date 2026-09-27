@@ -58,6 +58,7 @@ NAV = [
     ('home', 'Ana Səhifə', 'index.html', 'house'),
     ('ccna', 'CCNA', 'index.html#ccna', 'graduation-cap'),
     ('tools', 'Tools', 'tools.html', 'toolbox'),
+    ('videos', 'Video Dərslər', 'videos.html', 'circle-play'),
     ('links', 'Faydalı Linklər', 'links.html', 'library'),
     ('about', 'Haqqında', 'about.html', 'user-round'),
 ]
