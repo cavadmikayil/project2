@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/theme.css">
+    <link rel="stylesheet" href="../assets/tools.css">
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #171717; }
         .section-card { background-color: white; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); padding: 1.5rem; margin-bottom: 2rem; }
@@ -41,17 +42,28 @@
 </head>
 <body class="antialiased">
 
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#notebook-pen"></use></svg> Şəbəkə Quiz</h1>
-            <div class="flex items-center gap-4">
-                <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#arrow-left"></use></svg> Portal</a>
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#moon"></use></svg></button>
-            </div>
-        </nav>
+    <header class="bg-white shadow-md sticky top-0 z-50" data-site-header>
+        <div class="container mx-auto px-6 py-3 flex flex-wrap gap-x-3 gap-y-2 justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-2 text-lg font-extrabold text-neutral-900">
+                <span class="site-logo"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg></span> Cavad Mikayil Təlim Portalı
+            </a>
+            <nav class="site-nav order-last md:order-none md:ml-auto" aria-label="Sayt menyusu">
+                    <a href="../index.html" data-nav="home"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#house"></use></svg> Ana Səhifə</a>
+                    <a href="../index.html#ccna" data-nav="ccna"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> CCNA</a>
+                    <a href="../tools.html" data-nav="tools" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#toolbox"></use></svg> Tools</a>
+                    <a href="../links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#library"></use></svg> Faydalı Linklər</a>
+                    <a href="../about.html" data-nav="about"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#user-round"></use></svg> Haqqında</a>
+                </nav>
+            <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#moon"></use></svg></button>
+        </div>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-3xl">
+        <section class="tool-hero">
+            <a href="../tools.html" class="tool-back"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-left"></use></svg> Bütün alətlər</a>
+            <h1><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#notebook-pen"></use></svg> Quiz</h1>
+            <p>Bütün dərslər üzrə izahlı test sualları. Mövzu seçin, biliyinizi yoxlayın, ən yaxşı nəticəniz profilinizdə saxlanılsın.</p>
+        </section>
 
         <section id="start-screen" class="section-card">
             <h2 class="text-2xl font-bold mb-2 text-neutral-800">Biliklərini yoxla</h2>
@@ -108,12 +120,13 @@
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
                     <a href="../index.html#ccna">CCNA</a>
+                    <a href="../tools.html">Tools</a>
                     <a href="../links.html">Faydalı Linklər</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
@@ -146,7 +159,7 @@
         const GROUP_TOPICS = Object.fromEntries(CATALOG.categories.map(c => [`all-${c.id}`, `Bütün ${c.label}`]));
 
         const BEST_KEY = Student.key('edu-portal-quiz-best');
-        const icon = name => `<svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#${name}"></use></svg>`;
+        const icon = name => `<svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#${name}"></use></svg>`;
         const ICON_CHECK = icon('circle-check');
         const ICON_X = icon('circle-x');
         const $ = id => document.getElementById(id);
@@ -186,7 +199,7 @@
         function updateBestLabel() {
             const topic = $('topic-select').value;
             const best = loadBest()[topic];
-            $('best-score').innerHTML = best === undefined ? '' : `<svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#trophy"></use></svg> Bu mövzu üzrə ən yaxşı nəticəniz: <strong>${best}%</strong>`;
+            $('best-score').innerHTML = best === undefined ? '' : `<svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#trophy"></use></svg> Bu mövzu üzrə ən yaxşı nəticəniz: <strong>${best}%</strong>`;
         }
 
         function poolFor(topic) {

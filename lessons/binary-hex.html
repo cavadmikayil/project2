@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#binary"></use></svg> Binar və Hexadecimal</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#binary"></use></svg> Binar və Hexadecimal</h1>
                 <span class="lesson-badge">CCNA · Network Fundamentals</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -25,15 +25,15 @@
                 <a href="#hex" class="nav-link">Hexadecimal</a>
                 <a href="#masks" class="nav-link">Maska dəyərləri</a>
                 <a href="#converter" class="nav-link">Çevirici</a>
-                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#moon"></use></svg></button>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#binary"></use></svg> Giriş: Niyə Başqa Say Sistemləri?</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#binary"></use></svg> Giriş: Niyə Başqa Say Sistemləri?</h2>
             <p class="lead">
                 Kompüter üçün hər şey 0 və 1-dir. IPv4 ünvanı və maska <strong>binar</strong> (2-lik), MAC və IPv6 ünvanı
                 isə <strong>hexadecimal</strong> (16-lıq) sistemlə daha rahat oxunur. Subnetting-i sürətli etmək üçün
@@ -42,7 +42,7 @@
         </section>
 
         <section id="binary" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#hash"></use></svg> 1. Binar Sistem</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#hash"></use></svg> 1. Binar Sistem</h2>
             <p class="lead">Bir oktet 8 bitdir; hər bitin öz dəyəri var. Dəyəri "1" olan bitlərin cəmi onluq ədədi verir.</p>
             <div class="table-wrap mb-6">
                 <table class="data-table">
@@ -66,7 +66,7 @@
         </section>
 
         <section id="hex" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#hash"></use></svg> 2. Hexadecimal Sistem</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#hash"></use></svg> 2. Hexadecimal Sistem</h2>
             <p class="lead">16 simvol: 0–9 və A–F (A=10 … F=15). Bir hex rəqəmi düz <strong>4 bitə</strong> (nibble) bərabərdir — çevirmə buna görə çox asandır.</p>
             <div class="table-wrap mb-6">
                 <table class="data-table">
@@ -92,7 +92,7 @@ IPv6 hextet:    2001 = 0010 0000 0000 0001</code></pre>
         </section>
 
         <section id="masks" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#list-checks"></use></svg> 3. Əzbər Bilinməli Maska Dəyərləri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#list-checks"></use></svg> 3. Əzbər Bilinməli Maska Dəyərləri</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Binar</th><th>Onluq</th><th>Oktetdə şəbəkə biti</th><th>Blok ölçüsü</th></tr></thead>
@@ -111,12 +111,12 @@ IPv6 hextet:    2001 = 0010 0000 0000 0001</code></pre>
         </section>
 
         <section id="converter" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#calculator"></use></svg> 4. İnteraktiv Çevirici</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#calculator"></use></svg> 4. İnteraktiv Çevirici</h2>
             <p class="lead">İstənilən sahəyə yazın — digər ikisi avtomatik hesablanacaq (0 – 65535).</p>
             <div class="card-grid">
-                <label class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#hash"></use></svg> Onluq</h3><input id="conv-dec" class="conv-field" inputmode="numeric" value="200" autocomplete="off"></label>
-                <label class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#binary"></use></svg> Binar</h3><input id="conv-bin" class="conv-field" inputmode="numeric" autocomplete="off"></label>
-                <label class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#hash"></use></svg> Hexadecimal</h3><input id="conv-hex" class="conv-field" autocomplete="off"></label>
+                <label class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#hash"></use></svg> Onluq</h3><input id="conv-dec" class="conv-field" inputmode="numeric" value="200" autocomplete="off"></label>
+                <label class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#binary"></use></svg> Binar</h3><input id="conv-bin" class="conv-field" inputmode="numeric" autocomplete="off"></label>
+                <label class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#hash"></use></svg> Hexadecimal</h3><input id="conv-hex" class="conv-field" autocomplete="off"></label>
             </div>
             <p id="conv-error" class="text-neutral-900 font-semibold mt-4 hidden"></p>
             <style>
@@ -158,12 +158,13 @@ IPv6 hextet:    2001 = 0010 0000 0000 0001</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
                     <a href="../index.html#ccna">CCNA</a>
+                    <a href="../tools.html">Tools</a>
                     <a href="../links.html">Faydalı Linklər</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>

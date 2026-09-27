@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#arrow-left-right"></use></svg> TCP və UDP</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-left-right"></use></svg> TCP və UDP</h1>
                 <span class="lesson-badge">CCNA · Network Fundamentals</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -26,15 +26,15 @@
                 <a href="#udp" class="nav-link">UDP</a>
                 <a href="#compare" class="nav-link">Müqayisə</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
-                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#moon"></use></svg></button>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#arrow-left-right"></use></svg> Giriş: Transport Qatı</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-left-right"></use></svg> Giriş: Transport Qatı</h2>
             <p class="lead">
                 IP paketi bir hostdan digərinə çatdırır, amma həmin hostda <strong>hansı proqrama</strong> çatacağını
                 bilmir. Bunu Layer 4 — Transport qatı — həll edir. İki əsas protokol var: etibarlı, bağlantı yönümlü
@@ -42,18 +42,18 @@
                 <strong>port nömrələri</strong> ilə ayırd edir.
             </p>
             <div class="card-grid">
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#layers"></use></svg> Seqmentləşdirmə</h3><p class="text-neutral-700">Böyük məlumat kiçik hissələrə bölünür (TCP-də segment, UDP-də datagram).</p></div>
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#hash"></use></svg> Multiplexing</h3><p class="text-neutral-700">Port nömrələri sayəsində eyni hostda çoxlu proqram eyni anda şəbəkədən istifadə edir.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#shield-check"></use></svg> Etibarlılıq (yalnız TCP)</h3><p>Təsdiq (ACK), yenidən göndərmə, sıralama və axın nəzarəti.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#layers"></use></svg> Seqmentləşdirmə</h3><p class="text-neutral-700">Böyük məlumat kiçik hissələrə bölünür (TCP-də segment, UDP-də datagram).</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#hash"></use></svg> Multiplexing</h3><p class="text-neutral-700">Port nömrələri sayəsində eyni hostda çoxlu proqram eyni anda şəbəkədən istifadə edir.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#shield-check"></use></svg> Etibarlılıq (yalnız TCP)</h3><p>Təsdiq (ACK), yenidən göndərmə, sıralama və axın nəzarəti.</p></div>
             </div>
         </section>
 
         <section id="ports" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#hash"></use></svg> 1. Port Nömrələri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#hash"></use></svg> 1. Port Nömrələri</h2>
             <div class="card-grid mb-6">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#star"></use></svg> Well-known</h3><p class="text-neutral-700">0 – 1023: standart serverlər (HTTP 80, SSH 22).</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#tag"></use></svg> Registered</h3><p class="text-neutral-700">1024 – 49151: tətbiqlər üçün qeydiyyatdan keçmiş portlar.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#shuffle"></use></svg> Ephemeral (dinamik)</h3><p class="text-neutral-700">49152 – 65535: müştəri tərəfində təsadüfi seçilən mənbə portları.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#star"></use></svg> Well-known</h3><p class="text-neutral-700">0 – 1023: standart serverlər (HTTP 80, SSH 22).</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#tag"></use></svg> Registered</h3><p class="text-neutral-700">1024 – 49151: tətbiqlər üçün qeydiyyatdan keçmiş portlar.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#shuffle"></use></svg> Ephemeral (dinamik)</h3><p class="text-neutral-700">49152 – 65535: müştəri tərəfində təsadüfi seçilən mənbə portları.</p></div>
             </div>
             <div class="table-wrap">
                 <table class="data-table">
@@ -76,7 +76,7 @@
         </section>
 
         <section id="tcp" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#link"></use></svg> 2. TCP: Bağlantı Yönümlü Protokol</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#link"></use></svg> 2. TCP: Bağlantı Yönümlü Protokol</h2>
             <h3 class="text-xl font-bold mb-3">Bağlantının qurulması — 3-way handshake</h3>
             <div class="code-block">
                 <pre><code>Müştəri                                   Server
@@ -86,30 +86,30 @@
    |        bağlantı qurulub, məlumat gedir    |</code></pre>
             </div>
             <div class="feature-grid mb-6">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#list-ordered"></use></svg><p class="text-neutral-700"><strong>Sıra nömrələri (sequence):</strong> seqmentlər qarışıq gəlsə də düzgün ardıcıllıqla yığılır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#circle-check"></use></svg><p class="text-neutral-700"><strong>Təsdiq (ACK):</strong> qəbul edən tərəf növbəti gözlədiyi baytın nömrəsini göndərir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#refresh-cw"></use></svg><p class="text-neutral-700"><strong>Yenidən göndərmə:</strong> ACK gəlməsə, seqment təkrar göndərilir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#gauge"></use></svg><p class="text-neutral-700"><strong>Windowing (axın nəzarəti):</strong> qəbul edən tərəf bir anda nə qədər məlumat qəbul edə biləcəyini bildirir; itki olmadıqca pəncərə böyüyür.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#list-ordered"></use></svg><p class="text-neutral-700"><strong>Sıra nömrələri (sequence):</strong> seqmentlər qarışıq gəlsə də düzgün ardıcıllıqla yığılır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#circle-check"></use></svg><p class="text-neutral-700"><strong>Təsdiq (ACK):</strong> qəbul edən tərəf növbəti gözlədiyi baytın nömrəsini göndərir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#refresh-cw"></use></svg><p class="text-neutral-700"><strong>Yenidən göndərmə:</strong> ACK gəlməsə, seqment təkrar göndərilir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#gauge"></use></svg><p class="text-neutral-700"><strong>Windowing (axın nəzarəti):</strong> qəbul edən tərəf bir anda nə qədər məlumat qəbul edə biləcəyini bildirir; itki olmadıqca pəncərə böyüyür.</p></div>
             </div>
             <h3 class="text-xl font-bold mb-3">Bağlantının bağlanması — 4-way</h3>
             <p class="text-neutral-700">Hər tərəf öz istiqamətini ayrıca bağlayır: <code>FIN → ACK</code>, sonra <code>FIN → ACK</code>. Qəfil kəsilmə üçün <code>RST</code> bayrağı istifadə olunur.</p>
         </section>
 
         <section id="udp" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#zap"></use></svg> 3. UDP: Sadə və Sürətli</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#zap"></use></svg> 3. UDP: Sadə və Sürətli</h2>
             <p class="lead">
                 UDP bağlantı qurmur, təsdiq gözləmir və itən məlumatı yenidən göndərmir. Başlığı cəmi
                 <strong>8 bayt</strong>dır (TCP-də minimum 20 bayt). Gecikmənin itkidən daha zərərli olduğu yerlərdə istifadə olunur.
             </p>
             <div class="card-grid">
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#radio"></use></svg> Səs və video</h3><p class="text-neutral-700">VoIP (RTP), video zənglər — gecikmiş paketi yenidən göndərməyin mənası yoxdur.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#search"></use></svg> Qısa sorğular</h3><p class="text-neutral-700">DNS, DHCP, NTP, SNMP — bir sorğu, bir cavab.</p></div>
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#settings"></use></svg> Etibarlılıq tətbiqdə</h3><p class="text-neutral-700">Lazım olduqda etibarlılığı proqramın özü təmin edir (məs. TFTP, QUIC).</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#radio"></use></svg> Səs və video</h3><p class="text-neutral-700">VoIP (RTP), video zənglər — gecikmiş paketi yenidən göndərməyin mənası yoxdur.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#search"></use></svg> Qısa sorğular</h3><p class="text-neutral-700">DNS, DHCP, NTP, SNMP — bir sorğu, bir cavab.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#settings"></use></svg> Etibarlılıq tətbiqdə</h3><p class="text-neutral-700">Lazım olduqda etibarlılığı proqramın özü təmin edir (məs. TFTP, QUIC).</p></div>
             </div>
         </section>
 
         <section id="compare" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#scale"></use></svg> 4. Müqayisə</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#scale"></use></svg> 4. Müqayisə</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Xüsusiyyət</th><th>TCP</th><th>UDP</th></tr></thead>
@@ -126,7 +126,7 @@
         </section>
 
         <section id="commands" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#terminal"></use></svg> 5. Praktiki Əmrlər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#terminal"></use></svg> 5. Praktiki Əmrlər</h2>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="tu-cisco">Cisco</button>
                 <button class="tab-btn inactive-tab" data-pane="tu-pc">Kompüter</button>
@@ -156,12 +156,13 @@ Test-NetConnection 192.168.1.10 -Port 443</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
                     <a href="../index.html#ccna">CCNA</a>
+                    <a href="../tools.html">Tools</a>
                     <a href="../links.html">Faydalı Linklər</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>

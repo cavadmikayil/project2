@@ -1,0 +1,53 @@
+/* Interaktiv alətlər üçün ümumi komponentlər (tools/*.html) */
+.tool-hero { margin-bottom: 1.5rem; }
+.tool-back { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.875rem; font-weight: 600; color: #b45309; margin-bottom: 0.5rem; }
+.tool-back:hover { color: #0a0a0a; }
+.tool-hero h1 { display: flex; align-items: center; gap: 0.6rem; font-size: 1.9rem; font-weight: 800; color: #0a0a0a; line-height: 1.2; }
+.tool-hero h1 .icon { color: #d97706; }
+.tool-hero p { color: #525252; margin-top: 0.4rem; max-width: 48rem; }
+
+.field { width: 100%; padding: 0.7rem 0.9rem; border: 1px solid #d4d4d4; border-radius: 0.5rem; font-size: 1rem; background: #ffffff; color: #171717; }
+.field:focus { outline: none; border-color: #f59e0b; box-shadow: 0 0 0 3px rgb(245 158 11 / 0.25); }
+.field.mono, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.field-label { display: block; font-size: 0.85rem; font-weight: 600; color: #404040; margin-bottom: 0.3rem; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; padding: 0.65rem 1.1rem; border-radius: 0.5rem; font-weight: 700; transition: background-color .15s, border-color .15s, color .15s; border: 1px solid transparent; cursor: pointer; }
+.btn-amber { background: #f59e0b; color: #0a0a0a; }
+.btn-amber:hover { background: #fbbf24; }
+.btn-dark { background: #0a0a0a; color: #fbbf24; }
+.btn-dark:hover { background: #262626; }
+.btn-ghost { background: #ffffff; color: #262626; border-color: #d4d4d4; }
+.btn-ghost:hover { border-color: #f59e0b; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.tool-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+.result-tile { background: #fafafa; border: 1px solid #e5e5e5; border-radius: 0.6rem; padding: 0.7rem 0.9rem; min-width: 0; }
+.result-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: #737373; }
+.result-value { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 1rem; font-weight: 600; color: #0a0a0a; overflow-wrap: anywhere; }
+.msg-error { color: #c2410c; font-weight: 600; }
+.msg-ok { color: #92400e; font-weight: 600; }
+.pill { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; background: #fef3c7; color: #78350f; }
+.pill.dark { background: #0a0a0a; color: #fbbf24; }
+.tool-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.tool-table th { text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: #525252; background: #f5f5f5; padding: 0.6rem 0.7rem; border-bottom: 1px solid #e5e5e5; }
+.tool-table td { padding: 0.55rem 0.7rem; border-bottom: 1px solid #f5f5f5; vertical-align: top; }
+.tool-table td.mono { white-space: nowrap; }
+.tool-table-wrap { overflow-x: auto; border: 1px solid #e5e5e5; border-radius: 0.6rem; }
+
+body.dark-mode .tool-hero h1 { color: #ffffff; }
+body.dark-mode .tool-hero h1 .icon, body.dark-mode .tool-back { color: #fbbf24; }
+body.dark-mode .tool-hero p { color: #d4d4d4; }
+body.dark-mode .field { background: #0a0a0a; color: #e5e5e5; border-color: #404040; }
+body.dark-mode .field-label { color: #d4d4d4; }
+body.dark-mode .btn-ghost { background: #171717; color: #e5e5e5; border-color: #404040; }
+body.dark-mode .result-tile { background: #0a0a0a; border-color: #262626; }
+body.dark-mode .result-value { color: #ffffff; }
+body.dark-mode .result-label { color: #a3a3a3; }
+body.dark-mode .msg-ok { color: #fbbf24; }
+body.dark-mode .pill { background: #2a2113; color: #fcd34d; }
+body.dark-mode .tool-table th { background: #171717; color: #a3a3a3; border-color: #262626; }
+body.dark-mode .tool-table td { border-color: #262626; }
+body.dark-mode .tool-table-wrap { border-color: #262626; }
+
+@media (max-width: 767px) {
+    .tool-hero h1 { font-size: 1.45rem; }
+    .tool-table { font-size: 0.82rem; }
+}
