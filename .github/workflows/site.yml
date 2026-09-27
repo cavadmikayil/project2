@@ -1,0 +1,77 @@
+# Hər push və PR-da saytı yoxlayır; main-də yoxlama keçərsə saytı GitHub Pages-ə dərc edir.
+# Dərc hissəsinin işləməsi üçün bir dəfə: Settings → Pages → Build and deployment → Source: "GitHub Actions".
+# O seçilənə qədər sayt köhnə qaydada (branch-dən) dərc olunur və bu workflow yalnız yoxlama edir.
+name: Yoxla və dərc et
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Yoxlama (ikonlar, kataloq, quiz, linklər)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Dərslər, ikonlar, kataloq, suallar və daxili linklər
+        run: python3 _dev/build.py check
+
+      - name: Qurulmuş səhifələr mənbələrlə eynidirmi
+        run: |
+          python3 _dev/build.py
+          if ! git diff --quiet; then
+            echo "::error::lessons/ və ya digər səhifələr _dev mənbələri ilə uyğun deyil. Lokal olaraq 'python3 _dev/build.py' işlədib nəticəni commit edin."
+            git diff --stat
+            exit 1
+          fi
+
+      - name: Saytı hazırla (_dev və gizli fayllar olmadan)
+        run: |
+          mkdir _site
+          tar --exclude=./_site --exclude=./_dev --exclude=./.git --exclude=./.github --exclude=./README.md -cf - . | tar -xf - -C _site
+          touch _site/.nojekyll
+          ls _site
+
+      - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        with:
+          path: _site
+
+  deploy:
+    name: Dərc et (GitHub Pages)
+    needs: check
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Pages mənbəyi "GitHub Actions"dırmı?
+        id: mode
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          type=$(curl -fsSL -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pages" | python3 -c "import sys,json; print(json.load(sys.stdin).get('build_type',''))" || true)
+          echo "build_type=$type"
+          if [ "$type" = "workflow" ]; then echo "enabled=true" >> "$GITHUB_OUTPUT"; else
+            echo "::notice::Pages mənbəyi hələ 'Deploy from a branch'dır — sayt köhnə qaydada dərc olunur. Yoxlamanın dərci bloklaması üçün Settings → Pages → Source: GitHub Actions seçin."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Dərc et
+        id: deployment
+        if: steps.mode.outputs.enabled == 'true'
+        uses: actions/deploy-pages@v4

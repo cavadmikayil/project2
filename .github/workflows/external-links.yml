@@ -1,0 +1,19 @@
+# Həftədə bir dəfə xarici linkləri (Faydalı Linklər, mənbələr) yoxlayır.
+# Xarici saytlar müvəqqəti əlçatmaz ola bilər, ona görə bu yoxlama dərci bloklamır — yalnız xəbər verir.
+name: Xarici linklər
+
+on:
+  schedule:
+    - cron: '17 6 * * 1'   # hər bazar ertəsi 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Xarici linkləri yoxla
+        run: python3 _dev/build.py links --external

@@ -4,7 +4,8 @@
 İstifadə (repo kökündən):
     python3 _dev/build.py                 # dərsləri qur, footer-ləri yenilə, yoxla
     python3 _dev/build.py icons add NAME  # sprite-a Lucide ikonu əlavə et (əvvəlcə: cd _dev && npm install)
-    python3 _dev/build.py check           # yalnız yoxlama (heç nə yazmır)
+    python3 _dev/build.py check           # yalnız yoxlama (heç nə yazmır): ikonlar, kataloq, suallar, daxili linklər
+    python3 _dev/build.py links --external  # xarici linkləri yoxla (internet lazımdır)
 
 Nə edir:
   1. _dev/lessons/*.html mənbələrini lessons/*.html səhifələrinə çevirir
@@ -291,6 +292,75 @@ def version_sprite_refs():
     print(f'ikon sprite versiyası: {h}')
 
 
+
+# ---------------------------------------------------------------------------
+# Link yoxlaması
+# ---------------------------------------------------------------------------
+# Dashboard-da JavaScript ilə açılan tab keçidləri (#ccna və s.) id deyil — yoxlanılmır
+JS_ROUTE_PAGES = {'index.html'}
+SKIP_SCHEMES = ('http://', 'https://', 'mailto:', 'tel:', 'javascript:', 'data:', '//')
+
+
+def _ids(path, cache={}):
+    if path not in cache:
+        cache[path] = set(re.findall(r'\sid="([^"]+)"', path.read_text()))
+    return cache[path]
+
+
+def check_internal_links():
+    """Bütün səhifələrdəki href/src keçidlərinin mövcud fayla və id-yə aparmasını yoxlayır."""
+    problems = []
+    for page in all_pages():
+        text = page.read_text()
+        for attr, url in re.findall(r'\s(href|src)="([^"]*)"', text):
+            if not url or url.startswith(SKIP_SCHEMES) or '${' in url or url.startswith('{'):
+                continue
+            path_part, _, anchor = url.partition('#')
+            path_part = path_part.split('?', 1)[0]
+            target = (page.parent / path_part).resolve() if path_part else page
+            where = page.relative_to(ROOT)
+            if not target.exists():
+                problems.append(f'qırıq link: {where} → {url}')
+                continue
+            if anchor and target.suffix == '.html' and target.name not in JS_ROUTE_PAGES:
+                if anchor not in _ids(target):
+                    problems.append(f'mövcud olmayan bölmə (#{anchor}): {where} → {url}')
+            if anchor and target.suffix == '.svg' and not re.search(rf'<symbol id="{re.escape(anchor)}"', target.read_text()):
+                problems.append(f'ikon yoxdur: {where} → {url}')
+    return problems
+
+
+def check_external_links():
+    """Xarici linkləri (http/https) yoxlayır. Şəbəkə tələb edir; yalnız xəbərdarlıq üçündür."""
+    import concurrent.futures
+    import urllib.request
+    urls = {}
+    for f in all_pages() + [ROOT / 'assets/catalog.js']:
+        for url in re.findall(r'https?://[^\s"\'<>`)]+', f.read_text()):
+            if any(h in url for h in ('fonts.googleapis', 'fonts.gstatic', 'cdn.tailwindcss', 'cdn.jsdelivr',
+                                      'w3.org', 'localhost', '127.0.0.1', '10.0.', 'example.az', 'example.com')):
+                continue
+            urls.setdefault(url.rstrip('.,;'), f.relative_to(ROOT))
+
+    def probe(url):
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (link-check)'})
+        try:
+            with urllib.request.urlopen(req, timeout=20) as r:
+                return url, r.status
+        except Exception as e:  # noqa: BLE001
+            return url, getattr(e, 'code', None) or type(e).__name__
+
+    bad = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=12) as ex:
+        for url, status in ex.map(probe, sorted(urls)):
+            # 401/403/429 — saytlar botları tez-tez bloklayır, qırıq sayılmır
+            if not (isinstance(status, int) and (status < 400 or status in (401, 403, 405, 429, 999))):
+                bad.append(f'{status}  {url}  ({urls[url]})')
+    print(f'{len(urls)} xarici link yoxlandı, {len(bad)} problem')
+    for b in bad:
+        print('  -', b)
+    return not bad
+
 # ---------------------------------------------------------------------------
 # Yoxlamalar
 # ---------------------------------------------------------------------------
@@ -348,6 +418,7 @@ def check():
             if f'lessons/{f.name}' not in listed:
                 problems.append(f'dərs faylı kataloqda yoxdur: lessons/{f.name}')
         print(f'kataloq: {len(catalog["categories"])} kateqoriya, {len(catalog["lessons"])} dərs, {len(questions)} sual')
+    problems += check_internal_links()
     for name, where in sorted(used.items()):
         if name not in symbols:
             problems.append(f'ikon sprite-da yoxdur: {name} ({where}) → python3 _dev/build.py icons add {name}')
@@ -367,6 +438,8 @@ def main(argv):
         return 0
     if argv == ['check']:
         return 0 if check() else 1
+    if argv == ['links', '--external']:
+        return 0 if check_external_links() else 1
     if argv:
         print(__doc__)
         return 2

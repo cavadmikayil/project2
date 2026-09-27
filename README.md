@@ -126,7 +126,7 @@ Dərslərdə `"cat": "devops"` yazın. Dərs səhifəsindəki "Portal" düyməsi
 ## 9. Publish (dərc etmək)
 
 ```bash
-python3 _dev/build.py          # "yoxlama: problem yoxdur" olmalıdır
+python3 _dev/build.py          # "yoxlama: problem yoxdur" olmalıdır (GitHub Actions da eyni yoxlamanı edir)
 git add -A
 git commit -m "Yeni dərs: Linux şəbəkə konfiqurasiyası"
 git push origin main
@@ -136,7 +136,19 @@ GitHub **Actions** tabında "pages build and deployment" yaşıl olduqdan 1–2 
 
 GitHub Pages parametri: **Settings → Pages → Source: Deploy from a branch → `main` / `(root)`**.
 
-## 10. Lisenziyalar
+## 10. Avtomatik yoxlama (GitHub Actions)
+
+`.github/workflows/site.yml` hər push və pull request-də işləyir:
+
+1. `python3 _dev/build.py check` — ikonlar, kataloq, quiz sualları və **bütün daxili linklər** (fayl və `#bölmə` keçidləri).
+2. Qurulmuş səhifələrin `_dev` mənbələri ilə eyni olduğunu yoxlayır (build-i unutmusunuzsa, xəbər verir).
+3. Yoxlama keçərsə, `main`-dəki saytı GitHub Pages-ə dərc edir.
+
+**Səhvli dəyişikliyin sayta çıxmaması üçün bir dəfə:** Settings → Pages → Build and deployment → Source: **GitHub Actions** seçin. Bundan sonra sayt yalnız yoxlamadan keçən commit-lərdən dərc olunur. Yoxlama qırmızıdırsa, Actions tabında səbəbi yazılır.
+
+`.github/workflows/external-links.yml` həftədə bir dəfə xarici linkləri yoxlayır (dərci bloklamır). Lokal: `python3 _dev/build.py links --external`.
+
+## 11. Lisenziyalar
 
 - İkonlar: [Lucide](https://lucide.dev) — ISC; brend ikonları: [Font Awesome Free](https://fontawesome.com/license/free) — CC BY 4.0.
 - Faydalı Linklər siyahısı [LuNiZz/siber-guvenlik-sss](https://github.com/LuNiZz/siber-guvenlik-sss) əsasında Azərbaycan dilinə uyğunlaşdırılıb.
