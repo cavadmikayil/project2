@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Şəbəkə və IT Dərs Portalı</title>
-    <meta name="description" content="Cisco, şəbəkə və IT infrastrukturu üzrə interaktiv dərs vəsaitləri toplusu.">
+    <meta name="description" content="Cisco, şəbəkə və IT infrastrukturu üzrə interaktiv dərs vəsaitləri, subnet kalkulyatoru və testlər.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,10 +26,14 @@
             transition: transform 0.2s, box-shadow 0.2s;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
         .portal-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 12px 20px -4px rgb(0 0 0 / 0.15);
+        }
+        .portal-card.done {
+            outline: 2px solid #10b981;
         }
         .portal-icon {
             font-size: 2.25rem;
@@ -44,13 +48,58 @@
             background-color: #eef2ff;
             color: #4338ca;
         }
-        body.dark-mode .portal-tag {
-            background-color: #334155 !important;
-            color: #c7d2fe !important;
+        .step-num {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #94a3b8;
         }
-        body.dark-mode .hero {
-            background: linear-gradient(135deg, #1e293b 0%, #312e81 100%);
+        .tool-card {
+            background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+            color: white;
+            border-radius: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -4px rgb(0 0 0 / 0.25);
+        }
+        .tool-card.alt {
+            background: linear-gradient(135deg, #8b5cf6 0%, #db2777 100%);
+        }
+        .chip {
+            padding: 0.4rem 0.9rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            background: #e2e8f0;
+            color: #334155;
+            transition: background-color .15s, color .15s;
+        }
+        .chip:hover { background: #cbd5e1; }
+        .chip.active { background: #2563eb; color: white; }
+        .done-btn {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.3rem 0.7rem;
+            border-radius: 9999px;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            background: transparent;
+            transition: all .15s;
+            white-space: nowrap;
+        }
+        .done-btn:hover { border-color: #10b981; color: #059669; }
+        .done-btn.is-done { background: #10b981; border-color: #10b981; color: white; }
+        .progress-track { height: 0.6rem; background: #e2e8f0; border-radius: 9999px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #10b981, #059669); transition: width .4s; }
+        body.dark-mode .portal-tag { background-color: #334155 !important; color: #c7d2fe !important; }
+        body.dark-mode .hero { background: linear-gradient(135deg, #1e293b 0%, #312e81 100%); }
+        body.dark-mode .chip { background: #334155; color: #e2e8f0; }
+        body.dark-mode .chip.active { background: #2563eb; color: white; }
+        body.dark-mode .done-btn { border-color: #475569; color: #cbd5e1; }
+        body.dark-mode .done-btn.is-done { background: #059669; border-color: #059669; color: white; }
+        body.dark-mode .progress-track { background: #334155; }
+        body.dark-mode .tool-card p, body.dark-mode .tool-card h3 { color: white !important; }
     </style>
 </head>
 <body class="antialiased">
@@ -65,14 +114,15 @@
         </nav>
         <div class="container mx-auto px-6 pb-14 pt-6 text-center">
             <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Cisco və Şəbəkə Dərs Vəsaitləri</h1>
-            <p class="max-w-2xl mx-auto text-blue-100 text-lg mb-8">
-                Şəbəkə mühəndisliyi mövzularını interaktiv dərslər, praktiki əmrlər və vizual materiallarla öyrənin.
+            <p class="max-w-2xl mx-auto text-blue-100 text-lg mb-3">
+                Şəbəkə mühəndisliyi mövzularını interaktiv dərslər, praktiki əmrlər, testlər və alətlərlə öyrənin.
             </p>
+            <p id="hero-stats" class="text-blue-200 text-sm font-semibold mb-8"></p>
             <div class="max-w-xl mx-auto">
                 <input
                     type="text"
                     id="search-input"
-                    placeholder="Mövzu axtar... (məs: VLAN, DHCP, routing)"
+                    placeholder="Mövzu axtar... (məs: VLAN, DHCP, IPv6)"
                     class="w-full p-4 rounded-xl border-0 shadow-lg focus:ring-4 focus:ring-blue-300 text-gray-800"
                 >
             </div>
@@ -80,135 +130,193 @@
     </header>
 
     <main class="container mx-auto px-6 py-12">
-        <div id="card-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Kartlar JS ilə doldurulur -->
-        </div>
+
+        <section id="tools-section" class="mb-14">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">🛠️ İnteraktiv Alətlər</h2>
+            <div id="tool-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+        </section>
+
+        <section id="lessons-section">
+            <div class="flex flex-wrap items-end justify-between gap-4 mb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">📚 Dərslər</h2>
+                    <p class="text-sm text-gray-600">Tövsiyə olunan öyrənmə ardıcıllığı ilə nömrələnib.</p>
+                </div>
+                <div class="w-full sm:w-72">
+                    <div class="flex justify-between text-sm mb-1">
+                        <span class="text-gray-600 font-medium">İrəliləyiş</span>
+                        <span id="progress-label" class="text-gray-800 font-semibold"></span>
+                    </div>
+                    <div class="progress-track"><div id="progress-fill" class="progress-fill" style="width:0%"></div></div>
+                </div>
+            </div>
+            <div id="chip-bar" class="flex flex-wrap gap-2 mb-6"></div>
+            <div id="card-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </section>
+
         <p id="no-results" class="hidden text-center text-gray-500 mt-10">Uyğun mövzu tapılmadı.</p>
     </main>
 
     <footer class="bg-white border-t border-gray-200 py-8 mt-8">
         <div class="container mx-auto px-6 text-center text-gray-500">
-            <p class="mb-2">Yeni mövzular tezliklə əlavə olunacaq.</p>
+            <p class="mb-2">Yeni mövzular mütəmadi olaraq əlavə olunur.</p>
             <a href="https://www.cavadmikayil.com" target="_blank" class="text-blue-600 hover:underline font-semibold text-lg">www.cavadmikayil.com</a>
         </div>
     </footer>
 
     <script>
-        const lessons = [
+        const tools = [
             {
-                title: 'CDP və LLDP',
-                desc: 'Şəbəkə kəşf protokolları: qonşu cihazların avtomatik tanınması və konfiqurasiyası.',
-                icon: '🔗',
-                tag: 'Switching',
-                href: 'lessons/cdp-lldp.html'
+                title: 'Subnet Kalkulyatoru',
+                desc: 'Şəbəkə/broadcast ünvanı, host sayı, wildcard və binary görünüş — üstəlik özünü yoxlamaq üçün subnetting məşqi.',
+                icon: '🧮',
+                href: 'tools/subnet-calculator.html',
+                cls: ''
             },
             {
-                title: 'VLAN, Trunking və DTP',
-                desc: 'Access portlar, VLAN trunking, 802.1Q və Dynamic Trunking Protocol modları.',
-                icon: '🔀',
-                tag: 'Switching',
-                href: 'lessons/dtp.html'
-            },
-            {
-                title: 'DHCP Snooping',
-                desc: 'DHCP spoofing hücumlarından qorunma, trusted/untrusted portlar və errdisable bərpası.',
-                icon: '🛡️',
-                tag: 'Security',
-                href: 'lessons/dhcp-snooping.html'
-            },
-            {
-                title: 'Marşrutlaşdırma Protokolları',
-                desc: 'RIP, OSPF və EIGRP-nin inzibati məsafə, metrika və konvergensiya müqayisəsi.',
-                icon: '🗺️',
-                tag: 'Routing',
-                href: 'lessons/dynamic-routing.html'
-            },
-            {
-                title: 'Power Supply',
-                desc: 'Volt, Amper, Watt əsasları, generator, UPS və stabilizator seçimi.',
-                icon: '⚡',
-                tag: 'Hardware',
-                href: 'lessons/power-supply.html'
-            },
-            {
-                title: 'Cisco IOS Əmrləri',
-                desc: 'Kateqoriyalara bölünmüş, axtarıla bilən və kopyalana bilən əmrlər toplusu.',
-                icon: '💻',
-                tag: 'Reference',
-                href: 'lessons/cisco-commands.html'
-            },
-            {
-                title: 'Spanning Tree Protocol (STP)',
-                desc: 'Port rolları, port vəziyyətləri, PVST+/Rapid-PVST+/MSTP və PortFast/BPDU Guard.',
-                icon: '🌳',
-                tag: 'Switching',
-                href: 'lessons/stp.html'
-            },
-            {
-                title: 'Access Control Lists (ACL)',
-                desc: 'Standart/genişləndirilmiş/named ACL-lər, wildcard mask və trafik filterləmə.',
-                icon: '🚧',
-                tag: 'Security',
-                href: 'lessons/acl.html'
-            },
-            {
-                title: 'NAT / PAT',
-                desc: 'Static NAT, Dynamic NAT və PAT (Overload) — konfiqurasiya və doğrulama.',
-                icon: '🔁',
-                tag: 'Routing',
-                href: 'lessons/nat.html'
-            },
-            {
-                title: 'Port Security',
-                desc: 'Violation rejimləri (Protect/Restrict/Shutdown), sticky MAC və errdisable bərpası.',
-                icon: '🔐',
-                tag: 'Security',
-                href: 'lessons/port-security.html'
-            },
-            {
-                title: 'VTP',
-                desc: 'Server/Client/Transparent modları, pruning və təhlükəli revision nömrəsi tələsi.',
-                icon: '📡',
-                tag: 'Switching',
-                href: 'lessons/vtp.html'
-            },
-            {
-                title: 'HSRP və VRRP (FHRP)',
-                desc: 'Defolt qapı ehtiyatlaşdırması: Active/Standby, Master/Backup, preempt və prioritet.',
-                icon: '🧭',
-                tag: 'Routing',
-                href: 'lessons/fhrp.html'
+                title: 'Şəbəkə Quiz',
+                desc: '16 mövzu üzrə izahlı test sualları. Mövzu seçin, biliyinizi yoxlayın, ən yaxşı nəticənizi yeniləyin.',
+                icon: '📝',
+                href: 'tools/quiz.html',
+                cls: 'alt'
             }
         ];
 
+        // Tövsiyə olunan öyrənmə ardıcıllığı; quiz — tools/quiz.html?topic=... açarı
+        const lessons = [
+            { title: 'OSI və TCP/IP Modeli', desc: '7 qat, TCP/UDP, enkapsulyasiya və qat-qat troubleshooting.', icon: '🧱', tag: 'Fundamentals', href: 'lessons/osi-model.html', quiz: 'osi' },
+            { title: 'CDP və LLDP', desc: 'Şəbəkə kəşf protokolları: qonşu cihazların avtomatik tanınması və konfiqurasiyası.', icon: '🔗', tag: 'Switching', href: 'lessons/cdp-lldp.html', quiz: 'cdp' },
+            { title: 'VLAN, Trunking və DTP', desc: 'Access portlar, VLAN trunking, 802.1Q və Dynamic Trunking Protocol modları.', icon: '🔀', tag: 'Switching', href: 'lessons/dtp.html', quiz: 'vlan' },
+            { title: 'VTP', desc: 'Server/Client/Transparent modları, pruning və təhlükəli revision nömrəsi tələsi.', icon: '📡', tag: 'Switching', href: 'lessons/vtp.html', quiz: 'vtp' },
+            { title: 'Spanning Tree Protocol (STP)', desc: 'Port rolları, port vəziyyətləri, PVST+/Rapid-PVST+/MSTP və PortFast/BPDU Guard.', icon: '🌳', tag: 'Switching', href: 'lessons/stp.html', quiz: 'stp' },
+            { title: 'EtherChannel', desc: 'LACP və PAgP, rejim kombinasiyaları, L2/L3 port-channel və yük bölgüsü.', icon: '🔌', tag: 'Switching', href: 'lessons/etherchannel.html', quiz: 'ec' },
+            { title: 'Port Security', desc: 'Violation rejimləri (Protect/Restrict/Shutdown), sticky MAC və errdisable bərpası.', icon: '🔐', tag: 'Security', href: 'lessons/port-security.html', quiz: 'portsec' },
+            { title: 'DHCP Snooping', desc: 'DHCP spoofing hücumlarından qorunma, trusted/untrusted portlar və errdisable bərpası.', icon: '🛡️', tag: 'Security', href: 'lessons/dhcp-snooping.html', quiz: 'dhcp' },
+            { title: 'Access Control Lists (ACL)', desc: 'Standart/genişləndirilmiş/named ACL-lər, wildcard mask və trafik filterləmə.', icon: '🚧', tag: 'Security', href: 'lessons/acl.html', quiz: 'acl' },
+            { title: 'Marşrutlaşdırma Protokolları', desc: 'RIP, OSPF və EIGRP-nin inzibati məsafə, metrika və konvergensiya müqayisəsi.', icon: '🗺️', tag: 'Routing', href: 'lessons/dynamic-routing.html', quiz: 'routing' },
+            { title: 'NAT / PAT', desc: 'Static NAT, Dynamic NAT və PAT (Overload) — konfiqurasiya və doğrulama.', icon: '🔁', tag: 'Routing', href: 'lessons/nat.html', quiz: 'nat' },
+            { title: 'HSRP və VRRP (FHRP)', desc: 'Defolt qapı ehtiyatlaşdırması: Active/Standby, Master/Backup, preempt və prioritet.', icon: '🧭', tag: 'Routing', href: 'lessons/fhrp.html', quiz: 'fhrp' },
+            { title: 'IPv6', desc: 'Ünvan qısaldılması, ünvan növləri, SLAAC/EUI-64, statik marşrut və OSPFv3.', icon: '6️⃣', tag: 'Routing', href: 'lessons/ipv6.html', quiz: 'ipv6' },
+            { title: 'Cisco IOS Əmrləri', desc: 'Kateqoriyalara bölünmüş, axtarıla bilən və kopyalana bilən əmrlər toplusu.', icon: '💻', tag: 'Reference', href: 'lessons/cisco-commands.html', quiz: 'ios' },
+            { title: 'Power Supply', desc: 'Volt, Amper, Watt əsasları, generator, UPS və stabilizator seçimi.', icon: '⚡', tag: 'Hardware', href: 'lessons/power-supply.html', quiz: 'power' }
+        ];
+
+        const DONE_KEY = 'edu-portal-done';
         const grid = document.getElementById('card-grid');
+        const toolGrid = document.getElementById('tool-grid');
+        const chipBar = document.getElementById('chip-bar');
         const noResults = document.getElementById('no-results');
         const searchInput = document.getElementById('search-input');
+        let activeTag = 'Hamısı';
 
-        function render(filterText = '') {
-            const term = filterText.trim().toLowerCase();
-            const filtered = lessons.filter(l =>
-                l.title.toLowerCase().includes(term) ||
-                l.desc.toLowerCase().includes(term) ||
-                l.tag.toLowerCase().includes(term)
-            );
-
-            grid.innerHTML = filtered.map(l => `
-                <a href="${l.href}" class="portal-card p-6 no-underline text-inherit">
-                    <div class="flex items-center justify-between mb-4">
-                        <span class="portal-icon">${l.icon}</span>
-                        <span class="portal-tag">${l.tag}</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">${l.title}</h3>
-                    <p class="text-gray-600 text-sm flex-1">${l.desc}</p>
-                    <span class="mt-4 font-semibold text-blue-600">Dərsə bax →</span>
-                </a>
-            `).join('');
-
-            noResults.classList.toggle('hidden', filtered.length !== 0);
+        function loadDone() {
+            try {
+                return new Set(JSON.parse(localStorage.getItem(DONE_KEY)) || []);
+            } catch (e) {
+                return new Set();
+            }
         }
 
-        searchInput.addEventListener('input', () => render(searchInput.value));
+        function saveDone(done) {
+            try {
+                localStorage.setItem(DONE_KEY, JSON.stringify([...done]));
+            } catch (e) {
+                /* yaddaş əlçatmazdır — işarə yalnız bu səhifədə qalır */
+            }
+        }
+
+        let done = loadDone();
+
+        function matches(item, term) {
+            return item.title.toLowerCase().includes(term) ||
+                item.desc.toLowerCase().includes(term) ||
+                (item.tag || '').toLowerCase().includes(term);
+        }
+
+        function renderChips() {
+            const tags = ['Hamısı', ...new Set(lessons.map(l => l.tag))];
+            chipBar.innerHTML = tags.map(t =>
+                `<button class="chip ${t === activeTag ? 'active' : ''}" data-tag="${t}">${t}</button>`
+            ).join('');
+        }
+
+        function renderProgress() {
+            const count = lessons.filter(l => done.has(l.href)).length;
+            document.getElementById('progress-label').textContent = `${count} / ${lessons.length} dərs oxunub`;
+            document.getElementById('progress-fill').style.width = `${(count / lessons.length) * 100}%`;
+        }
+
+        function render() {
+            const term = searchInput.value.trim().toLowerCase();
+
+            const visibleTools = tools.filter(t => matches(t, term));
+            toolGrid.innerHTML = visibleTools.map(t => `
+                <a href="${t.href}" class="tool-card ${t.cls} p-6 flex items-start gap-4 no-underline">
+                    <span class="text-4xl leading-none">${t.icon}</span>
+                    <div>
+                        <h3 class="text-xl font-bold mb-1">${t.title}</h3>
+                        <p class="text-white/90 text-sm">${t.desc}</p>
+                        <span class="inline-block mt-3 font-semibold">Aç →</span>
+                    </div>
+                </a>
+            `).join('');
+            document.getElementById('tools-section').classList.toggle('hidden', visibleTools.length === 0);
+
+            const visibleLessons = lessons
+                .map((l, i) => ({ ...l, step: i + 1 }))
+                .filter(l => (activeTag === 'Hamısı' || l.tag === activeTag) && matches(l, term));
+            grid.innerHTML = visibleLessons.map(l => {
+                const isDone = done.has(l.href);
+                return `
+                <div class="portal-card p-6 ${isDone ? 'done' : ''}">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="portal-icon">${l.icon}</span>
+                        <div class="flex items-center gap-2">
+                            <span class="step-num">#${l.step}</span>
+                            <span class="portal-tag">${l.tag}</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2"><a href="${l.href}" class="hover:text-blue-600">${l.title}</a></h3>
+                    <p class="text-gray-600 text-sm flex-1">${l.desc}</p>
+                    <div class="mt-4 flex items-center justify-between gap-2 flex-wrap">
+                        <div class="flex items-center gap-3">
+                            <a href="${l.href}" class="font-semibold text-blue-600 hover:underline">Dərsə bax →</a>
+                            <a href="tools/quiz.html?topic=${l.quiz}" class="text-sm font-semibold text-purple-600 hover:underline">📝 Test</a>
+                        </div>
+                        <button class="done-btn ${isDone ? 'is-done' : ''}" data-href="${l.href}" aria-pressed="${isDone}">
+                            ${isDone ? '✓ Oxudum' : '○ Oxudum'}
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+            document.getElementById('lessons-section').classList.toggle('hidden', visibleLessons.length === 0 && term !== '');
+
+            noResults.classList.toggle('hidden', visibleTools.length + visibleLessons.length !== 0);
+            renderProgress();
+        }
+
+        chipBar.addEventListener('click', e => {
+            const chip = e.target.closest('.chip');
+            if (!chip) return;
+            activeTag = chip.dataset.tag;
+            renderChips();
+            render();
+        });
+
+        grid.addEventListener('click', e => {
+            const btn = e.target.closest('.done-btn');
+            if (!btn) return;
+            const href = btn.dataset.href;
+            if (done.has(href)) done.delete(href); else done.add(href);
+            saveDone(done);
+            render();
+        });
+
+        searchInput.addEventListener('input', render);
+
+        document.getElementById('hero-stats').textContent =
+            `${lessons.length} dərs · ${tools.length} interaktiv alət · 45+ test sualı`;
+        renderChips();
         render();
     </script>
     <script src="assets/theme.js"></script>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Şəbəkə Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/theme.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .section-card { background-color: white; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); padding: 1.5rem; margin-bottom: 2rem; }
+        .field { width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; background: white; }
+        .btn-primary { background: #2563eb; color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; transition: background-color .2s; }
+        .btn-primary:hover { background: #1d4ed8; }
+        .btn-secondary { background: #e2e8f0; color: #334155; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; transition: background-color .2s; }
+        .btn-secondary:hover { background: #cbd5e1; }
+        .option-btn { display: block; width: 100%; text-align: left; padding: 1rem 1.25rem; border: 2px solid #e2e8f0; border-radius: 0.75rem; background: white; font-weight: 500; transition: border-color .15s, background-color .15s; }
+        .option-btn:hover:not(:disabled) { border-color: #3b82f6; background: #eff6ff; }
+        .option-btn:disabled { cursor: default; }
+        .option-btn.correct { border-color: #059669; background: #ecfdf5; color: #065f46; }
+        .option-btn.wrong { border-color: #dc2626; background: #fef2f2; color: #991b1b; }
+        .progress-track { height: 0.5rem; background: #e2e8f0; border-radius: 9999px; overflow: hidden; }
+        .progress-fill { height: 100%; background: #2563eb; transition: width .3s; }
+        .topic-badge { display: inline-block; font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 9999px; background: #eef2ff; color: #4338ca; }
+        body.dark-mode .field { background: #0f172a; color: #e2e8f0; border-color: #475569; }
+        body.dark-mode .btn-secondary { background: #334155; color: #e2e8f0; }
+        body.dark-mode .option-btn { background: #0f172a; border-color: #334155; color: #e2e8f0; }
+        body.dark-mode .option-btn:hover:not(:disabled) { background: #1e3a5f; border-color: #3b82f6; }
+        body.dark-mode .option-btn.correct { background: #064e3b; border-color: #10b981; color: #d1fae5; }
+        body.dark-mode .option-btn.wrong { background: #7f1d1d; border-color: #ef4444; color: #fee2e2; }
+        body.dark-mode .progress-track { background: #334155; }
+        body.dark-mode .topic-badge { background: #334155; color: #c7d2fe; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-blue-600">📝 Şəbəkə Quiz</h1>
+            <div class="flex items-center gap-4">
+                <a href="../index.html" class="portal-home-link">← Portal</a>
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş">🌙</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-3xl">
+
+        <section id="start-screen" class="section-card">
+            <h2 class="text-2xl font-bold mb-2 text-gray-800">Biliklərini yoxla</h2>
+            <p class="text-gray-600 mb-6">Mövzu və sual sayını seçin. Hər cavabdan sonra düzgün cavab və qısa izah göstəriləcək.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                <label class="block">
+                    <span class="text-sm font-semibold text-gray-700">Mövzu</span>
+                    <select id="topic-select" class="field mt-1"></select>
+                </label>
+                <label class="block">
+                    <span class="text-sm font-semibold text-gray-700">Sual sayı</span>
+                    <select id="count-select" class="field mt-1">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="all">Hamısı</option>
+                    </select>
+                </label>
+            </div>
+            <p id="best-score" class="text-sm text-gray-600 mb-4"></p>
+            <button id="btn-start" class="btn-primary">Başla →</button>
+        </section>
+
+        <section id="question-screen" class="section-card hidden">
+            <div class="flex justify-between items-center mb-2 text-sm text-gray-600">
+                <span id="q-counter"></span>
+                <span id="q-score"></span>
+            </div>
+            <div class="progress-track mb-6"><div id="q-progress" class="progress-fill" style="width:0%"></div></div>
+            <span id="q-topic" class="topic-badge mb-3"></span>
+            <h2 id="q-text" class="text-xl font-bold text-gray-800 mb-6"></h2>
+            <div id="q-options" class="space-y-3 mb-6"></div>
+            <div id="q-explain" class="hidden bg-blue-50 rounded-lg p-4 mb-6"></div>
+            <div class="flex justify-end">
+                <button id="btn-next" class="btn-primary hidden">Növbəti →</button>
+            </div>
+        </section>
+
+        <section id="result-screen" class="section-card hidden">
+            <div class="text-center mb-6">
+                <p id="r-emoji" class="text-5xl mb-2"></p>
+                <h2 class="text-3xl font-extrabold text-gray-800 mb-1" id="r-score"></h2>
+                <p id="r-message" class="text-gray-600"></p>
+            </div>
+            <div id="r-review" class="space-y-4 mb-6"></div>
+            <div class="flex flex-wrap justify-center gap-3">
+                <button id="btn-retry" class="btn-primary">Yenidən başla</button>
+                <button id="btn-home" class="btn-secondary">Mövzu seç</button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white shadow-md py-4 mt-8">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <a href="https://www.cavadmikayil.com" target="_blank" class="text-blue-600 hover:underline font-semibold text-lg">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script>
+        const TOPICS = {
+            osi: 'OSI / TCP-IP',
+            subnet: 'Subnetting',
+            cdp: 'CDP / LLDP',
+            vlan: 'VLAN / DTP',
+            stp: 'STP',
+            vtp: 'VTP',
+            ec: 'EtherChannel',
+            dhcp: 'DHCP Snooping',
+            portsec: 'Port Security',
+            acl: 'ACL',
+            routing: 'Marşrutlaşdırma',
+            nat: 'NAT / PAT',
+            fhrp: 'HSRP / VRRP',
+            ipv6: 'IPv6',
+            ios: 'Cisco IOS',
+            power: 'Power Supply'
+        };
+
+        // Hər sualda "a" massivinin ilk elementi düzgün cavabdır; göstərərkən qarışdırılır.
+        const QUESTIONS = [
+            { t: 'cdp', q: 'CDP defolt olaraq neçə saniyədən bir elan göndərir?', a: ['60', '30', '90', '180'], e: 'CDP timer 60 saniyə, holdtime isə 180 saniyədir.' },
+            { t: 'cdp', q: 'LLDP hansı standarta əsaslanır?', a: ['IEEE 802.1AB', 'IEEE 802.1Q', 'IEEE 802.1D', 'IEEE 802.3ad'], e: 'LLDP vendor-neytral IEEE 802.1AB standartıdır; 802.1Q — trunking, 802.1D — STP, 802.3ad — LACP.' },
+            { t: 'cdp', q: 'Cisco cihazında LLDP-ni qlobal aktivləşdirən əmr hansıdır?', a: ['lldp run', 'lldp enable', 'cdp run', 'lldp start'], e: 'Qlobal olaraq "lldp run"; interfeysdə isə "lldp transmit" və "lldp receive".' },
+
+            { t: 'vlan', q: 'Hər iki tərəfdə port "dynamic auto" rejimindədir. Link necə işləyəcək?', a: ['Access', 'Trunk', 'err-disabled', 'Link qalxmayacaq'], e: 'Auto passivdir — heç bir tərəf danışığa başlamadığı üçün trunk yaranmır, port access kimi işləyir.' },
+            { t: 'vlan', q: '802.1Q trunk-da native VLAN trafiki necə ötürülür?', a: ['Teqsiz (untagged)', '802.1Q teqi ilə', 'ISL başlığı ilə', 'Ümumiyyətlə ötürülmür'], e: 'Native VLAN çərçivələri teqsiz göndərilir, ona görə hər iki tərəfdə native VLAN eyni olmalıdır.' },
+            { t: 'vlan', q: 'Portda DTP danışıqlarını söndürən əmr hansıdır?', a: ['switchport nonegotiate', 'no dtp enable', 'switchport mode dynamic off', 'spanning-tree dtp disable'], e: '"switchport nonegotiate" DTP çərçivələrinin göndərilməsini dayandırır.' },
+
+            { t: 'dhcp', q: 'DHCP serverə qoşulan switch portu necə konfiqurasiya olunmalıdır?', a: ['ip dhcp snooping trust', 'ip dhcp snooping untrusted', 'ip dhcp snooping limit rate 0', 'shutdown'], e: 'Qanuni server portu trusted olmalıdır; defolt olaraq bütün portlar untrusted-dir.' },
+            { t: 'dhcp', q: 'Untrusted portdan gələn hansı DHCP mesajı bloklanır?', a: ['DHCP Offer', 'DHCP Discover', 'DHCP Request', 'DHCP Release'], e: 'Offer və ACK server mesajlarıdır — untrusted portdan gəlirsə saxta server kimi bloklanır.' },
+            { t: 'dhcp', q: 'DHCP snooping binding cədvəli hansı funksiyalar üçün əsasdır?', a: ['Dynamic ARP Inspection və IP Source Guard', 'STP və RSTP', 'VTP pruning', 'HSRP preempt'], e: 'DAI və IP Source Guard qanuni IP–MAC–port bağlamalarını bu cədvəldən götürür.' },
+
+            { t: 'routing', q: 'OSPF-in defolt inzibati məsafəsi (AD) nə qədərdir?', a: ['110', '90', '120', '100'], e: 'Connected 0, Static 1, EIGRP (daxili) 90, OSPF 110, RIP 120.' },
+            { t: 'routing', q: 'RIP-də marşrut neçə hop olduqda əlçatmaz sayılır?', a: ['16', '15', '255', '100'], e: 'Maksimum etibarlı hop sayı 15-dir; 16 "sonsuz" (unreachable) deməkdir.' },
+            { t: 'routing', q: 'EIGRP ən yaxşı və ehtiyat yolları hansı alqoritmlə hesablayır?', a: ['DUAL', 'SPF (Dijkstra)', 'Bellman-Ford', 'Spanning Tree'], e: 'EIGRP Diffusing Update Algorithm (DUAL) ilə successor və feasible successor-ları tapır.' },
+
+            { t: 'power', q: '220V gərginlikdə 2A cərəyan çəkən cihazın gücü nə qədərdir?', a: ['440W', '110W', '222W', '880W'], e: 'W = V × A = 220 × 2 = 440W.' },
+            { t: 'power', q: 'Elektrik kəsiləndə dərhal, fasiləsiz enerji verən cihaz hansıdır?', a: ['UPS', 'Generator', 'Stabilizator', 'Relay'], e: 'UPS batareyaya anında keçir; generatorun işə düşməsi üçün isə vaxt lazımdır.' },
+
+            { t: 'ios', q: 'Cari konfiqurasiyanı yenidən yükləmədən sonra qalması üçün yadda saxlayan əmr hansıdır?', a: ['copy running-config startup-config', 'write erase', 'copy startup-config running-config', 'reload'], e: '"copy run start" (və ya "write memory") running-config-i NVRAM-dakı startup-config-ə yazır.' },
+            { t: 'ios', q: 'Konfiqurasiyadakı bütün açıq mətnli parolları şifrələyən əmr hansıdır?', a: ['service password-encryption', 'enable secret', 'crypto key generate rsa', 'password encrypt all'], e: '"service password-encryption" zəif (type 7) şifrələmə tətbiq edir; enable parolu üçün "enable secret" daha güclüdür.' },
+
+            { t: 'stp', q: 'STP-də Root Bridge necə seçilir?', a: ['Ən aşağı Bridge ID', 'Ən yüksək Bridge ID', 'Ən çox portu olan switch', 'Ən yüksək IP ünvanı'], e: 'Bridge ID = prioritet + MAC. Ən aşağı prioritet qalib gəlir; bərabər olduqda ən aşağı MAC.' },
+            { t: 'stp', q: 'BPDU Guard aktiv olan portda BPDU alınarsa nə baş verir?', a: ['Port err-disabled olur', 'Port blocking-ə keçir', 'Port root port olur', 'BPDU nəzərə alınmır'], e: 'BPDU Guard PortFast portlarını qoruyur: BPDU gəldikdə portu dərhal err-disabled edir.' },
+            { t: 'stp', q: 'Bridge prioriteti hansı addımlarla təyin oluna bilər?', a: ['4096', '1024', '1', '256'], e: 'Extended System ID səbəbindən prioritet 4096-nın misli olmalıdır (defolt 32768).' },
+
+            { t: 'acl', q: 'Standart ACL trafiki nəyə görə filtrləyir?', a: ['Yalnız mənbə IP ünvanı', 'Yalnız təyinat IP ünvanı', 'Port nömrəsi', 'Protokol növü'], e: 'Standart ACL yalnız mənbə IP-yə baxır; digər meyarlar üçün genişləndirilmiş ACL lazımdır.' },
+            { t: 'acl', q: '192.168.10.0/24 şəbəkəsi üçün wildcard maska hansıdır?', a: ['0.0.0.255', '255.255.255.0', '0.0.255.255', '0.0.0.0'], e: 'Wildcard = 255.255.255.255 − 255.255.255.0 = 0.0.0.255.' },
+            { t: 'acl', q: 'Hər ACL-in sonunda gizli olaraq hansı qayda var?', a: ['deny any (implicit deny)', 'permit any', 'deny icmp any any', 'Heç bir qayda yoxdur'], e: 'Heç bir sətirə uyğun gəlməyən paket gizli "deny any" ilə atılır — ona görə ən azı bir permit olmalıdır.' },
+
+            { t: 'nat', q: 'PAT konfiqurasiyasında hansı açar söz istifadə olunur?', a: ['overload', 'pat', 'extendable', 'multiplex'], e: '"ip nat inside source list 1 interface Gi0/1 overload" — port nömrələri ilə çoxlu hostu bir IP-yə çevirir.' },
+            { t: 'nat', q: 'Aşağıdakılardan hansı RFC 1918 private diapazonu DEYİL?', a: ['172.32.0.0/16', '10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16'], e: '172.16.0.0/12 diapazonu 172.16.0.0 – 172.31.255.255-dir; 172.32.x.x public-dir.' },
+            { t: 'nat', q: '"Inside Global" ünvanı nədir?', a: ['Daxili hostun internetdə göründüyü public IP', 'Daxili hostun private IP-si', 'Xarici serverin real IP-si', 'Router-in loopback ünvanı'], e: 'Inside Local — private IP, Inside Global — NAT-dan sonra xaricdə görünən IP.' },
+
+            { t: 'portsec', q: 'Port Security-nin defolt violation rejimi hansıdır?', a: ['shutdown', 'protect', 'restrict', 'drop'], e: 'Defolt "shutdown" — pozuntu olduqda port err-disabled olur.' },
+            { t: 'portsec', q: 'Hansı rejim naməlum trafiki atır, xəbərdarlıq edir, amma portu aktiv saxlayır?', a: ['restrict', 'protect', 'shutdown', 'sticky'], e: 'Protect səssizcə atır, restrict atır və xəbərdarlıq edir, shutdown isə portu bağlayır.' },
+
+            { t: 'vtp', q: 'VLAN yarada bilən və dəyişiklikləri domenə yayan VTP rejimi hansıdır?', a: ['Server', 'Client', 'Transparent', 'Off'], e: 'Client VLAN yarada bilmir; Transparent yalnız lokal VLAN yaradır və öz bazasını yaymır.' },
+            { t: 'vtp', q: 'Yeni switch qoşarkən mövcud VLAN-ların silinməsi riski nə ilə bağlıdır?', a: ['Daha yüksək revision nömrəsi', 'VTP parolunun uzunluğu', 'VTP pruning', 'Native VLAN uyğunsuzluğu'], e: 'Daha yüksək revision nömrəsinə malik switch öz VLAN bazasını hamıya yayaraq mövcudları əvəz edir.' },
+
+            { t: 'fhrp', q: 'HSRP-də defolt prioritet nə qədərdir?', a: ['100', '110', '255', '0'], e: 'Defolt 100; daha yüksək prioritetli router Active olur.' },
+            { t: 'fhrp', q: 'Hansı FHRP açıq (vendor-neytral) standartdır?', a: ['VRRP', 'HSRP', 'GLBP', 'CDP'], e: 'VRRP RFC 5798 standartıdır; HSRP və GLBP Cisco-ya məxsusdur.' },
+            { t: 'fhrp', q: 'HSRP-də bərpa olunan yüksək prioritetli router-in Active rolunu geri alması üçün nə lazımdır?', a: ['preempt', 'track', 'timers', 'authentication'], e: 'HSRP-də preempt defolt olaraq sönülüdür; "standby 1 preempt" ilə aktivləşdirilir.' },
+
+            { t: 'osi', q: 'Router hansı OSI qatında işləyir?', a: ['3 — Network', '2 — Data Link', '4 — Transport', '1 — Physical'], e: 'Router IP ünvanlarına əsasən marşrutlaşdırır — Layer 3.' },
+            { t: 'osi', q: 'Data Link qatında məlumat vahidi (PDU) necə adlanır?', a: ['Frame', 'Packet', 'Segment', 'Bit'], e: 'L4 — Segment, L3 — Packet, L2 — Frame, L1 — Bit.' },
+            { t: 'osi', q: 'Hansı protokol bağlantı yönümlüdür və 3-way handshake istifadə edir?', a: ['TCP', 'UDP', 'ICMP', 'ARP'], e: 'TCP SYN → SYN-ACK → ACK ilə bağlantı qurur; UDP bağlantısızdır.' },
+
+            { t: 'ipv6', q: 'IPv6 ünvanı neçə bitdir?', a: ['128', '64', '32', '256'], e: 'IPv4 — 32 bit, IPv6 — 128 bit.' },
+            { t: 'ipv6', q: 'Link-local IPv6 ünvanları hansı prefiksə aiddir?', a: ['FE80::/10', 'FF00::/8', '2000::/3', 'FC00::/7'], e: 'FF00::/8 — multicast, 2000::/3 — global unicast, FC00::/7 — unique local.' },
+            { t: 'ipv6', q: '2001:0db8:0000:0000:0000:0000:0000:0001 ünvanının düzgün qısa forması hansıdır?', a: ['2001:db8::1', '2001:db8:::1', '2001::db8::1', '2001:db8::1::'], e: 'Öndəki sıfırlar atılır, ardıcıl sıfır qruplar yalnız bir dəfə "::" ilə əvəzlənir.' },
+            { t: 'ipv6', q: 'Cisco router-də IPv6 paketlərinin marşrutlaşdırılmasını aktivləşdirən əmr hansıdır?', a: ['ipv6 unicast-routing', 'ipv6 enable', 'ipv6 routing on', 'ip routing ipv6'], e: '"ipv6 enable" yalnız interfeysdə link-local yaradır; marşrutlaşdırma üçün "ipv6 unicast-routing" lazımdır.' },
+
+            { t: 'ec', q: 'Hansı LACP rejim kombinasiyası EtherChannel qurmur?', a: ['passive – passive', 'active – active', 'active – passive', 'Hamısı qurur'], e: 'Passive yalnız cavab verir; hər iki tərəf passive olduqda danışığı heç kim başlatmır.' },
+            { t: 'ec', q: 'LACP hansı standarta əsaslanır?', a: ['IEEE 802.3ad', 'IEEE 802.1AB', 'IEEE 802.1w', 'IEEE 802.1X'], e: '802.3ad (indi 802.1AX); 802.1w — RSTP, 802.1X — port autentifikasiyası.' },
+            { t: 'ec', q: 'Bir EtherChannel-də maksimum neçə aktiv fiziki link ola bilər?', a: ['8', '4', '16', '2'], e: '8 aktiv link; LACP əlavə 8 portu hot-standby kimi saxlaya bilər.' },
+
+            { t: 'subnet', q: '/27 şəbəkəsində neçə istifadə oluna bilən host var?', a: ['30', '32', '62', '14'], e: '2^(32−27) − 2 = 32 − 2 = 30.' },
+            { t: 'subnet', q: '192.168.1.100/26 ünvanının şəbəkə ünvanı hansıdır?', a: ['192.168.1.64', '192.168.1.0', '192.168.1.96', '192.168.1.128'], e: '/26 → blok ölçüsü 64: 0, 64, 128, 192. 100 ədədi 64–127 blokuna düşür.' },
+            { t: 'subnet', q: '255.255.255.240 maskası hansı prefiksə uyğundur?', a: ['/28', '/27', '/29', '/26'], e: '240 = 11110000 → 24 + 4 = /28.' }
+        ];
+
+        const BEST_KEY = 'edu-portal-quiz-best';
+        const $ = id => document.getElementById(id);
+        const screens = ['start-screen', 'question-screen', 'result-screen'];
+        let session = null;
+
+        function showScreen(id) {
+            screens.forEach(s => $(s).classList.toggle('hidden', s !== id));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function shuffle(arr) {
+            const copy = arr.slice();
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        function escapeHtml(s) {
+            return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+        }
+
+        function loadBest() {
+            try { return JSON.parse(localStorage.getItem(BEST_KEY)) || {}; } catch (e) { return {}; }
+        }
+
+        function saveBest(topic, percent) {
+            const best = loadBest();
+            if (!(topic in best) || percent > best[topic]) {
+                best[topic] = percent;
+                try { localStorage.setItem(BEST_KEY, JSON.stringify(best)); } catch (e) { /* yaddaş əlçatmazdır */ }
+            }
+        }
+
+        function updateBestLabel() {
+            const topic = $('topic-select').value;
+            const best = loadBest()[topic];
+            $('best-score').textContent = best === undefined ? '' : `🏆 Bu mövzu üzrə ən yaxşı nəticəniz: ${best}%`;
+        }
+
+        function populateTopics() {
+            const counts = QUESTIONS.reduce((acc, q) => { acc[q.t] = (acc[q.t] || 0) + 1; return acc; }, {});
+            const options = [`<option value="all">Bütün mövzular (${QUESTIONS.length} sual)</option>`]
+                .concat(Object.entries(TOPICS).map(([key, name]) => `<option value="${key}">${name} (${counts[key] || 0} sual)</option>`));
+            $('topic-select').innerHTML = options.join('');
+            const params = new URLSearchParams(location.search);
+            if (params.get('topic') in TOPICS) $('topic-select').value = params.get('topic');
+            updateBestLabel();
+        }
+
+        function startQuiz() {
+            const topic = $('topic-select').value;
+            const pool = topic === 'all' ? QUESTIONS : QUESTIONS.filter(q => q.t === topic);
+            const countValue = $('count-select').value;
+            const count = countValue === 'all' ? pool.length : Math.min(Number(countValue), pool.length);
+            session = {
+                topic,
+                questions: shuffle(pool).slice(0, count).map(q => ({ ...q, options: shuffle(q.a), correct: q.a[0] })),
+                index: 0,
+                score: 0,
+                mistakes: []
+            };
+            showScreen('question-screen');
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const { questions, index, score } = session;
+            const q = questions[index];
+            $('q-counter').textContent = `Sual ${index + 1} / ${questions.length}`;
+            $('q-score').textContent = `Düz: ${score}`;
+            $('q-progress').style.width = `${(index / questions.length) * 100}%`;
+            $('q-topic').textContent = TOPICS[q.t];
+            $('q-text').textContent = q.q;
+            $('q-explain').classList.add('hidden');
+            $('btn-next').classList.add('hidden');
+            $('q-options').innerHTML = q.options.map((opt, i) =>
+                `<button class="option-btn" data-index="${i}">${escapeHtml(opt)}</button>`
+            ).join('');
+        }
+
+        function answer(button) {
+            const q = session.questions[session.index];
+            const chosen = q.options[Number(button.dataset.index)];
+            const isCorrect = chosen === q.correct;
+
+            $('q-options').querySelectorAll('.option-btn').forEach(btn => {
+                btn.disabled = true;
+                if (q.options[Number(btn.dataset.index)] === q.correct) btn.classList.add('correct');
+            });
+            if (isCorrect) {
+                session.score++;
+            } else {
+                button.classList.add('wrong');
+                session.mistakes.push({ q, chosen });
+            }
+            $('q-score').textContent = `Düz: ${session.score}`;
+            $('q-explain').innerHTML = `<div class="font-semibold mb-1 ${isCorrect ? 'text-green-700' : 'text-red-700'}">${isCorrect ? '✅ Düzdür!' : '❌ Səhvdir.'}</div><p class="text-gray-700">${escapeHtml(q.e)}</p>`;
+            $('q-explain').classList.remove('hidden');
+            $('btn-next').textContent = session.index === session.questions.length - 1 ? 'Nəticəyə bax →' : 'Növbəti →';
+            $('btn-next').classList.remove('hidden');
+            $('btn-next').focus();
+        }
+
+        function next() {
+            session.index++;
+            if (session.index < session.questions.length) {
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            const { score, questions, mistakes, topic } = session;
+            const percent = Math.round((score / questions.length) * 100);
+            saveBest(topic, percent);
+            $('q-progress').style.width = '100%';
+            $('r-score').textContent = `${score} / ${questions.length} (${percent}%)`;
+            const band = percent >= 90 ? ['🏆', 'Mükəmməl! Mövzunu çox yaxşı bilirsiniz.']
+                : percent >= 70 ? ['🎉', 'Çox yaxşı nəticə! Bir neçə məqamı təkrarlayın.']
+                : percent >= 50 ? ['👍', 'Pis deyil. Səhv cavabların izahlarına baxın.']
+                : ['📚', 'Dərslərə qayıdıb təkrar etməyi tövsiyə edirik.'];
+            $('r-emoji').textContent = band[0];
+            $('r-message').textContent = band[1];
+            $('r-review').innerHTML = mistakes.length === 0 ? '' :
+                `<h3 class="text-lg font-bold text-gray-800">Səhv cavablar</h3>` +
+                mistakes.map(({ q, chosen }) => `
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <p class="font-semibold text-gray-800 mb-2">${escapeHtml(q.q)}</p>
+                        <div class="text-sm text-red-600">Sizin cavab: ${escapeHtml(chosen)}</div>
+                        <div class="text-sm text-green-700 mb-1">Düzgün cavab: ${escapeHtml(q.correct)}</div>
+                        <p class="text-sm text-gray-600">${escapeHtml(q.e)}</p>
+                    </div>
+                `).join('');
+            showScreen('result-screen');
+        }
+
+        $('q-options').addEventListener('click', e => {
+            const btn = e.target.closest('.option-btn');
+            if (btn && !btn.disabled) answer(btn);
+        });
+        $('btn-start').addEventListener('click', startQuiz);
+        $('btn-next').addEventListener('click', next);
+        $('btn-retry').addEventListener('click', startQuiz);
+        $('btn-home').addEventListener('click', () => { updateBestLabel(); showScreen('start-screen'); });
+        $('topic-select').addEventListener('change', updateBestLabel);
+        populateTopics();
+    </script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
