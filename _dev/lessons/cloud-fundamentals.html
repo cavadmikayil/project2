@@ -1,0 +1,88 @@
+<!--PAGE title="Cloud Computing Əsasları" icon="cloud" badge="Cloud · Əsaslar" nav="intro:Giriş|traits:Xüsusiyyətlər|models:Xidmət modelləri|deploy:Yerləşdirmə|shared:Məsuliyyət|economy:İqtisadiyyat"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:cloud}} Giriş: Server Almaq Əvəzinə Kirayələmək</h2>
+            <p class="lead">
+                Ənənəvi IT-də yeni layihə üçün server sifariş edilir, həftələrlə gözlənilir, rack-a quraşdırılır və 5 il istifadə olunur.
+                <strong>Cloud computing</strong> isə hesablama gücünü, yaddaşı və xidmətləri internet üzərindən, lazım olduğu an və
+                <strong>istifadə etdiyin qədər ödəməklə</strong> (pay-as-you-go) almaq modelidir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:server}} On-premises</h3><p class="text-neutral-700">Avadanlıq şirkətin öz data mərkəzindədir. Tam nəzarət, amma böyük ilkin xərc (CapEx) və uzun tədarük müddəti.</p></div>
+                <div class="info-card"><h3>{{i:cloud}} Public cloud</h3><p class="text-neutral-700">AWS, Microsoft Azure, Google Cloud. Resurs dəqiqələr içində yaranır, aylıq hesab gəlir (OpEx).</p></div>
+                <div class="info-card dark"><h3>{{i:layers}} Hybrid</h3><p>Bəzi sistemlər ofisdə, bəziləri cloud-da — real şirkətlərin əksəriyyəti belə işləyir.</p></div>
+            </div>
+        </section>
+
+        <section id="traits" class="section-card">
+            <h2 class="section-title">{{i:list-checks}} 1. Cloud-un 5 Əsas Xüsusiyyəti (NIST)</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:mouse-pointer-click}}<p class="text-neutral-700"><strong>On-demand self-service:</strong> istifadəçi portal və ya API ilə resursu özü yaradır, heç kimə zəng etmədən.</p></div>
+                <div class="feature-item">{{i:globe}}<p class="text-neutral-700"><strong>Broad network access:</strong> xidmətlərə şəbəkə üzərindən istənilən cihazdan müraciət olunur.</p></div>
+                <div class="feature-item">{{i:boxes}}<p class="text-neutral-700"><strong>Resource pooling:</strong> provayderin fiziki resursları çoxlu müştəri arasında paylaşılır (multi-tenancy).</p></div>
+                <div class="feature-item">{{i:move-vertical}}<p class="text-neutral-700"><strong>Rapid elasticity:</strong> yük artanda resurs avtomatik artır, azalanda azalır.</p></div>
+                <div class="feature-item">{{i:gauge}}<p class="text-neutral-700"><strong>Measured service:</strong> istifadə ölçülür və hesaba yazılır — CPU saatı, GB, sorğu sayı.</p></div>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><strong>Scalability</strong> — sistemin daha çox yükü götürə bilməsi (vertical: daha güclü VM, horizontal: daha çox VM). <strong>Elasticity</strong> — bu artım və azalmanın avtomatik baş verməsi.</p>
+            </div>
+        </section>
+
+        <section id="models" class="section-card">
+            <h2 class="section-title">{{i:layers}} 2. Xidmət Modelləri: IaaS, PaaS, SaaS</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Model</th><th>Siz idarə edirsiniz</th><th>Provayder idarə edir</th><th>Nümunələr</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>IaaS</strong></td><td>OS, patch, runtime, tətbiq, məlumat</td><td>Fiziki server, şəbəkə, storage, hypervisor</td><td>AWS EC2, Azure Virtual Machines</td></tr>
+                        <tr><td><strong>PaaS</strong></td><td>Tətbiq kodu və məlumat</td><td>OS, runtime, scaling, patch</td><td>Azure App Service, AWS Elastic Beanstalk, Heroku</td></tr>
+                        <tr><td><strong>SaaS</strong></td><td>Yalnız istifadəçilər və məlumat</td><td>Demək olar ki, hər şey</td><td>Microsoft 365, Gmail, Salesforce</td></tr>
+                        <tr><td><strong>FaaS</strong> (serverless)</td><td>Funksiya kodu</td><td>Server, scaling, runtime</td><td>AWS Lambda, Azure Functions</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700">Pizza analogiyası: on-premises — evdə sıfırdan bişirmək, IaaS — hazır xəmir alıb evdə bişirmək, PaaS — sifariş edib evə çatdırılma, SaaS — restoranda yemək.</p>
+        </section>
+
+        <section id="deploy" class="section-card">
+            <h2 class="section-title">{{i:network}} 3. Yerləşdirmə Modelləri</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:globe}} Public</h3><p class="text-neutral-700">Resurslar provayderə məxsusdur, internet üzərindən çoxlu müştəriyə verilir. Ən sürətli başlanğıc, ən az ilkin xərc.</p></div>
+                <div class="info-card"><h3>{{i:building-2}} Private</h3><p class="text-neutral-700">Cloud texnologiyası yalnız bir təşkilat üçün — öz data mərkəzində (VMware, OpenStack) və ya ayrılmış hostinqdə. Tənzimləyici tələblər üçün.</p></div>
+                <div class="info-card accent"><h3>{{i:git-merge}} Hybrid</h3><p class="text-neutral-700">On-premises + public cloud, aralarında VPN və ya ExpressRoute/Direct Connect. Məsələn, AD ofisdə, veb-sayt cloud-da.</p></div>
+                <div class="info-card dark"><h3>{{i:cloudy}} Multi-cloud</h3><p>Bir neçə public provayder birlikdə (AWS + Azure). Vendor lock-in riskini azaldır, amma idarəetməni çətinləşdirir.</p></div>
+            </div>
+        </section>
+
+        <section id="shared" class="section-card">
+            <h2 class="section-title">{{i:handshake}} 4. Shared Responsibility Model</h2>
+            <p class="lead">Cloud-da təhlükəsizlik provayder ilə müştəri arasında bölünür. Provayder <strong>cloud-un təhlükəsizliyinə</strong>, müştəri isə <strong>cloud-dakı</strong> hər şeyin təhlükəsizliyinə cavabdehdir.</p>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Məsuliyyət</th><th>On-prem</th><th>IaaS</th><th>PaaS</th><th>SaaS</th></tr></thead>
+                    <tbody>
+                        <tr><td>Məlumat, hesablar, cihazlar</td><td>Müştəri</td><td>Müştəri</td><td>Müştəri</td><td>Müştəri</td></tr>
+                        <tr><td>Tətbiq</td><td>Müştəri</td><td>Müştəri</td><td>Müştəri</td><td>Provayder</td></tr>
+                        <tr><td>OS və patch</td><td>Müştəri</td><td>Müştəri</td><td>Provayder</td><td>Provayder</td></tr>
+                        <tr><td>Fiziki host, şəbəkə, data mərkəzi</td><td>Müştəri</td><td>Provayder</td><td>Provayder</td><td>Provayder</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box mt-6">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800">Məlumat, istifadəçi hesabları və giriş icazələri <strong>həmişə</strong> müştərinin məsuliyyətindədir. Açıq qalmış S3 bucket-dan məlumat sızması provayderin yox, müştərinin səhvidir.</p>
+            </div>
+        </section>
+
+        <section id="economy" class="section-card">
+            <h2 class="section-title">{{i:wallet}} 5. Cloud İqtisadiyyatı</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:receipt}}<p class="text-neutral-700"><strong>CapEx → OpEx:</strong> böyük ilkin avadanlıq xərci yerinə aylıq əməliyyat xərci.</p></div>
+                <div class="feature-item">{{i:trending-down}}<p class="text-neutral-700"><strong>Economies of scale:</strong> provayder milyonlarla server aldığı üçün vahid qiyməti aşağıdır.</p></div>
+                <div class="feature-item">{{i:timer}}<p class="text-neutral-700"><strong>Agility:</strong> test mühiti 5 dəqiqəyə qalxır, iş bitəndə silinir — pul yalnız işlədiyi saatlar üçün.</p></div>
+                <div class="feature-item">{{i:tags}}<p class="text-neutral-700"><strong>Tag-lar və budget:</strong> hər resursa <code>project</code>, <code>owner</code>, <code>env</code> tag-ı verin, budget alert qurun — unudulmuş VM-lər ən çox pul yeyən şeydir.</p></div>
+                <div class="feature-item">{{i:percent}}<p class="text-neutral-700"><strong>Qiymət modelləri:</strong> on-demand (çevik), reserved/savings plan (1–3 il öhdəlik, ~70%-ə qədər endirim), spot (boş güc, 90%-ə qədər ucuz, istənilən an kəsilə bilər).</p></div>
+                <div class="feature-item">{{i:arrow-down-to-line}}<p class="text-neutral-700"><strong>Egress:</strong> cloud-a məlumat yükləmək adətən pulsuzdur, cloud-dan çıxan trafik isə ödənişlidir.</p></div>
+            </div>
+        </section>
+<!--END-->

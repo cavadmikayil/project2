@@ -1,0 +1,147 @@
+<!--PAGE title="Terraform: Infrastructure as Code" icon="file-code-2" badge="DevOps · Terraform" nav="intro:Giriş|workflow:İş axını|hcl:HCL|state:State|modules:Modullar|practice:Yaxşı təcrübə"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:file-code-2}} Giriş: İnfrastruktur Kod Kimi</h2>
+            <p class="lead">
+                Portalda 40 klik ilə yaradılan VPC-ni başqa regionda eyni cür təkrarlamaq, kimin nəyi dəyişdiyini bilmək və ya
+                silinəndə bərpa etmək demək olar ki, mümkün deyil. <strong>Terraform</strong> infrastrukturu mətn fayllarında təsvir edir:
+                kod git-də saxlanılır, review olunur və istənilən vaxt eyni nəticə ilə tətbiq edilir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:target}} Declarative</h3><p class="text-neutral-700">"Nə olmalıdır" yazırsınız, "necə etməli" yox. Terraform fərqi özü hesablayır.</p></div>
+                <div class="info-card"><h3>{{i:plug}} Provider-lər</h3><p class="text-neutral-700">AWS, Azure, Google, Kubernetes, Cloudflare, GitHub, hətta Cisco və Fortinet — 4000-dən çox.</p></div>
+                <div class="info-card dark"><h3>{{i:git-fork}} OpenTofu</h3><p>Terraform-un Linux Foundation altında açıq mənbəli fork-u; əmrlər eynidir (<code>tofu</code>).</p></div>
+            </div>
+        </section>
+
+        <section id="workflow" class="section-card">
+            <h2 class="section-title">{{i:workflow}} 1. Əsas İş Axını</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>terraform init        # provider-ləri yüklə, backend-i qur
+terraform fmt         # kodu standart formata sal
+terraform validate    # sintaksis yoxlaması
+terraform plan        # nə yaradılacaq (+), dəyişəcək (~), silinəcək (-)
+terraform apply       # planı təsdiqlə və tətbiq et
+terraform destroy     # hamısını sil (lab bitəndə)</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800"><code>plan</code>-ı həmişə diqqətlə oxuyun. <code>-/+ destroy and then create replacement</code> — resurs silinib yenidən yaranacaq; bu, verilənlər bazası üçün məlumat itkisi deməkdir.</p>
+            </div>
+        </section>
+
+        <section id="hcl" class="section-card">
+            <h2 class="section-title">{{i:braces}} 2. HCL: VPC və Server</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># main.tf
+terraform {
+  required_providers {
+    aws = { source = "hashicorp/aws", version = "~&gt; 5.0" }
+  }
+}
+
+provider "aws" {
+  region = var.region
+}
+
+variable "region" {
+  type    = string
+  default = "eu-central-1"
+}
+
+resource "aws_vpc" "main" {
+  cidr_block = "10.20.0.0/16"
+  tags       = { Name = "portal-vpc", env = "lab" }
+}
+
+resource "aws_subnet" "public_a" {
+  vpc_id            = aws_vpc.main.id          # başqa resursa istinad = asılılıq
+  cidr_block        = "10.20.0.0/24"
+  availability_zone = "${var.region}a"
+}
+
+data "aws_ami" "ubuntu" {                       # mövcud resursu oxumaq
+  most_recent = true
+  owners      = ["099720109477"]                # Canonical
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"]
+  }
+}
+
+resource "aws_instance" "web" {
+  count         = 2
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t3.micro"
+  subnet_id     = aws_subnet.public_a.id
+  tags          = { Name = "web-${count.index + 1}" }
+}
+
+output "web_ips" {
+  value = aws_instance.web[*].private_ip
+}</code></pre>
+                <p class="code-note">Terraform istinadlardan <strong>asılılıq qrafı</strong> qurur: əvvəl VPC, sonra subnet, sonra instance — sıranı əl ilə yazmaq lazım deyil. Asılı olmayan resurslar paralel yaradılır.</p>
+            </div>
+        </section>
+
+        <section id="state" class="section-card">
+            <h2 class="section-title">{{i:database}} 3. State: Terraform-un Yaddaşı</h2>
+            <p class="lead"><code>terraform.tfstate</code> — koddakı resursların real cloud ID-ləri ilə əlaqəsini saxlayır. State olmadan Terraform nəyi idarə etdiyini bilmir.</p>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:cloud}}<p class="text-neutral-700"><strong>Remote backend:</strong> komandada state S3 + DynamoDB lock, Azure Storage və ya Terraform Cloud-da saxlanılır.</p></div>
+                <div class="feature-item">{{i:lock}}<p class="text-neutral-700"><strong>Locking:</strong> iki nəfər eyni anda <code>apply</code> edib state-i pozmasın.</p></div>
+                <div class="feature-item">{{i:eye-off}}<p class="text-neutral-700"><strong>Həssasdır:</strong> state-də parollar açıq mətnlə ola bilər — git-ə yazmayın, backend-i şifrələyin.</p></div>
+                <div class="feature-item">{{i:git-compare}}<p class="text-neutral-700"><strong>Drift:</strong> kimsə portalda əl ilə dəyişiklik edəndə <code>plan</code> fərqi göstərir və geri qaytarmağı təklif edir.</p></div>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>terraform {
+  backend "s3" {
+    bucket         = "cavad-tfstate"
+    key            = "portal/prod.tfstate"
+    region         = "eu-central-1"
+    encrypt        = true
+    use_lockfile   = true
+  }
+}
+
+terraform state list                      # idarə olunan resurslar
+terraform import aws_vpc.main vpc-0abc123 # əl ilə yaradılmış resursu idarəyə götür</code></pre>
+            </div>
+        </section>
+
+        <section id="modules" class="section-card">
+            <h2 class="section-title">{{i:boxes}} 4. Modullar və Mühitlər</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># envs/prod/main.tf
+module "network" {
+  source   = "../../modules/network"     # və ya registry: "terraform-aws-modules/vpc/aws"
+  cidr     = "10.20.0.0/16"
+  azs      = ["eu-central-1a", "eu-central-1b"]
+  env      = "prod"
+}
+
+module "web" {
+  source        = "../../modules/web"
+  subnet_ids    = module.network.private_subnet_ids
+  instance_type = "t3.small"
+  min_size      = 2
+}</code></pre>
+            </div>
+            <p class="text-neutral-700">Eyni modul <code>dev</code> və <code>prod</code> qovluqlarında fərqli dəyişənlərlə çağırılır — mühitlər strukturca eyni, ölçü və parametrlərlə fərqli olur.</p>
+        </section>
+
+        <section id="practice" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 5. Yaxşı Təcrübə</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:git-pull-request}}<p class="text-neutral-700"><strong>PR-da plan:</strong> CI hər PR-da <code>terraform plan</code> çıxışını şərh kimi yazır, merge-dən sonra <code>apply</code>.</p></div>
+                <div class="feature-item">{{i:pin}}<p class="text-neutral-700"><strong>Versiyaları sabitləyin:</strong> provider və modul versiyaları, <code>.terraform.lock.hcl</code> git-də.</p></div>
+                <div class="feature-item">{{i:shield-alert}}<p class="text-neutral-700"><strong><code>prevent_destroy</code></strong> lifecycle qaydası kritik DB və bucket-lar üçün.</p></div>
+                <div class="feature-item">{{i:scan-search}}<p class="text-neutral-700"><strong>Skan:</strong> <code>tflint</code>, <code>checkov</code>, <code>trivy config</code> — açıq security group, şifrələnməmiş disk.</p></div>
+                <div class="feature-item">{{i:hand}}<p class="text-neutral-700"><strong>Portalda əl ilə dəyişiklik yoxdur</strong> — "ClickOps" drift yaradır.</p></div>
+                <div class="feature-item">{{i:key-round}}<p class="text-neutral-700"><strong>Secret-lər koda yazılmır:</strong> Vault, Secrets Manager və ya <code>TF_VAR_</code> environment dəyişənləri.</p></div>
+            </div>
+        </section>
+<!--END-->

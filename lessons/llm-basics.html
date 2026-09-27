@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#message-square-text"></use></svg> Large Language Model-lər Necə İşləyir</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#message-square-text"></use></svg> Large Language Model-lər Necə İşləyir</h1>
                 <span class="lesson-badge">AI · LLM</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -27,15 +27,15 @@
                 <a href="#params" class="nav-link">Parametrlər</a>
                 <a href="#context" class="nav-link">Kontekst</a>
                 <a href="#limits" class="nav-link">Məhdudiyyətlər</a>
-                <a href="../index.html#ai" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#moon"></use></svg></button>
+                <a href="../index.html#ai" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#message-square-text"></use></svg> Giriş: "Növbəti Sözü Təxmin Et"</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#message-square-text"></use></svg> Giriş: "Növbəti Sözü Təxmin Et"</h2>
             <p class="lead">
                 ChatGPT, Claude, Gemini kimi <strong>Large Language Model</strong>-lərin (LLM) əsasında sadə görünən
                 tapşırıq durur: verilmiş mətndən sonra <strong>növbəti token-i</strong> təxmin etmək. Bunu internet
@@ -45,21 +45,21 @@
         </section>
 
         <section id="tokens" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#scissors"></use></svg> 1. Token-lər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#scissors"></use></svg> 1. Token-lər</h2>
             <p class="lead">Model mətni söz-söz yox, <strong>token</strong>-lərlə görür — söz hissələri, simvollar, boşluqlar.</p>
             <div class="code-block mb-6">
                 <pre><code>"Switch portu err-disabled oldu"
 → ["Switch", " port", "u", " err", "-", "disabled", " oldu"]   (təxmini bölgü)</code></pre>
             </div>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#languages"></use></svg><p class="text-neutral-700"><strong>Dil fərqi:</strong> ingilis dilində bir söz çox vaxt 1 token-dir, Azərbaycan dilində isə söz daha çox token-ə bölünə bilər — eyni mətn daha "baha" və kontekstdə daha çox yer tutur.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#banknote"></use></svg><p class="text-neutral-700"><strong>Qiymət və limit</strong> token ilə ölçülür: giriş (input) və çıxış (output) token-ləri ayrıca hesablanır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#calculator"></use></svg><p class="text-neutral-700"><strong>Hesablama:</strong> model rəqəmləri də token kimi görür — buna görə uzun hesablamalarda səhv edə bilər; dəqiq hesab üçün kod/alət istifadə etmək daha etibarlıdır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#languages"></use></svg><p class="text-neutral-700"><strong>Dil fərqi:</strong> ingilis dilində bir söz çox vaxt 1 token-dir, Azərbaycan dilində isə söz daha çox token-ə bölünə bilər — eyni mətn daha "baha" və kontekstdə daha çox yer tutur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#banknote"></use></svg><p class="text-neutral-700"><strong>Qiymət və limit</strong> token ilə ölçülür: giriş (input) və çıxış (output) token-ləri ayrıca hesablanır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#calculator"></use></svg><p class="text-neutral-700"><strong>Hesablama:</strong> model rəqəmləri də token kimi görür — buna görə uzun hesablamalarda səhv edə bilər; dəqiq hesab üçün kod/alət istifadə etmək daha etibarlıdır.</p></div>
             </div>
         </section>
 
         <section id="transformer" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#git-merge"></use></svg> 2. Transformer və Attention</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#git-merge"></use></svg> 2. Transformer və Attention</h2>
             <p class="lead">
                 <strong>Attention</strong> mexanizmi hər token-in digər bütün token-lərə nə qədər "diqqət" etməli olduğunu
                 hesablayır. "Server çökdü, çünki <em>o</em> yaddaşsız qaldı" cümləsində "o" sözünü emal edərkən model
@@ -74,7 +74,7 @@
         </section>
 
         <section id="training" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> 3. LLM Necə Öyrədilir?</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> 3. LLM Necə Öyrədilir?</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Mərhələ</th><th>Nə edilir</th><th>Nəticə</th></tr></thead>
@@ -86,13 +86,13 @@
                 </table>
             </div>
             <div class="note-box mt-6">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#calendar"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#calendar"></use></svg>
                 <p class="text-neutral-800"><strong>Knowledge cutoff:</strong> model yalnız öyrədildiyi tarixə qədərki məlumatı "bilir". Yeni IOS versiyası, son CVE və ya dünənki xəbər haqqında — axtarış və ya sizin verdiyiniz sənəd olmadan — köhnə və ya uydurma cavab verə bilər.</p>
             </div>
         </section>
 
         <section id="params" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#sliders-horizontal"></use></svg> 4. Generasiya Parametrləri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#sliders-horizontal"></use></svg> 4. Generasiya Parametrləri</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Parametr</th><th>Nə edir</th><th>Tövsiyə</th></tr></thead>
@@ -107,20 +107,20 @@
         </section>
 
         <section id="context" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#panel-left-open"></use></svg> 5. Kontekst Pəncərəsi</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#panel-left-open"></use></svg> 5. Kontekst Pəncərəsi</h2>
             <p class="lead"><strong>Context window</strong> — modelin bir anda "gördüyü" token sayı: system prompt + söhbət tarixçəsi + əlavə etdiyiniz sənədlər + cavab.</p>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#brain"></use></svg><p class="text-neutral-700"><strong>Yaddaş deyil:</strong> model söhbətləri "xatırlamır" — hər sorğuda bütün tarixçə yenidən göndərilir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#scissors"></use></svg><p class="text-neutral-700"><strong>Limit dolanda</strong> köhnə mesajlar kəsilir və ya xülasələnir — erkən verilən təlimatlar "unudula" bilər.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#file-text"></use></svg><p class="text-neutral-700"><strong>Uzun sənədlər:</strong> ən vacib məlumatı aydın başlıqlarla verin; lazımsız log-ları əvvəlcə filtrləyin.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#brain"></use></svg><p class="text-neutral-700"><strong>Yaddaş deyil:</strong> model söhbətləri "xatırlamır" — hər sorğuda bütün tarixçə yenidən göndərilir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#scissors"></use></svg><p class="text-neutral-700"><strong>Limit dolanda</strong> köhnə mesajlar kəsilir və ya xülasələnir — erkən verilən təlimatlar "unudula" bilər.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#file-text"></use></svg><p class="text-neutral-700"><strong>Uzun sənədlər:</strong> ən vacib məlumatı aydın başlıqlarla verin; lazımsız log-ları əvvəlcə filtrləyin.</p></div>
             </div>
         </section>
 
         <section id="limits" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#triangle-alert"></use></svg> 6. Güclü və Zəif Tərəflər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#triangle-alert"></use></svg> 6. Güclü və Zəif Tərəflər</h2>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#circle-check"></use></svg> Güclüdür</h3><p class="text-neutral-700">Mətn yazmaq və xülasə, tərcümə, kod və skript qaralaması, xəta mesajını izah etmək, konfiqurasiya nümunələri, beyin fırtınası.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#circle-x"></use></svg> Ehtiyatlı olun</h3><p>Dəqiq faktlar, rəqəmlər, versiyaya xas əmrlər, hüquqi/tibbi məsələlər, son xəbərlər. Model əmin görünür, amma səhv ola bilər (hallucination) — həmişə mənbə ilə yoxlayın.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#circle-check"></use></svg> Güclüdür</h3><p class="text-neutral-700">Mətn yazmaq və xülasə, tərcümə, kod və skript qaralaması, xəta mesajını izah etmək, konfiqurasiya nümunələri, beyin fırtınası.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#circle-x"></use></svg> Ehtiyatlı olun</h3><p>Dəqiq faktlar, rəqəmlər, versiyaya xas əmrlər, hüquqi/tibbi məsələlər, son xəbərlər. Model əmin görünür, amma səhv ola bilər (hallucination) — həmişə mənbə ilə yoxlayın.</p></div>
             </div>
         </section>
     </main>
@@ -129,7 +129,7 @@
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

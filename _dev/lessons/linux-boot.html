@@ -1,0 +1,141 @@
+<!--PAGE title="Boot Prosesi, systemd Unit-lər və Timer-lər" icon="power" badge="Linux · Boot və systemd" nav="intro:Giriş|boot:Boot ardıcıllığı|targets:Target-lər|units:Unit faylı|timers:Timer-lər|rescue:Bərpa"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:power}} Giriş: Düymədən Login-ə Qədər</h2>
+            <p class="lead">
+                Server açılmırsa, harada ilişdiyini bilmək lazımdır: firmware, bootloader, kernel, yoxsa servislər? Bu dərs boot zəncirini,
+                öz systemd servisinizi yazmağı, cron əvəzinə timer istifadəsini və açılmayan sistemi bərpa etməyi öyrədir.
+                (<code>systemctl</code> əsasları üçün Server kateqoriyasındakı "systemd, Loglar və SSH" dərsinə baxın.)
+            </p>
+        </section>
+
+        <section id="boot" class="section-card">
+            <h2 class="section-title">{{i:list-ordered}} 1. Boot Ardıcıllığı</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Firmware (UEFI/BIOS):</strong> POST, boot cihazının seçimi; UEFI-də <code>/boot/efi</code> bölməsindən EFI faylı.</p></li>
+                <li><p class="text-neutral-700"><strong>Bootloader (GRUB 2):</strong> menyu, kernel və parametrləri seçir.</p></li>
+                <li><p class="text-neutral-700"><strong>Kernel + initramfs:</strong> hardware driver-ləri, root fayl sistemini tapıb mount edir (LVM, RAID, şifrələmə).</p></li>
+                <li><p class="text-neutral-700"><strong>systemd (PID 1):</strong> <code>default.target</code>-ə çatmaq üçün unit-ləri paralel başladır.</p></li>
+                <li><p class="text-neutral-700"><strong>Login:</strong> getty (konsol) və ya sshd, qrafik sistemdə display manager.</p></li>
+            </ol>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>systemd-analyze                         # boot nə qədər çəkdi
+systemd-analyze blame | head            # ən yavaş servislər
+systemd-analyze critical-chain
+journalctl -b -p err                    # bu boot-un xətaları
+journalctl -b -1                        # əvvəlki boot (Storage=persistent olmalıdır)
+cat /proc/cmdline                       # kernel parametrləri</code></pre>
+            </div>
+        </section>
+
+        <section id="targets" class="section-card">
+            <h2 class="section-title">{{i:target}} 2. Target-lər</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Target</th><th>Köhnə runlevel</th><th>Vəziyyət</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>poweroff.target</code></td><td>0</td><td>Söndürmə</td></tr>
+                        <tr><td><code>rescue.target</code></td><td>1</td><td>Tək istifadəçi, minimal servislər</td></tr>
+                        <tr><td><code>multi-user.target</code></td><td>3</td><td>Şəbəkə, qrafikasız — serverlər</td></tr>
+                        <tr><td><code>graphical.target</code></td><td>5</td><td>Qrafik interfeys</td></tr>
+                        <tr><td><code>reboot.target</code></td><td>6</td><td>Yenidən başlama</td></tr>
+                        <tr><td><code>emergency.target</code></td><td>—</td><td>Yalnız root FS (read-only), ən minimal</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>systemctl get-default
+systemctl set-default multi-user.target
+systemctl isolate rescue.target          # indi keç (ehtiyatla — SSH qopa bilər)</code></pre>
+            </div>
+        </section>
+
+        <section id="units" class="section-card">
+            <h2 class="section-title">{{i:file-cog}} 3. Öz Servisini Yazmaq</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># /etc/systemd/system/portal-api.service
+[Unit]
+Description=Portal API
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=portal
+WorkingDirectory=/opt/portal
+EnvironmentFile=/etc/portal/api.env
+ExecStart=/opt/portal/.venv/bin/gunicorn -b 127.0.0.1:8000 app:app
+Restart=on-failure
+RestartSec=5
+# Təhlükəsizlik
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/portal
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>systemctl daemon-reload
+systemctl enable --now portal-api
+systemctl status portal-api
+journalctl -u portal-api -f
+systemctl edit nginx            # paylanma faylına toxunmadan override (drop-in)
+systemd-analyze security portal-api    # təhlükəsizlik balı</code></pre>
+                <p class="code-note"><code>/usr/lib/systemd/system/</code> — paketlərin faylları (yeniləmədə üzərinə yazılır); <code>/etc/systemd/system/</code> — sizin fayllar və override-lar, üstünlük təşkil edir.</p>
+            </div>
+        </section>
+
+        <section id="timers" class="section-card">
+            <h2 class="section-title">{{i:alarm-clock}} 4. Timer-lər: cron-un Müasir Əvəzi</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># /etc/systemd/system/db-backup.service
+[Unit]
+Description=PostgreSQL backup
+[Service]
+Type=oneshot
+User=postgres
+ExecStart=/usr/local/bin/db-backup.sh
+
+# /etc/systemd/system/db-backup.timer
+[Unit]
+Description=Gecəlik DB backup
+[Timer]
+OnCalendar=*-*-* 02:30:00
+RandomizedDelaySec=10m
+Persistent=true            # server söndürülü idisə, açılanda qaçırılanı işlət
+[Install]
+WantedBy=timers.target
+
+systemctl enable --now db-backup.timer
+systemctl list-timers
+systemd-analyze calendar "Mon..Fri 08:00"   # ifadəni yoxla</code></pre>
+            </div>
+            <p class="text-neutral-700">Üstünlükləri: nəticə journal-da, uğursuzluq <code>systemctl --failed</code>-də görünür, asılılıqlar və resurs limitləri, qaçırılan işlərin icrası.</p>
+        </section>
+
+        <section id="rescue" class="section-card">
+            <h2 class="section-title">{{i:life-buoy}} 5. Açılmayan Sistemi Bərpa Etmək</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Simptom</th><th>Həll</th></tr></thead>
+                    <tbody>
+                        <tr><td>Emergency mode, "Dependency failed for /data"</td><td>fstab xətası: root parolu ilə gir, <code>mount -o remount,rw /</code>, fstab-ı düzəlt</td></tr>
+                        <tr><td>Root parolu unudulub</td><td>GRUB-da <code>e</code> → linux sətrinə <code>rd.break</code> (RHEL) və ya <code>init=/bin/bash</code> → remount rw → <code>passwd</code> → SELinux üçün <code>touch /.autorelabel</code></td></tr>
+                        <tr><td>Yeni kernel ilə açılmır</td><td>GRUB menyusunda əvvəlki kernel-i seç</td></tr>
+                        <tr><td>GRUB zədələnib</td><td>Live ISO ilə boot → chroot → <code>grub2-install</code> / <code>update-grub</code></td></tr>
+                        <tr><td>Servis açılışı gecikdirir</td><td><code>systemd-analyze blame</code>, servisə <code>TimeoutStartSec</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lock}}
+                <p class="text-neutral-800">Fiziki və ya konsol girişi olan hər kəs bu üsullarla root ola bilər — GRUB parolu, UEFI parolu və disk şifrələməsi (LUKS) bu riski azaldır.</p>
+            </div>
+        </section>
+<!--END-->

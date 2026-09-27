@@ -1,0 +1,111 @@
+<!--PAGE title="Cloud Şəbəkələri: VPC və VNet" icon="network" badge="Cloud · Şəbəkə" nav="intro:Giriş|design:Dizayn|internet:İnternet çıxışı|filter:Filtrləmə|connect:Birləşdirmə|compare:AWS və Azure"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:network}} Giriş: Cloud-da Öz Şəbəkən</h2>
+            <p class="lead">
+                Cloud-da yaradılan hər VM bir virtual şəbəkəyə qoşulur: AWS-də <strong>VPC</strong> (Virtual Private Cloud), Azure-da <strong>VNet</strong> (Virtual Network).
+                Burada CCNA biliyiniz birbaşa işə yarayır: CIDR, subnetting, routing table, NAT, ACL — hamısı var, sadəcə
+                router və switch yerinə API və portal ilə konfiqurasiya olunur.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:hash}} CIDR blok</h3><p class="text-neutral-700">VPC üçün RFC 1918 aralığı: məs. <code>10.20.0.0/16</code>. On-prem və digər VPC-lərlə <strong>üst-üstə düşməməlidir</strong> — sonra birləşdirmək mümkün olmur.</p></div>
+                <div class="info-card"><h3>{{i:grid-2x2}} Subnet</h3><p class="text-neutral-700">AWS-də subnet bir AZ-a bağlıdır; Azure-da subnet region daxilində bütün zone-ları əhatə edir.</p></div>
+                <div class="info-card dark"><h3>{{i:route}} Route table</h3><p>Hər subnet bir route table-a bağlanır. VPC daxilindəki <code>local</code> marşrut avtomatik mövcuddur.</p></div>
+            </div>
+        </section>
+
+        <section id="design" class="section-card">
+            <h2 class="section-title">{{i:layout-grid}} 1. Tipik Üç Səviyyəli Dizayn</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Subnet</th><th>AZ-a</th><th>AZ-b</th><th>Nə yerləşir</th><th>İnternet</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Public</strong></td><td><code>10.20.0.0/24</code></td><td><code>10.20.1.0/24</code></td><td>Load balancer, NAT Gateway, bastion</td><td class="yes">Birbaşa (IGW)</td></tr>
+                        <tr><td><strong>App (private)</strong></td><td><code>10.20.10.0/24</code></td><td><code>10.20.11.0/24</code></td><td>Veb/app serverlər</td><td>Yalnız çıxış (NAT)</td></tr>
+                        <tr><td><strong>Data (private)</strong></td><td><code>10.20.20.0/24</code></td><td><code>10.20.21.0/24</code></td><td>Verilənlər bazası</td><td class="no">Yoxdur</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">AWS hər subnet-də 5 IP-ni rezerv edir (şəbəkə, router, DNS, gələcək istifadə, broadcast), Azure da 5. Deməli <code>/24</code>-də 251 istifadə oluna bilən ünvan qalır.</p>
+            </div>
+        </section>
+
+        <section id="internet" class="section-card">
+            <h2 class="section-title">{{i:globe}} 2. İnternet Girişi və Çıxışı</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:door-open}}<p class="text-neutral-700"><strong>Internet Gateway (IGW):</strong> VPC-ni internetə bağlayır. Subnet-in route table-ında <code>0.0.0.0/0 → igw</code> varsa, o subnet "public"dir.</p></div>
+                <div class="feature-item">{{i:arrow-up-right}}<p class="text-neutral-700"><strong>NAT Gateway:</strong> private serverlər yeniləmə yükləyə bilsin, amma internetdən onlara bağlantı açılmasın — CCNA-dakı PAT-ın eynisi.</p></div>
+                <div class="feature-item">{{i:map-pin}}<p class="text-neutral-700"><strong>Elastic IP / Public IP:</strong> sabit public ünvan. İstifadə olunmayan public IPv4 ünvanlar da ödənişlidir.</p></div>
+                <div class="feature-item">{{i:lock}}<p class="text-neutral-700"><strong>Bastion / Session Manager:</strong> serverlərə SSH/RDP-ni internetə açmadan idarə etmək.</p></div>
+            </div>
+            <div class="code-block mt-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Public subnet route table
+Destination      Target
+10.20.0.0/16     local
+0.0.0.0/0        igw-0a1b2c3d
+
+# Private (app) subnet route table
+Destination      Target
+10.20.0.0/16     local
+0.0.0.0/0        nat-0f9e8d7c        # NAT Gateway public subnet-dədir
+10.0.0.0/8       vgw-0123abcd        # on-prem VPN üzərindən</code></pre>
+            </div>
+        </section>
+
+        <section id="filter" class="section-card">
+            <h2 class="section-title">{{i:shield}} 3. Trafikin Filtrlənməsi</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Security Group (AWS)</th><th>Network ACL (AWS)</th><th>NSG (Azure)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Harada tətbiq olunur</td><td>Instance / network interface</td><td>Subnet</td><td>Subnet və/və ya NIC</td></tr>
+                        <tr><td>Stateful?</td><td class="yes">Bəli — cavab trafiki avtomatik icazəlidir</td><td class="no">Xeyr — hər iki istiqamət yazılır</td><td class="yes">Bəli</td></tr>
+                        <tr><td>Qaydalar</td><td>Yalnız allow</td><td>Allow və deny, nömrə sırası ilə</td><td>Allow və deny, priority 100–4096</td></tr>
+                        <tr><td>Defolt</td><td>Inbound hamısı bağlı, outbound açıq</td><td>Defolt NACL hamısını buraxır</td><td>VNet daxili açıq, internet inbound bağlı</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Security group-ları bir-birinə istinad edir — IP yazmaq lazım deyil
+sg-alb   inbound: 443/tcp  from 0.0.0.0/0
+sg-web   inbound: 8080/tcp from sg-alb
+sg-db    inbound: 5432/tcp from sg-web
+# Nəticə: DB-yə yalnız web serverlər, web-ə yalnız load balancer çata bilir</code></pre>
+                <p class="code-note">Bu, CCNA-dakı "ACL-i mənbəyə yaxın/uzaq qoymaq" məntiqinin cloud versiyasıdır: hər səviyyə yalnız bir əvvəlki səviyyədən trafik qəbul edir.</p>
+            </div>
+        </section>
+
+        <section id="connect" class="section-card">
+            <h2 class="section-title">{{i:cable}} 4. Şəbəkələri Birləşdirmək</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:arrow-left-right}} Peering</h3><p class="text-neutral-700">İki VPC/VNet arasında birbaşa, şəxsi əlaqə. <strong>Transitive deyil</strong>: A–B və B–C peering-i A–C əlaqəsi yaratmır.</p></div>
+                <div class="info-card"><h3>{{i:waypoints}} Transit Gateway / Virtual WAN</h3><p class="text-neutral-700">Onlarla VPC və ofis üçün hub-and-spoke mərkəzi router.</p></div>
+                <div class="info-card accent"><h3>{{i:lock-keyhole}} Site-to-Site VPN</h3><p class="text-neutral-700">Ofis firewall-u ilə cloud arasında IPsec tunel — internet üzərindən, dəqiqələrə qurulur.</p></div>
+                <div class="info-card dark"><h3>{{i:cable}} Direct Connect / ExpressRoute</h3><p>Provayderə ayrılmış fiziki xətt: sabit latency, yüksək bant, internetdən keçmir.</p></div>
+            </div>
+            <div class="note-box mt-6">
+                {{i:plug}}
+                <p class="text-neutral-800"><strong>Private endpoint:</strong> S3, Azure SQL kimi PaaS xidmətlərinə trafik internetdən yox, VPC daxilindəki şəxsi IP üzərindən gedir.</p>
+            </div>
+        </section>
+
+        <section id="compare" class="section-card">
+            <h2 class="section-title">{{i:scale}} 5. AWS və Azure Terminləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Funksiya</th><th>AWS</th><th>Azure</th><th>On-prem analoqu</th></tr></thead>
+                    <tbody>
+                        <tr><td>Virtual şəbəkə</td><td>VPC</td><td>VNet</td><td>VRF / şəbəkə seqmenti</td></tr>
+                        <tr><td>Stateful firewall</td><td>Security Group</td><td>NSG / Azure Firewall</td><td>Firewall policy</td></tr>
+                        <tr><td>Load balancer L7</td><td>ALB</td><td>Application Gateway</td><td>F5, reverse proxy</td></tr>
+                        <tr><td>DNS</td><td>Route 53</td><td>Azure DNS</td><td>BIND, Windows DNS</td></tr>
+                        <tr><td>Şəxsi xətt</td><td>Direct Connect</td><td>ExpressRoute</td><td>MPLS</td></tr>
+                        <tr><td>Trafik logu</td><td>VPC Flow Logs</td><td>VNet Flow Logs</td><td>NetFlow</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+<!--END-->

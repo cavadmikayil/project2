@@ -1,0 +1,185 @@
+<!--PAGE title="Ansible ilə Şəbəkə Avtomatlaşdırması" icon="workflow" badge="Automation · Ansible" nav="intro:Giriş|setup:Hazırlıq|facts:Facts və show|config:Konfiqurasiya|backup:Backup|compliance:Uyğunluq"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:workflow}} Giriş: Kod Yazmadan Avtomatlaşdırma</h2>
+            <p class="lead">
+                Ansible şəbəkə cihazlarında serverlərdən fərqli işləyir: cihazda Python yoxdur, ona görə modullar
+                <strong>control node-da</strong> işləyir və cihaza SSH (<code>network_cli</code>) və ya API
+                (<code>netconf</code>, <code>httpapi</code>) ilə qoşulur. Nəticə — Python bilməyən şəbəkə mühəndisi də YAML ilə
+                yüzlərlə cihazı idarə edə bilir.
+            </p>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Platforma</th><th>Collection</th><th><code>ansible_network_os</code></th></tr></thead>
+                    <tbody>
+                        <tr><td>Cisco IOS / IOS XE</td><td><code>cisco.ios</code></td><td><code>cisco.ios.ios</code></td></tr>
+                        <tr><td>Cisco NX-OS</td><td><code>cisco.nxos</code></td><td><code>cisco.nxos.nxos</code></td></tr>
+                        <tr><td>Arista EOS</td><td><code>arista.eos</code></td><td><code>arista.eos.eos</code></td></tr>
+                        <tr><td>Juniper Junos</td><td><code>junipernetworks.junos</code></td><td><code>junipernetworks.junos.junos</code></td></tr>
+                        <tr><td>FortiGate</td><td><code>fortinet.fortios</code></td><td><code>fortinet.fortios.fortios</code> (httpapi)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="setup" class="section-card">
+            <h2 class="section-title">{{i:settings}} 1. Hazırlıq</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>pip install ansible ansible-pylibssh
+ansible-galaxy collection install cisco.ios
+
+# inventory.yml
+all:
+  children:
+    routers:
+      hosts:
+        EDGE-R1: { ansible_host: 10.10.0.254 }
+    switches:
+      hosts:
+        CORE-SW1: { ansible_host: 10.10.0.1 }
+        ACC-SW1:  { ansible_host: 10.10.0.11 }
+  vars:
+    ansible_connection: ansible.netcommon.network_cli
+    ansible_network_os: cisco.ios.ios
+    ansible_user: netadmin
+    ansible_password: "{{ vault_net_password }}"
+    ansible_become: true
+    ansible_become_method: enable</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:lock}}
+                <p class="text-neutral-800">Parol <code>group_vars/all/vault.yml</code> faylında Ansible Vault ilə şifrələnir, playbook <code>--ask-vault-pass</code> ilə işlədilir.</p>
+            </div>
+        </section>
+
+        <section id="facts" class="section-card">
+            <h2 class="section-title">{{i:clipboard-list}} 2. Facts və Show Əmrləri</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># inventory_report.yml
+- name: Cihaz inventarı
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Facts topla
+      cisco.ios.ios_facts:
+        gather_subset: min
+
+    - name: Versiya çap et
+      ansible.builtin.debug:
+        msg: "{{ inventory_hostname }}: {{ ansible_net_model }} / {{ ansible_net_version }} / {{ ansible_net_serialnum }}"
+
+    - name: OSPF qonşuları
+      cisco.ios.ios_command:
+        commands: show ip ospf neighbor
+      register: ospf
+
+    - ansible.builtin.debug:
+        var: ospf.stdout_lines[0]</code></pre>
+            </div>
+        </section>
+
+        <section id="config" class="section-card">
+            <h2 class="section-title">{{i:file-cog}} 3. Konfiqurasiya: ios_config və Resource Modullar</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="an-config">ios_config</button>
+                <button class="tab-btn inactive-tab" data-pane="an-resource">Resource modullar</button>
+            </div>
+            <div id="an-config">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>- name: Standart xidmətlər
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: NTP və logging
+      cisco.ios.ios_config:
+        lines:
+          - ntp server 10.0.0.10
+          - logging host 10.0.0.50
+        save_when: modified          # yalnız dəyişiklik olanda write memory
+
+    - name: ACL — ardıcıllıq vacibdir
+      cisco.ios.ios_config:
+        parents: ip access-list standard MGMT
+        lines:
+          - permit 10.0.0.0 0.0.0.255
+          - deny any log
+        before: no ip access-list standard MGMT
+        match: exact</code></pre>
+                </div>
+            </div>
+            <div id="an-resource" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>- name: VLAN-lar — istənilən vəziyyət
+  hosts: switches
+  gather_facts: false
+  tasks:
+    - cisco.ios.ios_vlans:
+        config:
+          - { vlan_id: 10, name: MUHASIBAT }
+          - { vlan_id: 20, name: IT }
+          - { vlan_id: 30, name: GUEST }
+        state: merged            # merged | replaced | overridden | deleted
+
+    - cisco.ios.ios_l2_interfaces:
+        config:
+          - name: GigabitEthernet1/0/1
+            mode: access
+            access: { vlan: 10 }
+        state: merged</code></pre>
+                    <p class="code-note">Resource modullar strukturlaşdırılmış məlumatla işləyir və idempotentdir. <code>overridden</code> — siyahıda olmayan VLAN-ları silir (ehtiyatla!).</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="backup" class="section-card">
+            <h2 class="section-title">{{i:hard-drive-download}} 4. Konfiqurasiya Backup-ı</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>- name: Gecəlik backup
+  hosts: all
+  gather_facts: false
+  tasks:
+    - cisco.ios.ios_config:
+        backup: true
+        backup_options:
+          dir_path: ./backups
+          filename: "{{ inventory_hostname }}.cfg"
+
+# cron / CI: hər gecə
+ansible-playbook -i inventory.yml backup.yml --vault-password-file ~/.vault_pass
+cd backups &amp;&amp; git add -A &amp;&amp; git commit -m "backup $(date +%F)" || true</code></pre>
+            </div>
+        </section>
+
+        <section id="compliance" class="section-card">
+            <h2 class="section-title">{{i:clipboard-check}} 5. Uyğunluq Yoxlaması</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>- name: Təhlükəsizlik standartı
+  hosts: all
+  gather_facts: false
+  tasks:
+    - cisco.ios.ios_command:
+        commands: show running-config
+      register: run
+
+    - name: Telnet bağlı olmalıdır
+      ansible.builtin.assert:
+        that: "'transport input ssh' in run.stdout[0]"
+        fail_msg: "{{ inventory_hostname }}: VTY-də yalnız SSH olmalıdır"
+      ignore_errors: true
+
+    - name: Parollar şifrələnməlidir
+      ansible.builtin.assert:
+        that: "'service password-encryption' in run.stdout[0]"
+      ignore_errors: true</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Bu yoxlamaları <strong>--check</strong> rejimli konfiqurasiya playbook-u ilə birləşdirsəniz, hansı cihazın standartdan kənara çıxdığını (drift) hər gün avtomatik görərsiniz.</p>
+            </div>
+        </section>
+<!--END-->

@@ -1,0 +1,108 @@
+<!--PAGE title="A+ Core 1: Hardware, Mobil Cihazlar və Şəbəkə" icon="cpu" badge="CompTIA · A+" nav="intro:Domenlər|mobile:Mobil cihazlar|cables:Kabel və portlar|hardware:Hardware|net:Şəbəkə|cloud:Virtualizasiya və cloud"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:cpu}} Core 1 (220-1201) Domenləri</h2>
+            <p class="lead">
+                Core 1 "fiziki dünya" haqqındadır: kompüterin içindəkilər, noutbuk və telefonlar, kabellər, printerlər, şəbəkə əsasları
+                və bunların troubleshooting-i. Bu dərs imtahanda ən çox soruşulan faktları bir yerə yığır.
+            </p>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:smartphone}} Mobile Devices</h3><p class="text-neutral-700">Noutbuk komponentləri, aksesuarlar, sinxronizasiya, MDM.</p></div>
+                <div class="info-card"><h3>{{i:network}} Networking</h3><p class="text-neutral-700">Portlar, protokollar, Wi-Fi, SOHO şəbəkə, alətlər.</p></div>
+                <div class="info-card accent"><h3>{{i:hard-drive}} Hardware</h3><p class="text-neutral-700">Kabellər, RAM, storage, RAID, anakart, CPU, PSU, printerlər.</p></div>
+                <div class="info-card"><h3>{{i:cloud}} Virtualization &amp; Cloud</h3><p class="text-neutral-700">Hypervisor, VM tələbləri, cloud modelləri.</p></div>
+                <div class="info-card dark"><h3>{{i:wrench}} Troubleshooting</h3><p>Ən böyük domen: hardware, storage, video, mobil, printer və şəbəkə problemləri.</p></div>
+            </div>
+        </section>
+
+        <section id="mobile" class="section-card">
+            <h2 class="section-title">{{i:smartphone}} 1. Mobil Cihazlar</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:laptop}}<p class="text-neutral-700"><strong>Noutbukda dəyişdirilə bilənlər:</strong> RAM (SO-DIMM), SSD (M.2 / 2.5"), batareya, klaviatura, Wi-Fi kartı. Dəyişməzdən əvvəl batareyanı ayırın.</p></div>
+                <div class="feature-item">{{i:monitor}}<p class="text-neutral-700"><strong>Ekran:</strong> LCD (IPS — geniş bucaq, TN — sürətli, VA), OLED (piksel özü işıq verir). Wi-Fi antenaları adətən ekran çərçivəsindədir.</p></div>
+                <div class="feature-item">{{i:bluetooth}}<p class="text-neutral-700"><strong>Qoşulma:</strong> Bluetooth (pairing, PIN), NFC (ödəniş, qısa məsafə), hotspot/tethering.</p></div>
+                <div class="feature-item">{{i:shield-check}}<p class="text-neutral-700"><strong>MDM:</strong> şirkət telefonlarını mərkəzdən idarə etmək — parol siyasəti, uzaqdan silmə (remote wipe), tətbiq nəzarəti.</p></div>
+            </div>
+        </section>
+
+        <section id="cables" class="section-card">
+            <h2 class="section-title">{{i:cable}} 2. Kabellər və Portlar</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Qeyd</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>USB 2.0 / 3.x / USB4</strong></td><td>480 Mbps / 5–20 Gbps / 40–80 Gbps; USB-C konnektor formasıdır, sürət deyil</td></tr>
+                        <tr><td><strong>Thunderbolt 3/4</strong></td><td>40 Gbps, USB-C konnektoru, video + data + enerji</td></tr>
+                        <tr><td><strong>HDMI / DisplayPort</strong></td><td>Rəqəmsal video + audio; DP daha çox monitor zənciri (daisy chain) üçün</td></tr>
+                        <tr><td><strong>VGA / DVI</strong></td><td>Köhnə: VGA analoq (DE-15), DVI-D rəqəmsal, DVI-I hər ikisi</td></tr>
+                        <tr><td><strong>SATA / eSATA</strong></td><td>Daxili/xarici disk; SATA III — 6 Gbps</td></tr>
+                        <tr><td><strong>Cat 5e / 6 / 6a</strong></td><td>1 Gbps / 10 Gbps (55 m-ə qədər) / 10 Gbps (100 m); RJ45, T568A/T568B</td></tr>
+                        <tr><td><strong>Fiber</strong></td><td>Single-mode (uzun məsafə), multimode (qısa); LC, SC, ST konnektorları</td></tr>
+                        <tr><td><strong>Coaxial</strong></td><td>RG-6, F-type konnektor — kabel internet</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="hardware" class="section-card">
+            <h2 class="section-title">{{i:memory-stick}} 3. Hardware Faktları</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>RAID</th><th>Minimum disk</th><th>Nədir</th><th>Dayanıqlıq</th></tr></thead>
+                    <tbody>
+                        <tr><td>RAID 0</td><td>2</td><td>Striping — sürət</td><td class="no">Yoxdur — bir disk gedərsə hamısı itir</td></tr>
+                        <tr><td>RAID 1</td><td>2</td><td>Mirroring</td><td class="yes">1 disk itkisi</td></tr>
+                        <tr><td>RAID 5</td><td>3</td><td>Striping + parity</td><td class="yes">1 disk itkisi</td></tr>
+                        <tr><td>RAID 6</td><td>4</td><td>İkiqat parity</td><td class="yes">2 disk itkisi</td></tr>
+                        <tr><td>RAID 10</td><td>4</td><td>Mirror + stripe</td><td class="yes">Hər mirror-dan 1 disk</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:memory-stick}}<p class="text-neutral-700"><strong>RAM:</strong> DDR4/DDR5 fərqli çəngəl yerləri — qarışdırmaq olmaz. Dual-channel üçün eyni cüt slotlar. Server — ECC RAM.</p></div>
+                <div class="feature-item">{{i:hard-drive}}<p class="text-neutral-700"><strong>Storage:</strong> HDD (5400/7200 rpm), SATA SSD (~550 MB/s), NVMe M.2 (PCIe, GB/s-lərlə). M.2 SATA və NVMe fərqli ola bilər — açarı yoxlayın.</p></div>
+                <div class="feature-item">{{i:shield}}<p class="text-neutral-700"><strong>Firmware:</strong> UEFI + Secure Boot, TPM 2.0 (BitLocker və Windows 11 üçün), BIOS parolu.</p></div>
+                <div class="feature-item">{{i:plug}}<p class="text-neutral-700"><strong>PSU:</strong> 24-pin ATX, 8-pin EPS (CPU), 6/8-pin və 12V-2x6 (GPU). Gücü komponentlərin cəmindən ~20–30% artıq seçin.</p></div>
+                <div class="feature-item">{{i:printer}}<p class="text-neutral-700"><strong>Printer:</strong> lazer prosesi 7 addım — processing, charging, exposing, developing, transferring, fusing, cleaning. Fuser isti olur!</p></div>
+            </div>
+        </section>
+
+        <section id="net" class="section-card">
+            <h2 class="section-title">{{i:network}} 4. Şəbəkə Əsasları</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Port</th><th>Protokol</th><th>Port</th><th>Protokol</th></tr></thead>
+                    <tbody>
+                        <tr><td>20/21</td><td>FTP</td><td>110 / 143</td><td>POP3 / IMAP</td></tr>
+                        <tr><td>22</td><td>SSH</td><td>137–139 / 445</td><td>NetBIOS / SMB</td></tr>
+                        <tr><td>23</td><td>Telnet</td><td>161/162</td><td>SNMP</td></tr>
+                        <tr><td>25</td><td>SMTP</td><td>389</td><td>LDAP</td></tr>
+                        <tr><td>53</td><td>DNS</td><td>443</td><td>HTTPS</td></tr>
+                        <tr><td>67/68</td><td>DHCP</td><td>3389</td><td>RDP</td></tr>
+                        <tr><td>80</td><td>HTTP</td><td>427 / 548</td><td>SLP / AFP</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Wi-Fi</th><th>Ad</th><th>Tezlik</th><th>Maks. sürət</th></tr></thead>
+                    <tbody>
+                        <tr><td>802.11n</td><td>Wi-Fi 4</td><td>2.4 / 5 GHz</td><td>600 Mbps</td></tr>
+                        <tr><td>802.11ac</td><td>Wi-Fi 5</td><td>5 GHz</td><td>~6.9 Gbps</td></tr>
+                        <tr><td>802.11ax</td><td>Wi-Fi 6 / 6E</td><td>2.4 / 5 / 6 GHz (6E)</td><td>~9.6 Gbps</td></tr>
+                        <tr><td>802.11be</td><td>Wi-Fi 7</td><td>2.4 / 5 / 6 GHz</td><td>~46 Gbps</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4">APIPA ünvanı <code>169.254.x.x</code> — kompüter DHCP serverdən ünvan ala bilməyib. Alətlər: crimper, cable tester, toner probe, punchdown tool, Wi-Fi analyzer, loopback plug.</p>
+        </section>
+
+        <section id="cloud" class="section-card">
+            <h2 class="section-title">{{i:layers}} 5. Virtualizasiya və Cloud</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:server}}<p class="text-neutral-700"><strong>Type 1 hypervisor</strong> (bare metal): ESXi, Hyper-V Server. <strong>Type 2</strong> (OS üzərində): VirtualBox, VMware Workstation.</p></div>
+                <div class="feature-item">{{i:cpu}}<p class="text-neutral-700"><strong>Tələb:</strong> CPU-da virtualizasiya dəstəyi (Intel VT-x / AMD-V) BIOS/UEFI-də aktiv olmalıdır.</p></div>
+                <div class="feature-item">{{i:cloud}}<p class="text-neutral-700"><strong>Cloud:</strong> IaaS/PaaS/SaaS, public/private/hybrid/community, rapid elasticity, metered utilization, shared resources.</p></div>
+                <div class="feature-item">{{i:monitor-smartphone}}<p class="text-neutral-700"><strong>VDI:</strong> masaüstü mərkəzi serverdə, istifadəçi nazik klient və ya brauzerdən qoşulur.</p></div>
+            </div>
+        </section>
+<!--END-->

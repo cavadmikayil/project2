@@ -1,0 +1,124 @@
+<!--PAGE title="REST API Əsasları" icon="webhook" badge="Automation · API" nav="intro:Giriş|http:HTTP metodları|codes:Status kodları|auth:Autentifikasiya|curl:curl və Postman|python:Python requests"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:webhook}} Giriş: Proqramların Bir-biri ilə Danışığı</h2>
+            <p class="lead">
+                <strong>API</strong> (Application Programming Interface) — bir proqramın digərinə xidmət təklif etdiyi razılaşdırılmış interfeysdir.
+                <strong>REST</strong> isə HTTP üzərində qurulan ən geniş yayılmış API üslubudur: hər şey <strong>resurs</strong>dur
+                (<code>/devices</code>, <code>/devices/42/interfaces</code>), resurslar URL ilə tanınır və HTTP metodları ilə idarə olunur.
+                Cisco Catalyst Center, Meraki, FortiGate, NetBox, AWS — hamısının REST API-si var.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:unplug}} Stateless</h3><p class="text-neutral-700">Hər sorğu özündə bütün lazımi məlumatı (token daxil) daşıyır; server əvvəlki sorğunu yadda saxlamır.</p></div>
+                <div class="info-card"><h3>{{i:link}} URI</h3><p class="text-neutral-700"><code>https://api.example.com/v1/devices?site=baku&amp;limit=50</code> — base URL, versiya, resurs, query parametrləri.</p></div>
+                <div class="info-card dark"><h3>{{i:braces}} JSON</h3><p>Məlumat adətən JSON formatında göndərilir və qaytarılır.</p></div>
+            </div>
+        </section>
+
+        <section id="http" class="section-card">
+            <h2 class="section-title">{{i:arrow-left-right}} 1. HTTP Metodları (CRUD)</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Metod</th><th>CRUD</th><th>Nümunə</th><th>Idempotent</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>GET</strong></td><td>Read</td><td><code>GET /devices/42</code> — cihaz məlumatı</td><td class="yes">Bəli</td></tr>
+                        <tr><td><strong>POST</strong></td><td>Create</td><td><code>POST /vlans</code> — yeni VLAN</td><td class="no">Xeyr</td></tr>
+                        <tr><td><strong>PUT</strong></td><td>Update (tam əvəzləmə)</td><td><code>PUT /vlans/10</code> — bütün sahələr</td><td class="yes">Bəli</td></tr>
+                        <tr><td><strong>PATCH</strong></td><td>Update (qismən)</td><td><code>PATCH /vlans/10</code> — yalnız ad</td><td>Adətən</td></tr>
+                        <tr><td><strong>DELETE</strong></td><td>Delete</td><td><code>DELETE /vlans/10</code></td><td class="yes">Bəli</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box mt-6">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">HTTP sorğusunun hissələri: <strong>metod + URL</strong>, <strong>header-lər</strong> (<code>Content-Type: application/json</code>, <code>Accept</code>, <code>Authorization</code>) və <strong>body</strong> (POST/PUT/PATCH üçün JSON).</p>
+            </div>
+        </section>
+
+        <section id="codes" class="section-card">
+            <h2 class="section-title">{{i:list-ordered}} 2. Status Kodları</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Kod</th><th>Mənası</th><th>Nə etməli</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>200 OK</code></td><td>Uğurlu</td><td>Cavabı oxu</td></tr>
+                        <tr><td><code>201 Created</code></td><td>Resurs yaradıldı</td><td><code>Location</code> header-ində yeni URL</td></tr>
+                        <tr><td><code>204 No Content</code></td><td>Uğurlu, body yoxdur</td><td>Adətən DELETE-dən sonra</td></tr>
+                        <tr><td><code>400 Bad Request</code></td><td>Sorğu səhvdir</td><td>JSON-u və sahələri yoxla</td></tr>
+                        <tr><td><code>401 Unauthorized</code></td><td>Autentifikasiya yoxdur/yanlışdır</td><td>Token-i yenilə</td></tr>
+                        <tr><td><code>403 Forbidden</code></td><td>Kim olduğun bəllidir, amma icazən yoxdur</td><td>Rol/icazələri yoxla</td></tr>
+                        <tr><td><code>404 Not Found</code></td><td>Resurs yoxdur</td><td>URL və ID-ni yoxla</td></tr>
+                        <tr><td><code>429 Too Many Requests</code></td><td>Rate limit</td><td><code>Retry-After</code> qədər gözlə</td></tr>
+                        <tr><td><code>500 / 503</code></td><td>Server xətası / əlçatmaz</td><td>Təkrar cəhd (backoff ilə), provayderə müraciət</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="auth" class="section-card">
+            <h2 class="section-title">{{i:key-round}} 3. Autentifikasiya Üsulları</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:user}}<p class="text-neutral-700"><strong>Basic auth:</strong> <code>Authorization: Basic base64(user:pass)</code> — yalnız HTTPS üzərində; base64 şifrələmə deyil.</p></div>
+                <div class="feature-item">{{i:key}}<p class="text-neutral-700"><strong>API key:</strong> <code>X-Cisco-Meraki-API-Key: ...</code> və ya <code>Authorization: Bearer ...</code> — uzunmüddətli, ehtiyatla saxlanmalı.</p></div>
+                <div class="feature-item">{{i:ticket}}<p class="text-neutral-700"><strong>Token:</strong> əvvəlcə login endpoint-dən token alınır (Catalyst Center: <code>X-Auth-Token</code>), sonra hər sorğuda göndərilir; müddəti bitir.</p></div>
+                <div class="feature-item">{{i:shield-check}}<p class="text-neutral-700"><strong>OAuth 2.0:</strong> client credentials ilə qısamüddətli access token — Microsoft Graph, Webex, müasir SaaS API-lər.</p></div>
+            </div>
+        </section>
+
+        <section id="curl" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 4. curl və Postman</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># GET — açıq API
+curl -s https://api.github.com/repos/cavadmikayil/project2 | jq '.name, .default_branch'
+
+# Header və token ilə
+curl -s -H "Authorization: Token $NETBOX_TOKEN" -H "Accept: application/json" \
+  "https://netbox.local/api/dcim/devices/?site=baku&amp;limit=5" | jq '.results[].name'
+
+# POST — JSON body ilə
+curl -s -X POST "https://netbox.local/api/ipam/vlans/" \
+  -H "Authorization: Token $NETBOX_TOKEN" -H "Content-Type: application/json" \
+  -d '{"vid": 30, "name": "GUEST", "status": "active"}'
+
+curl -i ...        # cavab header-lərini və status kodunu da göstər</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:mouse-pointer-click}}
+                <p class="text-neutral-800"><strong>Postman</strong> və ya <strong>Bruno</strong> — API-ləri qrafik interfeysdə sınamaq, kolleksiyalar saxlamaq və hazır sorğudan Python kodu yaratmaq (Code snippet) üçün. Swagger/OpenAPI sənədi olan API-lərdə "Try it out" düyməsi də var.</p>
+            </div>
+        </section>
+
+        <section id="python" class="section-card">
+            <h2 class="section-title">{{i:code}} 5. Python requests</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>import os, requests
+
+BASE = "https://netbox.local/api"
+s = requests.Session()
+s.headers.update({
+    "Authorization": f"Token {os.environ['NETBOX_TOKEN']}",
+    "Accept": "application/json",
+})
+
+# GET + səhifələmə (pagination)
+url = f"{BASE}/dcim/devices/?site=baku&amp;limit=100"
+devices = []
+while url:
+    r = s.get(url, timeout=10)
+    r.raise_for_status()                  # 4xx/5xx → istisna
+    data = r.json()
+    devices += data["results"]
+    url = data["next"]                    # növbəti səhifə və ya None
+print(len(devices), "cihaz")
+
+# POST
+r = s.post(f"{BASE}/ipam/vlans/", json={"vid": 30, "name": "GUEST", "status": "active"}, timeout=10)
+if r.status_code == 201:
+    print("yaradıldı, id =", r.json()["id"])
+else:
+    print(r.status_code, r.text)</code></pre>
+                <p class="code-note"><code>json=</code> parametri body-ni JSON-a çevirir və <code>Content-Type</code>-ı özü qoyur. Daxili şəbəkədə öz sertifikatı olan cihazlar üçün <code>verify=False</code> əvəzinə CA faylını göstərin: <code>verify="/etc/ssl/company-ca.pem"</code>.</p>
+            </div>
+        </section>
+<!--END-->

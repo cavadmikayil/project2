@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#settings"></use></svg> Linux: systemd, Loglar və SSH</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#settings"></use></svg> Linux: systemd, Loglar və SSH</h1>
                 <span class="lesson-badge">Server · Linux</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -26,15 +26,15 @@
                 <a href="#cron" class="nav-link">Planlaşdırma</a>
                 <a href="#ssh" class="nav-link">SSH açarları</a>
                 <a href="#harden" class="nav-link">Qoruma</a>
-                <a href="../index.html#server" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#moon"></use></svg></button>
+                <a href="../index.html#server" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#settings"></use></svg> Giriş: Xidmətlər Necə İşləyir?</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#settings"></use></svg> Giriş: Xidmətlər Necə İşləyir?</h2>
             <p class="lead">
                 Nginx, MySQL, SSH kimi proqramlar arxa planda <strong>xidmət</strong> (service/daemon) kimi işləyir.
                 Müasir Linux-da onları <strong>systemd</strong> idarə edir: yükləmədə başladır, çökəndə yenidən qaldırır
@@ -43,7 +43,7 @@
         </section>
 
         <section id="systemd" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#power"></use></svg> 1. systemctl ilə Xidmət İdarəetməsi</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#power"></use></svg> 1. systemctl ilə Xidmət İdarəetməsi</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>systemctl status nginx          # vəziyyət, PID, son log sətirləri
@@ -76,7 +76,7 @@ WantedBy=multi-user.target</code></pre>
         </section>
 
         <section id="logs" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#scroll-text"></use></svg> 2. Loglar: journalctl və /var/log</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#scroll-text"></use></svg> 2. Loglar: journalctl və /var/log</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>journalctl -u nginx               # nginx xidmətinin log-ları
@@ -87,13 +87,13 @@ journalctl --disk-usage           # jurnalın tutduğu yer
 sudo tail -f /var/log/auth.log    # giriş cəhdləri (RHEL-də: /var/log/secure)</code></pre>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#lightbulb"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#lightbulb"></use></svg>
                 <p class="text-neutral-800"><strong>Troubleshooting qaydası:</strong> xidmət başlamırsa, əvvəl <code>systemctl status</code>, sonra <code>journalctl -u xidmət -n 50</code>. Xətanın 90%-i orada yazılır: səhv konfiqurasiya sətri, məşğul port, icazə problemi.</p>
             </div>
         </section>
 
         <section id="cron" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#alarm-clock"></use></svg> 3. Planlaşdırılmış Tapşırıqlar: cron</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#alarm-clock"></use></svg> 3. Planlaşdırılmış Tapşırıqlar: cron</h2>
             <div class="code-block mb-6">
                 <pre><code>┌──────── dəqiqə (0-59)
 │ ┌────── saat (0-23)
@@ -118,7 +118,7 @@ crontab -l      # siyahı
         </section>
 
         <section id="ssh" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#key-round"></use></svg> 4. SSH Açarı ilə Giriş</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#key-round"></use></svg> 4. SSH Açarı ilə Giriş</h2>
             <p class="lead">Parol əvəzinə <strong>açar cütü</strong>: gizli açar (private key) sizin kompüterdə qalır, açıq açar (public key) serverə qoyulur. Parol təxmin etmək hücumları mənasız olur.</p>
             <ol class="steps max-w-3xl mx-auto mb-6">
                 <li><p class="text-neutral-700">Öz kompüterinizdə açar yaradın: <code>ssh-keygen -t ed25519 -C "aysel@laptop"</code> — açarı passphrase ilə qoruyun.</p></li>
@@ -129,7 +129,7 @@ crontab -l      # siyahı
         </section>
 
         <section id="harden" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#shield-check"></use></svg> 5. SSH və Serverin Qorunması</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#shield-check"></use></svg> 5. SSH və Serverin Qorunması</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code># /etc/ssh/sshd_config
@@ -158,7 +158,7 @@ sudo apt install fail2ban</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

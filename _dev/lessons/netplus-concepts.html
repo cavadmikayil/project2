@@ -1,0 +1,97 @@
+<!--PAGE title="Network+ (N10-009): Şəbəkə Konsepsiyaları" icon="network" badge="CompTIA · Network+" nav="intro:Domenlər|osi:OSI və enkapsulyasiya|ports:Portlar|appliances:Cihazlar|cloud:Cloud və DC|ipv:IP ünvanlama"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:network}} Network+ Domenləri</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Domen</th><th>Çəki</th></tr></thead>
+                    <tbody>
+                        <tr><td>1.0 Networking Concepts</td><td>23%</td></tr>
+                        <tr><td>2.0 Network Implementation</td><td>20%</td></tr>
+                        <tr><td>3.0 Network Operations</td><td>19%</td></tr>
+                        <tr><td>4.0 Network Security</td><td>14%</td></tr>
+                        <tr><td>5.0 Network Troubleshooting</td><td>24%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="lead">Bu dərs birinci domenin — imtahanın təməlinin — sıxlaşdırılmış xülasəsidir. Ətraflı izahlar portalın CCNA dərslərindədir.</p>
+        </section>
+
+        <section id="osi" class="section-card">
+            <h2 class="section-title">{{i:layers}} 1. OSI Modeli və PDU-lar</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>#</th><th>Qat</th><th>PDU</th><th>Nümunələr</th></tr></thead>
+                    <tbody>
+                        <tr><td>7</td><td>Application</td><td>Data</td><td>HTTP, DNS, SMTP</td></tr>
+                        <tr><td>6</td><td>Presentation</td><td>Data</td><td>TLS şifrələmə, kodlaşdırma</td></tr>
+                        <tr><td>5</td><td>Session</td><td>Data</td><td>Sessiyanın qurulması, RPC</td></tr>
+                        <tr><td>4</td><td>Transport</td><td>Segment / Datagram</td><td>TCP, UDP, portlar</td></tr>
+                        <tr><td>3</td><td>Network</td><td>Packet</td><td>IP, ICMP, router</td></tr>
+                        <tr><td>2</td><td>Data Link</td><td>Frame</td><td>Ethernet, MAC, switch, VLAN</td></tr>
+                        <tr><td>1</td><td>Physical</td><td>Bit</td><td>Kabel, siqnal, hub, repeater</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4">Yadda saxlamaq: aşağıdan yuxarı <strong>"Please Do Not Throw Sausage Pizza Away"</strong>. MTU Ethernet üçün 1500 bayt; jumbo frame — 9000.</p>
+        </section>
+
+        <section id="ports" class="section-card">
+            <h2 class="section-title">{{i:plug}} 2. Əlavə Portlar və Protokollar</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Protokol</th><th>Port</th><th>Protokol</th><th>Port</th></tr></thead>
+                    <tbody>
+                        <tr><td>SFTP (SSH üzərində)</td><td>22</td><td>LDAPS</td><td>636</td></tr>
+                        <tr><td>TFTP</td><td>69/UDP</td><td>SMTPS (submission)</td><td>587 / 465</td></tr>
+                        <tr><td>NTP</td><td>123/UDP</td><td>IMAPS / POP3S</td><td>993 / 995</td></tr>
+                        <tr><td>Syslog</td><td>514/UDP</td><td>SQL Server</td><td>1433</td></tr>
+                        <tr><td>SIP</td><td>5060/5061</td><td>MySQL</td><td>3306</td></tr>
+                        <tr><td>Kerberos</td><td>88</td><td>RADIUS</td><td>1812/1813</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4">IP protokol nömrələri (port deyil!): ICMP — 1, TCP — 6, UDP — 17, GRE — 47, ESP — 50, AH — 51. Bütün portları <a class="font-semibold underline" href="../tools/ports.html">Port Arayışı</a> alətində axtarın.</p>
+        </section>
+
+        <section id="appliances" class="section-card">
+            <h2 class="section-title">{{i:server}} 3. Şəbəkə Cihazları və Xidmətlər</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:router}}<p class="text-neutral-700"><strong>Router, L2/L3 switch, firewall, IDS/IPS, load balancer, proxy, NAS/SAN, wireless controller, AP.</strong></p></div>
+                <div class="feature-item">{{i:globe}}<p class="text-neutral-700"><strong>CDN:</strong> kontenti istifadəçiyə yaxın serverlərdən vermək.</p></div>
+                <div class="feature-item">{{i:lock-keyhole}}<p class="text-neutral-700"><strong>VPN:</strong> site-to-site, client-to-site; split tunnel (yalnız şirkət trafiki tuneldə) və full tunnel.</p></div>
+                <div class="feature-item">{{i:shield}}<p class="text-neutral-700"><strong>Funksiyalar NGFW-də birləşir:</strong> stateful firewall + IPS + URL filtr + tətbiq nəzarəti.</p></div>
+            </div>
+        </section>
+
+        <section id="cloud" class="section-card">
+            <h2 class="section-title">{{i:cloud}} 4. Cloud və Data Mərkəzi</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:network}} Spine-leaf</h3><p class="text-neutral-700">Müasir DC topologiyası: hər leaf hər spine-a qoşulur — istənilən iki server arasında bərabər hop sayı.</p></div>
+                <div class="info-card"><h3>{{i:arrow-left-right}} North-south / East-west</h3><p class="text-neutral-700">DC-yə girib-çıxan trafik və DC daxilində serverlər arası trafik.</p></div>
+                <div class="info-card accent"><h3>{{i:layers-3}} Three-tier</h3><p class="text-neutral-700">Klassik core – distribution – access; collapsed core kiçik şəbəkələr üçün.</p></div>
+                <div class="info-card"><h3>{{i:cloud-cog}} NFV və VPC</h3><p class="text-neutral-700">Router və firewall-un virtual maşın kimi işləməsi; cloud-da security group, NACL, IGW, NAT gateway.</p></div>
+                <div class="info-card dark"><h3>{{i:hard-drive}} Storage şəbəkələri</h3><p>Fibre Channel, FCoE, iSCSI (TCP 3260), NAS (SMB/NFS).</p></div>
+            </div>
+        </section>
+
+        <section id="ipv" class="section-card">
+            <h2 class="section-title">{{i:hash}} 5. IP Ünvanlama</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Aralıq</th><th>Mənası</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, <code>192.168.0.0/16</code></td><td>RFC 1918 private</td></tr>
+                        <tr><td><code>100.64.0.0/10</code></td><td>CGNAT (provayder NAT-ı)</td></tr>
+                        <tr><td><code>169.254.0.0/16</code></td><td>APIPA / link-local</td></tr>
+                        <tr><td><code>127.0.0.0/8</code></td><td>Loopback</td></tr>
+                        <tr><td><code>224.0.0.0/4</code></td><td>Multicast (Class D)</td></tr>
+                        <tr><td><code>fe80::/10</code>, <code>fc00::/7</code>, <code>2000::/3</code></td><td>IPv6 link-local, ULA, global unicast</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:calculator}}
+                <p class="text-neutral-800">Subnetting imtahanda sürət tələb edir. Portalın <a class="font-semibold underline" href="../tools/subnet-calculator.html">Subnet Kalkulyatoru</a> və <a class="font-semibold underline" href="../tools/vlsm.html">VLSM Planlayıcısı</a> ilə gündə 10 tapşırıq həll edin.</p>
+            </div>
+        </section>
+<!--END-->

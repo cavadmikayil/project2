@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux Performans Troubleshooting — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#gauge"></use></svg> Linux Performans Troubleshooting</h1>
+                <span class="lesson-badge">Linux · Performans</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#first60" class="nav-link">İlk 60 saniyə</a>
+                <a href="#cpu" class="nav-link">CPU və load</a>
+                <a href="#memory" class="nav-link">Yaddaş</a>
+                <a href="#io" class="nav-link">Disk I/O</a>
+                <a href="#deep" class="nav-link">Dərin analiz</a>
+                <a href="../index.html#linux" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#gauge"></use></svg> Giriş: "Server Yavaşdır"</h2>
+            <p class="lead">
+                Bu şikayətin arxasında dörd resursdan biri dayanır: <strong>CPU</strong>, <strong>yaddaş</strong>, <strong>disk I/O</strong> və ya <strong>şəbəkə</strong>.
+                Təcrübəli administrator təxmin etmir — Brendan Gregg-in <strong>USE metodunu</strong> tətbiq edir: hər resurs üçün
+                <strong>U</strong>tilization (nə qədər məşğuldur), <strong>S</strong>aturation (növbə varmı), <strong>E</strong>rrors (xəta varmı).
+            </p>
+        </section>
+
+        <section id="first60" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#timer"></use></svg> 1. İlk 60 Saniyə</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>uptime                     # load average: 1, 5, 15 dəqiqə — artır, yoxsa azalır?
+dmesg -T | tail            # OOM killer, disk xətaları, NIC problemləri
+vmstat 1 5                 # r (CPU növbəsi), si/so (swap), wa (I/O gözləmə)
+mpstat -P ALL 1 3          # CPU-lar arasında paylanma — bir nüvə 100%-dirmi?
+pidstat 1 3                # hansı proses CPU yeyir
+iostat -xz 1 3             # disk: %util, await, aqu-sz
+free -h                    # RAM və swap
+sar -n DEV 1 3             # şəbəkə trafiki
+sar -n TCP,ETCP 1 3        # TCP bağlantıları və retransmit-lər
+top                        # ümumi mənzərə</code></pre>
+                <p class="code-note"><code>vmstat</code>, <code>mpstat</code>, <code>iostat</code>, <code>pidstat</code>, <code>sar</code> — <strong>sysstat</strong> paketindədir. Serverlərə əvvəlcədən quraşdırın; <code>sar</code> keçmiş günlərin məlumatını da saxlayır.</p>
+            </div>
+        </section>
+
+        <section id="cpu" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#cpu"></use></svg> 2. CPU və Load Average</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#calculator"></use></svg><p class="text-neutral-700"><strong>Load average</strong> — işləyən + növbədə gözləyən (+ D vəziyyətində olan) proseslərin orta sayı. 8 nüvəli serverdə 8 — tam yük, 16 — ciddi növbə.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#hard-drive"></use></svg><p class="text-neutral-700"><strong>Load yüksək, CPU boşdur?</strong> — proseslər D vəziyyətində disk/NFS gözləyir. <code>top</code>-da yüksək <code>wa</code>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#user"></use></svg><p class="text-neutral-700"><strong>us</strong> — tətbiq kodu, <strong>sy</strong> — kernel (çoxlu syscall, şəbəkə), <strong>st</strong> — steal: VM-də hypervisor CPU verməyib (qonşu VM-lər).</p></div>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Görüntü</th><th>Ehtimal</th></tr></thead>
+                    <tbody>
+                        <tr><td>Bir proses 100% (bir nüvə)</td><td>Tək axınlı tətbiq, sonsuz dövr</td></tr>
+                        <tr><td>Yüksək <code>sy</code></td><td>Həddən çox kiçik I/O, context switch, şəbəkə yükü</td></tr>
+                        <tr><td>Yüksək <code>st</code> (&gt;10%)</td><td>Host həddən çox yüklənib — VM-i başqa hosta köçürün</td></tr>
+                        <tr><td>Çoxlu qısa ömürlü proseslər</td><td>Cron/skriptlər hər saniyə fork edir — <code>execsnoop</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="memory" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#memory-stick"></use></svg> 3. Yaddaş</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>$ free -h
+               total   used   free   shared  buff/cache   available
+Mem:            15Gi   5.1Gi  412Mi   210Mi      10Gi        9.8Gi
+Swap:          4.0Gi     0B   4.0Gi</code></pre>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#info"></use></svg><p class="text-neutral-700"><strong>"free" azdır — narahat olmayın:</strong> Linux boş RAM-ı disk cache üçün istifadə edir. Baxılacaq sütun — <strong>available</strong>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-down-up"></use></svg><p class="text-neutral-700"><strong>Swap-a aktiv yazma</strong> (<code>vmstat</code>-da <code>si</code>/<code>so</code> daim &gt; 0) — real yaddaş çatışmazlığı.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#trending-up"></use></svg><p class="text-neutral-700"><strong>Memory leak:</strong> prosesin RSS-i günlərlə durmadan artır — <code>ps -o pid,rss,etime,cmd --sort=-rss | head</code>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#skull"></use></svg><p class="text-neutral-700"><strong>OOM:</strong> <code>journalctl -k | grep -i "out of memory"</code>. Kritik servisləri qorumaq: <code>OOMScoreAdjust=-500</code> (systemd).</p></div>
+            </div>
+        </section>
+
+        <section id="io" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#hard-drive"></use></svg> 4. Disk I/O</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>$ iostat -xz 1
+Device   r/s    w/s   rkB/s   wkB/s  r_await w_await aqu-sz  %util
+nvme0n1  12.0  850.0  96.0   54200.0   0.4    18.6    15.9   98.7
+
+iotop -oPa                 # hansı proses diskə yazır
+pidstat -d 1               # proses üzrə I/O
+df -h; df -i               # yer və inode</code></pre>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Sütun</th><th>Mənası</th><th>Narahatlıq həddi (təxmini)</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>%util</code></td><td>Diskin məşğul olduğu vaxt</td><td>HDD-də &gt;80% davamlı; SSD/NVMe-də paralellik səbəbindən yanıldıcı ola bilər</td></tr>
+                        <tr><td><code>r_await</code> / <code>w_await</code></td><td>Sorğunun orta gözləmə müddəti (ms)</td><td>SSD &gt;10 ms, HDD &gt;30–50 ms</td></tr>
+                        <tr><td><code>aqu-sz</code></td><td>Orta növbə uzunluğu</td><td>Davamlı &gt;1 — saturation</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="deep" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#microscope"></use></svg> 5. Dərin Analiz Alətləri</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#bug"></use></svg><p class="text-neutral-700"><strong>strace -p PID -f -tt:</strong> proses hansı syscall-larda ilişib — məsələn, cavab verməyən DNS və ya kilidlənmiş faylda.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#file-search"></use></svg><p class="text-neutral-700"><strong>lsof -p PID:</strong> açıq fayllar, socket-lər; "too many open files" üçün <code>ulimit -n</code> və <code>LimitNOFILE</code>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#flame"></use></svg><p class="text-neutral-700"><strong>perf top / perf record:</strong> CPU vaxtının hansı funksiyalara getdiyi; flame graph.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#radar"></use></svg><p class="text-neutral-700"><strong>eBPF (bcc, bpftrace):</strong> <code>execsnoop</code>, <code>opensnoop</code>, <code>biolatency</code>, <code>tcpretrans</code> — production-da təhlükəsiz müşahidə.</p></div>
+            </div>
+            <div class="note-box">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#chart-line"></use></svg>
+                <p class="text-neutral-800">Ən yaxşı troubleshooting problem baş verməmişdən əvvəl başlayır: node_exporter + Prometheus + Grafana ilə <strong>baseline</strong> toplayın. "Normal"ı bilmədən "anormal"ı tanımaq çətindir (DevOps kateqoriyasındakı Observability dərsi).</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="brand-footer">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+                    <a href="../index.html">Ana Səhifə</a>
+                    <a href="../index.html#ccna">CCNA</a>
+                    <a href="../tools.html">Tools</a>
+                    <a href="../links.html">Faydalı Linklər</a>
+                    <a href="../about.html">Haqqında</a>
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
+            </div>
+            <div class="brand-footer-social-wrap">
+                <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+                    <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" data-social="instagram"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                    <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı" data-social="youtube"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></a>
+                    <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn" data-social="linkedin"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg></a>
+                    <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt" data-social="blog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></a>
+                    <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram" data-social="telegram"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg></a>
+                    <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" data-social="tiktok"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M448.5 209.9c-44 .1-87-13.6-122.8-39.2l0 178.7c0 33.1-10.1 65.4-29 92.6s-45.6 48-76.6 59.6-64.8 13.5-96.9 5.3-60.9-25.9-82.7-50.8-35.3-56-39-88.9 2.9-66.1 18.6-95.2 40-52.7 69.6-67.7 62.9-20.5 95.7-16l0 89.9c-15-4.7-31.1-4.6-46 .4s-27.9 14.6-37 27.3-14 28.1-13.9 43.9 5.2 31 14.5 43.7 22.4 22.1 37.4 26.9 31.1 4.8 46-.1 28-14.4 37.2-27.1 14.2-28.1 14.2-43.8l0-349.4 88 0c-.1 7.4 .6 14.9 1.9 22.2 3.1 16.3 9.4 31.9 18.7 45.7s21.3 25.6 35.2 34.6c19.9 13.1 43.2 20.1 67 20.1l0 87.4z"/></svg></a>
+                    <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email" data-social="email"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></a>
+                </div>
+            </div>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

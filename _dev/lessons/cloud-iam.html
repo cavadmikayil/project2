@@ -1,0 +1,113 @@
+<!--PAGE title="Cloud IAM: Giriş İdarəetməsi" icon="key-round" badge="Cloud · IAM" nav="intro:Giriş|parts:Komponentlər|policy:Policy|roles:Role-lar|azure:Azure RBAC|best:Qaydalar"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:key-round}} Giriş: Cloud-da Yeni Perimetr — Identity</h2>
+            <p class="lead">
+                Ofisdə firewall hər şeyi qoruyurdu. Cloud-da isə hər resurs internetdən əlçatan API ilə idarə olunur, və
+                sızmış bir access key bütün infrastrukturu silməyə kifayət edir. Buna görə cloud-da əsas təhlükəsizlik sərhədi
+                <strong>identity</strong>-dir: kim, nəyə, hansı şərtlə çata bilər.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:user-check}} Authentication</h3><p class="text-neutral-700">Sən kimsən? Parol + MFA, SSO, qısamüddətli token.</p></div>
+                <div class="info-card"><h3>{{i:shield-check}} Authorization</h3><p class="text-neutral-700">Nə edə bilərsən? Policy-lər və rollar.</p></div>
+                <div class="info-card dark"><h3>{{i:scroll-text}} Audit</h3><p>Nə etdin? AWS CloudTrail, Azure Activity Log — hər API çağırışı qeydə alınır.</p></div>
+            </div>
+        </section>
+
+        <section id="parts" class="section-card">
+            <h2 class="section-title">{{i:blocks}} 1. AWS IAM Komponentləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Komponent</th><th>Nədir</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>User</strong></td><td>Uzunmüddətli credential-ı olan şəxs və ya tətbiq</td><td>Köhnə üsul; insanlar üçün Identity Center tövsiyə olunur</td></tr>
+                        <tr><td><strong>Group</strong></td><td>User-lərin toplusu; policy qrupa bağlanır</td><td><code>NetworkAdmins</code>, <code>Developers</code></td></tr>
+                        <tr><td><strong>Role</strong></td><td>Müvəqqəti götürülən (assume) icazə dəsti, parolu yoxdur</td><td>EC2-nin S3-dən oxuması, başqa hesaba giriş</td></tr>
+                        <tr><td><strong>Policy</strong></td><td>JSON sənəd: hansı Action, hansı Resource, Allow/Deny</td><td><code>AmazonS3ReadOnlyAccess</code></td></tr>
+                        <tr><td><strong>Identity Center</strong></td><td>SSO: şirkət hesabı ilə bütün AWS hesablarına giriş</td><td>Entra ID və ya Okta ilə inteqrasiya</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="policy" class="section-card">
+            <h2 class="section-title">{{i:file-json}} 2. Policy-ni Oxumaq</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadReportsBucket",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:ListBucket"],
+      "Resource": [
+        "arn:aws:s3:::cavad-reports",
+        "arn:aws:s3:::cavad-reports/*"
+      ]
+    },
+    {
+      "Sid": "DenyOutsideEU",
+      "Effect": "Deny",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": { "StringNotEquals": { "aws:RequestedRegion": ["eu-central-1", "eu-west-1"] } }
+    }
+  ]
+}</code></pre>
+                <p class="code-note"><code>ListBucket</code> bucket-ın özünə (<code>cavad-reports</code>), <code>GetObject</code> isə obyektlərə (<code>cavad-reports/*</code>) aiddir — ona görə iki ARN yazılıb.</p>
+            </div>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">Defolt olaraq hər şey <strong>qadağandır</strong> (implicit deny).</p></li>
+                <li><p class="text-neutral-700">Hər hansı policy-də <strong>explicit Deny</strong> varsa — nəticə Deny, Allow-lardan asılı olmayaraq.</p></li>
+                <li><p class="text-neutral-700">Əks halda explicit <strong>Allow</strong> varsa — icazə verilir.</p></li>
+            </ol>
+        </section>
+
+        <section id="roles" class="section-card">
+            <h2 class="section-title">{{i:repeat}} 3. Role-lar: Açarsız İcazə</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:server}}<p class="text-neutral-700"><strong>Instance profile:</strong> EC2-yə role verilir, tətbiq SDK avtomatik müvəqqəti açar alır. Kodda və ya serverdə access key saxlanmır.</p></div>
+                <div class="feature-item">{{i:building-2}}<p class="text-neutral-700"><strong>Cross-account:</strong> Security hesabındakı auditor Production hesabında <code>ReadOnly</code> role-u götürür.</p></div>
+                <div class="feature-item">{{i:brand-github}}<p class="text-neutral-700"><strong>OIDC federation:</strong> GitHub Actions secret-siz, qısamüddətli token ilə AWS/Azure-a deploy edir.</p></div>
+                <div class="feature-item">{{i:timer}}<p class="text-neutral-700"><strong>STS:</strong> müvəqqəti credential-lar 15 dəqiqə – 12 saat etibarlıdır, oğurlansa belə tez köhnəlir.</p></div>
+            </div>
+            <div class="code-block mt-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>aws sts assume-role \
+  --role-arn arn:aws:iam::222233334444:role/ReadOnlyAudit \
+  --role-session-name cavad-audit</code></pre>
+            </div>
+        </section>
+
+        <section id="azure" class="section-card">
+            <h2 class="section-title">{{i:id-card}} 4. Azure RBAC</h2>
+            <p class="lead">Azure-da icazə = <strong>security principal</strong> (kim) + <strong>role definition</strong> (nə) + <strong>scope</strong> (harada: management group, subscription, resource group, resurs).</p>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Developer qrupuna yalnız dev resource group-da Contributor
+az role assignment create \
+  --assignee-object-id &lt;group-object-id&gt; --assignee-principal-type Group \
+  --role "Contributor" \
+  --scope /subscriptions/&lt;sub-id&gt;/resourceGroups/rg-portal-dev
+
+az role assignment list --scope /subscriptions/&lt;sub-id&gt;/resourceGroups/rg-portal-dev -o table</code></pre>
+            </div>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:user-cog}} Entra rolları</h3><p class="text-neutral-700">Identity-ni idarə edir: Global Administrator, User Administrator, Helpdesk Administrator.</p></div>
+                <div class="info-card"><h3>{{i:cloud}} Azure RBAC rolları</h3><p class="text-neutral-700">Resursları idarə edir: Owner, Contributor, Reader, Virtual Machine Contributor.</p></div>
+                <div class="info-card accent"><h3>{{i:clock}} PIM</h3><p class="text-neutral-700">Privileged Identity Management: admin rolu daimi yox, lazım olanda təsdiqlə və vaxt limiti ilə aktivləşir (just-in-time).</p></div>
+            </div>
+        </section>
+
+        <section id="best" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 5. Qızıl Qaydalar</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:minimize-2}}<p class="text-neutral-700"><strong>Least privilege:</strong> <code>AdministratorAccess</code> yox — işə lazım olan minimum. AWS IAM Access Analyzer istifadə olunmayan icazələri göstərir.</p></div>
+                <div class="feature-item">{{i:smartphone}}<p class="text-neutral-700"><strong>MFA hamı üçün</strong>, xüsusən root/Global Admin. Phishing-ə davamlı FIDO2 açarları ən yaxşısıdır.</p></div>
+                <div class="feature-item">{{i:key-round}}<p class="text-neutral-700"><strong>Uzunmüddətli açar yoxdur:</strong> role, managed identity, OIDC. Açar lazımdırsa — rotasiya və Secrets Manager/Key Vault.</p></div>
+                <div class="feature-item">{{i:siren}}<p class="text-neutral-700"><strong>Break-glass hesabı:</strong> SSO işləməyəndə istifadə olunan, seyfdə saxlanan və girişi alert yaradan təcili hesab.</p></div>
+                <div class="feature-item">{{i:scan-eye}}<p class="text-neutral-700"><strong>Access review:</strong> rüblük — işdən çıxanların və rol dəyişənlərin icazələrini təmizləyin.</p></div>
+                <div class="feature-item">{{i:git-branch}}<p class="text-neutral-700"><strong>Açarları git-ə yazmayın:</strong> GitHub secret scanning və <code>gitleaks</code> commit-dən əvvəl yoxlayır.</p></div>
+            </div>
+        </section>
+<!--END-->

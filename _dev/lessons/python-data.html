@@ -1,0 +1,153 @@
+<!--PAGE title="Python ilə Şəbəkə Məlumatları: JSON, YAML, CSV, Regex" icon="file-json" badge="Automation · Python" nav="intro:Giriş|json:JSON|yaml:YAML inventar|csv:CSV və Excel|regex:Regex|project:Mini layihə"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:file-json}} Giriş: Avtomatlaşdırma = Məlumat + Məntiq</h2>
+            <p class="lead">
+                Avtomatlaşdırma skriptinin 70%-i məlumatla işdir: inventarı fayldan oxumaq, API-dən gələn JSON-u açmaq,
+                <code>show</code> çıxışından lazım olanı çəkmək və nəticəni CSV/Excel hesabatına yazmaq. Bu dərsdə məhz bu
+                "yapışqan" bacarıqları öyrənirik.
+            </p>
+        </section>
+
+        <section id="json" class="section-card">
+            <h2 class="section-title">{{i:braces}} 1. JSON: API-lərin Dili</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>import json
+
+raw = '''{"hostname": "R1", "interfaces": [
+  {"name": "Gi1", "ip": "10.0.0.1", "enabled": true},
+  {"name": "Gi2", "ip": null, "enabled": false}]}'''
+
+data = json.loads(raw)                 # str → dict
+for i in data["interfaces"]:
+    if i["enabled"]:
+        print(i["name"], i["ip"])
+
+print(json.dumps(data, indent=2))      # dict → gözəl formatlı str
+
+with open("r1.json", "w") as f:        # fayla
+    json.dump(data, f, indent=2)
+with open("r1.json") as f:             # fayldan
+    data = json.load(f)</code></pre>
+                <p class="code-note">Yadda saxlama qaydası: <code>loads/dumps</code> — sətir (s = string), <code>load/dump</code> — fayl. JSON <code>true/null</code> Python-da <code>True/None</code> olur.</p>
+            </div>
+        </section>
+
+        <section id="yaml" class="section-card">
+            <h2 class="section-title">{{i:list-tree}} 2. YAML: İnsan üçün İnventar</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># inventory.yaml
+defaults:
+  device_type: cisco_ios
+  username: netadmin
+devices:
+  - name: CORE-SW1
+    host: 10.10.0.1
+    role: core
+  - name: ACC-SW1
+    host: 10.10.0.11
+    role: access
+  - name: EDGE-R1
+    host: 10.10.0.254
+    role: edge
+    device_type: cisco_xe</code></pre>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>import yaml
+
+with open("inventory.yaml") as f:
+    inv = yaml.safe_load(f)
+
+devices = [{**inv["defaults"], **d} for d in inv["devices"]]   # defolt + cihaza xas
+access = [d for d in devices if d["role"] == "access"]
+print([d["name"] for d in access])</code></pre>
+                <p class="code-note"><code>{**a, **b}</code> — iki dictionary-ni birləşdirir, <code>b</code>-dəki dəyərlər üstünlük təşkil edir (EDGE-R1 üçün <code>cisco_xe</code>).</p>
+            </div>
+        </section>
+
+        <section id="csv" class="section-card">
+            <h2 class="section-title">{{i:sheet}} 3. CSV: Excel ilə Körpü</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>import csv
+
+# Oxumaq: ilk sətir başlıqdır → hər sətir dict olur
+with open("switches.csv", newline="", encoding="utf-8") as f:
+    rows = list(csv.DictReader(f))
+# [{'hostname': 'SW1', 'ip': '10.0.0.11', 'location': 'Bakı'}, ...]
+
+# Hesabat yazmaq
+report = [
+    {"hostname": "SW1", "version": "17.9.4", "uptime": "34 days"},
+    {"hostname": "SW2", "version": "16.12.10", "uptime": "2 days"},
+]
+with open("versions.csv", "w", newline="", encoding="utf-8-sig") as f:
+    w = csv.DictWriter(f, fieldnames=report[0].keys())
+    w.writeheader()
+    w.writerows(report)</code></pre>
+                <p class="code-note"><code>utf-8-sig</code> — Excel-in Azərbaycan hərflərini (ə, ş, ğ) düzgün göstərməsi üçün. Böyük cədvəllər üçün <code>pandas</code> və <code>openpyxl</code> daha güclüdür.</p>
+            </div>
+        </section>
+
+        <section id="regex" class="section-card">
+            <h2 class="section-title">{{i:regex}} 4. Regex: Mətndən Məlumat Çəkmək</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>import re
+
+output = """Cisco IOS XE Software, Version 17.09.04a
+R1 uptime is 3 weeks, 2 days, 4 hours, 11 minutes
+Processor board ID FDO2213A0BC
+cisco ISR4331/K9 (1RU) processor"""
+
+version = re.search(r"Version (\S+)", output).group(1)          # 17.09.04a
+serial  = re.search(r"Processor board ID (\S+)", output).group(1)
+model   = re.search(r"cisco (\S+) \(", output).group(1)          # ISR4331/K9
+print(version, serial, model)
+
+# Bütün IP ünvanları
+text = "ip address 10.0.0.1 255.255.255.0\nip helper-address 10.0.5.10"
+print(re.findall(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", text))
+
+# Adlandırılmış qruplar
+m = re.search(r"(?P&lt;intf&gt;\S+) is (?P&lt;status&gt;up|down|administratively down)", "Gi0/1 is administratively down")
+print(m.group("intf"), m.group("status"))</code></pre>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Simvol</th><th>Mənası</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>\d</code> / <code>\S</code> / <code>\s</code></td><td>rəqəm / boşluq olmayan / boşluq</td></tr>
+                        <tr><td><code>+</code> / <code>*</code> / <code>?</code></td><td>1+ / 0+ / 0 və ya 1 dəfə</td></tr>
+                        <tr><td><code>( )</code></td><td>Tutulan qrup — nəticədə qaytarılır</td></tr>
+                        <tr><td><code>^</code> / <code>$</code></td><td>Sətrin əvvəli / sonu (<code>re.M</code> ilə)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box mt-6">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Regex kiçik işlər üçün əladır, amma mürəkkəb cədvəl çıxışları üçün hazır TextFSM şablonları daha etibarlıdır — növbəti dərslərdə.</p>
+            </div>
+        </section>
+
+        <section id="project" class="section-card">
+            <h2 class="section-title">{{i:flask-conical}} 5. Mini Layihə: IP Planından Konfiqurasiya</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># vlans.csv:  vlan,name,network
+#            10,MUHASIBAT,10.10.10.0/24
+#            20,IT,10.10.20.0/24
+import csv, ipaddress
+
+with open("vlans.csv", newline="") as f:
+    for row in csv.DictReader(f):
+        net = ipaddress.ip_network(row["network"])
+        gw = next(net.hosts())                     # ilk istifadə olunan ünvan
+        print(f"vlan {row['vlan']}\n name {row['name']}")
+        print(f"interface Vlan{row['vlan']}\n ip address {gw} {net.netmask}\n no shutdown\n!")</code></pre>
+                <p class="code-note">Nəticə: Excel-dəki IP planı birbaşa SVI konfiqurasiyasına çevrilir. Növbəti addım — bunu Netmiko ilə cihaza göndərmək.</p>
+            </div>
+        </section>
+<!--END-->

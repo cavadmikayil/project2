@@ -1,0 +1,119 @@
+<!--PAGE title="SDN və Kontrollerlər: Catalyst Center, SD-WAN, Meraki" icon="network" badge="Automation · SDN" nav="intro:Giriş|arch:Arxitektura|dnac:Catalyst Center|sdwan:SD-WAN|meraki:Meraki API|compare:Müqayisə"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:network}} Giriş: Cihaz-cihaz İdarəetmədən Şəbəkə-səviyyəli İdarəetməyə</h2>
+            <p class="lead">
+                <strong>Controller-based networking</strong>-də mühəndis ayrı-ayrı cihazları konfiqurasiya etmir — o, <strong>niyyəti</strong>
+                (intent) bildirir: "Mühasibatlıq istifadəçiləri yalnız ERP serverinə çıxsın". Kontroller bu niyyəti yüzlərlə
+                cihazın konfiqurasiyasına çevirir, tətbiq edir və nəticəni daim yoxlayır. CCNA imtahanında bu mövzular
+                "Automation and Programmability" bölməsinə daxildir.
+            </p>
+        </section>
+
+        <section id="arch" class="section-card">
+            <h2 class="section-title">{{i:layers}} 1. SDN Arxitekturası</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Qat</th><th>Nə var</th><th>Interfeys</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Application layer</strong></td><td>Skriptlər, ITSM, monitorinq, təhlükəsizlik tətbiqləri</td><td>↓ <strong>Northbound API</strong> (REST)</td></tr>
+                        <tr><td><strong>Control layer</strong></td><td>SDN kontroller — mərkəzi beyin</td><td>↓ <strong>Southbound API</strong></td></tr>
+                        <tr><td><strong>Infrastructure layer</strong></td><td>Switch, router, AP — data plane</td><td>—</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:arrow-down}} Southbound</h3><p class="text-neutral-700">OpenFlow, NETCONF, RESTCONF, SSH/CLI, SNMP, OpFlex.</p></div>
+                <div class="info-card accent"><h3>{{i:arrow-up}} Northbound</h3><p class="text-neutral-700">REST API — tətbiqlər kontrollerdən məlumat alır və ona tapşırıq verir.</p></div>
+                <div class="info-card dark"><h3>{{i:grid-3x3}} Underlay / Overlay</h3><p>Underlay — fiziki IP şəbəkəsi; overlay — üzərində qurulan virtual tunellər (VXLAN, IPsec).</p></div>
+            </div>
+        </section>
+
+        <section id="dnac" class="section-card">
+            <h2 class="section-title">{{i:building-2}} 2. Cisco Catalyst Center (DNA Center)</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:scan-search}}<p class="text-neutral-700"><strong>Discovery və inventar:</strong> şəbəkəni skan edib bütün cihazları, topologiyanı göstərir.</p></div>
+                <div class="feature-item">{{i:file-cog}}<p class="text-neutral-700"><strong>Template Editor:</strong> Jinja2/Velocity şablonları ilə konfiqurasiya.</p></div>
+                <div class="feature-item">{{i:download}}<p class="text-neutral-700"><strong>SWIM:</strong> yüzlərlə cihazın IOS-unu mərhələli yeniləmək.</p></div>
+                <div class="feature-item">{{i:heart-pulse}}<p class="text-neutral-700"><strong>Assurance:</strong> klient və cihaz sağlamlığı, AI ilə problem təhlili.</p></div>
+                <div class="feature-item">{{i:shield}}<p class="text-neutral-700"><strong>SD-Access:</strong> VXLAN fabric, istifadəçi qruplarına görə seqmentasiya (SGT), ISE ilə inteqrasiya.</p></div>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>import requests
+from requests.auth import HTTPBasicAuth
+
+BASE = "https://sandboxdnac.cisco.com"      # DevNet always-on sandbox
+tok = requests.post(f"{BASE}/dna/system/api/v1/auth/token",
+                    auth=HTTPBasicAuth("devnetuser", "&lt;sandbox-parol&gt;")).json()["Token"]
+
+h = {"X-Auth-Token": tok, "Accept": "application/json"}
+devs = requests.get(f"{BASE}/dna/intent/api/v1/network-device", headers=h).json()["response"]
+for d in devs:
+    print(f"{d['hostname']:25} {d['managementIpAddress']:16} {d['platformId']:20} {d['softwareVersion']}")</code></pre>
+                <p class="code-note">Sandbox giriş məlumatları developer.cisco.com-da göstərilir. Intent API-lər <code>/dna/intent/api/v1/...</code> altındadır.</p>
+            </div>
+        </section>
+
+        <section id="sdwan" class="section-card">
+            <h2 class="section-title">{{i:waypoints}} 3. SD-WAN</h2>
+            <p class="lead">Filialları MPLS, internet və LTE üzərindən birləşdirən, trafiki tətbiqə görə ən yaxşı yola yönəldən WAN.</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Cisco Catalyst SD-WAN komponenti</th><th>Plane</th><th>Vəzifə</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>SD-WAN Manager</strong> (vManage)</td><td>Management</td><td>GUI, şablonlar, monitorinq, API</td></tr>
+                        <tr><td><strong>SD-WAN Controller</strong> (vSmart)</td><td>Control</td><td>Marşrut və policy paylanması (OMP)</td></tr>
+                        <tr><td><strong>SD-WAN Validator</strong> (vBond)</td><td>Orchestration</td><td>Yeni cihazların autentifikasiyası, NAT traversal</td></tr>
+                        <tr><td><strong>WAN Edge</strong> (vEdge / cEdge)</td><td>Data</td><td>Filial routeri, IPsec tunellər</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:route}}<p class="text-neutral-700"><strong>Application-aware routing:</strong> Teams trafiki latency və paket itkisi ən az olan linkə.</p></div>
+                <div class="feature-item">{{i:package-open}}<p class="text-neutral-700"><strong>Zero-touch provisioning:</strong> yeni filial routeri qoşulur, konfiqurasiyanı özü alır.</p></div>
+                <div class="feature-item">{{i:shield-check}}<p class="text-neutral-700">Digər həllər: Fortinet Secure SD-WAN, VMware VeloCloud, Palo Alto Prisma SD-WAN.</p></div>
+            </div>
+        </section>
+
+        <section id="meraki" class="section-card">
+            <h2 class="section-title">{{i:cloud}} 4. Meraki: Cloud-Managed Şəbəkə</h2>
+            <p class="lead">Meraki cihazları idarəetməni tamamilə cloud-dakı dashboard-dan alır; hər şey həm də Dashboard API ilə edilə bilər.</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>import os
+import meraki                      # pip install meraki
+
+dash = meraki.DashboardAPI(api_key=os.environ["MERAKI_API_KEY"], suppress_logging=True)
+
+orgs = dash.organizations.getOrganizations()
+org_id = orgs[0]["id"]
+for net in dash.organizations.getOrganizationNetworks(org_id):
+    print(net["name"], net["productTypes"])
+
+# Offline cihazlar
+statuses = dash.organizations.getOrganizationDevicesStatuses(org_id)
+print([d["name"] for d in statuses if d["status"] == "offline"])
+
+# SSID adını dəyişmək (network_id — yuxarıdakı siyahıdan)
+network_id = net["id"]
+dash.wireless.updateNetworkWirelessSsid(network_id, number=0, name="Ofis-WiFi", enabled=True)</code></pre>
+            </div>
+        </section>
+
+        <section id="compare" class="section-card">
+            <h2 class="section-title">{{i:scale}} 5. Ənənəvi və Kontroller Əsaslı Şəbəkə</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Ənənəvi</th><th>Controller-based</th></tr></thead>
+                    <tbody>
+                        <tr><td>Control plane</td><td>Hər cihazda paylanmış</td><td>Mərkəzləşdirilmiş (və ya mərkəzdən idarə olunan)</td></tr>
+                        <tr><td>Konfiqurasiya</td><td>Cihaz-cihaz CLI</td><td>Policy və intent, şablonlar</td></tr>
+                        <tr><td>Görünürlük</td><td>Ayrı alətlər</td><td>Vahid dashboard, analitika</td></tr>
+                        <tr><td>Dəyişiklik sürəti</td><td>Yavaş, səhvə meyilli</td><td>Sürətli, ardıcıl</td></tr>
+                        <tr><td>Risk</td><td>Səhv bir cihazı pozur</td><td>Səhv policy bütün şəbəkəni poza bilər — test vacibdir</td></tr>
+                        <tr><td>Bacarıq</td><td>CLI</td><td>CLI + API, Python, məlumat formatları</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+<!--END-->

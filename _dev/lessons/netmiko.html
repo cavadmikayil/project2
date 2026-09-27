@@ -1,0 +1,128 @@
+<!--PAGE title="Netmiko: SSH ilə Cihaz İdarəetməsi" icon="terminal-square" badge="Automation · Netmiko" nav="intro:Giriş|connect:Qoşulma|show:Show əmrləri|config:Konfiqurasiya|many:Çoxlu cihaz|safe:Təhlükəsizlik"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:terminal-square}} Giriş: Python-un SSH Klienti</h2>
+            <p class="lead">
+                <strong>Netmiko</strong> — Kirk Byers tərəfindən yaradılmış, SSH üzərindən şəbəkə cihazlarına qoşulmağı sadələşdirən kitabxanadır.
+                O, prompt-ları tanıyır, <code>enable</code> və <code>configure terminal</code> rejimlərinə keçir, <code>--More--</code> səhifələməsini
+                söndürür və Cisco, Juniper, Arista, Fortinet, MikroTik və s. daxil olmaqla 100-dən çox platformanı dəstəkləyir.
+            </p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>pip install netmiko</code></pre>
+            </div>
+        </section>
+
+        <section id="connect" class="section-card">
+            <h2 class="section-title">{{i:plug}} 1. Qoşulma</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>from netmiko import ConnectHandler
+from getpass import getpass
+
+r1 = {
+    "device_type": "cisco_ios",        # cisco_xe, cisco_nxos, juniper_junos, fortinet, mikrotik_routeros...
+    "host": "10.10.0.254",
+    "username": "netadmin",
+    "password": getpass(),
+    "secret": getpass("Enable: "),     # enable parolu (lazımdırsa)
+}
+
+with ConnectHandler(**r1) as conn:     # blok bitəndə bağlantı avtomatik bağlanır
+    conn.enable()
+    print(conn.find_prompt())          # R1#</code></pre>
+                <p class="code-note">Cihaz tərəfində SSH aktiv olmalıdır: <code>ip domain-name</code>, <code>crypto key generate rsa modulus 2048</code>, <code>line vty 0 4</code> → <code>transport input ssh</code>, <code>login local</code>.</p>
+            </div>
+        </section>
+
+        <section id="show" class="section-card">
+            <h2 class="section-title">{{i:eye}} 2. Show Əmrləri</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>with ConnectHandler(**r1) as conn:
+    out = conn.send_command("show ip interface brief")
+    print(out)
+
+    # TextFSM ilə strukturlaşdırılmış nəticə (ntc-templates avtomatik gəlir)
+    intfs = conn.send_command("show ip interface brief", use_textfsm=True)
+    for i in intfs:
+        if i["status"] != "up":
+            print(f"{i['interface']} → {i['status']}")
+
+    # Uzun çəkən əmrlər üçün
+    conn.send_command("show tech-support", read_timeout=300)</code></pre>
+                <p class="code-note"><code>use_textfsm=True</code> mətn yerinə dictionary-lərin siyahısını qaytarır — açar adları şablona görə dəyişir (<code>interface</code>, <code>ip_address</code>, <code>status</code>, <code>proto</code>).</p>
+            </div>
+        </section>
+
+        <section id="config" class="section-card">
+            <h2 class="section-title">{{i:settings}} 3. Konfiqurasiya Göndərmək</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>commands = [
+    "ntp server 10.0.0.10",
+    "ntp server 10.0.0.11",
+    "logging host 10.0.0.50",
+    "service timestamps log datetime msec localtime",
+]
+
+with ConnectHandler(**r1) as conn:
+    conn.enable()
+    output = conn.send_config_set(commands)          # conf t ... end avtomatik
+    print(output)
+    conn.save_config()                               # write memory
+
+    # Fayldan
+    conn.send_config_from_file("templates/r1_acl.txt")</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800"><code>send_config_set</code> xəta olsa da davam edir. Çıxışda <code>% Invalid input</code> axtarın və ya <code>error_pattern=r"% Invalid|% Incomplete"</code> parametri ilə istisna yaradın. Uzaqdan idarə olunan interfeysi səhvən söndürməmək üçün kritik dəyişikliklərdən əvvəl <code>reload in 10</code> istifadə edin.</p>
+            </div>
+        </section>
+
+        <section id="many" class="section-card">
+            <h2 class="section-title">{{i:network}} 4. Çoxlu Cihaz: Backup Skripti</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>import os, yaml
+from datetime import date
+from concurrent.futures import ThreadPoolExecutor
+from netmiko import ConnectHandler, NetmikoTimeoutException, NetmikoAuthenticationException
+
+PASS = os.environ["NET_PASS"]
+os.makedirs("backups", exist_ok=True)
+
+def backup(dev):
+    params = {"device_type": dev.get("device_type", "cisco_ios"), "host": dev["host"],
+              "username": "netadmin", "password": PASS}
+    try:
+        with ConnectHandler(**params) as conn:
+            cfg = conn.send_command("show running-config")
+        with open(f"backups/{dev['name']}_{date.today()}.cfg", "w") as f:
+            f.write(cfg)
+        return dev["name"], "OK"
+    except NetmikoTimeoutException:
+        return dev["name"], "TIMEOUT"
+    except NetmikoAuthenticationException:
+        return dev["name"], "AUTH FAIL"
+
+devices = yaml.safe_load(open("inventory.yaml"))["devices"]
+with ThreadPoolExecutor(max_workers=10) as pool:           # 10 cihaz paralel
+    for name, status in pool.map(backup, devices):
+        print(f"{name:15} {status}")</code></pre>
+                <p class="code-note">Paralel icra 200 cihazın backup-ını 30 dəqiqədən 2–3 dəqiqəyə endirir. Backup qovluğunu git repo edib hər gecə commit etsəniz, <code>git diff</code> kimin nəyi dəyişdiyini göstərəcək.</p>
+            </div>
+        </section>
+
+        <section id="safe" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 5. Təhlükəsiz Avtomatlaşdırma</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:flask-conical}}<p class="text-neutral-700"><strong>Əvvəlcə lab:</strong> CML, GNS3, EVE-NG və ya DevNet Sandbox.</p></div>
+                <div class="feature-item">{{i:list-ordered}}<p class="text-neutral-700"><strong>Mərhələli çıxış:</strong> əvvəl 1 cihaz, sonra 5, sonra hamısı.</p></div>
+                <div class="feature-item">{{i:eye}}<p class="text-neutral-700"><strong>Dry run:</strong> skript əvvəlcə göndərəcəyi əmrləri çap etsin, təsdiqdən sonra göndərsin.</p></div>
+                <div class="feature-item">{{i:history}}<p class="text-neutral-700"><strong>Əvvəl backup:</strong> dəyişiklikdən əvvəl <code>show run</code>-ı saxlayın.</p></div>
+                <div class="feature-item">{{i:user-lock}}<p class="text-neutral-700"><strong>Ayrıca hesab:</strong> avtomatlaşdırma üçün TACACS+/RADIUS-da məhdud icazəli servis hesabı; əmrlər loglanır.</p></div>
+                <div class="feature-item">{{i:circle-check}}<p class="text-neutral-700"><strong>Sonra yoxlama:</strong> dəyişiklikdən sonra <code>show</code> ilə nəticəni avtomatik təsdiqləyin.</p></div>
+            </div>
+        </section>
+<!--END-->

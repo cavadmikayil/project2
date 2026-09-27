@@ -1,0 +1,145 @@
+<!--PAGE title="GitHub Actions ilə Pipeline" icon="circle-play" badge="DevOps · CI/CD" nav="intro:Giriş|anatomy:Workflow quruluşu|first:İlk workflow|secrets:Secret-lər|advanced:İrəli səviyyə|pages:Real nümunə"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:circle-play}} Giriş: Repo-nun İçində CI/CD</h2>
+            <p class="lead">
+                <strong>GitHub Actions</strong> — GitHub-a daxil olan avtomatlaşdırma platformasıdır. Repo-da <code>.github/workflows/</code>
+                qovluğuna YAML faylı qoyursunuz və hər push, PR, cədvəl və ya əl ilə başlatma zamanı GitHub-un
+                virtual maşınlarında (runner) əmrləriniz işləyir. Açıq repo-lar üçün pulsuzdur.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:bell-ring}} Event</h3><p class="text-neutral-700">Workflow-u nə başladır: <code>push</code>, <code>pull_request</code>, <code>schedule</code>, <code>workflow_dispatch</code>.</p></div>
+                <div class="info-card"><h3>{{i:server}} Runner</h3><p class="text-neutral-700"><code>ubuntu-latest</code>, <code>windows-latest</code>, <code>macos-latest</code> və ya öz serveriniz (self-hosted).</p></div>
+                <div class="info-card dark"><h3>{{i:puzzle}} Action</h3><p>Hazır addım: <code>actions/checkout</code>, <code>actions/setup-python</code> — Marketplace-də minlərlə.</p></div>
+            </div>
+        </section>
+
+        <section id="anatomy" class="section-card">
+            <h2 class="section-title">{{i:list-tree}} 1. Workflow Quruluşu</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Səviyyə</th><th>Nədir</th><th>Xüsusiyyət</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Workflow</strong></td><td>Bir YAML faylı</td><td>Bir və ya bir neçə job</td></tr>
+                        <tr><td><strong>Job</strong></td><td>Bir runner-də işləyən addımlar qrupu</td><td>Job-lar defolt olaraq <strong>paralel</strong>; <code>needs:</code> ilə ardıcıl</td></tr>
+                        <tr><td><strong>Step</strong></td><td>Bir əmr (<code>run</code>) və ya action (<code>uses</code>)</td><td>Eyni job-un step-ləri eyni fayl sistemini paylaşır</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="first" class="section-card">
+            <h2 class="section-title">{{i:file-code}} 2. İlk Workflow: Python Testləri</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12", "3.13"]     # 3 paralel job
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: ruff check .
+      - run: pytest -q
+
+  build:
+    needs: test                       # yalnız testlər keçəndə
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t myapp:${{ github.sha }} .</code></pre>
+                <p class="code-note"><code>${{ ... }}</code> — expression sintaksisi: <code>github.sha</code>, <code>github.ref</code>, <code>matrix.*</code>, <code>secrets.*</code> kontekstlərinə çatmaq üçün.</p>
+            </div>
+        </section>
+
+        <section id="secrets" class="section-card">
+            <h2 class="section-title">{{i:key-round}} 3. Secret-lər və İcazələr</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:lock}}<p class="text-neutral-700"><strong>Repository secrets:</strong> Settings → Secrets and variables → Actions. Log-da avtomatik <code>***</code> ilə gizlədilir.</p></div>
+                <div class="feature-item">{{i:layers}}<p class="text-neutral-700"><strong>Environments:</strong> <code>production</code> mühitinə ayrıca secret-lər və məcburi reviewer.</p></div>
+                <div class="feature-item">{{i:shield}}<p class="text-neutral-700"><strong>GITHUB_TOKEN:</strong> hər run üçün avtomatik yaranan token; <code>permissions:</code> ilə minimuma endirin.</p></div>
+                <div class="feature-item">{{i:fingerprint}}<p class="text-neutral-700"><strong>OIDC:</strong> <code>id-token: write</code> ilə AWS/Azure-a secret-siz giriş.</p></div>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production          # təsdiq gözləyir
+    steps:
+      - uses: actions/checkout@v4
+      - name: Serverə deploy
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          install -m 600 /dev/null ~/.ssh_key &amp;&amp; echo "$SSH_KEY" &gt; ~/.ssh_key
+          rsync -az -e "ssh -i ~/.ssh_key -o StrictHostKeyChecking=accept-new" ./site/ deploy@web01:/var/www/site/</code></pre>
+            </div>
+            <div class="note-box mt-6">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800">Fork-dan gələn PR-lar secret-lərə çata bilmir — bu qəsdəndir. <code>pull_request_target</code> event-ini yad kodu işlətmək üçün istifadə etməyin. Üçüncü tərəf action-ları tam commit SHA ilə sabitləyin.</p>
+            </div>
+        </section>
+
+        <section id="advanced" class="section-card">
+            <h2 class="section-title">{{i:sliders-horizontal}} 4. Faydalı İmkanlar</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>on:
+  schedule:
+    - cron: "0 3 * * 1"          # hər bazar ertəsi 03:00 UTC
+  workflow_dispatch:              # Actions tab-ında "Run workflow" düyməsi
+    inputs:
+      env:
+        type: choice
+        options: [staging, production]
+
+concurrency:                      # eyni branch-da köhnə run-ı ləğv et
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - run: ./generate-report.sh &gt; report.html
+      - uses: actions/upload-artifact@v4       # nəticə faylını saxla
+        with: { name: weekly-report, path: report.html }
+      - if: failure()                          # yalnız xəta olanda
+        run: echo "::error::Hesabat yaradılmadı"</code></pre>
+            </div>
+        </section>
+
+        <section id="pages" class="section-card">
+            <h2 class="section-title">{{i:globe}} 5. Real Nümunə: Bu Portalın Workflow-u</h2>
+            <p class="lead">Bu sayt GitHub Pages-dədir və <code>.github/workflows/site.yml</code> hər push-da belə işləyir:</p>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><code>python3 _dev/build.py check</code> — ikonlar, kataloq, quiz sualları, daxili linklər.</p></li>
+                <li><p class="text-neutral-700">Build yenidən işlədilir və <code>git diff</code> boş olmalıdır — yaradılmış fayllar mənbə ilə uyğun gəlir.</p></li>
+                <li><p class="text-neutral-700">Sayt fayllarından Pages artefaktı yaradılır.</p></li>
+                <li><p class="text-neutral-700">main-də hər şey yaşıldırsa — <code>actions/deploy-pages</code> ilə dərc.</p></li>
+            </ol>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Ayrıca həftəlik workflow xarici linkləri yoxlayır, amma deploy-u bloklamır — kənar saytın müvəqqəti xətası saytın dərcini dayandırmamalıdır.</p>
+            </div>
+        </section>
+<!--END-->

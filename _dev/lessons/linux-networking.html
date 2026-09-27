@@ -1,0 +1,177 @@
+<!--PAGE title="Linux Şəbəkə Administrasiyası" icon="ethernet-port" badge="Linux · Şəbəkə" nav="intro:Giriş|ip:ip əmri|config:Daimi konfiqurasiya|dns:DNS və hostname|firewall:Firewall|debug:Diaqnostika"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:ethernet-port}} Giriş: Linux Router Kimi</h2>
+            <p class="lead">
+                Linux serveri şəbəkədə düzgün yerləşdirmək üçün CCNA biliyinizin hamısı işə yarayır: IP, maska, gateway, marşrut, VLAN, NAT.
+                Fərq ondadır ki, burada əmrlər <code>ip</code>, <code>ss</code>, <code>nmcli</code>/<code>netplan</code> və <code>nftables</code>-dır.
+                Köhnə <code>ifconfig</code>, <code>netstat</code>, <code>route</code> əmrləri (net-tools) artıq defolt quraşdırılmır.
+            </p>
+        </section>
+
+        <section id="ip" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 1. ip Əmri</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>ip -br a                                  # qısa: interfeys, vəziyyət, IP-lər
+ip -br link                               # MAC və link vəziyyəti
+ip route                                  # routing cədvəli
+ip route get 8.8.8.8                      # bu paket hansı yolla gedəcək?
+ip neigh                                  # ARP cədvəli
+
+# Müvəqqəti dəyişikliklər (reboot-da itir)
+ip addr add 10.0.20.15/24 dev eth1
+ip link set eth1 up
+ip route add 10.50.0.0/16 via 10.0.20.1
+ip link add link eth0 name eth0.30 type vlan id 30     # 802.1Q subinterfeys</code></pre>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Köhnə (net-tools)</th><th>Yeni (iproute2)</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>ifconfig</code></td><td><code>ip a</code></td></tr>
+                        <tr><td><code>route -n</code></td><td><code>ip r</code></td></tr>
+                        <tr><td><code>arp -a</code></td><td><code>ip neigh</code></td></tr>
+                        <tr><td><code>netstat -tulpn</code></td><td><code>ss -tulpn</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="config" class="section-card">
+            <h2 class="section-title">{{i:file-cog}} 2. Daimi Konfiqurasiya</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="ln-netplan">Ubuntu (netplan)</button>
+                <button class="tab-btn inactive-tab" data-pane="ln-nm">RHEL (NetworkManager)</button>
+            </div>
+            <div id="ln-netplan">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code># /etc/netplan/01-static.yaml
+network:
+  version: 2
+  ethernets:
+    eth0:
+      addresses: [192.168.10.20/24]
+      routes:
+        - to: default
+          via: 192.168.10.1
+      nameservers:
+        addresses: [192.168.10.5, 1.1.1.1]
+        search: [lab.local]
+  vlans:
+    eth0.30:
+      id: 30
+      link: eth0
+      addresses: [10.30.0.20/24]
+
+netplan try        # 120 saniyə ərzində təsdiq etməsəniz, əvvəlki vəziyyətə qayıdır
+netplan apply</code></pre>
+                </div>
+            </div>
+            <div id="ln-nm" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>nmcli device status
+nmcli con show
+nmcli con mod eth0 ipv4.method manual ipv4.addresses 192.168.10.20/24 \
+  ipv4.gateway 192.168.10.1 ipv4.dns "192.168.10.5 1.1.1.1" ipv4.dns-search lab.local
+nmcli con up eth0
+
+nmcli con add type vlan con-name vlan30 dev eth0 id 30 ipv4.method manual ipv4.addresses 10.30.0.20/24
+nmtui                                  # mətn əsaslı menyu</code></pre>
+                </div>
+            </div>
+            <div class="note-box mt-6">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800">Uzaq serverdə şəbəkə dəyişikliyi etmədən əvvəl konsol girişiniz (iDRAC/iLO, VM konsolu) olduğuna əmin olun və ya <code>netplan try</code> kimi avtomatik geri qaytarma istifadə edin.</p>
+            </div>
+        </section>
+
+        <section id="dns" class="section-card">
+            <h2 class="section-title">{{i:globe}} 3. DNS, Hostname və Vaxt</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>hostnamectl set-hostname web01.lab.local
+cat /etc/hosts                          # lokal ad cədvəli — DNS-dən əvvəl yoxlanır
+resolvectl status                       # systemd-resolved istifadə edirsə
+cat /etc/resolv.conf
+dig +short portal.lab.local
+dig @192.168.10.5 lab.local MX
+getent hosts db01                       # sistemin faktiki ad həlli (hosts + DNS)
+
+timedatectl set-timezone Asia/Baku
+chronyc sources -v                      # NTP sinxronizasiyası</code></pre>
+            </div>
+        </section>
+
+        <section id="firewall" class="section-card">
+            <h2 class="section-title">{{i:brick-wall}} 4. Firewall</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="fw-ufw">ufw (Ubuntu)</button>
+                <button class="tab-btn inactive-tab" data-pane="fw-firewalld">firewalld (RHEL)</button>
+                <button class="tab-btn inactive-tab" data-pane="fw-nft">nftables</button>
+            </div>
+            <div id="fw-ufw">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>ufw default deny incoming
+ufw default allow outgoing
+ufw allow from 10.0.0.0/24 to any port 22 proto tcp
+ufw allow 443/tcp
+ufw enable
+ufw status numbered</code></pre>
+                </div>
+            </div>
+            <div id="fw-firewalld" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>firewall-cmd --get-active-zones
+firewall-cmd --permanent --add-service=https
+firewall-cmd --permanent --add-rich-rule='rule family=ipv4 source address=10.0.0.0/24 service name=ssh accept'
+firewall-cmd --permanent --remove-service=ssh      # hamı üçün ssh-ı bağla
+firewall-cmd --reload
+firewall-cmd --list-all</code></pre>
+                </div>
+            </div>
+            <div id="fw-nft" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code># /etc/nftables.conf
+table inet filter {
+  chain input {
+    type filter hook input priority 0; policy drop;
+    ct state established,related accept
+    iif lo accept
+    ip saddr 10.0.0.0/24 tcp dport 22 accept
+    tcp dport { 80, 443 } accept
+    icmp type echo-request limit rate 5/second accept
+  }
+}
+
+nft -c -f /etc/nftables.conf     # yoxla
+nft -f /etc/nftables.conf        # tətbiq et
+nft list ruleset</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="debug" class="section-card">
+            <h2 class="section-title">{{i:stethoscope}} 5. Diaqnostika</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>ss -tulpn                               # dinləyən portlar və proseslər
+ss -tn state established '( dport = :443 )'
+curl -sv https://portal.lab.local -o /dev/null   # TLS və HTTP mərhələləri
+nc -zv db01 5432                        # port açıqdırmı
+mtr -rwc 50 8.8.8.8                     # hər hop-da itki və gecikmə
+tcpdump -ni eth0 host 10.0.20.50 and port 53     # DNS paketləri
+tcpdump -ni any -w /tmp/cap.pcap port 443        # Wireshark üçün fayla
+ethtool eth0                            # sürət, duplex, link
+ethtool -S eth0 | grep -i err           # NIC xəta sayğacları</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:list-ordered}}
+                <p class="text-neutral-800">Ardıcıllıq aşağıdan yuxarı: <strong>link</strong> (<code>ip link</code>, <code>ethtool</code>) → <strong>IP/gateway</strong> (<code>ip a</code>, <code>ping</code> gateway) → <strong>routing</strong> (<code>ip route get</code>) → <strong>DNS</strong> (<code>dig</code>) → <strong>port/firewall</strong> (<code>ss</code>, <code>nc</code>) → <strong>tətbiq</strong> (<code>curl</code>, log-lar).</p>
+            </div>
+        </section>
+<!--END-->

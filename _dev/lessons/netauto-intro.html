@@ -1,0 +1,88 @@
+<!--PAGE title="Network Automation-a Giriş" icon="bot" badge="Automation · Əsaslar" nav="intro:Giriş|why:Niyə|planes:Plane-lər|methods:Üsullar|stack:Alətlər|start:İlk addımlar"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:bot}} Giriş: CLI-dan Koda</h2>
+            <p class="lead">
+                Şəbəkə mühəndisinin işi onilliklər boyu eyni olub: cihaza SSH, əmrləri yaz, <code>show run</code> ilə yoxla, növbəti cihaz.
+                10 cihazda bu işləyir, 500 cihazda isə səhvlər, uyğunsuz konfiqurasiyalar və gecə növbələri deməkdir.
+                <strong>Network automation</strong> — təkrarlanan şəbəkə işlərini proqram, API və şablonlarla etmək deməkdir.
+                CCNA 200-301 imtahanının 10%-i məhz bu mövzudur.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:repeat}} Ardıcıllıq</h3><p class="text-neutral-700">Hər cihaz eyni şablondan — "SW-17-də niyə NTP fərqlidir?" sualı yaranmır.</p></div>
+                <div class="info-card"><h3>{{i:timer}} Sürət</h3><p class="text-neutral-700">500 switch-də VLAN əlavə etmək — saatlar yox, dəqiqələr.</p></div>
+                <div class="info-card dark"><h3>{{i:file-check}} Yoxlanıla bilənlik</h3><p>Hər dəyişiklik git-də, review olunur, test edilir və geri qaytarıla bilir.</p></div>
+            </div>
+        </section>
+
+        <section id="why" class="section-card">
+            <h2 class="section-title">{{i:scale}} 1. Əl ilə İş və Avtomatlaşdırma</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Əl ilə (CLI)</th><th>Avtomatlaşdırılmış</th></tr></thead>
+                    <tbody>
+                        <tr><td>Səhv riski</td><td>Yüksək — yazı səhvi, unudulan cihaz</td><td>Aşağı — eyni kod hər yerdə</td></tr>
+                        <tr><td>Miqyas</td><td>Cihaz sayı ilə xətti artan vaxt</td><td>10 və 1000 cihaz demək olar ki, eyni vaxt</td></tr>
+                        <tr><td>Sənədləşmə</td><td>Tez köhnəlir</td><td>Kod və məlumat özü sənəddir (source of truth)</td></tr>
+                        <tr><td>Audit</td><td>"Kim dəyişdi?" — bilinmir</td><td>Git tarixçəsi</td></tr>
+                        <tr><td>Uyğunluq yoxlaması</td><td>Seçmə, ildə bir dəfə</td><td>Hər gün, bütün cihazlar</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="planes" class="section-card">
+            <h2 class="section-title">{{i:layers}} 2. Management, Control və Data Plane</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>{{i:settings}} Management plane</h3><p class="text-neutral-700">Cihazı idarə etmək: SSH, SNMP, API, NETCONF. Avtomatlaşdırma burada işləyir.</p></div>
+                <div class="info-card accent"><h3>{{i:brain}} Control plane</h3><p class="text-neutral-700">Qərar vermək: OSPF, BGP, STP, ARP — routing və switching cədvəllərini qurmaq.</p></div>
+                <div class="info-card dark"><h3>{{i:zap}} Data plane</h3><p>Paketləri faktiki ötürmək: cədvələ baxıb frame/paketi portdan göndərmək (ASIC).</p></div>
+            </div>
+            <p class="text-neutral-700">Ənənəvi şəbəkədə hər cihazın öz control plane-i var. <strong>SDN</strong> (Software-Defined Networking) control plane-i mərkəzi <strong>kontrollerə</strong> çıxarır: kontroller bütün şəbəkəni görür və cihazlara <strong>southbound API</strong> ilə göstəriş verir, tətbiqlər isə kontrollerlə <strong>northbound API</strong> (adətən REST) ilə danışır.</p>
+        </section>
+
+        <section id="methods" class="section-card">
+            <h2 class="section-title">{{i:route}} 3. Cihazlarla Danışmağın Yolları</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Üsul</th><th>Məlumat formatı</th><th>Üstünlük</th><th>Çatışmazlıq</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>SSH + CLI scraping</strong></td><td>Strukturlaşmamış mətn</td><td>Hər cihazda işləyir</td><td>Çıxışı parse etmək lazımdır, versiyaya görə dəyişir</td></tr>
+                        <tr><td><strong>SNMP</strong></td><td>MIB/OID</td><td>Monitorinq üçün universal</td><td>Konfiqurasiya üçün zəif</td></tr>
+                        <tr><td><strong>NETCONF</strong></td><td>XML + YANG</td><td>Transaction, validasiya, candidate config</td><td>XML ağırdır</td></tr>
+                        <tr><td><strong>RESTCONF</strong></td><td>JSON/XML + YANG</td><td>HTTP, sadə alətlər</td><td>Hər cihaz dəstəkləmir</td></tr>
+                        <tr><td><strong>Kontroller API</strong></td><td>JSON (REST)</td><td>Bütün şəbəkə bir API-də</td><td>Vendor-a bağlılıq</td></tr>
+                        <tr><td><strong>gNMI / streaming telemetry</strong></td><td>Protobuf</td><td>Real vaxtda metrika axını</td><td>Yeni, daha mürəkkəb</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="stack" class="section-card">
+            <h2 class="section-title">{{i:wrench}} 4. Alətlər Yığını</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:code}}<p class="text-neutral-700"><strong>Python:</strong> şəbəkə avtomatlaşdırmasının əsas dili.</p></div>
+                <div class="feature-item">{{i:terminal}}<p class="text-neutral-700"><strong>Netmiko / Scrapli:</strong> SSH ilə cihazlara əmr göndərmək.</p></div>
+                <div class="feature-item">{{i:table}}<p class="text-neutral-700"><strong>TextFSM, Genie:</strong> <code>show</code> çıxışını strukturlaşdırılmış məlumata çevirmək.</p></div>
+                <div class="feature-item">{{i:file-code}}<p class="text-neutral-700"><strong>Jinja2:</strong> konfiqurasiya şablonları.</p></div>
+                <div class="feature-item">{{i:boxes}}<p class="text-neutral-700"><strong>NAPALM, Nornir:</strong> multi-vendor abstraksiya və paralel icra.</p></div>
+                <div class="feature-item">{{i:settings-2}}<p class="text-neutral-700"><strong>Ansible:</strong> kod yazmadan YAML ilə avtomatlaşdırma.</p></div>
+                <div class="feature-item">{{i:database}}<p class="text-neutral-700"><strong>NetBox:</strong> source of truth — IP-lər, cihazlar, kabellər, VLAN-lar.</p></div>
+                <div class="feature-item">{{i:git-branch}}<p class="text-neutral-700"><strong>Git + CI:</strong> konfiqurasiya dəyişikliklərinin review və testi.</p></div>
+            </div>
+        </section>
+
+        <section id="start" class="section-card">
+            <h2 class="section-title">{{i:flag}} 5. Haradan Başlamaq</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Read-only ilə başlayın:</strong> bütün cihazlardan <code>show version</code> toplayıb inventar cədvəli yaratmaq — heç nəyi poza bilməzsiniz.</p></li>
+                <li><p class="text-neutral-700"><strong>Konfiqurasiya backup-ı:</strong> hər gecə <code>show run</code>-ı git-ə yazmaq — dəyişikliklər avtomatik görünür.</p></li>
+                <li><p class="text-neutral-700"><strong>Uyğunluq yoxlaması:</strong> "hər cihazda NTP, AAA və banner varmı?" hesabatı.</p></li>
+                <li><p class="text-neutral-700"><strong>Kiçik dəyişikliklər:</strong> VLAN, description, SNMP community — əvvəlcə lab-da.</p></li>
+                <li><p class="text-neutral-700"><strong>Source of truth + şablonlar:</strong> konfiqurasiyanın tamamilə məlumatdan yaradılması.</p></li>
+            </ol>
+            <div class="note-box">
+                {{i:flask-conical}}
+                <p class="text-neutral-800">Pulsuz lab: <strong>Cisco DevNet Sandbox</strong> (həmişə açıq IOS XE, NX-OS cihazları), <strong>Cisco Modeling Labs Free</strong>, <strong>Containerlab</strong>. Sertifikat yolu: Cisco DevNet Associate → CCNP Automation.</p>
+            </div>
+        </section>
+<!--END-->
