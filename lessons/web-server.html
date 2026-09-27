@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#app-window"></use></svg> Web Server: Nginx və HTTPS</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#app-window"></use></svg> Web Server: Nginx və HTTPS</h1>
                 <span class="lesson-badge">Server · Web</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -51,15 +51,15 @@
                 <a href="#proxy" class="nav-link">Reverse proxy</a>
                 <a href="#tls" class="nav-link">HTTPS</a>
                 <a href="#trouble" class="nav-link">Problemlər</a>
-                <a href="../index.html#server" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#moon"></use></svg></button>
+                <a href="../index.html#server" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#app-window"></use></svg> Giriş: Veb Server Nə Edir?</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#app-window"></use></svg> Giriş: Veb Server Nə Edir?</h2>
             <p class="lead">
                 Veb server brauzerdən gələn <strong>HTTP sorğularını</strong> qəbul edir və fayl (HTML, şəkil) və ya
                 arxadakı tətbiqin cavabını qaytarır. Ən çox istifadə olunanlar: <strong>Nginx</strong>, <strong>Apache</strong>
@@ -69,11 +69,11 @@
         </section>
 
         <section id="http" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left-right"></use></svg> 1. HTTP Əsasları</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left-right"></use></svg> 1. HTTP Əsasları</h2>
             <div class="card-grid mb-6">
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#send"></use></svg> Metodlar</h3><p class="text-neutral-700"><code>GET</code> — oxu, <code>POST</code> — göndər, <code>PUT/PATCH</code> — yenilə, <code>DELETE</code> — sil.</p></div>
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#hash"></use></svg> Status kodları</h3><p class="text-neutral-700">2xx uğur, 3xx yönləndirmə, 4xx klient xətası, 5xx server xətası.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#lock"></use></svg> Portlar</h3><p>HTTP — TCP 80, HTTPS — TCP 443.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#send"></use></svg> Metodlar</h3><p class="text-neutral-700"><code>GET</code> — oxu, <code>POST</code> — göndər, <code>PUT/PATCH</code> — yenilə, <code>DELETE</code> — sil.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#hash"></use></svg> Status kodları</h3><p class="text-neutral-700">2xx uğur, 3xx yönləndirmə, 4xx klient xətası, 5xx server xətası.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#lock"></use></svg> Portlar</h3><p>HTTP — TCP 80, HTTPS — TCP 443.</p></div>
             </div>
             <div class="table-wrap">
                 <table class="data-table">
@@ -91,7 +91,7 @@
         </section>
 
         <section id="nginx" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#server"></use></svg> 2. Nginx: Statik Sayt (Server Block)</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#server"></use></svg> 2. Nginx: Statik Sayt (Server Block)</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>sudo apt install nginx
@@ -118,7 +118,7 @@ sudo nginx -t && sudo systemctl reload nginx</code></pre>
         </section>
 
         <section id="proxy" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#shuffle"></use></svg> 3. Reverse Proxy və Load Balancing</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#shuffle"></use></svg> 3. Reverse Proxy və Load Balancing</h2>
             <p class="lead">Tətbiq (Node.js, Python, Java) lokal portda işləyir, Nginx isə internetdən gələn sorğunu ona ötürür — HTTPS, keş, sıxılma və limitləri öz üzərinə götürür.</p>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
@@ -145,7 +145,7 @@ server {
         </section>
 
         <section id="tls" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#lock"></use></svg> 4. HTTPS: TLS Sertifikatı</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#lock"></use></svg> 4. HTTPS: TLS Sertifikatı</h2>
             <ol class="steps max-w-3xl mx-auto mb-6">
                 <li><p class="text-neutral-700">Domenin A qeydi serverin IP-sinə yönəlməli, 80 və 443 portları açıq olmalıdır.</p></li>
                 <li><p class="text-neutral-700"><strong>Let's Encrypt</strong> pulsuz sertifikat verir; <code>certbot</code> onu alır və Nginx konfiqurasiyasını yeniləyir.</p></li>
@@ -165,7 +165,7 @@ openssl s_client -connect example.az:443 -servername example.az &lt;/dev/null 2&
         </section>
 
         <section id="trouble" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#wrench"></use></svg> 5. Troubleshooting</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#wrench"></use></svg> 5. Troubleshooting</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>curl -I https://example.az             # yalnız başlıqlar və status kodu
@@ -191,13 +191,14 @@ sudo tail -f /var/log/nginx/error.log</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
                     <a href="../index.html#ccna">CCNA</a>
                     <a href="../tools.html">Tools</a>
+                    <a href="../videos.html">Video Dərslər</a>
                     <a href="../links.html">Faydalı Linklər</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>

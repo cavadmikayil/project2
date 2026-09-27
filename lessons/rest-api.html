@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#webhook"></use></svg> REST API Əsasları</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#webhook"></use></svg> REST API Əsasları</h1>
                 <span class="lesson-badge">Automation · API</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -51,15 +51,15 @@
                 <a href="#auth" class="nav-link">Autentifikasiya</a>
                 <a href="#curl" class="nav-link">curl və Postman</a>
                 <a href="#python" class="nav-link">Python requests</a>
-                <a href="../index.html#automation" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#moon"></use></svg></button>
+                <a href="../index.html#automation" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#webhook"></use></svg> Giriş: Proqramların Bir-biri ilə Danışığı</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#webhook"></use></svg> Giriş: Proqramların Bir-biri ilə Danışığı</h2>
             <p class="lead">
                 <strong>API</strong> (Application Programming Interface) — bir proqramın digərinə xidmət təklif etdiyi razılaşdırılmış interfeysdir.
                 <strong>REST</strong> isə HTTP üzərində qurulan ən geniş yayılmış API üslubudur: hər şey <strong>resurs</strong>dur
@@ -67,14 +67,14 @@
                 Cisco Catalyst Center, Meraki, FortiGate, NetBox, AWS — hamısının REST API-si var.
             </p>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#unplug"></use></svg> Stateless</h3><p class="text-neutral-700">Hər sorğu özündə bütün lazımi məlumatı (token daxil) daşıyır; server əvvəlki sorğunu yadda saxlamır.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#link"></use></svg> URI</h3><p class="text-neutral-700"><code>https://api.example.com/v1/devices?site=baku&amp;limit=50</code> — base URL, versiya, resurs, query parametrləri.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#braces"></use></svg> JSON</h3><p>Məlumat adətən JSON formatında göndərilir və qaytarılır.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#unplug"></use></svg> Stateless</h3><p class="text-neutral-700">Hər sorğu özündə bütün lazımi məlumatı (token daxil) daşıyır; server əvvəlki sorğunu yadda saxlamır.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#link"></use></svg> URI</h3><p class="text-neutral-700"><code>https://api.example.com/v1/devices?site=baku&amp;limit=50</code> — base URL, versiya, resurs, query parametrləri.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#braces"></use></svg> JSON</h3><p>Məlumat adətən JSON formatında göndərilir və qaytarılır.</p></div>
             </div>
         </section>
 
         <section id="http" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left-right"></use></svg> 1. HTTP Metodları (CRUD)</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left-right"></use></svg> 1. HTTP Metodları (CRUD)</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Metod</th><th>CRUD</th><th>Nümunə</th><th>Idempotent</th></tr></thead>
@@ -88,13 +88,13 @@
                 </table>
             </div>
             <div class="note-box mt-6">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#lightbulb"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#lightbulb"></use></svg>
                 <p class="text-neutral-800">HTTP sorğusunun hissələri: <strong>metod + URL</strong>, <strong>header-lər</strong> (<code>Content-Type: application/json</code>, <code>Accept</code>, <code>Authorization</code>) və <strong>body</strong> (POST/PUT/PATCH üçün JSON).</p>
             </div>
         </section>
 
         <section id="codes" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#list-ordered"></use></svg> 2. Status Kodları</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#list-ordered"></use></svg> 2. Status Kodları</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Kod</th><th>Mənası</th><th>Nə etməli</th></tr></thead>
@@ -114,17 +114,17 @@
         </section>
 
         <section id="auth" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#key-round"></use></svg> 3. Autentifikasiya Üsulları</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#key-round"></use></svg> 3. Autentifikasiya Üsulları</h2>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#user"></use></svg><p class="text-neutral-700"><strong>Basic auth:</strong> <code>Authorization: Basic base64(user:pass)</code> — yalnız HTTPS üzərində; base64 şifrələmə deyil.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#key"></use></svg><p class="text-neutral-700"><strong>API key:</strong> <code>X-Cisco-Meraki-API-Key: ...</code> və ya <code>Authorization: Bearer ...</code> — uzunmüddətli, ehtiyatla saxlanmalı.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#ticket"></use></svg><p class="text-neutral-700"><strong>Token:</strong> əvvəlcə login endpoint-dən token alınır (Catalyst Center: <code>X-Auth-Token</code>), sonra hər sorğuda göndərilir; müddəti bitir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#shield-check"></use></svg><p class="text-neutral-700"><strong>OAuth 2.0:</strong> client credentials ilə qısamüddətli access token — Microsoft Graph, Webex, müasir SaaS API-lər.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#user"></use></svg><p class="text-neutral-700"><strong>Basic auth:</strong> <code>Authorization: Basic base64(user:pass)</code> — yalnız HTTPS üzərində; base64 şifrələmə deyil.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#key"></use></svg><p class="text-neutral-700"><strong>API key:</strong> <code>X-Cisco-Meraki-API-Key: ...</code> və ya <code>Authorization: Bearer ...</code> — uzunmüddətli, ehtiyatla saxlanmalı.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#ticket"></use></svg><p class="text-neutral-700"><strong>Token:</strong> əvvəlcə login endpoint-dən token alınır (Catalyst Center: <code>X-Auth-Token</code>), sonra hər sorğuda göndərilir; müddəti bitir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#shield-check"></use></svg><p class="text-neutral-700"><strong>OAuth 2.0:</strong> client credentials ilə qısamüddətli access token — Microsoft Graph, Webex, müasir SaaS API-lər.</p></div>
             </div>
         </section>
 
         <section id="curl" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#terminal"></use></svg> 4. curl və Postman</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#terminal"></use></svg> 4. curl və Postman</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code># GET — açıq API
@@ -142,13 +142,13 @@ curl -s -X POST "https://netbox.local/api/ipam/vlans/" \
 curl -i ...        # cavab header-lərini və status kodunu da göstər</code></pre>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#mouse-pointer-click"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#mouse-pointer-click"></use></svg>
                 <p class="text-neutral-800"><strong>Postman</strong> və ya <strong>Bruno</strong> — API-ləri qrafik interfeysdə sınamaq, kolleksiyalar saxlamaq və hazır sorğudan Python kodu yaratmaq (Code snippet) üçün. Swagger/OpenAPI sənədi olan API-lərdə "Try it out" düyməsi də var.</p>
             </div>
         </section>
 
         <section id="python" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#code"></use></svg> 5. Python requests</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#code"></use></svg> 5. Python requests</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>import os, requests
@@ -186,13 +186,14 @@ else:
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
                     <a href="../index.html#ccna">CCNA</a>
                     <a href="../tools.html">Tools</a>
+                    <a href="../videos.html">Video Dərslər</a>
                     <a href="../links.html">Faydalı Linklər</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>

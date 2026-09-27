@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#ethernet-port"></use></svg> Linux Şəbəkə Administrasiyası</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#ethernet-port"></use></svg> Linux Şəbəkə Administrasiyası</h1>
                 <span class="lesson-badge">Linux · Şəbəkə</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -51,15 +51,15 @@
                 <a href="#dns" class="nav-link">DNS və hostname</a>
                 <a href="#firewall" class="nav-link">Firewall</a>
                 <a href="#debug" class="nav-link">Diaqnostika</a>
-                <a href="../index.html#linux" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#moon"></use></svg></button>
+                <a href="../index.html#linux" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#ethernet-port"></use></svg> Giriş: Linux Router Kimi</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#ethernet-port"></use></svg> Giriş: Linux Router Kimi</h2>
             <p class="lead">
                 Linux serveri şəbəkədə düzgün yerləşdirmək üçün CCNA biliyinizin hamısı işə yarayır: IP, maska, gateway, marşrut, VLAN, NAT.
                 Fərq ondadır ki, burada əmrlər <code>ip</code>, <code>ss</code>, <code>nmcli</code>/<code>netplan</code> və <code>nftables</code>-dır.
@@ -68,7 +68,7 @@
         </section>
 
         <section id="ip" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#terminal"></use></svg> 1. ip Əmri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#terminal"></use></svg> 1. ip Əmri</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>ip -br a                                  # qısa: interfeys, vəziyyət, IP-lər
@@ -97,7 +97,7 @@ ip link add link eth0 name eth0.30 type vlan id 30     # 802.1Q subinterfeys</co
         </section>
 
         <section id="config" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#file-cog"></use></svg> 2. Daimi Konfiqurasiya</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#file-cog"></use></svg> 2. Daimi Konfiqurasiya</h2>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="ln-netplan">Ubuntu (netplan)</button>
                 <button class="tab-btn inactive-tab" data-pane="ln-nm">RHEL (NetworkManager)</button>
@@ -141,13 +141,13 @@ nmtui                                  # mətn əsaslı menyu</code></pre>
                 </div>
             </div>
             <div class="note-box mt-6">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#triangle-alert"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#triangle-alert"></use></svg>
                 <p class="text-neutral-800">Uzaq serverdə şəbəkə dəyişikliyi etmədən əvvəl konsol girişiniz (iDRAC/iLO, VM konsolu) olduğuna əmin olun və ya <code>netplan try</code> kimi avtomatik geri qaytarma istifadə edin.</p>
             </div>
         </section>
 
         <section id="dns" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#globe"></use></svg> 3. DNS, Hostname və Vaxt</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#globe"></use></svg> 3. DNS, Hostname və Vaxt</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>hostnamectl set-hostname web01.lab.local
@@ -164,7 +164,7 @@ chronyc sources -v                      # NTP sinxronizasiyası</code></pre>
         </section>
 
         <section id="firewall" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#brick-wall"></use></svg> 4. Firewall</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#brick-wall"></use></svg> 4. Firewall</h2>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="fw-ufw">ufw (Ubuntu)</button>
                 <button class="tab-btn inactive-tab" data-pane="fw-firewalld">firewalld (RHEL)</button>
@@ -215,7 +215,7 @@ nft list ruleset</code></pre>
         </section>
 
         <section id="debug" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#stethoscope"></use></svg> 5. Diaqnostika</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#stethoscope"></use></svg> 5. Diaqnostika</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>ss -tulpn                               # dinləyən portlar və proseslər
@@ -229,7 +229,7 @@ ethtool eth0                            # sürət, duplex, link
 ethtool -S eth0 | grep -i err           # NIC xəta sayğacları</code></pre>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#list-ordered"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#list-ordered"></use></svg>
                 <p class="text-neutral-800">Ardıcıllıq aşağıdan yuxarı: <strong>link</strong> (<code>ip link</code>, <code>ethtool</code>) → <strong>IP/gateway</strong> (<code>ip a</code>, <code>ping</code> gateway) → <strong>routing</strong> (<code>ip route get</code>) → <strong>DNS</strong> (<code>dig</code>) → <strong>port/firewall</strong> (<code>ss</code>, <code>nc</code>) → <strong>tətbiq</strong> (<code>curl</code>, log-lar).</p>
             </div>
         </section>
@@ -239,13 +239,14 @@ ethtool -S eth0 | grep -i err           # NIC xəta sayğacları</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
                     <a href="../index.html#ccna">CCNA</a>
                     <a href="../tools.html">Tools</a>
+                    <a href="../videos.html">Video Dərslər</a>
                     <a href="../links.html">Faydalı Linklər</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>

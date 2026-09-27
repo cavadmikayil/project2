@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#signpost"></use></svg> Statik Marşrutlaşdırma</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#signpost"></use></svg> Statik Marşrutlaşdırma</h1>
                 <span class="lesson-badge">CCNA · IP Connectivity</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -50,28 +50,28 @@
                 <a href="#table" class="nav-link">Marşrut cədvəli</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
                 <a href="#lab" class="nav-link">Lab</a>
-                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#moon"></use></svg></button>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#signpost"></use></svg> Giriş: Nə vaxt statik marşrut?</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#signpost"></use></svg> Giriş: Nə vaxt statik marşrut?</h2>
             <p class="lead">
                 Statik marşrut administratorun əl ilə yazdığı marşrutdur. Router onu dəyişmir və qonşulara
                 elan etmir. Kiçik şəbəkələrdə, tək çıxışlı (stub) filiallarda və internetə defolt çıxış üçün
                 idealdır. İnzibati məsafəsi (AD) <strong>1</strong>-dir, yəni dinamik protokollardan daha etibarlı sayılır.
             </p>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-check"></use></svg> Üstünlüklər</h3><p class="text-neutral-700">CPU/bant genişliyi sərf etmir, proqnozlaşdırıla biləndir, təhlükəsizdir (heç nə elan olunmur).</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-x"></use></svg> Çatışmazlıqlar</h3><p class="text-neutral-700">Topologiya dəyişəndə avtomatik uyğunlaşmır; böyük şəbəkələrdə idarə etmək çətindir.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg> Üstünlüklər</h3><p class="text-neutral-700">CPU/bant genişliyi sərf etmir, proqnozlaşdırıla biləndir, təhlükəsizdir (heç nə elan olunmur).</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-x"></use></svg> Çatışmazlıqlar</h3><p class="text-neutral-700">Topologiya dəyişəndə avtomatik uyğunlaşmır; böyük şəbəkələrdə idarə etmək çətindir.</p></div>
             </div>
         </section>
 
         <section id="types" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#list-ordered"></use></svg> 1. Statik Marşrut Növləri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#list-ordered"></use></svg> 1. Statik Marşrut Növləri</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Növ</th><th>Nümunə</th><th>İzah</th></tr></thead>
@@ -86,14 +86,14 @@
             </div>
             <h3 class="text-xl font-bold mt-6 mb-3">Next-hop, çıxış interfeysi, yoxsa hər ikisi?</h3>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-right"></use></svg><p class="text-neutral-700"><strong>Next-hop IP:</strong> router next-hop-u tapmaq üçün cədvəldə ikinci axtarış edir (recursive lookup).</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#cable"></use></svg><p class="text-neutral-700"><strong>Çıxış interfeysi:</strong> point-to-point (serial) linklər üçün uyğundur; Ethernet-də tövsiyə olunmur (ARP yükü).</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-check"></use></svg><p class="text-neutral-700"><strong>Fully specified:</strong> interfeys + next-hop — Ethernet üçün ən etibarlı variant.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-right"></use></svg><p class="text-neutral-700"><strong>Next-hop IP:</strong> router next-hop-u tapmaq üçün cədvəldə ikinci axtarış edir (recursive lookup).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#cable"></use></svg><p class="text-neutral-700"><strong>Çıxış interfeysi:</strong> point-to-point (serial) linklər üçün uyğundur; Ethernet-də tövsiyə olunmur (ARP yükü).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg><p class="text-neutral-700"><strong>Fully specified:</strong> interfeys + next-hop — Ethernet üçün ən etibarlı variant.</p></div>
             </div>
         </section>
 
         <section id="table" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#map"></use></svg> 2. Marşrut Cədvəlini Oxumaq</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#map"></use></svg> 2. Marşrut Cədvəlini Oxumaq</h2>
             <div class="code-block">
                 <pre><code>R1# show ip route
 Codes: L - local, C - connected, S - static, O - OSPF, * - candidate default
@@ -109,13 +109,13 @@ S     192.168.2.0/24 [1/0] via 10.0.0.2
                      AD  metrika</code></pre>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#target"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#target"></use></svg>
                 <p class="text-neutral-800"><strong>Longest prefix match:</strong> 192.168.2.50-yə gedən paket üçün həm <code>0.0.0.0/0</code>, həm də <code>192.168.2.0/24</code> uyğundur — router həmişə <strong>ən uzun prefiksli</strong> (/24) marşrutu seçir. AD yalnız eyni prefiks müxtəlif mənbələrdən öyrənildikdə müqayisə olunur.</p>
             </div>
         </section>
 
         <section id="commands" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#terminal"></use></svg> 3. Praktiki Əmrlər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#terminal"></use></svg> 3. Praktiki Əmrlər</h2>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="st-v4">IPv4</button>
                 <button class="tab-btn inactive-tab" data-pane="st-float">Floating (ehtiyat)</button>
@@ -161,11 +161,11 @@ traceroute 192.168.2.1</code></pre>
             </div>
         </section>
         <section id="lab" class="section-card lab-section" data-lab="static-routing">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#flask-conical"></use></svg> Lab: Statik, Default və Floating Static Marşrut</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#flask-conical"></use></svg> Lab: Statik, Default və Floating Static Marşrut</h2>
             <div class="card-grid mb-6">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Filial ilə mərkəz arasında əsas və ehtiyat linki olan statik marşrutlaşdırma qurmaq.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#timer"></use></svg> Müddət</h3><p>45 dəq · Orta</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Filial ilə mərkəz arasında əsas və ehtiyat linki olan statik marşrutlaşdırma qurmaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#timer"></use></svg> Müddət</h3><p>45 dəq · Orta</p></div>
             </div>
             <h3 class="text-xl font-bold mb-3">Topologiya</h3>
             <div class="code-block lab-topology mb-6">
@@ -203,12 +203,12 @@ traceroute 8.8.8.8</code></pre>
             </div>
             <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
             <div class="feature-grid mb-6">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-check"></use></svg><p class="text-neutral-700">Normal halda trafik 10.0.0.0/30 üzərindən gedir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-check"></use></svg><p class="text-neutral-700">Əsas link kəsiləndə [200/0] marşrutu cədvələ düşür və trafik ehtiyat linkə keçir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-check"></use></svg><p class="text-neutral-700">Qeyd: floating static yalnız interfeys <em>down</em> olanda işləyir — uzaqdakı nasazlığı görmək üçün IP SLA lazımdır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg><p class="text-neutral-700">Normal halda trafik 10.0.0.0/30 üzərindən gedir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg><p class="text-neutral-700">Əsas link kəsiləndə [200/0] marşrutu cədvələ düşür və trafik ehtiyat linkə keçir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg><p class="text-neutral-700">Qeyd: floating static yalnız interfeys <em>down</em> olanda işləyir — uzaqdakı nasazlığı görmək üçün IP SLA lazımdır.</p></div>
             </div>
             <details class="lab-solution mb-6">
-                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
                 <div class="code-block mt-3">
                     <button class="copy-btn">Kopyala</button>
                     <pre><code>BRANCH(config)# ip route 192.168.1.0 255.255.255.0 10.0.0.2
@@ -223,7 +223,7 @@ ISP(config)# ip route 192.168.0.0 255.255.252.0 203.0.113.2</code></pre>
             </details>
             <div class="lab-footer">
                 <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
-                <button type="button" class="lab-done-btn" data-lab="static-routing" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-dot"></use></svg> Labı bitirdim</button>
+                <button type="button" class="lab-done-btn" data-lab="static-routing" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-dot"></use></svg> Labı bitirdim</button>
             </div>
         </section>
     </main>
@@ -232,13 +232,14 @@ ISP(config)# ip route 192.168.0.0 255.255.252.0 203.0.113.2</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
                     <a href="../index.html#ccna">CCNA</a>
                     <a href="../tools.html">Tools</a>
+                    <a href="../videos.html">Video Dərslər</a>
                     <a href="../links.html">Faydalı Linklər</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>

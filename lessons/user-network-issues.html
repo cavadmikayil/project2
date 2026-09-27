@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#wifi-off"></use></svg> İstifadəçi Şəbəkə Problemləri</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#wifi-off"></use></svg> İstifadəçi Şəbəkə Problemləri</h1>
                 <span class="lesson-badge">Helpdesk · Şəbəkə</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -51,15 +51,15 @@
                 <a href="#wifi" class="nav-link">Wi-Fi</a>
                 <a href="#reset" class="nav-link">Sıfırlama</a>
                 <a href="#cases" class="nav-link">Hallar</a>
-                <a href="../index.html#helpdesk" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#moon"></use></svg></button>
+                <a href="../index.html#helpdesk" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#wifi-off"></use></svg> Giriş: "İnternet Yoxdur"</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#wifi-off"></use></svg> Giriş: "İnternet Yoxdur"</h2>
             <p class="lead">
                 Bu cümlə onlarla fərqli problemi ifadə edə bilər: Wi-Fi qoşulmayıb, IP alınmayıb, DNS işləmir,
                 yalnız bir sayt açılmır və ya VPN bağlantısı qırılıb. Helpdesk mütəxəssisi bir neçə əmrlə problemin
@@ -68,7 +68,7 @@
         </section>
 
         <section id="ipconfig" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#terminal"></use></svg> 1. ipconfig /all Nəticəsini Oxumaq</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#terminal"></use></svg> 1. ipconfig /all Nəticəsini Oxumaq</h2>
             <div class="code-block">
                 <pre><code>Wireless LAN adapter Wi-Fi:
    Connection-specific DNS Suffix  . : corp.example.az
@@ -82,15 +82,15 @@
    DNS Servers . . . . . . . . . . . : 192.168.1.10</code></pre>
             </div>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-check"></use></svg><p class="text-neutral-700"><strong>IP düzgün şəbəkədədirmi?</strong> Ofis VLAN-ı 192.168.20.0/24-dürsə, IP də oradan olmalıdır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#route"></use></svg><p class="text-neutral-700"><strong>Default Gateway</strong> boşdursa — başqa şəbəkələrə çıxış olmayacaq.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#globe"></use></svg><p class="text-neutral-700"><strong>DNS Servers:</strong> domen şəbəkəsində daxili DNS (DC) olmalıdır, 8.8.8.8 yox.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#fingerprint"></use></svg><p class="text-neutral-700"><strong>Physical Address:</strong> MAC — switch-də və ya DHCP-də cihazı tapmaq üçün.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg><p class="text-neutral-700"><strong>IP düzgün şəbəkədədirmi?</strong> Ofis VLAN-ı 192.168.20.0/24-dürsə, IP də oradan olmalıdır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#route"></use></svg><p class="text-neutral-700"><strong>Default Gateway</strong> boşdursa — başqa şəbəkələrə çıxış olmayacaq.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#globe"></use></svg><p class="text-neutral-700"><strong>DNS Servers:</strong> domen şəbəkəsində daxili DNS (DC) olmalıdır, 8.8.8.8 yox.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#fingerprint"></use></svg><p class="text-neutral-700"><strong>Physical Address:</strong> MAC — switch-də və ya DHCP-də cihazı tapmaq üçün.</p></div>
             </div>
         </section>
 
         <section id="apipa" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#triangle-alert"></use></svg> 2. 169.254.x.x — APIPA</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#triangle-alert"></use></svg> 2. 169.254.x.x — APIPA</h2>
             <p class="lead">Windows DHCP serverindən cavab ala bilmədikdə özünə <strong>169.254.0.0/16</strong> aralığından ünvan verir (APIPA). Bu ünvanla heç bir yerə çıxmaq olmur. Deməli, problem kompüter ilə DHCP server arasındadır.</p>
             <ol class="steps max-w-3xl mx-auto">
                 <li><p class="text-neutral-700">Kabel / Wi-Fi qoşuludurmu? Port LED-i yanırmı?</p></li>
@@ -101,7 +101,7 @@
         </section>
 
         <section id="wifi" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#wifi"></use></svg> 3. Wi-Fi Problemləri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#wifi"></use></svg> 3. Wi-Fi Problemləri</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>Simptom</th><th>Ehtimal olunan səbəb</th></tr></thead>
@@ -124,7 +124,7 @@ netsh wlan show wlanreport        # ətraflı HTML hesabat (bağlantı qırılma
         </section>
 
         <section id="reset" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#refresh-cw"></use></svg> 4. Şəbəkə Stack-ini Sıfırlamaq</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#refresh-cw"></use></svg> 4. Şəbəkə Stack-ini Sıfırlamaq</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>ipconfig /flushdns          # DNS keşi
@@ -140,7 +140,7 @@ Test-NetConnection intranet.corp.example.az -Port 443   # konkret porta qoşulma
         </section>
 
         <section id="cases" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#clipboard-list"></use></svg> 5. Real Hallar</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#clipboard-list"></use></svg> 5. Real Hallar</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Şikayət</th><th>Tapıntı</th><th>Həll</th></tr></thead>
@@ -160,13 +160,14 @@ Test-NetConnection intranet.corp.example.az -Port 443   # konkret porta qoşulma
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
                     <a href="../index.html#ccna">CCNA</a>
                     <a href="../tools.html">Tools</a>
+                    <a href="../videos.html">Video Dərslər</a>
                     <a href="../links.html">Faydalı Linklər</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>

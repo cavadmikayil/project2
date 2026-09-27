@@ -143,7 +143,7 @@
  "lessons/wireless-security.html": "f13774e7dcf3",
  "lessons/wireless.html": "e232f0bd0865",
  "links.html": "5c5ac20e780f",
- "tools.html": "939b0c7e35b6",
+ "tools.html": "9077dc75ef50",
  "tools/cli.html": "365bfb89a563",
  "tools/exam.html": "6a9f56caf7ce",
  "tools/flashcards.html": "f1e34de8ca01",
@@ -152,5 +152,6 @@
  "tools/quiz.html": "1ae0adee0b21",
  "tools/subnet-calculator.html": "a6007eca3b1e",
  "tools/vlsm.html": "af22bb939386",
- "tools/wildcard.html": "008e40e4bdb1"
+ "tools/wildcard.html": "008e40e4bdb1",
+ "videos.html": "649bf5d7ae66"
 }

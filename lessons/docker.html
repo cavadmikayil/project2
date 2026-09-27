@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#container"></use></svg> Docker və Konteynerlər</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#container"></use></svg> Docker və Konteynerlər</h1>
                 <span class="lesson-badge">Server · DevOps</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -51,29 +51,29 @@
                 <a href="#dockerfile" class="nav-link">Dockerfile</a>
                 <a href="#compose" class="nav-link">Compose</a>
                 <a href="#best" class="nav-link">Yaxşı təcrübə</a>
-                <a href="../index.html#server" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#moon"></use></svg></button>
+                <a href="../index.html#server" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#container"></use></svg> Giriş: "Mənim kompüterimdə işləyirdi"</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#container"></use></svg> Giriş: "Mənim kompüterimdə işləyirdi"</h2>
             <p class="lead">
                 Proqram developer-in kompüterində işləyir, serverdə isə fərqli kitabxana versiyası səbəbindən çökür.
                 <strong>Konteyner</strong> proqramı bütün asılılıqları ilə birlikdə bir paketə (<strong>image</strong>) yığır —
                 o, istənilən Docker olan serverdə eyni cür işləyir.
             </p>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#package"></use></svg> Image</h3><p class="text-neutral-700">Dəyişməz şablon: OS kitabxanaları + proqram + konfiqurasiya. Qatlardan (layer) ibarətdir.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#play"></use></svg> Container</h3><p class="text-neutral-700">Image-dan işə salınmış proses. Silinəndə içindəki dəyişikliklər də silinir.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#cloud"></use></svg> Registry</h3><p>Image-lərin saxlandığı yer: Docker Hub, GitHub Container Registry, şirkət daxili registry.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#package"></use></svg> Image</h3><p class="text-neutral-700">Dəyişməz şablon: OS kitabxanaları + proqram + konfiqurasiya. Qatlardan (layer) ibarətdir.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#play"></use></svg> Container</h3><p class="text-neutral-700">Image-dan işə salınmış proses. Silinəndə içindəki dəyişikliklər də silinir.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#cloud"></use></svg> Registry</h3><p>Image-lərin saxlandığı yer: Docker Hub, GitHub Container Registry, şirkət daxili registry.</p></div>
             </div>
         </section>
 
         <section id="vs" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#scale"></use></svg> 1. Konteyner və Virtual Maşın</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#scale"></use></svg> 1. Konteyner və Virtual Maşın</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th></th><th>Virtual maşın</th><th>Konteyner</th></tr></thead>
@@ -89,7 +89,7 @@
         </section>
 
         <section id="basics" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#terminal"></use></svg> 2. Əsas Əmrlər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#terminal"></use></svg> 2. Əsas Əmrlər</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>docker run -d --name web -p 8080:80 nginx:1.27   # arxa planda, host:8080 → konteyner:80
@@ -112,7 +112,7 @@ docker system prune           # istifadə olunmayan konteyner/image/şəbəkəl�
         </section>
 
         <section id="dockerfile" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#file-code"></use></svg> 3. Dockerfile ilə Öz Image-ınız</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#file-code"></use></svg> 3. Dockerfile ilə Öz Image-ınız</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code># Dockerfile — Python veb tətbiqi
@@ -137,7 +137,7 @@ docker run -d -p 8000:8000 --name myapp myapp:1.0</code></pre>
         </section>
 
         <section id="compose" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#boxes"></use></svg> 4. Docker Compose: Çox Konteynerli Tətbiq</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#boxes"></use></svg> 4. Docker Compose: Çox Konteynerli Tətbiq</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code># compose.yaml
@@ -174,14 +174,14 @@ docker compose down          # dayandır (volume qalır)</code></pre>
         </section>
 
         <section id="best" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#shield-check"></use></svg> 5. Yaxşı Təcrübələr</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#shield-check"></use></svg> 5. Yaxşı Təcrübələr</h2>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#tag"></use></svg><p class="text-neutral-700"><strong>Versiyanı sabitləyin:</strong> <code>nginx:latest</code> yox, <code>nginx:1.27</code> — gözlənilməz yeniləmə olmasın.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#minimize-2"></use></svg><p class="text-neutral-700"><strong>Kiçik base image:</strong> <code>-slim</code>, <code>alpine</code> — daha az zəiflik, daha sürətli yükləmə.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#key-round"></use></svg><p class="text-neutral-700"><strong>Sirləri image-a qoymayın:</strong> parol və açarlar environment, secret və ya vault ilə verilir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#user-check"></use></svg><p class="text-neutral-700"><strong>Root olmayan istifadəçi</strong> və yalnız lazım olan portlar.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#scan-search"></use></svg><p class="text-neutral-700"><strong>Image-ları skan edin:</strong> <code>docker scout cves</code> və ya Trivy ilə məlum zəiflikləri yoxlayın.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#database"></use></svg><p class="text-neutral-700"><strong>Məlumat volume-da:</strong> konteyner istənilən vaxt silinə bilən kimi düşünülməlidir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#tag"></use></svg><p class="text-neutral-700"><strong>Versiyanı sabitləyin:</strong> <code>nginx:latest</code> yox, <code>nginx:1.27</code> — gözlənilməz yeniləmə olmasın.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#minimize-2"></use></svg><p class="text-neutral-700"><strong>Kiçik base image:</strong> <code>-slim</code>, <code>alpine</code> — daha az zəiflik, daha sürətli yükləmə.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#key-round"></use></svg><p class="text-neutral-700"><strong>Sirləri image-a qoymayın:</strong> parol və açarlar environment, secret və ya vault ilə verilir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#user-check"></use></svg><p class="text-neutral-700"><strong>Root olmayan istifadəçi</strong> və yalnız lazım olan portlar.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#scan-search"></use></svg><p class="text-neutral-700"><strong>Image-ları skan edin:</strong> <code>docker scout cves</code> və ya Trivy ilə məlum zəiflikləri yoxlayın.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#database"></use></svg><p class="text-neutral-700"><strong>Məlumat volume-da:</strong> konteyner istənilən vaxt silinə bilən kimi düşünülməlidir.</p></div>
             </div>
         </section>
     </main>
@@ -190,13 +190,14 @@ docker compose down          # dayandır (volume qalır)</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
                     <a href="../index.html#ccna">CCNA</a>
                     <a href="../tools.html">Tools</a>
+                    <a href="../videos.html">Video Dərslər</a>
                     <a href="../links.html">Faydalı Linklər</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>

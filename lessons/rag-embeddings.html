@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#database-zap"></use></svg> Embeddings və RAG</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#database-zap"></use></svg> Embeddings və RAG</h1>
                 <span class="lesson-badge">AI · Arxitektura</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -52,15 +52,15 @@
                 <a href="#chunking" class="nav-link">Chunking</a>
                 <a href="#quality" class="nav-link">Keyfiyyət</a>
                 <a href="#usecase" class="nav-link">Ssenari</a>
-                <a href="../index.html#ai" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#moon"></use></svg></button>
+                <a href="../index.html#ai" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#database-zap"></use></svg> Giriş: Modelə Öz Sənədlərinizi "Oxutmaq"</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#database-zap"></use></svg> Giriş: Modelə Öz Sənədlərinizi "Oxutmaq"</h2>
             <p class="lead">
                 LLM şirkətinizin daxili runbook-larını, KB məqalələrini və siyasətlərini bilmir və onun biliyi müəyyən
                 tarixdə dayanıb. Hər şeyi prompt-a yapışdırmaq isə mümkün deyil. <strong>RAG</strong> (Retrieval-Augmented
@@ -70,7 +70,7 @@
         </section>
 
         <section id="embeddings" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#move-3d"></use></svg> 1. Embeddings: Mənanın Ədədlərlə İfadəsi</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#move-3d"></use></svg> 1. Embeddings: Mənanın Ədədlərlə İfadəsi</h2>
             <p class="lead"><strong>Embedding modeli</strong> mətni yüzlərlə və ya minlərlə ədəddən ibarət vektora çevirir. Mənaca yaxın mətnlərin vektorları da bir-birinə yaxın olur — hətta eyni sözlər işlənməsə belə.</p>
             <div class="code-block mb-6">
                 <pre><code>"Printer çap etmir"          → [0.12, -0.83, 0.44, ...]  ┐ yaxın
@@ -78,14 +78,14 @@
 "OSPF qonşuluğu qurulmur"     → [-0.65, 0.21, -0.08, ...]    uzaq</code></pre>
             </div>
             <div class="card-grid">
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#search"></use></svg> Keyword axtarış</h3><p class="text-neutral-700">Dəqiq sözü tapır: "0x2142", "CVE-2024-3400", xəta kodu. Sinonimləri görmür.</p></div>
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#sparkles"></use></svg> Semantik axtarış</h3><p class="text-neutral-700">Mənanı tapır: "wifi qoşulmur" sualına "simsiz şəbəkə problemləri" məqaləsi. Dəqiq kodlarda zəifdir.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#search"></use></svg> Keyword axtarış</h3><p class="text-neutral-700">Dəqiq sözü tapır: "0x2142", "CVE-2024-3400", xəta kodu. Sinonimləri görmür.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#sparkles"></use></svg> Semantik axtarış</h3><p class="text-neutral-700">Mənanı tapır: "wifi qoşulmur" sualına "simsiz şəbəkə problemləri" məqaləsi. Dəqiq kodlarda zəifdir.</p></div>
             </div>
             <p class="text-neutral-700 mt-4">Praktikada ikisi birləşdirilir — <strong>hybrid search</strong>.</p>
         </section>
 
         <section id="vectordb" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#database"></use></svg> 2. Vector Database</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#database"></use></svg> 2. Vector Database</h2>
             <p class="lead">Milyonlarla vektor arasında ən yaxınlarını millisaniyələrlə tapmaq üçün xüsusi indekslər istifadə olunur. Yaxınlıq adətən <strong>cosine similarity</strong> ilə ölçülür.</p>
             <div class="table-wrap">
                 <table class="data-table">
@@ -101,7 +101,7 @@
         </section>
 
         <section id="rag" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#workflow"></use></svg> 3. RAG Axını</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#workflow"></use></svg> 3. RAG Axını</h2>
             <div class="code-block mb-6">
                 <pre><code>HAZIRLIQ (bir dəfə və yenilənəndə)
 Sənədlər → parçalara bölmə (chunking) → embedding → vector DB (+ mənbə, tarix, icazə)
@@ -113,14 +113,14 @@ SORĞU ZAMANI
       → LLM → cavab + istinadlar</code></pre>
             </div>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-check"></use></svg><p class="text-neutral-700"><strong>Aktual məlumat:</strong> sənədi yeniləyirsiniz — modeli yenidən öyrətmədən cavab dəyişir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#quote"></use></svg><p class="text-neutral-700"><strong>İstinadlar:</strong> cavabın hansı sənəddən gəldiyi göstərilir — yoxlamaq asandır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#lock-keyhole"></use></svg><p class="text-neutral-700"><strong>İcazələr:</strong> axtarış istifadəçinin görə bildiyi sənədlərlə məhdudlaşdırılmalıdır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg><p class="text-neutral-700"><strong>Aktual məlumat:</strong> sənədi yeniləyirsiniz — modeli yenidən öyrətmədən cavab dəyişir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#quote"></use></svg><p class="text-neutral-700"><strong>İstinadlar:</strong> cavabın hansı sənəddən gəldiyi göstərilir — yoxlamaq asandır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#lock-keyhole"></use></svg><p class="text-neutral-700"><strong>İcazələr:</strong> axtarış istifadəçinin görə bildiyi sənədlərlə məhdudlaşdırılmalıdır.</p></div>
             </div>
         </section>
 
         <section id="chunking" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#scissors"></use></svg> 4. Chunking — Keyfiyyətin Gizli Açarı</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#scissors"></use></svg> 4. Chunking — Keyfiyyətin Gizli Açarı</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Problem</th><th>Nəticə</th><th>Həll</th></tr></thead>
@@ -135,7 +135,7 @@ SORĞU ZAMANI
         </section>
 
         <section id="quality" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#gauge"></use></svg> 5. Keyfiyyəti Necə Ölçmək?</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#gauge"></use></svg> 5. Keyfiyyəti Necə Ölçmək?</h2>
             <ol class="steps max-w-3xl mx-auto">
                 <li><p class="text-neutral-700"><strong>Test sualları dəsti:</strong> 30–50 real sual və gözlənilən mənbə sənəd.</p></li>
                 <li><p class="text-neutral-700"><strong>Retrieval yoxlaması:</strong> düzgün sənəd ilk 5 nəticədə varmı? (Yoxdursa — problem LLM-də deyil, axtarışdadır.)</p></li>
@@ -145,11 +145,11 @@ SORĞU ZAMANI
         </section>
 
         <section id="usecase" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#headset"></use></svg> 6. Ssenari: Helpdesk Assistenti</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#headset"></use></svg> 6. Ssenari: Helpdesk Assistenti</h2>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#book-open"></use></svg> Mənbələr</h3><p class="text-neutral-700">KB məqalələri, həll olunmuş ticket-lər (anonimləşdirilmiş), IT siyasətləri, vendor sənədləri.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#message-circle"></use></svg> İstifadə</h3><p class="text-neutral-700">Tier 1 mütəxəssisi müraciəti yazır — assistent oxşar həll olunmuş hallar və addımları istinadlarla təklif edir.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#user-check"></use></svg> Nəzarət</h3><p>Təklifi mütəxəssis tətbiq edir; yanlış cavablar qeyd olunur və KB düzəldilir.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#book-open"></use></svg> Mənbələr</h3><p class="text-neutral-700">KB məqalələri, həll olunmuş ticket-lər (anonimləşdirilmiş), IT siyasətləri, vendor sənədləri.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#message-circle"></use></svg> İstifadə</h3><p class="text-neutral-700">Tier 1 mütəxəssisi müraciəti yazır — assistent oxşar həll olunmuş hallar və addımları istinadlarla təklif edir.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#user-check"></use></svg> Nəzarət</h3><p>Təklifi mütəxəssis tətbiq edir; yanlış cavablar qeyd olunur və KB düzəldilir.</p></div>
             </div>
         </section>
     </main>
@@ -158,13 +158,14 @@ SORĞU ZAMANI
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
                     <a href="../index.html#ccna">CCNA</a>
                     <a href="../tools.html">Tools</a>
+                    <a href="../videos.html">Video Dərslər</a>
                     <a href="../links.html">Faydalı Linklər</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>

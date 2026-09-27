@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#lock"></use></svg> Linux İcazələri: Special Bits, ACL və sudo</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#lock"></use></svg> Linux İcazələri: Special Bits, ACL və sudo</h1>
                 <span class="lesson-badge">Linux · İcazələr</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -51,15 +51,15 @@
                 <a href="#umask" class="nav-link">umask</a>
                 <a href="#acl" class="nav-link">ACL</a>
                 <a href="#sudo" class="nav-link">sudoers</a>
-                <a href="../index.html#linux" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#moon"></use></svg></button>
+                <a href="../index.html#linux" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#lock"></use></svg> Giriş: rwx-dən O Yana</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#lock"></use></svg> Giriş: rwx-dən O Yana</h2>
             <p class="lead">
                 <code>chmod 755</code>-i hamı bilir. Amma paylaşılan qovluqda faylların qrupu niyə dəyişir, <code>/tmp</code>-də niyə başqasının faylını silə bilmirsiniz,
                 <code>passwd</code> adi istifadəçiyə <code>/etc/shadow</code>-u necə yazdırır, və bir istifadəçiyə yalnız bir əmri root kimi necə icazə verirsiniz?
@@ -68,7 +68,7 @@
         </section>
 
         <section id="basic" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#list-checks"></use></svg> 1. Qısa Təkrar</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#list-checks"></use></svg> 1. Qısa Təkrar</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>İcazə</th><th>Faylda</th><th>Qovluqda</th><th>Rəqəm</th></tr></thead>
@@ -80,13 +80,13 @@
                 </table>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#lightbulb"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#lightbulb"></use></svg>
                 <p class="text-neutral-800">Faylı silmək üçün faylın özündə yox, <strong>qovluqda</strong> <code>w</code> icazəsi lazımdır. Ona görə 444 icazəli faylı da qovluq sahibi silə bilər.</p>
             </div>
         </section>
 
         <section id="special" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#star"></use></svg> 2. Special Bits</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#star"></use></svg> 2. Special Bits</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>Bit</th><th>Rəqəm</th><th>Faylda</th><th>Qovluqda</th><th>ls-də</th></tr></thead>
@@ -113,7 +113,7 @@ find / -xdev -perm /6000 -type f 2&gt;/dev/null</code></pre>
         </section>
 
         <section id="umask" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#filter"></use></svg> 3. umask: Defolt İcazələr</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#filter"></use></svg> 3. umask: Defolt İcazələr</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>umask            # 0022 — adətən
@@ -126,7 +126,7 @@ umask 027        # fayl 640, qovluq 750 — "digərləri" heç nə görmür</cod
         </section>
 
         <section id="acl" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#users"></use></svg> 4. ACL: Bir Neçə İstifadəçi və Qrup</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#users"></use></svg> 4. ACL: Bir Neçə İstifadəçi və Qrup</h2>
             <p class="lead">Standart icazələrdə yalnız bir sahib və bir qrup var. <strong>ACL</strong> əlavə istifadəçi və qruplara fərdi icazə verir.</p>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
@@ -140,7 +140,7 @@ ls -l                                            # icazələrdən sonra "+" — 
         </section>
 
         <section id="sudo" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#shield-check"></use></svg> 5. sudo və sudoers</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#shield-check"></use></svg> 5. sudo və sudoers</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>visudo -f /etc/sudoers.d/helpdesk       # HƏMİŞƏ visudo — sintaksis səhvi sudo-nu kilidləyir
@@ -155,8 +155,8 @@ sudo -u www-data whoami
 grep sudo /var/log/auth.log             # kim nə işlətdi (RHEL: /var/log/secure)</code></pre>
             </div>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#ban"></use></svg><p class="text-neutral-700"><strong>Qaçın:</strong> <code>ALL=(ALL) NOPASSWD: ALL</code> geniş istifadəçilərə; <code>vim</code>, <code>less</code>, <code>find</code> kimi shell aça bilən əmrlərə sudo (GTFOBins).</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#key-round"></use></svg><p class="text-neutral-700"><strong>Linux capabilities:</strong> tam root əvəzinə tək hüquq: <code>setcap cap_net_bind_service=+ep /usr/local/bin/app</code> — 80 portunu root olmadan açmaq.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#ban"></use></svg><p class="text-neutral-700"><strong>Qaçın:</strong> <code>ALL=(ALL) NOPASSWD: ALL</code> geniş istifadəçilərə; <code>vim</code>, <code>less</code>, <code>find</code> kimi shell aça bilən əmrlərə sudo (GTFOBins).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#key-round"></use></svg><p class="text-neutral-700"><strong>Linux capabilities:</strong> tam root əvəzinə tək hüquq: <code>setcap cap_net_bind_service=+ep /usr/local/bin/app</code> — 80 portunu root olmadan açmaq.</p></div>
             </div>
         </section>
     </main>
@@ -165,13 +165,14 @@ grep sudo /var/log/auth.log             # kim nə işlətdi (RHEL: /var/log/secu
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
                     <a href="../index.html#ccna">CCNA</a>
                     <a href="../tools.html">Tools</a>
+                    <a href="../videos.html">Video Dərslər</a>
                     <a href="../links.html">Faydalı Linklər</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
