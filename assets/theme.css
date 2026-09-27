@@ -171,3 +171,54 @@ body.dark-mode footer.brand-footer {
     border-top: 3px solid #f59e0b;
 }
 .brand-footer a { text-decoration: none; }
+
+/* ---------- Sayt naviqasiyası (Ana Səhifə · CCNA · Faydalı Linklər · Haqqında) ---------- */
+.site-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem; }
+.site-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #404040;
+    text-decoration: none;
+    transition: background-color .15s, color .15s;
+}
+.site-nav a .icon { color: #d97706; }
+.site-nav a:hover { background: #fef3c7; color: #0a0a0a; }
+.site-nav a.active { background: #0a0a0a; color: #fbbf24; }
+.site-nav a.active .icon { color: #fbbf24; }
+.site-nav.on-dark a { color: #e5e5e5; }
+.site-nav.on-dark a .icon { color: #fbbf24; }
+.site-nav.on-dark a:hover { background: #262626; color: #fbbf24; }
+.site-nav.on-dark a.active, body.dark-mode .site-nav a.active { background: #f59e0b; color: #0a0a0a; }
+.site-nav.on-dark a.active .icon, body.dark-mode .site-nav a.active .icon { color: #0a0a0a; }
+body.dark-mode .site-nav a { color: #e5e5e5; }
+body.dark-mode .site-nav a .icon { color: #fbbf24; }
+body.dark-mode .site-nav a:hover { background: #262626; color: #fbbf24; }
+
+/* Footer sosial ikonları */
+.brand-footer-social { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; padding-top: 1.25rem; }
+.brand-footer-social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    border: 1px solid #333333;
+    color: #d4d4d4;
+    transition: background-color .15s, color .15s, border-color .15s, transform .15s;
+}
+.brand-footer-social a:hover { background: #f59e0b; border-color: #f59e0b; color: #0a0a0a; transform: translateY(-2px); }
+.brand-footer-social .icon { width: 1.15rem; height: 1.15rem; }
+.site-logo { display: inline-flex; align-items: center; justify-content: center; width: 2.25rem; height: 2.25rem; border-radius: 0.6rem; background: #f59e0b; color: #0a0a0a; }
+body.dark-mode .site-logo { color: #0a0a0a; }
+.site-nav a { white-space: nowrap; }
+@media (max-width: 767px) {
+    .site-nav { flex-wrap: nowrap; overflow-x: auto; width: 100%; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .site-nav::-webkit-scrollbar { display: none; }
+    .site-nav a { padding: 0.4rem 0.7rem; font-size: 0.85rem; }
+}

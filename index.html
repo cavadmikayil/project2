@@ -365,11 +365,17 @@
     <!-- ============ DASHBOARD ============ -->
     <div id="app-view" hidden>
         <header class="hero">
-            <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
-                <div class="flex items-center gap-3">
+            <div class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+                <a href="index.html" class="flex items-center gap-3">
                     <span class="icon-badge sm" style="background:#f59e0b;color:#0a0a0a"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"></use></svg></span>
                     <span class="text-lg md:text-xl font-bold">Cavad Mikayil Təlim Portalı</span>
-                </div>
+                </a>
+                <nav class="site-nav on-dark order-last xl:order-none w-full xl:w-auto" aria-label="Sayt menyusu">
+                    <a href="index.html" data-nav="home" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#house"></use></svg> Ana Səhifə</a>
+                    <a href="index.html#ccna" data-nav="ccna"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"></use></svg> CCNA</a>
+                    <a href="links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#library"></use></svg> Faydalı Linklər</a>
+                    <a href="about.html" data-nav="about"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#user-round"></use></svg> Haqqında</a>
+                </nav>
                 <div class="flex items-center gap-3">
                     <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#moon"></use></svg></button>
                     <div class="user-chip">
@@ -381,7 +387,7 @@
                         <button id="logout-btn" class="logout-btn"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#log-out"></use></svg> Çıxış</button>
                     </div>
                 </div>
-            </nav>
+            </div>
             <div class="container mx-auto px-6 pt-6 pb-24">
                 <h1 class="text-3xl md:text-4xl font-extrabold mb-2">Salam, <span id="greet-name" class="accent"></span>!</h1>
                 <p id="greet-sub" class="text-neutral-300 text-lg mb-6"></p>
@@ -455,11 +461,21 @@
                     <p class="brand-footer-tagline">Şəbəkə, CCNA və IT üzrə pulsuz təlim materialları</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
-                    <a href="index.html">Portal</a>
-                    <a href="index.html#ccna">CCNA Dərsləri</a>
+                    <a href="index.html">Ana Səhifə</a>
+                    <a href="index.html#ccna">CCNA</a>
                     <a href="links.html">Faydalı Linklər</a>
+                    <a href="about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
                 </nav>
+            </div>
+            <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+                <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#pen-line"></use></svg></a>
+                <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-instagram"></use></svg></a>
+                <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-youtube"></use></svg></a>
+                <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-linkedin-in"></use></svg></a>
+                <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-telegram"></use></svg></a>
+                <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-tiktok"></use></svg></a>
+                <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#mail"></use></svg></a>
             </div>
             <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
         </div>
@@ -838,6 +854,14 @@
                 </a>`).join('');
         }
 
+        function markNav() {
+            document.querySelectorAll('.hero .site-nav a').forEach(a => {
+                const on = a.dataset.nav === (activeCat === 'ccna' ? 'ccna' : 'home');
+                a.classList.toggle('active', on);
+                if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+            });
+        }
+
         function setCategory(cat) {
             if (cat === activeCat) return;
             activeCat = cat;
@@ -845,6 +869,7 @@
             history.replaceState(null, '', cat === 'ccna' ? '#ccna' : location.pathname + location.search);
             renderChips();
             render();
+            markNav();
         }
 
         $('cat-bar').addEventListener('click', e => {
@@ -852,7 +877,20 @@
             if (btn) setCategory(btn.dataset.cat);
         });
 
-        window.addEventListener('hashchange', () => setCategory(location.hash === '#ccna' ? 'ccna' : 'network'));
+        // Dashboard daxilində "Ana Səhifə" və "CCNA" səhifəni yenidən yükləmədən tab dəyişir
+        document.querySelector('.hero .site-nav').addEventListener('click', e => {
+            const link = e.target.closest('a[data-nav]');
+            if (!link || !['home', 'ccna'].includes(link.dataset.nav)) return;
+            e.preventDefault();
+            setCategory(link.dataset.nav === 'ccna' ? 'ccna' : 'network');
+            if (link.dataset.nav === 'ccna') $('lessons-section').scrollIntoView({ behavior: 'smooth' });
+            else window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        window.addEventListener('hashchange', () => {
+            setCategory(location.hash === '#ccna' ? 'ccna' : 'network');
+            $('lessons-section').scrollIntoView({ behavior: 'smooth' });
+        });
 
         $('chip-bar').addEventListener('click', e => {
             const chip = e.target.closest('.chip');
@@ -887,6 +925,7 @@
 
         renderResources();
         showDashboard();
+        markNav();
     </script>
     <script src="assets/theme.js"></script>
 </body>
