@@ -47,7 +47,11 @@ assets/icons.svg           İkon sprite-ı
 assets/theme.css/.js       Ümumi dizayn, menyu, footer, qaranlıq rejim
 assets/lesson.css/.js      Dərs komponentləri (kartlar, cədvəllər, tab-lar, "Kopyala" düyməsi)
 assets/student.js          Tələbə profilləri (localStorage)
+assets/og/**.jpg           Paylaşım (Open Graph) şəkilləri — hər səhifə üçün, node _dev/og.js yaradır
+assets/favicon.svg (+png)  Sayt ikonu
+sitemap.xml, robots.txt    Axtarış sistemləri üçün (build.py yaradır)
 _dev/build.py              Build aləti
+_dev/og.js                 Paylaşım şəkillərinin generatoru (Playwright)
 _dev/lessons/*.html        Dərslərin mənbə faylları (dərsi burada yazırsınız)
 _dev/labs/*.py             CCNA lab tapşırıqları (build dərsə əlavə edir)
 _dev/TEMPLATE-lesson.html  Yeni dərs üçün şablon
@@ -92,7 +96,8 @@ python3 -m http.server 8000
    python3 _dev/build.py
    ```
    Skript dərsi `lessons/` qovluğuna yazır, footer-ləri yeniləyir və yoxlayır. Sonda `yoxlama: problem yoxdur` görməlisiniz. Problem varsa, nə edəcəyinizi yazır (məs. çatışmayan ikon).
-6. **Yoxlayın** (`python3 -m http.server 8000`) və **publish edin** (bölmə 9).
+6. **Paylaşım şəkli:** `node _dev/og.js` — yeni dərsin Telegram/WhatsApp/LinkedIn önizləmə şəklini yaradır (bölmə 8a). Unudulsa, `build.py` xəbər verir.
+7. **Yoxlayın** (`python3 -m http.server 8000`) və **publish edin** (bölmə 9).
 
 > Bütün 140 dərsin mənbəyi `_dev/lessons/` qovluğundadır. `lessons/` qovluğundakı faylları birbaşa redaktə etməyin — növbəti build dəyişikliyi silər.
 >
@@ -172,6 +177,28 @@ Dərslərdə `"cat": "devops"` yazın. Dərs səhifəsindəki "Portal" düyməsi
   ```
   Brend ikonu üçün `brand-` prefiksi: `python3 _dev/build.py icons add brand-github`.
 - **Dizayn qaydaları:** yalnız ağ, qara və sarı-narıncı rənglər; emoji yox — həmişə ikon. Mətn Azərbaycan dilində, IT terminləri orijinal ingiliscə.
+
+## 8a. SEO və paylaşım (Open Graph)
+
+`python3 _dev/build.py` hər səhifənin `<head>`-inə `<!--SEO-->...<!--/SEO-->` bloku yazır — onu əl ilə redaktə etməyin:
+
+- **meta description** — dərslər üçün `assets/catalog.js`-dəki `desc`-dən avtomatik; digər səhifələrdə `<title>`-dan sonrakı `<meta name="description">` sətrindən (yeni səhifə yaradanda onu yazın);
+- **canonical**, **Open Graph** və **Twitter** tag-ları (linki paylaşanda başlıq, izah və şəkil görünür);
+- **JSON-LD** (schema.org): ana səhifə `WebSite`, dərslər `LearningResource`, alətlər `WebApplication`;
+- favicon və `theme-color`; kök qovluqda `sitemap.xml` və `robots.txt`.
+
+Saytın ünvanı `_dev/build.py`-dəki **`SITE_URL`**-dadır. Repo adı dəyişəndə və ya öz domen qoşulanda yalnız onu dəyişin və build edin — bütün linklər və sitemap yenilənir.
+
+**Paylaşım şəkilləri** (1200×630, qara-sarı dizayn, hər səhifə üçün ayrıca):
+
+```bash
+cd _dev && npm install && cd ..          # bir dəfə (Inter şrifti)
+npm i -g playwright && npx playwright install chromium   # bir dəfə
+node _dev/og.js                          # yalnız yeni/dəyişmiş səhifələr
+node _dev/og.js --force                  # hamısı (dizaynı dəyişəndə)
+```
+
+**Google Search Console:** https://search.google.com/search-console → *Add property* → *URL prefix* → `SITE_URL` → *HTML tag* üsulu → verilən `content` dəyərini `GOOGLE_SITE_VERIFICATION`-a yazıb build və publish edin → *Verify* → *Sitemaps* bölməsində `sitemap.xml` göndərin. Öz domen qoşulandan sonra *Domain* property-ni DNS TXT qeydi ilə təsdiqləmək daha yaxşıdır.
 
 ## 9. Publish (dərc etmək)
 
