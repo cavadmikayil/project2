@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NTP, Syslog və SNMP — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#activity"></use></svg> NTP, Syslog və SNMP</h1>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#ntp" class="nav-link">NTP</a>
+                <a href="#syslog" class="nav-link">Syslog</a>
+                <a href="#snmp" class="nav-link">SNMP</a>
+                <a href="#commands" class="nav-link">Doğrulama</a>
+                <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#activity"></use></svg> Giriş: Şəbəkəni İzləmək</h2>
+            <p class="lead">
+                Şəbəkəni idarə etmək üçün cihazların <strong>eyni vaxtı</strong> göstərməsi (NTP), baş verən hadisələrin
+                <strong>mərkəzi yerdə qeydə alınması</strong> (Syslog) və vəziyyətin <strong>monitorinqi</strong> (SNMP) vacibdir.
+                Vaxt səhvdirsə, loglardakı hadisələri müqayisə etmək və problemin səbəbini tapmaq demək olar ki, mümkün olmur.
+            </p>
+            <div class="card-grid">
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#clock"></use></svg> NTP</h3><p class="text-neutral-700">UDP 123 — vaxt sinxronizasiyası.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#scroll-text"></use></svg> Syslog</h3><p class="text-neutral-700">UDP 514 — hadisə mesajlarının serverə göndərilməsi.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#chart-column"></use></svg> SNMP</h3><p>UDP 161 (sorğular), UDP 162 (trap-lar) — monitorinq.</p></div>
+            </div>
+        </section>
+
+        <section id="ntp" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#clock"></use></svg> 1. NTP (Network Time Protocol)</h2>
+            <p class="lead">
+                NTP-də <strong>stratum</strong> vaxt mənbəyinə olan məsafəni göstərir: stratum 0 — atom saatı/GPS,
+                stratum 1 — ona birbaşa qoşulmuş server, hər növbəti səviyyə +1. Maksimum 15; 16 "sinxron deyil" deməkdir.
+            </p>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="ntp-client">NTP müştəri</button>
+                <button class="tab-btn inactive-tab" data-pane="ntp-server">Router NTP server kimi</button>
+            </div>
+            <div id="ntp-client">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# clock timezone AZT 4
+R1(config)# ntp server 192.168.1.10 prefer
+R1(config)# ntp server 192.168.1.11
+R1(config)# ntp update-calendar
+R1(config)# service timestamps log datetime msec localtime</code></pre>
+                    <p class="code-note">Saat qurşağını (UTC+4) təyin edir, iki NTP server göstərir (birincisi üstün), aparat saatını yeniləyir və log mesajlarına millisaniyəli tarix əlavə edir.</p>
+                </div>
+            </div>
+            <div id="ntp-server" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# ntp master 3
+
+SW1(config)# ntp server 10.0.0.1</code></pre>
+                    <p class="code-note">İnternetə çıxış olmayan laboratoriyada R1 öz saatına əsaslanan stratum 3 NTP server olur; switch-lər ondan sinxronlaşır.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="syslog" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#scroll-text"></use></svg> 2. Syslog</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Səviyyə</th><th>Ad</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td>0</td><td>Emergency</td><td>Sistem istifadəyə yararsızdır</td></tr>
+                        <tr><td>1</td><td>Alert</td><td>Dərhal müdaxilə tələb olunur</td></tr>
+                        <tr><td>2</td><td>Critical</td><td>Kritik aparat xətası</td></tr>
+                        <tr><td>3</td><td>Error</td><td>İnterfeys xətası (%LINK-3-UPDOWN)</td></tr>
+                        <tr><td>4</td><td>Warning</td><td>Xəbərdarlıq</td></tr>
+                        <tr><td>5</td><td>Notification</td><td>Normal, amma vacib hadisə (%LINEPROTO-5-UPDOWN)</td></tr>
+                        <tr><td>6</td><td>Informational</td><td>Məlumat xarakterli</td></tr>
+                        <tr><td>7</td><td>Debugging</td><td>debug əmrlərinin çıxışı</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box mb-6">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#lightbulb"></use></svg>
+                <p class="text-neutral-800">Yadda saxlamaq üçün: <strong>"Every Awesome Cisco Engineer Will Need Ice cream Daily"</strong>. Səviyyə təyin etdikdə həmin səviyyə və ondan <strong>daha ciddi</strong> (kiçik nömrəli) mesajlar göndərilir.</p>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>R1(config)# logging host 192.168.1.20
+R1(config)# logging trap warnings
+R1(config)# logging buffered 16384 informational
+R1(config)# logging console critical
+R1# terminal monitor</code></pre>
+                <p class="code-note">0–4 səviyyəli mesajları syslog serverə göndərir, 0–6-nı RAM buferində saxlayır, konsola yalnız 0–2-ni çıxarır. SSH sessiyasında logları görmək üçün <code>terminal monitor</code> lazımdır. Mesaj formatı: <code>%FACILITY-SEVERITY-MNEMONIC</code>.</p>
+            </div>
+        </section>
+
+        <section id="snmp" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#chart-column"></use></svg> 3. SNMP</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#monitor"></use></svg> Manager (NMS)</h3><p class="text-neutral-700">Monitorinq serveri — cihazlara sorğu göndərir (Get/Set) və trap-ları qəbul edir.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#cpu"></use></svg> Agent</h3><p class="text-neutral-700">Cihazdakı proqram — MIB-dəki dəyərləri (OID) təqdim edir, hadisə olanda trap göndərir.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#boxes"></use></svg> MIB / OID</h3><p>Monitorinq olunan dəyişənlərin iyerarxik bazası (məs. interfeys trafiki, CPU yükü).</p></div>
+            </div>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Versiya</th><th>Təhlükəsizlik</th><th>Qiymətləndirmə</th></tr></thead>
+                    <tbody>
+                        <tr><td>SNMPv1</td><td>Açıq mətnli community string</td><td class="no">Köhnəlib</td></tr>
+                        <tr><td>SNMPv2c</td><td>Açıq mətnli community string; bulk sorğular</td><td class="no">Yalnız etibarlı şəbəkədə</td></tr>
+                        <tr><td>SNMPv3</td><td>İstifadəçi əsaslı autentifikasiya + şifrələmə (authPriv)</td><td class="yes">Tövsiyə olunur</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="snmp-v2">SNMPv2c</button>
+                <button class="tab-btn inactive-tab" data-pane="snmp-v3">SNMPv3</button>
+            </div>
+            <div id="snmp-v2">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# access-list 20 permit 192.168.1.30
+R1(config)# snmp-server community Monitor2026 RO 20
+R1(config)# snmp-server location Bina-A-Server-otagi
+R1(config)# snmp-server contact admin@kollec.local
+R1(config)# snmp-server enable traps
+R1(config)# snmp-server host 192.168.1.30 version 2c Monitor2026</code></pre>
+                    <p class="code-note">Yalnız NMS serverinə (192.168.1.30) read-only icazə verir və trap-ları ona göndərir. Heç vaxt "public"/"private" kimi defolt community istifadə etməyin.</p>
+                </div>
+            </div>
+            <div id="snmp-v3" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# snmp-server group ADMINS v3 priv
+R1(config)# snmp-server user monitor ADMINS v3 auth sha Auth!Parol2026 priv aes 128 Priv!Parol2026
+R1(config)# snmp-server host 192.168.1.30 version 3 priv monitor</code></pre>
+                    <p class="code-note">authPriv səviyyəli qrup, SHA ilə autentifikasiya və AES-128 ilə şifrələnən istifadəçi yaradır.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#search"></use></svg> 4. Doğrulama</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show clock detail
+show ntp status
+show ntp associations
+show logging
+show snmp
+show snmp user
+show snmp group</code></pre>
+                <p class="code-note">Saat və mənbəyi, NTP sinxronizasiyası və stratum, serverlərlə əlaqə, log buferi və göndərilmə parametrləri, SNMP statistikası, v3 istifadəçi və qrupları.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="lesson-footer py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

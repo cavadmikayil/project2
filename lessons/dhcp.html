@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHCP Server və Relay — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#server"></use></svg> DHCP Server və Relay</h1>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#dora" class="nav-link">DORA</a>
+                <a href="#relay" class="nav-link">Relay</a>
+                <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="#troubleshoot" class="nav-link">Problemlər</a>
+                <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#server"></use></svg> Giriş: DHCP Nə Edir?</h2>
+            <p class="lead">
+                DHCP (Dynamic Host Configuration Protocol) hostlara IP ünvanını, subnet maskasını, defolt
+                gateway-i və DNS serverini avtomatik verir. Ünvan müəyyən müddətə — <strong>lease</strong> — icarəyə
+                verilir. Server <strong>UDP 67</strong>, müştəri <strong>UDP 68</strong> portundan istifadə edir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#router"></use></svg> Cisco router</h3><p class="text-neutral-700">Kiçik şəbəkələrdə router özü DHCP server ola bilər.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#hard-drive"></use></svg> Mərkəzi server</h3><p class="text-neutral-700">Böyük şəbəkələrdə Windows/Linux DHCP server; router-lər isə relay kimi işləyir.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#shield"></use></svg> Təhlükəsizlik</h3><p>Saxta DHCP serverlərindən qorunmaq üçün switch-lərdə DHCP Snooping aktivləşdirin.</p></div>
+            </div>
+        </section>
+
+        <section id="dora" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#repeat"></use></svg> 1. DORA Prosesi</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Addım</th><th>Mesaj</th><th>İstiqamət</th><th>Göndərilmə</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>DHCP <strong>D</strong>iscover</td><td>Müştəri → hamı</td><td>Broadcast (müştərinin hələ IP-si yoxdur)</td></tr>
+                        <tr><td>2</td><td>DHCP <strong>O</strong>ffer</td><td>Server → müştəri</td><td>Ünvan təklifi</td></tr>
+                        <tr><td>3</td><td>DHCP <strong>R</strong>equest</td><td>Müştəri → hamı</td><td>Broadcast (digər serverlərə "təklifinizi qəbul etmədim")</td></tr>
+                        <tr><td>4</td><td>DHCP <strong>A</strong>cknowledge</td><td>Server → müştəri</td><td>Təsdiq; müştəri ünvanı istifadə etməyə başlayır</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box mt-6">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#clock"></use></svg>
+                <p class="text-neutral-800">Lease müddətinin 50%-i keçəndə müştəri eyni serverdən yeniləmə (renew) istəyir. Server cavab vermirsə 87.5%-də istənilən serverdən istəyir (rebind).</p>
+            </div>
+        </section>
+
+        <section id="relay" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left-right"></use></svg> 2. DHCP Relay</h2>
+            <p class="lead">
+                Router broadcast-ları ötürmür, ona görə başqa alt şəbəkədəki server Discover mesajını görmür.
+                Müştərilərin qoşulduğu router interfeysində <code>ip helper-address</code> yazılır: router broadcast-ı
+                qəbul edib serverə <strong>unicast</strong> kimi göndərir.
+            </p>
+            <div class="code-block">
+                <pre><code>PC (VLAN 10) ──Discover (broadcast)──► R1 Gi0/1 ──unicast──► DHCP server 10.0.0.5
+                                     ip helper-address 10.0.0.5</code></pre>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#terminal"></use></svg> 3. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="dhcp-server">DHCP Server</button>
+                <button class="tab-btn inactive-tab" data-pane="dhcp-relay">Relay</button>
+                <button class="tab-btn inactive-tab" data-pane="dhcp-client">Müştəri</button>
+                <button class="tab-btn inactive-tab" data-pane="dhcp-verify">Doğrulama</button>
+            </div>
+            <div id="dhcp-server">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# ip dhcp excluded-address 192.168.10.1 192.168.10.10
+R1(config)# ip dhcp pool LAN10
+R1(dhcp-config)# network 192.168.10.0 255.255.255.0
+R1(dhcp-config)# default-router 192.168.10.1
+R1(dhcp-config)# dns-server 8.8.8.8 1.1.1.1
+R1(dhcp-config)# domain-name kollec.local
+R1(dhcp-config)# lease 7</code></pre>
+                    <p class="code-note">İlk 10 ünvanı (gateway, serverlər, printerlər üçün) istisna edir və 7 günlük lease ilə LAN10 pool-unu yaradır. excluded-address pool-dan <strong>əvvəl</strong> yazılmalıdır.</p>
+                </div>
+            </div>
+            <div id="dhcp-relay" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# interface GigabitEthernet0/1
+R1(config-if)# ip helper-address 10.0.0.5
+
+Switch(config)# interface vlan 20
+Switch(config-if)# ip helper-address 10.0.0.5</code></pre>
+                    <p class="code-note">Helper-address müştərilərə <strong>baxan</strong> interfeysdə (və ya L3 switch-də SVI-də) yazılır, serverə baxan interfeysdə yox.</p>
+                </div>
+            </div>
+            <div id="dhcp-client" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R2(config)# interface GigabitEthernet0/0
+R2(config-if)# ip address dhcp
+R2(config-if)# no shutdown
+
+C:\&gt; ipconfig /release
+C:\&gt; ipconfig /renew
+C:\&gt; ipconfig /all</code></pre>
+                    <p class="code-note">Router interfeysinin ünvanı DHCP ilə alması (məs. ISP-dən) və Windows-da ünvanın buraxılıb yenidən alınması.</p>
+                </div>
+            </div>
+            <div id="dhcp-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ip dhcp binding
+show ip dhcp pool
+show ip dhcp conflict
+show ip dhcp server statistics
+debug ip dhcp server events</code></pre>
+                    <p class="code-note">Verilmiş ünvanlar (IP–MAC), pool-un doluluğu, konflikt olan ünvanlar, statistika və canlı hadisələr.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="troubleshoot" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#wrench"></use></svg> 4. Tez-tez Rast Gəlinən Problemlər</h2>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-alert"></use></svg><p class="text-neutral-700"><strong>Host 169.254.x.x alır:</strong> DHCP cavabı gəlmir — server, relay və ya VLAN yolunu yoxlayın.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-alert"></use></svg><p class="text-neutral-700"><strong>helper-address yoxdur:</strong> server başqa subnetdədirsə Discover heç vaxt ona çatmır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-alert"></use></svg><p class="text-neutral-700"><strong>Pool dolub:</strong> <code>show ip dhcp pool</code> ilə istifadə olunan ünvan sayını yoxlayın.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-alert"></use></svg><p class="text-neutral-700"><strong>Ünvan konflikti:</strong> statik IP pool daxilindədir — onu excluded-address-ə əlavə edin.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-alert"></use></svg><p class="text-neutral-700"><strong>DHCP Snooping bloklayır:</strong> uplink port <code>trust</code> edilməyib.</p></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="lesson-footer py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

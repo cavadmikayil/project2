@@ -12,8 +12,8 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
+            background-color: #ffffff;
+            color: #171717;
         }
         .section-card {
             background-color: white;
@@ -30,11 +30,11 @@
             cursor: pointer;
             white-space: nowrap;
         }
-        .active-tab { background-color: #3b82f6; color: #ffffff; }
-        .inactive-tab { background-color: #e2e8f0; color: #475569; }
+        .active-tab { background-color: #f59e0b; color: #0a0a0a; }
+        .inactive-tab { background-color: #e5e5e5; color: #404040; }
         .code-block {
-            background-color: #1e293b;
-            color: #e2e8f0;
+            background-color: #171717;
+            color: #e5e5e5;
             border-radius: 0.5rem;
             padding: 1rem;
             position: relative;
@@ -44,7 +44,7 @@
             position: absolute;
             top: 0.75rem;
             right: 0.75rem;
-            background-color: #475569;
+            background-color: #404040;
             color: #ffffff;
             border: none;
             padding: 0.25rem 0.75rem;
@@ -53,23 +53,23 @@
             font-size: 0.875rem;
             transition: background-color 0.2s;
         }
-        .copy-btn:hover { background-color: #64748b; }
+        .copy-btn:hover { background-color: #737373; }
         .feature-item { display: flex; align-items: center; margin-bottom: 0.75rem; }
-        .feature-icon { font-size: 1.5rem; margin-right: 0.75rem; color: #10b981; }
+        .feature-icon { font-size: 1.5rem; margin-right: 0.75rem; color: #d97706; }
     </style>
 </head>
 <body class="antialiased">
 
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-blue-600">Access Control Lists (ACL)</h1>
+            <h1 class="text-2xl font-bold text-amber-700">Access Control Lists (ACL)</h1>
             <div class="flex flex-wrap items-center gap-4 overflow-x-auto pb-2 md:pb-0">
-                <a href="#intro" class="text-gray-600 hover:text-blue-600 font-medium">Giriş</a>
-                <a href="#types" class="text-gray-600 hover:text-blue-600 font-medium">Növlər</a>
-                <a href="#wildcard" class="text-gray-600 hover:text-blue-600 font-medium">Wildcard Mask</a>
-                <a href="#commands" class="text-gray-600 hover:text-blue-600 font-medium">Əmrlər</a>
-                <a href="../index.html" class="portal-home-link">← Portal</a>
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş">🌙</button>
+                <a href="#intro" class="text-neutral-600 hover:text-amber-700 font-medium">Giriş</a>
+                <a href="#types" class="text-neutral-600 hover:text-amber-700 font-medium">Növlər</a>
+                <a href="#wildcard" class="text-neutral-600 hover:text-amber-700 font-medium">Wildcard Mask</a>
+                <a href="#commands" class="text-neutral-600 hover:text-amber-700 font-medium">Əmrlər</a>
+                <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
             </div>
         </nav>
     </header>
@@ -77,8 +77,8 @@
     <main class="container mx-auto px-6 py-8">
 
         <section id="intro" class="section-card text-center">
-            <h2 class="text-3xl font-bold mb-4 text-gray-800">Giriş: ACL Nədir?</h2>
-            <p class="text-gray-600 max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-4 text-neutral-800">Giriş: ACL Nədir?</h2>
+            <p class="text-neutral-600 max-w-3xl mx-auto">
                 Access Control List (ACL) — router və ya switch-in interfeysindən keçən trafiki qaydalar
                 əsasında icazə verən (permit) və ya rədd edən (deny) siyahıdır. ACL-lər paket filterləmə,
                 trafik təhlükəsizliyi, NAT-ın hansı ünvanlara tətbiq olunacağının müəyyənləşdirilməsi və
@@ -88,31 +88,31 @@
         </section>
 
         <section id="types" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">1. Standart və Genişləndirilmiş ACL</h2>
+            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">1. Standart və Genişləndirilmiş ACL</h2>
             <div class="overflow-x-auto">
-                <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
+                <table class="min-w-full bg-white border border-neutral-200 rounded-lg shadow-sm">
                     <thead>
-                        <tr class="bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                            <th class="py-3 px-4 border-b border-gray-200">Xüsusiyyət</th>
-                            <th class="py-3 px-4 border-b border-gray-200">Standart ACL</th>
-                            <th class="py-3 px-4 border-b border-gray-200">Genişləndirilmiş ACL</th>
+                        <tr class="bg-neutral-100 text-left text-sm font-semibold text-neutral-700 uppercase tracking-wider">
+                            <th class="py-3 px-4 border-b border-neutral-200">Xüsusiyyət</th>
+                            <th class="py-3 px-4 border-b border-neutral-200">Standart ACL</th>
+                            <th class="py-3 px-4 border-b border-neutral-200">Genişləndirilmiş ACL</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Nömrə diapazonu</td>
-                            <td class="py-3 px-4 border-b border-gray-200">1–99, 1300–1999</td>
-                            <td class="py-3 px-4 border-b border-gray-200">100–199, 2000–2699</td>
+                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Nömrə diapazonu</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">1–99, 1300–1999</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">100–199, 2000–2699</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Filter meyarı</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Yalnız mənbə IP</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Mənbə/təyinat IP, protokol, port</td>
+                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Filter meyarı</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Yalnız mənbə IP</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Mənbə/təyinat IP, protokol, port</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Tövsiyə olunan yer</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Təyinata yaxın (dəqiqlik azdır)</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Mənbəyə yaxın</td>
+                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Tövsiyə olunan yer</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Təyinata yaxın (dəqiqlik azdır)</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Mənbəyə yaxın</td>
                         </tr>
                     </tbody>
                 </table>
@@ -120,33 +120,33 @@
         </section>
 
         <section id="wildcard" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">2. Wildcard Mask</h2>
-            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">2. Wildcard Mask</h2>
+            <p class="text-center text-neutral-600 mb-6 max-w-3xl mx-auto">
                 ACL-lərdə subnet maskası əvəzinə wildcard mask istifadə olunur. "0" bit — dəqiq uyğunluq
                 tələb edir, "1" bit — həmin bit önəmsizdir (hər dəyərə uyğun gəlir).
             </p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="feature-item">
-                    <span class="feature-icon">🎯</span>
-                    <p class="text-gray-700"><code>0.0.0.0</code> — yalnız dəqiq IP ünvanı (<code>host</code> açar sözü ilə eyni).</p>
+                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#target"></use></svg></span>
+                    <p class="text-neutral-700"><code>0.0.0.0</code> — yalnız dəqiq IP ünvanı (<code>host</code> açar sözü ilə eyni).</p>
                 </div>
                 <div class="feature-item">
-                    <span class="feature-icon">🌐</span>
-                    <p class="text-gray-700"><code>255.255.255.255</code> — istənilən ünvan (<code>any</code> açar sözü ilə eyni).</p>
+                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#globe"></use></svg></span>
+                    <p class="text-neutral-700"><code>255.255.255.255</code> — istənilən ünvan (<code>any</code> açar sözü ilə eyni).</p>
                 </div>
                 <div class="feature-item">
-                    <span class="feature-icon">🏠</span>
-                    <p class="text-gray-700"><code>0.0.0.255</code> — /24 subnetin bütün host-ları (məs. 192.168.1.0/24).</p>
+                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#house"></use></svg></span>
+                    <p class="text-neutral-700"><code>0.0.0.255</code> — /24 subnetin bütün host-ları (məs. 192.168.1.0/24).</p>
                 </div>
                 <div class="feature-item">
-                    <span class="feature-icon">🧮</span>
-                    <p class="text-gray-700">Hesablama qaydası: wildcard = 255.255.255.255 − subnet maskası.</p>
+                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#calculator"></use></svg></span>
+                    <p class="text-neutral-700">Hesablama qaydası: wildcard = 255.255.255.255 − subnet maskası.</p>
                 </div>
             </div>
         </section>
 
         <section id="commands" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">3. Praktiki Əmrlər</h2>
+            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">3. Praktiki Əmrlər</h2>
             <div class="flex justify-center mb-6 space-x-2 flex-wrap" id="acl-tabs">
                 <button data-type="standard" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 active-tab">Standart ACL</button>
                 <button data-type="extended" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">Genişləndirilmiş ACL</button>
@@ -162,7 +162,7 @@ Router(config)# access-list 10 deny any
 
 Router(config)# interface GigabitEthernet0/1
 Router(config-if)# ip access-group 10 in</code></pre>
-                        <p class="text-gray-400 text-sm mt-2">192.168.1.0/24 şəbəkəsinə icazə verir, qalan hər şeyi rədd edir və interfeysin giriş (in) istiqamətinə tətbiq edir.</p>
+                        <p class="text-neutral-400 text-sm mt-2">192.168.1.0/24 şəbəkəsinə icazə verir, qalan hər şeyi rədd edir və interfeysin giriş (in) istiqamətinə tətbiq edir.</p>
                     </div>
                 </div>
                 <div id="acl-extended-commands" class="protocol-pane hidden">
@@ -174,7 +174,7 @@ Router(config)# access-list 110 deny ip any any
 
 Router(config)# interface GigabitEthernet0/0
 Router(config-if)# ip access-group 110 out</code></pre>
-                        <p class="text-gray-400 text-sm mt-2">192.168.1.0/24-dən yalnız HTTP/HTTPS trafikinə icazə verir, qalanını rədd edir.</p>
+                        <p class="text-neutral-400 text-sm mt-2">192.168.1.0/24-dən yalnız HTTP/HTTPS trafikinə icazə verir, qalanını rədd edir.</p>
                     </div>
                 </div>
                 <div id="acl-named-commands" class="protocol-pane hidden">
@@ -186,7 +186,7 @@ Router(config-ext-nacl)# permit ip any any
 
 Router(config)# interface GigabitEthernet0/1
 Router(config-if)# ip access-group BLOCK-FTP in</code></pre>
-                        <p class="text-gray-400 text-sm mt-2">Adlandırılmış ACL-lər sıra nömrələrini əl ilə idarə etməyə və daha oxunaqlı konfiqurasiyaya imkan verir.</p>
+                        <p class="text-neutral-400 text-sm mt-2">Adlandırılmış ACL-lər sıra nömrələrini əl ilə idarə etməyə və daha oxunaqlı konfiqurasiyaya imkan verir.</p>
                     </div>
                 </div>
                 <div id="acl-verify-commands" class="protocol-pane hidden">
@@ -195,7 +195,7 @@ Router(config-if)# ip access-group BLOCK-FTP in</code></pre>
                         <pre><code class="language-cisco">show access-lists
 show ip interface GigabitEthernet0/1
 show running-config | section access-list</code></pre>
-                        <p class="text-gray-400 text-sm mt-2">Bütün ACL-ləri, match sayğaclarını və interfeysə tətbiq olunan ACL-ləri göstərir.</p>
+                        <p class="text-neutral-400 text-sm mt-2">Bütün ACL-ləri, match sayğaclarını və interfeysə tətbiq olunan ACL-ləri göstərir.</p>
                     </div>
                 </div>
             </div>
@@ -204,8 +204,8 @@ show running-config | section access-list</code></pre>
     </main>
 
     <footer class="bg-white shadow-md py-4 mt-8">
-        <div class="container mx-auto px-6 text-center text-gray-500">
-            <a href="https://www.cavadmikayil.com" target="_blank" class="text-blue-600 hover:underline font-semibold text-lg">www.cavadmikayil.com</a>
+        <div class="container mx-auto px-6 text-center text-neutral-500">
+            <a href="https://www.cavadmikayil.com" target="_blank" class="text-amber-700 hover:underline font-semibold text-lg">www.cavadmikayil.com</a>
         </div>
     </footer>
 

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inter-VLAN Routing — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#route"></use></svg> Inter-VLAN Routing</h1>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#methods" class="nav-link">Üsullar</a>
+                <a href="#roas" class="nav-link">Router-on-a-stick</a>
+                <a href="#svi" class="nav-link">L3 Switch (SVI)</a>
+                <a href="#troubleshoot" class="nav-link">Problemlər</a>
+                <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#route"></use></svg> Giriş: VLAN-lar Arası Əlaqə</h2>
+            <p class="lead">
+                Hər VLAN ayrıca broadcast domeni və ayrıca IP alt şəbəkəsidir. Switch Layer 2-də VLAN-ları
+                bir-birindən təcrid edir, ona görə VLAN 10-dakı kompüter VLAN 20-dəki printerə birbaşa çata bilməz.
+                Onları əlaqələndirmək üçün Layer 3 cihaz — router və ya multilayer switch — lazımdır.
+            </p>
+        </section>
+
+        <section id="methods" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#git-merge"></use></svg> 1. Üç Üsul</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Üsul</th><th>Necə işləyir</th><th>Üstünlük</th><th>Çatışmazlıq</th></tr></thead>
+                    <tbody>
+                        <tr><td>Legacy</td><td>Hər VLAN üçün router-də ayrıca fiziki interfeys</td><td>Sadədir</td><td>Port sayı tez tükənir, miqyaslanmır</td></tr>
+                        <tr><td>Router-on-a-stick</td><td>Bir trunk link üzərində hər VLAN üçün subinterfeys</td><td>Tək port kifayətdir, ucuzdur</td><td>Bütün VLAN trafiki tək linkdən keçir — darboğaz</td></tr>
+                        <tr><td>L3 switch (SVI)</td><td>Switch-in daxilində hər VLAN üçün virtual interfeys</td><td>Çox sürətli (aparat səviyyəsində), miqyaslanır</td><td>Multilayer switch tələb edir</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="roas" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#router"></use></svg> 2. Router-on-a-stick</h2>
+            <p class="lead">
+                Switch-in router-ə baxan portu <strong>trunk</strong> olur. Router-də fiziki interfeys
+                subinterfeyslərə bölünür; hər subinterfeys bir VLAN-ın defolt gateway-idir.
+            </p>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="roas-router">Router</button>
+                <button class="tab-btn inactive-tab" data-pane="roas-switch">Switch</button>
+            </div>
+            <div id="roas-router">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Router(config)# interface GigabitEthernet0/0
+Router(config-if)# no shutdown
+
+Router(config)# interface GigabitEthernet0/0.10
+Router(config-subif)# encapsulation dot1Q 10
+Router(config-subif)# ip address 192.168.10.1 255.255.255.0
+
+Router(config)# interface GigabitEthernet0/0.20
+Router(config-subif)# encapsulation dot1Q 20
+Router(config-subif)# ip address 192.168.20.1 255.255.255.0
+
+Router(config)# interface GigabitEthernet0/0.99
+Router(config-subif)# encapsulation dot1Q 99 native
+Router(config-subif)# ip address 192.168.99.1 255.255.255.0</code></pre>
+                    <p class="code-note">Fiziki interfeys "no shutdown" olmalıdır, IP ünvanı isə yalnız subinterfeyslərə verilir. "native" açar sözü switch-dəki native VLAN ilə uyğun olmalıdır.</p>
+                </div>
+            </div>
+            <div id="roas-switch" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Switch(config)# vlan 10
+Switch(config-vlan)# name Satis
+Switch(config)# vlan 20
+Switch(config-vlan)# name Muhasibat
+
+Switch(config)# interface GigabitEthernet0/1
+Switch(config-if)# switchport mode trunk
+Switch(config-if)# switchport trunk native vlan 99
+Switch(config-if)# switchport trunk allowed vlan 10,20,99
+
+Switch(config)# interface FastEthernet0/5
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport access vlan 10</code></pre>
+                    <p class="code-note">Router-ə gedən port trunk, istifadəçi portları isə access. Hostların defolt gateway-i müvafiq subinterfeysin IP-si olmalıdır (məs. 192.168.10.1).</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="svi" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#layers"></use></svg> 3. Layer 3 Switch və SVI</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#network"></use></svg> SVI</h3><p class="text-neutral-700"><code>interface vlan 10</code> — VLAN üçün virtual L3 interfeys. Həmin VLAN-dakı hostların gateway-i olur.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#cable"></use></svg> Routed port</h3><p class="text-neutral-700"><code>no switchport</code> — fiziki portu router portuna çevirir (məs. router və ya firewall-a uplink).</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#settings"></use></svg> ip routing</h3><p>L3 switch-də marşrutlaşdırma defolt olaraq sönülüdür — bu əmr olmadan SVI-lər arasında paket ötürülmür.</p></div>
+            </div>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="svi-config">Konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="svi-verify">Doğrulama</button>
+            </div>
+            <div id="svi-config">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Switch(config)# ip routing
+
+Switch(config)# interface vlan 10
+Switch(config-if)# ip address 192.168.10.1 255.255.255.0
+Switch(config-if)# no shutdown
+
+Switch(config)# interface vlan 20
+Switch(config-if)# ip address 192.168.20.1 255.255.255.0
+Switch(config-if)# no shutdown
+
+Switch(config)# interface GigabitEthernet0/24
+Switch(config-if)# no switchport
+Switch(config-if)# ip address 10.0.0.2 255.255.255.252
+Switch(config)# ip route 0.0.0.0 0.0.0.0 10.0.0.1</code></pre>
+                    <p class="code-note">Marşrutlaşdırmanı aktivləşdirir, VLAN 10 və 20 üçün SVI yaradır, Gi0/24-ü routed porta çevirib kənar router-ə defolt marşrut verir.</p>
+                </div>
+            </div>
+            <div id="svi-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ip interface brief
+show ip route
+show interfaces trunk
+show vlan brief
+show interfaces GigabitEthernet0/0.10</code></pre>
+                    <p class="code-note">SVI/subinterfeyslərin up/up olması, connected marşrutlar, trunk-da VLAN-ların icazəli olması və subinterfeysin VLAN teqi.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="troubleshoot" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#wrench"></use></svg> 4. Tez-tez Rast Gəlinən Problemlər</h2>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-x"></use></svg><p class="text-neutral-700"><strong>SVI down/down:</strong> VLAN yaradılmayıb və ya həmin VLAN-da heç bir aktiv port yoxdur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-x"></use></svg><p class="text-neutral-700"><strong>Trunk qalxmayıb:</strong> switch portu access-də qalıb və ya VLAN "allowed" siyahısında deyil.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-x"></use></svg><p class="text-neutral-700"><strong>Səhv teq:</strong> <code>encapsulation dot1Q</code> nömrəsi VLAN ID ilə uyğun gəlmir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-x"></use></svg><p class="text-neutral-700"><strong>Hostda səhv gateway:</strong> PC-nin defolt gateway-i subinterfeys/SVI IP-si deyil.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-x"></use></svg><p class="text-neutral-700"><strong>ip routing yoxdur:</strong> L3 switch-də VLAN-lar öz gateway-inə ping atır, amma bir-birinə çatmır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-x"></use></svg><p class="text-neutral-700"><strong>Fiziki interfeys sönülüdür:</strong> router-də Gi0/0 "shutdown"-dadırsa bütün subinterfeyslər də down olur.</p></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="lesson-footer py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

@@ -18,22 +18,22 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f4f4f5; /* zinc-100 */
+            background-color: #f5f5f5; /* zinc-100 */
         }
         .sidebar-link {
             display: block;
             padding: 0.75rem 1rem;
             border-radius: 0.5rem;
             transition: background-color 0.2s, color 0.2s;
-            color: #3f3f46; /* zinc-700 */
+            color: #404040; /* zinc-700 */
             font-weight: 500;
         }
         .sidebar-link:hover {
-            background-color: #e4e4e7; /* zinc-200 */
+            background-color: #e5e5e5; /* zinc-200 */
         }
         .sidebar-link.active {
-            background-color: #0ea5e9; /* sky-500 */
-            color: white;
+            background-color: #f59e0b; /* sky-500 */
+            color: #0a0a0a;
             font-weight: 600;
         }
         .command-card {
@@ -47,25 +47,25 @@
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
         .copy-btn {
-            background-color: #f4f4f5; /* zinc-100 */
-            color: #52525b; /* zinc-600 */
+            background-color: #f5f5f5; /* zinc-100 */
+            color: #525252; /* zinc-600 */
             transition: background-color 0.2s;
         }
         .copy-btn:hover {
-            background-color: #e4e4e7; /* zinc-200 */
+            background-color: #e5e5e5; /* zinc-200 */
         }
     </style>
 </head>
-<body class="text-zinc-800">
+<body class="text-neutral-800">
 
     <div class="flex min-h-screen">
         <!-- Sidebar -->
-        <aside class="w-64 bg-white/50 backdrop-blur-sm border-r border-zinc-200 p-4 fixed h-full hidden md:block">
+        <aside class="w-64 bg-white/50 backdrop-blur-sm border-r border-neutral-200 p-4 fixed h-full hidden md:block">
             <div class="flex items-center justify-between mb-6">
-                <h1 class="text-xl font-bold text-sky-600">Cisco Əmrləri</h1>
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş">🌙</button>
+                <h1 class="text-xl font-bold text-amber-700">Cisco Əmrləri</h1>
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
             </div>
-            <a href="../index.html" class="portal-home-link block mb-6">← Portal</a>
+            <a href="../index.html" class="portal-home-link block mb-6"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
             <nav id="category-nav" class="space-y-2">
                 <a href="#" class="sidebar-link active" data-category="all">Bütün Əmrlər</a>
                 <a href="#" class="sidebar-link" data-category="general">Ümumi Konfiqurasiya</a>
@@ -84,13 +84,13 @@
         <main class="flex-1 md:ml-64 p-6 md:p-10">
             <div class="max-w-4xl mx-auto">
                 <div class="mb-8">
-                    <h2 class="text-4xl font-bold text-zinc-800">İnteraktiv Əmr Siyahısı</h2>
-                    <p class="text-zinc-600 mt-2">Cisco IOS əmrlərini asanlıqla tapmaq və istifadə etmək üçün axtarış sistemindən və kateqoriyalardan istifadə edin. Hər hansı bir əmri kopyalamaq üçün "Kopyala" düyməsinə klikləyin.</p>
+                    <h2 class="text-4xl font-bold text-neutral-800">İnteraktiv Əmr Siyahısı</h2>
+                    <p class="text-neutral-600 mt-2">Cisco IOS əmrlərini asanlıqla tapmaq və istifadə etmək üçün axtarış sistemindən və kateqoriyalardan istifadə edin. Hər hansı bir əmri kopyalamaq üçün "Kopyala" düyməsinə klikləyin.</p>
                 </div>
 
                 <!-- Search Input -->
                 <div class="mb-8 sticky top-4 z-10">
-                    <input type="text" id="search-input" placeholder="Əmr axtar..." class="w-full p-4 border border-zinc-300 rounded-xl shadow-sm focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition">
+                    <input type="text" id="search-input" placeholder="Əmr axtar..." class="w-full p-4 border border-neutral-300 rounded-xl shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition">
                 </div>
                 
                 <!-- Command List -->
@@ -207,7 +207,7 @@
             });
 
             if (filteredCommands.length === 0) {
-                commandList.innerHTML = `<p class="text-zinc-500 col-span-1">Nəticə tapılmadı.</p>`;
+                commandList.innerHTML = `<p class="text-neutral-500 col-span-1">Nəticə tapılmadı.</p>`;
                 return;
             }
 
@@ -217,8 +217,8 @@
                 card.innerHTML = `
                     <div class="flex justify-between items-start">
                         <div class="flex-1">
-                            <code class="text-lg font-semibold text-sky-700 bg-sky-50 p-2 rounded-md">${command.cmd}</code>
-                            <p class="text-zinc-600 mt-3">${command.desc}</p>
+                            <code class="text-lg font-semibold text-amber-800 bg-amber-50 p-2 rounded-md">${command.cmd}</code>
+                            <p class="text-neutral-600 mt-3">${command.desc}</p>
                         </div>
                         <button class="copy-btn ml-4 px-4 py-2 rounded-lg text-sm font-semibold" onclick="copyCommand(this, '${command.cmd}')">Kopyala</button>
                     </div>
@@ -230,10 +230,10 @@
         function copyCommand(button, text) {
             navigator.clipboard.writeText(text).then(() => {
                 button.innerText = 'Kopyalandı!';
-                button.classList.add('bg-green-200');
+                button.classList.add('bg-orange-200');
                 setTimeout(() => {
                     button.innerText = 'Kopyala';
-                    button.classList.remove('bg-green-200');
+                    button.classList.remove('bg-orange-200');
                 }, 2000);
             }).catch(err => {
                 console.error('Kopyalama uğursuz oldu: ', err);
