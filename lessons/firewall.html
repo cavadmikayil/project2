@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firewall və IPS — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#brick-wall"></use></svg> Firewall və IPS</h1>
+                <span class="lesson-badge">CCNA · Security Fundamentals</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#stateful" class="nav-link">Stateful</a>
+                <a href="#zones" class="nav-link">Zonalar</a>
+                <a href="#ngfw" class="nav-link">NGFW</a>
+                <a href="#ips" class="nav-link">IDS/IPS</a>
+                <a href="#lab" class="nav-link">Laboratoriya</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#brick-wall"></use></svg> Giriş: ACL Kifayət Etmirsə</h2>
+            <p class="lead">
+                ACL hər paketə ayrıca baxır və bağlantının vəziyyətini "yadda saxlamır". Daxildən internetə gedən
+                veb sorğusunun cavabını buraxmaq üçün ACL-də geniş portları açmaq lazım gəlir. <strong>Firewall</strong>
+                isə bağlantıları izləyir: daxildən başlanan sessiyanın cavabını avtomatik buraxır, xaricdən başlanan
+                icazəsiz bağlantını isə bloklayır.
+            </p>
+        </section>
+
+        <section id="stateful" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#scale"></use></svg> 1. Stateless və Stateful Filtrləmə</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Stateless (ACL)</th><th>Stateful (firewall)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Qərar əsası</td><td>Hər paketin başlığı ayrıca</td><td>Paket + bağlantı cədvəli (state table)</td></tr>
+                        <tr><td>Cavab trafiki</td><td>Əl ilə açılmalıdır</td><td class="yes">Avtomatik buraxılır</td></tr>
+                        <tr><td>Saxta "cavab" paketləri</td><td class="no">Keçə bilər</td><td class="yes">Cədvəldə sessiya yoxdursa atılır</td></tr>
+                        <tr><td>Resurs</td><td>Az</td><td>Çox (hər sessiya yaddaşda)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">PC 10.1.1.10:51000 → 93.184.216.34:443 SYN göndərir. Firewall siyasətə baxır, icazə var — sessiyanı cədvələ yazır.</p></li>
+                <li><p class="text-neutral-700">Server 93.184.216.34:443 → 10.1.1.10:51000 SYN-ACK qaytarır. Firewall cədvəldə uyğun sessiyanı tapır və buraxır.</p></li>
+                <li><p class="text-neutral-700">Xaricdən kimsə 10.1.1.10-a yeni bağlantı açmağa çalışır. Cədvəldə sessiya yoxdur, xaricdən daxilə siyasət də icazə vermir — paket atılır.</p></li>
+            </ol>
+        </section>
+
+        <section id="zones" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#layout-grid"></use></svg> 2. Təhlükəsizlik Zonaları</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#house"></use></svg> Inside</h3><p class="text-neutral-700">Daxili istifadəçilər və serverlər — ən yüksək etibar.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#server"></use></svg> DMZ</h3><p class="text-neutral-700">İnternetdən əlçatan serverlər (veb, e-poçt). Sındırılsa belə daxili şəbəkəyə birbaşa yol açmamalıdır.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#globe"></use></svg> Outside</h3><p>İnternet — etibar yoxdur.</p></div>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>İstiqamət</th><th>Tipik siyasət</th></tr></thead>
+                    <tbody>
+                        <tr><td>Inside → Outside</td><td class="yes">İcazə (stateful — cavablar qayıdır)</td></tr>
+                        <tr><td>Inside → DMZ</td><td class="yes">İcazə</td></tr>
+                        <tr><td>Outside → DMZ</td><td>Yalnız lazım olan portlar (məs. TCP 443 veb serverə)</td></tr>
+                        <tr><td>Outside → Inside</td><td class="no">Qadağan</td></tr>
+                        <tr><td>DMZ → Inside</td><td class="no">Qadağan (və ya çox dar istisnalar)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="ngfw" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#shield-check"></use></svg> 3. Next-Generation Firewall (NGFW)</h2>
+            <p class="lead">Klassik firewall IP və portlara baxır. NGFW (Cisco Secure Firewall, Palo Alto, Fortinet) paketin içinə də baxır:</p>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#app-window"></use></svg><p class="text-neutral-700"><strong>Tətbiq tanıma (AVC):</strong> TCP 443 üzərindən gedən YouTube, Teams və ya torrent-i fərqləndirir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#user-check"></use></svg><p class="text-neutral-700"><strong>İstifadəçi əsaslı siyasət:</strong> IP əvəzinə Active Directory qrupuna görə qayda.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#link"></use></svg><p class="text-neutral-700"><strong>URL filtrləmə:</strong> kateqoriyaya görə saytları bloklamaq (qumar, zərərli saytlar).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#bug"></use></svg><p class="text-neutral-700"><strong>Malware müdafiəsi (AMP):</strong> fayl reputasiyası və sandbox analizi.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#shield-alert"></use></svg><p class="text-neutral-700"><strong>İnteqrasiya olunmuş IPS:</strong> məlum hücum imzalarını real vaxtda bloklayır.</p></div>
+            </div>
+        </section>
+
+        <section id="ips" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#radar"></use></svg> 4. IDS və IPS</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th></th><th>IDS</th><th>IPS</th></tr></thead>
+                    <tbody>
+                        <tr><td>Yerləşmə</td><td>Trafikin surətini alır (SPAN portu)</td><td>Trafik yolunun üstündə (inline)</td></tr>
+                        <tr><td>Reaksiya</td><td>Yalnız xəbərdarlıq</td><td>Zərərli paketi dərhal atır</td></tr>
+                        <tr><td>Şəbəkəyə təsir</td><td>Yoxdur — sıradan çıxsa trafik davam edir</td><td>Gecikmə əlavə edir; sıradan çıxsa trafik kəsilə bilər (fail-open/fail-close)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-grid">
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#fingerprint"></use></svg> İmza əsaslı</h3><p class="text-neutral-700">Məlum hücumların nümunələri ilə müqayisə — dəqiqdir, amma yeni (zero-day) hücumları görmür. İmzalar mütəmadi yenilənməlidir.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#activity"></use></svg> Anomaliya əsaslı</h3><p class="text-neutral-700">Normal trafik profilindən kənarlaşmanı axtarır — yeni hücumları tuta bilər, amma yanlış həyəcan (false positive) daha çoxdur.</p></div>
+            </div>
+        </section>
+
+        <section id="lab" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#terminal"></use></svg> 5. Laboratoriya: Zone-Based Firewall (IOS)</h2>
+            <p class="lead">Cisco router-in özü də stateful firewall ola bilər. ZBF-də interfeyslər zonalara bölünür və zonalar arası trafik siyasət ilə idarə olunur.</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>R1(config)# zone security INSIDE
+R1(config)# zone security OUTSIDE
+
+R1(config)# class-map type inspect match-any IN-TO-OUT
+R1(config-cmap)# match protocol http
+R1(config-cmap)# match protocol https
+R1(config-cmap)# match protocol dns
+R1(config-cmap)# match protocol icmp
+
+R1(config)# policy-map type inspect PM-IN-TO-OUT
+R1(config-pmap)# class type inspect IN-TO-OUT
+R1(config-pmap-c)# inspect
+R1(config-pmap)# class class-default
+R1(config-pmap-c)# drop log
+
+R1(config)# zone-pair security ZP-IN-OUT source INSIDE destination OUTSIDE
+R1(config-sec-zone-pair)# service-policy type inspect PM-IN-TO-OUT
+
+R1(config)# interface GigabitEthernet0/0
+R1(config-if)# zone-member security INSIDE
+R1(config)# interface GigabitEthernet0/1
+R1(config-if)# zone-member security OUTSIDE
+
+R1# show policy-map type inspect zone-pair sessions</code></pre>
+                <p class="code-note"><code>inspect</code> sessiyanı izləyir və cavabı avtomatik buraxır. OUTSIDE → INSIDE üçün zone-pair olmadığından xaricdən başlanan bütün trafik atılır. Eyni zonadakı interfeyslər arasında trafik sərbəst keçir, zonası olmayan interfeyslə zonalı interfeys arasında isə keçmir.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="lesson-footer py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

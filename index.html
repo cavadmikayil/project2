@@ -223,6 +223,39 @@
         }
         .chip:hover { border-color: #f59e0b; }
         .chip.active { background: #0a0a0a; color: #fbbf24; border-color: #0a0a0a; }
+        [hidden] { display: none !important; }
+        .cat-bar { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.25rem; }
+        .cat-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: 0.9rem;
+            font-weight: 800;
+            font-size: 1rem;
+            background: #ffffff;
+            color: #0a0a0a;
+            border: 2px solid #e5e5e5;
+            transition: all .15s;
+        }
+        .cat-btn:hover { border-color: #f59e0b; }
+        .cat-btn.active { background: #0a0a0a; color: #ffffff; border-color: #0a0a0a; }
+        .cat-btn.active .icon { color: #fbbf24; }
+        .cat-count { font-size: 0.75rem; font-weight: 800; padding: 0.1rem 0.5rem; border-radius: 9999px; background: #fef3c7; color: #78350f; }
+        .cat-btn.active .cat-count { background: #f59e0b; color: #0a0a0a; }
+        .res-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 1rem 1.1rem;
+            border-radius: 0.9rem;
+            border: 1px solid #e5e5e5;
+            background: #ffffff;
+            transition: border-color .15s, transform .15s;
+        }
+        .res-card:hover { border-color: #f59e0b; transform: translateY(-2px); }
+        .res-card .icon { color: #d97706; flex-shrink: 0; margin-top: 0.2rem; }
+        .res-card h3 { font-weight: 700; color: #0a0a0a; overflow-wrap: anywhere; }
         .done-btn {
             display: inline-flex;
             align-items: center;
@@ -272,6 +305,15 @@
         body.dark-mode .portal-tag { background: #262626; color: #d4d4d4; border-color: #333333; }
         body.dark-mode .chip { background: #171717; color: #e5e5e5; border-color: #333333; }
         body.dark-mode .chip.active { background: #f59e0b; color: #0a0a0a; border-color: #f59e0b; }
+        body.dark-mode .cat-btn { background: #171717; color: #e5e5e5; border-color: #333333; }
+        body.dark-mode .cat-btn:hover { border-color: #f59e0b; }
+        body.dark-mode .cat-btn.active { background: #f59e0b; color: #0a0a0a; border-color: #f59e0b; }
+        body.dark-mode .cat-btn.active .icon { color: #0a0a0a; }
+        body.dark-mode .cat-btn.active .cat-count { background: #0a0a0a; color: #fbbf24; }
+        body.dark-mode .res-card { background: #171717; border-color: #262626; }
+        body.dark-mode .res-card:hover { border-color: #f59e0b; }
+        body.dark-mode .res-card h3 { color: #ffffff; }
+        body.dark-mode .res-card .icon { color: #fbbf24; }
         body.dark-mode .done-btn { border-color: #404040; color: #d4d4d4; }
         body.dark-mode .done-btn.is-done { color: #0a0a0a; }
         body.dark-mode .progress-track { background: #262626; }
@@ -392,11 +434,18 @@
 
             <section id="lessons-section">
                 <div class="mb-4">
-                    <h2 class="section-heading text-neutral-900"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#book-open"></use></svg> Bütün Dərslər</h2>
-                    <p class="text-sm text-neutral-600 mt-1">Tövsiyə olunan öyrənmə ardıcıllığı ilə nömrələnib.</p>
+                    <h2 class="section-heading text-neutral-900"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#book-open"></use></svg> Dərslər</h2>
+                    <p id="lessons-sub" class="text-sm text-neutral-600 mt-1">Tövsiyə olunan öyrənmə ardıcıllığı ilə nömrələnib.</p>
                 </div>
+                <div id="cat-bar" class="cat-bar" role="tablist" aria-label="Dərs kateqoriyaları"></div>
                 <div id="chip-bar" class="flex flex-wrap gap-2 mb-6"></div>
                 <div id="card-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </section>
+
+            <section id="resources-section" class="mt-12" hidden>
+                <h2 class="section-heading text-neutral-900 mb-2"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#library"></use></svg> Faydalı Mənbələr</h2>
+                <p class="text-sm text-neutral-600 mb-6">CCNA hazırlığı üçün xarici (ingiliscə) mənbələr və laboratoriyalar. Keçidlər yeni pəncərədə açılır.</p>
+                <div id="res-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
             </section>
 
             <p id="no-results" class="text-center text-neutral-500 mt-10" hidden>Uyğun mövzu tapılmadı.</p>
@@ -461,11 +510,61 @@
             { title: 'Power Supply', desc: 'Volt, Amper, Watt əsasları, generator, UPS və stabilizator seçimi.', icon: 'plug-zap', tag: 'Hardware', href: 'lessons/power-supply.html', quiz: 'power' }
         ];
 
-        const quizTopicNames = Object.fromEntries(lessons.map(l => [l.quiz, l.title]));
+
+        // CCNA 200-301 kateqoriyası — kurikulum bölmələri üzrə ardıcıllıq
+        const ccnaLessons = [
+            { title: 'TCP və UDP', desc: 'Port nömrələri, 3-way handshake, sequence/ACK, windowing və UDP-nin nə vaxt seçildiyi.', icon: 'arrow-left-right', tag: 'Network Fundamentals', href: 'lessons/tcp-udp.html', quiz: 'tcpudp' },
+            { title: 'MAC Ünvanı və ARP', desc: 'OUI, unicast/broadcast MAC, ARP sorğu-cavabı və uzaq şəbəkəyə göndərəndə nə dəyişir.', icon: 'fingerprint', tag: 'Network Fundamentals', href: 'lessons/mac-arp.html', quiz: 'arp' },
+            { title: 'ICMP: Ping və Traceroute', desc: 'ICMP mesaj növləri, Cisco ping simvolları və traceroute-un TTL ilə işləmə prinsipi.', icon: 'radar', tag: 'Network Fundamentals', href: 'lessons/icmp.html', quiz: 'icmp' },
+            { title: 'Cisco IOS CLI və Rejimlər', desc: 'Konsol qoşulması, CLI rejimləri, kömək və qısayollar, running/startup-config.', icon: 'square-terminal', tag: 'Network Fundamentals', href: 'lessons/ios-cli.html', quiz: 'cli' },
+            { title: 'Switch Necə İşləyir', desc: 'Collision və broadcast domenləri, MAC öyrənmə, flood/forward/filter qərarları.', icon: 'network', tag: 'Network Access', href: 'lessons/switching-basics.html', quiz: 'swbasics' },
+            { title: 'Şəbəkə Topologiyaları', desc: 'Star, mesh, ring; LAN/WAN/MAN növləri və SOHO şəbəkəsinin quruluşu.', icon: 'waypoints', tag: 'Network Access', href: 'lessons/topologies.html', quiz: 'topo' },
+            { title: 'VLAN Növləri və Voice VLAN', desc: 'Data, native, management və voice VLAN, VLAN hopping hücumu və müdafiəsi.', icon: 'tag', tag: 'Network Access', href: 'lessons/vlan-types.html', quiz: 'vlantypes' },
+            { title: 'Rapid PVST+ və STP Qoruma', desc: 'Root bridge seçimi, port cost, 802.1w və BPDU Guard/Root Guard/Loop Guard.', icon: 'shield-check', tag: 'Network Access', href: 'lessons/stp-advanced.html', quiz: 'stpadv' },
+            { title: 'Power over Ethernet (PoE)', desc: '802.3af/at/bt standartları, güc sinifləri və switch-in güc büdcəsi.', icon: 'plug-zap', tag: 'Network Access', href: 'lessons/poe.html', quiz: 'poe' },
+            { title: 'Wireless Təhlükəsizlik', desc: 'Open, PSK, SAE və 802.1X/EAP; TKIP, CCMP, GCMP; WPA-dan WPA3-ə qədər.', icon: 'lock-keyhole', tag: 'Network Access', href: 'lessons/wireless-security.html', quiz: 'wsec' },
+            { title: 'Binar və Hexadecimal', desc: 'Onluq, binar və 16-lıq çevirmələr, maska dəyərləri və interaktiv çevirici.', icon: 'binary', tag: 'IP Connectivity', href: 'lessons/binary-hex.html', quiz: 'binhex' },
+            { title: 'Router Əsasları və IP Marşrutlaşdırma', desc: 'Defolt gateway, paketin router-dən keçməsi, marşrut mənbələri və inzibati məsafə.', icon: 'router', tag: 'IP Connectivity', href: 'lessons/router-basics.html', quiz: 'rtbasics' },
+            { title: 'CIDR və Route Summarization', desc: 'Prefiks uzunluğu, summary marşrutunu tapmaq və ümumiləşdirmənin tələləri.', icon: 'boxes', tag: 'IP Connectivity', href: 'lessons/summarization.html', quiz: 'summ' },
+            { title: 'OSPF Multi-Area və Troubleshooting', desc: 'ABR/ASBR, LSA növləri, multi-area konfiqurasiyası və qonşuluq problemləri.', icon: 'layers', tag: 'IP Connectivity', href: 'lessons/ospf-multiarea.html', quiz: 'ospfma' },
+            { title: 'WAN və Metro Ethernet', desc: 'Leased line, Metro Ethernet, MPLS VPN, DSL/kabel/fiber/4G və seçim meyarları.', icon: 'globe', tag: 'IP Connectivity', href: 'lessons/wan.html', quiz: 'wan' },
+            { title: 'QoS: Klassifikasiya və Marking', desc: 'Gecikmə, jitter, itki; CoS və DSCP, EF/AF dəyərləri, trust boundary və MQC.', icon: 'gauge', tag: 'IP Services', href: 'lessons/qos-marking.html', quiz: 'qosmark' },
+            { title: 'QoS: Queuing, Shaping, Policing', desc: 'CBWFQ və LLQ, shaping ilə policing fərqi, tail drop və WRED.', icon: 'list-filter', tag: 'IP Services', href: 'lessons/qos-queuing.html', quiz: 'qosq' },
+            { title: 'Şəbəkə Təhlükələri və Müdafiə', desc: 'CIA üçlüyü, DoS, spoofing, MitM, malware, social engineering və parol siyasəti.', icon: 'siren', tag: 'Security Fundamentals', href: 'lessons/security-threats.html', quiz: 'threats' },
+            { title: 'AAA: RADIUS və TACACS+', desc: 'Authentication/Authorization/Accounting, protokol fərqləri və metod siyahıları.', icon: 'users', tag: 'Security Fundamentals', href: 'lessons/aaa.html', quiz: 'aaa' },
+            { title: 'Time-based ACL', desc: 'time-range ilə dərs saatlarına görə qaydalar, ACL yerləşdirmə və troubleshooting.', icon: 'alarm-clock', tag: 'Security Fundamentals', href: 'lessons/time-acl.html', quiz: 'timeacl' },
+            { title: 'Firewall və IPS', desc: 'Stateful filtrləmə, təhlükəsizlik zonaları, NGFW, IDS/IPS və Zone-Based Firewall.', icon: 'brick-wall', tag: 'Security Fundamentals', href: 'lessons/firewall.html', quiz: 'fw' },
+            { title: 'VPN Texnologiyaları', desc: 'Site-to-site və remote access, IPsec (IKE, ESP), GRE, DMVPN və VTI laboratoriyası.', icon: 'globe-lock', tag: 'Security Fundamentals', href: 'lessons/vpn.html', quiz: 'vpn' },
+            { title: 'Cisco IOS Fayl Sistemi və Yeniləmə', desc: 'Yaddaş növləri, flash/nvram, image adı, konfiqurasiya ehtiyatı və IOS yenilənməsi.', icon: 'hard-drive', tag: 'Network Management', href: 'lessons/ios-filesystem.html', quiz: 'iosfs' },
+            { title: 'Config Register və Parol Bərpası', desc: 'Yüklənmə ardıcıllığı, 0x2102/0x2142, router və switch-də parol bərpası.', icon: 'key-square', tag: 'Network Management', href: 'lessons/password-recovery.html', quiz: 'pwrec' },
+            { title: 'Kampus və Spine-Leaf Dizaynı', desc: '3-tier və collapsed core, data mərkəzində spine-leaf, east-west trafik və bulud modelləri.', icon: 'building-2', tag: 'Network Design', href: 'lessons/campus-design.html', quiz: 'campus' }
+        ].map(l => ({ ...l, cat: 'ccna' }));
+
+        const CATEGORIES = [
+            { id: 'network', label: 'Network Dərsləri', icon: 'network' },
+            { id: 'ccna', label: 'CCNA Dərsləri', icon: 'graduation-cap' }
+        ];
+        const allLessons = [...lessons.map(l => ({ ...l, cat: 'network' })), ...ccnaLessons];
+        // Kateqoriya daxilində tövsiyə olunan sıra nömrəsi
+        const stepOf = new Map();
+        CATEGORIES.forEach(c => allLessons.filter(l => l.cat === c.id).forEach((l, i) => stepOf.set(l.href, i + 1)));
+
+        const resources = [
+            { title: 'CCNA Course Notes (psaumur)', desc: 'CCNA 200-301 mövzuları üzrə ingiliscə qeydlər — GitHub.', href: 'https://github.com/psaumur/CCNA_Course_Notes' },
+            { title: 'Free CCNA Workbook', desc: 'Addım-addım laboratoriya tapşırıqları.', href: 'https://www.freeccnaworkbook.com/workbooks/ccna' },
+            { title: 'GNS3 Vault Labs', desc: 'GNS3 üçün hazır laboratoriya ssenariləri.', href: 'https://gns3vault.com/labs' },
+            { title: 'NetworkLessons — CCNA 200-301', desc: 'Mövzular üzrə ətraflı dərslər və nümunələr.', href: 'https://networklessons.com/cisco/ccna-200-301' },
+            { title: 'CCNAX — pulsuz proqramlar', desc: 'Emulyator, simulyator və köməkçi alətlər siyahısı.', href: 'https://ccnax.com/free-software/' },
+            { title: 'David Bombal — CCNA kursu', desc: 'Packet Tracer laboratoriyaları ilə video kurs.', href: 'https://courses.davidbombal.com/p/cisco-ccna-200-301-complete-course-packet-tracer-labs' }
+        ];
+
+        const quizTopicNames = Object.fromEntries(allLessons.map(l => [l.quiz, l.title]));
         const QUIZ_TOPIC_COUNT = Object.keys(quizTopicNames).length;
 
         const $ = id => document.getElementById(id);
         let activeTag = 'Hamısı';
+        let activeCat = location.hash === '#ccna' ? 'ccna' : 'network';
+        const catLabel = id => CATEGORIES.find(c => c.id === id).label;
         let done = new Set();
         let quizBest = {};
         let lastOpened = null;
@@ -483,7 +582,7 @@
         function showLogin() {
             $('app-view').hidden = true;
             $('login-view').hidden = false;
-            $('login-stats').textContent = `${lessons.length} dərs · ${tools.length} interaktiv alət · izahlı mövzu testləri`;
+            $('login-stats').textContent = `${allLessons.length} dərs · ${tools.length} interaktiv alət · izahlı mövzu testləri`;
             $('login-error').hidden = true;
 
             const profiles = Student.profiles();
@@ -560,9 +659,9 @@
         }
 
         function renderStats() {
-            const doneCount = lessons.filter(l => done.has(l.href)).length;
-            $('stat-done').textContent = `${doneCount} / ${lessons.length}`;
-            $('progress-fill').style.width = `${(doneCount / lessons.length) * 100}%`;
+            const doneCount = allLessons.filter(l => done.has(l.href)).length;
+            $('stat-done').textContent = `${doneCount} / ${allLessons.length}`;
+            $('progress-fill').style.width = `${(doneCount / allLessons.length) * 100}%`;
 
             const scores = Object.entries(quizBest).filter(([t]) => t in quizTopicNames);
             $('stat-tests').textContent = `${scores.length} / ${QUIZ_TOPIC_COUNT}`;
@@ -576,19 +675,20 @@
                 $('stat-best').textContent = `${quizTopicNames[bestTopic]} · ${bestScore}%`;
             }
 
-            const pct = Math.round((doneCount / lessons.length) * 100);
+            const pct = Math.round((doneCount / allLessons.length) * 100);
             $('greet-sub').textContent = doneCount === 0
                 ? 'Öyrənməyə başlamağa hazırsınız? İlk dərs sizi gözləyir.'
-                : doneCount === lessons.length
+                : doneCount === allLessons.length
                     ? 'Bütün dərsləri bitirmisiniz — əla nəticədir! Testlərlə biliyinizi möhkəmləndirin.'
                     : `Dərslərin ${pct}%-ni tamamlamısınız. Belə davam edin!`;
         }
 
         function renderPanels() {
-            const next = lessons.find(l => !done.has(l.href));
-            const step = next ? lessons.indexOf(next) + 1 : null;
+            // Əvvəlcə seçilmiş kateqoriyada, sonra digərində oxunmamış ilk dərs
+            const next = allLessons.find(l => l.cat === activeCat && !done.has(l.href))
+                || allLessons.find(l => !done.has(l.href));
             $('next-panel').innerHTML = next ? `
-                <p class="panel-label">${icon('play')} Növbəti dərs · #${step}</p>
+                <p class="panel-label">${icon('play')} Növbəti dərs · ${catLabel(next.cat)} #${stepOf.get(next.href)}</p>
                 <div class="flex items-start gap-4">
                     <span class="icon-badge lg">${icon(next.icon)}</span>
                     <div class="flex-1">
@@ -607,7 +707,7 @@
                 <a href="tools/quiz.html" class="btn-primary">Ümumi testə başla ${icon('arrow-right')}</a>
             `;
 
-            const last = lessons.find(l => l.href === lastOpened);
+            const last = allLessons.find(l => l.href === lastOpened);
             const weak = Object.entries(quizBest)
                 .filter(([t, p]) => t in quizTopicNames && p < 70)
                 .sort((a, b) => a[1] - b[1]);
@@ -637,7 +737,13 @@
         }
 
         function renderChips() {
-            const tags = ['Hamısı', ...new Set(lessons.map(l => l.tag))];
+            $('cat-bar').innerHTML = CATEGORIES.map(c => {
+                const list = allLessons.filter(l => l.cat === c.id);
+                const n = list.filter(l => done.has(l.href)).length;
+                return `<button class="cat-btn ${c.id === activeCat ? 'active' : ''}" data-cat="${c.id}" role="tab" aria-selected="${c.id === activeCat}">
+                    ${icon(c.icon)} ${c.label} <span class="cat-count" title="Oxunmuş / cəmi">${n} / ${list.length}</span></button>`;
+            }).join('');
+            const tags = ['Hamısı', ...new Set(allLessons.filter(l => l.cat === activeCat).map(l => l.tag))];
             $('chip-bar').innerHTML = tags.map(t =>
                 `<button class="chip ${t === activeTag ? 'active' : ''}" data-tag="${t}">${t}</button>`
             ).join('');
@@ -659,9 +765,19 @@
             `).join('');
             $('tools-section').hidden = visibleTools.length === 0;
 
-            const visibleLessons = lessons
-                .map((l, i) => ({ ...l, step: i + 1 }))
-                .filter(l => (activeTag === 'Hamısı' || l.tag === activeTag) && matches(l, term));
+            // Axtarış hər iki kateqoriyada aparılır
+            const visibleLessons = allLessons
+                .map(l => ({ ...l, step: stepOf.get(l.href) }))
+                .filter(l => term
+                    ? matches(l, term)
+                    : l.cat === activeCat && (activeTag === 'Hamısı' || l.tag === activeTag));
+            $('cat-bar').hidden = $('chip-bar').hidden = term !== '';
+            $('lessons-sub').textContent = term
+                ? `Axtarış nəticələri — hər iki kateqoriya (${visibleLessons.length})`
+                : activeCat === 'ccna'
+                    ? 'Cisco CCNA 200-301 kurikulumunun bölmələri üzrə, tövsiyə olunan ardıcıllıqla.'
+                    : 'Tövsiyə olunan öyrənmə ardıcıllığı ilə nömrələnib.';
+            $('resources-section').hidden = term !== '' || activeCat !== 'ccna';
             $('card-grid').innerHTML = visibleLessons.map(l => {
                 const isDone = done.has(l.href);
                 const score = quizBest[l.quiz];
@@ -672,7 +788,7 @@
                     <div class="flex items-center justify-between mb-4">
                         <span class="icon-badge md">${icon(l.icon)}</span>
                         <div class="flex items-center gap-2">
-                            <span class="step-num">#${l.step}</span>
+                            <span class="step-num">${term && l.cat === 'ccna' ? 'CCNA ' : ''}#${l.step}</span>
                             <span class="portal-tag">${l.tag}</span>
                         </div>
                     </div>
@@ -697,6 +813,33 @@
             renderPanels();
         }
 
+        function renderResources() {
+            $('res-grid').innerHTML = resources.map(r => `
+                <a class="res-card" href="${r.href}" target="_blank" rel="noopener noreferrer">
+                    ${icon('external-link')}
+                    <div>
+                        <h3>${r.title}</h3>
+                        <p class="text-sm text-neutral-600">${r.desc}</p>
+                    </div>
+                </a>`).join('');
+        }
+
+        function setCategory(cat) {
+            if (cat === activeCat) return;
+            activeCat = cat;
+            activeTag = 'Hamısı';
+            history.replaceState(null, '', cat === 'ccna' ? '#ccna' : location.pathname + location.search);
+            renderChips();
+            render();
+        }
+
+        $('cat-bar').addEventListener('click', e => {
+            const btn = e.target.closest('.cat-btn');
+            if (btn) setCategory(btn.dataset.cat);
+        });
+
+        window.addEventListener('hashchange', () => setCategory(location.hash === '#ccna' ? 'ccna' : 'network'));
+
         $('chip-bar').addEventListener('click', e => {
             const chip = e.target.closest('.chip');
             if (!chip) return;
@@ -711,6 +854,7 @@
             const href = btn.dataset.href;
             if (done.has(href)) done.delete(href); else done.add(href);
             Student.write(Student.key('edu-portal-done'), [...done]);
+            renderChips();
             render();
         });
 
@@ -727,6 +871,7 @@
             if (e.persisted && Student.current()) showDashboard();
         });
 
+        renderResources();
         showDashboard();
     </script>
     <script src="assets/theme.js"></script>

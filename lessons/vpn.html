@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPN Texnologiyaları — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#globe-lock"></use></svg> VPN Texnologiyaları</h1>
+                <span class="lesson-badge">CCNA · Security Fundamentals</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#types" class="nav-link">Növlər</a>
+                <a href="#ipsec" class="nav-link">IPsec</a>
+                <a href="#gre" class="nav-link">GRE və DMVPN</a>
+                <a href="#remote" class="nav-link">Remote access</a>
+                <a href="#lab" class="nav-link">Laboratoriya</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#globe-lock"></use></svg> Giriş: İnternet Üzərində Şəxsi Tunel</h2>
+            <p class="lead">
+                Bakı və Gəncə filialını birləşdirmək üçün xüsusi xətt (MPLS, leased line) bahadır. Hər iki ofisdə
+                artıq internet var. <strong>VPN (Virtual Private Network)</strong> internet üzərində şifrələnmiş
+                <strong>tunel</strong> qurur: paket başqa paketin içinə qoyulur, şifrələnir və qarşı tərəfdə açılır.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#lock"></use></svg> Məxfilik</h3><p class="text-neutral-700">Şifrələmə (AES) — yolda paketi tutan onu oxuya bilməz.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#fingerprint"></use></svg> Bütövlük</h3><p class="text-neutral-700">Hash (SHA-256) — paket yolda dəyişdirilərsə aşkar olunur.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#user-check"></use></svg> Autentifikasiya</h3><p class="text-neutral-700">Pre-shared key və ya sertifikat — tunelin qarşı tərəfi həqiqətən o cihazdır.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#repeat"></use></svg> Anti-replay</h3><p>Ardıcıllıq nömrələri — köhnə paketi təkrar göndərmək işləmir.</p></div>
+            </div>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#git-fork"></use></svg> 1. VPN Növləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Site-to-site</th><th>Remote access</th></tr></thead>
+                    <tbody>
+                        <tr><td>Nəyi birləşdirir</td><td>İki şəbəkəni (ofis ↔ ofis, ofis ↔ bulud)</td><td>Tək istifadəçini şəbəkəyə (evdən işləyən işçi)</td></tr>
+                        <tr><td>Tuneli kim qurur</td><td>Router/firewall — istifadəçilər tuneldən xəbərsizdir</td><td>İstifadəçinin cihazındakı klient (Cisco Secure Client) və ya brauzer</td></tr>
+                        <tr><td>Vaxt</td><td>Daimi</td><td>Lazım olanda</td></tr>
+                        <tr><td>Tipik protokol</td><td>IPsec</td><td>TLS/SSL VPN, IPsec (IKEv2)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="ipsec" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#shield-check"></use></svg> 2. IPsec</h2>
+            <p class="lead">IPsec tək protokol deyil, protokollar çərçivəsidir:</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Komponent</th><th>Vəzifəsi</th></tr></thead>
+                    <tbody>
+                        <tr><td>IKE (v1/v2), UDP 500</td><td>Tərəfləri autentifikasiya edir, açarları razılaşdırır (Diffie-Hellman)</td></tr>
+                        <tr><td>ESP (IP protokol 50)</td><td>Şifrələmə + bütövlük + autentifikasiya — praktikada həmişə bu istifadə olunur</td></tr>
+                        <tr><td>AH (IP protokol 51)</td><td>Yalnız bütövlük və autentifikasiya, şifrələmə yoxdur; NAT ilə işləmir</td></tr>
+                        <tr><td>NAT-T, UDP 4500</td><td>ESP-ni UDP-yə bükür ki, NAT arxasından keçə bilsin</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-grid">
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#layers"></use></svg> Tunnel mode</h3><p class="text-neutral-700">Bütün orijinal IP paketi şifrələnir və yeni IP başlığı əlavə olunur — site-to-site VPN-in standart rejimi.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#file-lock"></use></svg> Transport mode</h3><p class="text-neutral-700">Yalnız faydalı yük şifrələnir, orijinal IP başlığı qalır — adətən GRE over IPsec-də istifadə olunur.</p></div>
+            </div>
+        </section>
+
+        <section id="gre" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#network"></use></svg> 3. GRE və DMVPN</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#package"></use></svg><p class="text-neutral-700"><strong>GRE:</strong> sadə tunel — multicast (OSPF hello) və digər protokolları daşıyır, amma <strong>şifrələmir</strong>. Buna görə adətən IPsec ilə birlikdə istifadə olunur: GRE over IPsec.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#share-2"></use></svg><p class="text-neutral-700"><strong>DMVPN:</strong> hub-and-spoke dizaynda spoke-lar bir-biri ilə birbaşa, dinamik tunel qurur — 100 filial üçün 100 × 99 / 2 statik tunel yazmaq lazım deyil.</p></div>
+            </div>
+            <div class="note-box">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#lightbulb"></use></svg>
+                <p class="text-neutral-800">Təmiz IPsec (crypto map) yalnız unicast daşıyır, ona görə tunel üzərindən OSPF qonşuluğu qurula bilmir. GRE over IPsec və ya VTI (Virtual Tunnel Interface) bu problemi həll edir.</p>
+            </div>
+        </section>
+
+        <section id="remote" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#laptop"></use></svg> 4. Remote Access VPN</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#app-window"></use></svg> Klientsiz (brauzer)</h3><p class="text-neutral-700">HTTPS portal vasitəsilə yalnız veb tətbiqlərə giriş. Quraşdırma tələb etmir, imkanları məhduddur.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#monitor"></use></svg> Tam tunel klienti</h3><p class="text-neutral-700">Cisco Secure Client (AnyConnect) TLS/DTLS və ya IKEv2 ilə cihaza daxili IP verir — istifadəçi ofisdə olduğu kimi işləyir.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#split"></use></svg> Split tunneling</h3><p>Yalnız şirkət şəbəkələrinə gedən trafik tunelə daxil olur, internet trafiki birbaşa gedir. Bant genişliyinə qənaət edir, amma nəzarəti azaldır.</p></div>
+            </div>
+        </section>
+
+        <section id="lab" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#terminal"></use></svg> 5. Laboratoriya: VTI ilə Site-to-Site IPsec</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="vpn-config">Konfiqurasiya (R1)</button>
+                <button class="tab-btn inactive-tab" data-pane="vpn-verify">Doğrulama</button>
+            </div>
+            <div id="vpn-config">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# crypto ikev2 proposal PROP
+R1(config-ikev2-proposal)# encryption aes-cbc-256
+R1(config-ikev2-proposal)# integrity sha256
+R1(config-ikev2-proposal)# group 14
+R1(config)# crypto ikev2 policy POL
+R1(config-ikev2-policy)# proposal PROP
+
+R1(config)# crypto ikev2 keyring KR
+R1(config-ikev2-keyring)# peer R2
+R1(config-ikev2-keyring-peer)# address 198.51.100.2
+R1(config-ikev2-keyring-peer)# pre-shared-key VpnKey!2026
+
+R1(config)# crypto ikev2 profile IKE-PROF
+R1(config-ikev2-profile)# match identity remote address 198.51.100.2 255.255.255.255
+R1(config-ikev2-profile)# authentication local pre-share
+R1(config-ikev2-profile)# authentication remote pre-share
+R1(config-ikev2-profile)# keyring local KR
+
+R1(config)# crypto ipsec transform-set TS esp-aes 256 esp-sha256-hmac
+R1(config)# crypto ipsec profile IPSEC-PROF
+R1(ipsec-profile)# set transform-set TS
+R1(ipsec-profile)# set ikev2-profile IKE-PROF
+
+R1(config)# interface Tunnel0
+R1(config-if)# ip address 172.16.0.1 255.255.255.252
+R1(config-if)# tunnel source GigabitEthernet0/1
+R1(config-if)# tunnel destination 198.51.100.2
+R1(config-if)# tunnel mode ipsec ipv4
+R1(config-if)# tunnel protection ipsec profile IPSEC-PROF
+
+R1(config)# router ospf 1
+R1(config-router)# network 172.16.0.0 0.0.0.3 area 0</code></pre>
+                    <p class="code-note">R2-də eyni konfiqurasiya əks ünvanlarla yazılır. Tunnel0 adi interfeys kimi davranır — üzərindən OSPF qonşuluğu qurulur və filial şəbəkələri avtomatik öyrənilir.</p>
+                </div>
+            </div>
+            <div id="vpn-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show crypto ikev2 sa
+show crypto ipsec sa
+show interface Tunnel0
+show ip ospf neighbor</code></pre>
+                    <p class="code-note">IKEv2 SA "READY" olmalıdır; <code>show crypto ipsec sa</code>-da encaps/decaps sayğacları artmalıdır — biri artıb digəri artmırsa, problem qarşı tərəfdədir.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="lesson-footer py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

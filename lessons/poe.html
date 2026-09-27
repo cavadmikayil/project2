@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power over Ethernet (PoE) — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#plug-zap"></use></svg> Power over Ethernet (PoE)</h1>
+                <span class="lesson-badge">CCNA · Network Access</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#standards" class="nav-link">Standartlar</a>
+                <a href="#process" class="nav-link">Necə işləyir</a>
+                <a href="#budget" class="nav-link">Güc büdcəsi</a>
+                <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#plug-zap"></use></svg> Giriş: Bir Kabeldə Həm Məlumat, Həm Enerji</h2>
+            <p class="lead">
+                PoE switch-in Ethernet kabeli üzərindən qoşulan cihaza <strong>elektrik enerjisi</strong> verməsidir.
+                IP telefonlar, access point-lər və IP kameralar üçün ayrıca rozetka və adapter lazım olmur;
+                switch UPS-ə qoşulubsa, bu cihazlar elektrik kəsilməsində də işləməyə davam edir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#zap"></use></svg> PSE</h3><p class="text-neutral-700">Power Sourcing Equipment — enerji verən tərəf (PoE switch və ya injector).</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#radio"></use></svg> PD</h3><p>Powered Device — enerji alan cihaz (IP telefon, AP, kamera).</p></div>
+            </div>
+        </section>
+
+        <section id="standards" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#list-ordered"></use></svg> 1. PoE Standartları</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Ad</th><th>IEEE</th><th>PSE portunda maks.</th><th>PD-yə çatan</th><th>İstifadə olunan cütlər</th></tr></thead>
+                    <tbody>
+                        <tr><td>PoE (Type 1)</td><td>802.3af</td><td>15.4 W</td><td>12.95 W</td><td>2 cüt</td></tr>
+                        <tr><td>PoE+ (Type 2)</td><td>802.3at</td><td>30 W</td><td>25.5 W</td><td>2 cüt</td></tr>
+                        <tr><td>UPOE (Cisco)</td><td>—</td><td>60 W</td><td>51 W</td><td>4 cüt</td></tr>
+                        <tr><td>PoE++ (Type 3)</td><td>802.3bt</td><td>60 W</td><td>51 W</td><td>4 cüt</td></tr>
+                        <tr><td>PoE++ (Type 4)</td><td>802.3bt</td><td>90–100 W</td><td>71.3 W</td><td>4 cüt</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="process" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#workflow"></use></svg> 2. Enerji Necə Verilir?</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Detection:</strong> switch porta aşağı gərginlik verib müqaviməti ölçür — qarşıda PoE cihazı olub-olmadığını anlayır. Adi PC-yə enerji verilmir.</p></li>
+                <li><p class="text-neutral-700"><strong>Classification:</strong> cihazın nə qədər güc tələb etdiyi (class 0–8) müəyyən olunur. CDP/LLDP ilə daha dəqiq razılaşma da mümkündür.</p></li>
+                <li><p class="text-neutral-700"><strong>Power-up:</strong> tam gərginlik (~48 V DC) verilir və porta güc büdcədən ayrılır.</p></li>
+                <li><p class="text-neutral-700"><strong>Monitoring:</strong> cihaz ayrılanda və ya qısa qapanma olanda enerji dərhal kəsilir.</p></li>
+            </ol>
+        </section>
+
+        <section id="budget" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#battery"></use></svg> 3. Güc Büdcəsi</h2>
+            <p class="lead">
+                Switch-in ümumi PoE büdcəsi məhduddur (məs. 370 W). Bütün portlara maksimum güc verə bilməyəcəyi üçün
+                planlama vacibdir. Büdcə tükənəndə yeni qoşulan cihaz enerji ala bilmir.
+            </p>
+            <div class="code-block">
+                <pre><code>Nümunə: 24 portlu PoE+ switch, büdcə 370 W
+  16 IP telefon × 7 W   = 112 W
+   6 access point × 25 W = 150 W
+   2 kamera × 13 W      =  26 W
+  ─────────────────────────────
+  Cəmi                   = 288 W   → 82 W ehtiyat qalır</code></pre>
+            </div>
+            <div class="note-box">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#triangle-alert"></use></svg>
+                <p class="text-neutral-800"><strong>Power policing</strong> cihazın ayrılmış gücdən çox çəkib-çəkmədiyini izləyir; limit aşıldıqda port söndürülə (err-disable) və ya yalnız log yazıla bilər.</p>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#terminal"></use></svg> 4. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="poe-config">Konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="poe-verify">Doğrulama</button>
+            </div>
+            <div id="poe-config">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>SW1(config)# interface GigabitEthernet1/0/5
+SW1(config-if)# power inline auto max 15400
+SW1(config-if)# power inline police action err-disable
+
+SW1(config)# interface GigabitEthernet1/0/10
+SW1(config-if)# power inline never
+
+SW1(config)# interface GigabitEthernet1/0/12
+SW1(config-if)# power inline static max 30000</code></pre>
+                    <p class="code-note">Portda avtomatik PoE (maks. 15.4 W) və limiti aşan cihazda portun söndürülməsi; PoE tələb etməyən portda enerjinin tamamilə söndürülməsi; kritik cihaz üçün gücün əvvəlcədən rezerv edilməsi (static). Dəyərlər milliwatt-la yazılır.</p>
+                </div>
+            </div>
+            <div id="poe-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show power inline
+show power inline GigabitEthernet1/0/5 detail
+show power inline police
+show cdp neighbors detail</code></pre>
+                    <p class="code-note">Ümumi və qalan büdcə, hər portun statusu və cihaz sinfi, policing vəziyyəti, CDP ilə razılaşdırılmış güc.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="lesson-footer py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

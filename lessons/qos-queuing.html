@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QoS: Queuing, Shaping, Policing, WRED — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#list-filter"></use></svg> QoS: Queuing, Shaping, Policing, WRED</h1>
+                <span class="lesson-badge">CCNA · IP Services</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#queuing" class="nav-link">Queuing</a>
+                <a href="#llq" class="nav-link">LLQ</a>
+                <a href="#shaping" class="nav-link">Shaping və Policing</a>
+                <a href="#wred" class="nav-link">WRED</a>
+                <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#list-filter"></use></svg> Giriş: Tıxac Zamanı Nə Baş Verir?</h2>
+            <p class="lead">
+                İşarələnmiş (marking) trafik özü-özlüyündə heç nəyi sürətləndirmir. Fayda çıxış interfeysində gəlir:
+                link dolanda paketlər <strong>növbələrə</strong> (queue) düşür və <strong>scheduler</strong> hansı növbədən
+                nə qədər göndəriləcəyinə qərar verir. Tıxac yoxdursa, queuing mexanizmləri demək olar ki, işə düşmür.
+            </p>
+        </section>
+
+        <section id="queuing" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#list-ordered"></use></svg> 1. Queuing Üsulları</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Üsul</th><th>Necə işləyir</th><th>Problem</th></tr></thead>
+                    <tbody>
+                        <tr><td>FIFO</td><td>Tək növbə, ilk gələn ilk gedir</td><td>Səs böyük faylın arxasında gözləyir</td></tr>
+                        <tr><td>Priority Queuing</td><td>Yüksək prioritetli növbə həmişə əvvəl</td><td>Aşağı növbələr "ac qala" bilər (starvation)</td></tr>
+                        <tr><td>CBWFQ</td><td>Hər sinfə zəmanətli bant genişliyi payı (round-robin)</td><td>Səs üçün gecikmə zəmanəti yoxdur</td></tr>
+                        <tr><td>LLQ = CBWFQ + priority</td><td>Səs üçün ciddi prioritetli növbə + limit, qalanlar CBWFQ ilə</td><td class="yes">Səs/video üçün tövsiyə olunan</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="llq" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#zap"></use></svg> 2. LLQ (Low Latency Queuing)</h2>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#play"></use></svg><p class="text-neutral-700"><strong>Priority növbə:</strong> səs paketləri dərhal göndərilir — gecikmə və jitter minimal olur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#ban"></use></svg><p class="text-neutral-700"><strong>Daxili policer:</strong> priority sinfi ayrılmış limiti keçərsə artıq hissə atılır — digər siniflər ac qalmır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#gauge"></use></svg><p class="text-neutral-700"><strong>Qalan siniflər:</strong> <code>bandwidth</code> və ya <code>bandwidth percent</code> ilə minimum pay alır.</p></div>
+            </div>
+        </section>
+
+        <section id="shaping" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#scale"></use></svg> 3. Shaping və Policing</h2>
+            <p class="lead">Hər ikisi trafiki müəyyən sürətlə (CIR) məhdudlaşdırır, amma fərqli üsulla:</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Shaping</th><th>Policing</th></tr></thead>
+                    <tbody>
+                        <tr><td>Limiti keçən trafik</td><td>Buferdə saxlanılır, sonra göndərilir</td><td>Atılır və ya yenidən işarələnir (re-mark)</td></tr>
+                        <tr><td>Gecikmə</td><td>Artırır</td><td>Artırmır</td></tr>
+                        <tr><td>İstiqamət</td><td>Yalnız çıxış (outbound)</td><td>Giriş və çıxış</td></tr>
+                        <tr><td>Tipik yer</td><td>Müştəri: provayderin limitinə uyğunlaşmaq</td><td>Provayder: müştərinin ödədiyi sürəti tətbiq etmək</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#lightbulb"></use></svg>
+                <p class="text-neutral-800"><strong>Nümunə:</strong> ofisin 1 Gbps portu var, amma provayder yalnız 200 Mbps satıb və artığını policing ilə atır. Routerdə 200 Mbps-ə <strong>shaping</strong> qurulmasa, TCP paketləri provayderdə itəcək; shaping ilə isə itki routerin öz növbələrində, QoS qaydalarına uyğun idarə olunur.</p>
+            </div>
+        </section>
+
+        <section id="wred" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#triangle-alert"></use></svg> 4. Tail Drop və WRED</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-x"></use></svg> Tail drop</h3><p class="text-neutral-700">Növbə dolanda gələn bütün paketlər atılır. Bütün TCP axınları eyni anda sürəti azaldıb eyni anda artırır — <strong>TCP global synchronization</strong> — link növbə ilə boş və tıxanmış olur.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-check"></use></svg> RED / WRED</h3><p class="text-neutral-700">Növbə dolmağa başlayanda paketləri <strong>təsadüfi</strong> və tədricən atır: yalnız bəzi TCP axınları yavaşlayır. WRED (Weighted) DSCP-yə baxır — atılma prioriteti yüksək olan (məs. AF13) daha əvvəl atılır.</p></div>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#terminal"></use></svg> 5. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="qq-llq">LLQ + WRED</button>
+                <button class="tab-btn inactive-tab" data-pane="qq-shape">Shaping (iç-içə)</button>
+                <button class="tab-btn inactive-tab" data-pane="qq-police">Policing</button>
+            </div>
+            <div id="qq-llq">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# class-map match-any VOICE
+R1(config-cmap)# match dscp ef
+R1(config)# class-map match-any BUSINESS
+R1(config-cmap)# match dscp af31 af21
+
+R1(config)# policy-map WAN-OUT
+R1(config-pmap)# class VOICE
+R1(config-pmap-c)# priority percent 20
+R1(config-pmap)# class BUSINESS
+R1(config-pmap-c)# bandwidth percent 40
+R1(config-pmap-c)# random-detect dscp-based
+R1(config-pmap)# class class-default
+R1(config-pmap-c)# fair-queue
+
+R1(config)# interface GigabitEthernet0/1
+R1(config-if)# service-policy output WAN-OUT</code></pre>
+                    <p class="code-note">Səsə linkin 20%-i qədər ciddi prioritet, biznes tətbiqlərinə minimum 40% və DSCP əsaslı WRED, qalan trafik ədalətli növbələmə ilə.</p>
+                </div>
+            </div>
+            <div id="qq-shape" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# policy-map SHAPE-200M
+R1(config-pmap)# class class-default
+R1(config-pmap-c)# shape average 200000000
+R1(config-pmap-c)# service-policy WAN-OUT
+
+R1(config)# interface GigabitEthernet0/1
+R1(config-if)# no service-policy output WAN-OUT
+R1(config-if)# service-policy output SHAPE-200M</code></pre>
+                    <p class="code-note">Bütün trafik 200 Mbps-ə shaping edilir və yaranan növbə daxilində WAN-OUT (LLQ) siyasəti tətbiq olunur — iç-içə (hierarchical) policy.</p>
+                </div>
+            </div>
+            <div id="qq-police" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# policy-map LIMIT-GUEST
+R1(config-pmap)# class class-default
+R1(config-pmap-c)# police cir 10000000 conform-action transmit exceed-action drop
+
+R1(config)# interface GigabitEthernet0/2
+R1(config-if)# service-policy input LIMIT-GUEST
+
+R1# show policy-map interface GigabitEthernet0/2</code></pre>
+                    <p class="code-note">Qonaq şəbəkəsinin gələn trafikini 10 Mbps-lə məhdudlaşdırır: limit daxilində olan ötürülür, artığı atılır. Sonuncu əmr conformed/exceeded sayğaclarını göstərir.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="lesson-footer py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

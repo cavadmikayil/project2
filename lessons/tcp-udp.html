@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCP və UDP — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#arrow-left-right"></use></svg> TCP və UDP</h1>
+                <span class="lesson-badge">CCNA · Network Fundamentals</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#ports" class="nav-link">Portlar</a>
+                <a href="#tcp" class="nav-link">TCP</a>
+                <a href="#udp" class="nav-link">UDP</a>
+                <a href="#compare" class="nav-link">Müqayisə</a>
+                <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left-right"></use></svg> Giriş: Transport Qatı</h2>
+            <p class="lead">
+                IP paketi bir hostdan digərinə çatdırır, amma həmin hostda <strong>hansı proqrama</strong> çatacağını
+                bilmir. Bunu Layer 4 — Transport qatı — həll edir. İki əsas protokol var: etibarlı, bağlantı yönümlü
+                <strong>TCP</strong> və sürətli, bağlantısız <strong>UDP</strong>. Hər ikisi proqramları
+                <strong>port nömrələri</strong> ilə ayırd edir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#layers"></use></svg> Seqmentləşdirmə</h3><p class="text-neutral-700">Böyük məlumat kiçik hissələrə bölünür (TCP-də segment, UDP-də datagram).</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#hash"></use></svg> Multiplexing</h3><p class="text-neutral-700">Port nömrələri sayəsində eyni hostda çoxlu proqram eyni anda şəbəkədən istifadə edir.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#shield-check"></use></svg> Etibarlılıq (yalnız TCP)</h3><p>Təsdiq (ACK), yenidən göndərmə, sıralama və axın nəzarəti.</p></div>
+            </div>
+        </section>
+
+        <section id="ports" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#hash"></use></svg> 1. Port Nömrələri</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#star"></use></svg> Well-known</h3><p class="text-neutral-700">0 – 1023: standart serverlər (HTTP 80, SSH 22).</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#tag"></use></svg> Registered</h3><p class="text-neutral-700">1024 – 49151: tətbiqlər üçün qeydiyyatdan keçmiş portlar.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#shuffle"></use></svg> Ephemeral (dinamik)</h3><p class="text-neutral-700">49152 – 65535: müştəri tərəfində təsadüfi seçilən mənbə portları.</p></div>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Protokol</th><th>Port</th><th>Transport</th></tr></thead>
+                    <tbody>
+                        <tr><td>FTP (data / control)</td><td>20 / 21</td><td>TCP</td></tr>
+                        <tr><td>SSH</td><td>22</td><td>TCP</td></tr>
+                        <tr><td>Telnet</td><td>23</td><td>TCP</td></tr>
+                        <tr><td>SMTP</td><td>25</td><td>TCP</td></tr>
+                        <tr><td>DNS</td><td>53</td><td>UDP (sorğular), TCP (zone transfer, böyük cavablar)</td></tr>
+                        <tr><td>DHCP (server / client)</td><td>67 / 68</td><td>UDP</td></tr>
+                        <tr><td>TFTP</td><td>69</td><td>UDP</td></tr>
+                        <tr><td>HTTP / HTTPS</td><td>80 / 443</td><td>TCP (HTTP/3 — UDP 443)</td></tr>
+                        <tr><td>NTP</td><td>123</td><td>UDP</td></tr>
+                        <tr><td>SNMP (sorğu / trap)</td><td>161 / 162</td><td>UDP</td></tr>
+                        <tr><td>Syslog</td><td>514</td><td>UDP</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="tcp" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#link"></use></svg> 2. TCP: Bağlantı Yönümlü Protokol</h2>
+            <h3 class="text-xl font-bold mb-3">Bağlantının qurulması — 3-way handshake</h3>
+            <div class="code-block">
+                <pre><code>Müştəri                                   Server
+   |  ── SYN        (seq=100) ──────────────►  |
+   |  ◄── SYN-ACK   (seq=300, ack=101) ──────  |
+   |  ── ACK        (ack=301) ──────────────►  |
+   |        bağlantı qurulub, məlumat gedir    |</code></pre>
+            </div>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#list-ordered"></use></svg><p class="text-neutral-700"><strong>Sıra nömrələri (sequence):</strong> seqmentlər qarışıq gəlsə də düzgün ardıcıllıqla yığılır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-check"></use></svg><p class="text-neutral-700"><strong>Təsdiq (ACK):</strong> qəbul edən tərəf növbəti gözlədiyi baytın nömrəsini göndərir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#refresh-cw"></use></svg><p class="text-neutral-700"><strong>Yenidən göndərmə:</strong> ACK gəlməsə, seqment təkrar göndərilir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#gauge"></use></svg><p class="text-neutral-700"><strong>Windowing (axın nəzarəti):</strong> qəbul edən tərəf bir anda nə qədər məlumat qəbul edə biləcəyini bildirir; itki olmadıqca pəncərə böyüyür.</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Bağlantının bağlanması — 4-way</h3>
+            <p class="text-neutral-700">Hər tərəf öz istiqamətini ayrıca bağlayır: <code>FIN → ACK</code>, sonra <code>FIN → ACK</code>. Qəfil kəsilmə üçün <code>RST</code> bayrağı istifadə olunur.</p>
+        </section>
+
+        <section id="udp" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#zap"></use></svg> 3. UDP: Sadə və Sürətli</h2>
+            <p class="lead">
+                UDP bağlantı qurmur, təsdiq gözləmir və itən məlumatı yenidən göndərmir. Başlığı cəmi
+                <strong>8 bayt</strong>dır (TCP-də minimum 20 bayt). Gecikmənin itkidən daha zərərli olduğu yerlərdə istifadə olunur.
+            </p>
+            <div class="card-grid">
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#radio"></use></svg> Səs və video</h3><p class="text-neutral-700">VoIP (RTP), video zənglər — gecikmiş paketi yenidən göndərməyin mənası yoxdur.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#search"></use></svg> Qısa sorğular</h3><p class="text-neutral-700">DNS, DHCP, NTP, SNMP — bir sorğu, bir cavab.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#settings"></use></svg> Etibarlılıq tətbiqdə</h3><p class="text-neutral-700">Lazım olduqda etibarlılığı proqramın özü təmin edir (məs. TFTP, QUIC).</p></div>
+            </div>
+        </section>
+
+        <section id="compare" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#scale"></use></svg> 4. Müqayisə</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Xüsusiyyət</th><th>TCP</th><th>UDP</th></tr></thead>
+                    <tbody>
+                        <tr><td>Bağlantı</td><td class="yes">Qurulur (handshake)</td><td class="no">Yoxdur</td></tr>
+                        <tr><td>Çatdırılma zəmanəti</td><td class="yes">Var (ACK, retransmission)</td><td class="no">Yoxdur</td></tr>
+                        <tr><td>Sıralama</td><td class="yes">Var</td><td class="no">Yoxdur</td></tr>
+                        <tr><td>Axın nəzarəti</td><td class="yes">Windowing</td><td class="no">Yoxdur</td></tr>
+                        <tr><td>Başlıq ölçüsü</td><td>20–60 bayt</td><td>8 bayt</td></tr>
+                        <tr><td>Nümunələr</td><td>HTTP(S), SSH, FTP, SMTP</td><td>DNS, DHCP, VoIP, TFTP, SNMP</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#terminal"></use></svg> 5. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="tu-cisco">Cisco</button>
+                <button class="tab-btn inactive-tab" data-pane="tu-pc">Kompüter</button>
+            </div>
+            <div id="tu-cisco">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show control-plane host open-ports
+show tcp brief
+telnet 192.168.1.10 443</code></pre>
+                    <p class="code-note">Cihazın özündə açıq portlar, aktiv TCP sessiyaları və uzaq hostun müəyyən TCP portunun açıq olub-olmadığının yoxlanması (bağlantı qurulursa port açıqdır).</p>
+                </div>
+            </div>
+            <div id="tu-pc" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>netstat -an
+ss -tuln
+Test-NetConnection 192.168.1.10 -Port 443</code></pre>
+                    <p class="code-note">Windows/Linux-da açıq və qurulmuş bağlantılar (LISTEN, ESTABLISHED), Linux-da dinləyən TCP/UDP portları və PowerShell ilə TCP port testi.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="lesson-footer py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+
