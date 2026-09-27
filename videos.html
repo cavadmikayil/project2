@@ -408,26 +408,27 @@
             const start = cur;
             let cued = false;
             player = new YT.Player('yt-player', {
-                host: 'https://www.youtube-nocookie.com',
+                // youtube.com (youtube-nocookie.com yox): "nocookie" domendə playlist API bəzi
+                // brauzerlərdə (xüsusən Safari-nin cross-site tracking bloku ilə) etibarsız işləyir.
+                host: 'https://www.youtube.com',
                 width: '100%', height: '100%',
-                playerVars: Object.assign({ rel: 0, playsinline: 1, modestbranding: 1 },
-                    c.fixed ? {} : { listType: 'playlist', list: c.list }),
+                playerVars: { rel: 0, playsinline: 1, modestbranding: 1 },
                 events: {
                     onReady: () => {
                         playerMessage('');
                         if (c.fixed) { player.cuePlaylist(c.fixed, start); cued = true; gotIds(c, c.fixed); return; }
+                        // playerVars ilə deyil, açıq cuePlaylist çağırışı ilə — playlist API-ni daha etibarlı işə salır
+                        player.cuePlaylist({ listType: 'playlist', list: c.list, index: start });
                         let tries = 0;
                         const poll = setInterval(() => {
                             const list = player && player.getPlaylist && player.getPlaylist();
                             if (list && list.length) {
                                 clearInterval(poll);
                                 gotIds(c, list);
-                                // İstifadəçinin qaldığı videodan davam et (avtomatik oynatmadan)
-                                if (start > 0 && start < list.length) player.cuePlaylist(list, start);
                                 cued = true;
-                            } else if (++tries > 40) {
+                            } else if (++tries > 50) {
                                 clearInterval(poll);
-                                if (!ids) playerMessage(`${icon('triangle-alert')}<span>Playlist açılmadı. Linkin düzgün və playlist-in "Public" və ya "Unlisted" olduğunu yoxlayın.</span>`);
+                                if (!ids) playerMessage(`${icon('triangle-alert')}<span>Playlist açılmadı. Playlist-in videoları "Public" və ya "Unlisted" olmalı və "embedding" (kənar saytda göstərilmə) qadağan edilməməlidir.</span>`);
                             }
                         }, 300);
                     },
