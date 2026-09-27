@@ -37,8 +37,9 @@ index.html                 Dashboard: giriş, kateqoriya tabları, dərs kartlar
 links.html                 Faydalı Linklər səhifəsi (linklər faylın içindəki CATEGORIES siyahısındadır)
 about.html                 Haqqında səhifəsi
 lessons/*.html             Dərs səhifələri (hazır, saytda açılan fayllar)
-tools/quiz.html            Quiz
-tools/subnet-calculator.html
+tools.html                 Tools səhifəsi (alətlərin siyahısı assets/tools-catalog.js-dədir)
+tools/*.html               Alətlər: quiz, CCNA imtahan simulyatoru, CLI simulyatoru, flashcard-lar,
+                           subnet, VLSM, IPv6, wildcard kalkulyatorları, port arayışı
 assets/catalog.js          Bütün kateqoriyalar və dərslərin siyahısı (dashboard və quiz buradan oxuyur)
 assets/questions.js        Bütün quiz sualları
 assets/icons.svg           İkon sprite-ı
@@ -47,6 +48,7 @@ assets/lesson.css/.js      Dərs komponentləri (kartlar, cədvəllər, tab-lar,
 assets/student.js          Tələbə profilləri (localStorage)
 _dev/build.py              Build aləti
 _dev/lessons/*.html        Dərslərin mənbə faylları (dərsi burada yazırsınız)
+_dev/labs/*.py             CCNA lab tapşırıqları (build dərsə əlavə edir)
 _dev/TEMPLATE-lesson.html  Yeni dərs üçün şablon
 ```
 
@@ -56,6 +58,7 @@ _dev/TEMPLATE-lesson.html  Yeni dərs üçün şablon
 2. Dashboard `assets/catalog.js`-dəki `CATEGORIES` və `lessons` siyahısından tabları, bölmə çiplərini və dərs kartlarını qurur. Kataloqdakı sıra = tövsiyə olunan öyrənmə ardıcıllığı.
 3. "Oxudum" işarələri və quiz nəticələri tələbənin profilinə (localStorage) yazılır — başqa brauzerdə görünmür.
 4. `tools/quiz.html` mövzuları kataloqdan, sualları `assets/questions.js`-dən götürür. Hər dərsin `quiz` açarı suallardakı `t` sahəsi ilə eynidir.
+   `tools/exam.html` (CCNA imtahan simulyatoru) eyni bankdan CCNA suallarını dərsin `tag`-ına görə 6 imtahan bölməsinə ayırır və çəkilərə uyğun (20/20/25/10/15/10%) seçir — yeni CCNA sualı əlavə etdikdə imtahan avtomatik zənginləşir.
 5. `index.html#server`, `#helpdesk`, `#security`, `#ai`, `#ccna` — birbaşa həmin tabı açır.
 
 ## 4. Kompüterdə işə salmaq

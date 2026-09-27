@@ -180,9 +180,9 @@
         let active = 'Hamısı';
 
         function render() {
-            const q = $('q').value.trim().toLocaleLowerCase('az');
+            const q = $('q').value.trim().toLocaleLowerCase('az').replace(/ı/g, 'i');
             const rows = PORTS.filter(p => (active === 'Hamısı' || p[3] === active) &&
-                (!q || p.join(' ').toLocaleLowerCase('az').includes(q)));
+                (!q || p.join(' ').toLocaleLowerCase('az').replace(/ı/g, 'i').includes(q)));
             $('rows').innerHTML = rows.map(([port, proto, name, cat, desc, secure]) => `<tr>
                 <td class="mono"><strong>${esc(port)}</strong></td>
                 <td>${proto.split('/').map(x => `<span class="proto ${x.toLowerCase()}">${x}</span>`).join(' ')}</td>

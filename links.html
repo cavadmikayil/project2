@@ -411,12 +411,12 @@
         }
 
         function render() {
-            const term = $('search').value.trim().toLocaleLowerCase('az');
+            const term = $('search').value.trim().toLocaleLowerCase('az').replace(/ı/g, 'i');
             let shown = 0;
             $('sections').innerHTML = CATEGORIES.map(c => {
                 if (activeCat !== 'all' && c.id !== activeCat) return '';
                 const items = c.items.filter(it => !term ||
-                    [it.n, it.d, it.t, it.lang || '', c.name].join(' ').toLocaleLowerCase('az').includes(term));
+                    [it.n, it.d, it.t, it.lang || '', c.name].join(' ').toLocaleLowerCase('az').replace(/ı/g, 'i').includes(term));
                 if (items.length === 0) return '';
                 shown += items.length;
                 return `<section id="cat-${c.id}" class="section-card">
