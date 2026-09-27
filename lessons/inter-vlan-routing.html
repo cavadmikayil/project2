@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#route"></use></svg> Inter-VLAN Routing</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#route"></use></svg> Inter-VLAN Routing</h1>
             </div>
             <div class="flex flex-wrap items-center gap-4">
                 <a href="#intro" class="nav-link">Giriş</a>
@@ -24,15 +24,15 @@
                 <a href="#roas" class="nav-link">Router-on-a-stick</a>
                 <a href="#svi" class="nav-link">L3 Switch (SVI)</a>
                 <a href="#troubleshoot" class="nav-link">Problemlər</a>
-                <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
+                <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#route"></use></svg> Giriş: VLAN-lar Arası Əlaqə</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#route"></use></svg> Giriş: VLAN-lar Arası Əlaqə</h2>
             <p class="lead">
                 Hər VLAN ayrıca broadcast domeni və ayrıca IP alt şəbəkəsidir. Switch Layer 2-də VLAN-ları
                 bir-birindən təcrid edir, ona görə VLAN 10-dakı kompüter VLAN 20-dəki printerə birbaşa çata bilməz.
@@ -41,7 +41,7 @@
         </section>
 
         <section id="methods" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#git-merge"></use></svg> 1. Üç Üsul</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#git-merge"></use></svg> 1. Üç Üsul</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Üsul</th><th>Necə işləyir</th><th>Üstünlük</th><th>Çatışmazlıq</th></tr></thead>
@@ -55,7 +55,7 @@
         </section>
 
         <section id="roas" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#router"></use></svg> 2. Router-on-a-stick</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#router"></use></svg> 2. Router-on-a-stick</h2>
             <p class="lead">
                 Switch-in router-ə baxan portu <strong>trunk</strong> olur. Router-də fiziki interfeys
                 subinterfeyslərə bölünür; hər subinterfeys bir VLAN-ın defolt gateway-idir.
@@ -106,11 +106,11 @@ Switch(config-if)# switchport access vlan 10</code></pre>
         </section>
 
         <section id="svi" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#layers"></use></svg> 3. Layer 3 Switch və SVI</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#layers"></use></svg> 3. Layer 3 Switch və SVI</h2>
             <div class="card-grid mb-6">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#network"></use></svg> SVI</h3><p class="text-neutral-700"><code>interface vlan 10</code> — VLAN üçün virtual L3 interfeys. Həmin VLAN-dakı hostların gateway-i olur.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#cable"></use></svg> Routed port</h3><p class="text-neutral-700"><code>no switchport</code> — fiziki portu router portuna çevirir (məs. router və ya firewall-a uplink).</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#settings"></use></svg> ip routing</h3><p>L3 switch-də marşrutlaşdırma defolt olaraq sönülüdür — bu əmr olmadan SVI-lər arasında paket ötürülmür.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#network"></use></svg> SVI</h3><p class="text-neutral-700"><code>interface vlan 10</code> — VLAN üçün virtual L3 interfeys. Həmin VLAN-dakı hostların gateway-i olur.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#cable"></use></svg> Routed port</h3><p class="text-neutral-700"><code>no switchport</code> — fiziki portu router portuna çevirir (məs. router və ya firewall-a uplink).</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#settings"></use></svg> ip routing</h3><p>L3 switch-də marşrutlaşdırma defolt olaraq sönülüdür — bu əmr olmadan SVI-lər arasında paket ötürülmür.</p></div>
             </div>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="svi-config">Konfiqurasiya</button>
@@ -150,14 +150,14 @@ show interfaces GigabitEthernet0/0.10</code></pre>
         </section>
 
         <section id="troubleshoot" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#wrench"></use></svg> 4. Tez-tez Rast Gəlinən Problemlər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#wrench"></use></svg> 4. Tez-tez Rast Gəlinən Problemlər</h2>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-x"></use></svg><p class="text-neutral-700"><strong>SVI down/down:</strong> VLAN yaradılmayıb və ya həmin VLAN-da heç bir aktiv port yoxdur.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-x"></use></svg><p class="text-neutral-700"><strong>Trunk qalxmayıb:</strong> switch portu access-də qalıb və ya VLAN "allowed" siyahısında deyil.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-x"></use></svg><p class="text-neutral-700"><strong>Səhv teq:</strong> <code>encapsulation dot1Q</code> nömrəsi VLAN ID ilə uyğun gəlmir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-x"></use></svg><p class="text-neutral-700"><strong>Hostda səhv gateway:</strong> PC-nin defolt gateway-i subinterfeys/SVI IP-si deyil.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-x"></use></svg><p class="text-neutral-700"><strong>ip routing yoxdur:</strong> L3 switch-də VLAN-lar öz gateway-inə ping atır, amma bir-birinə çatmır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-x"></use></svg><p class="text-neutral-700"><strong>Fiziki interfeys sönülüdür:</strong> router-də Gi0/0 "shutdown"-dadırsa bütün subinterfeyslər də down olur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#circle-x"></use></svg><p class="text-neutral-700"><strong>SVI down/down:</strong> VLAN yaradılmayıb və ya həmin VLAN-da heç bir aktiv port yoxdur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#circle-x"></use></svg><p class="text-neutral-700"><strong>Trunk qalxmayıb:</strong> switch portu access-də qalıb və ya VLAN "allowed" siyahısında deyil.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#circle-x"></use></svg><p class="text-neutral-700"><strong>Səhv teq:</strong> <code>encapsulation dot1Q</code> nömrəsi VLAN ID ilə uyğun gəlmir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#circle-x"></use></svg><p class="text-neutral-700"><strong>Hostda səhv gateway:</strong> PC-nin defolt gateway-i subinterfeys/SVI IP-si deyil.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#circle-x"></use></svg><p class="text-neutral-700"><strong>ip routing yoxdur:</strong> L3 switch-də VLAN-lar öz gateway-inə ping atır, amma bir-birinə çatmır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#circle-x"></use></svg><p class="text-neutral-700"><strong>Fiziki interfeys sönülüdür:</strong> router-də Gi0/0 "shutdown"-dadırsa bütün subinterfeyslər də down olur.</p></div>
             </div>
         </section>
     </main>
@@ -166,7 +166,7 @@ show interfaces GigabitEthernet0/0.10</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4cc9723d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">Şəbəkə, CCNA və IT üzrə pulsuz təlim materialları</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
@@ -177,14 +177,17 @@ show interfaces GigabitEthernet0/0.10</code></pre>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
                 </nav>
             </div>
-            <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
-                <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#pen-line"></use></svg></a>
-                <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#brand-instagram"></use></svg></a>
-                <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#brand-youtube"></use></svg></a>
-                <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#brand-linkedin-in"></use></svg></a>
-                <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#brand-telegram"></use></svg></a>
-                <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#brand-tiktok"></use></svg></a>
-                <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#mail"></use></svg></a>
+            <div class="brand-footer-social-wrap">
+                <p class="brand-footer-social-title">Sosial şəbəkələrdə izləyin</p>
+                <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+                <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt" data-social="blog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 21h8" /> <path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /></svg></a>
+                <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" data-social="instagram"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı" data-social="youtube"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></a>
+                <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn" data-social="linkedin"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg></a>
+                <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram" data-social="telegram"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg></a>
+                <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" data-social="tiktok"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M448.5 209.9c-44 .1-87-13.6-122.8-39.2l0 178.7c0 33.1-10.1 65.4-29 92.6s-45.6 48-76.6 59.6-64.8 13.5-96.9 5.3-60.9-25.9-82.7-50.8-35.3-56-39-88.9 2.9-66.1 18.6-95.2 40-52.7 69.6-67.7 62.9-20.5 95.7-16l0 89.9c-15-4.7-31.1-4.6-46 .4s-27.9 14.6-37 27.3-14 28.1-13.9 43.9 5.2 31 14.5 43.7 22.4 22.1 37.4 26.9 31.1 4.8 46-.1 28-14.4 37.2-27.1 14.2-28.1 14.2-43.8l0-349.4 88 0c-.1 7.4 .6 14.9 1.9 22.2 3.1 16.3 9.4 31.9 18.7 45.7s21.3 25.6 35.2 34.6c19.9 13.1 43.2 20.1 67 20.1l0 87.4z"/></svg></a>
+                <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email" data-social="email"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></a>
+                </div>
             </div>
             <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
         </div>
