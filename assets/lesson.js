@@ -48,4 +48,26 @@
             done();
         }
     });
+    // Lab: "Labı bitirdim" — hər tələbə üçün ayrıca yadda saxlanılır (dashboard-da da görünür)
+    var labBtns = document.querySelectorAll('.lab-done-btn');
+    if (labBtns.length && window.Student) {
+        var labKey = Student.key('edu-portal-labs');
+        var paint = function (btn, on) {
+            btn.classList.toggle('is-done', on);
+            btn.setAttribute('aria-pressed', String(on));
+            var use = btn.querySelector('use');
+            if (use) use.setAttribute('href', use.getAttribute('href').replace(/#.*$/, on ? '#circle-check' : '#circle-dot'));
+            btn.lastChild.textContent = on ? ' Lab bitib' : ' Labı bitirdim';
+        };
+        labBtns.forEach(function (btn) {
+            paint(btn, !!Student.read(labKey, {})[btn.dataset.lab]);
+            btn.addEventListener('click', function () {
+                var done = Student.read(labKey, {});
+                if (done[btn.dataset.lab]) delete done[btn.dataset.lab];
+                else done[btn.dataset.lab] = Date.now();
+                Student.write(labKey, done);
+                paint(btn, !!done[btn.dataset.lab]);
+            });
+        });
+    }
 })();

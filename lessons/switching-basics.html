@@ -25,6 +25,7 @@
                 <a href="#learning" class="nav-link">MAC öyrənmə</a>
                 <a href="#decisions" class="nav-link">Qərarlar</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -109,6 +110,57 @@ SW1(config)# mac address-table static 001a.2b3c.4d5e vlan 10 interface FastEther
                 <p class="code-note">MAC cədvəli, müəyyən portda və ya müəyyən MAC üçün qeydlər, qeyd sayı, aging müddəti, dinamik qeydlərin təmizlənməsi və statik MAC qeydi.</p>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="switching-basics">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: MAC Öyrənmə, Flooding və Switch İdarəetməsi</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Switch-in MAC cədvəlini necə qurduğunu və naməlum unicast-ı necə flood etdiyini görmək; switch-ə idarəetmə IP-si vermək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer (Simulation Mode)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>30 dəq · Başlanğıc</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code> PC1 (Fa0/1) \
+ PC2 (Fa0/2) --- SW1 (Fa0/24) --- SW2 --- PC4 (Fa0/1)
+ PC3 (Fa0/3) /</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Ünvanlama cədvəli</h3>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Cihaz</th><th>IP / maska</th></tr></thead>
+                    <tbody>
+                        <tr><td>PC1–PC4</td><td>192.168.1.11–14 /24</td></tr>
+                        <tr><td>SW1 VLAN 1</td><td>192.168.1.2 /24</td></tr>
+                        <tr><td>SW2 VLAN 1</td><td>192.168.1.3 /24</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Topologiyanı qurun; hər iki switch-də <code>clear mac address-table dynamic</code>.</p></li>
+                <li><p class="text-neutral-700">Simulation Mode-da PC1-dən PC4-ə ping: ilk frame-in (ARP broadcast) bütün portlardan flood olduğunu izləyin.</p></li>
+                <li><p class="text-neutral-700">Ping-dən sonra hər iki switch-də MAC cədvəlinə baxın — PC4-ün MAC-ı SW1-də hansı portda görünür?</p></li>
+                <li><p class="text-neutral-700">SW1-də <code>interface vlan 1</code>-ə IP verin, <code>ip default-gateway</code> yazın və PC1-dən switch-ə ping edin.</p></li>
+                <li><p class="text-neutral-700"><code>mac address-table aging-time 60</code> təyin edib bir dəqiqə gözləyin: qeydlər silinirmi?</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show mac address-table
+show mac address-table aging-time
+show interfaces vlan 1
+show ip interface brief</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Uzaq PC-lərin MAC-ları SW1-də uplink portunda (Fa0/24) görünür.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">SW1 ping-ə cavab verir — idarəetmə IP-si işləyir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Aging müddətindən sonra fəaliyyətsiz qeydlər cədvəldən silinir.</p></div>
+            </div>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="switching-basics" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -142,6 +194,7 @@ SW1(config)# mac address-table static 001a.2b3c.4d5e vlan 10 interface FastEther
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

@@ -25,6 +25,7 @@
                 <a href="#violation" class="nav-link">Violation rejimləri</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
                 <a href="#recover" class="nav-link">Bərpa</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -120,6 +121,66 @@ Switch(config)# errdisable recovery interval 300</code></pre>
                 <p class="text-neutral-800">Port security MAC-ı saxtalaşdırmağa (spoofing) qarşı tam qoruma deyil. Güclü həll — <strong>802.1X</strong> (hər cihazın autentifikasiyası). Port security isə sadə və hər switch-də mövcud olan ilk müdafiə xəttidir.</p>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="port-security">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Sticky MAC və Violation Rejimləri</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">İstifadəçi portlarında port security qurmaq və üç violation rejiminin fərqini praktikada görmək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>35 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code> PC1 (Fa0/1) \
+ PC2 (Fa0/2) --- SW1 --- R1
+ Hub (Fa0/3) --- PC3, PC4, PC5</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Fa0/1–3 portlarını access edin və port security aktivləşdirin: maximum 1, sticky.</p></li>
+                <li><p class="text-neutral-700">PC1 ilə ping edin — MAC-ın running-config-ə sticky kimi yazıldığını göstərin.</p></li>
+                <li><p class="text-neutral-700">PC1-i ayırıb başqa PC qoşun (fərqli MAC): shutdown rejimində port <code>err-disabled</code> olur.</p></li>
+                <li><p class="text-neutral-700">Fa0/3-də hub arxasında 3 PC: maximum 2, violation <code>restrict</code> — üçüncü PC-nin trafikinin atıldığını və sayğacın artdığını göstərin.</p></li>
+                <li><p class="text-neutral-700">Eyni portda <code>protect</code> rejimini sınayın — sayğac artmır.</p></li>
+                <li><p class="text-neutral-700">err-disabled portu əl ilə və avtomatik (errdisable recovery) bərpa edin.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show port-security
+show port-security interface fa0/1
+show port-security address
+show interfaces status err-disabled
+show running-config interface fa0/1</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Sticky MAC config-də görünür və <code>write</code>-dan sonra daimi olur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Restrict: port açıq, Security Violation Count artır; Protect: sayğac artmır; Shutdown: err-disabled.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Recovery-dən sonra port avtomatik açılır.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>SW1(config)# interface range fa0/1 - 2
+SW1(config-if-range)# switchport mode access
+SW1(config-if-range)# switchport port-security
+SW1(config-if-range)# switchport port-security maximum 1
+SW1(config-if-range)# switchport port-security mac-address sticky
+SW1(config)# interface fa0/3
+SW1(config-if)# switchport mode access
+SW1(config-if)# switchport port-security
+SW1(config-if)# switchport port-security maximum 2
+SW1(config-if)# switchport port-security violation restrict
+SW1(config)# errdisable recovery cause psecure-violation
+SW1(config)# errdisable recovery interval 60</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="port-security" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -153,6 +214,7 @@ Switch(config)# errdisable recovery interval 300</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

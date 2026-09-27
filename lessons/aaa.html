@@ -26,6 +26,7 @@
                 <a href="#admin" class="nav-link">Admin girişi</a>
                 <a href="#user" class="nav-link">İstifadəçi girişi</a>
                 <a href="#commands" class="nav-link">Doğrulama</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -127,6 +128,61 @@ debug aaa authentication</code></pre>
                 <p class="code-note">Serverlərin vəziyyəti (UP/DEAD) və statistikası, serverə test sorğusu (istifadəçi adı və parol ilə) və autentifikasiya prosesinin addım-addım izlənməsi.</p>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="aaa">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: AAA: TACACS+ Server və Yerli Fallback</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Cihaz girişini mərkəzi TACACS+ serverinə bağlamaq və server əlçatmaz olanda yerli hesabla girişi saxlamaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer (Server-PT AAA xidməti)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>40 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code> Admin-PC --- SW --- R1 (192.168.1.1) --- AAA Server (192.168.1.100, TACACS+)</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Server-PT-də AAA: network configuration-a R1-i əlavə edin (IP, key <code>Tacacs!23</code>, TACACS), istifadəçi <code>netadmin</code> yaradın.</p></li>
+                <li><p class="text-neutral-700">R1-də <code>aaa new-model</code>, TACACS+ server tərifi və key.</p></li>
+                <li><p class="text-neutral-700"><code>aaa authentication login default group tacacs+ local</code> — əvvəl server, əlçatmazdırsa yerli baza.</p></li>
+                <li><p class="text-neutral-700">Yerli ehtiyat hesabı <code>username breakglass secret ...</code> yaradın.</p></li>
+                <li><p class="text-neutral-700">Admin-PC-dən <code>netadmin</code> ilə SSH/Telnet girişini yoxlayın.</p></li>
+                <li><p class="text-neutral-700">Serveri söndürün və <code>breakglass</code> ilə girişin işlədiyini göstərin.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show aaa servers
+show tacacs
+show running-config | section aaa
+debug aaa authentication</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Server işləyəndə yalnız TACACS+ hesabları qəbul olunur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Server əlçatmaz olanda yerli hesabla giriş mümkündür.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Konsol xəttinin də eyni siyahı ilə qorunduğu yoxlanılıb (özünüzü kilidləməyin!).</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# username breakglass privilege 15 secret Br3ak-Gl4ss!
+R1(config)# aaa new-model
+R1(config)# tacacs server TAC1
+R1(config-server-tacacs)# address ipv4 192.168.1.100
+R1(config-server-tacacs)# key Tacacs!23
+R1(config)# aaa authentication login default group tacacs+ local
+R1(config)# aaa authorization exec default group tacacs+ local
+R1(config)# line vty 0 4
+R1(config-line)# login authentication default
+! Köhnə Packet Tracer versiyalarında: tacacs-server host 192.168.1.100 key Tacacs!23</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="aaa" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -160,6 +216,7 @@ debug aaa authentication</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

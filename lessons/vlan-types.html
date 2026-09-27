@@ -25,6 +25,7 @@
                 <a href="#native" class="nav-link">Native VLAN</a>
                 <a href="#voice" class="nav-link">Voice VLAN</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -151,6 +152,76 @@ show cdp neighbors detail</code></pre>
                 </div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="vlan-types">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Voice VLAN və Parking VLAN</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">IP telefon + kompüter portu konfiqurasiya etmək və istifadə olunmayan portları təhlükəsiz "parking" VLAN-a çıxarmaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer (7960 IP Phone, 2960 switch)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>30 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code> PC ---- [IP Phone] ---- (Fa0/5) SW1 (Gi0/1) ---- R1 (CME / DHCP)</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Ünvanlama cədvəli</h3>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>VLAN</th><th>Ad</th><th>Subnet</th></tr></thead>
+                    <tbody>
+                        <tr><td>10</td><td>DATA</td><td>192.168.10.0/24</td></tr>
+                        <tr><td>150</td><td>VOICE</td><td>192.168.150.0/24</td></tr>
+                        <tr><td>999</td><td>PARKING</td><td>— (shutdown)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">SW1-də VLAN 10, 150, 999 yaradın.</p></li>
+                <li><p class="text-neutral-700">Fa0/5-i access VLAN 10, <code>switchport voice vlan 150</code>, <code>spanning-tree portfast</code> edin.</p></li>
+                <li><p class="text-neutral-700">Telefonu switch-ə, PC-ni telefonun PC portuna qoşun (telefona enerji: PoE və ya adapter).</p></li>
+                <li><p class="text-neutral-700"><code>show interfaces fa0/5 switchport</code> ilə Voice VLAN-ı yoxlayın, CDP ilə telefonun VLAN-ı necə öyrəndiyini izah edin.</p></li>
+                <li><p class="text-neutral-700">Fa0/10–24 portlarını <code>interface range</code> ilə VLAN 999-a təyin edib söndürün.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show vlan brief
+show interfaces fa0/5 switchport
+show cdp neighbors detail
+show interfaces status</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Fa0/5-də Access VLAN 10 və Voice VLAN 150 görünür.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Telefon trafiki tag-lı (150), PC trafiki tag-sız (10) gedir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">İstifadə olunmayan portlar <code>disabled</code> və VLAN 999-dadır.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>SW1(config)# vlan 10
+SW1(config-vlan)# name DATA
+SW1(config-vlan)# vlan 150
+SW1(config-vlan)# name VOICE
+SW1(config-vlan)# vlan 999
+SW1(config-vlan)# name PARKING
+SW1(config)# interface fa0/5
+SW1(config-if)# switchport mode access
+SW1(config-if)# switchport access vlan 10
+SW1(config-if)# switchport voice vlan 150
+SW1(config-if)# spanning-tree portfast
+SW1(config)# interface range fa0/10 - 24
+SW1(config-if-range)# switchport mode access
+SW1(config-if-range)# switchport access vlan 999
+SW1(config-if-range)# shutdown</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="vlan-types" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -184,6 +255,7 @@ show cdp neighbors detail</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

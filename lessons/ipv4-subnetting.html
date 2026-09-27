@@ -25,6 +25,7 @@
                 <a href="#subnetting" class="nav-link">Subnetting</a>
                 <a href="#vlsm" class="nav-link">VLSM</a>
                 <a href="#commands" class="nav-link">Tətbiq</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -163,6 +164,72 @@ show running-config interface GigabitEthernet0/0</code></pre>
                 </div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="ipv4-subnetting">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: VLSM ilə Ofis Ünvan Planı</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Verilmiş blokdan müxtəlif ölçülü şəbəkələr üçün israfsız VLSM planı qurmaq və router-də tətbiq edib yoxlamaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Kağız + Cisco Packet Tracer; yoxlama üçün portalın VLSM Planlayıcısı</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>45 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code>          [LAN-A 100 host]   [LAN-B 50 host]
+                  \              /
+                   R1 --------- R2 ---- [LAN-C 25 host]
+                       WAN /30      \
+                                     [LAN-D 10 host]</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Blok: <code>172.16.0.0/24</code>. Tələbat: LAN-A 100, LAN-B 50, LAN-C 25, LAN-D 10 host və bir point-to-point WAN.</p></li>
+                <li><p class="text-neutral-700">Şəbəkələri böyükdən kiçiyə sıralayıb hər biri üçün prefiks, şəbəkə ünvanı, ilk/son host və broadcast-ı cədvəldə yazın.</p></li>
+                <li><p class="text-neutral-700">Planınızı portalın VLSM Planlayıcısı ilə müqayisə edin.</p></li>
+                <li><p class="text-neutral-700">R1-də LAN-A və LAN-B (iki interfeys), R2-də LAN-C və LAN-D, R1–R2 arasında WAN ünvanlarını konfiqurasiya edin.</p></li>
+                <li><p class="text-neutral-700">Hər LAN-a bir PC qoşun (ilk host = gateway, son host = PC) və statik marşrutlarla bütün LAN-lar arasında ping təmin edin.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>R1# show ip interface brief
+R1# show ip route connected
+R2# show ip route static
+PC&gt; ping &lt;digər LAN-dakı PC&gt;</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">LAN-A 172.16.0.0/25, LAN-B 172.16.0.128/26, LAN-C 172.16.0.192/27, LAN-D 172.16.0.224/28, WAN 172.16.0.240/30.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Heç bir subnet üst-üstə düşmür, istifadə olunmamış yer 172.16.0.244–255 qalır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Bütün PC-lər bir-birini ping edir.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>! R1 (Gi0/0 LAN-A, Gi0/1 LAN-B, Gi0/2 WAN)
+interface gi0/0
+ ip address 172.16.0.1 255.255.255.128
+interface gi0/1
+ ip address 172.16.0.129 255.255.255.192
+interface gi0/2
+ ip address 172.16.0.241 255.255.255.252
+ip route 172.16.0.192 255.255.255.224 172.16.0.242
+ip route 172.16.0.224 255.255.255.240 172.16.0.242
+! R2 (Gi0/0 LAN-C, Gi0/1 LAN-D, Gi0/2 WAN)
+interface gi0/0
+ ip address 172.16.0.193 255.255.255.224
+interface gi0/1
+ ip address 172.16.0.225 255.255.255.240
+interface gi0/2
+ ip address 172.16.0.242 255.255.255.252
+ip route 172.16.0.0 255.255.255.128 172.16.0.241
+ip route 172.16.0.128 255.255.255.192 172.16.0.241</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="ipv4-subnetting" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -196,6 +263,7 @@ show running-config interface GigabitEthernet0/0</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

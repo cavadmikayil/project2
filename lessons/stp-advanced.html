@@ -26,6 +26,7 @@
                 <a href="#rstp" class="nav-link">Rapid PVST+</a>
                 <a href="#guards" class="nav-link">Qoruma</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -169,6 +170,62 @@ show spanning-tree interface GigabitEthernet0/1 detail</code></pre>
                 </div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="stp-advanced">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: PortFast, BPDU Guard və Root Guard</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Access portlarını sürətləndirmək və icazəsiz switch-in STP topologiyasını pozmasının qarşısını almaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>35 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code>  SW1 (root) ==== SW2 (Fa0/1) --- PC
+                      (Fa0/2) --- "Rogue" SW3 (priority 0)</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">SW1-i root edin. SW2-nin Fa0/1-Fa0/2 portlarında <code>spanning-tree portfast</code> və <code>bpduguard enable</code> konfiqurasiya edin.</p></li>
+                <li><p class="text-neutral-700">PC-ni Fa0/1-ə qoşun: port dərhal forwarding olur (30 saniyə gözləmədən).</p></li>
+                <li><p class="text-neutral-700">Fa0/2-yə priority 0 olan SW3 qoşun: BPDU Guard portu <code>err-disabled</code> edir — log mesajını tapın.</p></li>
+                <li><p class="text-neutral-700">Alternativ: Fa0/2-də BPDU Guard əvəzinə <code>spanning-tree guard root</code> sınayın — port <code>root-inconsistent</code> olur.</p></li>
+                <li><p class="text-neutral-700"><code>errdisable recovery cause bpduguard</code> ilə avtomatik bərpanı qurun.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show spanning-tree interface fa0/1 portfast
+show interfaces status err-disabled
+show spanning-tree inconsistentports
+show errdisable recovery
+show logging | include BPDU</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">PortFast portu dərhal forwarding olur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">BPDU gələn access portu err-disabled olur, root dəyişmir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Root Guard ilə root bridge SW1 olaraq qalır.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>SW2(config)# interface range fa0/1 - 2
+SW2(config-if-range)# switchport mode access
+SW2(config-if-range)# spanning-tree portfast
+SW2(config-if-range)# spanning-tree bpduguard enable
+SW2(config)# errdisable recovery cause bpduguard
+SW2(config)# errdisable recovery interval 60
+! Root Guard variantı
+SW2(config)# interface fa0/2
+SW2(config-if)# no spanning-tree bpduguard enable
+SW2(config-if)# spanning-tree guard root</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="stp-advanced" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -202,6 +259,7 @@ show spanning-tree interface GigabitEthernet0/1 detail</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

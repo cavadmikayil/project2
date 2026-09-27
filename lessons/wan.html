@@ -26,6 +26,7 @@
                 <a href="#mpls" class="nav-link">MPLS</a>
                 <a href="#internet" class="nav-link">İnternet çıxışı</a>
                 <a href="#compare" class="nav-link">Müqayisə</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -124,6 +125,61 @@
                 </table>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="wan">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: GRE Tunel ilə Filialları Birləşdirmək</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">İnternet üzərində iki ofis arasında GRE tunel qurmaq və tunel üzərindən OSPF işlətmək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>45 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code> LAN 192.168.1.0/24 --- HQ (Gi0/1 203.0.113.2) ---- ISP ---- (Gi0/1 198.51.100.2) BRANCH --- LAN 192.168.2.0/24
+                          Tunnel0 172.16.0.1/30 ============= Tunnel0 172.16.0.2/30</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">ISP router-i ilə hər iki ofisin public IP-lərini qurun, ofislərdə ISP-yə default route yazın; public IP-lər arasında ping olmalıdır.</p></li>
+                <li><p class="text-neutral-700">HQ və BRANCH-da <code>interface Tunnel0</code> yaradın: tunel IP-si, <code>tunnel source</code> və <code>tunnel destination</code>.</p></li>
+                <li><p class="text-neutral-700">Tunel üzərindən ping edin (<code>172.16.0.2</code>).</p></li>
+                <li><p class="text-neutral-700">OSPF-i yalnız tunel və LAN interfeyslərində işlədin (public interfeysləri daxil etməyin!).</p></li>
+                <li><p class="text-neutral-700">PC-HQ → PC-BRANCH ping və traceroute: tunelin tək hop kimi göründüyünü izah edin.</p></li>
+                <li><p class="text-neutral-700">Bu tunelin şifrələnmədiyini qeyd edin — real həyatda GRE over IPsec lazımdır.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show interfaces tunnel 0
+show ip interface brief | include Tunnel
+show ip ospf neighbor
+show ip route ospf
+traceroute 192.168.2.10</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Tunnel0 <code>up/up</code>, OSPF qonşuluğu tunel üzərindən FULL.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">LAN marşrutları next-hop kimi tunel IP-si ilə öyrənilir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Public interfeyslər OSPF-ə daxil edilmədiyi üçün recursive routing problemi yaranmır.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>HQ(config)# interface tunnel 0
+HQ(config-if)# ip address 172.16.0.1 255.255.255.252
+HQ(config-if)# tunnel source gi0/1
+HQ(config-if)# tunnel destination 198.51.100.2
+HQ(config)# router ospf 1
+HQ(config-router)# network 172.16.0.0 0.0.0.3 area 0
+HQ(config-router)# network 192.168.1.0 0.0.0.255 area 0
+! BRANCH: 172.16.0.2, destination 203.0.113.2, network 192.168.2.0</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="wan" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -157,6 +213,7 @@
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

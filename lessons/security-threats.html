@@ -25,6 +25,7 @@
                 <a href="#attacks" class="nav-link">Hücumlar</a>
                 <a href="#passwords" class="nav-link">Parollar</a>
                 <a href="#defense" class="nav-link">Müdafiə</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -98,6 +99,42 @@
             </div>
             <p class="text-neutral-700 mt-6">Bu tədbirlərin konfiqurasiyasını portalın digər dərslərində tapa bilərsiniz: SSH, Port Security, DHCP Snooping, DAI/802.1X, ACL, AAA, Firewall və VPN.</p>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="security-threats">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Şəbəkə Təhlükəsizliyi Auditi</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Konfiqurasiya olunmuş şəbəkədə zəif nöqtələri tapmaq, risk səviyyəsinə görə sıralamaq və düzəliş planı hazırlamaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer (müəllimin və ya yoldaşınızın "zəif" topologiyası) + audit cədvəli</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>45 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Router və switch-lərdə <code>show running-config</code>-u oxuyun: Telnet açıqdırmı, parollar açıq mətndədirmi, <code>enable password</code> yoxsa <code>enable secret</code>?</p></li>
+                <li><p class="text-neutral-700">İstifadə olunmayan portlar açıqdırmı, VLAN 1-də istifadəçi varmı, trunk-larda DTP işləyirmi?</p></li>
+                <li><p class="text-neutral-700">CDP internetə baxan interfeysdə aktivdirmi? HTTP server açıqdırmı (<code>ip http server</code>)?</p></li>
+                <li><p class="text-neutral-700">Port security, DHCP snooping, BPDU Guard varmı?</p></li>
+                <li><p class="text-neutral-700">Hər tapıntını cədvələ yazın: təhdid, nəticə, risk (yüksək/orta/aşağı), düzəliş əmri.</p></li>
+                <li><p class="text-neutral-700">Ən yüksək riskli 5 problemi düzəldin və yenidən yoxlayın.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show running-config | include password|secret|transport|http
+show ip interface brief
+show interfaces status
+show interfaces trunk
+show cdp interface</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Ən azı 8 zəif nöqtə tapılıb və təsnif edilib.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Telnet, açıq mətnli parollar və DTP ilə trunk düzəldilib.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Audit hesabatı texniki olmayan menecerin də başa düşəcəyi dildə yazılıb.</p></div>
+            </div>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="security-threats" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -131,6 +168,7 @@
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

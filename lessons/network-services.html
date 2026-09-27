@@ -25,6 +25,7 @@
                 <a href="#syslog" class="nav-link">Syslog</a>
                 <a href="#snmp" class="nav-link">SNMP</a>
                 <a href="#commands" class="nav-link">Doğrulama</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -168,6 +169,62 @@ show snmp group</code></pre>
                 <p class="code-note">Saat və mənbəyi, NTP sinxronizasiyası və stratum, serverlərlə əlaqə, log buferi və göndərilmə parametrləri, SNMP statistikası, v3 istifadəçi və qrupları.</p>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="network-services">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: NTP, Syslog və SNMP ilə İdarəetmə</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Bütün cihazların vaxtını sinxronlaşdırmaq, log-ları mərkəzi serverə göndərmək və SNMP ilə monitorinqi aktivləşdirmək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer (Server-PT: NTP, Syslog xidmətləri)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>40 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code> R1 ---- SW1 ---- Server (192.168.1.50: NTP + Syslog)
+          |
+         R2</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Server-PT-də NTP və Syslog xidmətlərini aktivləşdirin.</p></li>
+                <li><p class="text-neutral-700">R1 və R2-də <code>ntp server 192.168.1.50</code>, saat qurşağı <code>clock timezone AZT 4</code>.</p></li>
+                <li><p class="text-neutral-700"><code>service timestamps log datetime msec localtime</code>, <code>logging host 192.168.1.50</code>, <code>logging trap informational</code>.</p></li>
+                <li><p class="text-neutral-700">Bir interfeysi söndürüb yandırın — Server-in Syslog cədvəlində mesajın vaxtla göründüyünü yoxlayın.</p></li>
+                <li><p class="text-neutral-700">SNMP: <code>snmp-server community M0n1t0r RO</code>, <code>snmp-server location</code>, <code>contact</code>. PC-də MIB Browser ilə <code>sysUpTime</code> oxuyun.</p></li>
+                <li><p class="text-neutral-700">SNMPv2c-nin niyə təhlükəsiz olmadığını və SNMPv3-ün nə əlavə etdiyini yazın.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show ntp status
+show ntp associations
+show clock detail
+show logging
+show snmp community</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">NTP statusu <code>synchronized</code>, saat server ilə eynidir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Syslog serverdə millisaniyəli vaxt damğası ilə mesajlar görünür.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">MIB Browser SNMP ilə cihaz məlumatını oxuyur.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# clock timezone AZT 4
+R1(config)# ntp server 192.168.1.50
+R1(config)# service timestamps log datetime msec localtime
+R1(config)# logging host 192.168.1.50
+R1(config)# logging trap informational
+R1(config)# snmp-server community M0n1t0r RO
+R1(config)# snmp-server location Baki-Server-Otagi
+R1(config)# snmp-server contact noc@lab.local</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="network-services" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -201,6 +258,7 @@ show snmp group</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

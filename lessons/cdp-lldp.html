@@ -25,6 +25,7 @@
                 <a href="#lldp" class="nav-link">LLDP</a>
                 <a href="#comparison" class="nav-link">Müqayisə</a>
                 <a href="#security" class="nav-link">Təhlükəsizlik</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -160,6 +161,62 @@ show lldp traffic</code></pre>
                 <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#network"></use></svg><p class="text-neutral-700"><strong>Infrastruktur linklərində</strong> (switch–switch, switch–router) aktiv saxlayın — troubleshooting üçün dəyərlidir.</p></div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="cdp-lldp">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Kəşf Protokolları ilə Topologiya Xəritəsi</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">CDP və LLDP ilə naməlum şəbəkənin xəritəsini çıxarmaq və təhlükəsizlik üçün lazımsız yerlərdə söndürmək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>30 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code>          R1 (Gi0/0)
+           |
+       (Gi0/1) SW1 (Gi0/2) ---- (Gi0/1) SW2 (Fa0/1) --- IP Phone
+           |
+       (Fa0/5) PC-Admin</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Topologiyanı qurun, cihazlara IP ünvanlar verin (switch-lərdə VLAN 1-də).</p></li>
+                <li><p class="text-neutral-700">SW1-də <code>show cdp neighbors</code> və <code>detail</code> ilə qonşuların modelini, portunu və IP-sini tapın.</p></li>
+                <li><p class="text-neutral-700">Hər iki switch və router-də <code>lldp run</code> aktivləşdirin, eyni məlumatı <code>show lldp neighbors detail</code> ilə alın.</p></li>
+                <li><p class="text-neutral-700">CDP timer-i 30 s, holdtime 90 s edin və <code>show cdp</code> ilə yoxlayın.</p></li>
+                <li><p class="text-neutral-700">PC-Admin portunda (Fa0/5) CDP və LLDP-ni söndürün; infrastruktur linklərində aktiv saxlayın.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show cdp neighbors
+show cdp neighbors detail
+show lldp neighbors detail
+show cdp interface fa0/5
+show lldp interface fa0/5</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Qonşu cədvəlindən tam topologiya diaqramı çəkilir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Fa0/5-də CDP/LLDP elanı göndərilmir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Uplink-lərdə hər iki protokol işləyir.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>SW1(config)# lldp run
+SW1(config)# cdp timer 30
+SW1(config)# cdp holdtime 90
+SW1(config)# interface fa0/5
+SW1(config-if)# no cdp enable
+SW1(config-if)# no lldp transmit
+SW1(config-if)# no lldp receive</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="cdp-lldp" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -193,6 +250,7 @@ show lldp traffic</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

@@ -262,6 +262,7 @@ def lesson_end(extra_foot=''):
 
     {footer("../")}
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>{extra_foot}
 </body>
@@ -269,8 +270,100 @@ def lesson_end(extra_foot=''):
 '''
 
 
+# ---------------------------------------------------------------------------
+# CCNA lab tapşırıqları (_dev/labs/*.py) — dərsin sonuna "Lab" bölməsi kimi əlavə olunur
+# ---------------------------------------------------------------------------
+def load_labs():
+    import importlib.util
+    labs = {}
+    for f in sorted((DEV / 'labs').glob('*.py')):
+        spec = importlib.util.spec_from_file_location(f'labs_{f.stem}', f)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        for lab in mod.LABS:
+            for key in ('slug', 'title', 'goal', 'tool', 'time', 'tasks'):
+                if key not in lab:
+                    raise SystemExit(f'{f.name}: {lab.get("slug", "?")} lab-ında "{key}" yoxdur')
+            if lab['slug'] in labs:
+                raise SystemExit(f'lab təkrarlanır: {lab["slug"]} ({f.name})')
+            labs[lab['slug']] = lab
+    return labs
+
+
+def _esc(text):
+    return text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+
+
+def render_lab(lab):
+    def ico(name):
+        return '{{i:' + name + '}}'
+
+    def code(text):
+        return _esc(text.strip('\n'))
+
+    out = []
+    out.append(f'        <section id="lab" class="section-card lab-section" data-lab="{lab["slug"]}">')
+    out.append(f'            <h2 class="section-title">{ico("flask-conical")} Lab: {lab["title"]}</h2>')
+    out.append('            <div class="card-grid mb-6">')
+    out.append(f'                <div class="info-card accent"><h3>{ico("target")} Məqsəd</h3><p class="text-neutral-700">{lab["goal"]}</p></div>')
+    out.append(f'                <div class="info-card"><h3>{ico("wrench")} Alət</h3><p class="text-neutral-700">{lab["tool"]}</p></div>')
+    out.append(f'                <div class="info-card dark"><h3>{ico("timer")} Müddət</h3><p>{lab["time"]} · {lab.get("level", "Orta")}</p></div>')
+    out.append('            </div>')
+    if lab.get('topology'):
+        out.append('            <h3 class="text-xl font-bold mb-3">Topologiya</h3>')
+        out.append('            <div class="code-block lab-topology mb-6">')
+        out.append(f'                <pre><code>{code(lab["topology"])}</code></pre>')
+        out.append('            </div>')
+    if lab.get('addressing'):
+        head, *rows = lab['addressing']
+        out.append('            <h3 class="text-xl font-bold mb-3">Ünvanlama cədvəli</h3>')
+        out.append('            <div class="table-wrap mb-6">')
+        out.append('                <table class="data-table">')
+        out.append('                    <thead><tr>' + ''.join(f'<th>{c}</th>' for c in head) + '</tr></thead>')
+        out.append('                    <tbody>')
+        for r in rows:
+            out.append('                        <tr>' + ''.join(f'<td>{c}</td>' for c in r) + '</tr>')
+        out.append('                    </tbody>')
+        out.append('                </table>')
+        out.append('            </div>')
+    out.append('            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>')
+    out.append('            <ol class="steps max-w-3xl mx-auto mb-6">')
+    for t in lab['tasks']:
+        out.append(f'                <li><p class="text-neutral-700">{t}</p></li>')
+    out.append('            </ol>')
+    if lab.get('verify'):
+        out.append('            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>')
+        out.append('            <div class="code-block mb-6">')
+        out.append('                <button class="copy-btn">Kopyala</button>')
+        out.append(f'                <pre><code>{code(lab["verify"])}</code></pre>')
+        out.append('            </div>')
+    if lab.get('expect'):
+        out.append('            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>')
+        out.append('            <div class="feature-grid mb-6">')
+        for e in lab['expect']:
+            out.append(f'                <div class="feature-item">{ico("circle-check")}<p class="text-neutral-700">{e}</p></div>')
+        out.append('            </div>')
+    if lab.get('solution'):
+        out.append('            <details class="lab-solution mb-6">')
+        out.append(f'                <summary>{ico("key-round")} Həll — əvvəlcə özünüz cəhd edin</summary>')
+        out.append('                <div class="code-block mt-3">')
+        out.append('                    <button class="copy-btn">Kopyala</button>')
+        out.append(f'                    <pre><code>{code(lab["solution"])}</code></pre>')
+        out.append('                </div>')
+        out.append('            </details>')
+    note = lab.get('note', 'Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.')
+    out.append('            <div class="lab-footer">')
+    out.append(f'                <p class="text-sm text-neutral-600">{note}</p>')
+    out.append(f'                <button type="button" class="lab-done-btn" data-lab="{lab["slug"]}" aria-pressed="false">{ico("circle-dot")} Labı bitirdim</button>')
+    out.append('            </div>')
+    out.append('        </section>')
+    return '\n'.join(out) + '\n'
+
+
 def build_lessons():
     count = 0
+    labs = load_labs()
+    used = set()
     for src in sorted(SRC.glob('*.html')):
         text = src.read_text()
         m = re.search(r'<!--PAGE (.*?)-->\n?', text, re.S)
@@ -288,6 +381,11 @@ def build_lessons():
             blocks[name] = ('\n' + bm.group(1).rstrip()) if bm else ''
             if bm:
                 text = text[:bm.start()] + text[bm.end():]
+        lab = labs.get(src.stem)
+        if lab:
+            used.add(src.stem)
+            attrs['nav'] += '|lab:Lab'
+            text = text.replace('<!--END-->', render_lab(lab) + '<!--END-->', 1)
         m = re.search(r'<!--PAGE (.*?)-->\n?', text, re.S)
         text = text[:m.start()] + lesson_head(attrs, blocks['HEAD']) + text[m.end():]
         if '<!--END-->' not in text:
@@ -298,7 +396,10 @@ def build_lessons():
             raise SystemExit(f'{src.name}: açılmamış {{{{i:...}}}} markeri')
         (OUT / src.name).write_text(text)
         count += 1
-    print(f'{count} dərs quruldu (_dev/lessons → lessons/)')
+    unknown = set(labs) - used
+    if unknown:
+        raise SystemExit(f'lab-ın dərsi yoxdur: {", ".join(sorted(unknown))}')
+    print(f'{count} dərs quruldu (_dev/lessons → lessons/), {len(used)} lab')
 
 
 # ---------------------------------------------------------------------------
@@ -460,6 +561,9 @@ def check():
             keys.add(lesson['quiz'])
             if lesson['cat'] not in {c['id'] for c in catalog['categories']}:
                 problems.append(f'naməlum kateqoriya: {lesson["cat"]} ({lesson["href"]})')
+            if lesson['cat'] == 'ccna' and (ROOT / lesson['href']).exists() \
+                    and 'id="lab"' not in (ROOT / lesson['href']).read_text():
+                problems.append(f'CCNA dərsinin lab-ı yoxdur: {lesson["href"]} → _dev/labs/')
         counts = {}
         for q in questions:
             counts[q['t']] = counts.get(q['t'], 0) + 1

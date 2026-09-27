@@ -26,6 +26,7 @@
                 <a href="#dscp" class="nav-link">DSCP dəyərləri</a>
                 <a href="#trust" class="nav-link">Trust boundary</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -137,6 +138,56 @@ R1# show policy-map interface GigabitEthernet0/0</code></pre>
                 <p class="code-note">MQC (Modular QoS CLI) üç addımdan ibarətdir: <strong>class-map</strong> (nəyi tanıyırıq — burada NBAR ilə), <strong>policy-map</strong> (hər sinfə nə edirik), <strong>service-policy</strong> (interfeysə tətbiq). Sonuncu əmr hər sinfə düşən paket sayını göstərir.</p>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="qos-marking">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Trust Boundary və DSCP Marking</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">IP telefon trafikinin DSCP EF ilə işarələnməsini və switch-də etibar sərhədini qurmaq, Wireshark-da işarələri görmək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Real Catalyst switch / CML və ya Packet Tracer (məhdud) + Wireshark</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>40 dəq · Çətin</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Access switch-də IP telefon portunda <code>mls qos trust device cisco-phone</code> və <code>mls qos trust cos</code> (və ya yeni platformalarda <code>trust device</code>) konfiqurasiya edin.</p></li>
+                <li><p class="text-neutral-700">PC portunda etibar etməyin: PC-nin özünün qoyduğu DSCP-nin 0-a yenidən yazıldığını göstərin.</p></li>
+                <li><p class="text-neutral-700">Router-də class-map ilə RTP portlarını (<code>udp 16384–32767</code>) tanıyıb policy-map ilə <code>set dscp ef</code> tətbiq edin (inbound).</p></li>
+                <li><p class="text-neutral-700">Wireshark-da səs paketinin IP başlığında DSCP = 46 (EF), signaling üçün CS3 olduğunu yoxlayın.</p></li>
+                <li><p class="text-neutral-700">Təsnifat cədvəli hazırlayın: səs, video, iş tətbiqləri, qalan trafik — hər biri üçün DSCP.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show mls qos interface fa0/5
+show class-map
+show policy-map interface gi0/0
+Wireshark: ip.dsfield.dscp == 46</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Telefon portunda trust aktivdir, PC portunda işarələr sıfırlanır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Policy-map sayğaclarında səs sinfi paketləri artır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Səs EF (46), signaling CS3 (24), qalan trafik default (0).</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>class-map match-any VOICE
+ match ip dscp ef
+ match protocol rtp audio
+policy-map MARK-IN
+ class VOICE
+  set dscp ef
+ class class-default
+  set dscp default
+interface gi0/0
+ service-policy input MARK-IN</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="qos-marking" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -170,6 +221,7 @@ R1# show policy-map interface GigabitEthernet0/0</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

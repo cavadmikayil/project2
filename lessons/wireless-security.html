@@ -25,6 +25,7 @@
                 <a href="#auth" class="nav-link">Autentifikasiya</a>
                 <a href="#encryption" class="nav-link">Şifrələmə</a>
                 <a href="#wpa" class="nav-link">WPA versiyaları</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -106,6 +107,36 @@
                 <p class="text-neutral-800"><strong>Tövsiyə:</strong> müəssisədə WPA2/WPA3-Enterprise + EAP-TLS və ya PEAP; kiçik ofisdə WPA3-Personal (köhnə cihazlar üçün WPA2/WPA3 transition rejimi). Qonaqlar üçün ayrıca SSID və VLAN.</p>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="wireless-security">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: WPA2-Enterprise: RADIUS ilə Wi-Fi</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Paylaşılan parol əvəzinə hər istifadəçinin öz hesabı ilə Wi-Fi-a qoşulmasını (802.1X) qurmaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer (WRT300N və ya WLC + Server-PT AAA)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>40 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code>  Noutbuk ~~~ (Wi-Fi) ~~~ [AP / Wireless Router] ---- SW ---- [RADIUS Server 192.168.1.100]</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Server-PT-də <strong>AAA</strong> xidmətini aktivləşdirin: klient (AP) IP-si, shared secret <code>Radius!23</code>, istifadəçilər <code>ali/Pa55</code>, <code>leyla/Pa55</code>.</p></li>
+                <li><p class="text-neutral-700">Wireless router-də təhlükəsizlik rejimini <strong>WPA2-Enterprise</strong> edin, RADIUS server IP və secret yazın.</p></li>
+                <li><p class="text-neutral-700">Noutbukda WPA2-Enterprise profili ilə <code>ali</code> hesabı ilə qoşulun.</p></li>
+                <li><p class="text-neutral-700">Səhv parol ilə qoşulmağa cəhd edin — nəticə nədir?</p></li>
+                <li><p class="text-neutral-700">Eyni şəbəkəni WPA2-Personal ilə müqayisə edin: işçi işdən çıxanda nə etmək lazımdır?</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Yalnız RADIUS-da olan istifadəçilər qoşula bilir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Səhv parolla autentifikasiya rədd edilir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Enterprise rejimdə bir işçinin hesabını söndürmək kifayətdir — hamının parolunu dəyişmək lazım deyil.</p></div>
+            </div>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="wireless-security" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -139,6 +170,7 @@
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

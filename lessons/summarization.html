@@ -25,6 +25,7 @@
                 <a href="#method" class="nav-link">Summary tapmaq</a>
                 <a href="#pitfalls" class="nav-link">Diqqət</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -123,6 +124,52 @@ show ip ospf border-routers</code></pre>
                 </div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="summarization">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Filial Marşrutlarının Xülasəsi</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Bir neçə filial şəbəkəsini bir xülasə marşrutuna birləşdirmək və marşrut cədvəlinin ölçüsünü azaltmaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Kağız + Cisco Packet Tracer</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>35 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code> BRANCH (Loopback 10.10.0.1/24 ... 10.10.7.1/24) ---- HQ ---- CORE</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">BRANCH-da 8 loopback yaradın: <code>10.10.0.1/24</code> … <code>10.10.7.1/24</code>.</p></li>
+                <li><p class="text-neutral-700">Kağız üzərində bu 8 şəbəkənin ən kiçik xülasəsini binar üsulla tapın.</p></li>
+                <li><p class="text-neutral-700">HQ-da əvvəlcə 8 ayrı statik marşrut yazın, sonra onları bir xülasə marşrutu ilə əvəz edin; CORE-da HQ-ya yalnız bir marşrut göndərin.</p></li>
+                <li><p class="text-neutral-700">10.10.8.0/24 əlavə etsəniz, xülasəni necə dəyişmək lazımdır? Xülasə hansı artıq ünvanları əhatə etməyə başlayır?</p></li>
+                <li><p class="text-neutral-700">Xülasə marşrutu olan router-də <code>Null0</code>-a marşrutun niyə tövsiyə olunduğunu (routing loop) izah edin.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show ip route
+show ip route 10.10.5.1
+ping 10.10.7.1 source &lt;CORE interfeysi&gt;</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Xülasə: <strong>10.10.0.0/21</strong> (255.255.248.0).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">10.10.8.0 əlavə olunarsa, /20 lazımdır və 10.10.9–15.x də əhatə olunur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">CORE-un marşrut cədvəlində 8 əvəzinə 1 qeyd var.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>HQ(config)# ip route 10.10.0.0 255.255.248.0 &lt;BRANCH next-hop&gt;
+CORE(config)# ip route 10.10.0.0 255.255.248.0 &lt;HQ next-hop&gt;
+BRANCH(config)# ip route 10.10.0.0 255.255.248.0 Null0   ! loop qoruması (istəyə bağlı)</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="summarization" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -156,6 +203,7 @@ show ip ospf border-routers</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

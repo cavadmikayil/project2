@@ -26,6 +26,7 @@
                 <a href="#gre" class="nav-link">GRE və DMVPN</a>
                 <a href="#remote" class="nav-link">Remote access</a>
                 <a href="#lab" class="nav-link">Laboratoriya</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -159,6 +160,66 @@ show ip ospf neighbor</code></pre>
                 </div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="vpn">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Site-to-Site IPsec VPN</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">İnternet üzərindən iki ofis arasında IKE/IPsec tunel qurmaq və yalnız ofislərarası trafiki şifrələmək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer (securityk9)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>60 dəq · Çətin</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code> LAN 192.168.1.0/24 --- R1 (Gi0/1 203.0.113.2) ---- ISP ---- (Gi0/1 198.51.100.2) R3 --- LAN 192.168.3.0/24</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">ISP üzərindən public IP-lər arasında əlçatanlığı təmin edin (default route-lar).</p></li>
+                <li><p class="text-neutral-700">Maraqlı trafik ACL-i: <code>192.168.1.0/24 → 192.168.3.0/24</code> (R3-də əksinə).</p></li>
+                <li><p class="text-neutral-700">ISAKMP policy (phase 1): AES 256, SHA, pre-share, DH group 14; <code>crypto isakmp key</code>.</p></li>
+                <li><p class="text-neutral-700">Transform-set (phase 2): <code>esp-aes 256 esp-sha-hmac</code>; crypto map ilə peer, transform-set və ACL-i birləşdirib xarici interfeysə tətbiq edin.</p></li>
+                <li><p class="text-neutral-700">LAN-dan LAN-a ping — ilk paket itə bilər (tunel qurulur). Sayğacların artdığını göstərin.</p></li>
+                <li><p class="text-neutral-700">LAN-dan internetə (ISP loopback) gedən trafikin şifrələnmədiyini izah edin.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show crypto isakmp sa
+show crypto ipsec sa
+show crypto map
+show access-lists 110</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">ISAKMP SA <code>QM_IDLE</code> vəziyyətindədir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700"><code>#pkts encaps/decaps</code> sayğacları ping ilə artır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Yalnız ACL-ə düşən trafik tunelə girir.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# access-list 110 permit ip 192.168.1.0 0.0.0.255 192.168.3.0 0.0.0.255
+R1(config)# crypto isakmp policy 10
+R1(config-isakmp)# encryption aes 256
+R1(config-isakmp)# hash sha
+R1(config-isakmp)# authentication pre-share
+R1(config-isakmp)# group 14
+R1(config)# crypto isakmp key VpnKey!23 address 198.51.100.2
+R1(config)# crypto ipsec transform-set TS esp-aes 256 esp-sha-hmac
+R1(config)# crypto map VPN-MAP 10 ipsec-isakmp
+R1(config-crypto-map)# set peer 198.51.100.2
+R1(config-crypto-map)# set transform-set TS
+R1(config-crypto-map)# match address 110
+R1(config)# interface gi0/1
+R1(config-if)# crypto map VPN-MAP
+! R3 əks istiqamətdə: ACL 192.168.3.0 → 192.168.1.0, peer 203.0.113.2</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="vpn" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -192,6 +253,7 @@ show ip ospf neighbor</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

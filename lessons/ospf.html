@@ -26,6 +26,7 @@
                 <a href="#drbdr" class="nav-link">DR/BDR</a>
                 <a href="#cost" class="nav-link">Cost</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -182,6 +183,79 @@ clear ip ospf process</code></pre>
                 </div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="ospf">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Single-Area OSPF, DR/BDR və Default Route</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Üç router arasında OSPF area 0 qurmaq, DR/BDR seçkisinə təsir etmək və default route-u OSPF ilə yaymaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer və ya portalın CLI Simulyatoru (4-cü tapşırıq)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>50 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code>      R1 (Gi0/0) ---\
+                     SW (10.0.123.0/24, broadcast seqment)
+      R2 (Gi0/0) ---/|
+      R3 (Gi0/0) ----/
+ Hər router-də LAN: 192.168.X.0/24 (Gi0/1), R1-də əlavə: ISP-yə default</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Ünvanlama cədvəli</h3>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Router</th><th>Gi0/0</th><th>Gi0/1 (LAN)</th><th>Router ID</th></tr></thead>
+                    <tbody>
+                        <tr><td>R1</td><td>10.0.123.1 /24</td><td>192.168.1.1 /24</td><td>1.1.1.1</td></tr>
+                        <tr><td>R2</td><td>10.0.123.2 /24</td><td>192.168.2.1 /24</td><td>2.2.2.2</td></tr>
+                        <tr><td>R3</td><td>10.0.123.3 /24</td><td>192.168.3.1 /24</td><td>3.3.3.3</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Hər router-də OSPF prosesi 1, router-id və <code>network</code> əmrləri ilə bütün interfeysləri area 0-a daxil edin.</p></li>
+                <li><p class="text-neutral-700">LAN interfeyslərini <code>passive-interface</code> edin.</p></li>
+                <li><p class="text-neutral-700"><code>show ip ospf neighbor</code>: kim DR, kim BDR? Seçkini izah edin.</p></li>
+                <li><p class="text-neutral-700">R3-ü DR etmək üçün Gi0/0-da <code>ip ospf priority 255</code>, R1-də 0 yazın; qonşuluğu <code>clear ip ospf process</code> ilə yeniləyin.</p></li>
+                <li><p class="text-neutral-700">R1-də <code>ip route 0.0.0.0 0.0.0.0 Null0</code> (ISP simulyasiyası) və <code>default-information originate</code>; R2/R3-də <code>O*E2</code> marşrutunu tapın.</p></li>
+                <li><p class="text-neutral-700">Bütün LAN-lar arasında ping edin.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show ip ospf neighbor
+show ip ospf interface gi0/0
+show ip route ospf
+show ip protocols
+show ip ospf database</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Qonşuluqlar FULL/DR, FULL/BDR, 2WAY/DROTHER vəziyyətindədir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Priority dəyişikliyindən sonra R3 DR-dir, R1 heç vaxt DR olmur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">R2 və R3-də <code>O*E2 0.0.0.0/0</code> görünür.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# router ospf 1
+R1(config-router)# router-id 1.1.1.1
+R1(config-router)# network 10.0.123.0 0.0.0.255 area 0
+R1(config-router)# network 192.168.1.0 0.0.0.255 area 0
+R1(config-router)# passive-interface gi0/1
+R1(config-router)# default-information originate
+R1(config)# ip route 0.0.0.0 0.0.0.0 Null0
+R1(config)# interface gi0/0
+R1(config-if)# ip ospf priority 0
+R3(config)# interface gi0/0
+R3(config-if)# ip ospf priority 255
+R1# clear ip ospf process</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="ospf" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -215,6 +289,7 @@ clear ip ospf process</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

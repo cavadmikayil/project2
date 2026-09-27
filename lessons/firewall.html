@@ -26,6 +26,7 @@
                 <a href="#ngfw" class="nav-link">NGFW</a>
                 <a href="#ips" class="nav-link">IDS/IPS</a>
                 <a href="#lab" class="nav-link">Laboratoriya</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -146,6 +147,80 @@ R1# show policy-map type inspect zone-pair sessions</code></pre>
                 <p class="code-note"><code>inspect</code> sessiyanı izləyir və cavabı avtomatik buraxır. OUTSIDE → INSIDE üçün zone-pair olmadığından xaricdən başlanan bütün trafik atılır. Eyni zonadakı interfeyslər arasında trafik sərbəst keçir, zonası olmayan interfeyslə zonalı interfeys arasında isə keçmir.</p>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="firewall">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Zone-Based Firewall: Inside, Outside, DMZ</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Router-də zone-based firewall qurmaq: daxildən internetə stateful icazə, internetdən yalnız DMZ veb serverə.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer (ISR 4331/2911, securityk9 lisenziyası)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>60 dəq · Çətin</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code> INSIDE 192.168.1.0/24 --- (Gi0/0) R1 (Gi0/2) --- OUTSIDE (ISP, Internet-PC)
+                                   (Gi0/1)
+                                      |
+                              DMZ 172.16.1.0/24 — Web 172.16.1.10</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><code>license boot module c2900 technology-package securityk9</code> (lazımdırsa) və reload.</p></li>
+                <li><p class="text-neutral-700">Üç zona yaradın: INSIDE, OUTSIDE, DMZ; interfeysləri zonalara təyin edin.</p></li>
+                <li><p class="text-neutral-700">Class-map: INSIDE → OUTSIDE üçün tcp, udp, icmp; policy-map-da <code>inspect</code>.</p></li>
+                <li><p class="text-neutral-700">OUTSIDE → DMZ: yalnız HTTP (tcp 80) web serverə — ACL + class-map + inspect.</p></li>
+                <li><p class="text-neutral-700">Zone-pair-lər yaradıb policy-ləri tətbiq edin.</p></li>
+                <li><p class="text-neutral-700">Sınaq: daxildən internet işləyir (cavab trafiki avtomatik icazəlidir), internetdən DMZ web açılır, internetdən INSIDE-a ping bloklanır.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show zone security
+show zone-pair security
+show policy-map type inspect zone-pair sessions</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Stateful inspection sayəsində daxildən başlanan bağlantıların cavabları keçir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Xaricdən yalnız DMZ-dəki veb serverin 80 portu əlçatandır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Zone-pair olmayan istiqamətlərdə trafik defolt olaraq bloklanır.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>zone security INSIDE
+zone security OUTSIDE
+zone security DMZ
+class-map type inspect match-any IN-OUT-CLASS
+ match protocol tcp
+ match protocol udp
+ match protocol icmp
+policy-map type inspect IN-OUT-POLICY
+ class type inspect IN-OUT-CLASS
+  inspect
+ip access-list extended TO-WEB
+ permit tcp any host 172.16.1.10 eq 80
+class-map type inspect match-all OUT-DMZ-CLASS
+ match access-group name TO-WEB
+policy-map type inspect OUT-DMZ-POLICY
+ class type inspect OUT-DMZ-CLASS
+  inspect
+zone-pair security IN-OUT source INSIDE destination OUTSIDE
+ service-policy type inspect IN-OUT-POLICY
+zone-pair security OUT-DMZ source OUTSIDE destination DMZ
+ service-policy type inspect OUT-DMZ-POLICY
+interface gi0/0
+ zone-member security INSIDE
+interface gi0/1
+ zone-member security DMZ
+interface gi0/2
+ zone-member security OUTSIDE</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="firewall" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -179,6 +254,7 @@ R1# show policy-map type inspect zone-pair sessions</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

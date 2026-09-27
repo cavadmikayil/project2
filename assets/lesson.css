@@ -147,3 +147,18 @@ body.dark-mode .lesson-footer a { color: #fbbf24; }
     white-space: nowrap;
 }
 body.dark-mode .lesson-badge { background: #262626; }
+
+/* Lab bölməsi */
+.lab-section { border-top: 4px solid #f59e0b; }
+.lab-topology pre { line-height: 1.35; }
+.lab-solution { border: 1px solid #e5e5e5; border-radius: 0.75rem; padding: 0.85rem 1rem; background: #fafafa; }
+.lab-solution summary { cursor: pointer; font-weight: 700; color: #92400e; display: flex; align-items: center; gap: 0.5rem; list-style: none; }
+.lab-solution summary::-webkit-details-marker { display: none; }
+.lab-solution summary::after { content: '+'; margin-left: auto; font-size: 1.2rem; }
+.lab-solution[open] summary::after { content: '−'; }
+.lab-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; border-top: 1px solid #e5e5e5; padding-top: 1rem; }
+.lab-done-btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.1rem; border-radius: 0.7rem; font-weight: 700; background: #0a0a0a; color: #ffffff; }
+.lab-done-btn .icon { color: #fbbf24; }
+.lab-done-btn:hover { background: #262626; }
+.lab-done-btn.is-done { background: #f59e0b; color: #0a0a0a; }
+.lab-done-btn.is-done .icon { color: #0a0a0a; }

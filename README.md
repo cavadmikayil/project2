@@ -106,6 +106,28 @@ python3 -m http.server 8000
 > ```
 > Nümunələr: `dynamic-routing.html` (Chart.js qrafiki), `cisco-commands.html` (axtarışlı əmr siyahısı).
 
+### CCNA lab tapşırıqları
+
+Hər CCNA dərsinin sonunda **Lab** bölməsi var. Lab-lar `_dev/labs/` qovluğundakı Python fayllarında məlumat kimi saxlanılır (`fundamentals.py`, `access.py`, `connectivity.py`, `services.py`, `security.py`, `management.py`); build onları dərsin fayl adına (`slug`) görə dərsin sonuna əlavə edir və menyuya "Lab" linki qoyur.
+
+```python
+{
+    'slug': 'ospf',                       # _dev/lessons/ospf.html
+    'title': 'Single-Area OSPF',
+    'goal': 'Nə öyrəniləcək',
+    'tool': 'Cisco Packet Tracer',
+    'time': '45 dəq', 'level': 'Orta',    # Başlanğıc / Orta / Çətin
+    'topology': '''ASCII sxem''',          # istəyə bağlı
+    'addressing': [['Cihaz', 'IP'], ['R1', '10.0.0.1/24']],   # istəyə bağlı, ilk sətir başlıqdır
+    'tasks': ['Addım 1', 'Addım 2'],      # HTML (<code>, <strong>) olar
+    'verify': '''show ip ospf neighbor''', # istəyə bağlı
+    'expect': ['Uğur meyarı'],             # istəyə bağlı
+    'solution': '''konfiqurasiya''',       # istəyə bağlı — səhifədə gizli açılır
+}
+```
+
+"Labı bitirdim" düyməsi tələbənin brauzerində saxlanılır və dashboard-dakı kartda göstərilir. `build.py check` hər CCNA dərsində lab olduğunu yoxlayır.
+
 ## 6. Yeni kateqoriya
 
 `assets/catalog.js`-də `categories` siyahısına əlavə edin:

@@ -26,6 +26,7 @@
                 <a href="#udp" class="nav-link">UDP</a>
                 <a href="#compare" class="nav-link">Müqayisə</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -150,6 +151,42 @@ Test-NetConnection 192.168.1.10 -Port 443</code></pre>
                 </div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="tcp-udp">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: TCP Handshake, Portlar və UDP</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">TCP bağlantısının qurulub bağlanmasını və UDP-nin bağlantısız işləməsini paketlərdə müşahidə etmək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Wireshark və terminal (və ya Packet Tracer Simulation)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>35 dəq · Orta</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Wireshark-da tutmaya başlayın, <code>curl -I https://example.com</code> işlədin.</p></li>
+                <li><p class="text-neutral-700">Filtr <code>tcp.port == 443</code>: SYN, SYN-ACK, ACK paketlərini, sonra FIN/ACK ilə bağlanmanı tapın.</p></li>
+                <li><p class="text-neutral-700">İlk SYN-də <strong>MSS</strong> və <strong>Window Size</strong> dəyərlərini yazın.</p></li>
+                <li><p class="text-neutral-700">Filtr <code>dns</code>: <code>nslookup cisco.com</code> sorğusunun UDP 53 üzərindən iki paketlə (sorğu–cavab) getdiyini göstərin.</p></li>
+                <li><p class="text-neutral-700"><code>netstat -an</code> (və ya <code>ss -tan</code>) ilə ESTABLISHED və LISTEN vəziyyətlərini tapın; hər biri üçün yerli və uzaq portu izah edin.</p></li>
+                <li><p class="text-neutral-700">Nəticələri cədvəlləşdirin: protokol, port, bağlantı qurulurmu, təsdiq varmı.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>curl -I https://example.com
+nslookup cisco.com
+netstat -an | findstr ESTABLISHED      (Windows)
+ss -tan state established               (Linux)
+Wireshark: tcp.flags.syn==1   tcp.flags.fin==1   dns</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">TCP-də məlumatdan əvvəl üç paketlik handshake, sonda FIN ilə bağlanma görünür.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">DNS sorğusu handshake olmadan bir sorğu və bir cavab ilə tamamlanır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Klient tərəfində mənbə portu dinamik (49152–65535), server tərəfində məlum port (443, 53).</p></div>
+            </div>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="tcp-udp" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -183,6 +220,7 @@ Test-NetConnection 192.168.1.10 -Port 443</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>

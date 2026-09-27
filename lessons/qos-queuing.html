@@ -26,6 +26,7 @@
                 <a href="#shaping" class="nav-link">Shaping və Policing</a>
                 <a href="#wred" class="nav-link">WRED</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="#lab" class="nav-link">Lab</a>
                 <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
                 <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
@@ -152,6 +153,66 @@ R1# show policy-map interface GigabitEthernet0/2</code></pre>
                 </div>
             </div>
         </section>
+        <section id="lab" class="section-card lab-section" data-lab="qos-queuing">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: WAN Linkində LLQ Siyasəti</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Dar WAN linkində səs üçün prioritet növbə (LLQ), vacib tətbiqlər üçün zəmanətli bant və shaping qurmaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Real router / CML (Packet Tracer MQC-ni qismən dəstəkləyir)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>45 dəq · Çətin</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Topologiya</h3>
+            <div class="code-block lab-topology mb-6">
+                <pre><code> LAN --- R1 (Gi0/1, provayder sürəti 20 Mbps, fiziki 1 Gbps) ---- WAN ---- R2 --- LAN</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Class-map-lar: <code>VOICE</code> (DSCP EF), <code>CRITICAL</code> (AF31 — ERP), <code>class-default</code>.</p></li>
+                <li><p class="text-neutral-700">Policy-map <code>WAN-QUEUE</code>: VOICE üçün <code>priority percent 20</code>, CRITICAL üçün <code>bandwidth percent 40</code>, default üçün <code>fair-queue</code>.</p></li>
+                <li><p class="text-neutral-700">Provayder yalnız 20 Mbps verdiyi üçün parent policy-də <code>shape average 20000000</code> və child policy olaraq WAN-QUEUE (hierarchical QoS).</p></li>
+                <li><p class="text-neutral-700">Policy-ni Gi0/1-ə <code>output</code> istiqamətində tətbiq edin.</p></li>
+                <li><p class="text-neutral-700">Yük generatoru (iperf) ilə linki doldurub səs sinfinin drop olmadığını, default sinfin drop olduğunu sayğaclarda göstərin.</p></li>
+            </ol>
+            <h3 class="text-xl font-bold mb-3">Yoxlama</h3>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show policy-map interface gi0/1 output
+show class-map
+show queueing interface gi0/1</code></pre>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Sıxlıq zamanı VOICE sinfində drop sıfırdır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">CRITICAL sinfi ayrılmış bantdan aşağı düşmür.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Shaper çıxışı provayder sürətində saxlayır — provayderin policer-i paketləri atmır.</p></div>
+            </div>
+            <details class="lab-solution mb-6">
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <div class="code-block mt-3">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>class-map match-any VOICE
+ match dscp ef
+class-map match-any CRITICAL
+ match dscp af31
+policy-map WAN-QUEUE
+ class VOICE
+  priority percent 20
+ class CRITICAL
+  bandwidth percent 40
+ class class-default
+  fair-queue
+policy-map WAN-SHAPE
+ class class-default
+  shape average 20000000
+  service-policy WAN-QUEUE
+interface gi0/1
+ service-policy output WAN-SHAPE</code></pre>
+                </div>
+            </details>
+            <div class="lab-footer">
+                <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
+                <button type="button" class="lab-done-btn" data-lab="qos-queuing" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+            </div>
+        </section>
     </main>
 
     <footer class="brand-footer">
@@ -185,6 +246,7 @@ R1# show policy-map interface GigabitEthernet0/2</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>
