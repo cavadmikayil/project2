@@ -21,8 +21,8 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* neutral-50 */
-            color: #1e293b; /* neutral-800 */
+            background-color: #ffffff; /* neutral-50 */
+            color: #171717; /* neutral-800 */
         }
         .section-card {
             background-color: white;
@@ -39,16 +39,16 @@
             cursor: pointer;
         }
         .active-tab {
-            background-color: #3b82f6; /* blue-500 */
-            color: #ffffff;
+            background-color: #f59e0b; /* blue-500 */
+            color: #0a0a0a;
         }
         .inactive-tab {
-            background-color: #e2e8f0; /* neutral-200 */
-            color: #475569; /* neutral-600 */
+            background-color: #e5e5e5; /* neutral-200 */
+            color: #404040; /* neutral-600 */
         }
         .code-block {
-            background-color: #1e293b; /* neutral-800 */
-            color: #e2e8f0; /* neutral-200 */
+            background-color: #171717; /* neutral-800 */
+            color: #e5e5e5; /* neutral-200 */
             border-radius: 0.5rem;
             padding: 1rem;
             position: relative;
@@ -58,7 +58,7 @@
             position: absolute;
             top: 0.75rem;
             right: 0.75rem;
-            background-color: #475569; /* neutral-600 */
+            background-color: #404040; /* neutral-600 */
             color: #ffffff;
             border: none;
             padding: 0.25rem 0.75rem;
@@ -68,7 +68,7 @@
             transition: background-color 0.2s;
         }
         .copy-btn:hover {
-            background-color: #64748b; /* neutral-500 */
+            background-color: #737373; /* neutral-500 */
         }
         .feature-item {
             display: flex;
@@ -78,7 +78,7 @@
         .feature-icon {
             font-size: 1.5rem;
             margin-right: 0.75rem;
-            color: #10b981; /* emerald-500 */
+            color: #d97706; /* emerald-500 */
         }
     </style>
 </head>
@@ -86,14 +86,14 @@
 
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-blue-600">CDP və LLDP Dərs Vəsaiti</h1>
+            <h1 class="text-2xl font-bold text-amber-700">CDP və LLDP Dərs Vəsaiti</h1>
             <div class="flex flex-wrap items-center gap-4">
-                <a href="#intro" class="text-gray-600 hover:text-blue-600 font-medium">Giriş</a>
-                <a href="#cdp" class="text-gray-600 hover:text-blue-600 font-medium">CDP</a>
-                <a href="#lldp" class="text-gray-600 hover:text-blue-600 font-medium">LLDP</a>
-                <a href="#comparison" class="text-gray-600 hover:text-blue-600 font-medium">Müqayisə</a>
-                <a href="../index.html" class="portal-home-link">← Portal</a>
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş">🌙</button>
+                <a href="#intro" class="text-neutral-600 hover:text-amber-700 font-medium">Giriş</a>
+                <a href="#cdp" class="text-neutral-600 hover:text-amber-700 font-medium">CDP</a>
+                <a href="#lldp" class="text-neutral-600 hover:text-amber-700 font-medium">LLDP</a>
+                <a href="#comparison" class="text-neutral-600 hover:text-amber-700 font-medium">Müqayisə</a>
+                <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
             </div>
         </nav>
     </header>
@@ -101,39 +101,39 @@
     <main class="container mx-auto px-6 py-8">
 
         <section id="intro" class="section-card text-center">
-            <h2 class="text-3xl font-bold mb-4 text-gray-800">Giriş: Şəbəkə Kəşf Protokolları</h2>
-            <p class="text-gray-600 max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-4 text-neutral-800">Giriş: Şəbəkə Kəşf Protokolları</h2>
+            <p class="text-neutral-600 max-w-3xl mx-auto">
                 Şəbəkə cihazlarının bir-birini avtomatik olaraq kəşf etməsi və məlumat mübadiləsi aparması şəbəkə idarəçiliyində vacibdir. Bu dərs vəsaiti iki əsas kəşf protokolunu – Cisco Discovery Protocol (CDP) və Link Layer Discovery Protocol (LLDP) – araşdırır. Onlar şəbəkə topologiyasının qurulmasına, problemlərin aradan qaldırılmasına və cihazların konfiqurasiyasına kömək edir.
             </p>
         </section>
 
         <section id="cdp" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">1. Cisco Discovery Protocol (CDP)</h2>
-            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">1. Cisco Discovery Protocol (CDP)</h2>
+            <p class="text-center text-neutral-600 mb-8 max-w-3xl mx-auto">
                 CDP, Cisco Systems tərəfindən hazırlanmış, qonşu Cisco cihazları haqqında məlumat toplamaq üçün istifadə olunan mülkiyyət protokoludur. O, Layer 2 səviyyəsində işləyir və birbaşa qoşulmuş cihazlar haqqında məlumatları mübadilə edir.
             </p>
 
-            <h3 class="text-2xl font-bold text-gray-700 mb-4">Xüsusiyyətləri</h3>
+            <h3 class="text-2xl font-bold text-neutral-700 mb-4">Xüsusiyyətləri</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                 <div class="feature-item">
-                    <span class="feature-icon">🔗</span>
-                    <p class="text-gray-700">**Qonşu Məlumatı:** Cihaz ID-si, port ID-si, platforma, IOS versiyası, IP ünvanı kimi məlumatları toplayır.</p>
+                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#link"></use></svg></span>
+                    <p class="text-neutral-700"><strong>Qonşu Məlumatı:</strong> Cihaz ID-si, port ID-si, platforma, IOS versiyası, IP ünvanı kimi məlumatları toplayır.</p>
                 </div>
                 <div class="feature-item">
-                    <span class="feature-icon">🔒</span>
-                    <p class="text-gray-700">**Cisco Mülkiyyəti:** Yalnız Cisco cihazları arasında işləyir.</p>
+                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#lock"></use></svg></span>
+                    <p class="text-neutral-700"><strong>Cisco Mülkiyyəti:</strong> Yalnız Cisco cihazları arasında işləyir.</p>
                 </div>
                 <div class="feature-item">
-                    <span class="feature-icon">⏱️</span>
-                    <p class="text-gray-700">**Periodik Yeniləmələr:** Hər 60 saniyədən bir CDP elanları göndərir.</p>
+                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#timer"></use></svg></span>
+                    <p class="text-neutral-700"><strong>Periodik Yeniləmələr:</strong> Hər 60 saniyədən bir CDP elanları göndərir.</p>
                 </div>
                 <div class="feature-item">
-                    <span class="feature-icon">⚡</span>
-                    <p class="text-gray-700">**Layer 2:** Şəbəkənin 2-ci qatında (Data Link Layer) fəaliyyət göstərir.</p>
+                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#zap"></use></svg></span>
+                    <p class="text-neutral-700"><strong>Layer 2:</strong> Şəbəkənin 2-ci qatında (Data Link Layer) fəaliyyət göstərir.</p>
                 </div>
             </div>
 
-            <h3 class="text-2xl font-bold text-gray-700 mb-4">Praktiki Əmrlər (CDP)</h3>
+            <h3 class="text-2xl font-bold text-neutral-700 mb-4">Praktiki Əmrlər (CDP)</h3>
             <div class="flex justify-center mb-6 space-x-2" id="cdp-tabs">
                 <button data-type="config" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 active-tab">Konfiqurasiya</button>
                 <button data-type="verify" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">Doğrulama</button>
@@ -150,7 +150,7 @@ cdp run
 interface configuration mode:
 cdp enable
 no cdp enable</code></pre>
-                            <p class="text-gray-400 text-sm mt-2">CDP-ni qlobal olaraq aktivləşdirir və ya interfeysdə aktivləşdirir/deaktiv edir.</p>
+                            <p class="text-neutral-400 text-sm mt-2">CDP-ni qlobal olaraq aktivləşdirir və ya interfeysdə aktivləşdirir/deaktiv edir.</p>
                         </div>
                     </div>
                 </div>
@@ -162,7 +162,7 @@ no cdp enable</code></pre>
                             <pre><code class="language-cisco">show cdp neighbors
 show cdp neighbors detail
 show cdp interface</code></pre>
-                            <p class="text-gray-400 text-sm mt-2">Qonşu CDP cihazları haqqında qısa və ətraflı məlumatı, həmçinin CDP aktiv olan interfeysləri göstərir.</p>
+                            <p class="text-neutral-400 text-sm mt-2">Qonşu CDP cihazları haqqında qısa və ətraflı məlumatı, həmçinin CDP aktiv olan interfeysləri göstərir.</p>
                         </div>
                     </div>
                 </div>
@@ -170,32 +170,32 @@ show cdp interface</code></pre>
         </section>
 
         <section id="lldp" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">2. Link Layer Discovery Protocol (LLDP)</h2>
-            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">2. Link Layer Discovery Protocol (LLDP)</h2>
+            <p class="text-center text-neutral-600 mb-8 max-w-3xl mx-auto">
                 LLDP, IEEE 802.1AB standartına əsaslanan, vendor-agnostic (istehsalçıdan asılı olmayan) bir kəşf protokoludur. O, müxtəlif istehsalçıların cihazları arasında məlumat mübadiləsini təmin edir.
             </p>
 
-            <h3 class="text-2xl font-bold text-gray-700 mb-4">Xüsusiyyətləri</h3>
+            <h3 class="text-2xl font-bold text-neutral-700 mb-4">Xüsusiyyətləri</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                 <div class="feature-item">
-                    <span class="feature-icon">🌐</span>
-                    <p class="text-gray-700">**Vendor-Agnostic:** Müxtəlif istehsalçıların cihazları arasında işləyir (Cisco, Juniper, HP və s.).</p>
+                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#globe"></use></svg></span>
+                    <p class="text-neutral-700"><strong>Vendor-Agnostic:</strong> Müxtəlif istehsalçıların cihazları arasında işləyir (Cisco, Juniper, HP və s.).</p>
                 </div>
                 <div class="feature-item">
-                    <span class="feature-icon">⚙️</span>
-                    <p class="text-gray-700">**IEEE Standartı:** IEEE 802.1AB standartına əsaslanır.</p>
+                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#settings"></use></svg></span>
+                    <p class="text-neutral-700"><strong>IEEE Standartı:</strong> IEEE 802.1AB standartına əsaslanır.</p>
                 </div>
                 <div class="feature-item">
-                    <span class="feature-icon">🔄</span>
-                    <p class="text-gray-700">**İki Yönlü Məlumat:** Həm məlumat göndərir, həm də qəbul edir.</p>
+                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#refresh-cw"></use></svg></span>
+                    <p class="text-neutral-700"><strong>İki Yönlü Məlumat:</strong> Həm məlumat göndərir, həm də qəbul edir.</p>
                 </div>
                 <div class="feature-item">
-                    <span class="feature-icon">📊</span>
-                    <p class="text-gray-700">**TLVs (Type-Length-Value):** Məlumatları TLV formatında ötürür, bu da daha çevik məlumat mübadiləsinə imkan verir.</p>
+                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#chart-column"></use></svg></span>
+                    <p class="text-neutral-700"><strong>TLVs (Type-Length-Value):</strong> Məlumatları TLV formatında ötürür, bu da daha çevik məlumat mübadiləsinə imkan verir.</p>
                 </div>
             </div>
 
-            <h3 class="text-2xl font-bold text-gray-700 mb-4">Praktiki Əmrlər (LLDP)</h3>
+            <h3 class="text-2xl font-bold text-neutral-700 mb-4">Praktiki Əmrlər (LLDP)</h3>
             <div class="flex justify-center mb-6 space-x-2" id="lldp-tabs">
                 <button data-type="config" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 active-tab">Konfiqurasiya</button>
                 <button data-type="verify" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">Doğrulama</button>
@@ -214,7 +214,7 @@ lldp transmit
 lldp receive
 no lldp transmit
 no lldp receive</code></pre>
-                            <p class="text-gray-400 text-sm mt-2">LLDP-ni qlobal olaraq aktivləşdirir və ya interfeysdə göndərmə/qəbul etmə funksiyasını tənzimləyir.</p>
+                            <p class="text-neutral-400 text-sm mt-2">LLDP-ni qlobal olaraq aktivləşdirir və ya interfeysdə göndərmə/qəbul etmə funksiyasını tənzimləyir.</p>
                         </div>
                     </div>
                 </div>
@@ -226,7 +226,7 @@ no lldp receive</code></pre>
                             <pre><code class="language-cisco">show lldp neighbors
 show lldp neighbors detail
 show lldp interface</code></pre>
-                            <p class="text-gray-400 text-sm mt-2">Qonşu LLDP cihazları haqqında qısa və ətraflı məlumatı, həmçinin LLDP aktiv olan interfeysləri göstərir.</p>
+                            <p class="text-neutral-400 text-sm mt-2">Qonşu LLDP cihazları haqqında qısa və ətraflı məlumatı, həmçinin LLDP aktiv olan interfeysləri göstərir.</p>
                         </div>
                     </div>
                 </div>
@@ -234,44 +234,44 @@ show lldp interface</code></pre>
         </section>
 
         <section id="comparison" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">3. CDP və LLDP Müqayisəsi</h2>
-            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">3. CDP və LLDP Müqayisəsi</h2>
+            <p class="text-center text-neutral-600 mb-8 max-w-3xl mx-auto">
                 CDP və LLDP oxşar məqsədlərə xidmət etsələr də, onların əsas fərqləri var. Aşağıdakı cədvəl bu fərqləri ümumiləşdirir.
             </p>
             <div class="overflow-x-auto">
-                <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
+                <table class="min-w-full bg-white border border-neutral-200 rounded-lg shadow-sm">
                     <thead>
-                        <tr class="bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                            <th class="py-3 px-4 border-b border-gray-200">Xüsusiyyət</th>
-                            <th class="py-3 px-4 border-b border-gray-200">CDP</th>
-                            <th class="py-3 px-4 border-b border-gray-200">LLDP</th>
+                        <tr class="bg-neutral-100 text-left text-sm font-semibold text-neutral-700 uppercase tracking-wider">
+                            <th class="py-3 px-4 border-b border-neutral-200">Xüsusiyyət</th>
+                            <th class="py-3 px-4 border-b border-neutral-200">CDP</th>
+                            <th class="py-3 px-4 border-b border-neutral-200">LLDP</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="py-3 px-4 border-b border-gray-200 font-medium">İstehsalçı</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Cisco (mülkiyyət)</td>
-                            <td class="py-3 px-4 border-b border-gray-200">IEEE Standartı (vendor-agnostic)</td>
+                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">İstehsalçı</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Cisco (mülkiyyət)</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">IEEE Standartı (vendor-agnostic)</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Standart</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Yoxdur</td>
-                            <td class="py-3 px-4 border-b border-gray-200">IEEE 802.1AB</td>
+                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Standart</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Yoxdur</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">IEEE 802.1AB</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Cihaz Dəstəyi</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Yalnız Cisco cihazları</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Bütün istehsalçıların cihazları</td>
+                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Cihaz Dəstəyi</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Yalnız Cisco cihazları</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Bütün istehsalçıların cihazları</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Məlumat Formatı</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Cisco xüsusi formatı</td>
-                            <td class="py-3 px-4 border-b border-gray-200">TLVs (Type-Length-Value)</td>
+                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Məlumat Formatı</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Cisco xüsusi formatı</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">TLVs (Type-Length-Value)</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Əsas Məqsəd</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Cisco cihazlarının kəşfi və topologiya qurulması</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Heterogen şəbəkələrdə cihaz kəşfi</td>
+                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Əsas Məqsəd</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Cisco cihazlarının kəşfi və topologiya qurulması</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Heterogen şəbəkələrdə cihaz kəşfi</td>
                         </tr>
                     </tbody>
                 </table>
@@ -281,8 +281,8 @@ show lldp interface</code></pre>
     </main>
 
     <footer class="bg-white shadow-md py-4 mt-8">
-        <div class="container mx-auto px-6 text-center text-gray-500">
-            <a href="https://www.cavadmikayil.com" target="_blank" class="text-blue-600 hover:underline font-semibold text-lg">www.cavadmikayil.com</a>
+        <div class="container mx-auto px-6 text-center text-neutral-500">
+            <a href="https://www.cavadmikayil.com" target="_blank" class="text-amber-700 hover:underline font-semibold text-lg">www.cavadmikayil.com</a>
         </div>
     </footer>
 

@@ -12,28 +12,37 @@
     <link rel="stylesheet" href="assets/theme.css">
     <style>
         [hidden] { display: none !important; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
+        body { font-family: 'Inter', sans-serif; background-color: #fafafa; color: #0a0a0a; }
+        a { text-decoration: none; }
+
+        .icon-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.75rem;
+            background: #0a0a0a;
+            color: #fbbf24;
+            flex-shrink: 0;
         }
-        .hero {
-            background: linear-gradient(135deg, #1d4ed8 0%, #4338ca 100%);
-        }
+        .icon-badge.sm { width: 2.5rem; height: 2.5rem; font-size: 1.1rem; }
+        .icon-badge.md { width: 3rem; height: 3rem; font-size: 1.35rem; }
+        .icon-badge.lg { width: 3.75rem; height: 3.75rem; font-size: 1.75rem; }
 
         /* --- Giriş ekranı --- */
         .login-bg {
             min-height: 100vh;
-            background: linear-gradient(135deg, #1d4ed8 0%, #4338ca 55%, #7c3aed 100%);
+            background: radial-gradient(circle at 20% 15%, rgb(245 158 11 / 0.28), transparent 40%),
+                        radial-gradient(circle at 85% 90%, rgb(234 88 12 / 0.22), transparent 45%),
+                        #0a0a0a;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 2rem 1rem;
         }
         .login-card {
-            background: white;
+            background: #ffffff;
             border-radius: 1.25rem;
-            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.35);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.5);
             width: 100%;
             max-width: 26rem;
             padding: 2rem;
@@ -41,22 +50,26 @@
         .field {
             width: 100%;
             padding: 0.75rem 1rem;
-            border: 1px solid #cbd5e1;
+            border: 1px solid #d4d4d4;
             border-radius: 0.6rem;
             font-size: 1rem;
-            background: white;
-            color: #1e293b;
+            background: #ffffff;
+            color: #0a0a0a;
         }
-        .field:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgb(59 130 246 / 0.25); }
+        .field:focus { outline: none; border-color: #f59e0b; box-shadow: 0 0 0 3px rgb(245 158 11 / 0.3); }
         .btn-primary {
-            background: #2563eb;
-            color: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: #f59e0b;
+            color: #0a0a0a;
             padding: 0.8rem 1.25rem;
             border-radius: 0.6rem;
             font-weight: 700;
             transition: background-color .2s;
         }
-        .btn-primary:hover { background: #1d4ed8; }
+        .btn-primary:hover { background: #fbbf24; }
         .profile-btn {
             display: flex;
             align-items: center;
@@ -64,13 +77,13 @@
             width: 100%;
             text-align: left;
             padding: 0.6rem 0.75rem;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #e5e5e5;
             border-radius: 0.6rem;
             background: transparent;
             color: inherit;
             transition: border-color .15s, background-color .15s;
         }
-        .profile-btn:hover { border-color: #3b82f6; background: #eff6ff; }
+        .profile-btn:hover { border-color: #f59e0b; background: #fffbeb; }
         .avatar {
             width: 2.25rem;
             height: 2.25rem;
@@ -80,137 +93,194 @@
             justify-content: center;
             font-weight: 700;
             font-size: 0.85rem;
-            color: white;
-            background: linear-gradient(135deg, #0ea5e9, #6366f1);
+            color: #0a0a0a;
+            background: #f59e0b;
             flex-shrink: 0;
         }
 
         /* --- Dashboard --- */
+        .hero {
+            background: radial-gradient(circle at 90% 0%, rgb(245 158 11 / 0.25), transparent 45%), #0a0a0a;
+            color: #ffffff;
+        }
+        .hero .theme-toggle-btn { background: #262626; border-color: #404040; color: #fbbf24; }
+        .accent { color: #fbbf24; }
         .user-chip {
             display: flex;
             align-items: center;
             gap: 0.6rem;
-            background: rgb(255 255 255 / 0.12);
+            background: #262626;
             padding: 0.3rem 0.4rem 0.3rem 0.3rem;
             border-radius: 9999px;
         }
         .logout-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
             font-size: 0.8rem;
             font-weight: 600;
             padding: 0.35rem 0.8rem;
             border-radius: 9999px;
-            background: rgb(255 255 255 / 0.2);
-            color: white;
-            transition: background-color .15s;
+            background: #0a0a0a;
+            color: #fbbf24;
+            border: 1px solid #404040;
+            transition: border-color .15s;
         }
-        .logout-btn:hover { background: rgb(255 255 255 / 0.32); }
+        .logout-btn:hover { border-color: #f59e0b; }
+        .search-box { position: relative; }
+        .search-box .icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #737373; }
+        .search-box input { padding-left: 2.75rem; }
+
         .stat-tile {
-            background: white;
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
             border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            box-shadow: 0 4px 12px -4px rgb(0 0 0 / 0.12);
             padding: 1.25rem;
+            display: flex;
+            gap: 0.9rem;
+            align-items: flex-start;
         }
-        .stat-label { font-size: 0.8rem; font-weight: 600; color: #64748b; }
-        .stat-value { font-size: 1.75rem; font-weight: 800; line-height: 1.2; }
+        .stat-label { font-size: 0.8rem; font-weight: 600; color: #525252; }
+        .stat-value { font-size: 1.6rem; font-weight: 800; line-height: 1.2; }
         .panel {
-            background: white;
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
             border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
             padding: 1.5rem;
         }
-        .portal-card {
-            background-color: white;
+        .panel.next { border-left: 5px solid #f59e0b; }
+        .panel-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #b45309;
+            margin-bottom: 0.75rem;
+        }
+        .section-heading { display: flex; align-items: center; gap: 0.6rem; font-size: 1.5rem; font-weight: 800; }
+        .section-heading .icon { color: #d97706; }
+
+        .tool-card {
             border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            background: #0a0a0a;
+            color: #ffffff;
             transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .tool-card:hover { transform: translateY(-4px); box-shadow: 0 14px 24px -8px rgb(0 0 0 / 0.45); }
+        .tool-card .open { color: #fbbf24; font-weight: 700; display: inline-flex; align-items: center; gap: 0.3rem; margin-top: 0.75rem; }
+        .tool-card.alt { background: #f59e0b; color: #0a0a0a; }
+        .tool-card.alt .icon-badge { background: #0a0a0a; color: #fbbf24; }
+        .tool-card.alt .open { color: #0a0a0a; }
+
+        .portal-card {
+            background-color: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s, border-color .2s;
             display: flex;
             flex-direction: column;
-            position: relative;
+            padding: 1.5rem;
         }
-        .portal-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 20px -4px rgb(0 0 0 / 0.15);
-        }
-        .portal-card.done { outline: 2px solid #10b981; }
-        .portal-icon { font-size: 2.25rem; line-height: 1; }
+        .portal-card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px -8px rgb(0 0 0 / 0.18); border-color: #f59e0b; }
+        .portal-card.done { border: 2px solid #f59e0b; }
+        .card-title { color: #0a0a0a; }
+        .card-title:hover { color: #b45309; }
         .portal-tag {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: 600;
+            font-size: 0.72rem;
+            font-weight: 700;
             padding: 0.2rem 0.6rem;
             border-radius: 9999px;
-            background-color: #eef2ff;
-            color: #4338ca;
+            background: #f5f5f5;
+            color: #404040;
+            border: 1px solid #e5e5e5;
         }
-        .score-badge {
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 0.15rem 0.5rem;
-            border-radius: 9999px;
-        }
-        .score-good { background: #d1fae5; color: #065f46; }
-        .score-mid { background: #fef3c7; color: #92400e; }
-        .score-low { background: #fee2e2; color: #991b1b; }
-        .step-num { font-size: 0.75rem; font-weight: 700; color: #94a3b8; }
-        .tool-card {
-            background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
-            color: white;
-            border-radius: 1rem;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .tool-card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px -4px rgb(0 0 0 / 0.25); }
-        .tool-card.alt { background: linear-gradient(135deg, #8b5cf6 0%, #db2777 100%); }
+        .step-num { font-size: 0.75rem; font-weight: 700; color: #a3a3a3; }
+        .link-strong { display: inline-flex; align-items: center; gap: 0.3rem; font-weight: 700; color: #b45309; }
+        .link-strong:hover { color: #0a0a0a; }
+        .link-soft { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.875rem; font-weight: 600; color: #404040; }
+        .link-soft:hover { color: #b45309; }
+        .score-badge { font-size: 0.75rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 9999px; }
+        .score-good { background: #f59e0b; color: #0a0a0a; }
+        .score-mid { background: #fef3c7; color: #78350f; }
+        .score-low { background: #0a0a0a; color: #ffffff; }
         .chip {
             padding: 0.4rem 0.9rem;
             border-radius: 9999px;
             font-size: 0.875rem;
             font-weight: 600;
-            background: #e2e8f0;
-            color: #334155;
-            transition: background-color .15s, color .15s;
+            background: #ffffff;
+            color: #262626;
+            border: 1px solid #e5e5e5;
+            transition: all .15s;
         }
-        .chip:hover { background: #cbd5e1; }
-        .chip.active { background: #2563eb; color: white; }
+        .chip:hover { border-color: #f59e0b; }
+        .chip.active { background: #0a0a0a; color: #fbbf24; border-color: #0a0a0a; }
         .done-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
             font-size: 0.8rem;
             font-weight: 600;
             padding: 0.3rem 0.7rem;
             border-radius: 9999px;
-            border: 1px solid #cbd5e1;
-            color: #475569;
+            border: 1px solid #d4d4d4;
+            color: #404040;
             background: transparent;
             transition: all .15s;
             white-space: nowrap;
         }
-        .done-btn:hover { border-color: #10b981; color: #059669; }
-        .done-btn.is-done { background: #10b981; border-color: #10b981; color: white; }
-        .progress-track { height: 0.6rem; background: #e2e8f0; border-radius: 9999px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, #10b981, #059669); transition: width .4s; }
+        .done-btn:hover { border-color: #f59e0b; }
+        .done-btn.is-done { background: #f59e0b; border-color: #f59e0b; color: #0a0a0a; }
+        .progress-track { height: 0.5rem; background: #e5e5e5; border-radius: 9999px; overflow: hidden; }
+        .progress-fill { height: 100%; background: #f59e0b; transition: width .4s; }
         .review-link {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
             font-size: 0.8rem;
             font-weight: 600;
             padding: 0.3rem 0.7rem;
             border-radius: 9999px;
-            background: #fee2e2;
-            color: #991b1b;
+            background: #0a0a0a;
+            color: #fbbf24;
         }
+        .site-footer { border-top: 1px solid #e5e5e5; background: #ffffff; }
+        .site-footer a { color: #b45309; font-weight: 700; }
 
-        body.dark-mode .login-card { background: #1e293b; }
-        body.dark-mode .field { background: #0f172a; color: #e2e8f0; border-color: #475569; }
-        body.dark-mode .profile-btn { border-color: #334155; }
-        body.dark-mode .profile-btn:hover { background: #273449; border-color: #3b82f6; }
-        body.dark-mode .stat-tile, body.dark-mode .panel { background: #1e293b; }
-        body.dark-mode .stat-label { color: #94a3b8; }
-        body.dark-mode .portal-tag { background-color: #334155 !important; color: #c7d2fe !important; }
-        body.dark-mode .hero, body.dark-mode .login-bg { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%); }
-        body.dark-mode .hero h1, body.dark-mode .hero p { color: white !important; }
-        body.dark-mode .chip { background: #334155; color: #e2e8f0; }
-        body.dark-mode .chip.active { background: #2563eb; color: white; }
-        body.dark-mode .done-btn { border-color: #475569; color: #cbd5e1; }
-        body.dark-mode .done-btn.is-done { background: #059669; border-color: #059669; color: white; }
-        body.dark-mode .progress-track { background: #334155; }
-        body.dark-mode .tool-card p, body.dark-mode .tool-card h3 { color: white !important; }
+        body.dark-mode .login-card { background: #171717; }
+        body.dark-mode .field { background: #0a0a0a; color: #e5e5e5; border-color: #404040; }
+        body.dark-mode .profile-btn { border-color: #333333; }
+        body.dark-mode .profile-btn:hover { background: #262626; border-color: #f59e0b; }
+        body.dark-mode .stat-tile, body.dark-mode .panel, body.dark-mode .portal-card { background: #171717 !important; border-color: #262626; }
+        body.dark-mode .portal-card:hover, body.dark-mode .portal-card.done { border-color: #f59e0b; }
+        body.dark-mode .panel.next { border-left-color: #f59e0b; }
+        body.dark-mode .stat-label { color: #a3a3a3 !important; }
+        body.dark-mode .icon-badge { background: #262626; }
+        body.dark-mode .hero h1, body.dark-mode .hero p { color: #ffffff !important; }
+        body.dark-mode .hero .accent { color: #fbbf24 !important; }
+        body.dark-mode .card-title { color: #ffffff; }
+        body.dark-mode .card-title:hover, body.dark-mode .link-strong, body.dark-mode .panel-label { color: #fbbf24; }
+        body.dark-mode .link-soft { color: #d4d4d4; }
+        body.dark-mode .portal-tag { background: #262626; color: #d4d4d4; border-color: #333333; }
+        body.dark-mode .chip { background: #171717; color: #e5e5e5; border-color: #333333; }
+        body.dark-mode .chip.active { background: #f59e0b; color: #0a0a0a; border-color: #f59e0b; }
+        body.dark-mode .done-btn { border-color: #404040; color: #d4d4d4; }
+        body.dark-mode .done-btn.is-done { color: #0a0a0a; }
+        body.dark-mode .progress-track { background: #262626; }
+        body.dark-mode .tool-card { background: #171717 !important; box-shadow: 0 0 0 1px #262626; }
+        body.dark-mode .tool-card h3, body.dark-mode .tool-card p { color: #ffffff !important; }
+        body.dark-mode .tool-card.alt { background: #f59e0b !important; }
+        body.dark-mode .tool-card.alt h3, body.dark-mode .tool-card.alt p { color: #0a0a0a !important; }
+        body.dark-mode .site-footer { background: #0a0a0a !important; border-color: #262626; }
+        body.dark-mode .site-footer a { color: #fbbf24; }
     </style>
 </head>
 <body class="antialiased">
@@ -221,33 +291,34 @@
             <div class="login-card">
                 <div class="flex justify-between items-start mb-6">
                     <div>
-                        <div class="text-4xl mb-2">🎓</div>
-                        <h1 class="text-2xl font-extrabold text-gray-800">Şəbəkə & IT Dərs Portalı</h1>
-                        <p id="login-stats" class="text-sm text-gray-600 mt-1"></p>
+                        <span class="icon-badge lg mb-3"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"></use></svg></span>
+                        <h1 class="text-2xl font-extrabold text-neutral-900">Şəbəkə &amp; IT Dərs Portalı</h1>
+                        <p id="login-stats" class="text-sm text-neutral-600 mt-1"></p>
                     </div>
-                    <button class="theme-toggle-btn" aria-label="Tema dəyiş">🌙</button>
+                    <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#moon"></use></svg></button>
                 </div>
 
                 <form id="login-form" novalidate>
                     <label class="block mb-3">
-                        <span class="text-sm font-semibold text-gray-700">Ad Soyad</span>
+                        <span class="text-sm font-semibold text-neutral-700">Ad Soyad</span>
                         <input id="login-name" class="field mt-1" type="text" maxlength="40" autocomplete="name" placeholder="məs. Aysel Məmmədova" required>
                     </label>
                     <label class="block mb-4">
-                        <span class="text-sm font-semibold text-gray-700">Qrup / Sinif <span class="font-normal text-gray-500">(istəyə bağlı)</span></span>
+                        <span class="text-sm font-semibold text-neutral-700">Qrup / Sinif <span class="font-normal text-neutral-500">(istəyə bağlı)</span></span>
                         <input id="login-group" class="field mt-1" type="text" maxlength="20" placeholder="məs. Şəbəkə-101">
                     </label>
-                    <div id="login-error" class="text-sm text-red-600 font-medium mb-3" hidden></div>
-                    <button type="submit" class="btn-primary w-full">Daxil ol →</button>
+                    <div id="login-error" class="text-sm text-neutral-900 font-semibold mb-3" hidden></div>
+                    <button type="submit" class="btn-primary w-full">Daxil ol <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#arrow-right"></use></svg></button>
                 </form>
 
                 <div id="existing-profiles" class="mt-6" hidden>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">Bu cihazdakı profillər</p>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-2">Bu cihazdakı profillər</p>
                     <div id="profile-list" class="space-y-2"></div>
                 </div>
 
-                <p class="text-xs text-gray-500 mt-6">
-                    Parol tələb olunmur. İrəliləyişiniz və test nəticələriniz yalnız bu brauzerdə, sizin profilinizdə saxlanılır.
+                <p class="text-xs text-neutral-500 mt-6 flex gap-2">
+                    <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#info"></use></svg>
+                    <span>Parol tələb olunmur. İrəliləyişiniz və test nəticələriniz yalnız bu brauzerdə, sizin profilinizdə saxlanılır.</span>
                 </p>
             </div>
         </div>
@@ -255,104 +326,107 @@
 
     <!-- ============ DASHBOARD ============ -->
     <div id="app-view" hidden>
-        <header class="hero text-white">
+        <header class="hero">
             <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
-                <div class="flex items-center gap-2">
-                    <span class="text-2xl">🎓</span>
-                    <span class="text-lg md:text-xl font-bold">Şəbəkə & IT Dərs Portalı</span>
+                <div class="flex items-center gap-3">
+                    <span class="icon-badge sm" style="background:#f59e0b;color:#0a0a0a"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"></use></svg></span>
+                    <span class="text-lg md:text-xl font-bold">Şəbəkə &amp; IT Dərs Portalı</span>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button class="theme-toggle-btn" aria-label="Tema dəyiş">🌙</button>
+                    <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#moon"></use></svg></button>
                     <div class="user-chip">
                         <span id="user-avatar" class="avatar"></span>
                         <span class="hidden sm:block leading-tight">
                             <span id="user-name" class="block text-sm font-semibold"></span>
-                            <span id="user-group" class="block text-xs text-blue-100"></span>
+                            <span id="user-group" class="block text-xs text-neutral-400"></span>
                         </span>
-                        <button id="logout-btn" class="logout-btn">Çıxış</button>
+                        <button id="logout-btn" class="logout-btn"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#log-out"></use></svg> Çıxış</button>
                     </div>
                 </div>
             </nav>
             <div class="container mx-auto px-6 pt-6 pb-24">
-                <h1 class="text-3xl md:text-4xl font-extrabold mb-2">Salam, <span id="greet-name"></span>! 👋</h1>
-                <p id="greet-sub" class="text-blue-100 text-lg mb-6"></p>
-                <div class="max-w-xl">
-                    <input
-                        type="text"
-                        id="search-input"
-                        placeholder="Mövzu axtar... (məs: VLAN, DHCP, IPv6)"
-                        class="w-full p-4 rounded-xl border-0 shadow-lg focus:ring-4 focus:ring-blue-300 text-gray-800"
-                    >
+                <h1 class="text-3xl md:text-4xl font-extrabold mb-2">Salam, <span id="greet-name" class="accent"></span>!</h1>
+                <p id="greet-sub" class="text-neutral-300 text-lg mb-6"></p>
+                <div class="max-w-xl search-box">
+                    <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#search"></use></svg>
+                    <input type="text" id="search-input" placeholder="Mövzu axtar... (məs: VLAN, OSPF, SSH)"
+                        class="field w-full p-4 rounded-xl border-0 shadow-lg">
                 </div>
             </div>
         </header>
 
         <main class="container mx-auto px-6 pb-12">
 
-            <section class="grid grid-cols-2 lg:grid-cols-4 gap-4 -mt-16 mb-8 relative">
+            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 -mt-16 mb-8 relative">
                 <div class="stat-tile">
-                    <p class="stat-label">📚 Oxunmuş dərslər</p>
-                    <p class="stat-value text-gray-800"><span id="stat-done"></span></p>
-                    <div class="progress-track mt-2"><div id="progress-fill" class="progress-fill" style="width:0%"></div></div>
+                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#book-open"></use></svg></span>
+                    <div class="flex-1">
+                        <p class="stat-label">Oxunmuş dərslər</p>
+                        <p class="stat-value text-neutral-900" id="stat-done"></p>
+                        <div class="progress-track mt-2"><div id="progress-fill" class="progress-fill" style="width:0%"></div></div>
+                    </div>
                 </div>
                 <div class="stat-tile">
-                    <p class="stat-label">📝 Test verilmiş mövzular</p>
-                    <p class="stat-value text-gray-800" id="stat-tests"></p>
+                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#list-checks"></use></svg></span>
+                    <div><p class="stat-label">Test verilmiş mövzular</p><p class="stat-value text-neutral-900" id="stat-tests"></p></div>
                 </div>
                 <div class="stat-tile">
-                    <p class="stat-label">🎯 Orta test nəticəsi</p>
-                    <p class="stat-value text-gray-800" id="stat-avg"></p>
+                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#target"></use></svg></span>
+                    <div><p class="stat-label">Orta test nəticəsi</p><p class="stat-value text-neutral-900" id="stat-avg"></p></div>
                 </div>
                 <div class="stat-tile">
-                    <p class="stat-label">🏆 Ən güclü mövzu</p>
-                    <p class="stat-value text-gray-800 text-lg" id="stat-best" style="font-size:1.1rem"></p>
+                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#trophy"></use></svg></span>
+                    <div><p class="stat-label">Ən güclü mövzu</p><p class="font-bold text-neutral-900 leading-snug" id="stat-best"></p></div>
                 </div>
             </section>
 
             <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
-                <div class="panel lg:col-span-2" id="next-panel"></div>
+                <div class="panel next lg:col-span-2" id="next-panel"></div>
                 <div class="panel" id="side-panel"></div>
             </section>
 
             <section id="tools-section" class="mb-12">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">🛠️ İnteraktiv Alətlər</h2>
+                <h2 class="section-heading mb-6 text-neutral-900"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#wrench"></use></svg> İnteraktiv Alətlər</h2>
                 <div id="tool-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
             </section>
 
             <section id="lessons-section">
                 <div class="mb-4">
-                    <h2 class="text-2xl font-bold text-gray-800">📚 Bütün Dərslər</h2>
-                    <p class="text-sm text-gray-600">Tövsiyə olunan öyrənmə ardıcıllığı ilə nömrələnib.</p>
+                    <h2 class="section-heading text-neutral-900"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#book-open"></use></svg> Bütün Dərslər</h2>
+                    <p class="text-sm text-neutral-600 mt-1">Tövsiyə olunan öyrənmə ardıcıllığı ilə nömrələnib.</p>
                 </div>
                 <div id="chip-bar" class="flex flex-wrap gap-2 mb-6"></div>
                 <div id="card-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </section>
 
-            <p id="no-results" class="text-center text-gray-500 mt-10" hidden>Uyğun mövzu tapılmadı.</p>
+            <p id="no-results" class="text-center text-neutral-500 mt-10" hidden>Uyğun mövzu tapılmadı.</p>
         </main>
 
-        <footer class="bg-white border-t border-gray-200 py-8">
-            <div class="container mx-auto px-6 text-center text-gray-500">
+        <footer class="site-footer py-8">
+            <div class="container mx-auto px-6 text-center text-neutral-500">
                 <p class="mb-2">Yeni mövzular mütəmadi olaraq əlavə olunur.</p>
-                <a href="https://www.cavadmikayil.com" target="_blank" class="text-blue-600 hover:underline font-semibold text-lg">www.cavadmikayil.com</a>
+                <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
             </div>
         </footer>
     </div>
 
     <script src="assets/student.js"></script>
     <script>
+        const icon = (name, cls = '') =>
+            `<svg class="icon ${cls}" aria-hidden="true"><use href="assets/icons.svg#${name}"></use></svg>`;
+
         const tools = [
             {
                 title: 'Subnet Kalkulyatoru',
                 desc: 'Şəbəkə/broadcast ünvanı, host sayı, wildcard və binary görünüş — üstəlik özünü yoxlamaq üçün subnetting məşqi.',
-                icon: '🧮',
+                icon: 'calculator',
                 href: 'tools/subnet-calculator.html',
                 cls: ''
             },
             {
                 title: 'Şəbəkə Quiz',
-                desc: '16 mövzu üzrə izahlı test sualları. Mövzu seçin, biliyinizi yoxlayın, ən yaxşı nəticənizi yeniləyin.',
-                icon: '📝',
+                desc: 'Bütün mövzular üzrə izahlı test sualları. Mövzu seçin, biliyinizi yoxlayın, ən yaxşı nəticənizi yeniləyin.',
+                icon: 'notebook-pen',
                 href: 'tools/quiz.html',
                 cls: 'alt'
             }
@@ -360,26 +434,34 @@
 
         // Tövsiyə olunan öyrənmə ardıcıllığı; quiz — tools/quiz.html?topic=... açarı
         const lessons = [
-            { title: 'OSI və TCP/IP Modeli', desc: '7 qat, TCP/UDP, enkapsulyasiya və qat-qat troubleshooting.', icon: '🧱', tag: 'Fundamentals', href: 'lessons/osi-model.html', quiz: 'osi' },
-            { title: 'CDP və LLDP', desc: 'Şəbəkə kəşf protokolları: qonşu cihazların avtomatik tanınması və konfiqurasiyası.', icon: '🔗', tag: 'Switching', href: 'lessons/cdp-lldp.html', quiz: 'cdp' },
-            { title: 'VLAN, Trunking və DTP', desc: 'Access portlar, VLAN trunking, 802.1Q və Dynamic Trunking Protocol modları.', icon: '🔀', tag: 'Switching', href: 'lessons/dtp.html', quiz: 'vlan' },
-            { title: 'VTP', desc: 'Server/Client/Transparent modları, pruning və təhlükəli revision nömrəsi tələsi.', icon: '📡', tag: 'Switching', href: 'lessons/vtp.html', quiz: 'vtp' },
-            { title: 'Spanning Tree Protocol (STP)', desc: 'Port rolları, port vəziyyətləri, PVST+/Rapid-PVST+/MSTP və PortFast/BPDU Guard.', icon: '🌳', tag: 'Switching', href: 'lessons/stp.html', quiz: 'stp' },
-            { title: 'EtherChannel', desc: 'LACP və PAgP, rejim kombinasiyaları, L2/L3 port-channel və yük bölgüsü.', icon: '🔌', tag: 'Switching', href: 'lessons/etherchannel.html', quiz: 'ec' },
-            { title: 'Port Security', desc: 'Violation rejimləri (Protect/Restrict/Shutdown), sticky MAC və errdisable bərpası.', icon: '🔐', tag: 'Security', href: 'lessons/port-security.html', quiz: 'portsec' },
-            { title: 'DHCP Snooping', desc: 'DHCP spoofing hücumlarından qorunma, trusted/untrusted portlar və errdisable bərpası.', icon: '🛡️', tag: 'Security', href: 'lessons/dhcp-snooping.html', quiz: 'dhcp' },
-            { title: 'Access Control Lists (ACL)', desc: 'Standart/genişləndirilmiş/named ACL-lər, wildcard mask və trafik filterləmə.', icon: '🚧', tag: 'Security', href: 'lessons/acl.html', quiz: 'acl' },
-            { title: 'Marşrutlaşdırma Protokolları', desc: 'RIP, OSPF və EIGRP-nin inzibati məsafə, metrika və konvergensiya müqayisəsi.', icon: '🗺️', tag: 'Routing', href: 'lessons/dynamic-routing.html', quiz: 'routing' },
-            { title: 'NAT / PAT', desc: 'Static NAT, Dynamic NAT və PAT (Overload) — konfiqurasiya və doğrulama.', icon: '🔁', tag: 'Routing', href: 'lessons/nat.html', quiz: 'nat' },
-            { title: 'HSRP və VRRP (FHRP)', desc: 'Defolt qapı ehtiyatlaşdırması: Active/Standby, Master/Backup, preempt və prioritet.', icon: '🧭', tag: 'Routing', href: 'lessons/fhrp.html', quiz: 'fhrp' },
-            { title: 'IPv6', desc: 'Ünvan qısaldılması, ünvan növləri, SLAAC/EUI-64, statik marşrut və OSPFv3.', icon: '6️⃣', tag: 'Routing', href: 'lessons/ipv6.html', quiz: 'ipv6' },
-            { title: 'Cisco IOS Əmrləri', desc: 'Kateqoriyalara bölünmüş, axtarıla bilən və kopyalana bilən əmrlər toplusu.', icon: '💻', tag: 'Reference', href: 'lessons/cisco-commands.html', quiz: 'ios' },
-            { title: 'Power Supply', desc: 'Volt, Amper, Watt əsasları, generator, UPS və stabilizator seçimi.', icon: '⚡', tag: 'Hardware', href: 'lessons/power-supply.html', quiz: 'power' }
+            { title: 'OSI və TCP/IP Modeli', desc: '7 qat, TCP/UDP, enkapsulyasiya və qat-qat troubleshooting.', icon: 'layers', tag: 'Fundamentals', href: 'lessons/osi-model.html', quiz: 'osi' },
+            { title: 'Ethernet və Kabelləmə', desc: 'UTP və fiber, straight/crossover, Ethernet standartları, speed/duplex və interfeys xətaları.', icon: 'cable', tag: 'Fundamentals', href: 'lessons/ethernet-cabling.html', quiz: 'eth' },
+            { title: 'IPv4 Ünvanlama və VLSM', desc: 'Ünvan sinifləri, subnetting addım-addım və VLSM ilə şəbəkə planlama.', icon: 'binary', tag: 'Fundamentals', href: 'lessons/ipv4-subnetting.html', quiz: 'subnet' },
+            { title: 'CDP və LLDP', desc: 'Şəbəkə kəşf protokolları: qonşu cihazların avtomatik tanınması və konfiqurasiyası.', icon: 'radar', tag: 'Switching', href: 'lessons/cdp-lldp.html', quiz: 'cdp' },
+            { title: 'VLAN, Trunking və DTP', desc: 'Access portlar, VLAN trunking, 802.1Q və Dynamic Trunking Protocol modları.', icon: 'split', tag: 'Switching', href: 'lessons/dtp.html', quiz: 'vlan' },
+            { title: 'VTP', desc: 'Server/Client/Transparent modları, pruning və təhlükəli revision nömrəsi tələsi.', icon: 'radio-tower', tag: 'Switching', href: 'lessons/vtp.html', quiz: 'vtp' },
+            { title: 'Inter-VLAN Routing', desc: 'Router-on-a-stick, Layer 3 switch və SVI, tez-tez rast gəlinən problemlər.', icon: 'route', tag: 'Switching', href: 'lessons/inter-vlan-routing.html', quiz: 'intervlan' },
+            { title: 'Spanning Tree Protocol (STP)', desc: 'Port rolları, port vəziyyətləri, PVST+/Rapid-PVST+/MSTP və PortFast/BPDU Guard.', icon: 'network', tag: 'Switching', href: 'lessons/stp.html', quiz: 'stp' },
+            { title: 'EtherChannel', desc: 'LACP və PAgP, rejim kombinasiyaları, L2/L3 port-channel və yük bölgüsü.', icon: 'git-merge', tag: 'Switching', href: 'lessons/etherchannel.html', quiz: 'ec' },
+            { title: 'Wireless LAN', desc: '802.11 standartları, kanallar, WLC və AP arxitekturası, WPA2/WPA3.', icon: 'wifi', tag: 'Wireless', href: 'lessons/wireless.html', quiz: 'wlan' },
+            { title: 'Statik Marşrutlaşdırma', desc: 'Statik, defolt, floating və host marşrutları, longest prefix match.', icon: 'signpost', tag: 'Routing', href: 'lessons/static-routing.html', quiz: 'static' },
+            { title: 'Marşrutlaşdırma Protokolları', desc: 'RIP, OSPF və EIGRP-nin inzibati məsafə, metrika və konvergensiya müqayisəsi.', icon: 'map', tag: 'Routing', href: 'lessons/dynamic-routing.html', quiz: 'routing' },
+            { title: 'OSPF (Single-Area)', desc: 'Router ID, qonşuluq vəziyyətləri, DR/BDR seçimi, cost və konfiqurasiya.', icon: 'waypoints', tag: 'Routing', href: 'lessons/ospf.html', quiz: 'ospf' },
+            { title: 'DHCP Server və Relay', desc: 'DORA prosesi, Cisco router-də DHCP pool, ip helper-address və problemlər.', icon: 'server', tag: 'Services', href: 'lessons/dhcp.html', quiz: 'dhcpsrv' },
+            { title: 'NAT / PAT', desc: 'Static NAT, Dynamic NAT və PAT (Overload) — konfiqurasiya və doğrulama.', icon: 'arrow-left-right', tag: 'Routing', href: 'lessons/nat.html', quiz: 'nat' },
+            { title: 'HSRP və VRRP (FHRP)', desc: 'Defolt qapı ehtiyatlaşdırması: Active/Standby, Master/Backup, preempt və prioritet.', icon: 'life-buoy', tag: 'Routing', href: 'lessons/fhrp.html', quiz: 'fhrp' },
+            { title: 'IPv6', desc: 'Ünvan qısaldılması, ünvan növləri, SLAAC/EUI-64, statik marşrut və OSPFv3.', icon: 'globe', tag: 'Routing', href: 'lessons/ipv6.html', quiz: 'ipv6' },
+            { title: 'SSH və Cihazın Qorunması', desc: 'SSH konfiqurasiyası, parol tipləri, VTY-nin qorunması və AAA əsasları.', icon: 'terminal', tag: 'Security', href: 'lessons/ssh-security.html', quiz: 'ssh' },
+            { title: 'Port Security', desc: 'Violation rejimləri (Protect/Restrict/Shutdown), sticky MAC və errdisable bərpası.', icon: 'lock-keyhole', tag: 'Security', href: 'lessons/port-security.html', quiz: 'portsec' },
+            { title: 'DHCP Snooping', desc: 'DHCP spoofing hücumlarından qorunma, trusted/untrusted portlar və errdisable bərpası.', icon: 'shield', tag: 'Security', href: 'lessons/dhcp-snooping.html', quiz: 'dhcp' },
+            { title: 'DAI, IP Source Guard və 802.1X', desc: 'ARP spoofing və IP spoofing-dən müdafiə, port əsaslı autentifikasiya.', icon: 'shield-alert', tag: 'Security', href: 'lessons/l2-security.html', quiz: 'l2sec' },
+            { title: 'Access Control Lists (ACL)', desc: 'Standart/genişləndirilmiş/named ACL-lər, wildcard mask və trafik filterləmə.', icon: 'list-filter', tag: 'Security', href: 'lessons/acl.html', quiz: 'acl' },
+            { title: 'NTP, Syslog və SNMP', desc: 'Vaxt sinxronizasiyası, log səviyyələri və SNMPv2c/v3 ilə monitorinq.', icon: 'activity', tag: 'Services', href: 'lessons/network-services.html', quiz: 'services' },
+            { title: 'Cisco IOS Əmrləri', desc: 'Kateqoriyalara bölünmüş, axtarıla bilən və kopyalana bilən əmrlər toplusu.', icon: 'square-terminal', tag: 'Reference', href: 'lessons/cisco-commands.html', quiz: 'ios' },
+            { title: 'Power Supply', desc: 'Volt, Amper, Watt əsasları, generator, UPS və stabilizator seçimi.', icon: 'plug-zap', tag: 'Hardware', href: 'lessons/power-supply.html', quiz: 'power' }
         ];
 
-        // Quiz mövzularının adları (Subnetting-in ayrıca dərsi yoxdur — kalkulyatorda məşq olunur)
         const quizTopicNames = Object.fromEntries(lessons.map(l => [l.quiz, l.title]));
-        quizTopicNames.subnet = 'Subnetting';
         const QUIZ_TOPIC_COUNT = Object.keys(quizTopicNames).length;
 
         const $ = id => document.getElementById(id);
@@ -401,7 +483,7 @@
         function showLogin() {
             $('app-view').hidden = true;
             $('login-view').hidden = false;
-            $('login-stats').textContent = `${lessons.length} dərs · ${tools.length} interaktiv alət · 45 test sualı`;
+            $('login-stats').textContent = `${lessons.length} dərs · ${tools.length} interaktiv alət · izahlı mövzu testləri`;
             $('login-error').hidden = true;
 
             const profiles = Student.profiles();
@@ -417,10 +499,10 @@
                 const text = document.createElement('span');
                 text.className = 'leading-tight';
                 const nameEl = document.createElement('span');
-                nameEl.className = 'block font-semibold text-gray-800';
+                nameEl.className = 'block font-semibold text-neutral-900';
                 nameEl.textContent = p.name;
                 const groupEl = document.createElement('span');
-                groupEl.className = 'block text-xs text-gray-500';
+                groupEl.className = 'block text-xs text-neutral-500';
                 groupEl.textContent = p.group || '—';
                 text.append(nameEl, groupEl);
                 btn.append(avatar, text);
@@ -506,23 +588,23 @@
             const next = lessons.find(l => !done.has(l.href));
             const step = next ? lessons.indexOf(next) + 1 : null;
             $('next-panel').innerHTML = next ? `
-                <p class="text-sm font-semibold text-blue-600 mb-2">▶ Növbəti dərs · #${step}</p>
+                <p class="panel-label">${icon('play')} Növbəti dərs · #${step}</p>
                 <div class="flex items-start gap-4">
-                    <span class="portal-icon">${next.icon}</span>
+                    <span class="icon-badge lg">${icon(next.icon)}</span>
                     <div class="flex-1">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-1">${next.title}</h3>
-                        <p class="text-gray-600 mb-4">${next.desc}</p>
-                        <div class="flex flex-wrap gap-3">
-                            <a href="${next.href}" class="btn-primary inline-block" data-lesson="${next.href}">Dərsə başla →</a>
-                            <a href="tools/quiz.html?topic=${next.quiz}" class="inline-block font-semibold text-purple-600 hover:underline self-center">📝 Mövzu testi</a>
+                        <h3 class="text-2xl font-bold text-neutral-900 mb-1">${next.title}</h3>
+                        <p class="text-neutral-600 mb-4">${next.desc}</p>
+                        <div class="flex flex-wrap items-center gap-4">
+                            <a href="${next.href}" class="btn-primary" data-lesson="${next.href}">Dərsə başla ${icon('arrow-right')}</a>
+                            <a href="tools/quiz.html?topic=${next.quiz}" class="link-soft">${icon('notebook-pen')} Mövzu testi</a>
                         </div>
                     </div>
                 </div>
             ` : `
-                <p class="text-sm font-semibold text-green-600 mb-2">🎉 Təbriklər!</p>
-                <h3 class="text-2xl font-bold text-gray-800 mb-1">Bütün dərsləri tamamladınız</h3>
-                <p class="text-gray-600 mb-4">İndi bütün mövzular üzrə testi keçib nəticənizi yoxlayın.</p>
-                <a href="tools/quiz.html" class="btn-primary inline-block">Ümumi testə başla →</a>
+                <p class="panel-label">${icon('trophy')} Təbriklər!</p>
+                <h3 class="text-2xl font-bold text-neutral-900 mb-1">Bütün dərsləri tamamladınız</h3>
+                <p class="text-neutral-600 mb-4">İndi bütün mövzular üzrə testi keçib nəticənizi yoxlayın.</p>
+                <a href="tools/quiz.html" class="btn-primary">Ümumi testə başla ${icon('arrow-right')}</a>
             `;
 
             const last = lessons.find(l => l.href === lastOpened);
@@ -532,19 +614,19 @@
             let side = '';
             if (last) {
                 side += `
-                    <p class="text-sm font-semibold text-gray-500 mb-2">🕘 Son açdığınız dərs</p>
-                    <a href="${last.href}" data-lesson="${last.href}" class="flex items-center gap-3 mb-6 hover:underline">
-                        <span class="text-2xl">${last.icon}</span>
-                        <span class="font-semibold text-gray-800">${last.title}</span>
+                    <p class="panel-label">${icon('history')} Son açdığınız dərs</p>
+                    <a href="${last.href}" data-lesson="${last.href}" class="flex items-center gap-3 mb-6 link-strong">
+                        <span class="icon-badge sm">${icon(last.icon)}</span>
+                        <span>${last.title}</span>
                     </a>`;
             }
-            side += `<p class="text-sm font-semibold text-gray-500 mb-2">🔁 Təkrar tövsiyə olunur</p>`;
+            side += `<p class="panel-label">${icon('rotate-ccw')} Təkrar tövsiyə olunur</p>`;
             side += weak.length === 0
-                ? `<p class="text-sm text-gray-600">${Object.keys(quizBest).length === 0
+                ? `<p class="text-sm text-neutral-600">${Object.keys(quizBest).length === 0
                     ? 'Mövzu testlərini keçdikcə, 70%-dən aşağı nəticə aldığınız mövzular burada görünəcək.'
                     : 'Bütün testlərdə 70% və yuxarı nəticəniz var. Əla!'}</p>`
                 : `<div class="flex flex-wrap gap-2">${weak.map(([t, p]) =>
-                    `<a class="review-link" href="tools/quiz.html?topic=${t}">${quizTopicNames[t]} · ${p}%</a>`).join('')}</div>`;
+                    `<a class="review-link" href="tools/quiz.html?topic=${t}">${icon('rotate-ccw')} ${quizTopicNames[t]} · ${p}%</a>`).join('')}</div>`;
             $('side-panel').innerHTML = side;
         }
 
@@ -566,12 +648,12 @@
 
             const visibleTools = tools.filter(t => matches(t, term));
             $('tool-grid').innerHTML = visibleTools.map(t => `
-                <a href="${t.href}" class="tool-card ${t.cls} p-6 flex items-start gap-4 no-underline">
-                    <span class="text-4xl leading-none">${t.icon}</span>
+                <a href="${t.href}" class="tool-card ${t.cls}">
+                    <span class="icon-badge lg" ${t.cls ? '' : 'style="background:#f59e0b;color:#0a0a0a"'}>${icon(t.icon)}</span>
                     <div>
                         <h3 class="text-xl font-bold mb-1">${t.title}</h3>
-                        <p class="text-white/90 text-sm">${t.desc}</p>
-                        <span class="inline-block mt-3 font-semibold">Aç →</span>
+                        <p class="text-sm opacity-90">${t.desc}</p>
+                        <span class="open">Aç ${icon('arrow-right')}</span>
                     </div>
                 </a>
             `).join('');
@@ -586,24 +668,24 @@
                 const scoreBadge = score === undefined ? ''
                     : `<span class="score-badge ${scoreClass(score)}" title="Ən yaxşı test nəticəsi">${score}%</span>`;
                 return `
-                <div class="portal-card p-6 ${isDone ? 'done' : ''}">
+                <div class="portal-card ${isDone ? 'done' : ''}">
                     <div class="flex items-center justify-between mb-4">
-                        <span class="portal-icon">${l.icon}</span>
+                        <span class="icon-badge md">${icon(l.icon)}</span>
                         <div class="flex items-center gap-2">
                             <span class="step-num">#${l.step}</span>
                             <span class="portal-tag">${l.tag}</span>
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2"><a href="${l.href}" data-lesson="${l.href}" class="hover:text-blue-600">${l.title}</a></h3>
-                    <p class="text-gray-600 text-sm flex-1">${l.desc}</p>
+                    <h3 class="text-xl font-bold mb-2"><a href="${l.href}" data-lesson="${l.href}" class="card-title">${l.title}</a></h3>
+                    <p class="text-neutral-600 text-sm flex-1">${l.desc}</p>
                     <div class="mt-4 flex items-center justify-between gap-2 flex-wrap">
                         <div class="flex items-center gap-3">
-                            <a href="${l.href}" data-lesson="${l.href}" class="font-semibold text-blue-600 hover:underline">Dərsə bax →</a>
-                            <a href="tools/quiz.html?topic=${l.quiz}" class="text-sm font-semibold text-purple-600 hover:underline">📝 Test</a>
+                            <a href="${l.href}" data-lesson="${l.href}" class="link-strong">Dərsə bax ${icon('arrow-right')}</a>
+                            <a href="tools/quiz.html?topic=${l.quiz}" class="link-soft">${icon('notebook-pen')} Test</a>
                             ${scoreBadge}
                         </div>
                         <button class="done-btn ${isDone ? 'is-done' : ''}" data-href="${l.href}" aria-pressed="${isDone}">
-                            ${isDone ? '✓ Oxudum' : '○ Oxudum'}
+                            ${icon(isDone ? 'circle-check' : 'circle-dot')} Oxudum
                         </button>
                     </div>
                 </div>`;

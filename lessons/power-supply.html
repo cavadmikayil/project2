@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0a0a0a 0%, #262626 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -46,7 +46,7 @@
         }
 
         h1 {
-            color: #2c3e50;
+            color: #0a0a0a;
             text-align: center;
             margin-bottom: 30px;
             font-size: 2.5em;
@@ -54,15 +54,15 @@
         }
 
         h2 {
-            color: #3498db;
+            color: #b45309;
             margin-bottom: 20px;
             font-size: 2em;
-            border-bottom: 3px solid #3498db;
+            border-bottom: 3px solid #b45309;
             padding-bottom: 10px;
         }
 
         h3 {
-            color: #e74c3c;
+            color: #c2410c;
             margin: 20px 0 10px 0;
             font-size: 1.3em;
         }
@@ -74,28 +74,27 @@
         }
 
         .formula-box {
-            background: linear-gradient(45deg, #f39c12, #f1c40f);
+            background: linear-gradient(45deg, #f59e0b, #fbbf24);
             padding: 20px;
             border-radius: 10px;
             margin: 20px 0;
             text-align: center;
             font-size: 1.3em;
             font-weight: bold;
-            color: white;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            color: #0a0a0a;
         }
 
         .info-box {
-            background: #ecf0f1;
-            border-left: 5px solid #3498db;
+            background: #f5f5f5;
+            border-left: 5px solid #b45309;
             padding: 20px;
             margin: 20px 0;
             border-radius: 0 10px 10px 0;
         }
 
         .warning-box {
-            background: #ffeaa7;
-            border-left: 5px solid #fdcb6e;
+            background: #fef3c7;
+            border-left: 5px solid #f59e0b;
             padding: 20px;
             margin: 20px 0;
             border-radius: 0 10px 10px 0;
@@ -109,7 +108,7 @@
         }
 
         .grid-item {
-            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            background: linear-gradient(135deg, #262626, #0a0a0a);
             padding: 20px;
             border-radius: 10px;
             color: white;
@@ -119,11 +118,11 @@
         .navigation {
             text-align: center;
             padding: 20px;
-            background: #2c3e50;
+            background: #0a0a0a;
         }
 
         .nav-btn {
-            background: #3498db;
+            background: #b45309;
             color: white;
             border: none;
             padding: 12px 25px;
@@ -135,7 +134,7 @@
         }
 
         .nav-btn:hover {
-            background: #2980b9;
+            background: #92400e;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
@@ -148,7 +147,7 @@
 
         .diagram {
             background: white;
-            border: 2px solid #bdc3c7;
+            border: 2px solid #d4d4d4;
             border-radius: 10px;
             padding: 20px;
             margin: 20px 0;
@@ -163,18 +162,18 @@
         }
 
         .comparison-table th, .comparison-table td {
-            border: 1px solid #bdc3c7;
+            border: 1px solid #d4d4d4;
             padding: 12px;
             text-align: left;
         }
 
         .comparison-table th {
-            background: #3498db;
+            background: #b45309;
             color: white;
         }
 
         .comparison-table tr:nth-child(even) {
-            background: #f8f9fa;
+            background: #fafafa;
         }
 
         ul {
@@ -186,6 +185,9 @@
             margin: 8px 0;
         }
 
+        .slide h1 .icon, .slide h2 .icon { color: #f59e0b; }
+        .nav-btn .icon { vertical-align: -0.25em; }
+
         .portal-bar {
             position: fixed;
             top: 16px;
@@ -196,11 +198,12 @@
         }
         .portal-bar .portal-home-link {
             background: rgba(255,255,255,0.92);
-            color: #2c3e50;
+            color: #0a0a0a;
             padding: 8px 14px;
             border-radius: 20px;
             font-size: 14px;
         }
+        body.dark-mode .portal-bar .portal-home-link { background: #262626; }
         .portal-bar .theme-toggle-btn {
             border-radius: 9999px;
         }
@@ -209,13 +212,13 @@
 </head>
 <body>
     <div class="portal-bar">
-        <a href="../index.html" class="portal-home-link">← Portal</a>
-        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş">🌙</button>
+        <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
     </div>
     <div class="slideshow-container">
         <!-- Slide 1: Giriş -->
         <div class="slide active">
-            <h1>⚡ POWER SUPPLY</h1>
+            <h1><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#zap"></use></svg> POWER SUPPLY</h1>
             <div class="content">
                 <h2>Elektrik təchizatı sistemləri</h2>
                 <div class="info-box">
@@ -236,7 +239,7 @@
 
         <!-- Slide 2: Volt -->
         <div class="slide">
-            <h2>🔋 VOLT (V) - Elektrik gərginliyi</h2>
+            <h2><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#battery"></use></svg> VOLT (V) - Elektrik gərginliyi</h2>
             <div class="content">
                 <h3>Volt nədir?</h3>
                 <p>Volt - elektrik dövrəsində elektrik gərginliyinin ölçü vahididir.</p>
@@ -274,7 +277,7 @@
 
         <!-- Slide 3: Amper -->
         <div class="slide">
-            <h2>⚡ AMPER (A) - Elektrik cərəyanı</h2>
+            <h2><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#zap"></use></svg> AMPER (A) - Elektrik cərəyanı</h2>
             <div class="content">
                 <h3>Amper nədir?</h3>
                 <p>Amper - elektrik dövrəsindən keçən cərəyanın gücünün ölçü vahididir.</p>
@@ -327,7 +330,7 @@
 
         <!-- Slide 4: Watt -->
         <div class="slide">
-            <h2>💡 WATT (W) - Elektrik gücü</h2>
+            <h2><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#lightbulb"></use></svg> WATT (W) - Elektrik gücü</h2>
             <div class="content">
                 <h3>Watt nədir?</h3>
                 <p>Watt - elektrik enerjisinin sərf edilmə sürətinin ölçü vahididir.</p>
@@ -374,7 +377,7 @@
 
         <!-- Slide 5: Generator -->
         <div class="slide">
-            <h2>🏭 GENERATOR sistemləri</h2>
+            <h2><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#factory"></use></svg> GENERATOR sistemləri</h2>
             <div class="content">
                 <h3>Generator nədir?</h3>
                 <p>Generator - mexaniki enerjini elektrik enerjisinə çevirən cihazdır.</p>
@@ -427,7 +430,7 @@
 
         <!-- Slide 6: UPS -->
         <div class="slide">
-            <h2>🔄 UPS - Fasiləsiz elektrik təchizatı</h2>
+            <h2><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#refresh-cw"></use></svg> UPS - Fasiləsiz elektrik təchizatı</h2>
             <div class="content">
                 <h3>UPS nədir?</h3>
                 <p>UPS (Uninterruptible Power Supply) - elektrik kəsilməsi zamanı qısa müddət ərzində backup enerji təmin edən sistemdir.</p>
@@ -487,7 +490,7 @@
 
         <!-- Slide 7: Stabilizator -->
         <div class="slide">
-            <h2>📊 STABILIZATOR - Gərginlik tənzimləyicisi</h2>
+            <h2><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#chart-column"></use></svg> STABILIZATOR - Gərginlik tənzimləyicisi</h2>
             <div class="content">
                 <h3>Stabilizator nədir?</h3>
                 <p>Stabilizator - şəbəkə gərginliyini sabit səviyyədə saxlayan cihazdır.</p>
@@ -539,7 +542,7 @@
 
         <!-- Slide 8: Praktik nümunələr -->
         <div class="slide">
-            <h2>🛠️ PRaktik tətbiq nümunələri</h2>
+            <h2><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#wrench"></use></svg> PRAKTİK tətbiq nümunələri</h2>
             <div class="content">
                 <h3>Ofis elektrik təchizatı planı:</h3>
                 <div class="diagram">
@@ -584,7 +587,7 @@
                         <td>-</td>
                         <td>500W</td>
                     </tr>
-                    <tr style="background: #3498db; color: white; font-weight: bold;">
+                    <tr style="background: #b45309; color: white; font-weight: bold;">
                         <td colspan="3">ÜMUMI</td>
                         <td>11.1 kW</td>
                     </tr>
@@ -605,7 +608,7 @@
 
         <!-- Slide 9: Xülasə -->
         <div class="slide">
-            <h2>📝 XÜLASƏ və əsas məqamlar</h2>
+            <h2><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#notebook-pen"></use></svg> XÜLASƏ və əsas məqamlar</h2>
             <div class="content">
                 <h3>Dərsdə öyrəndiklərimiz:</h3>
                 <div class="grid-container">
@@ -650,19 +653,19 @@
                 </div>
 
                 <div style="text-align: center; margin-top: 40px;">
-                    <h3 style="color: #27ae60;">Suallar və cavablar</h3>
-                    <p style="font-size: 1.2em; color: #7f8c8d;">Dərs başa çatdı. Suallarınızı verə bilərsiniz!</p>
+                    <h3 style="color: #b45309;">Suallar və cavablar</h3>
+                    <p style="font-size: 1.2em; color: #737373;">Dərs başa çatdı. Suallarınızı verə bilərsiniz!</p>
                 </div>
             </div>
         </div>
 
         <!-- Navigation -->
         <div class="navigation">
-            <button class="nav-btn" onclick="changeSlide(-1)">⬅ Əvvəlki</button>
+            <button class="nav-btn" onclick="changeSlide(-1)"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#chevron-left"></use></svg> Əvvəlki</button>
             <span class="slide-counter">
                 <span id="currentSlide">1</span> / <span id="totalSlides">9</span>
             </span>
-            <button class="nav-btn" onclick="changeSlide(1)">Növbəti ➡</button>
+            <button class="nav-btn" onclick="changeSlide(1)">Növbəti <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#chevron-right"></use></svg></button>
         </div>
     </div>
 

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSPF (Single-Area) — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#waypoints"></use></svg> OSPF (Single-Area)</h1>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#rid" class="nav-link">Router ID</a>
+                <a href="#states" class="nav-link">Vəziyyətlər</a>
+                <a href="#drbdr" class="nav-link">DR/BDR</a>
+                <a href="#cost" class="nav-link">Cost</a>
+                <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#waypoints"></use></svg> Giriş: Link-State Protokol</h2>
+            <p class="lead">
+                OSPF (Open Shortest Path First) açıq standart link-state protokoludur. Hər router şəbəkənin tam
+                xəritəsini (LSDB) toplayır və Dijkstra-nın SPF alqoritmi ilə ən qısa yolları özü hesablayır.
+                AD = <strong>110</strong>, metrika = <strong>cost</strong>. Kiçik və orta şəbəkələrdə bütün routerlər
+                adətən bir sahədə — <strong>Area 0 (backbone)</strong> — olur.
+            </p>
+            <div class="card-grid">
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#bell"></use></svg> Hello paketləri</h3><p class="text-neutral-700">Qonşuları tapır və saxlayır. Broadcast şəbəkədə Hello 10 s, Dead 40 s.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#scroll-text"></use></svg> LSA / LSDB</h3><p class="text-neutral-700">Routerlər link-state reklamlarını (LSA) mübadilə edir; eyni sahədəki hamının LSDB-si eynidir.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#radio"></use></svg> Multicast</h3><p>224.0.0.5 — bütün OSPF routerləri, 224.0.0.6 — DR və BDR.</p></div>
+            </div>
+        </section>
+
+        <section id="rid" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#fingerprint"></use></svg> 1. Router ID Seçimi</h2>
+            <p class="lead">Router ID (RID) 32 bitlik unikal identifikatordur və IP formatında yazılır. Seçim ardıcıllığı:</p>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700"><code>router-id</code> əmri ilə əl ilə təyin edilmiş dəyər.</p></li>
+                <li><p class="text-neutral-700">Aktiv <strong>loopback</strong> interfeyslərindən ən yüksək IP.</p></li>
+                <li><p class="text-neutral-700">Aktiv fiziki interfeyslərdən ən yüksək IP.</p></li>
+            </ol>
+            <div class="note-box">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#info"></use></svg>
+                <p class="text-neutral-800">RID dəyişdirildikdən sonra yalnız OSPF prosesi yenidən başladıqda qüvvəyə minir: <code>clear ip ospf process</code>.</p>
+            </div>
+        </section>
+
+        <section id="states" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#workflow"></use></svg> 2. Qonşuluq Vəziyyətləri və Şərtləri</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Vəziyyət</th><th>Nə baş verir</th></tr></thead>
+                    <tbody>
+                        <tr><td>Down</td><td>Qonşudan heç bir Hello alınmayıb</td></tr>
+                        <tr><td>Init</td><td>Hello alınıb, amma orada öz RID-imiz hələ yoxdur</td></tr>
+                        <tr><td>2-Way</td><td>İkitərəfli əlaqə var; DR/BDR seçimi burada olur (DROTHER-lər bir-biri ilə burada qalır)</td></tr>
+                        <tr><td>ExStart</td><td>Master/slave seçilir, DBD ardıcıllıq nömrəsi razılaşdırılır</td></tr>
+                        <tr><td>Exchange</td><td>LSDB xülasələri (DBD) mübadilə olunur</td></tr>
+                        <tr><td>Loading</td><td>Çatışmayan LSA-lar LSR/LSU ilə istənilir</td></tr>
+                        <tr><td>Full</td><td>LSDB-lər eynidir — tam qonşuluq</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Qonşuluq üçün uyğun olmalıdır:</h3>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#check"></use></svg><p class="text-neutral-700">Eyni <strong>area</strong> nömrəsi və area tipi</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#check"></use></svg><p class="text-neutral-700">Eyni <strong>Hello/Dead</strong> timerləri</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#check"></use></svg><p class="text-neutral-700">Eyni <strong>subnet və maska</strong></p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#check"></use></svg><p class="text-neutral-700">Eyni <strong>autentifikasiya</strong> və <strong>MTU</strong></p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#check"></use></svg><p class="text-neutral-700"><strong>Unikal</strong> Router ID</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#x"></use></svg><p class="text-neutral-700">Process ID uyğun olmaq <strong>məcburiyyətində deyil</strong> — lokal xarakter daşıyır</p></div>
+            </div>
+        </section>
+
+        <section id="drbdr" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#crown"></use></svg> 3. DR və BDR Seçimi</h2>
+            <p class="lead">
+                Broadcast multiaccess şəbəkələrdə (Ethernet) hər routerin hamı ilə Full qonşuluğu olmasın deyə
+                <strong>Designated Router (DR)</strong> və ehtiyat <strong>BDR</strong> seçilir. Digər routerlər (DROTHER)
+                yalnız DR və BDR ilə Full olur.
+            </p>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#trophy"></use></svg><p class="text-neutral-700">Ən yüksək <strong>interfeys prioriteti</strong> qalib gəlir (defolt 1, maks. 255).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#fingerprint"></use></svg><p class="text-neutral-700">Prioritetlər bərabərdirsə — ən yüksək <strong>Router ID</strong>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#ban"></use></svg><p class="text-neutral-700">Prioritet <strong>0</strong> olan router heç vaxt DR/BDR olmur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#lock"></use></svg><p class="text-neutral-700">Seçim <strong>preemptive deyil</strong>: yeni, daha güclü router qoşulsa da DR dəyişmir.</p></div>
+            </div>
+        </section>
+
+        <section id="cost" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#calculator"></use></svg> 4. Cost Hesablanması</h2>
+            <p class="lead">
+                <strong>Cost = Reference bandwidth ÷ interfeys bant genişliyi.</strong> Defolt reference 100 Mbps-dir,
+                ona görə FastEthernet, Gigabit və 10 Gigabit linkin hamısı cost = 1 alır. Bunu düzəltmək üçün bütün
+                routerlərdə eyni dəyərlə <code>auto-cost reference-bandwidth</code> təyin edilir.
+            </p>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>İnterfeys</th><th>Defolt (ref. 100 Mbps)</th><th>ref. 10 000 Mbps ilə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Ethernet 10 Mbps</td><td>10</td><td>1000</td></tr>
+                        <tr><td>FastEthernet 100 Mbps</td><td>1</td><td>100</td></tr>
+                        <tr><td>GigabitEthernet 1 Gbps</td><td>1</td><td>10</td></tr>
+                        <tr><td>10 GigabitEthernet</td><td>1</td><td>1</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#terminal"></use></svg> 5. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="ospf-network">network əmri ilə</button>
+                <button class="tab-btn inactive-tab" data-pane="ospf-interface">İnterfeys səviyyəsində</button>
+                <button class="tab-btn inactive-tab" data-pane="ospf-default">Defolt marşrut</button>
+                <button class="tab-btn inactive-tab" data-pane="ospf-verify">Doğrulama</button>
+            </div>
+            <div id="ospf-network">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# router ospf 1
+R1(config-router)# router-id 1.1.1.1
+R1(config-router)# network 192.168.10.0 0.0.0.255 area 0
+R1(config-router)# network 10.0.0.0 0.0.0.3 area 0
+R1(config-router)# passive-interface GigabitEthernet0/1
+R1(config-router)# auto-cost reference-bandwidth 10000</code></pre>
+                    <p class="code-note">OSPF prosesi 1, əl ilə RID, wildcard ilə şəbəkələrin elanı, istifadəçi LAN-ına Hello göndərilməməsi (passive) və 10 Gbps-ə uyğun reference bandwidth.</p>
+                </div>
+            </div>
+            <div id="ospf-interface" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# interface GigabitEthernet0/0
+R1(config-if)# ip ospf 1 area 0
+R1(config-if)# ip ospf priority 255
+R1(config-if)# ip ospf cost 10
+R1(config-if)# ip ospf hello-interval 5
+R1(config-if)# ip ospf dead-interval 20
+
+R1(config)# interface GigabitEthernet0/2
+R1(config-if)# ip ospf network point-to-point</code></pre>
+                    <p class="code-note">"network" əmri əvəzinə OSPF-i birbaşa interfeysdə aktivləşdirir, bu routeri DR etmək üçün prioriteti artırır, cost və timerləri dəyişir (qonşuda da eyni olmalıdır). Point-to-point şəbəkə tipində DR/BDR seçilmir.</p>
+                </div>
+            </div>
+            <div id="ospf-default" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# ip route 0.0.0.0 0.0.0.0 203.0.113.1
+R1(config)# router ospf 1
+R1(config-router)# default-information originate</code></pre>
+                    <p class="code-note">İnternetə çıxışı olan router öz defolt marşrutunu OSPF vasitəsilə digər routerlərə yayır (onlarda "O*E2" kimi görünür).</p>
+                </div>
+            </div>
+            <div id="ospf-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ip ospf neighbor
+show ip ospf interface brief
+show ip ospf interface GigabitEthernet0/0
+show ip protocols
+show ip route ospf
+show ip ospf database
+clear ip ospf process</code></pre>
+                    <p class="code-note">Qonşular və vəziyyətləri (FULL/DR, 2WAY/DROTHER), interfeys cost-u, prioritet və timerlər, RID, OSPF marşrutları, LSDB. Sonuncu əmr prosesi yenidən başladır.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="lesson-footer py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

@@ -1,5 +1,6 @@
 (function () {
     var STORAGE_KEY = 'edu-portal-theme';
+    var ICONS = new URL('icons.svg', document.currentScript.src).href;
 
     function getStored() {
         try {
@@ -13,22 +14,24 @@
         try {
             localStorage.setItem(STORAGE_KEY, theme);
         } catch (e) {
-            /* private mode və s. hallarda sakitcə keç */
+            /* private rejim və s. hallarda sakitcə keç */
         }
     }
 
     function apply(theme) {
-        document.body.classList.toggle('dark-mode', theme === 'dark');
+        var dark = theme === 'dark';
+        document.body.classList.toggle('dark-mode', dark);
         var buttons = document.querySelectorAll('.theme-toggle-btn');
         for (var i = 0; i < buttons.length; i++) {
-            buttons[i].textContent = theme === 'dark' ? '☀️' : '🌙';
+            buttons[i].innerHTML = '<svg class="icon" aria-hidden="true"><use href="' + ICONS + (dark ? '#sun' : '#moon') + '"></use></svg>';
+            buttons[i].setAttribute('aria-label', dark ? 'İşıqlı rejimə keç' : 'Qaranlıq rejimə keç');
+            buttons[i].setAttribute('aria-pressed', String(dark));
         }
     }
 
     function init() {
         apply(getStored());
-        var buttons = document.querySelectorAll('.theme-toggle-btn');
-        buttons.forEach(function (btn) {
+        document.querySelectorAll('.theme-toggle-btn').forEach(function (btn) {
             btn.addEventListener('click', function () {
                 var next = getStored() === 'dark' ? 'light' : 'dark';
                 setStored(next);

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statik Marşrutlaşdırma — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#signpost"></use></svg> Statik Marşrutlaşdırma</h1>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#types" class="nav-link">Növlər</a>
+                <a href="#table" class="nav-link">Marşrut cədvəli</a>
+                <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#signpost"></use></svg> Giriş: Nə vaxt statik marşrut?</h2>
+            <p class="lead">
+                Statik marşrut administratorun əl ilə yazdığı marşrutdur. Router onu dəyişmir və qonşulara
+                elan etmir. Kiçik şəbəkələrdə, tək çıxışlı (stub) filiallarda və internetə defolt çıxış üçün
+                idealdır. İnzibati məsafəsi (AD) <strong>1</strong>-dir, yəni dinamik protokollardan daha etibarlı sayılır.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-check"></use></svg> Üstünlüklər</h3><p class="text-neutral-700">CPU/bant genişliyi sərf etmir, proqnozlaşdırıla biləndir, təhlükəsizdir (heç nə elan olunmur).</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-x"></use></svg> Çatışmazlıqlar</h3><p class="text-neutral-700">Topologiya dəyişəndə avtomatik uyğunlaşmır; böyük şəbəkələrdə idarə etmək çətindir.</p></div>
+            </div>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#list-ordered"></use></svg> 1. Statik Marşrut Növləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Nümunə</th><th>İzah</th></tr></thead>
+                    <tbody>
+                        <tr><td>Standart</td><td><code>ip route 192.168.2.0 255.255.255.0 10.0.0.2</code></td><td>Konkret uzaq şəbəkəyə yol</td></tr>
+                        <tr><td>Defolt (default)</td><td><code>ip route 0.0.0.0 0.0.0.0 203.0.113.1</code></td><td>Cədvəldə uyğunluq olmayan bütün trafik (məs. internet)</td></tr>
+                        <tr><td>Floating static</td><td><code>ip route 0.0.0.0 0.0.0.0 198.51.100.1 5</code></td><td>AD daha yüksəkdir — əsas marşrut itəndə ehtiyat kimi aktivləşir</td></tr>
+                        <tr><td>Host marşrutu</td><td><code>ip route 192.168.2.50 255.255.255.255 10.0.0.2</code></td><td>/32 — tək bir hosta yol</td></tr>
+                        <tr><td>Summary</td><td><code>ip route 172.16.0.0 255.255.252.0 10.0.0.2</code></td><td>172.16.0.0 – 172.16.3.0 şəbəkələrini bir sətirlə əhatə edir</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 class="text-xl font-bold mt-6 mb-3">Next-hop, çıxış interfeysi, yoxsa hər ikisi?</h3>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-right"></use></svg><p class="text-neutral-700"><strong>Next-hop IP:</strong> router next-hop-u tapmaq üçün cədvəldə ikinci axtarış edir (recursive lookup).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#cable"></use></svg><p class="text-neutral-700"><strong>Çıxış interfeysi:</strong> point-to-point (serial) linklər üçün uyğundur; Ethernet-də tövsiyə olunmur (ARP yükü).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-check"></use></svg><p class="text-neutral-700"><strong>Fully specified:</strong> interfeys + next-hop — Ethernet üçün ən etibarlı variant.</p></div>
+            </div>
+        </section>
+
+        <section id="table" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#map"></use></svg> 2. Marşrut Cədvəlini Oxumaq</h2>
+            <div class="code-block">
+                <pre><code>R1# show ip route
+Codes: L - local, C - connected, S - static, O - OSPF, * - candidate default
+
+Gateway of last resort is 203.0.113.1 to network 0.0.0.0
+
+S*    0.0.0.0/0 [1/0] via 203.0.113.1
+      10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+C        10.0.0.0/30 is directly connected, GigabitEthernet0/1
+L        10.0.0.1/32 is directly connected, GigabitEthernet0/1
+S     192.168.2.0/24 [1/0] via 10.0.0.2
+                      ↑  ↑
+                     AD  metrika</code></pre>
+            </div>
+            <div class="note-box">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#target"></use></svg>
+                <p class="text-neutral-800"><strong>Longest prefix match:</strong> 192.168.2.50-yə gedən paket üçün həm <code>0.0.0.0/0</code>, həm də <code>192.168.2.0/24</code> uyğundur — router həmişə <strong>ən uzun prefiksli</strong> (/24) marşrutu seçir. AD yalnız eyni prefiks müxtəlif mənbələrdən öyrənildikdə müqayisə olunur.</p>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#terminal"></use></svg> 3. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="st-v4">IPv4</button>
+                <button class="tab-btn inactive-tab" data-pane="st-float">Floating (ehtiyat)</button>
+                <button class="tab-btn inactive-tab" data-pane="st-v6">IPv6</button>
+                <button class="tab-btn inactive-tab" data-pane="st-verify">Doğrulama</button>
+            </div>
+            <div id="st-v4">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# ip route 192.168.2.0 255.255.255.0 10.0.0.2
+R1(config)# ip route 192.168.3.0 255.255.255.0 GigabitEthernet0/1 10.0.0.2
+R1(config)# ip route 0.0.0.0 0.0.0.0 203.0.113.1</code></pre>
+                    <p class="code-note">Next-hop ilə standart marşrut, fully specified marşrut və internetə defolt marşrut.</p>
+                </div>
+            </div>
+            <div id="st-float" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# ip route 0.0.0.0 0.0.0.0 203.0.113.1
+R1(config)# ip route 0.0.0.0 0.0.0.0 198.51.100.1 5</code></pre>
+                    <p class="code-note">Əsas ISP (AD 1) işləyərkən ikinci marşrut cədvələ düşmür. Əsas link qopduqda AD 5 olan ehtiyat marşrut avtomatik aktivləşir.</p>
+                </div>
+            </div>
+            <div id="st-v6" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# ipv6 unicast-routing
+R1(config)# ipv6 route 2001:db8:2::/64 2001:db8:ffff::2
+R1(config)# ipv6 route ::/0 GigabitEthernet0/1 fe80::2</code></pre>
+                    <p class="code-note">IPv6 statik marşrut və link-local next-hop ilə defolt marşrut (link-local istifadə olunduqda çıxış interfeysi mütləqdir).</p>
+                </div>
+            </div>
+            <div id="st-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ip route static
+show ip route 192.168.2.0
+show ipv6 route static
+ping 192.168.2.1
+traceroute 192.168.2.1</code></pre>
+                    <p class="code-note">Yalnız statik marşrutlar, konkret şəbəkə üçün seçilmiş marşrut, IPv6 statik marşrutlar və yolun yoxlanması.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="lesson-footer py-6">
+        <div class="container mx-auto px-6 text-center">
+            <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

@@ -10,39 +10,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/theme.css">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #171717; }
         .section-card { background-color: white; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); padding: 1.5rem; margin-bottom: 2rem; }
-        .field { width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 1rem; }
-        .field:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgb(59 130 246 / 0.25); }
+        .field { width: 100%; padding: 0.75rem 1rem; border: 1px solid #d4d4d4; border-radius: 0.5rem; font-size: 1rem; }
+        .field:focus { outline: none; border-color: #f59e0b; box-shadow: 0 0 0 3px rgb(59 130 246 / 0.25); }
         .result-tile { border-radius: 0.5rem; padding: 0.75rem 1rem; }
         .result-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
         .result-value { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1.05rem; font-weight: 600; word-break: break-all; }
         .binary { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.95rem; letter-spacing: 0.05em; overflow-x: auto; white-space: nowrap; }
-        .net-bit { color: #2563eb; font-weight: 700; }
-        .host-bit { color: #ea580c; }
-        .btn-primary { background: #2563eb; color: white; padding: 0.75rem 1.25rem; border-radius: 0.5rem; font-weight: 600; transition: background-color .2s; }
-        .btn-primary:hover { background: #1d4ed8; }
-        .btn-secondary { background: #e2e8f0; color: #334155; padding: 0.75rem 1.25rem; border-radius: 0.5rem; font-weight: 600; transition: background-color .2s; }
-        .btn-secondary:hover { background: #cbd5e1; }
-        .field.correct { border-color: #059669; box-shadow: 0 0 0 3px rgb(5 150 105 / 0.2); }
-        .field.wrong { border-color: #dc2626; box-shadow: 0 0 0 3px rgb(220 38 38 / 0.2); }
-        .error-msg { color: #dc2626; font-weight: 500; }
-        body.dark-mode .field { background: #0f172a; color: #e2e8f0; border-color: #475569; }
-        body.dark-mode .btn-secondary { background: #334155; color: #e2e8f0; }
-        body.dark-mode .net-bit { color: #60a5fa; }
-        body.dark-mode .host-bit { color: #fb923c; }
+        .net-bit { color: #d97706; font-weight: 700; }
+        .host-bit { color: #737373; }
+        .hidden { display: none; }
+        .btn-primary { background: #f59e0b; color: #0a0a0a; padding: 0.75rem 1.25rem; border-radius: 0.5rem; font-weight: 600; transition: background-color .2s; }
+        .btn-primary:hover { background: #fbbf24; }
+        .btn-secondary { background: #e5e5e5; color: #262626; padding: 0.75rem 1.25rem; border-radius: 0.5rem; font-weight: 600; transition: background-color .2s; }
+        .btn-secondary:hover { background: #d4d4d4; }
+        .field.correct { border-color: #f59e0b; box-shadow: 0 0 0 3px rgb(245 158 11 / 0.3); }
+        .field.wrong { border-color: #0a0a0a; border-style: dashed; box-shadow: 0 0 0 3px rgb(10 10 10 / 0.15); }
+        .error-msg { color: #c2410c; font-weight: 500; }
+        body.dark-mode .field { background: #0a0a0a; color: #e5e5e5; border-color: #404040; }
+        body.dark-mode .btn-secondary { background: #262626; color: #e5e5e5; }
+        body.dark-mode .net-bit { color: #fbbf24; }
+        body.dark-mode .host-bit { color: #a3a3a3; }
+        body.dark-mode .field.wrong { border-color: #d4d4d4; }
     </style>
 </head>
 <body class="antialiased">
 
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-blue-600">🧮 Subnet Kalkulyatoru</h1>
+            <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#calculator"></use></svg> Subnet Kalkulyatoru</h1>
             <div class="flex flex-wrap items-center gap-4">
-                <a href="#calculator" class="text-gray-600 hover:text-blue-600 font-medium">Kalkulyator</a>
-                <a href="#practice" class="text-gray-600 hover:text-blue-600 font-medium">Məşq</a>
-                <a href="../index.html" class="portal-home-link">← Portal</a>
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş">🌙</button>
+                <a href="#calculator" class="text-neutral-600 hover:text-amber-700 font-medium">Kalkulyator</a>
+                <a href="#practice" class="text-neutral-600 hover:text-amber-700 font-medium">Məşq</a>
+                <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
             </div>
         </nav>
     </header>
@@ -50,8 +52,8 @@
     <main class="container mx-auto px-6 py-8 max-w-5xl">
 
         <section id="calculator" class="section-card">
-            <h2 class="text-2xl font-bold mb-2 text-gray-800">IPv4 Subnet Hesablama</h2>
-            <p class="text-gray-600 mb-6">IP ünvanını və prefiksi daxil edin (və ya birbaşa <code>192.168.10.77/26</code> formatında yazın).</p>
+            <h2 class="text-2xl font-bold mb-2 text-neutral-800">IPv4 Subnet Hesablama</h2>
+            <p class="text-neutral-600 mb-6">IP ünvanını və prefiksi daxil edin (və ya birbaşa <code>192.168.10.77/26</code> formatında yazın).</p>
 
             <form id="calc-form" class="grid grid-cols-1 md:grid-cols-[1fr_220px_auto] gap-3 mb-2">
                 <input id="ip-input" class="field" type="text" inputmode="decimal" placeholder="192.168.10.77" value="192.168.10.77" autocomplete="off">
@@ -63,42 +65,42 @@
             <div id="results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mt-6"></div>
 
             <div class="mt-6">
-                <h3 class="text-lg font-semibold text-gray-700 mb-2">İkilik (binary) görünüş</h3>
-                <p class="text-sm text-gray-600 mb-3"><span class="net-bit">Göy</span> — şəbəkə bitləri, <span class="host-bit">narıncı</span> — host bitləri.</p>
-                <div class="bg-gray-50 rounded-lg p-4 space-y-2">
-                    <div class="binary"><span class="inline-block w-24 text-gray-600">IP:</span><span id="bin-ip"></span></div>
-                    <div class="binary"><span class="inline-block w-24 text-gray-600">Maska:</span><span id="bin-mask"></span></div>
-                    <div class="binary"><span class="inline-block w-24 text-gray-600">Şəbəkə:</span><span id="bin-net"></span></div>
+                <h3 class="text-lg font-semibold text-neutral-700 mb-2">İkilik (binary) görünüş</h3>
+                <p class="text-sm text-neutral-600 mb-3"><span class="net-bit">Sarı</span> — şəbəkə bitləri, <span class="host-bit">boz</span> — host bitləri.</p>
+                <div class="bg-neutral-50 rounded-lg p-4 space-y-2">
+                    <div class="binary"><span class="inline-block w-24 text-neutral-600">IP:</span><span id="bin-ip"></span></div>
+                    <div class="binary"><span class="inline-block w-24 text-neutral-600">Maska:</span><span id="bin-mask"></span></div>
+                    <div class="binary"><span class="inline-block w-24 text-neutral-600">Şəbəkə:</span><span id="bin-net"></span></div>
                 </div>
             </div>
         </section>
 
         <section id="practice" class="section-card">
-            <h2 class="text-2xl font-bold mb-2 text-gray-800">🎯 Özünü Yoxla: Subnetting Məşqi</h2>
-            <p class="text-gray-600 mb-6">Təsadüfi ünvan üçün şəbəkə ünvanını, broadcast ünvanını və istifadə oluna bilən host sayını hesablayın.</p>
+            <h2 class="text-2xl font-bold mb-2 text-neutral-800 flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg#target"></use></svg> Özünü Yoxla: Subnetting Məşqi</h2>
+            <p class="text-neutral-600 mb-6">Təsadüfi ünvan üçün şəbəkə ünvanını, broadcast ünvanını və istifadə oluna bilən host sayını hesablayın.</p>
 
-            <div class="bg-gray-50 rounded-lg p-5 mb-5 flex flex-wrap items-center justify-between gap-4">
+            <div class="bg-neutral-50 rounded-lg p-5 mb-5 flex flex-wrap items-center justify-between gap-4">
                 <div>
-                    <p class="text-sm text-gray-600 mb-1">Tapşırıq:</p>
-                    <p id="practice-question" class="result-value text-2xl text-gray-800"></p>
+                    <p class="text-sm text-neutral-600 mb-1">Tapşırıq:</p>
+                    <p id="practice-question" class="result-value text-2xl text-neutral-800"></p>
                 </div>
                 <div class="text-right">
-                    <p class="text-sm text-gray-600 mb-1">Nəticə:</p>
-                    <p id="practice-score" class="text-xl font-bold text-gray-800">0 / 0</p>
+                    <p class="text-sm text-neutral-600 mb-1">Nəticə:</p>
+                    <p id="practice-score" class="text-xl font-bold text-neutral-800">0 / 0</p>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                 <label class="block">
-                    <span class="text-sm font-semibold text-gray-700">Şəbəkə ünvanı</span>
+                    <span class="text-sm font-semibold text-neutral-700">Şəbəkə ünvanı</span>
                     <input id="ans-network" class="field mt-1" type="text" inputmode="decimal" autocomplete="off" placeholder="məs. 10.1.4.0">
                 </label>
                 <label class="block">
-                    <span class="text-sm font-semibold text-gray-700">Broadcast ünvanı</span>
+                    <span class="text-sm font-semibold text-neutral-700">Broadcast ünvanı</span>
                     <input id="ans-broadcast" class="field mt-1" type="text" inputmode="decimal" autocomplete="off" placeholder="məs. 10.1.7.255">
                 </label>
                 <label class="block">
-                    <span class="text-sm font-semibold text-gray-700">İstifadə oluna bilən host sayı</span>
+                    <span class="text-sm font-semibold text-neutral-700">İstifadə oluna bilən host sayı</span>
                     <input id="ans-hosts" class="field mt-1" type="text" inputmode="numeric" autocomplete="off" placeholder="məs. 1022">
                 </label>
             </div>
@@ -109,14 +111,14 @@
                 <button id="btn-next" class="btn-secondary">Növbəti tapşırıq →</button>
             </div>
             <div id="practice-feedback" class="mt-4 font-semibold"></div>
-            <div id="practice-hint" class="hidden mt-4 bg-blue-50 rounded-lg p-4 text-gray-700"></div>
+            <div id="practice-hint" class="hidden mt-4 bg-amber-50 rounded-lg p-4 text-neutral-700"></div>
         </section>
 
     </main>
 
     <footer class="bg-white shadow-md py-4 mt-8">
-        <div class="container mx-auto px-6 text-center text-gray-500">
-            <a href="https://www.cavadmikayil.com" target="_blank" class="text-blue-600 hover:underline font-semibold text-lg">www.cavadmikayil.com</a>
+        <div class="container mx-auto px-6 text-center text-neutral-500">
+            <a href="https://www.cavadmikayil.com" target="_blank" class="text-amber-700 hover:underline font-semibold text-lg">www.cavadmikayil.com</a>
         </div>
     </footer>
 
@@ -185,7 +187,7 @@
                 const bit = (n >>> i) & 1;
                 const pos = 31 - i;
                 html += `<span class="${pos < prefix ? 'net-bit' : 'host-bit'}">${bit}</span>`;
-                if (i % 8 === 0 && i !== 0) html += '<span class="text-gray-400">.</span>';
+                if (i % 8 === 0 && i !== 0) html += '<span class="text-neutral-400">.</span>';
             }
             return html;
         }
@@ -237,9 +239,9 @@
                 ['Sinif / Növ', `${ipClass(ip)} · ${ipType(ip)}`]
             ];
             results.innerHTML = tiles.map(([label, value]) => `
-                <div class="result-tile bg-gray-50">
-                    <p class="result-label text-gray-600">${label}</p>
-                    <p class="result-value text-gray-800">${value}</p>
+                <div class="result-tile bg-neutral-50">
+                    <p class="result-label text-neutral-600">${label}</p>
+                    <p class="result-value text-neutral-800">${value}</p>
                 </div>
             `).join('');
 
@@ -306,8 +308,9 @@
                 task.scored = true;
             }
             document.getElementById('practice-score').textContent = `${correctCount} / ${attemptCount}`;
-            feedback.textContent = allOk ? '✅ Əla! Hamısı düzdür.' : '❌ Bəzi cavablar səhvdir — qırmızı sahələri yoxlayın və ya ipucuna baxın.';
-            feedback.className = `mt-4 font-semibold ${allOk ? 'text-green-600' : 'text-red-600'}`;
+            const iconHtml = name => `<svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#${name}"></use></svg>`;
+            feedback.innerHTML = allOk ? `${iconHtml('circle-check')} Əla! Hamısı düzdür.` : `${iconHtml('circle-x')} Bəzi cavablar səhvdir — qırıq xətli sahələri yoxlayın və ya həllə baxın.`;
+            feedback.className = `mt-4 font-semibold ${allOk ? 'text-amber-700' : 'text-neutral-900'}`;
         }
 
         function revealAnswer() {

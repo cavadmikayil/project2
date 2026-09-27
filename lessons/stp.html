@@ -12,8 +12,8 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
+            background-color: #ffffff;
+            color: #171717;
         }
         .section-card {
             background-color: white;
@@ -30,11 +30,11 @@
             cursor: pointer;
             white-space: nowrap;
         }
-        .active-tab { background-color: #3b82f6; color: #ffffff; }
-        .inactive-tab { background-color: #e2e8f0; color: #475569; }
+        .active-tab { background-color: #f59e0b; color: #0a0a0a; }
+        .inactive-tab { background-color: #e5e5e5; color: #404040; }
         .code-block {
-            background-color: #1e293b;
-            color: #e2e8f0;
+            background-color: #171717;
+            color: #e5e5e5;
             border-radius: 0.5rem;
             padding: 1rem;
             position: relative;
@@ -44,7 +44,7 @@
             position: absolute;
             top: 0.75rem;
             right: 0.75rem;
-            background-color: #475569;
+            background-color: #404040;
             color: #ffffff;
             border: none;
             padding: 0.25rem 0.75rem;
@@ -53,24 +53,24 @@
             font-size: 0.875rem;
             transition: background-color 0.2s;
         }
-        .copy-btn:hover { background-color: #64748b; }
+        .copy-btn:hover { background-color: #737373; }
         .feature-item { display: flex; align-items: center; margin-bottom: 0.75rem; }
-        .feature-icon { font-size: 1.5rem; margin-right: 0.75rem; color: #10b981; }
+        .feature-icon { font-size: 1.5rem; margin-right: 0.75rem; color: #d97706; }
     </style>
 </head>
 <body class="antialiased">
 
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-blue-600">Spanning Tree Protocol (STP)</h1>
+            <h1 class="text-2xl font-bold text-amber-700">Spanning Tree Protocol (STP)</h1>
             <div class="flex flex-wrap items-center gap-4 overflow-x-auto pb-2 md:pb-0">
-                <a href="#intro" class="text-gray-600 hover:text-blue-600 font-medium">Giriş</a>
-                <a href="#roles" class="text-gray-600 hover:text-blue-600 font-medium">Port Rolları</a>
-                <a href="#states" class="text-gray-600 hover:text-blue-600 font-medium">Vəziyyətlər</a>
-                <a href="#versions" class="text-gray-600 hover:text-blue-600 font-medium">STP Növləri</a>
-                <a href="#commands" class="text-gray-600 hover:text-blue-600 font-medium">Əmrlər</a>
-                <a href="../index.html" class="portal-home-link">← Portal</a>
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş">🌙</button>
+                <a href="#intro" class="text-neutral-600 hover:text-amber-700 font-medium">Giriş</a>
+                <a href="#roles" class="text-neutral-600 hover:text-amber-700 font-medium">Port Rolları</a>
+                <a href="#states" class="text-neutral-600 hover:text-amber-700 font-medium">Vəziyyətlər</a>
+                <a href="#versions" class="text-neutral-600 hover:text-amber-700 font-medium">STP Növləri</a>
+                <a href="#commands" class="text-neutral-600 hover:text-amber-700 font-medium">Əmrlər</a>
+                <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#moon"></use></svg></button>
             </div>
         </nav>
     </header>
@@ -78,8 +78,8 @@
     <main class="container mx-auto px-6 py-8">
 
         <section id="intro" class="section-card text-center">
-            <h2 class="text-3xl font-bold mb-4 text-gray-800">Giriş: STP Nədir?</h2>
-            <p class="text-gray-600 max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-4 text-neutral-800">Giriş: STP Nədir?</h2>
+            <p class="text-neutral-600 max-w-3xl mx-auto">
                 Spanning Tree Protocol (STP, IEEE 802.1D) Layer 2 şəbəkələrdə switch-lər arasında yaranan
                 fiziki dövrələri (loop) aşkarlayaraq şəbəkəni məntiqi olaraq ağac (tree) topologiyasına
                 çevirir. Loop-lar olmadan Ethernet çərçivələri sonsuza qədər dövr edə bilər (broadcast storm),
@@ -89,62 +89,62 @@
         </section>
 
         <section id="roles" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">1. Port Rolları</h2>
+            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">1. Port Rolları</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div class="feature-item">
-                    <span class="feature-icon">👑</span>
-                    <p class="text-gray-700"><strong>Root Bridge:</strong> Ən aşağı Bridge ID-yə malik switch; bütün STP hesablamaları ondan başlayır.</p>
+                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#crown"></use></svg></span>
+                    <p class="text-neutral-700"><strong>Root Bridge:</strong> Ən aşağı Bridge ID-yə malik switch; bütün STP hesablamaları ondan başlayır.</p>
                 </div>
                 <div class="feature-item">
-                    <span class="feature-icon">🚪</span>
-                    <p class="text-gray-700"><strong>Root Port:</strong> Hər qeyri-root switch-də Root Bridge-ə ən aşağı xərcli (cost) port.</p>
+                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#door-open"></use></svg></span>
+                    <p class="text-neutral-700"><strong>Root Port:</strong> Hər qeyri-root switch-də Root Bridge-ə ən aşağı xərcli (cost) port.</p>
                 </div>
                 <div class="feature-item">
-                    <span class="feature-icon">✅</span>
-                    <p class="text-gray-700"><strong>Designated Port:</strong> Hər seqmentdə trafiki ötürən, seçilmiş port (forwarding vəziyyətində).</p>
+                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#circle-check"></use></svg></span>
+                    <p class="text-neutral-700"><strong>Designated Port:</strong> Hər seqmentdə trafiki ötürən, seçilmiş port (forwarding vəziyyətində).</p>
                 </div>
                 <div class="feature-item">
-                    <span class="feature-icon">⛔</span>
-                    <p class="text-gray-700"><strong>Blocking (Alternate) Port:</strong> Loop yaratmamaq üçün trafik ötürməyən, ehtiyat port.</p>
+                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#ban"></use></svg></span>
+                    <p class="text-neutral-700"><strong>Blocking (Alternate) Port:</strong> Loop yaratmamaq üçün trafik ötürməyən, ehtiyat port.</p>
                 </div>
             </div>
         </section>
 
         <section id="states" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">2. Port Vəziyyətləri</h2>
-            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">2. Port Vəziyyətləri</h2>
+            <p class="text-center text-neutral-600 mb-6 max-w-3xl mx-auto">
                 Klassik STP (802.1D) portu forwarding vəziyyətinə keçirməzdən əvvəl bir neçə mərhələdən keçirir,
                 bu da 30-50 saniyə çəkə bilər. RSTP (802.1w) bu prosesi sürətləndirir.
             </p>
             <div class="overflow-x-auto">
-                <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
+                <table class="min-w-full bg-white border border-neutral-200 rounded-lg shadow-sm">
                     <thead>
-                        <tr class="bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                            <th class="py-3 px-4 border-b border-gray-200">STP (802.1D)</th>
-                            <th class="py-3 px-4 border-b border-gray-200">RSTP (802.1w)</th>
-                            <th class="py-3 px-4 border-b border-gray-200">Açıqlama</th>
+                        <tr class="bg-neutral-100 text-left text-sm font-semibold text-neutral-700 uppercase tracking-wider">
+                            <th class="py-3 px-4 border-b border-neutral-200">STP (802.1D)</th>
+                            <th class="py-3 px-4 border-b border-neutral-200">RSTP (802.1w)</th>
+                            <th class="py-3 px-4 border-b border-neutral-200">Açıqlama</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Blocking</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Discarding</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Çərçivə qəbul/ötürmür, yalnız BPDU dinləyir</td>
+                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Blocking</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Discarding</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Çərçivə qəbul/ötürmür, yalnız BPDU dinləyir</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Listening</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Discarding</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Topologiyanı öyrənir, hələ MAC öyrənmir</td>
+                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Listening</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Discarding</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Topologiyanı öyrənir, hələ MAC öyrənmir</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Learning</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Learning</td>
-                            <td class="py-3 px-4 border-b border-gray-200">MAC ünvan cədvəlini doldurmağa başlayır</td>
+                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Learning</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Learning</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">MAC ünvan cədvəlini doldurmağa başlayır</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Forwarding</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Forwarding</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Tam işlək — trafik ötürülür</td>
+                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Forwarding</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Forwarding</td>
+                            <td class="py-3 px-4 border-b border-neutral-200">Tam işlək — trafik ötürülür</td>
                         </tr>
                     </tbody>
                 </table>
@@ -152,25 +152,25 @@
         </section>
 
         <section id="versions" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">3. STP Növləri</h2>
+            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">3. STP Növləri</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-semibold text-blue-700 mb-2">PVST+</h3>
-                    <p class="text-gray-700">Cisco-ya məxsus, hər VLAN üçün ayrı STP instansı yaradır. Defolt Cisco IOS rejimidir.</p>
+                <div class="bg-amber-50 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold text-amber-800 mb-2">PVST+</h3>
+                    <p class="text-neutral-700">Cisco-ya məxsus, hər VLAN üçün ayrı STP instansı yaradır. Defolt Cisco IOS rejimidir.</p>
                 </div>
-                <div class="bg-green-50 p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-semibold text-green-700 mb-2">Rapid-PVST+</h3>
-                    <p class="text-gray-700">RSTP-nin VLAN-başına versiyası. Çox sürətli konvergensiya (saniyələr ərzində).</p>
+                <div class="bg-orange-50 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold text-orange-800 mb-2">Rapid-PVST+</h3>
+                    <p class="text-neutral-700">RSTP-nin VLAN-başına versiyası. Çox sürətli konvergensiya (saniyələr ərzində).</p>
                 </div>
-                <div class="bg-purple-50 p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-semibold text-purple-700 mb-2">MSTP</h3>
-                    <p class="text-gray-700">Bir neçə VLAN-ı instansda qruplaşdırır, böyük şəbəkələrdə CPU yükünü azaldır.</p>
+                <div class="bg-neutral-100 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold text-neutral-900 mb-2">MSTP</h3>
+                    <p class="text-neutral-700">Bir neçə VLAN-ı instansda qruplaşdırır, böyük şəbəkələrdə CPU yükünü azaldır.</p>
                 </div>
             </div>
         </section>
 
         <section id="commands" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">4. Praktiki Əmrlər</h2>
+            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">4. Praktiki Əmrlər</h2>
             <div class="flex justify-center mb-6 space-x-2" id="stp-tabs">
                 <button data-type="config" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 active-tab">Konfiqurasiya</button>
                 <button data-type="verify" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">Doğrulama</button>
@@ -186,7 +186,7 @@ Switch(config)# spanning-tree vlan 10 priority 4096
 Switch(config)# interface FastEthernet0/1
 Switch(config-if)# spanning-tree portfast
 Switch(config-if)# spanning-tree bpduguard enable</code></pre>
-                            <p class="text-gray-400 text-sm mt-2">RSTP (PVST+) rejimini aktivləşdirir, VLAN 10 üçün bu switch-i Root Bridge etməyə çalışır (aşağı prioritet), son istifadəçi portunda PortFast və BPDU Guard aktivləşdirir.</p>
+                            <p class="text-neutral-400 text-sm mt-2">RSTP (PVST+) rejimini aktivləşdirir, VLAN 10 üçün bu switch-i Root Bridge etməyə çalışır (aşağı prioritet), son istifadəçi portunda PortFast və BPDU Guard aktivləşdirir.</p>
                         </div>
                     </div>
                 </div>
@@ -198,7 +198,7 @@ Switch(config-if)# spanning-tree bpduguard enable</code></pre>
 show spanning-tree vlan 10
 show spanning-tree interface FastEthernet0/1
 show spanning-tree summary</code></pre>
-                            <p class="text-gray-400 text-sm mt-2">STP statusunu, Root Bridge məlumatını, port rollarını/vəziyyətlərini və ümumi xülasəni göstərir.</p>
+                            <p class="text-neutral-400 text-sm mt-2">STP statusunu, Root Bridge məlumatını, port rollarını/vəziyyətlərini və ümumi xülasəni göstərir.</p>
                         </div>
                     </div>
                 </div>
@@ -208,8 +208,8 @@ show spanning-tree summary</code></pre>
     </main>
 
     <footer class="bg-white shadow-md py-4 mt-8">
-        <div class="container mx-auto px-6 text-center text-gray-500">
-            <a href="https://www.cavadmikayil.com" target="_blank" class="text-blue-600 hover:underline font-semibold text-lg">www.cavadmikayil.com</a>
+        <div class="container mx-auto px-6 text-center text-neutral-500">
+            <a href="https://www.cavadmikayil.com" target="_blank" class="text-amber-700 hover:underline font-semibold text-lg">www.cavadmikayil.com</a>
         </div>
     </footer>
 
