@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#cloud-cog"></use></svg> AWS Əsas Xidmətləri</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#cloud-cog"></use></svg> AWS Əsas Xidmətləri</h1>
                 <span class="lesson-badge">Cloud · AWS</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -26,29 +26,29 @@
                 <a href="#storage" class="nav-link">Storage və DB</a>
                 <a href="#cli" class="nav-link">AWS CLI</a>
                 <a href="#lab" class="nav-link">Mini lab</a>
-                <a href="../index.html#cloud" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
+                <a href="../index.html#cloud" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#cloud-cog"></use></svg> Giriş: Amazon Web Services</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#cloud-cog"></use></svg> Giriş: Amazon Web Services</h2>
             <p class="lead">
                 <strong>AWS</strong> 2006-cı ildən fəaliyyət göstərən ən böyük public cloud provayderidir və 200-dən çox xidmət təklif edir.
                 Onların hamısını öyrənmək lazım deyil — real layihələrin 80%-i eyni 10–15 əsas xidmət üzərində qurulur.
                 Bu dərsdə məhz o xidmətləri və aralarındakı əlaqəni görəcəyik.
             </p>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#user-cog"></use></svg> Root user</h3><p class="text-neutral-700">Hesabı yaradan email. Yalnız billing və hesab ayarları üçün — dərhal MFA qoyun və gündəlik işdə istifadə etməyin.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#users"></use></svg> IAM user / role</h3><p class="text-neutral-700">Gündəlik iş üçün məhdud icazəli hesablar. Serverlər və xidmətlər açar yox, <strong>role</strong> istifadə edir.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#layout-dashboard"></use></svg> İdarəetmə</h3><p>AWS Management Console (veb), AWS CLI, SDK-lar (Python boto3) və Infrastructure as Code (CloudFormation, Terraform).</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#user-cog"></use></svg> Root user</h3><p class="text-neutral-700">Hesabı yaradan email. Yalnız billing və hesab ayarları üçün — dərhal MFA qoyun və gündəlik işdə istifadə etməyin.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#users"></use></svg> IAM user / role</h3><p class="text-neutral-700">Gündəlik iş üçün məhdud icazəli hesablar. Serverlər və xidmətlər açar yox, <strong>role</strong> istifadə edir.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#layout-dashboard"></use></svg> İdarəetmə</h3><p>AWS Management Console (veb), AWS CLI, SDK-lar (Python boto3) və Infrastructure as Code (CloudFormation, Terraform).</p></div>
             </div>
         </section>
 
         <section id="global" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#globe"></use></svg> 1. Qlobal İnfrastruktur</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#globe"></use></svg> 1. Qlobal İnfrastruktur</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>Anlayış</th><th>Nədir</th><th>Nümunə</th></tr></thead>
@@ -61,25 +61,25 @@
             </div>
             <p class="text-neutral-700">Region seçərkən dörd sual verilir: <strong>qanunvericilik</strong> (məlumat hansı ölkədə qalmalıdır), <strong>latency</strong> (istifadəçilərə yaxınlıq), <strong>xidmətin mövcudluğu</strong> (yeni xidmətlər hər regionda olmur) və <strong>qiymət</strong> (regionlar arasında fərqlənir).</p>
             <div class="note-box mt-4">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#lightbulb"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#lightbulb"></use></svg>
                 <p class="text-neutral-800">Yüksək əlçatanlıq üçün tətbiq ən azı <strong>iki AZ-a</strong> yayılır. Bir AZ-da yanğın və ya enerji kəsintisi olsa, digər AZ işləməyə davam edir.</p>
             </div>
         </section>
 
         <section id="compute" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#cpu"></use></svg> 2. Compute Xidmətləri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#cpu"></use></svg> 2. Compute Xidmətləri</h2>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#server"></use></svg><p class="text-neutral-700"><strong>EC2:</strong> virtual serverlər. Instance type ailəsini göstərir: <code>t3</code> (ümumi, burstable), <code>m7</code> (balanslı), <code>c7</code> (CPU), <code>r7</code> (RAM).</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#disc"></use></svg><p class="text-neutral-700"><strong>AMI:</strong> EC2 üçün şablon — OS və əvvəlcədən quraşdırılmış proqramlar.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#scaling"></use></svg><p class="text-neutral-700"><strong>Auto Scaling Group:</strong> yükə görə EC2 sayını avtomatik artırıb-azaldır, sıradan çıxanı əvəz edir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#split"></use></svg><p class="text-neutral-700"><strong>Elastic Load Balancing:</strong> ALB (HTTP/HTTPS, L7), NLB (TCP/UDP, L4) — trafiki sağlam instance-lara paylayır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#zap"></use></svg><p class="text-neutral-700"><strong>Lambda:</strong> server olmadan kod — hadisə gələndə işləyir, millisaniyə ilə ödənilir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#container"></use></svg><p class="text-neutral-700"><strong>ECS / EKS / Fargate:</strong> konteynerlər üçün; EKS — idarə olunan Kubernetes.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#server"></use></svg><p class="text-neutral-700"><strong>EC2:</strong> virtual serverlər. Instance type ailəsini göstərir: <code>t3</code> (ümumi, burstable), <code>m7</code> (balanslı), <code>c7</code> (CPU), <code>r7</code> (RAM).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#disc"></use></svg><p class="text-neutral-700"><strong>AMI:</strong> EC2 üçün şablon — OS və əvvəlcədən quraşdırılmış proqramlar.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#scaling"></use></svg><p class="text-neutral-700"><strong>Auto Scaling Group:</strong> yükə görə EC2 sayını avtomatik artırıb-azaldır, sıradan çıxanı əvəz edir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#split"></use></svg><p class="text-neutral-700"><strong>Elastic Load Balancing:</strong> ALB (HTTP/HTTPS, L7), NLB (TCP/UDP, L4) — trafiki sağlam instance-lara paylayır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#zap"></use></svg><p class="text-neutral-700"><strong>Lambda:</strong> server olmadan kod — hadisə gələndə işləyir, millisaniyə ilə ödənilir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#container"></use></svg><p class="text-neutral-700"><strong>ECS / EKS / Fargate:</strong> konteynerlər üçün; EKS — idarə olunan Kubernetes.</p></div>
             </div>
         </section>
 
         <section id="storage" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#database"></use></svg> 3. Storage və Verilənlər Bazaları</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#database"></use></svg> 3. Storage və Verilənlər Bazaları</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Xidmət</th><th>Növ</th><th>Nə vaxt istifadə olunur</th></tr></thead>
@@ -97,7 +97,7 @@
         </section>
 
         <section id="cli" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#terminal"></use></svg> 4. AWS CLI ilə İş</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#terminal"></use></svg> 4. AWS CLI ilə İş</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>aws configure                      # Access key, region (məs. eu-central-1), output: json
@@ -120,7 +120,7 @@ aws logs tail /aws/lambda/my-func --follow</code></pre>
         </section>
 
         <section id="lab" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> 5. Mini Lab: İki AZ-lı Veb Tətbiq</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#flask-conical"></use></svg> 5. Mini Lab: İki AZ-lı Veb Tətbiq</h2>
             <ol class="steps max-w-3xl mx-auto mb-6">
                 <li><p class="text-neutral-700"><strong>VPC:</strong> <code>10.0.0.0/16</code>, iki AZ-da public və private subnet-lər.</p></li>
                 <li><p class="text-neutral-700"><strong>ALB</strong> public subnet-lərdə, yalnız 443 portu internetə açıq.</p></li>
@@ -130,7 +130,7 @@ aws logs tail /aws/lambda/my-func --follow</code></pre>
                 <li><p class="text-neutral-700"><strong>CloudWatch alarm</strong> + budget alert; iş bitəndə bütün resursları silin.</p></li>
             </ol>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#piggy-bank"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#piggy-bank"></use></svg>
                 <p class="text-neutral-800"><strong>Free Tier</strong> yeni hesablara məhdud pulsuz istifadə verir, amma NAT Gateway, Load Balancer və böyük instance-lar pulludur. İlk gün <strong>AWS Budgets</strong>-də 5–10 USD-lik alert yaradın.</p>
             </div>
         </section>
@@ -140,7 +140,7 @@ aws logs tail /aws/lambda/my-func --follow</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

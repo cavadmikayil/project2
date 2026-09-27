@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#tag"></use></svg> VLAN Növləri və Voice VLAN</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#tag"></use></svg> VLAN Növləri və Voice VLAN</h1>
                 <span class="lesson-badge">CCNA · Network Access</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -26,15 +26,15 @@
                 <a href="#voice" class="nav-link">Voice VLAN</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
                 <a href="#lab" class="nav-link">Lab</a>
-                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#tag"></use></svg> Giriş: Hər VLAN-ın Rolu Var</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#tag"></use></svg> Giriş: Hər VLAN-ın Rolu Var</h2>
             <p class="lead">
                 VLAN-lar yalnız şöbələri ayırmaq üçün deyil. Yaxşı dizayn edilmiş şəbəkədə istifadəçi, idarəetmə,
                 səs və istifadə olunmayan portlar üçün ayrıca VLAN-lar olur. Bu dərsdə hər birinin məqsədini və
@@ -43,7 +43,7 @@
         </section>
 
         <section id="types" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#list-ordered"></use></svg> 1. VLAN Növləri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#list-ordered"></use></svg> 1. VLAN Növləri</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>Növ</th><th>Məqsəd</th><th>Tövsiyə</th></tr></thead>
@@ -58,25 +58,25 @@
                 </table>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#info"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#info"></use></svg>
                 <p class="text-neutral-800">Normal diapazon VLAN-lar <strong>1–1005</strong> (<code>vlan.dat</code> faylında saxlanılır), genişləndirilmiş diapazon <strong>1006–4094</strong>. VLAN 1 və 1002–1005 silinə bilməz.</p>
             </div>
         </section>
 
         <section id="native" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#shield-alert"></use></svg> 2. Native VLAN və VLAN Hopping</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#shield-alert"></use></svg> 2. Native VLAN və VLAN Hopping</h2>
             <p class="lead">
                 802.1Q trunk-da native VLAN-ın çərçivələri <strong>teqsiz</strong> göndərilir. İki tərəfdə native VLAN
                 fərqlidirsə, trafik yanlış VLAN-a düşür və CDP "native VLAN mismatch" xəbərdarlığı verir.
             </p>
             <div class="card-grid">
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-alert"></use></svg> Double tagging hücumu</h3><p class="text-neutral-700">Hücumçu native VLAN-dadırsa, iki teqli çərçivə göndərir: birinci switch xarici teqi silir, ikinci switch daxili teqə görə çərçivəni hədəf VLAN-a ötürür.</p></div>
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#shield-check"></use></svg> Müdafiə</h3><p class="text-neutral-700">Native VLAN-ı heç bir hostun olmadığı VLAN-a dəyişin, DTP-ni söndürün (<code>switchport nonegotiate</code>) və ya native VLAN-ı da teqləyin (<code>vlan dot1q tag native</code>).</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-alert"></use></svg> Double tagging hücumu</h3><p class="text-neutral-700">Hücumçu native VLAN-dadırsa, iki teqli çərçivə göndərir: birinci switch xarici teqi silir, ikinci switch daxili teqə görə çərçivəni hədəf VLAN-a ötürür.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#shield-check"></use></svg> Müdafiə</h3><p class="text-neutral-700">Native VLAN-ı heç bir hostun olmadığı VLAN-a dəyişin, DTP-ni söndürün (<code>switchport nonegotiate</code>) və ya native VLAN-ı da teqləyin (<code>vlan dot1q tag native</code>).</p></div>
             </div>
         </section>
 
         <section id="voice" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#radio"></use></svg> 3. Voice VLAN</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#radio"></use></svg> 3. Voice VLAN</h2>
             <p class="lead">
                 IP telefonun daxilində kiçik 3 portlu switch var: bir port divara (switch-ə), biri kompüterə, biri isə
                 telefonun özünə. Beləliklə, bir kabel həm telefonu, həm kompüteri qoşur.
@@ -91,14 +91,14 @@
                      PC  ── data trafiki: teqsiz → VLAN 10</code></pre>
             </div>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#tag"></use></svg><p class="text-neutral-700">Telefon voice VLAN ID-ni switch-dən <strong>CDP</strong> (və ya LLDP-MED) ilə öyrənir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#gauge"></use></svg><p class="text-neutral-700">Səs çərçivələri 802.1p <strong>CoS 5</strong> ilə işarələnir — QoS-da prioritet alır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#network"></use></svg><p class="text-neutral-700">Port trunk deyil, <strong>access</strong> portdur — Cisco onu "multi-VLAN access port" adlandırır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#tag"></use></svg><p class="text-neutral-700">Telefon voice VLAN ID-ni switch-dən <strong>CDP</strong> (və ya LLDP-MED) ilə öyrənir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#gauge"></use></svg><p class="text-neutral-700">Səs çərçivələri 802.1p <strong>CoS 5</strong> ilə işarələnir — QoS-da prioritet alır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#network"></use></svg><p class="text-neutral-700">Port trunk deyil, <strong>access</strong> portdur — Cisco onu "multi-VLAN access port" adlandırır.</p></div>
             </div>
         </section>
 
         <section id="commands" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#terminal"></use></svg> 4. Praktiki Əmrlər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#terminal"></use></svg> 4. Praktiki Əmrlər</h2>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="vt-voice">Voice VLAN</button>
                 <button class="tab-btn inactive-tab" data-pane="vt-mgmt">Management və Parking</button>
@@ -153,11 +153,11 @@ show cdp neighbors detail</code></pre>
             </div>
         </section>
         <section id="lab" class="section-card lab-section" data-lab="vlan-types">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flask-conical"></use></svg> Lab: Voice VLAN və Parking VLAN</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#flask-conical"></use></svg> Lab: Voice VLAN və Parking VLAN</h2>
             <div class="card-grid mb-6">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">IP telefon + kompüter portu konfiqurasiya etmək və istifadə olunmayan portları təhlükəsiz "parking" VLAN-a çıxarmaq.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer (7960 IP Phone, 2960 switch)</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> Müddət</h3><p>30 dəq · Orta</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">IP telefon + kompüter portu konfiqurasiya etmək və istifadə olunmayan portları təhlükəsiz "parking" VLAN-a çıxarmaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer (7960 IP Phone, 2960 switch)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#timer"></use></svg> Müddət</h3><p>30 dəq · Orta</p></div>
             </div>
             <h3 class="text-xl font-bold mb-3">Topologiya</h3>
             <div class="code-block lab-topology mb-6">
@@ -192,12 +192,12 @@ show interfaces status</code></pre>
             </div>
             <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
             <div class="feature-grid mb-6">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Fa0/5-də Access VLAN 10 və Voice VLAN 150 görünür.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">Telefon trafiki tag-lı (150), PC trafiki tag-sız (10) gedir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700">İstifadə olunmayan portlar <code>disabled</code> və VLAN 999-dadır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-check"></use></svg><p class="text-neutral-700">Fa0/5-də Access VLAN 10 və Voice VLAN 150 görünür.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-check"></use></svg><p class="text-neutral-700">Telefon trafiki tag-lı (150), PC trafiki tag-sız (10) gedir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-check"></use></svg><p class="text-neutral-700">İstifadə olunmayan portlar <code>disabled</code> və VLAN 999-dadır.</p></div>
             </div>
             <details class="lab-solution mb-6">
-                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
                 <div class="code-block mt-3">
                     <button class="copy-btn">Kopyala</button>
                     <pre><code>SW1(config)# vlan 10
@@ -219,7 +219,7 @@ SW1(config-if-range)# shutdown</code></pre>
             </details>
             <div class="lab-footer">
                 <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
-                <button type="button" class="lab-done-btn" data-lab="vlan-types" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-dot"></use></svg> Labı bitirdim</button>
+                <button type="button" class="lab-done-btn" data-lab="vlan-types" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-dot"></use></svg> Labı bitirdim</button>
             </div>
         </section>
     </main>
@@ -228,7 +228,7 @@ SW1(config-if-range)# shutdown</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

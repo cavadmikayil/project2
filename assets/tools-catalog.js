@@ -9,5 +9,6 @@ window.TOOLS = [
     { id: 'vlsm', title: 'VLSM Planlayıcı', desc: 'Əsas şəbəkə və host sayları verilir — alət subnet-ləri böyükdən kiçiyə ayırıb ünvan planı hazırlayır.', icon: 'list-tree', href: 'tools/vlsm.html', group: 'Kalkulyatorlar' },
     { id: 'ipv6', title: 'IPv6 Kalkulyatoru', desc: 'Qısaltma və genişləndirmə, prefiks və aralıq, ünvan növü və MAC-dan EUI-64.', icon: 'globe', href: 'tools/ipv6.html', group: 'Kalkulyatorlar' },
     { id: 'wildcard', title: 'Wildcard Mask Kalkulyatoru', desc: 'Maska ↔ wildcard ↔ CIDR, ACL və OSPF sətirləri, IP-nin ACL qaydasına uyğunluq testi.', icon: 'list-filter', href: 'tools/wildcard.html', group: 'Kalkulyatorlar' },
+    { id: 'careers', title: 'Karyera Yolları', desc: 'Helpdesk, şəbəkə mühəndisi, sistem administratoru və SOC analitiki üçün addım-addım yol, sertifikatlar və irəliləyiş.', icon: 'route', href: 'careers.html', group: 'Planlama' },
     { id: 'ports', title: 'Port və Protokol Arayışı', desc: '50 vacib TCP/UDP portu, IP protokol nömrələri və təhlükəsiz alternativlər — axtarışla.', icon: 'plug', href: 'tools/ports.html', group: 'Arayış' }
 ];

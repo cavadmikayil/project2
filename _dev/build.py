@@ -524,15 +524,17 @@ def check_external_links():
 # ---------------------------------------------------------------------------
 def load_catalog():
     """assets/catalog.js-i node ilə oxuyur (node yoxdursa yoxlama ötürülür)."""
-    script = ("global.window={};require(process.argv[1]);require(process.argv[2]);"
-              "console.log(JSON.stringify({c:window.CATALOG,q:window.QUESTIONS}))")
+    script = ("global.window={};require(process.argv[1]);require(process.argv[2]);require(process.argv[3]);"
+              "console.log(JSON.stringify({c:window.CATALOG,q:window.QUESTIONS,k:window.CAREERS}))")
     try:
-        out = subprocess.run(['node', '-e', script, str(ROOT / 'assets/catalog.js'), str(ROOT / 'assets/questions.js')],
+        out = subprocess.run(['node', '-e', script, str(ROOT / 'assets/catalog.js'), str(ROOT / 'assets/questions.js'),
+                              str(ROOT / 'assets/careers.js')],
                              capture_output=True, text=True, check=True).stdout
     except (OSError, subprocess.CalledProcessError) as e:
         print('Qeyd: node tapılmadı və ya kataloq oxunmadı — kataloq yoxlaması ötürüldü', getattr(e, 'stderr', ''))
         return None, None
     data = json.loads(out)
+    data['c']['careers'] = data['k']
     return data['c'], data['q']
 
 
@@ -541,7 +543,11 @@ def check():
     symbols = set(re.findall(r'<symbol id="([a-z0-9-]+)"', SPRITE.read_text()))
     used = {}
     for f in all_pages() + sorted((ROOT / 'assets').glob('*.js')):
-        for name in re.findall(r'icons\.svg(?:\?v=[0-9a-f]+)?#([a-z0-9-]+)', f.read_text()):
+        text = f.read_text()
+        # HTML-dəki <use href="...#ad"> və JS-dəki icon('ad') / ico('ad') çağırışları
+        for name in re.findall(r'icons\.svg(?:\?v=[0-9a-f]+)?#([a-z0-9-]+)', text) + \
+                re.findall(r'\bico(?:n)?\([\'"]([a-z0-9-]+)[\'"]\)', text) + \
+                re.findall(r"\bicon: '([a-z0-9-]+)'", text):
             used.setdefault(name, f.relative_to(ROOT))
     for src in SRC.glob('*.html'):
         text = src.read_text()
@@ -551,6 +557,13 @@ def check():
     if catalog:
         for item in catalog['categories']:
             used.setdefault(item['icon'], 'assets/catalog.js')
+        hrefs = {l['href'] for l in catalog['lessons']}
+        for path in catalog.get('careers') or []:
+            used.setdefault(path['icon'], 'assets/careers.js')
+            for stage in path['stages']:
+                for slug in stage['lessons']:
+                    if f'lessons/{slug}.html' not in hrefs:
+                        problems.append(f'karyera yolunda ({path["id"]}) naməlum dərs: {slug}')
         keys = set()
         for lesson in catalog['lessons']:
             used.setdefault(lesson['icon'], 'assets/catalog.js')

@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#zap"></use></svg> Serverless: Lambda və Azure Functions</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#zap"></use></svg> Serverless: Lambda və Azure Functions</h1>
                 <span class="lesson-badge">Cloud · Serverless</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -26,29 +26,29 @@
                 <a href="#code" class="nav-link">Kod</a>
                 <a href="#limits" class="nav-link">Məhdudiyyətlər</a>
                 <a href="#when" class="nav-link">Nə vaxt</a>
-                <a href="../index.html#cloud" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
+                <a href="../index.html#cloud" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#zap"></use></svg> Giriş: Server Var, Sadəcə Sizin Deyil</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#zap"></use></svg> Giriş: Server Var, Sadəcə Sizin Deyil</h2>
             <p class="lead">
                 <strong>Serverless</strong> o demək deyil ki, server yoxdur — o deməkdir ki, serveri siz görmürsünüz və idarə etmirsiniz.
                 Siz yalnız funksiyanı yazırsınız; provayder onu hadisə gələndə işə salır, lazım olduqca paralel nüsxələr açır
                 və yalnız işləyən millisaniyələr üçün pul alır. Heç kim çağırmırsa — xərc sıfırdır.
             </p>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#function-square"></use></svg> FaaS</h3><p class="text-neutral-700">AWS Lambda, Azure Functions, Google Cloud Functions.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#database"></use></svg> Serverless data</h3><p class="text-neutral-700">DynamoDB, Aurora Serverless, Cosmos DB serverless, S3.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#mail"></use></svg> Serverless inteqrasiya</h3><p>API Gateway, SQS/SNS, EventBridge, Azure Service Bus, Step Functions, Logic Apps.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#function-square"></use></svg> FaaS</h3><p class="text-neutral-700">AWS Lambda, Azure Functions, Google Cloud Functions.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#database"></use></svg> Serverless data</h3><p class="text-neutral-700">DynamoDB, Aurora Serverless, Cosmos DB serverless, S3.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#mail"></use></svg> Serverless inteqrasiya</h3><p>API Gateway, SQS/SNS, EventBridge, Azure Service Bus, Step Functions, Logic Apps.</p></div>
             </div>
         </section>
 
         <section id="how" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#cog"></use></svg> 1. Funksiya Necə İşləyir</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#cog"></use></svg> 1. Funksiya Necə İşləyir</h2>
             <ol class="steps max-w-3xl mx-auto mb-6">
                 <li><p class="text-neutral-700"><strong>Hadisə</strong> gəlir: HTTP sorğu, S3-ə fayl yüklənməsi, növbədə mesaj, cron.</p></li>
                 <li><p class="text-neutral-700">Platforma boş <strong>execution environment</strong> tapır; yoxdursa yenisini yaradır — bu, <strong>cold start</strong>-dır (100 ms – bir neçə saniyə).</p></li>
@@ -57,13 +57,13 @@
                 <li><p class="text-neutral-700">Eyni anda 100 sorğu gəlsə, 100 paralel nüsxə açılır (concurrency limitinə qədər).</p></li>
             </ol>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#lightbulb"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#lightbulb"></use></svg>
                 <p class="text-neutral-800">Funksiya <strong>stateless</strong> olmalıdır: iki çağırış arasında yaddaşda və ya diskdə məlumatın qalacağına güvənməyin. Vəziyyət DB-də, S3-də və ya cache-də saxlanılır.</p>
             </div>
         </section>
 
         <section id="triggers" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#bell-ring"></use></svg> 2. Tipik Trigger-lər və Ssenarilər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#bell-ring"></use></svg> 2. Tipik Trigger-lər və Ssenarilər</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Trigger</th><th>Ssenari</th></tr></thead>
@@ -80,7 +80,7 @@
         </section>
 
         <section id="code" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#file-code"></use></svg> 3. Nümunə: Sağlamlıq Yoxlayan Funksiya</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#file-code"></use></svg> 3. Nümunə: Sağlamlıq Yoxlayan Funksiya</h2>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="sl-lambda">AWS Lambda (Python)</button>
                 <button class="tab-btn inactive-tab" data-pane="sl-func">Azure Functions (Python)</button>
@@ -128,7 +128,7 @@ def check_sites(timer: func.TimerRequest) -> None:
         </section>
 
         <section id="limits" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#ruler"></use></svg> 4. Məhdudiyyətlər və Qiymət</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#ruler"></use></svg> 4. Məhdudiyyətlər və Qiymət</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>Parametr</th><th>AWS Lambda</th><th>Azure Functions (Consumption)</th></tr></thead>
@@ -141,20 +141,20 @@ def check_sites(timer: func.TimerRequest) -> None:
                 </table>
             </div>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#snowflake"></use></svg><p class="text-neutral-700"><strong>Cold start:</strong> kiçik paket, az asılılıq, provisioned concurrency / Premium plan ilə azaldılır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#repeat"></use></svg><p class="text-neutral-700"><strong>Idempotency:</strong> platforma hadisəni təkrar göndərə bilər — eyni sifarişi iki dəfə emal etməyin.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#inbox"></use></svg><p class="text-neutral-700"><strong>Dead-letter queue:</strong> uğursuz hadisələr itmir, ayrıca növbəyə düşür.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#snowflake"></use></svg><p class="text-neutral-700"><strong>Cold start:</strong> kiçik paket, az asılılıq, provisioned concurrency / Premium plan ilə azaldılır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#repeat"></use></svg><p class="text-neutral-700"><strong>Idempotency:</strong> platforma hadisəni təkrar göndərə bilər — eyni sifarişi iki dəfə emal etməyin.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#inbox"></use></svg><p class="text-neutral-700"><strong>Dead-letter queue:</strong> uğursuz hadisələr itmir, ayrıca növbəyə düşür.</p></div>
             </div>
         </section>
 
         <section id="when" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#scale"></use></svg> 5. Serverless Nə Vaxt Uyğundur?</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#scale"></use></svg> 5. Serverless Nə Vaxt Uyğundur?</h2>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg> Uyğundur</h3><p class="text-neutral-700">Qeyri-bərabər trafik, hadisəyə əsaslanan iş, avtomatlaşdırma skriptləri, kiçik API-lər, inteqrasiyalar, prototiplər.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-x"></use></svg> Uyğun deyil</h3><p>Uzun işləyən proseslər, sabit yüksək yük (VM/konteyner ucuz başa gəlir), çox aşağı latency tələbi, xüsusi OS asılılıqları.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-check"></use></svg> Uyğundur</h3><p class="text-neutral-700">Qeyri-bərabər trafik, hadisəyə əsaslanan iş, avtomatlaşdırma skriptləri, kiçik API-lər, inteqrasiyalar, prototiplər.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-x"></use></svg> Uyğun deyil</h3><p>Uzun işləyən proseslər, sabit yüksək yük (VM/konteyner ucuz başa gəlir), çox aşağı latency tələbi, xüsusi OS asılılıqları.</p></div>
             </div>
             <div class="note-box mt-6">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#briefcase"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#briefcase"></use></svg>
                 <p class="text-neutral-800">Sistem administratoru üçün ən praktik istifadə: <strong>ops avtomatlaşdırması</strong> — gecə dev VM-lərini söndürmək, tag-sız resursları tapmaq, sertifikat müddəti bitənə 30 gün qalanda email göndərmək.</p>
             </div>
         </section>
@@ -164,7 +164,7 @@ def check_sites(timer: func.TimerRequest) -> None:
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

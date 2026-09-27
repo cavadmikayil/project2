@@ -37,6 +37,7 @@ index.html                 Dashboard: giriş, kateqoriya tabları, dərs kartlar
 links.html                 Faydalı Linklər səhifəsi (linklər faylın içindəki CATEGORIES siyahısındadır)
 about.html                 Haqqında səhifəsi
 lessons/*.html             Dərs səhifələri (hazır, saytda açılan fayllar)
+careers.html               Karyera yolları (məlumat assets/careers.js-dədir)
 tools.html                 Tools səhifəsi (alətlərin siyahısı assets/tools-catalog.js-dədir)
 tools/*.html               Alətlər: quiz, CCNA imtahan simulyatoru, CLI simulyatoru, flashcard-lar,
                            subnet, VLSM, IPv6, wildcard kalkulyatorları, port arayışı
@@ -140,6 +141,16 @@ Hər CCNA dərsinin sonunda **Lab** bölməsi var. Lab-lar `_dev/labs/` qovluğu
 ```
 
 Dərslərdə `"cat": "devops"` yazın. Dərs səhifəsindəki "Portal" düyməsinin bu taba qayıtması üçün `_dev/build.py`-dəki `BADGE_TO_CATEGORY`-yə `'DevOps': 'devops'` əlavə edin və badge-i `DevOps · ...` kimi yazın.
+
+### Karyera yolları
+
+`assets/careers.js`-də 4 yol var (Helpdesk, Şəbəkə mühəndisi, Sistem administratoru, SOC analitiki). Hər yolun mərhələləri dərs fayllarının adları ilə yazılır:
+
+```js
+{ title: 'Routing', lessons: ['router-basics', 'static-routing', 'ospf'] }
+```
+
+İrəliləyiş tələbənin "Oxudum" qeydlərindən hesablanır; seçilmiş yol dashboard-da göstərilir. `build.py check` yollardakı hər dərsin kataloqda olduğunu yoxlayır — yeni yol əlavə etmək üçün eyni formatda bir obyekt yazmaq kifayətdir.
 
 ## 7. Faydalı link əlavə etmək
 
