@@ -13,6 +13,8 @@ Nə edir:
   2. Bütün səhifələrdə footer-i (sosial ikonlarla) eyni saxlayır.
   3. about.html-dəki sosial kartları SOCIALS siyahısından yeniləyir.
   4. icons.svg keçidlərinə versiya (?v=hash) əlavə edir ki, brauzer köhnə sprite göstərməsin.
+  4a. Hər səhifənin <head>-inə SEO bloku (description, canonical, Open Graph, Twitter, JSON-LD) yazır,
+      sitemap.xml və robots.txt yaradır (SITE_URL). Paylaşım şəkilləri: node _dev/og.js
   5. Yoxlayır: istifadə olunan ikonlar sprite-da var, kataloqdakı dərs faylları mövcuddur,
      hər dərsin quiz sualı var.
 """
@@ -43,6 +45,14 @@ SOCIALS = [
     ('tiktok', 'TikTok', 'https://tiktok.com/@cavadmikayil', 'brand-tiktok', '@cavadmikayil'),
     ('email', 'Email', 'mailto:info@cavadmikayil.com', 'mail', 'info@cavadmikayil.com'),
 ]
+
+# Saytın ünvanı — canonical, Open Graph, sitemap.xml və robots.txt buradan qurulur.
+# Repo adı dəyişəndə və ya öz domen qoşulanda yalnız bunu dəyişib "python3 _dev/build.py" işlədin.
+SITE_URL = 'https://cavadmikayil.github.io/project2/'
+SITE_NAME = 'Cavad Mikayil Təlim Portalı'
+AUTHOR = 'Cavad Mikayil'
+# Google Search Console → "HTML tag" üsulu ilə verilən content dəyəri (boşdursa tag əlavə olunmur)
+GOOGLE_SITE_VERIFICATION = ''
 
 NAV = [
     ('home', 'Ana Səhifə', 'index.html', 'house'),
@@ -217,7 +227,7 @@ def footer(prefix, cls='brand-footer'):
 # ---------------------------------------------------------------------------
 # Dərs mənbələrinin qurulması
 # ---------------------------------------------------------------------------
-def lesson_head(attrs, extra_head=''):
+def lesson_head(attrs, extra_head='', category=''):
     links = '\n'.join(
         f'                <a href="#{i}" class="nav-link">{label}</a>'
         for i, label in (item.split(':', 1) for item in attrs['nav'].split('|')))
@@ -230,7 +240,7 @@ def lesson_head(attrs, extra_head=''):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{attrs["title"]} — Dərs Vəsaiti</title>
+    <title>{attrs["title"]} — {category or 'Dərs Vəsaiti'} | {SITE_NAME}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -363,6 +373,11 @@ def render_lab(lab):
 def build_lessons():
     count = 0
     labs = load_labs()
+    catalog, _ = load_catalog()
+    cat_label = {}
+    if catalog:
+        labels = {c['id']: c['label'] for c in catalog['categories']}
+        cat_label = {l['href'].split('/')[-1]: labels[l['cat']] for l in catalog['lessons']}
     used = set()
     for src in sorted(SRC.glob('*.html')):
         text = src.read_text()
@@ -387,7 +402,7 @@ def build_lessons():
             attrs['nav'] += '|lab:Lab'
             text = text.replace('<!--END-->', render_lab(lab) + '<!--END-->', 1)
         m = re.search(r'<!--PAGE (.*?)-->\n?', text, re.S)
-        text = text[:m.start()] + lesson_head(attrs, blocks['HEAD']) + text[m.end():]
+        text = text[:m.start()] + lesson_head(attrs, blocks['HEAD'], cat_label.get(src.name, '')) + text[m.end():]
         if '<!--END-->' not in text:
             raise SystemExit(f'{src.name}: <!--END--> markeri yoxdur')
         text = text.replace('<!--END-->', lesson_end(blocks['FOOT']))
@@ -436,6 +451,157 @@ def refresh_about():
                      lambda m: m.group(1) + cards + m.group(2), text, count=1)
     if n == 1 and new != text:
         page.write_text(new)
+
+
+# ---------------------------------------------------------------------------
+# SEO: meta description, canonical, Open Graph, Twitter, JSON-LD, sitemap.xml, robots.txt
+# ---------------------------------------------------------------------------
+SEO_BLOCK = re.compile(r'\n[ \t]*<!--SEO-->[\s\S]*?<!--/SEO-->')
+DESC_META = re.compile(r'\n[ \t]*<meta name="description" content="([^"]*)">')
+
+
+def page_url(rel):
+    return SITE_URL if rel == 'index.html' else SITE_URL + rel
+
+
+def og_image(rel):
+    return 'assets/og/' + rel[:-5] + '.jpg'
+
+
+def _attr(text):
+    return text.replace('&', '&amp;').replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;')
+
+
+def _unattr(text):
+    return text.replace('&quot;', '"').replace('&lt;', '<').replace('&gt;', '>').replace('&amp;', '&')
+
+
+def lesson_desc(lesson, label):
+    extra = 'lab tapşırıqları və quiz' if lesson['cat'] == 'ccna' else 'quiz sualları'
+    return f'{lesson["desc"]} {label}: Azərbaycan dilində pulsuz dərs vəsaiti, {extra}.'
+
+
+def seo_block(rel, title, desc, kind, prefix):
+    url = page_url(rel)
+    image = SITE_URL + og_image(rel)
+    person = {'@type': 'Person', 'name': AUTHOR, 'url': SITE_URL + 'about.html',
+              'jobTitle': 'İT təlimçisi, şəbəkə təhlükəsizliyi mühəndisi',
+              'sameAs': [u for _, _, u, _, _ in SOCIALS if u.startswith('http')]}
+    if rel == 'index.html':
+        ld = {'@context': 'https://schema.org', '@type': 'WebSite', 'name': SITE_NAME, 'url': SITE_URL,
+              'inLanguage': 'az', 'description': desc, 'image': image, 'author': person, 'publisher': person}
+    elif kind == 'lesson':
+        ld = {'@context': 'https://schema.org', '@type': 'LearningResource', 'name': title.split(' — ')[0],
+              'description': desc, 'url': url, 'image': image, 'inLanguage': 'az',
+              'learningResourceType': 'Dərs vəsaiti', 'isAccessibleForFree': True, 'author': person,
+              'isPartOf': {'@type': 'WebSite', 'name': SITE_NAME, 'url': SITE_URL}}
+    elif kind == 'tool':
+        ld = {'@context': 'https://schema.org', '@type': 'WebApplication', 'name': title.split(' — ')[0],
+              'description': desc, 'url': url, 'image': image, 'inLanguage': 'az',
+              'applicationCategory': 'EducationalApplication', 'operatingSystem': 'Any',
+              'isAccessibleForFree': True, 'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'AZN'},
+              'author': person}
+    else:
+        ld = None
+    # Sosial kartda sayt adı og:site_name ilə ayrıca göstərilir — başlıqda təkrarlanmır
+    short = title if kind == 'page' else re.sub(rf'\s*[|—]\s*{SITE_NAME}$', '', title)
+    t, d = _attr(short), _attr(desc)
+    lines = [
+        '<!--SEO-->',
+        f'<meta name="description" content="{d}">',
+        f'<link rel="canonical" href="{url}">',
+        '<meta name="theme-color" content="#0a0a0a">',
+        f'<meta name="author" content="{AUTHOR}">',
+        f'<link rel="icon" href="{prefix}assets/favicon.svg" type="image/svg+xml">',
+        f'<link rel="icon" href="{prefix}assets/favicon-32.png" type="image/png" sizes="32x32">',
+        f'<link rel="apple-touch-icon" href="{prefix}assets/apple-touch-icon.png">',
+    ]
+    if GOOGLE_SITE_VERIFICATION and rel == 'index.html':
+        lines.append(f'<meta name="google-site-verification" content="{GOOGLE_SITE_VERIFICATION}">')
+    lines += [
+        f'<meta property="og:type" content="{"article" if kind == "lesson" else "website"}">',
+        f'<meta property="og:site_name" content="{SITE_NAME}">',
+        '<meta property="og:locale" content="az_AZ">',
+        f'<meta property="og:title" content="{t}">',
+        f'<meta property="og:description" content="{d}">',
+        f'<meta property="og:url" content="{url}">',
+        f'<meta property="og:image" content="{image}">',
+        '<meta property="og:image:type" content="image/jpeg">',
+        '<meta property="og:image:width" content="1200">',
+        '<meta property="og:image:height" content="630">',
+        f'<meta property="og:image:alt" content="{t}">',
+        '<meta name="twitter:card" content="summary_large_image">',
+        f'<meta name="twitter:title" content="{t}">',
+        f'<meta name="twitter:description" content="{d}">',
+        f'<meta name="twitter:image" content="{image}">',
+    ]
+    if ld:
+        lines.append('<script type="application/ld+json">' + json.dumps(ld, ensure_ascii=False) + '</script>')
+    lines.append('<!--/SEO-->')
+    return ''.join('\n    ' + line for line in lines)
+
+
+def refresh_seo():
+    catalog, _ = load_catalog()
+    lessons = {}
+    if catalog:
+        labels = {c['id']: c['label'] for c in catalog['categories']}
+        lessons = {l['href']: lesson_desc(l, labels[l['cat']]) for l in catalog['lessons']}
+    urls = []
+    for page in all_pages():
+        rel = page.relative_to(ROOT).as_posix()
+        prefix = '' if page.parent == ROOT else '../'
+        kind = 'lesson' if rel.startswith('lessons/') else 'tool' if rel.startswith('tools/') else 'page'
+        text = page.read_text()
+        m = DESC_META.search(text)  # əl ilə yazılmış səhifədə description SEO blokunun içindədir — əvvəl oxunur
+        text = SEO_BLOCK.sub('', text)
+        desc = lessons.get(rel) or (_unattr(m.group(1)) if m else '')
+        text = DESC_META.sub('', text)
+        tm = re.search(r'<title>([^<]*)</title>', text)
+        if not tm or not desc:
+            print(f'XƏBƏRDARLIQ: {rel} — <title> və ya meta description yoxdur')
+            continue
+        title = _unattr(tm.group(1))
+        text = text[:tm.end()] + seo_block(rel, title, desc, kind, prefix) + text[tm.end():]
+        if text != page.read_text():
+            page.write_text(text)
+        urls.append(page_url(rel))
+    sitemap = ['<?xml version="1.0" encoding="UTF-8"?>',
+               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    sitemap += [f'  <url><loc>{u}</loc></url>' for u in urls]
+    sitemap.append('</urlset>')
+    _write_if_changed(ROOT / 'sitemap.xml', '\n'.join(sitemap) + '\n')
+    _write_if_changed(ROOT / 'robots.txt', f'User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}sitemap.xml\n')
+    print(f'SEO: {len(urls)} səhifə, sitemap.xml və robots.txt')
+
+
+def _write_if_changed(path, content):
+    if not path.exists() or path.read_text() != content:
+        path.write_text(content)
+
+
+def check_seo():
+    problems = []
+    titles = {}
+    for page in all_pages():
+        rel = page.relative_to(ROOT).as_posix()
+        text = page.read_text()
+        if len(SEO_BLOCK.findall(text)) != 1:
+            problems.append(f'{rel}: SEO bloku yoxdur — python3 _dev/build.py')
+            continue
+        m = DESC_META.search(text)
+        if not m or not 50 <= len(_unattr(m.group(1))) <= 220:
+            problems.append(f'{rel}: meta description 50–220 simvol olmalıdır')
+        if not (ROOT / og_image(rel)).exists():
+            problems.append(f'{rel}: paylaşım şəkli yoxdur ({og_image(rel)}) — node _dev/og.js')
+        title = re.search(r'<title>([^<]*)</title>', text).group(1)
+        if title in titles:
+            problems.append(f'{rel}: <title> {titles[title]} ilə eynidir')
+        titles[title] = rel
+    for f in ('favicon.svg', 'favicon-32.png', 'apple-touch-icon.png'):
+        if not (ROOT / 'assets' / f).exists():
+            problems.append(f'assets/{f} yoxdur — node _dev/og.js')
+    return problems
 
 
 def version_sprite_refs():
@@ -593,6 +759,7 @@ def check():
                 problems.append(f'dərs faylı kataloqda yoxdur: lessons/{f.name}')
         print(f'kataloq: {len(catalog["categories"])} kateqoriya, {len(catalog["lessons"])} dərs, {len(questions)} sual')
     problems += check_internal_links()
+    problems += check_seo()
     for name, where in sorted(used.items()):
         if name not in symbols:
             problems.append(f'ikon sprite-da yoxdur: {name} ({where}) → python3 _dev/build.py icons add {name}')
@@ -622,6 +789,7 @@ def main(argv):
     refresh_footers()
     refresh_about()
     version_sprite_refs()
+    refresh_seo()
     return 0 if check() else 1
 
 
