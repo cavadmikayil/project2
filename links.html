@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faydalı Linklər — Cavad Mikayil Təlim Portalı</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/lesson.css">
+    <link rel="stylesheet" href="assets/theme.css">
+    <style>
+        [hidden] { display: none !important; }
+        .links-hero {
+            background: #0a0a0a;
+            color: #ffffff;
+            border-radius: 1.25rem;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .links-hero h2 { font-size: 1.9rem; font-weight: 800; line-height: 1.2; }
+        .links-hero .accent { color: #fbbf24; }
+        .links-hero p { color: #d4d4d4; }
+        .hero-stat { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700; color: #fbbf24; font-size: 0.9rem; }
+        .search-field {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 2.75rem;
+            border-radius: 0.9rem;
+            border: 2px solid #262626;
+            background: #171717;
+            color: #ffffff;
+            font-size: 1rem;
+            outline: none;
+        }
+        .search-field:focus { border-color: #f59e0b; }
+        .search-wrap { position: relative; margin-top: 1.25rem; }
+        .search-wrap > .icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: #fbbf24; }
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.4rem 0.85rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: #ffffff;
+            color: #262626;
+            border: 1px solid #e5e5e5;
+            transition: border-color .15s, background .15s;
+        }
+        .chip:hover { border-color: #f59e0b; }
+        .chip.active { background: #0a0a0a; color: #fbbf24; border-color: #0a0a0a; }
+        .link-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+        .link-card {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            padding: 1rem 1.1rem;
+            border: 1px solid #e5e5e5;
+            border-radius: 0.9rem;
+            background: #ffffff;
+            transition: border-color .15s, transform .15s, box-shadow .15s;
+            min-width: 0;
+        }
+        a.link-card:hover { border-color: #f59e0b; transform: translateY(-2px); box-shadow: 0 10px 18px -10px rgb(0 0 0 / 0.25); }
+        .link-card.featured { border-left: 4px solid #f59e0b; }
+        .link-name { display: flex; align-items: flex-start; gap: 0.5rem; font-weight: 700; color: #0a0a0a; overflow-wrap: anywhere; }
+        .link-name .icon { color: #d97706; flex-shrink: 0; margin-top: 0.2rem; }
+        .link-desc { font-size: 0.875rem; color: #525252; }
+        .link-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin-top: auto; padding-top: 0.3rem; }
+        .type-tag { font-size: 0.7rem; font-weight: 700; padding: 0.1rem 0.5rem; border-radius: 9999px; background: #f5f5f5; color: #404040; border: 1px solid #e5e5e5; }
+        .type-tag.lang { background: #fef3c7; color: #78350f; border-color: #fde68a; }
+        .host { font-size: 0.75rem; color: #737373; overflow-wrap: anywhere; }
+        .count-pill { font-size: 0.75rem; font-weight: 700; padding: 0.1rem 0.55rem; border-radius: 9999px; background: #fef3c7; color: #78350f; margin-left: 0.25rem; }
+        details.idea { border: 1px solid #e5e5e5; border-radius: 0.8rem; background: #ffffff; }
+        details.idea summary { cursor: pointer; padding: 0.8rem 1rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; list-style: none; }
+        details.idea summary::-webkit-details-marker { display: none; }
+        details.idea summary .icon { color: #d97706; }
+        details.idea[open] summary { border-bottom: 1px solid #e5e5e5; }
+        details.idea p { padding: 0.75rem 1rem; color: #404040; font-size: 0.9rem; }
+
+        body.dark-mode .chip { background: #171717; color: #e5e5e5; border-color: #333333; }
+        body.dark-mode .chip.active { background: #f59e0b; color: #0a0a0a; border-color: #f59e0b; }
+        body.dark-mode .links-hero { background: #000000 !important; box-shadow: 0 0 0 1px #262626; }
+        body.dark-mode .link-card, body.dark-mode details.idea { background: #0a0a0a; border-color: #262626; }
+        body.dark-mode a.link-card:hover { border-color: #f59e0b; }
+        body.dark-mode .link-name { color: #ffffff; }
+        body.dark-mode .link-name .icon, body.dark-mode details.idea summary .icon { color: #fbbf24; }
+        body.dark-mode .link-desc, body.dark-mode details.idea p { color: #d4d4d4; }
+        body.dark-mode .type-tag { background: #262626; color: #d4d4d4; border-color: #333333; }
+        body.dark-mode .type-tag.lang { background: #2a2113; color: #fcd34d; border-color: #92400e; }
+        body.dark-mode .host { color: #a3a3a3; }
+        body.dark-mode details.idea[open] summary { border-color: #262626; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="assets/icons.svg#library"></use></svg> Faydalı Linklər</h1>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#extras" class="nav-link">Layihə ideyaları</a>
+                <a href="#films" class="nav-link">Filmlər</a>
+                <a href="#source" class="nav-link">Mənbə</a>
+                <a href="index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section class="links-hero">
+            <h2>IT dünyasında öyrənmək üçün <span class="accent">seçilmiş mənbələr</span></h2>
+            <p class="mt-3 max-w-3xl">
+                AI alətləri, Computer Science, Cyber Security, CTF, Cloud, Programming və daha çoxu — kurslar, kitablar,
+                YouTube kanalları və GitHub repoları bir yerdə. Mənbələrin əksəriyyəti ingiliscədir; türkcə olanlar ayrıca işarələnib.
+            </p>
+            <div class="flex flex-wrap gap-4 mt-4">
+                <span class="hero-stat"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#link"></use></svg> <span id="stat-links"></span> link</span>
+                <span class="hero-stat"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#layout-grid"></use></svg> <span id="stat-cats"></span> bölmə</span>
+                <span class="hero-stat"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#external-link"></use></svg> Keçidlər yeni pəncərədə açılır</span>
+            </div>
+            <label class="search-wrap block">
+                <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#search"></use></svg>
+                <input id="search" class="search-field" type="search" placeholder="Axtar... (məs: Python, CTF, OWASP, Cloud)" aria-label="Linklərdə axtar">
+            </label>
+        </section>
+
+        <div id="chips" class="flex flex-wrap gap-2 mb-6" role="tablist" aria-label="Bölmələr"></div>
+        <div id="sections"></div>
+        <p id="empty" class="text-center text-neutral-500 my-10" hidden>Uyğun link tapılmadı.</p>
+
+        <div id="extras-wrap">
+            <section id="python-libs" class="section-card">
+                <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#code"></use></svg> Python: Vacib Kitabxanalar (Libraries)</h2>
+                <div class="feature-grid">
+                    <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#globe"></use></svg><p class="text-neutral-700"><strong>Web:</strong> Flask (sadə), Django (geniş imkanlı), FastAPI (müasir və sürətli).</p></div>
+                    <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#bot"></use></svg><p class="text-neutral-700"><strong>Süni intellekt (AI):</strong> PyTorch, TensorFlow, LangChain.</p></div>
+                    <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#chart-column"></use></svg><p class="text-neutral-700"><strong>Data:</strong> Pandas, NumPy, Matplotlib.</p></div>
+                    <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#workflow"></use></svg><p class="text-neutral-700"><strong>Avtomatlaşdırma:</strong> Selenium, Beautiful Soup (Web Scraping).</p></div>
+                </div>
+            </section>
+
+            <section id="extras" class="section-card">
+                <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#lightbulb"></use></svg> Layihə İdeyaları (Praktika Üçün)</h2>
+                <p class="lead">"Ən yaxşı öyrənmə üsulu əllərini işə salmaqdır." Başlığa klikləyin — məqsəd açılacaq.</p>
+                <div id="ideas" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            </section>
+
+            <section id="prompt" class="section-card">
+                <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#search"></use></svg> Google (və AI) Necə İstifadə Olunur?</h2>
+                <p class="lead">Əvvəllər "Google Dorking" öyrənirdik — <code>site:edu.az filetype:pdf</code> kimi. İndi isə <strong>Prompt Engineering</strong> öyrənirik. Problemi həll etmək üçün axtarış motoruna və ya AI-a (ChatGPT/Claude) bunları verin:</p>
+                <ol class="steps max-w-3xl mx-auto">
+                    <li><p class="text-neutral-700"><strong>Rol:</strong> "Sən təcrübəli Python developer-sən."</p></li>
+                    <li><p class="text-neutral-700"><strong>Kontekst:</strong> "Flask tətbiqi yazıram, database bağlantısında xəta alıram."</p></li>
+                    <li><p class="text-neutral-700"><strong>Xəta kodu:</strong> xətanı olduğu kimi yapışdırın.</p></li>
+                    <li><p class="text-neutral-700"><strong>İstək:</strong> "Bu xətanı necə həll edim və kodumu necə daha təhlükəsiz edim?"</p></li>
+                </ol>
+            </section>
+
+            <section id="films" class="section-card">
+                <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#clapperboard"></use></svg> Filmlər və Seriallar (Motivasiya)</h2>
+                <p class="lead">Hacker mədəniyyətini, distopiyanı və texnologiyanı sevənlər üçün seçmələr.</p>
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead><tr><th>Adı</th><th>Növ</th><th>Mövzu</th></tr></thead>
+                        <tbody id="film-rows"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <section id="source" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#info"></use></svg> Mənbə</h2>
+            <p class="text-neutral-700">
+                Bu siyahı <strong>LuNiZz</strong>-in açıq mənbəli
+                <a class="font-semibold text-amber-700 hover:underline" href="https://github.com/LuNiZz/siber-guvenlik-sss" target="_blank" rel="noopener noreferrer">siber-guvenlik-sss</a>
+                layihəsindəki "Bağlantılar və Bilgilər" bölməsi əsasında hazırlanıb və türkcədən Azərbaycan dilinə uyğunlaşdırılıb.
+                Linklər xarici saytlara aparır; onların məzmununa həmin saytların sahibləri cavabdehdir.
+            </p>
+        </section>
+    </main>
+
+    <footer class="brand-footer">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">Şəbəkə, CCNA və IT üzrə pulsuz təlim materialları</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+                    <a href="index.html">Portal</a>
+                    <a href="index.html#ccna">CCNA Dərsləri</a>
+                    <a href="links.html">Faydalı Linklər</a>
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
+            </div>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
+
+    <script>
+        // n: ad, u: link (kitablarda boş ola bilər), d: izah, t: növ, f: seçilmiş, lang: dil işarəsi
+        const CATEGORIES = [
+            { id: 'ai', name: 'Süni İntellekt (AI) və LLM Alətləri', icon: 'sparkles', desc: 'Həm kodlaşdırma (coding), həm də araşdırma üçün yeni "super gücləriniz".', items: [
+                { n: 'Google NotebookLM', u: 'https://notebooklm.google.com/', t: 'Alət', f: 1, d: 'PDF, sənəd və qeydlərinizi yükləyin — o sizin üçün podcast hazırlasın, xülasə çıxarsın, sual-cavab etsin. Dərs oxumaq üçün əsl inqilab.' },
+                { n: 'Cursor Editor', u: 'https://www.cursor.com/', t: 'Alət', f: 1, d: 'Daxilində AI olan VS Code fork-u. "Burada düzəliş et", "mənə belə bir kod yaz" deyərək kod yazırsınız.' },
+                { n: 'ChatGPT', u: 'https://chat.openai.com/', t: 'Alət', f: 1, d: 'Kodlaşdırma və mətn yazımında ən yaxşı assistentlərdən biri.' },
+                { n: 'Claude', u: 'https://claude.ai/', t: 'Alət', f: 1, d: 'Kodlaşdırma və mətn yazımında ən yaxşı assistentlərdən biri.' },
+                { n: 'Perplexity', u: 'https://www.perplexity.ai/', t: 'Alət', d: 'Mənbə göstərərək axtarış edən AI axtarış motoru — Google-un yerini tutmağa namizəd.' },
+                { n: 'Hugging Face', u: 'https://huggingface.co/', t: 'Sayt', d: 'AI dünyasının GitHub-ı. Model və dataset tapmaq üçün bir nömrəli yer.' },
+                { n: 'Ollama', u: 'https://ollama.com/', t: 'Alət', d: 'Öz kompüterinizdə (local) LLM modellərini (Llama 3, Mistral və s.) işlətmək üçün.' },
+                { n: 'LangChain', u: 'https://www.langchain.com/', t: 'Alət', d: 'LLM ilə tətbiq hazırlamaq istəyənlər üçün framework.' }
+            ] },
+            { id: 'cs', name: 'Computer Science (Kompüter Elmləri)', icon: 'cpu', items: [
+                { n: 'Harvard CS50x', u: 'https://cs50.harvard.edu/x/', t: 'Kurs', f: 1, d: 'Dünyanın ən yaxşı Computer Science-ə giriş kursu.' },
+                { n: 'Computerphile', u: 'https://www.youtube.com/user/Computerphile', t: 'Video', d: 'Konseptləri anlamaq üçün əla videolar.' },
+                { n: 'Crash Course Computer Science', u: 'https://www.youtube.com/playlist?list=PL8dPuuaLjXtNlUrzyH5r6jN9ulIgZBpdo', t: 'Video', d: 'Sürətli və əyləncəli ümumi bilik.' },
+                { n: 'OSSU (Open Source Society University)', u: 'https://github.com/ossu/computer-science', t: 'Kurs', f: 1, d: 'Evdə, müstəqil şəkildə Computer Science oxumaq istəyənlər üçün tam tədris proqramı.' }
+            ] },
+            { id: 'prog', name: 'Programming və Development', icon: 'code', items: [
+                { n: 'Roadmap.sh', u: 'https://roadmap.sh/', t: 'Sayt', f: 1, d: 'Hansı yolla getməli olduğunuzu göstərən öyrənmə xəritələri (roadmap).' },
+                { n: 'FreeCodeCamp', u: 'https://www.freecodecamp.org/', t: 'Kurs', f: 1, d: 'Pulsuz, sertifikatlı, əfsanəvi mənbə.' },
+                { n: 'Free Programming Books', u: 'https://books.goalkicker.com/', t: 'Kitab', d: 'Proqramlaşdırma dilləri üzrə pulsuz kitablar.' },
+                { n: 'Learn X in Y Minutes', u: 'https://learnxinyminutes.com', t: 'Sayt', d: 'Bildiyiniz dili əsas götürərək yeni dil öyrənmək üçün.' }
+            ] },
+            { id: 'python', name: 'Python', icon: 'terminal', desc: 'Sıfırdan başlayırsınızsa, CS50P ən yaxşı başlanğıcdır.', items: [
+                { n: 'CS50P (Python)', u: 'https://cs50.harvard.edu/python/', t: 'Kurs', f: 1, d: 'Harvard-ın yalnız Python-a həsr olunmuş kursu.' },
+                { n: '30 Days of Python', u: 'https://github.com/Asabeneh/30-Days-Of-Python', t: 'Repo', d: 'Addım-addım bələdçi.' },
+                { n: 'Corey Schafer', u: 'https://www.youtube.com/playlist?list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU', t: 'Video', d: 'Python üçün ən yaxşı YouTube kanallarından biri.' },
+                { n: 'Real Python', u: 'https://realpython.com/', t: 'Sayt', d: 'Keyfiyyətli məqalələr.' },
+                { n: 'YazBel', u: 'https://python-istihza.yazbel.com/', t: 'Sayt', lang: 'Türkcə', d: 'Türkiyənin ən yaxşı yazılı Python mənbəyi.' },
+                { n: '100 Days of Code (Python)', u: 'https://www.udemy.com/course/100-days-of-code/', t: 'Kurs', d: 'Nizam-intizamla irəliləmək istəyənlər üçün (Angela Yu).' },
+                { n: 'Python Cheat Sheet', u: 'https://www.pythoncheatsheet.org', t: 'Sayt', d: 'Python sintaksisi üçün qısa arayış (cheat sheet).' }
+            ] },
+            { id: 'go', name: 'Go (Golang)', icon: 'rocket', items: [
+                { n: 'Go by Example', u: 'https://gobyexample.com', t: 'Sayt', d: 'Go dilini nümunələrlə öyrənmək üçün.' },
+                { n: 'Go Türkiye Eğitim Kampı', u: 'https://www.youtube.com/playlist?list=PLX2txCMVbkjyqrdV5TsJ5iW-bhVNeBMaq', t: 'Video', lang: 'Türkcə', d: 'Go üzrə video dərs seriyası.' },
+                { n: '10 Saatte Temel Go Eğitimi', u: 'https://www.youtube.com/watch?v=AD2zUrhL6GI&t=27517s', t: 'Video', lang: 'Türkcə', d: '10 saatlıq əsas Go kursu.' }
+            ] },
+            { id: 'crypto', name: 'Cryptography (Kriptoqrafiya)', icon: 'key-round', items: [
+                { n: 'Cryptography — Stanford University', u: 'https://www.coursera.org/learn/crypto', t: 'Kurs', f: 1, d: 'Stanford Universitetinin Coursera-dakı kriptoqrafiya kursu.' },
+                { n: 'Crypto101', u: 'https://www.crypto101.io', t: 'Kitab', d: 'Kriptoqrafiyaya giriş üçün pulsuz kitab.' },
+                { n: 'The Joy of Cryptography', u: 'https://web.engr.oregonstate.edu/~rosulekm/crypto', t: 'Kitab', d: 'Müasir kriptoqrafiya üzrə pulsuz dərslik.' },
+                { n: 'CyberChef', u: 'https://gchq.github.io/CyberChef/', t: 'Alət', f: 1, d: '"The Cyber Swiss Army Knife" — hər cür decode/encode əməliyyatı üçün.' }
+            ] },
+            { id: 'ctf', name: 'CTF və Praktika Platformaları', icon: 'flag', items: [
+                { n: 'PicoCTF', u: 'https://picoctf.org/', t: 'Sayt', f: 1, d: 'Yeni başlayanlar üçün ən yaxşı platforma.' },
+                { n: 'HackTheBox', u: 'https://www.hackthebox.com/', t: 'Sayt', f: 1, d: 'Sənaye standartı.' },
+                { n: 'TryHackMe', u: 'https://tryhackme.com/', t: 'Sayt', f: 1, d: 'Öyrədici və bələdçili otaqlar (rooms).' },
+                { n: 'Hacker101 CTF', u: 'https://ctf.hacker101.com/', t: 'Sayt', d: 'HackerOne-ın CTF platforması.' },
+                { n: 'OverTheWire (Bandit)', u: 'https://overthewire.org/wargames/bandit/', t: 'Sayt', d: 'Linux və CLI öyrənmək üçün oyunlaşdırılmış ən yaxşı yer.' }
+            ] },
+            { id: 'web', name: 'Web Security', icon: 'globe', items: [
+                { n: 'PortSwigger Web Security Academy', u: 'https://portswigger.net/web-security', t: 'Kurs', f: 1, d: 'Burp Suite-in yaradıcılarından PULSUZ və ƏN YAXŞI təlim.' },
+                { n: 'OWASP Top 10', u: 'https://owasp.org/www-project-top-ten/', t: 'Sayt', f: 1, d: 'Əzbər bilinməli siyahı.' },
+                { n: 'NahamSec', u: 'https://www.youtube.com/@NahamSec', t: 'Video', d: 'Bug Bounty və Web Security üçün.' },
+                { n: "The Web Application Hacker's Handbook", t: 'Kitab', d: 'Bir az köhnədir, amma əsasları möhkəmdir.' }
+            ] },
+            { id: 'bounty', name: 'Bug Bounty', icon: 'bug', items: [
+                { n: 'NahamSec-in mənbələri', u: 'https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters', t: 'Repo', f: 1, d: 'Başlanğıc üçün qızıl bələdçi.' },
+                { n: 'Hacker101 (HackerOne)', u: 'https://www.hacker101.com', t: 'Kurs', d: 'Praktika edərək öyrənin.' },
+                { n: 'Bugcrowd University', u: 'https://www.bugcrowd.com/hackers/bugcrowd-university', t: 'Kurs', d: 'Bugcrowd-un pulsuz təlim materialları.' },
+                { n: 'PortSwigger Academy', u: 'https://portswigger.net/web-security', t: 'Kurs', d: 'Buradakı laboratoriyaları bitirmədən bug bounty-yə başlamayın.' },
+                { n: 'Google Bughunters', u: 'https://bughunters.google.com/learn', t: 'Kurs', d: 'Google-un öz təlim materialları.' }
+            ] },
+            { id: 'osint', name: 'OSINT (Açıq Mənbə Kəşfiyyatı)', icon: 'scan-search', items: [
+                { n: 'Bellingcat', u: 'https://www.bellingcat.com/', t: 'Sayt', f: 1, d: 'Araşdırmaçı jurnalistika və OSINT texnikaları.' },
+                { n: 'OSINT Framework', u: 'https://osintframework.com/', t: 'Sayt', d: 'OSINT alətlərinin toplu siyahısı.' },
+                { n: 'Sherlock', u: 'https://github.com/sherlock-project/sherlock', t: 'Repo', d: 'İstifadəçi adı (username) axtarış aləti.' },
+                { n: 'Open Source Intelligence Techniques — Michael Bazzell', t: 'Kitab', d: 'Bu sahənin əsas kitabı.' }
+            ] },
+            { id: 'mobile', name: 'Android və Mobile Security', icon: 'smartphone', items: [
+                { n: 'Android Internals', u: 'http://newandroidbook.com/AIvI-M-RL1.pdf', t: 'Kitab', d: 'Android-in daxili quruluşu haqqında kitab (PDF).' },
+                { n: 'Mobile Systems and Smartphone Security', u: 'https://mobisec.reyammer.io/slides', t: 'Kurs', d: 'Mobil sistemlər və smartfon təhlükəsizliyi üzrə dərs slaydları.' },
+                { n: 'OWASP Mobile Top 10', u: 'https://owasp.org/www-project-mobile-top-10/', t: 'Sayt', d: 'Mobil tətbiqlərdə ən çox rast gəlinən 10 risk.' }
+            ] },
+            { id: 're', name: 'Reverse Engineering', icon: 'wrench', items: [
+                { n: 'Reverse Engineering for Beginners', u: 'https://beginners.re/', t: 'Kitab', d: 'Yeni başlayanlar üçün pulsuz kitab.' },
+                { n: "Maddie Stone's Android RE", u: 'https://maddiestone.github.io/AndroidAppRE', t: 'Kurs', d: 'Android tətbiqlərinin reverse engineering-i üzrə təlim.' },
+                { n: 'Ghidra', u: 'https://ghidra-sre.org/', t: 'Alət', f: 1, d: 'NSA-nın yayımladığı pulsuz RE aləti.' }
+            ] },
+            { id: 'cloud', name: 'Cloud (Bulud Texnologiyaları)', icon: 'cloud', items: [
+                { n: 'Awesome Cloud Security', u: 'https://github.com/4ndersonLin/awesome-cloud-security', t: 'Repo', f: 1, d: 'Cloud Security üzrə axtardığınız hər şey burada.' },
+                { n: 'AWS Skill Builder', u: 'https://explore.skillbuilder.aws/learn', t: 'Kurs', d: 'AWS-in öz pulsuz təlim platforması.' },
+                { n: 'AWS Well-Architected', u: 'https://wa.aws.amazon.com/', t: 'Sayt', d: 'Cloud arxitekturasını düzgün qurmaq üçün.' },
+                { n: 'AWS Cloud Quest', u: 'https://aws.amazon.com/training/digital/aws-cloud-quest/', t: 'Kurs', d: 'Oyun oynayaraq AWS öyrənmək.' },
+                { n: 'Microsoft Learn (Azure)', u: 'https://docs.microsoft.com/en-us/learn/paths/az-900-describe-cloud-concepts/', t: 'Kurs', d: 'AZ-900 ilə başlayın.' },
+                { n: 'Google Cloud Skills Boost', u: 'https://www.cloudskillsboost.google/', t: 'Kurs', d: 'GCP laboratoriyaları.' }
+            ] },
+            { id: 'cheat', name: 'Cheat Sheet-lər', icon: 'file-text', items: [
+                { n: 'GTFOBins', u: 'https://gtfobins.github.io/', t: 'Sayt', f: 1, d: 'Linux-da privilege escalation (PrivEsc) üçün əsas mənbə.' },
+                { n: 'LOLBAS', u: 'https://lolbas-project.github.io/', t: 'Sayt', d: 'Windows üçün GTFOBins analoqu.' },
+                { n: 'RevShells', u: 'https://www.revshells.com/', t: 'Alət', d: 'Reverse Shell generatoru.' },
+                { n: 'Pentest Cheat Sheets (Tib3rius)', u: 'https://github.com/Tib3rius/Pentest-Cheatsheets', t: 'Repo', d: 'Pentest üçün qısa arayışlar.' },
+                { n: 'PayloadsAllTheThings', u: 'https://github.com/swisskyrepo/PayloadsAllTheThings', t: 'Repo', d: 'Hər növ hücum payload-u.' }
+            ] },
+            { id: 'repos', name: 'Faydalı GitHub Repoları', icon: 'folder-git-2', items: [
+                { n: 'SecLists', u: 'https://github.com/danielmiessler/SecLists', t: 'Repo', f: 1, d: 'Wordlist-lər (parollar, istifadəçi adları) üçün standart.' },
+                { n: 'Public APIs', u: 'https://github.com/public-apis/public-apis', t: 'Repo', d: 'Layihələrinizdə istifadə edə biləcəyiniz minlərlə pulsuz API.' },
+                { n: 'Developer Roadmap', u: 'https://github.com/kamranahmedse/developer-roadmap', t: 'Repo', d: 'Karyera yolları.' },
+                { n: 'System Design Primer', u: 'https://github.com/donnemartin/system-design-primer', t: 'Repo', f: 1, d: 'Böyük sistemlər necə dizayn olunur? Müsahibələr üçün vacibdir.' },
+                { n: 'The Algorithms', u: 'https://github.com/TheAlgorithms', t: 'Repo', d: 'Alqoritmləri dərindən, texniki baxımdan öyrənmək üçün.' },
+                { n: 'Build Your Own X', u: 'https://github.com/codecrafters-io/build-your-own-x', t: 'Repo', d: 'Demək olar ki, hər proqramlaşdırma dilində sıfırdan müxtəlif layihə nümunələri.' },
+                { n: 'Awesome Lists', u: 'https://github.com/sindresorhus/awesome', t: 'Repo', f: 1, d: 'GitHub-da ən böyük mənbə siyahısı — ağlınıza gələn hər mövzu üçün bir "Awesome" siyahısı var.' }
+            ] },
+            { id: 'youtube', name: 'İzlənməli YouTube Kanalları', icon: 'tv', items: [
+                { n: 'NetworkChuck', u: 'https://www.youtube.com/@NetworkChuck', t: 'Kanal', f: 1, d: 'Network və hacking-i ən həyəcanlı izah edən kanal.' },
+                { n: 'David Bombal', u: 'https://www.youtube.com/@DavidBombalTech', t: 'Kanal', f: 1, d: 'Network, CCNA və Cyber Security.' },
+                { n: 'PirateSoftware', u: 'https://www.youtube.com/@PirateSoftware', t: 'Kanal', d: 'Oyun, təhlükəsizlik və IT haqqında maraqlı hekayələr.' },
+                { n: 'John Hammond', u: 'https://www.youtube.com/c/JohnHammond010', t: 'Kanal', d: 'Malware analysis və CTF həlləri.' },
+                { n: 'LiveOverflow', u: 'https://www.youtube.com/c/LiveOverflow', t: 'Kanal', d: 'Dərin texniki hacking.' },
+                { n: 'The Primeagen', u: 'https://www.youtube.com/@ThePrimeTimeagen', t: 'Kanal', d: 'Vim, Rust və Software Engineering haqqında əyləncəli şərhlər.' },
+                { n: 'Fireship', u: 'https://www.youtube.com/@Fireship', t: 'Kanal', d: 'Texnologiyaları 100 saniyədə izah edən kanal.' },
+                { n: 'Computerphile', u: 'https://www.youtube.com/user/Computerphile', t: 'Kanal', d: 'Computer Science konseptləri.' },
+                { n: 'Can Değer', u: 'https://www.youtube.com/c/candeger', t: 'Kanal', lang: 'Türkcə', d: 'Cyber Security və IT haqqında videolar.' },
+                { n: 'Hüseyin Bodur', u: 'https://www.youtube.com/@HuseyinBodur', t: 'Kanal', lang: 'Türkcə', d: 'Software Architecture.' },
+                { n: 'Kablosuz Kedi', u: 'https://www.youtube.com/@KablosuzKedi', t: 'Kanal', lang: 'Türkcə', d: 'Frontend və Backend.' },
+                { n: 'Prototürk', u: 'https://www.youtube.com/@prototurk', t: 'Kanal', lang: 'Türkcə', d: 'Tayfun Erbilen — web development.' },
+                { n: 'Murat Yücedağ', u: 'https://www.youtube.com/@MuratYucedag', t: 'Kanal', lang: 'Türkcə', d: 'Proqramlaşdırma dərsləri.' }
+            ] },
+            { id: 'books', name: 'Kitablar (Mütləq Oxunmalı)', icon: 'book-open', items: [
+                { n: 'Gödel, Escher, Bach — Douglas Hofstadter', t: 'Kitab', d: 'Riyaziyyat, məntiq və şüur haqqında klassik əsər.' },
+                { n: 'Clean Code — Robert C. Martin', t: 'Kitab', f: 1, d: 'Proqramçılar üçün "müqəddəs kitab".' },
+                { n: 'The Phoenix Project', t: 'Kitab', d: 'DevOps mədəniyyətini anlamaq üçün.' },
+                { n: 'Sandworm — Andy Greenberg', t: 'Kitab', d: 'Kiber müharibələri anlamaq üçün.' }
+            ] },
+            { id: 'orgs', name: 'Rəsmi və Ümumi Mənbələr', icon: 'building', items: [
+                { n: 'NIST Cybersecurity', u: 'https://www.nist.gov/cybersecurity', t: 'Sayt', d: 'Cyber Security standartları və təlim materialları.' },
+                { n: 'SANS White Papers (Reading Room)', u: 'https://www.sans.org/white-papers/', t: 'Sayt', d: 'Təhlükəsizlik üzrə akademik və texniki məqalələr.' },
+                { n: 'CISA', u: 'https://www.cisa.gov/resources-tools', t: 'Sayt', d: 'ABŞ Kibertəhlükəsizlik Agentliyinin mənbələri.' },
+                { n: 'BTK Akademi', u: 'https://www.btkakademi.gov.tr', t: 'Kurs', lang: 'Türkcə', d: 'Türkiyə dövlətinin pulsuz, sertifikatlı böyük təlim platforması.' },
+                { n: '1 Milyon İstihdam', u: 'https://1milyonistihdam.hmb.gov.tr/', t: 'Sayt', lang: 'Türkcə', d: 'Karyera bələdçiləri.' },
+                { n: 'Bilgeİş', u: 'https://bilgeis.net/tr', t: 'Kurs', lang: 'Türkcə', d: 'ODTÜ ilə birgə hazırlanmış dərslər.' }
+            ] },
+            { id: 'community', name: 'İcmalar və Sosial Media', icon: 'users', desc: 'Sosial media siyahıları tez dəyişdiyi üçün ayrı-ayrı şəxslər əvəzinə icmaları izləmək tövsiyə olunur.', items: [
+                { n: 'Infosec Exchange (Mastodon)', u: 'https://infosec.exchange/', t: 'İcma', d: 'Bir çox təhlükəsizlik mütəxəssisi Twitter-dən bura köçüb.' },
+                { n: 'Reddit r/netsec', u: 'https://www.reddit.com/r/netsec/', t: 'İcma', d: 'Texniki məqalələr üçün.' },
+                { n: 'Reddit r/learnprogramming', u: 'https://www.reddit.com/r/learnprogramming/', t: 'İcma', d: 'Sual vermək üçün.' },
+                { n: 'Hacker News (Y Combinator)', u: 'https://news.ycombinator.com/', t: 'İcma', d: 'Texnologiya dünyasının nəbzi burada vurur.' },
+                { n: 'LinkedIn', u: 'https://www.linkedin.com/', t: 'İcma', d: 'Doğru insanları (CISO-lar, developer-lər) əlavə etsəniz, lentiniz faydalı məlumatla dolacaq.' }
+            ] }
+        ];
+
+        const IDEAS = [
+            ['wallet', 'Gəlir-xərc izləmə proqramı', 'Aylıq büdcənin izlənməsi. Database (SQL/SQLite) istifadəsi və CRUD əməliyyatları üçün ideal.'],
+            ['file-text', 'Söz/mətn statistikası', 'String emalı: verilən mətndəki hərf, söz və xüsusi simvolların sayını tapın.'],
+            ['arrow-left-right', 'Valyuta çevirici (API istifadəsi)', 'Pulsuz bir API-dən (məs. fixer.io) məlumat alıb anlıq məzənnə hesablamaq. API ilə işləməyi öyrədir.'],
+            ['key-round', 'Təsadüfi parol generatoru', 'Təhlükəsiz təsadüfi ədəd yaradılması (Random ilə SecureRandom fərqini araşdırın).'],
+            ['cloud', 'Hava proqnozu tətbiqi', 'Məkana əsaslanan API istifadəsi və JSON məlumatlarının emalı.'],
+            ['puzzle', 'Daş-kağız-qayçı (və ya "İlan" oyunu)', 'Oyun dövrü (Game Loop) məntiqini və şərt ifadələrini anlamaq.'],
+            ['download', 'YouTube video yükləyici (Python)', '"pytube" və ya "yt-dlp" kitabxanaları ilə avtomatlaşdırma.'],
+            ['radar', 'Port Scanner (Python/Go)', 'Şəbəkə proqramlaşdırmasının (Socket) əsaslarını öyrənmək — Nmap-in çox sadə versiyasını yazın.'],
+            ['message-circle', 'Anlıq mesajlaşma (Chat) tətbiqi', 'Socket.IO və ya WebSocket ilə real vaxt rejimində əlaqə.'],
+            ['bot', 'Öz AI Chatbot-unuz', 'OpenAI API və ya Ollama ilə sadə chatbot interfeysi (məs. Streamlit ilə).']
+        ];
+
+        const FILMS = [
+            ['Mr. Robot', 'Serial', 'Cyber Security haqqında çəkilmiş ən real əsər.'],
+            ['Silicon Valley', 'Serial', 'Startup mədəniyyəti, proqram təminatı dünyası və yumor.'],
+            ['Who Am I', 'Film', 'Social engineering və Dark Web haqqında möhkəm alman filmi.'],
+            ['The Matrix', 'Film', 'Klassika. Simulyasiya nəzəriyyəsi.'],
+            ['Snowden', 'Film', 'Məxfilik, NSA və ifşalar.'],
+            ['The Social Network', 'Film', 'Facebook-un yaranması və proqramlaşdırma həvəsi.'],
+            ['Black Mirror', 'Serial', 'Texnologiyanın distopik gələcəyi.'],
+            ['Halt and Catch Fire', 'Serial', '80-ci illərdə kompüter inqilabının başlanğıcı.'],
+            ['Severance', 'Serial', 'İş həyatı və yaddaş haqqında psixoloji triller.'],
+            ['Her', 'Film', 'Süni intellekt və insan münasibətləri.'],
+            ['Ex Machina', 'Film', 'AI və Turing testi haqqında triller.']
+        ];
+
+        const TYPE_ICON = { 'Alət': 'wrench', 'Sayt': 'globe', 'Kurs': 'graduation-cap', 'Kitab': 'book-open', 'Video': 'tv', 'Kanal': 'tv', 'Repo': 'folder-git-2', 'İcma': 'users' };
+        const icon = (name, cls = '') => `<svg class="icon ${cls}" aria-hidden="true"><use href="assets/icons.svg#${name}"></use></svg>`;
+        const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        const hostOf = u => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return ''; } };
+        const $ = id => document.getElementById(id);
+        let activeCat = 'all';
+
+        function card(it) {
+            const meta = `<div class="link-meta">
+                    <span class="type-tag">${esc(it.t)}</span>
+                    ${it.lang ? `<span class="type-tag lang">${esc(it.lang)}</span>` : ''}
+                    ${it.u ? `<span class="host">${esc(hostOf(it.u))}</span>` : ''}
+                </div>`;
+            const body = `<span class="link-name">${icon(TYPE_ICON[it.t] || 'link')}<span>${esc(it.n)}</span></span>
+                <span class="link-desc">${esc(it.d)}</span>${meta}`;
+            return it.u
+                ? `<a class="link-card ${it.f ? 'featured' : ''}" href="${esc(it.u)}" target="_blank" rel="noopener noreferrer">${body}</a>`
+                : `<div class="link-card ${it.f ? 'featured' : ''}">${body}</div>`;
+        }
+
+        function render() {
+            const term = $('search').value.trim().toLocaleLowerCase('az');
+            let shown = 0;
+            $('sections').innerHTML = CATEGORIES.map(c => {
+                if (activeCat !== 'all' && c.id !== activeCat) return '';
+                const items = c.items.filter(it => !term ||
+                    [it.n, it.d, it.t, it.lang || '', c.name].join(' ').toLocaleLowerCase('az').includes(term));
+                if (items.length === 0) return '';
+                shown += items.length;
+                return `<section id="cat-${c.id}" class="section-card">
+                    <h2 class="section-title">${icon(c.icon)} ${esc(c.name)} <span class="count-pill">${items.length}</span></h2>
+                    ${c.desc ? `<p class="lead">${esc(c.desc)}</p>` : ''}
+                    <div class="link-grid">${items.map(card).join('')}</div>
+                </section>`;
+            }).join('');
+            $('empty').hidden = shown !== 0;
+            $('extras-wrap').hidden = term !== '' || activeCat !== 'all';
+        }
+
+        function renderChips() {
+            const all = [{ id: 'all', name: 'Hamısı', icon: 'layout-grid' }, ...CATEGORIES];
+            $('chips').innerHTML = all.map(c =>
+                `<button class="chip ${c.id === activeCat ? 'active' : ''}" data-cat="${c.id}" role="tab" aria-selected="${c.id === activeCat}">${icon(c.icon)} ${esc(c.name)}</button>`
+            ).join('');
+        }
+
+        $('chips').addEventListener('click', e => {
+            const chip = e.target.closest('.chip');
+            if (!chip) return;
+            activeCat = chip.dataset.cat;
+            renderChips();
+            render();
+        });
+        $('search').addEventListener('input', render);
+
+        $('ideas').innerHTML = IDEAS.map(([ic, title, text]) =>
+            `<details class="idea"><summary>${icon(ic)} ${esc(title)}</summary><p><strong>Məqsəd:</strong> ${esc(text)}</p></details>`).join('');
+        $('film-rows').innerHTML = FILMS.map(([n, t, d]) => `<tr><td><strong>${esc(n)}</strong></td><td>${esc(t)}</td><td>${esc(d)}</td></tr>`).join('');
+        $('stat-links').textContent = CATEGORIES.reduce((s, c) => s + c.items.filter(it => it.u).length, 0);
+        $('stat-cats').textContent = CATEGORIES.length;
+        renderChips();
+        render();
+    </script>
+    <script src="assets/theme.js"></script>
+</body>
+</html>

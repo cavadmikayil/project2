@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Şəbəkə və IT Dərs Portalı</title>
+    <title>Cavad Mikayil Təlim Portalı</title>
     <meta name="description" content="Cisco, şəbəkə və IT infrastrukturu üzrə interaktiv dərs vəsaitləri, subnet kalkulyatoru və testlər.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -285,8 +285,6 @@
             background: #0a0a0a;
             color: #fbbf24;
         }
-        .site-footer { border-top: 1px solid #e5e5e5; background: #ffffff; }
-        .site-footer a { color: #b45309; font-weight: 700; }
 
         body.dark-mode .login-card { background: #171717; }
         body.dark-mode .field { background: #0a0a0a; color: #e5e5e5; border-color: #404040; }
@@ -321,8 +319,6 @@
         body.dark-mode .tool-card h3, body.dark-mode .tool-card p { color: #ffffff !important; }
         body.dark-mode .tool-card.alt { background: #f59e0b !important; }
         body.dark-mode .tool-card.alt h3, body.dark-mode .tool-card.alt p { color: #0a0a0a !important; }
-        body.dark-mode .site-footer { background: #0a0a0a !important; border-color: #262626; }
-        body.dark-mode .site-footer a { color: #fbbf24; }
     </style>
 </head>
 <body class="antialiased">
@@ -334,7 +330,7 @@
                 <div class="flex justify-between items-start mb-6">
                     <div>
                         <span class="icon-badge lg mb-3"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"></use></svg></span>
-                        <h1 class="text-2xl font-extrabold text-neutral-900">Şəbəkə &amp; IT Dərs Portalı</h1>
+                        <h1 class="text-2xl font-extrabold text-neutral-900">Cavad Mikayil Təlim Portalı</h1>
                         <p id="login-stats" class="text-sm text-neutral-600 mt-1"></p>
                     </div>
                     <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#moon"></use></svg></button>
@@ -372,7 +368,7 @@
             <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
                 <div class="flex items-center gap-3">
                     <span class="icon-badge sm" style="background:#f59e0b;color:#0a0a0a"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"></use></svg></span>
-                    <span class="text-lg md:text-xl font-bold">Şəbəkə &amp; IT Dərs Portalı</span>
+                    <span class="text-lg md:text-xl font-bold">Cavad Mikayil Təlim Portalı</span>
                 </div>
                 <div class="flex items-center gap-3">
                     <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#moon"></use></svg></button>
@@ -429,7 +425,7 @@
 
             <section id="tools-section" class="mb-12">
                 <h2 class="section-heading mb-6 text-neutral-900"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#wrench"></use></svg> İnteraktiv Alətlər</h2>
-                <div id="tool-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+                <div id="tool-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </section>
 
             <section id="lessons-section">
@@ -444,19 +440,30 @@
 
             <section id="resources-section" class="mt-12" hidden>
                 <h2 class="section-heading text-neutral-900 mb-2"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#library"></use></svg> Faydalı Mənbələr</h2>
-                <p class="text-sm text-neutral-600 mb-6">CCNA hazırlığı üçün xarici (ingiliscə) mənbələr və laboratoriyalar. Keçidlər yeni pəncərədə açılır.</p>
+                <p class="text-sm text-neutral-600 mb-6">CCNA hazırlığı üçün xarici (ingiliscə) mənbələr və laboratoriyalar. Keçidlər yeni pəncərədə açılır. Daha çox mənbə üçün: <a href="links.html" class="font-semibold text-amber-700 hover:underline">Faydalı Linklər</a>.</p>
                 <div id="res-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
             </section>
 
             <p id="no-results" class="text-center text-neutral-500 mt-10" hidden>Uyğun mövzu tapılmadı.</p>
         </main>
 
-        <footer class="site-footer py-8">
-            <div class="container mx-auto px-6 text-center text-neutral-500">
-                <p class="mb-2">Yeni mövzular mütəmadi olaraq əlavə olunur.</p>
-                <a href="https://www.cavadmikayil.com" target="_blank">www.cavadmikayil.com</a>
+        <footer class="brand-footer">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">Şəbəkə, CCNA və IT üzrə pulsuz təlim materialları</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+                    <a href="index.html">Portal</a>
+                    <a href="index.html#ccna">CCNA Dərsləri</a>
+                    <a href="links.html">Faydalı Linklər</a>
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
             </div>
-        </footer>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
     </div>
 
     <script src="assets/student.js"></script>
@@ -478,6 +485,13 @@
                 icon: 'notebook-pen',
                 href: 'tools/quiz.html',
                 cls: 'alt'
+            },
+            {
+                title: 'Faydalı Linklər',
+                desc: 'AI alətləri, Cyber Security, CTF, Cloud, Programming — seçilmiş kurslar, kitablar, YouTube kanalları və GitHub repoları.',
+                icon: 'library',
+                href: 'links.html',
+                cls: ''
             }
         ];
 
