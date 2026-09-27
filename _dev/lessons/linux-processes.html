@@ -1,0 +1,114 @@
+<!--PAGE title="Linux Prosesləri və Siqnallar" icon="cpu" badge="Linux · Proseslər" nav="intro:Giriş|view:Baxış|signals:Siqnallar|jobs:Job control|priority:Prioritet|states:Vəziyyətlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:cpu}} Giriş: Proqram və Proses</h2>
+            <p class="lead">
+                <strong>Proqram</strong> diskdəki fayldır, <strong>proses</strong> isə onun işləyən nüsxəsi: öz PID-i, yaddaşı, açıq faylları və sahibi olan.
+                Hər proses valideyn prosesdən (<code>fork</code>) yaranır; ən birinci proses — PID 1 — müasir sistemlərdə <code>systemd</code>-dir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:hash}} PID / PPID</h3><p class="text-neutral-700">Prosesin və valideyninin nömrəsi.</p></div>
+                <div class="info-card"><h3>{{i:user}} UID</h3><p class="text-neutral-700">Proses hansı istifadəçinin hüququ ilə işləyir.</p></div>
+                <div class="info-card dark"><h3>{{i:layers}} Thread</h3><p>Eyni yaddaşı paylaşan icra axınları; <code>ps -eLf</code> ilə görünür.</p></div>
+            </div>
+        </section>
+
+        <section id="view" class="section-card">
+            <h2 class="section-title">{{i:eye}} 1. Proseslərə Baxış</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>ps aux                              # bütün proseslər (BSD üslubu)
+ps -ef --forest                     # valideyn-uşaq ağacı
+ps aux --sort=-%mem | head          # ən çox RAM istifadə edənlər
+ps -o pid,ppid,user,%cpu,%mem,etime,cmd -p 1234
+pstree -p                           # ağac şəklində
+pgrep -a nginx                      # adla axtarış
+top   /   htop                      # interaktiv: P — CPU, M — RAM üzrə sırala, k — kill
+pidof sshd
+lsof -p 1234                        # prosesin açıq faylları və portları
+ss -tlnp                            # port dinləyən proseslər</code></pre>
+            </div>
+        </section>
+
+        <section id="signals" class="section-card">
+            <h2 class="section-title">{{i:radio}} 2. Siqnallar</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Siqnal</th><th>№</th><th>Mənası</th><th>Tutula bilərmi?</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>SIGHUP</code></td><td>1</td><td>Terminal bağlandı; çox servis üçün "konfiqurasiyanı yenidən oxu"</td><td class="yes">Bəli</td></tr>
+                        <tr><td><code>SIGINT</code></td><td>2</td><td>Ctrl+C</td><td class="yes">Bəli</td></tr>
+                        <tr><td><code>SIGKILL</code></td><td>9</td><td>Dərhal öldür — təmizlik yoxdur</td><td class="no">Xeyr</td></tr>
+                        <tr><td><code>SIGTERM</code></td><td>15</td><td>Nəzakətlə dayan (<code>kill</code>-in defoltu)</td><td class="yes">Bəli</td></tr>
+                        <tr><td><code>SIGSTOP</code> / <code>SIGCONT</code></td><td>19 / 18</td><td>Dondur / davam et</td><td class="no">STOP — xeyr</td></tr>
+                        <tr><td><code>SIGTSTP</code></td><td>20</td><td>Ctrl+Z</td><td class="yes">Bəli</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>kill 1234              # SIGTERM — əvvəlcə həmişə bu
+kill -HUP $(pidof nginx)   # konfiqurasiyanı yenidən yüklə
+kill -9 1234           # yalnız TERM kömək etməyəndə
+pkill -u olduser       # istifadəçinin bütün prosesləri
+killall -s TERM php-fpm</code></pre>
+                <p class="code-note"><code>kill -9</code> prosesə faylları bağlamağa, müvəqqəti faylları silməyə imkan vermir — verilənlər bazasında məlumat zədələnə bilər.</p>
+            </div>
+        </section>
+
+        <section id="jobs" class="section-card">
+            <h2 class="section-title">{{i:layers-3}} 3. Job Control və Arxa Plan</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>./backup.sh &amp;          # arxa planda başlat
+jobs                   # bu shell-in işləri
+fg %1                  # ön plana gətir
+# Ctrl+Z               # dayandır
+bg %1                  # arxa planda davam etdir
+
+nohup ./long-task.sh &gt; task.log 2&gt;&amp;1 &amp;    # terminal bağlansa da işləsin
+disown -h %1
+
+tmux new -s maint      # SSH qopsa belə sessiya qalır; Ctrl+B D — ayrıl
+tmux attach -t maint</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Uzun çəkən hər əməliyyatı (yeniləmə, böyük kopyalama, migrasiya) <strong>tmux</strong> və ya <strong>screen</strong> içində başladın — VPN qopması işi yarımçıq qoymasın.</p>
+            </div>
+        </section>
+
+        <section id="priority" class="section-card">
+            <h2 class="section-title">{{i:gauge}} 4. Prioritet: nice, renice, ionice</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># nice: -20 (ən yüksək prioritet) ... 19 (ən aşağı); defolt 0
+nice -n 15 tar czf /backup/home.tgz /home       # backup istifadəçiləri yavaşlatmasın
+renice -n 10 -p 1234
+ionice -c3 -p 1234                              # disk I/O — yalnız boş vaxtda (idle)
+
+# systemd servisi üçün
+systemctl set-property backup.service CPUQuota=30% IOWeight=50</code></pre>
+                <p class="code-note">Prioriteti artırmaq (mənfi nice) yalnız root edə bilər.</p>
+            </div>
+        </section>
+
+        <section id="states" class="section-card">
+            <h2 class="section-title">{{i:activity}} 5. Proses Vəziyyətləri</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>STAT</th><th>Mənası</th><th>Qeyd</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>R</code></td><td>Running / runnable</td><td>CPU-da və ya növbədə</td></tr>
+                        <tr><td><code>S</code></td><td>Interruptible sleep</td><td>Hadisə gözləyir — normal</td></tr>
+                        <tr><td><code>D</code></td><td>Uninterruptible sleep</td><td>Disk/NFS I/O gözləyir; çoxdursa storage problemi. <code>kill -9</code> da təsir etmir</td></tr>
+                        <tr><td><code>T</code></td><td>Stopped</td><td>Ctrl+Z və ya debugger</td></tr>
+                        <tr><td><code>Z</code></td><td>Zombie</td><td>Bitib, amma valideyn nəticəni götürməyib; valideyni düzəltmək/restart lazımdır</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:skull}}
+                <p class="text-neutral-800"><strong>OOM killer:</strong> RAM bitəndə kernel ən "ağır" prosesi öldürür. İz: <code>dmesg -T | grep -i "killed process"</code> və ya <code>journalctl -k | grep -i oom</code>.</p>
+            </div>
+        </section>
+<!--END-->

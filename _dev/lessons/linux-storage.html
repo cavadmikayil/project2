@@ -1,0 +1,130 @@
+<!--PAGE title="Disk, LVM və RAID" icon="database" badge="Linux · Storage" nav="intro:Giriş|disk:Bölmə və FS|lvm:LVM|extend:Genişləndirmə|raid:mdadm RAID|swap:Swap və sağlamlıq"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:database}} Giriş: "Diskə Yer Əlavə Et" Tapşırığı</h2>
+            <p class="lead">
+                Server administratorunun ən tez-tez aldığı sorğulardan biri: "<code>/var</code> doldu, yer artırın". Fiziki bölmələrlə bu, çətin və riskli işdir;
+                <strong>LVM</strong> ilə isə sistemi dayandırmadan, bir neçə əmrlə edilir. Bu dərs diskdən fayl sisteminə qədər bütün zənciri göstərir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:hard-drive}} Disk</h3><p class="text-neutral-700"><code>/dev/sda</code>, <code>/dev/nvme0n1</code>, <code>/dev/vdb</code> (VM).</p></div>
+                <div class="info-card accent"><h3>{{i:layers}} Bölmə / LVM</h3><p class="text-neutral-700"><code>/dev/sda1</code> və ya <code>/dev/vg_data/lv_app</code>.</p></div>
+                <div class="info-card dark"><h3>{{i:folder}} Fayl sistemi</h3><p>ext4 və ya XFS, mount nöqtəsi ilə qovluq ağacına qoşulur.</p></div>
+            </div>
+        </section>
+
+        <section id="disk" class="section-card">
+            <h2 class="section-title">{{i:hard-drive}} 1. Bölmə və Fayl Sistemi</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>lsblk                                   # yeni disk: sdb, bölməsiz
+parted /dev/sdb --script mklabel gpt mkpart data 0% 100%
+mkfs.xfs /dev/sdb1                      # və ya: mkfs.ext4 -L data /dev/sdb1
+mkdir -p /data &amp;&amp; mount /dev/sdb1 /data
+blkid /dev/sdb1                         # UUID → /etc/fstab-a</code></pre>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>ext4</th><th>XFS</th></tr></thead>
+                    <tbody>
+                        <tr><td>Defolt</td><td>Debian, Ubuntu</td><td>RHEL, Rocky, Alma</td></tr>
+                        <tr><td>Böyütmək</td><td class="yes">Online</td><td class="yes">Online</td></tr>
+                        <tr><td>Kiçiltmək</td><td class="yes">Offline (unmount)</td><td class="no">Mümkün deyil</td></tr>
+                        <tr><td>Böyük fayllar və paralel I/O</td><td>Yaxşı</td><td class="yes">Çox yaxşı</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="lvm" class="section-card">
+            <h2 class="section-title">{{i:layers-3}} 2. LVM: Çevik Disk İdarəetməsi</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>PV (Physical Volume):</strong> LVM üçün hazırlanmış disk və ya bölmə.</p></li>
+                <li><p class="text-neutral-700"><strong>VG (Volume Group):</strong> bir neçə PV-nin birləşdiyi yer hovuzu.</p></li>
+                <li><p class="text-neutral-700"><strong>LV (Logical Volume):</strong> VG-dən ayrılan "virtual bölmə" — üzərində fayl sistemi yaradılır.</p></li>
+            </ol>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>pvcreate /dev/sdb /dev/sdc
+vgcreate vg_data /dev/sdb /dev/sdc
+lvcreate -n lv_app -L 200G vg_data
+lvcreate -n lv_logs -l 100%FREE vg_data
+mkfs.xfs /dev/vg_data/lv_app
+
+pvs; vgs; lvs                          # qısa baxış
+lvdisplay /dev/vg_data/lv_app          # ətraflı
+
+lvcreate -s -n snap_app -L 20G /dev/vg_data/lv_app   # snapshot — yeniləmədən əvvəl</code></pre>
+            </div>
+        </section>
+
+        <section id="extend" class="section-card">
+            <h2 class="section-title">{{i:maximize-2}} 3. Yeri Artırmaq (Fasiləsiz)</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="st-newdisk">Yeni disk əlavə olunub</button>
+                <button class="tab-btn inactive-tab" data-pane="st-grow">VM diski böyüdülüb</button>
+            </div>
+            <div id="st-newdisk">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>pvcreate /dev/sdd
+vgextend vg_data /dev/sdd
+lvextend -r -L +100G /dev/vg_data/lv_app      # -r: fayl sistemini də böyüt
+df -h /data</code></pre>
+                </div>
+            </div>
+            <div id="st-grow" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>echo 1 &gt; /sys/class/block/sdb/device/rescan     # kernel yeni ölçünü görsün
+growpart /dev/sdb 1                              # bölməni böyüt (cloud-guest-utils)
+pvresize /dev/sdb1
+lvextend -r -l +100%FREE /dev/vg_data/lv_app</code></pre>
+                </div>
+            </div>
+            <div class="note-box mt-6">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><code>-r</code> olmadan LV böyüyür, amma fayl sistemi köhnə ölçüdə qalır; onda əl ilə: XFS üçün <code>xfs_growfs /data</code>, ext4 üçün <code>resize2fs /dev/vg_data/lv_app</code>.</p>
+            </div>
+        </section>
+
+        <section id="raid" class="section-card">
+            <h2 class="section-title">{{i:copy}} 4. Software RAID: mdadm</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdb /dev/sdc   # RAID 1
+cat /proc/mdstat                         # sinxronizasiya vəziyyəti
+mdadm --detail /dev/md0
+mdadm --detail --scan &gt;&gt; /etc/mdadm/mdadm.conf    # RHEL: /etc/mdadm.conf
+update-initramfs -u                      # (Debian/Ubuntu)
+
+# Disk sıradan çıxdı
+mdadm /dev/md0 --fail /dev/sdc --remove /dev/sdc
+# ... yeni disk quraşdırılır ...
+mdadm /dev/md0 --add /dev/sdd            # rebuild avtomatik başlayır</code></pre>
+                <p class="code-note">RAID backup deyil: səhvən silinmiş fayl hər iki diskdən eyni anda silinir. Hardware RAID-də vəziyyət vendor aləti ilə (<code>storcli</code>, <code>ssacli</code>) izlənir.</p>
+            </div>
+        </section>
+
+        <section id="swap" class="section-card">
+            <h2 class="section-title">{{i:heart-pulse}} 5. Swap və Disk Sağlamlığı</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># 4 GB swap faylı
+fallocate -l 4G /swapfile &amp;&amp; chmod 600 /swapfile
+mkswap /swapfile &amp;&amp; swapon /swapfile
+echo '/swapfile none swap sw 0 0' &gt;&gt; /etc/fstab
+swapon --show; free -h
+sysctl vm.swappiness=10                # serverlərdə swap-a daha gec keç
+
+# Sağlamlıq
+smartctl -H /dev/sda                   # S.M.A.R.T. nəticəsi
+smartctl -a /dev/sda | grep -Ei "reallocated|pending|wear"
+nvme smart-log /dev/nvme0
+dmesg -T | grep -Ei "i/o error|ata[0-9]"</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800">Reallocated/pending sektorların sayı artırsa, disk ölmək üzrədir — dərhal backup və dəyişdirmə planı.</p>
+            </div>
+        </section>
+<!--END-->

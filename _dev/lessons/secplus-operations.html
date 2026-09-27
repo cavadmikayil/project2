@@ -1,0 +1,87 @@
+<!--PAGE title="Security+: Arxitektura, Əməliyyatlar və İdarəetmə" icon="shield-half" badge="CompTIA · Security+" nav="intro:Giriş|arch:Arxitektura|ops:Əməliyyatlar|ir:Incident response|grc:Risk və GRC|exam:İmtahan taktikası"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:shield-half}} Giriş: Domen 3, 4 və 5 (66%)</h2>
+            <p class="lead">
+                İmtahanın üçdə ikisi təhlükəsizliyin <strong>qurulması</strong> (arxitektura), <strong>gündəlik icrası</strong> (Security Operations — ən böyük domen, 28%)
+                və <strong>idarə olunması</strong> (risk, siyasətlər, uyğunluq, audit) haqqındadır. Bu dərs hər birindən ən çox soruşulan anlayışları toplayır.
+            </p>
+        </section>
+
+        <section id="arch" class="section-card">
+            <h2 class="section-title">{{i:building-2}} 1. Security Architecture (18%)</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:cloud}}<p class="text-neutral-700"><strong>Arxitektura modelləri:</strong> cloud, IaC, serverless, mikroservislər, on-prem, IoT, ICS/SCADA, RTOS, embedded — hər birinin risk profili fərqlidir.</p></div>
+                <div class="feature-item">{{i:network}}<p class="text-neutral-700"><strong>Şəbəkə:</strong> security zones, jump server, proxy, IPS/IDS, load balancer, NGFW, WAF, UTM, VPN, SASE/SD-WAN, fail-open və fail-closed.</p></div>
+                <div class="feature-item">{{i:database}}<p class="text-neutral-700"><strong>Məlumatın qorunması:</strong> data at rest / in transit / in use; təsnifat (public, sensitive, confidential, restricted); DLP; geolocation və data sovereignty.</p></div>
+                <div class="feature-item">{{i:life-buoy}}<p class="text-neutral-700"><strong>Resilience:</strong> high availability, hot/warm/cold site, geographic dispersion, backup (snapshot, replication, journaling), UPS, generator, capacity planning.</p></div>
+            </div>
+        </section>
+
+        <section id="ops" class="section-card">
+            <h2 class="section-title">{{i:settings}} 2. Security Operations (28%)</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Mövzu</th><th>Açar anlayışlar</th></tr></thead>
+                    <tbody>
+                        <tr><td>Hardening</td><td>Secure baseline, mobil cihazlar (MDM, BYOD/COPE/CYOD), wireless (WPA3, RADIUS), sandboxing</td></tr>
+                        <tr><td>Asset management</td><td>Inventar, sahiblik, təsnifat, sanitization, destruction, certification</td></tr>
+                        <tr><td>Vulnerability management</td><td>Skan, pentest, bug bounty, CVSS, CVE, false positive/negative, prioritet, remediation, rescan</td></tr>
+                        <tr><td>Monitoring</td><td>SIEM, log aggregation, alerting, SCAP, SNMP trap, NetFlow, antivirus, DLP</td></tr>
+                        <tr><td>Enterprise imkanları</td><td>Firewall, IDS/IPS, web filter, DNS filtering, email security (DMARC, DKIM, SPF), FIM, NAC, EDR/XDR</td></tr>
+                        <tr><td>Identity</td><td>Provisioning/deprovisioning, SSO, LDAP, OAuth, SAML, federation, MFA, PAM (just-in-time, password vaulting)</td></tr>
+                        <tr><td>Automation</td><td>Hesabların yaradılması, guard rails, ticket yaradılması, eskalasiya, SOAR</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="ir" class="section-card">
+            <h2 class="section-title">{{i:siren}} 3. Incident Response</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Preparation</strong> — plan, alətlər, komanda, təlim.</p></li>
+                <li><p class="text-neutral-700"><strong>Detection</strong> — alert-in real insident olduğunu müəyyən etmək.</p></li>
+                <li><p class="text-neutral-700"><strong>Analysis</strong> — əhatə, təsir, kök səbəb.</p></li>
+                <li><p class="text-neutral-700"><strong>Containment</strong> — yayılmanı dayandırmaq.</p></li>
+                <li><p class="text-neutral-700"><strong>Eradication</strong> — zərərli komponentləri silmək.</p></li>
+                <li><p class="text-neutral-700"><strong>Recovery</strong> — normal işə qayıtmaq.</p></li>
+                <li><p class="text-neutral-700"><strong>Lessons learned</strong> — nə dəyişirik?</p></li>
+            </ol>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:gavel}}<p class="text-neutral-700"><strong>Digital forensics:</strong> legal hold, chain of custody, acquisition, preservation, e-discovery.</p></div>
+                <div class="feature-item">{{i:users}}<p class="text-neutral-700"><strong>Təlimlər:</strong> tabletop exercise, simulation; threat hunting; root cause analysis.</p></div>
+            </div>
+        </section>
+
+        <section id="grc" class="section-card">
+            <h2 class="section-title">{{i:scale}} 4. Program Management and Oversight (20%)</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Anlayış</th><th>Qısa izah</th></tr></thead>
+                    <tbody>
+                        <tr><td>SLE × ARO = ALE</td><td>Bir hadisənin itkisi × illik tezlik = illik gözlənilən itki</td></tr>
+                        <tr><td>Risk cavabları</td><td>Transfer (sığorta), accept, avoid, mitigate; exemption və exception</td></tr>
+                        <tr><td>Risk register</td><td>Risklər, sahiblər, KRI, risk appetite və tolerance</td></tr>
+                        <tr><td>BIA</td><td>RTO, RPO, MTTR, MTBF</td></tr>
+                        <tr><td>Third-party risk</td><td>Vendor qiymətləndirmə, audit hüququ, SLA, MOA, MOU, MSA, SOW, NDA, BPA</td></tr>
+                        <tr><td>Compliance</td><td>Hesabat, cərimələr, lisenziya itkisi; GDPR (data subject, controller vs processor, right to be forgotten)</td></tr>
+                        <tr><td>Audit</td><td>Daxili və xarici audit, attestation, pentest növləri (known/partially known/unknown environment)</td></tr>
+                        <tr><td>Awareness</td><td>Phishing kampaniyaları, anomal davranışın tanınması, gizli rejimdə iş qaydaları</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:calculator}}
+                <p class="text-neutral-800">Nümunə: server dəyəri 20 000 AZN, daşqında 50% zədələnir → <strong>SLE = 10 000</strong>. Daşqın 5 ildə bir baş verir → <strong>ARO = 0.2</strong>. <strong>ALE = 2 000 AZN/il</strong> — qoruma tədbiri ildə bundan bahadırsa, iqtisadi cəhətdən mənasızdır.</p>
+            </div>
+        </section>
+
+        <section id="exam" class="section-card">
+            <h2 class="section-title">{{i:target}} 5. İmtahan Taktikası</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:flag}}<p class="text-neutral-700"><strong>PBQ-ları flag edin</strong> və sona saxlayın — 5 dəqiqəlik simulyasiya 10 sadə sualın vaxtını yeyə bilər.</p></div>
+                <div class="feature-item">{{i:user-cog}}<p class="text-neutral-700"><strong>Menecer kimi düşünün:</strong> "BEST" cavab çox vaxt siyasət, risk və prosesə uyğun olanıdır, ən texniki olan yox.</p></div>
+                <div class="feature-item">{{i:list-ordered}}<p class="text-neutral-700"><strong>Ardıcıllıq sualları:</strong> IR mərhələləri, order of volatility (CPU cache → RAM → disk → arxiv).</p></div>
+                <div class="feature-item">{{i:book-open}}<p class="text-neutral-700"><strong>Akronimlər:</strong> CompTIA objectives PDF-inin sonundakı akronim siyahısını tam öyrənin.</p></div>
+            </div>
+        </section>
+<!--END-->

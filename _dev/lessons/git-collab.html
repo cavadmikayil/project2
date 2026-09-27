@@ -1,0 +1,108 @@
+<!--PAGE title="Git ilə Komanda İşi: GitHub Flow və Pull Request" icon="git-pull-request" badge="DevOps · Git" nav="intro:Giriş|flow:GitHub Flow|pr:Pull Request|sync:Sinxronizasiya|conflict:Konflikt|rules:Qaydalar"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:git-pull-request}} Giriş: Beş Nəfər, Bir Kod Bazası</h2>
+            <p class="lead">
+                Tək işləyəndə Git sadəcə tarixçədir. Komandada isə əsas sual yaranır: hər kəs eyni fayllarda işləyəndə
+                dəyişikliklər bir-birini necə pozmasın və <code>main</code> həmişə işlək qalsın? Cavab —
+                qısamüddətli branch-lar, <strong>Pull Request</strong> (GitLab-da Merge Request) və avtomatik yoxlamalardır.
+            </p>
+        </section>
+
+        <section id="flow" class="section-card">
+            <h2 class="section-title">{{i:git-fork}} 1. GitHub Flow</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><code>main</code> həmişə deploy oluna bilən vəziyyətdədir.</p></li>
+                <li><p class="text-neutral-700">Hər iş üçün təsviri adlı branch: <code>feature/guest-wifi</code>, <code>fix/ospf-cost</code>.</p></li>
+                <li><p class="text-neutral-700">Kiçik, məntiqi commit-lər və tez-tez <code>push</code>.</p></li>
+                <li><p class="text-neutral-700"><strong>Pull Request</strong> açılır — CI testləri işləyir, həmkarlar review edir.</p></li>
+                <li><p class="text-neutral-700">Təsdiqdən sonra <code>main</code>-ə merge, branch silinir, avtomatik deploy.</p></li>
+            </ol>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Model</th><th>Xülasə</th><th>Kimə uyğundur</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>GitHub Flow</strong></td><td>main + qısa feature branch-lar</td><td>Veb, SaaS, tez-tez deploy</td></tr>
+                        <tr><td><strong>Trunk-based</strong></td><td>Hamı gündə bir neçə dəfə main-ə birləşdirir, feature flag-larla</td><td>Yüksək səviyyəli CI/CD komandaları</td></tr>
+                        <tr><td><strong>Git Flow</strong></td><td>main, develop, release/*, hotfix/*</td><td>Versiyalı məhsullar, planlı release-lər</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="pr" class="section-card">
+            <h2 class="section-title">{{i:message-square-code}} 2. Yaxşı Pull Request</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:minimize-2}}<p class="text-neutral-700"><strong>Kiçik olsun:</strong> 400 sətirdən az — review keyfiyyəti ölçü ilə kəskin düşür.</p></div>
+                <div class="feature-item">{{i:file-text}}<p class="text-neutral-700"><strong>Təsvir:</strong> nə dəyişdi, niyə, necə test olundu, ekran görüntüsü; əlaqəli issue: <code>Closes #42</code>.</p></div>
+                <div class="feature-item">{{i:circle-check}}<p class="text-neutral-700"><strong>CI yaşıl olsun:</strong> qırmızı testlə review istəməyin.</p></div>
+                <div class="feature-item">{{i:message-circle}}<p class="text-neutral-700"><strong>Review mədəniyyəti:</strong> kodu tənqid edin, insanı yox; "niyə belə?" sualı əmrdən yaxşıdır.</p></div>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Merge üsulu</th><th>Nəticə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Create a merge commit</td><td>Bütün commit-lər + birləşmə commit-i qalır</td></tr>
+                        <tr><td>Squash and merge</td><td>PR-ın bütün commit-ləri main-də bir commit olur — təmiz tarixçə</td></tr>
+                        <tr><td>Rebase and merge</td><td>Commit-lər main-in üstünə ardıcıl düzülür, merge commit yoxdur</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="sync" class="section-card">
+            <h2 class="section-title">{{i:refresh-cw}} 3. Remote ilə Sinxronizasiya</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>git fetch origin                 # yenilikləri yüklə, heç nəyi dəyişmə
+git status                       # "Your branch is behind 'origin/main' by 3 commits"
+git pull                         # fetch + merge (və ya config ilə rebase)
+
+# Öz branch-ını main-in son vəziyyəti ilə yeniləmək
+git switch feature/guest-wifi
+git fetch origin
+git merge origin/main            # təhlükəsiz: tarixçəni dəyişmir
+# və ya
+git rebase origin/main           # commit-lərini main-in üstünə köçürür (xətti tarixçə)
+git push --force-with-lease      # rebase-dən sonra — yalnız ÖZ branch-ında
+
+git tag -a v1.4.0 -m "Release 1.4.0"   # release-i işarələmək
+git push origin v1.4.0</code></pre>
+                <p class="code-note">Qızıl qayda: başqalarının istifadə etdiyi branch-da (xüsusən <code>main</code>) <strong>rebase və force push etməyin</strong> — onların tarixçəsi pozulur.</p>
+            </div>
+        </section>
+
+        <section id="conflict" class="section-card">
+            <h2 class="section-title">{{i:git-compare}} 4. Merge Konfliktini Həll Etmək</h2>
+            <p class="lead">İki nəfər eyni faylın eyni sətrini fərqli dəyişəndə Git hansını seçəcəyini bilmir və qərarı sizə buraxır.</p>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>$ git merge origin/main
+CONFLICT (content): Merge conflict in R1.cfg
+
+$ cat R1.cfg
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+ntp server 10.0.0.10
+=======
+ntp server 10.0.0.20
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/main</code></pre>
+            </div>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">Hər iki versiyanı oxuyun, lazım olsa müəlliflə danışın (<code>git log -p</code>).</p></li>
+                <li><p class="text-neutral-700">Faylı düzgün son vəziyyətə gətirin və <code>&lt;&lt;&lt;</code>, <code>===</code>, <code>&gt;&gt;&gt;</code> işarələrini silin.</p></li>
+                <li><p class="text-neutral-700"><code>git add R1.cfg</code> → <code>git commit</code> (rebase zamanı: <code>git rebase --continue</code>).</p></li>
+                <li><p class="text-neutral-700">Testləri yenidən işlədin. Vəziyyətdən çıxmaq üçün: <code>git merge --abort</code>.</p></li>
+            </ol>
+        </section>
+
+        <section id="rules" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 5. Repo Qaydaları</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:lock}}<p class="text-neutral-700"><strong>Branch protection:</strong> main-ə birbaşa push qadağandır, PR + ən azı 1 təsdiq + yaşıl CI tələb olunur.</p></div>
+                <div class="feature-item">{{i:users}}<p class="text-neutral-700"><strong>CODEOWNERS:</strong> <code>/network/ @netteam</code> — şəbəkə fayllarına dəyişiklik avtomatik şəbəkə komandasına review-a gedir.</p></div>
+                <div class="feature-item">{{i:file-lock}}<p class="text-neutral-700"><strong>Signed commits:</strong> SSH və ya GPG imzası ilə müəllifin həqiqiliyi.</p></div>
+                <div class="feature-item">{{i:scan-search}}<p class="text-neutral-700"><strong>Secret scanning və push protection:</strong> açar və parol push olunmadan bloklanır.</p></div>
+                <div class="feature-item">{{i:file-text}}<p class="text-neutral-700"><strong>PR template:</strong> <code>.github/pull_request_template.md</code> — hər PR eyni strukturda təsvir olunur.</p></div>
+                <div class="feature-item">{{i:tag}}<p class="text-neutral-700"><strong>Semantic versioning:</strong> <code>MAJOR.MINOR.PATCH</code> — uyğunsuz dəyişiklik, yeni funksiya, düzəliş.</p></div>
+            </div>
+        </section>
+<!--END-->

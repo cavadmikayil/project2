@@ -1,0 +1,139 @@
+<!--PAGE title="YAML və JSON: Konfiqurasiya Dilləri" icon="braces" badge="DevOps · Formatlar" nav="intro:Giriş|json:JSON|yaml:YAML|compare:Müqayisə|tools:Alətlər|mistakes:Tipik səhvlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:braces}} Giriş: Maşınların və İnsanların Ortaq Dili</h2>
+            <p class="lead">
+                Ansible playbook, Kubernetes manifest, GitHub Actions workflow, Docker Compose — hamısı <strong>YAML</strong>-dır.
+                REST API cavabları, Terraform state, AWS policy — <strong>JSON</strong>. DevOps və network automation-da ilk öyrənilməli
+                "dil" proqramlaşdırma dili yox, bu iki məlumat formatıdır.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:text}} Scalar</h3><p class="text-neutral-700">Tək dəyər: sətir, rəqəm, boolean, null.</p></div>
+                <div class="info-card"><h3>{{i:list}} List / array</h3><p class="text-neutral-700">Sıralı dəyərlər: VLAN-ların siyahısı.</p></div>
+                <div class="info-card dark"><h3>{{i:book-key}} Dictionary / object</h3><p>Açar-dəyər cütləri: <code>hostname: R1</code>.</p></div>
+            </div>
+        </section>
+
+        <section id="json" class="section-card">
+            <h2 class="section-title">{{i:file-json}} 1. JSON</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>{
+  "hostname": "SW1",
+  "mgmt_ip": "192.168.1.2",
+  "stp_enabled": true,
+  "uplink": null,
+  "vlans": [
+    { "id": 10, "name": "MUHASIBAT" },
+    { "id": 20, "name": "IT" }
+  ]
+}</code></pre>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:quote}}<p class="text-neutral-700">Açarlar və sətirlər yalnız <strong>qoşa dırnaqda</strong>: <code>"name"</code>.</p></div>
+                <div class="feature-item">{{i:ban}}<p class="text-neutral-700">Şərh (comment) yoxdur, sonuncu elementdən sonra vergül olmaz.</p></div>
+                <div class="feature-item">{{i:binary}}<p class="text-neutral-700">Tiplər: string, number, <code>true/false</code>, <code>null</code>, array <code>[]</code>, object <code>{}</code>.</p></div>
+            </div>
+        </section>
+
+        <section id="yaml" class="section-card">
+            <h2 class="section-title">{{i:file-code}} 2. YAML — Eyni Məlumat</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>---
+hostname: SW1
+mgmt_ip: 192.168.1.2
+stp_enabled: true
+uplink: null          # və ya ~
+vlans:
+  - id: 10
+    name: MUHASIBAT
+  - id: 20
+    name: IT
+banner: |
+  Yalnız səlahiyyətli giriş!
+  Bütün hərəkətlər qeydə alınır.
+ntp_servers: [10.0.0.10, 10.0.0.11]   # qısa (flow) yazılış</code></pre>
+                <p class="code-note"><code>|</code> — çoxsətirli mətn sətir sonlarını saxlayır; <code>&gt;</code> isə sətirləri bir sətirə birləşdirir.</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:indent-increase}}<p class="text-neutral-700"><strong>Boşluqlarla girinti</strong> strukturu müəyyən edir — tab qadağandır. Adətən 2 boşluq.</p></div>
+                <div class="feature-item">{{i:minus}}<p class="text-neutral-700"><code>- </code> siyahı elementi deməkdir, <code>açar: dəyər</code> — dictionary.</p></div>
+                <div class="feature-item">{{i:hash}}<p class="text-neutral-700"><code>#</code> ilə şərh yazmaq olar — konfiqurasiya üçün böyük üstünlük.</p></div>
+                <div class="feature-item">{{i:braces}}<p class="text-neutral-700">YAML JSON-un üst çoxluğudur: hər düzgün JSON həm də düzgün YAML-dır.</p></div>
+            </div>
+        </section>
+
+        <section id="compare" class="section-card">
+            <h2 class="section-title">{{i:scale}} 3. Müqayisə</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>JSON</th><th>YAML</th><th>XML</th></tr></thead>
+                    <tbody>
+                        <tr><td>Oxunaqlılıq</td><td>Orta</td><td class="yes">Yüksək</td><td>Aşağı</td></tr>
+                        <tr><td>Şərhlər</td><td class="no">Yoxdur</td><td class="yes">Var</td><td class="yes">Var</td></tr>
+                        <tr><td>Əsas istifadə</td><td>API-lər, veb</td><td>Konfiqurasiya, IaC, CI/CD</td><td>NETCONF, köhnə sistemlər</td></tr>
+                        <tr><td>Səhv riski</td><td>Vergül və dırnaq</td><td>Girinti və gizli tip çevrilməsi</td><td>Açılış/bağlanış teqləri</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="tools" class="section-card">
+            <h2 class="section-title">{{i:wrench}} 4. Alətlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="cf-cli">Terminal</button>
+                <button class="tab-btn inactive-tab" data-pane="cf-py">Python</button>
+            </div>
+            <div id="cf-cli">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code># jq — JSON üçün grep/sed
+curl -s https://api.github.com/repos/cavadmikayil/project2 | jq '.stargazers_count'
+jq '.vlans[] | select(.id &gt; 10) | .name' sw1.json
+jq -r '.vlans[].id' sw1.json
+
+# yq — YAML üçün eyni sintaksis
+yq '.vlans[0].name' sw1.yaml
+yq -o=json sw1.yaml &gt; sw1.json          # YAML → JSON
+
+yamllint playbook.yml                     # sintaksis və stil yoxlaması
+python3 -m json.tool sw1.json             # JSON-u yoxla və gözəl formatla</code></pre>
+                </div>
+            </div>
+            <div id="cf-py" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>import json, yaml    # pip install pyyaml
+
+with open("sw1.yaml") as f:
+    data = yaml.safe_load(f)          # safe_load — heç vaxt yaml.load yox
+
+for vlan in data["vlans"]:
+    print(f"vlan {vlan['id']}\n name {vlan['name']}")
+
+with open("sw1.json", "w") as f:
+    json.dump(data, f, indent=2, ensure_ascii=False)</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="mistakes" class="section-card">
+            <h2 class="section-title">{{i:bug}} 5. Tipik YAML Tələləri</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Yazılış</th><th>Gözlənilən</th><th>Faktiki (YAML 1.1)</th><th>Düzəliş</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>country: NO</code></td><td>"NO" (Norveç)</td><td><code>false</code></td><td><code>"NO"</code></td></tr>
+                        <tr><td><code>version: 1.10</code></td><td>"1.10"</td><td>1.1 (float)</td><td><code>"1.10"</code></td></tr>
+                        <tr><td><code>port: 0022</code></td><td>"0022"</td><td>18 (octal)</td><td><code>"0022"</code></td></tr>
+                        <tr><td><code>time: 22:10</code></td><td>"22:10"</td><td>1330 (sexagesimal)</td><td><code>"22:10"</code></td></tr>
+                        <tr><td><code>password: @dm1n</code></td><td>sətir</td><td>Parse xətası</td><td><code>"@dm1n"</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Qayda: şübhəli hər dəyəri dırnağa alın, redaktorda "görünməz simvolları göstər" rejimini açın və CI-da <code>yamllint</code> işlədin.</p>
+            </div>
+        </section>
+<!--END-->

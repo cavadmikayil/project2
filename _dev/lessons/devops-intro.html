@@ -1,0 +1,94 @@
+<!--PAGE title="DevOps: Mədəniyyət və Proses" icon="infinity" badge="DevOps · Əsaslar" nav="intro:Giriş|loop:DevOps dövrü|calms:CALMS|dora:DORA metrikaları|practices:Praktikalar|path:Yol xəritəsi"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:infinity}} Giriş: Divarı Sökmək</h2>
+            <p class="lead">
+                Klassik şirkətdə developer-lər kodu yazıb "divarın o tayına" — əməliyyat (Ops) komandasına atır. Developer tez dəyişiklik istəyir,
+                Ops isə sabitlik. Nəticə: ayda bir böyük, qorxulu release və gecə yarısı qəzalar.
+                <strong>DevOps</strong> bu iki dünyanı bir komanda, ortaq məqsəd və avtomatlaşdırılmış proses ilə birləşdirən yanaşmadır.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:users}} Mədəniyyət</h3><p class="text-neutral-700">"Sənin kodun, mənim serverim" yox — "bizim xidmətimiz". Nasazlıqda günahkar yox, səbəb axtarılır (blameless).</p></div>
+                <div class="info-card"><h3>{{i:workflow}} Avtomatlaşdırma</h3><p class="text-neutral-700">Test, build, deploy, infrastruktur — əl ilə təkrarlanan hər şey koda çevrilir.</p></div>
+                <div class="info-card dark"><h3>{{i:chart-line}} Ölçmə</h3><p>Nəyi ölçmürsənsə, onu yaxşılaşdıra bilməzsən: deploy tezliyi, xəta faizi, bərpa vaxtı.</p></div>
+            </div>
+        </section>
+
+        <section id="loop" class="section-card">
+            <h2 class="section-title">{{i:refresh-cw}} 1. DevOps Dövrü</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Mərhələ</th><th>Nə baş verir</th><th>Alətlər</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Plan</strong></td><td>Tapşırıqlar, prioritetlər</td><td>Jira, GitHub Issues, Azure Boards</td></tr>
+                        <tr><td><strong>Code</strong></td><td>Kod və konfiqurasiya versiya nəzarətində</td><td>Git, GitHub, GitLab</td></tr>
+                        <tr><td><strong>Build</strong></td><td>Kompilyasiya, paket, konteyner image</td><td>Docker, Maven, npm</td></tr>
+                        <tr><td><strong>Test</strong></td><td>Unit, inteqrasiya, təhlükəsizlik testləri</td><td>pytest, SonarQube, Trivy</td></tr>
+                        <tr><td><strong>Release / Deploy</strong></td><td>Mühitlərə avtomatik çıxış</td><td>GitHub Actions, GitLab CI, Jenkins, Argo CD</td></tr>
+                        <tr><td><strong>Operate</strong></td><td>İnfrastruktur və konfiqurasiya</td><td>Terraform, Ansible, Kubernetes</td></tr>
+                        <tr><td><strong>Monitor</strong></td><td>Metrika, log, alert, istifadəçi rəyi</td><td>Prometheus, Grafana, ELK, Zabbix</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4">Monitor mərhələsindən gələn məlumat yenidən Plan-a qayıdır — buna görə dövr sonsuzluq (infinity) işarəsi ilə göstərilir.</p>
+        </section>
+
+        <section id="calms" class="section-card">
+            <h2 class="section-title">{{i:columns-3}} 2. CALMS Modeli</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:heart-handshake}}<p class="text-neutral-700"><strong>Culture:</strong> ortaq məsuliyyət, əməkdaşlıq, səhvlərdən öyrənmək.</p></div>
+                <div class="feature-item">{{i:bot}}<p class="text-neutral-700"><strong>Automation:</strong> CI/CD, Infrastructure as Code, avtomatik testlər.</p></div>
+                <div class="feature-item">{{i:minimize-2}}<p class="text-neutral-700"><strong>Lean:</strong> kiçik partiyalar, gözləmə vaxtını azaltmaq, israfı aradan qaldırmaq.</p></div>
+                <div class="feature-item">{{i:gauge}}<p class="text-neutral-700"><strong>Measurement:</strong> qərarları hisslərlə yox, rəqəmlərlə vermək.</p></div>
+                <div class="feature-item">{{i:share-2}}<p class="text-neutral-700"><strong>Sharing:</strong> bilik, alətlər və dashboard-lar komandalar arasında açıqdır.</p></div>
+            </div>
+        </section>
+
+        <section id="dora" class="section-card">
+            <h2 class="section-title">{{i:chart-bar}} 3. DORA Metrikaları</h2>
+            <p class="lead">Google-un DORA tədqiqatı minlərlə komandanı araşdırıb dörd əsas göstərici müəyyən edib:</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Metrika</th><th>Sual</th><th>Yüksək nəticəli komanda</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Deployment frequency</strong></td><td>Nə qədər tez-tez production-a çıxırıq?</td><td>Gündə bir neçə dəfə</td></tr>
+                        <tr><td><strong>Lead time for changes</strong></td><td>Commit-dən production-a nə qədər vaxt?</td><td>Bir gündən az</td></tr>
+                        <tr><td><strong>Change failure rate</strong></td><td>Deploy-ların neçə faizi problem yaradır?</td><td>Aşağı (~5–15%)</td></tr>
+                        <tr><td><strong>Time to restore</strong></td><td>Qəzadan sonra nə qədər tez bərpa edirik?</td><td>Bir saatdan az</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Maraqlı nəticə: sürət və sabitlik bir-birinə zidd deyil. Tez-tez kiçik dəyişiklik çıxaran komandalarda qəza daha az olur və daha tez bərpa olunur — çünki hər dəyişiklik kiçik və başa düşüləndir.</p>
+            </div>
+        </section>
+
+        <section id="practices" class="section-card">
+            <h2 class="section-title">{{i:wrench}} 4. Əsas Praktikalar</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:git-branch}} Version control hər şey üçün</h3><p class="text-neutral-700">Kod, konfiqurasiya, infrastruktur, sənədlər, hətta şəbəkə cihazlarının config-ləri.</p></div>
+                <div class="info-card"><h3>{{i:repeat}} CI / CD</h3><p class="text-neutral-700">Hər commit avtomatik yoxlanır; yoxlamadan keçən kod avtomatik çıxa bilər.</p></div>
+                <div class="info-card accent"><h3>{{i:file-code}} Infrastructure as Code</h3><p class="text-neutral-700">Server və şəbəkə portalda kliklə yox, kodla yaradılır — təkrarlana bilən və review olunan.</p></div>
+                <div class="info-card"><h3>{{i:toggle-right}} Feature flags</h3><p class="text-neutral-700">Kod çıxır, amma funksiya söndürülüb qalır — istifadəçilərin 5%-ində yoxlanır.</p></div>
+                <div class="info-card"><h3>{{i:file-search}} Postmortem</h3><p class="text-neutral-700">Hər ciddi insidentdən sonra blameless təhlil: nə oldu, niyə, nə dəyişirik.</p></div>
+                <div class="info-card dark"><h3>{{i:target}} SRE</h3><p>Google-un DevOps tətbiqi: SLO, error budget, toil-u avtomatlaşdırmaq.</p></div>
+            </div>
+        </section>
+
+        <section id="path" class="section-card">
+            <h2 class="section-title">{{i:map}} 5. DevOps Mühəndisi Yol Xəritəsi</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Linux və şəbəkə:</strong> terminal, bash, SSH, DNS, HTTP, TCP/IP — bu portalın Linux və CCNA dərsləri.</p></li>
+                <li><p class="text-neutral-700"><strong>Git</strong> və bir proqramlaşdırma dili (Python və ya Go).</p></li>
+                <li><p class="text-neutral-700"><strong>Konteynerlər:</strong> Docker, sonra Kubernetes.</p></li>
+                <li><p class="text-neutral-700"><strong>CI/CD:</strong> GitHub Actions və ya GitLab CI ilə tam pipeline.</p></li>
+                <li><p class="text-neutral-700"><strong>IaC:</strong> Terraform (infrastruktur) + Ansible (konfiqurasiya).</p></li>
+                <li><p class="text-neutral-700"><strong>Cloud:</strong> AWS və ya Azure, bir sertifikat (AZ-104, AWS SAA).</p></li>
+                <li><p class="text-neutral-700"><strong>Observability və təhlükəsizlik:</strong> Prometheus/Grafana, DevSecOps.</p></li>
+            </ol>
+            <div class="note-box">
+                {{i:folder-git-2}}
+                <p class="text-neutral-800">Portfolio üçün ən yaxşı layihə: kiçik tətbiqi Dockerfile ilə paketləyin, Terraform ilə cloud-da infrastruktur qurun, GitHub Actions ilə avtomatik deploy edin, Grafana dashboard əlavə edin — və hamısını GitHub-da açıq saxlayın.</p>
+            </div>
+        </section>
+<!--END-->

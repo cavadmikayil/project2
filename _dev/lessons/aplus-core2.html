@@ -1,0 +1,108 @@
+<!--PAGE title="A+ Core 2: OS, Təhlükəsizlik və Əməliyyat Prosedurları" icon="monitor-cog" badge="CompTIA · A+" nav="intro:Domenlər|os:Əməliyyat sistemləri|tools:Windows alətləri|security:Təhlükəsizlik|malware:Malware silmə|ops:Prosedurlar"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:monitor-cog}} Core 2 (220-1202) Domenləri</h2>
+            <p class="lead">
+                Core 2 "proqram tərəfi" haqqındadır: Windows, macOS, Linux, mobil OS-lar, təhlükəsizlik, proqram problemləri və
+                peşəkar iş prosedurları. Burada ən çox itirilən ballar Windows alətlərinin adları və malware silmə addımlarının
+                <strong>ardıcıllığı</strong> ilə bağlıdır.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:app-window}} Operating Systems</h3><p class="text-neutral-700">Windows edition-ları, quraşdırma, alətlər, əmrlər, macOS və Linux əsasları.</p></div>
+                <div class="info-card"><h3>{{i:shield-check}} Security</h3><p class="text-neutral-700">Fiziki və məntiqi təhlükəsizlik, Windows təhlükəsizlik ayarları, SOHO router, sosial mühəndislik.</p></div>
+                <div class="info-card"><h3>{{i:bug}} Software Troubleshooting</h3><p class="text-neutral-700">Windows, mobil OS və tətbiq problemləri, malware əlamətləri.</p></div>
+                <div class="info-card dark"><h3>{{i:clipboard-list}} Operational Procedures</h3><p>Sənədləşmə, change management, backup, təhlükəsizlik, ətraf mühit, peşəkarlıq, skriptlər, uzaqdan giriş.</p></div>
+            </div>
+        </section>
+
+        <section id="os" class="section-card">
+            <h2 class="section-title">{{i:app-window}} 1. Əməliyyat Sistemləri</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Windows edition</th><th>Domain-ə qoşulma</th><th>BitLocker</th><th>Group Policy (gpedit)</th><th>RDP host</th></tr></thead>
+                    <tbody>
+                        <tr><td>Home</td><td class="no">Yox</td><td class="no">Yox (Device Encryption ola bilər)</td><td class="no">Yox</td><td class="no">Yox (yalnız klient)</td></tr>
+                        <tr><td>Pro</td><td class="yes">Var</td><td class="yes">Var</td><td class="yes">Var</td><td class="yes">Var</td></tr>
+                        <tr><td>Enterprise / Education</td><td class="yes">Var</td><td class="yes">Var</td><td class="yes">Var</td><td class="yes">Var + AppLocker və s.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:hard-drive}}<p class="text-neutral-700"><strong>Fayl sistemləri:</strong> NTFS (Windows, icazələr), FAT32 (4 GB fayl limiti), exFAT (flash), ext4 (Linux), APFS (macOS).</p></div>
+                <div class="feature-item">{{i:disc}}<p class="text-neutral-700"><strong>Bölmə cədvəli:</strong> GPT (UEFI, 2 TB-dan böyük disk, 128 bölmə) və MBR (köhnə, 4 primary bölmə).</p></div>
+                <div class="feature-item">{{i:laptop}}<p class="text-neutral-700"><strong>macOS:</strong> Time Machine (backup), FileVault (şifrələmə), Keychain, Spotlight, Mission Control, Terminal.</p></div>
+                <div class="feature-item">{{i:terminal}}<p class="text-neutral-700"><strong>Linux:</strong> <code>ls</code>, <code>cd</code>, <code>chmod</code>, <code>chown</code>, <code>sudo</code>, <code>apt/dnf</code>, <code>grep</code>, <code>ps</code>, <code>top</code>, <code>df</code>, <code>ip</code>.</p></div>
+            </div>
+        </section>
+
+        <section id="tools" class="section-card">
+            <h2 class="section-title">{{i:wrench}} 2. Windows Alətləri və Əmrləri</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Alət</th><th>Açma</th><th>Nə üçün</th></tr></thead>
+                    <tbody>
+                        <tr><td>Task Manager</td><td>Ctrl+Shift+Esc</td><td>Proseslər, performans, startup tətbiqləri</td></tr>
+                        <tr><td>Event Viewer</td><td><code>eventvwr.msc</code></td><td>Sistem, tətbiq və təhlükəsizlik logları</td></tr>
+                        <tr><td>Disk Management</td><td><code>diskmgmt.msc</code></td><td>Bölmə, format, drive letter</td></tr>
+                        <tr><td>Device Manager</td><td><code>devmgmt.msc</code></td><td>Driver-lər, rollback, disable</td></tr>
+                        <tr><td>Services</td><td><code>services.msc</code></td><td>Servisləri başlatmaq, startup type</td></tr>
+                        <tr><td>System Configuration</td><td><code>msconfig</code></td><td>Safe boot, boot seçimləri</td></tr>
+                        <tr><td>Registry Editor</td><td><code>regedit</code></td><td>Registry — əvvəlcə export (backup)!</td></tr>
+                        <tr><td>Resource Monitor</td><td><code>resmon</code></td><td>Disk/şəbəkə istifadəsi proses üzrə</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>ipconfig /all | ipconfig /release | ipconfig /renew | ipconfig /flushdns
+ping, tracert, pathping, nslookup, netstat -ano
+sfc /scannow                         # zədələnmiş sistem fayllarını bərpa et
+DISM /Online /Cleanup-Image /RestoreHealth
+chkdsk C: /f /r                      # disk xətaları
+gpupdate /force   |   gpresult /r    # Group Policy
+net use Z: \\fs01\share             # şəbəkə diskini qoşmaq
+robocopy C:\data D:\backup /MIR      # güclü kopyalama
+shutdown /r /t 0   |   winver   |   whoami</code></pre>
+            </div>
+        </section>
+
+        <section id="security" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 3. Təhlükəsizlik</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:door-closed}}<p class="text-neutral-700"><strong>Fiziki:</strong> access control vestibule (mantrap), badge, biometrika, kilidli rack, video müşahidə, privacy filter.</p></div>
+                <div class="feature-item">{{i:user-check}}<p class="text-neutral-700"><strong>Windows:</strong> UAC, Microsoft Defender Antivirus və Firewall, BitLocker, NTFS vs share icazələri (ən sərt olanı qalib gəlir).</p></div>
+                <div class="feature-item">{{i:router}}<p class="text-neutral-700"><strong>SOHO router:</strong> defolt parolu dəyiş, firmware yenilə, WPA3, WPS söndür, UPnP-ni lazım deyilsə söndür, guest şəbəkə.</p></div>
+                <div class="feature-item">{{i:fish}}<p class="text-neutral-700"><strong>Sosial mühəndislik:</strong> phishing, vishing, smishing, tailgating, shoulder surfing, impersonation, dumpster diving.</p></div>
+                <div class="feature-item">{{i:trash-2}}<p class="text-neutral-700"><strong>Məlumatın məhvi:</strong> shredding, degaussing (HDD), drilling, incineration; üçüncü tərəfdən <strong>certificate of destruction</strong>.</p></div>
+                <div class="feature-item">{{i:smartphone}}<p class="text-neutral-700"><strong>Mobil:</strong> ekran kilidi, biometrika, remote wipe, locator tətbiqləri, OS yeniləmələri.</p></div>
+            </div>
+        </section>
+
+        <section id="malware" class="section-card">
+            <h2 class="section-title">{{i:bug}} 4. Malware Silmənin 7 Addımı (ardıcıllıq soruşulur!)</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Investigate and verify</strong> — malware əlamətlərini araşdır və təsdiqlə.</p></li>
+                <li><p class="text-neutral-700"><strong>Quarantine</strong> — yoluxmuş sistemi şəbəkədən təcrid et.</p></li>
+                <li><p class="text-neutral-700"><strong>Disable System Restore</strong> (Windows) — köhnə restore point-lərdə malware qalmasın.</p></li>
+                <li><p class="text-neutral-700"><strong>Remediate</strong> — anti-malware-i yenilə, skan et və sil (safe mode, pre-installation environment).</p></li>
+                <li><p class="text-neutral-700"><strong>Schedule scans and run updates</strong>.</p></li>
+                <li><p class="text-neutral-700"><strong>Enable System Restore</strong> və yeni təmiz restore point yarat.</p></li>
+                <li><p class="text-neutral-700"><strong>Educate the end user</strong> — istifadəçini maarifləndir.</p></li>
+            </ol>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Əlamətlər: brauzer yönləndirmələri, saxta antivirus pəncərələri, yavaşlıq, naməlum proseslər, deaktiv edilmiş antivirus, fayl uzantılarının dəyişməsi (ransomware), dostlara göndərilmiş spam.</p>
+            </div>
+        </section>
+
+        <section id="ops" class="section-card">
+            <h2 class="section-title">{{i:clipboard-list}} 5. Əməliyyat Prosedurları</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:git-pull-request}} Change management</h3><p class="text-neutral-700">Sorğu, məqsəd, əhatə, risk təhlili, rollback planı, CAB təsdiqi, end-user acceptance, sənədləşmə.</p></div>
+                <div class="info-card"><h3>{{i:hard-drive-download}} Backup</h3><p class="text-neutral-700">Full, incremental, differential, synthetic; 3-2-1 qaydası; GFS rotasiyası; restore testi.</p></div>
+                <div class="info-card accent"><h3>{{i:zap}} Təhlükəsizlik</h3><p class="text-neutral-700">ESD strap və mat, düzgün qaldırma, yanğın söndürən (elektrik üçün CO₂), MSDS/SDS sənədləri.</p></div>
+                <div class="info-card"><h3>{{i:file-code}} Skriptlər</h3><p class="text-neutral-700"><code>.bat</code>, <code>.ps1</code>, <code>.sh</code>, <code>.py</code>, <code>.js</code>, <code>.vbs</code> — tapşırıqları avtomatlaşdırmaq.</p></div>
+                <div class="info-card"><h3>{{i:monitor-smartphone}} Uzaqdan giriş</h3><p class="text-neutral-700">RDP, SSH, VPN, RMM alətləri; istifadəçinin razılığı və sessiyanın loglanması.</p></div>
+                <div class="info-card dark"><h3>{{i:handshake}} Peşəkarlıq</h3><p>Vaxtında gəlmək, aktiv dinləmək, jargon olmadan danışmaq, istifadəçinin məlumatına hörmət.</p></div>
+            </div>
+        </section>
+<!--END-->

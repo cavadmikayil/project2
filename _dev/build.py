@@ -63,6 +63,11 @@ BADGE_TO_CATEGORY = {
     'Helpdesk': 'helpdesk',
     'Təhlükəsizlik': 'security',
     'AI': 'ai',
+    'Cloud': 'cloud',
+    'DevOps': 'devops',
+    'Automation': 'automation',
+    'CompTIA': 'comptia',
+    'Linux': 'linux',
 }
 
 

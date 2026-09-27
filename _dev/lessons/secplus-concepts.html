@@ -1,0 +1,105 @@
+<!--PAGE title="Security+ (SY0-701): Ümumi Təhlükəsizlik Konsepsiyaları" icon="shield" badge="CompTIA · Security+" nav="intro:Domenlər|cia:CIA və AAA|controls:Kontrollar|zt:Zero Trust|change:Change management|crypto:Kriptoqrafiya"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:shield}} Security+ Domenləri</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Domen</th><th>Çəki</th></tr></thead>
+                    <tbody>
+                        <tr><td>1.0 General Security Concepts</td><td>12%</td></tr>
+                        <tr><td>2.0 Threats, Vulnerabilities, and Mitigations</td><td>22%</td></tr>
+                        <tr><td>3.0 Security Architecture</td><td>18%</td></tr>
+                        <tr><td>4.0 Security Operations</td><td>28%</td></tr>
+                        <tr><td>5.0 Security Program Management and Oversight</td><td>20%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="lead">Birinci domen kiçik görünsə də, bütün digər domenlərin dili buradan gəlir: CIA, kontrol növləri, zero trust, kriptoqrafiya.</p>
+        </section>
+
+        <section id="cia" class="section-card">
+            <h2 class="section-title">{{i:triangle}} 1. CIA Triadası, AAA və Non-repudiation</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3>{{i:eye-off}} Confidentiality</h3><p class="text-neutral-700">Yalnız icazəli şəxslər görür: şifrələmə, giriş nəzarəti.</p></div>
+                <div class="info-card"><h3>{{i:file-check}} Integrity</h3><p class="text-neutral-700">Məlumat dəyişdirilməyib: hash, rəqəmsal imza.</p></div>
+                <div class="info-card dark"><h3>{{i:activity}} Availability</h3><p>Lazım olanda əlçatandır: redundancy, backup, DDoS qoruması.</p></div>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:signature}}<p class="text-neutral-700"><strong>Non-repudiation:</strong> göndərən sonradan inkar edə bilməz — rəqəmsal imza.</p></div>
+                <div class="feature-item">{{i:user-check}}<p class="text-neutral-700"><strong>AAA:</strong> Authentication (kim?), Authorization (nəyə?), Accounting (nə etdi?).</p></div>
+                <div class="feature-item">{{i:fingerprint}}<p class="text-neutral-700"><strong>Autentifikasiya faktorları:</strong> bildiyin (parol), sahib olduğun (token, telefon), olduğun (biometrika), harada olduğun (yer).</p></div>
+                <div class="feature-item">{{i:radar}}<p class="text-neutral-700"><strong>Gap analysis:</strong> mövcud vəziyyət ilə hədəf standart (NIST, ISO 27001) arasındakı fərq.</p></div>
+            </div>
+        </section>
+
+        <section id="controls" class="section-card">
+            <h2 class="section-title">{{i:sliders-horizontal}} 2. Kontrol Kateqoriyaları və Növləri</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Kateqoriya</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Technical</strong></td><td>Firewall, antivirus, şifrələmə</td></tr>
+                        <tr><td><strong>Managerial</strong></td><td>Siyasətlər, risk qiymətləndirmə</td></tr>
+                        <tr><td><strong>Operational</strong></td><td>İnsanların icra etdiyi: mühafizə, təlim, backup proseduru</td></tr>
+                        <tr><td><strong>Physical</strong></td><td>Qapı kilidi, kamera, hasar</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Məqsəd</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Preventive</td><td>Baş verməsinin qarşısını almaq</td><td>Firewall qaydası, kilid</td></tr>
+                        <tr><td>Deterrent</td><td>Çəkindirmək</td><td>Xəbərdarlıq lövhəsi, login banner</td></tr>
+                        <tr><td>Detective</td><td>Aşkarlamaq</td><td>IDS, log analizi, kamera yazısı</td></tr>
+                        <tr><td>Corrective</td><td>Nəticəni düzəltmək</td><td>Backup-dan bərpa, patch</td></tr>
+                        <tr><td>Compensating</td><td>Əsas kontrol mümkün olmayanda əvəzedici</td><td>Patch olmayan köhnə sistemi ayrı VLAN-a çıxarmaq</td></tr>
+                        <tr><td>Directive</td><td>Nə etməli olduğunu göstərmək</td><td>Siyasət, "yalnız işçilər" lövhəsi</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="zt" class="section-card">
+            <h2 class="section-title">{{i:scan-face}} 3. Zero Trust və Fiziki Təhlükəsizlik</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:ban}}<p class="text-neutral-700"><strong>"Never trust, always verify":</strong> şəbəkə daxilində olmaq etibar demək deyil; hər sorğu identity, cihaz vəziyyəti və kontekstə görə yoxlanır.</p></div>
+                <div class="feature-item">{{i:layers}}<p class="text-neutral-700"><strong>Control plane:</strong> adaptive identity, threat scope reduction, Policy Engine və Policy Administrator.</p></div>
+                <div class="feature-item">{{i:door-open}}<p class="text-neutral-700"><strong>Data plane:</strong> implicit trust zones, subject/system, Policy Enforcement Point (PEP).</p></div>
+            </div>
+            <p class="text-neutral-700"><strong>Fiziki:</strong> bollard, access control vestibule, video müşahidə, mühafizəçi, badge, sensorlar (infrared, pressure, microwave, ultrasonic). <strong>Deception:</strong> honeypot, honeynet, honeyfile, honeytoken — hücumçunu aşkarlamaq üçün tələlər.</p>
+        </section>
+
+        <section id="change" class="section-card">
+            <h2 class="section-title">{{i:git-pull-request}} 4. Change Management</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700"><strong>Approval process</strong>, <strong>ownership</strong>, <strong>stakeholders</strong>, <strong>impact analysis</strong>.</p></li>
+                <li><p class="text-neutral-700"><strong>Test results</strong>, <strong>backout plan</strong>, <strong>maintenance window</strong>, SOP.</p></li>
+                <li><p class="text-neutral-700">Texniki təsirlər: allow/deny list-lər, restricted activities, downtime, service/application restart, legacy tətbiqlər, asılılıqlar.</p></li>
+                <li><p class="text-neutral-700">Sənədləşmə: diaqramların, siyasətlərin yenilənməsi, <strong>version control</strong>.</p></li>
+            </ol>
+        </section>
+
+        <section id="crypto" class="section-card">
+            <h2 class="section-title">{{i:key-round}} 5. Kriptoqrafiya Əsasları</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Anlayış</th><th>Nümunə / qeyd</th></tr></thead>
+                    <tbody>
+                        <tr><td>Symmetric</td><td>AES — bir açar; sürətli, böyük məlumat üçün; problem: açarın paylaşılması</td></tr>
+                        <tr><td>Asymmetric</td><td>RSA, ECC — public/private açar cütü; açar mübadiləsi və imza</td></tr>
+                        <tr><td>Hashing</td><td>SHA-256 — birtərəfli; MD5/SHA-1 köhnəlib (collision)</td></tr>
+                        <tr><td>Salting / key stretching</td><td>Parol hash-lərini rainbow table-a qarşı qorumaq; bcrypt, PBKDF2</td></tr>
+                        <tr><td>Digital signature</td><td>Hash göndərənin private açarı ilə şifrələnir → integrity + non-repudiation</td></tr>
+                        <tr><td>PKI</td><td>CA, sertifikat, CRL və OCSP (ləğv yoxlaması), wildcard və SAN sertifikatlar</td></tr>
+                        <tr><td>Açar saxlama</td><td>TPM, HSM, secure enclave, key escrow</td></tr>
+                        <tr><td>Obfuscation</td><td>Steganography, tokenization, data masking</td></tr>
+                        <tr><td>Blockchain</td><td>Açıq, paylanmış, dəyişdirilməz qeydlər (open public ledger)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Tələ: məlumatı <strong>şifrələmək</strong> üçün alıcının <strong>public</strong> açarı, <strong>imzalamaq</strong> üçün göndərənin <strong>private</strong> açarı istifadə olunur. Ətraflı: portalın Kriptoqrafiya və PKI dərsi.</p>
+            </div>
+        </section>
+<!--END-->

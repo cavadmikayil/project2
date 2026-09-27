@@ -1,0 +1,138 @@
+<!--PAGE title="NETCONF, RESTCONF və YANG" icon="file-cog" badge="Automation · Model-driven" nav="intro:Giriş|yang:YANG|netconf:NETCONF|restconf:RESTCONF|python:Python ilə|telemetry:Telemetry"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:file-cog}} Giriş: Model-Driven Programmability</h2>
+            <p class="lead">
+                CLI insanlar üçündür: çıxış versiyadan versiyaya dəyişir, xəta mesajları mətn şəklindədir. <strong>Model-driven</strong> yanaşmada
+                cihazın konfiqurasiyası və vəziyyəti <strong>YANG</strong> modeli ilə dəqiq təsvir olunur, proqramlar isə cihazla
+                <strong>NETCONF</strong> (SSH, XML) və ya <strong>RESTCONF</strong> (HTTPS, JSON/XML) protokolları ilə strukturlaşdırılmış məlumat mübadiləsi edir.
+            </p>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>NETCONF</th><th>RESTCONF</th></tr></thead>
+                    <tbody>
+                        <tr><td>Standart</td><td>RFC 6241</td><td>RFC 8040</td></tr>
+                        <tr><td>Nəqliyyat</td><td>SSH, port <strong>830</strong></td><td>HTTPS, port <strong>443</strong></td></tr>
+                        <tr><td>Kodlaşdırma</td><td>XML</td><td>JSON və ya XML</td></tr>
+                        <tr><td>Əməliyyatlar</td><td><code>get</code>, <code>get-config</code>, <code>edit-config</code>, <code>lock</code>, <code>commit</code></td><td>GET, POST, PUT, PATCH, DELETE</td></tr>
+                        <tr><td>Transaction / candidate</td><td class="yes">Var</td><td class="no">Yoxdur</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="yang" class="section-card">
+            <h2 class="section-title">{{i:list-tree}} 1. YANG: Məlumat Modeli</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>module example-vlan {
+  namespace "urn:example:vlan";
+  prefix ev;
+
+  container vlans {
+    list vlan {
+      key "id";
+      leaf id   { type uint16 { range "1..4094"; } }
+      leaf name { type string { length "1..32"; } }
+      leaf enabled { type boolean; default true; }
+    }
+  }
+}</code></pre>
+                <p class="code-note">YANG məlumatın strukturunu və qaydalarını müəyyən edir: VLAN ID-si 1–4094 aralığında olmalıdır — 5000 göndərsəniz, cihaz konfiqurasiyanı tətbiq etmədən rədd edir.</p>
+            </div>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:box}} container</h3><p class="text-neutral-700">Qovluq kimi qruplaşdırma.</p></div>
+                <div class="info-card"><h3>{{i:list}} list + key</h3><p class="text-neutral-700">Təkrarlanan elementlər (interfeyslər, VLAN-lar), açarla tanınır.</p></div>
+                <div class="info-card accent"><h3>{{i:leaf}} leaf</h3><p class="text-neutral-700">Tək dəyər: ad, IP, MTU.</p></div>
+                <div class="info-card dark"><h3>{{i:library}} Model mənbələri</h3><p><strong>IETF</strong> və <strong>OpenConfig</strong> (vendor-neytral), <strong>native</strong> (Cisco-IOS-XE-native — bütün CLI imkanları).</p></div>
+            </div>
+        </section>
+
+        <section id="netconf" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 2. NETCONF</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>! IOS XE-də aktivləşdirmək
+netconf-yang
+restconf
+ip http secure-server
+username netadmin privilege 15 secret S3cret!</code></pre>
+            </div>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Klient SSH ilə 830 portuna qoşulur (<code>netconf</code> subsystem).</p></li>
+                <li><p class="text-neutral-700">Hər iki tərəf <code>&lt;hello&gt;</code> mesajı ilə <strong>capabilities</strong>-ləri (dəstəklənən modellər və imkanlar) mübadilə edir.</p></li>
+                <li><p class="text-neutral-700">Klient <code>&lt;rpc&gt;</code> göndərir, cihaz <code>&lt;rpc-reply&gt;</code> ilə cavab verir.</p></li>
+                <li><p class="text-neutral-700">Datastore-lar: <strong>running</strong>, <strong>startup</strong>, <strong>candidate</strong> (dəyişiklik əvvəlcə burada yığılır, sonra <code>commit</code>).</p></li>
+            </ol>
+        </section>
+
+        <section id="restconf" class="section-card">
+            <h2 class="section-title">{{i:globe}} 3. RESTCONF</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Interfeysləri oxumaq (IETF modeli)
+curl -sk -u netadmin:S3cret! \
+  -H "Accept: application/yang-data+json" \
+  https://10.10.0.254/restconf/data/ietf-interfaces:interfaces
+
+# Loopback yaratmaq (PUT idempotentdir)
+curl -sk -u netadmin:S3cret! -X PUT \
+  -H "Content-Type: application/yang-data+json" \
+  https://10.10.0.254/restconf/data/ietf-interfaces:interfaces/interface=Loopback100 \
+  -d '{"ietf-interfaces:interface": {
+        "name": "Loopback100",
+        "type": "iana-if-type:softwareLoopback",
+        "enabled": true,
+        "ietf-ip:ipv4": {"address": [{"ip": "100.100.100.1", "netmask": "255.255.255.255"}]}
+      }}'</code></pre>
+                <p class="code-note">URL strukturu: <code>/restconf/data/&lt;modul&gt;:&lt;container&gt;/&lt;list&gt;=&lt;açar&gt;</code>. Media tipi <code>application/yang-data+json</code>-dır, adi <code>application/json</code> yox.</p>
+            </div>
+        </section>
+
+        <section id="python" class="section-card">
+            <h2 class="section-title">{{i:code}} 4. Python: ncclient</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>from ncclient import manager      # pip install ncclient
+
+FILTER = """
+&lt;filter&gt;
+  &lt;interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces"&gt;
+    &lt;interface&gt;&lt;name/&gt;&lt;enabled/&gt;&lt;/interface&gt;
+  &lt;/interfaces&gt;
+&lt;/filter&gt;"""
+
+CONFIG = """
+&lt;config&gt;
+  &lt;native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native"&gt;
+    &lt;hostname&gt;EDGE-R1&lt;/hostname&gt;
+  &lt;/native&gt;
+&lt;/config&gt;"""
+
+with manager.connect(host="10.10.0.254", port=830, username="netadmin",
+                     password="S3cret!", hostkey_verify=False) as m:
+    print([c for c in m.server_capabilities if "ietf-interfaces" in c][:1])
+    reply = m.get_config(source="running", filter=FILTER)
+    print(reply.xml[:500])
+    m.edit_config(target="running", config=CONFIG)    # candidate varsa: target="candidate" + m.commit()</code></pre>
+                <p class="code-note">Lab üçün <code>hostkey_verify=False</code> rahatdır; production-da cihazın SSH açarını <code>known_hosts</code>-a əlavə edin.</p>
+            </div>
+        </section>
+
+        <section id="telemetry" class="section-card">
+            <h2 class="section-title">{{i:activity}} 5. Model-Driven Telemetry</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:repeat}} SNMP polling</h3><p class="text-neutral-700">Monitorinq serveri hər 5 dəqiqədən bir soruşur — qısa pikləri görmür, cihazı yükləyir.</p></div>
+                <div class="info-card accent"><h3>{{i:radio}} Streaming telemetry</h3><p class="text-neutral-700">Cihaz özü YANG məlumatını hər 10 saniyədən bir və ya dəyişiklik anında göndərir (gNMI, gRPC dial-out).</p></div>
+            </div>
+            <div class="code-block mt-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>telemetry ietf subscription 101
+ encoding encode-kvgpb
+ filter xpath /process-cpu-ios-xe-oper:cpu-usage/cpu-utilization/five-seconds
+ stream yang-push
+ update-policy periodic 1000          ! santisaniyə = 10 saniyə
+ receiver ip address 10.0.0.60 57500 protocol grpc-tcp</code></pre>
+                <p class="code-note">Qəbul tərəfində adətən <strong>Telegraf</strong> → <strong>InfluxDB/Prometheus</strong> → <strong>Grafana</strong> (TIG stack) istifadə olunur.</p>
+            </div>
+        </section>
+<!--END-->

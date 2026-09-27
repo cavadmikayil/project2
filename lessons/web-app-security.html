@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#bug"></use></svg> Web Tətbiq Təhlükəsizliyi (OWASP)</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#bug"></use></svg> Web Tətbiq Təhlükəsizliyi (OWASP)</h1>
                 <span class="lesson-badge">Təhlükəsizlik · AppSec</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -27,15 +27,15 @@
                 <a href="#access" class="nav-link">Access Control</a>
                 <a href="#headers" class="nav-link">Headers</a>
                 <a href="#sdlc" class="nav-link">Secure SDLC</a>
-                <a href="../index.html#security" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#moon"></use></svg></button>
+                <a href="../index.html#security" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#bug"></use></svg> Giriş: Firewall Tətbiqin Səhvini Düzəltmir</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#bug"></use></svg> Giriş: Firewall Tətbiqin Səhvini Düzəltmir</h2>
             <p class="lead">
                 Firewall 443 portunu açıq saxlamalıdır — əks halda sayt işləməz. Buna görə hücumların böyük hissəsi
                 elə bu açıq qapıdan, <strong>tətbiqin məntiqindəki səhvlərdən</strong> istifadə edir. <strong>OWASP</strong>
@@ -45,7 +45,7 @@
         </section>
 
         <section id="top10" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#list-ordered"></use></svg> 1. OWASP Top 10 (2021)</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#list-ordered"></use></svg> 1. OWASP Top 10 (2021)</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>#</th><th>Risk</th><th>Qısa izah</th></tr></thead>
@@ -66,7 +66,7 @@
         </section>
 
         <section id="sqli" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#database"></use></svg> 2. SQL Injection</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#database"></use></svg> 2. SQL Injection</h2>
             <p class="lead">İstifadəçi girişi SQL sorğusuna mətn kimi birləşdirilir və sorğunun məntiqi dəyişdirilə bilir.</p>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="sq-bad">Zəif kod</button>
@@ -94,18 +94,18 @@ User.objects.filter(email=email)</code></pre>
         </section>
 
         <section id="xss" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#code"></use></svg> 3. Cross-Site Scripting (XSS)</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#code"></use></svg> 3. Cross-Site Scripting (XSS)</h2>
             <p class="lead">İstifadəçinin daxil etdiyi mətn səhifəyə HTML kimi yazılır və başqa istifadəçinin brauzerində skript kimi işləyir — sessiya oğurlanması, saxta forma.</p>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#shield-check"></use></svg><p class="text-neutral-700"><strong>Output encoding:</strong> çıxışda <code>&lt;</code> → <code>&amp;lt;</code>. Müasir şablon mühərrikləri (Jinja, React) bunu avtomatik edir — onu söndürməyin.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#code"></use></svg><p class="text-neutral-700"><strong>DOM-da:</strong> <code>innerHTML</code> əvəzinə <code>textContent</code>.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#file-lock"></use></svg><p class="text-neutral-700"><strong>Content-Security-Policy</strong> başlığı — hansı mənbələrdən skript yüklənə biləcəyini məhdudlaşdırır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#cookie"></use></svg><p class="text-neutral-700"><strong>HttpOnly cookie</strong> — JavaScript sessiya cookie-sini oxuya bilmir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#shield-check"></use></svg><p class="text-neutral-700"><strong>Output encoding:</strong> çıxışda <code>&lt;</code> → <code>&amp;lt;</code>. Müasir şablon mühərrikləri (Jinja, React) bunu avtomatik edir — onu söndürməyin.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#code"></use></svg><p class="text-neutral-700"><strong>DOM-da:</strong> <code>innerHTML</code> əvəzinə <code>textContent</code>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#file-lock"></use></svg><p class="text-neutral-700"><strong>Content-Security-Policy</strong> başlığı — hansı mənbələrdən skript yüklənə biləcəyini məhdudlaşdırır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#cookie"></use></svg><p class="text-neutral-700"><strong>HttpOnly cookie</strong> — JavaScript sessiya cookie-sini oxuya bilmir.</p></div>
             </div>
         </section>
 
         <section id="access" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#lock-keyhole"></use></svg> 4. Broken Access Control və IDOR</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#lock-keyhole"></use></svg> 4. Broken Access Control və IDOR</h2>
             <p class="lead">Ən çox rast gəlinən risk. Nümunə: <code>/api/invoices/1045</code> sizin fakturanızdır; URL-də rəqəmi <code>1046</code> edəndə başqasının fakturası açılırsa — bu <strong>IDOR</strong>-dur (Insecure Direct Object Reference).</p>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
@@ -116,7 +116,7 @@ invoice = Invoice.objects.get(id=invoice_id, owner=request.user)   # başqasın�
         </section>
 
         <section id="headers" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#list-checks"></use></svg> 5. Təhlükəsizlik Başlıqları (Nginx)</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#list-checks"></use></svg> 5. Təhlükəsizlik Başlıqları (Nginx)</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
@@ -130,7 +130,7 @@ server_tokens off;</code></pre>
         </section>
 
         <section id="sdlc" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#workflow"></use></svg> 6. Secure SDLC</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#workflow"></use></svg> 6. Secure SDLC</h2>
             <ol class="steps max-w-3xl mx-auto">
                 <li><p class="text-neutral-700"><strong>Dizayn:</strong> threat modeling — "burada kim nəyi səhv istifadə edə bilər?"</p></li>
                 <li><p class="text-neutral-700"><strong>Kod:</strong> code review, SAST (statik analiz — Semgrep, SonarQube).</p></li>
@@ -139,7 +139,7 @@ server_tokens off;</code></pre>
                 <li><p class="text-neutral-700"><strong>İstismar:</strong> WAF, log-lar, monitorinq, bug bounty / məsul açıqlama siyasəti.</p></li>
             </ol>
             <div class="note-box mt-6">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#scale"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#scale"></use></svg>
                 <p class="text-neutral-800">Təhlükəsizlik testlərini <strong>yalnız öz sistemlərinizdə və ya yazılı icazə ilə</strong> aparın. Praktika üçün qanuni laboratoriyalar: PortSwigger Web Security Academy, OWASP Juice Shop, DVWA.</p>
             </div>
         </section>
@@ -149,7 +149,7 @@ server_tokens off;</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

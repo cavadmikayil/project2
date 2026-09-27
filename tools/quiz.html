@@ -45,23 +45,23 @@
     <header class="bg-white shadow-md sticky top-0 z-50" data-site-header>
         <div class="container mx-auto px-6 py-3 flex flex-wrap gap-x-3 gap-y-2 justify-between items-center">
             <a href="../index.html" class="flex items-center gap-2 text-lg font-extrabold text-neutral-900">
-                <span class="site-logo"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg></span> Cavad Mikayil Təlim Portalı
+                <span class="site-logo"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg></span> Cavad Mikayil Təlim Portalı
             </a>
             <nav class="site-nav order-last md:order-none md:ml-auto" aria-label="Sayt menyusu">
-                    <a href="../index.html" data-nav="home"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#house"></use></svg> Ana Səhifə</a>
-                    <a href="../index.html#ccna" data-nav="ccna"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> CCNA</a>
-                    <a href="../tools.html" data-nav="tools" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#toolbox"></use></svg> Tools</a>
-                    <a href="../links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#library"></use></svg> Faydalı Linklər</a>
-                    <a href="../about.html" data-nav="about"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#user-round"></use></svg> Haqqında</a>
+                    <a href="../index.html" data-nav="home"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#house"></use></svg> Ana Səhifə</a>
+                    <a href="../index.html#ccna" data-nav="ccna"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> CCNA</a>
+                    <a href="../tools.html" data-nav="tools" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#toolbox"></use></svg> Tools</a>
+                    <a href="../links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#library"></use></svg> Faydalı Linklər</a>
+                    <a href="../about.html" data-nav="about"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#user-round"></use></svg> Haqqında</a>
                 </nav>
-            <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#moon"></use></svg></button>
+            <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
         </div>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-3xl">
         <section class="tool-hero">
-            <a href="../tools.html" class="tool-back"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-left"></use></svg> Bütün alətlər</a>
-            <h1><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#notebook-pen"></use></svg> Quiz</h1>
+            <a href="../tools.html" class="tool-back"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Bütün alətlər</a>
+            <h1><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#notebook-pen"></use></svg> Quiz</h1>
             <p>Bütün dərslər üzrə izahlı test sualları. Mövzu seçin, biliyinizi yoxlayın, ən yaxşı nəticəniz profilinizdə saxlanılsın.</p>
         </section>
 
@@ -120,7 +120,7 @@
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
@@ -159,7 +159,7 @@
         const GROUP_TOPICS = Object.fromEntries(CATALOG.categories.map(c => [`all-${c.id}`, `Bütün ${c.label}`]));
 
         const BEST_KEY = Student.key('edu-portal-quiz-best');
-        const icon = name => `<svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#${name}"></use></svg>`;
+        const icon = name => `<svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#${name}"></use></svg>`;
         const ICON_CHECK = icon('circle-check');
         const ICON_X = icon('circle-x');
         const $ = id => document.getElementById(id);
@@ -199,7 +199,7 @@
         function updateBestLabel() {
             const topic = $('topic-select').value;
             const best = loadBest()[topic];
-            $('best-score').innerHTML = best === undefined ? '' : `<svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#trophy"></use></svg> Bu mövzu üzrə ən yaxşı nəticəniz: <strong>${best}%</strong>`;
+            $('best-score').innerHTML = best === undefined ? '' : `<svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#trophy"></use></svg> Bu mövzu üzrə ən yaxşı nəticəniz: <strong>${best}%</strong>`;
         }
 
         function poolFor(topic) {

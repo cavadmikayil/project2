@@ -1,0 +1,129 @@
+<!--PAGE title="Kubernetes Əsasları" icon="ship-wheel" badge="Cloud · Kubernetes" nav="intro:Giriş|arch:Arxitektura|objects:Obyektlər|yaml:Manifest|kubectl:kubectl|ops:İstismar"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:ship-wheel}} Giriş: Konteynerlərin Orkestri</h2>
+            <p class="lead">
+                Bir serverdə 3 konteyneri <code>docker compose</code> ilə idarə etmək asandır. 50 serverdə 500 konteyner olanda isə suallar yaranır:
+                hansı konteyner hansı serverdə işləsin, server çökəndə nə olsun, yeni versiya fasiləsiz necə çıxarılsın?
+                <strong>Kubernetes</strong> (K8s) bu işi avtomatlaşdıran açıq mənbəli orkestrasiya platformasıdır.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:target}} Declarative</h3><p class="text-neutral-700">Siz "3 nüsxə nginx:1.27 işləsin" yazırsınız, K8s faktiki vəziyyəti daim buna uyğunlaşdırır (reconciliation loop).</p></div>
+                <div class="info-card"><h3>{{i:heart-pulse}} Self-healing</h3><p class="text-neutral-700">Çökən konteyner yenidən başladılır, ölən node-dakı pod-lar başqa node-a köçürülür.</p></div>
+                <div class="info-card dark"><h3>{{i:cloud}} İdarə olunan K8s</h3><p>EKS (AWS), AKS (Azure), GKE (Google) — control plane-i provayder idarə edir.</p></div>
+            </div>
+        </section>
+
+        <section id="arch" class="section-card">
+            <h2 class="section-title">{{i:network}} 1. Arxitektura</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Komponent</th><th>Harada</th><th>Vəzifəsi</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>kube-apiserver</strong></td><td>Control plane</td><td>Bütün əmrlərin qəbul olunduğu REST API; kubectl buraya qoşulur</td></tr>
+                        <tr><td><strong>etcd</strong></td><td>Control plane</td><td>Klasterin bütün vəziyyətini saxlayan key-value DB — backup-ı vacibdir</td></tr>
+                        <tr><td><strong>kube-scheduler</strong></td><td>Control plane</td><td>Yeni pod-u hansı node-a yerləşdirməyi seçir</td></tr>
+                        <tr><td><strong>controller-manager</strong></td><td>Control plane</td><td>İstənilən və faktiki vəziyyəti müqayisə edib düzəldir</td></tr>
+                        <tr><td><strong>kubelet</strong></td><td>Hər worker node</td><td>Node-da pod-ları işə salır və vəziyyətini bildirir</td></tr>
+                        <tr><td><strong>kube-proxy / CNI</strong></td><td>Hər worker node</td><td>Pod şəbəkəsi və Service trafik qaydaları</td></tr>
+                        <tr><td><strong>Container runtime</strong></td><td>Hər worker node</td><td>containerd, CRI-O — konteynerləri faktiki işlədən</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="objects" class="section-card">
+            <h2 class="section-title">{{i:boxes}} 2. Əsas Obyektlər</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:box}}<p class="text-neutral-700"><strong>Pod:</strong> ən kiçik vahid; bir və ya bir neçə konteyner eyni IP və volume-u paylaşır. Pod-lar müvəqqətidir.</p></div>
+                <div class="feature-item">{{i:copy}}<p class="text-neutral-700"><strong>Deployment:</strong> pod-ların istənilən sayını və versiyasını idarə edir; rolling update və rollback.</p></div>
+                <div class="feature-item">{{i:plug}}<p class="text-neutral-700"><strong>Service:</strong> dəyişən pod-lar üçün sabit IP və DNS adı. Növləri: <code>ClusterIP</code>, <code>NodePort</code>, <code>LoadBalancer</code>.</p></div>
+                <div class="feature-item">{{i:globe}}<p class="text-neutral-700"><strong>Ingress / Gateway API:</strong> HTTP(S) trafikini host və path-a görə Service-lərə yönləndirir.</p></div>
+                <div class="feature-item">{{i:file-cog}}<p class="text-neutral-700"><strong>ConfigMap və Secret:</strong> konfiqurasiya və parollar image-dan ayrı saxlanılır.</p></div>
+                <div class="feature-item">{{i:folder-kanban}}<p class="text-neutral-700"><strong>Namespace:</strong> klasteri komandalar və mühitlər üzrə məntiqi bölür (<code>dev</code>, <code>prod</code>).</p></div>
+                <div class="feature-item">{{i:database}}<p class="text-neutral-700"><strong>PersistentVolumeClaim:</strong> pod silinəndə qalan disk; StatefulSet verilənlər bazaları üçün.</p></div>
+                <div class="feature-item">{{i:server}}<p class="text-neutral-700"><strong>DaemonSet:</strong> hər node-da bir pod — log agenti, monitorinq agenti.</p></div>
+            </div>
+        </section>
+
+        <section id="yaml" class="section-card">
+            <h2 class="section-title">{{i:file-code}} 3. Manifest: Deployment + Service</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: portal
+spec:
+  replicas: 3
+  selector:
+    matchLabels: { app: web }
+  template:
+    metadata:
+      labels: { app: web }
+    spec:
+      containers:
+        - name: web
+          image: nginx:1.27
+          ports: [{ containerPort: 80 }]
+          resources:
+            requests: { cpu: "100m", memory: "128Mi" }   # scheduler bu qədər yer axtarır
+            limits:   { cpu: "500m", memory: "256Mi" }   # bundan artıq istifadə edə bilməz
+          readinessProbe:
+            httpGet: { path: /, port: 80 }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  namespace: portal
+spec:
+  selector: { app: web }       # bu label-lı pod-lara trafik göndər
+  ports: [{ port: 80, targetPort: 80 }]
+  type: ClusterIP</code></pre>
+                <p class="code-note">Service pod-ları <strong>label selector</strong> ilə tapır. Klaster daxilində digər tətbiqlər ona <code>web.portal.svc.cluster.local</code> adı ilə müraciət edir.</p>
+            </div>
+        </section>
+
+        <section id="kubectl" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 4. kubectl Əmrləri</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>kubectl create namespace portal
+kubectl apply -f web.yaml                 # yarat və ya yenilə (declarative)
+kubectl get pods -n portal -o wide        # pod-lar, IP-lər, node-lar
+kubectl get deploy,svc -n portal
+kubectl describe pod web-7d9f8-abcde -n portal   # Events: niyə başlamır?
+kubectl logs -f deploy/web -n portal
+kubectl exec -it deploy/web -n portal -- sh
+
+kubectl scale deploy/web --replicas=5 -n portal
+kubectl set image deploy/web web=nginx:1.28 -n portal   # rolling update
+kubectl rollout status deploy/web -n portal
+kubectl rollout undo deploy/web -n portal              # əvvəlki versiyaya qayıt
+
+kubectl port-forward svc/web 8080:80 -n portal         # lokal test
+kubectl top pods -n portal                              # CPU/RAM (metrics-server lazımdır)</code></pre>
+            </div>
+        </section>
+
+        <section id="ops" class="section-card">
+            <h2 class="section-title">{{i:stethoscope}} 5. Tipik Problemlər</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Status</th><th>Səbəb</th><th>Harada baxmaq</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>Pending</code></td><td>Node-larda kifayət qədər CPU/RAM yoxdur, PVC bağlanmayıb</td><td><code>kubectl describe pod</code> → Events</td></tr>
+                        <tr><td><code>ImagePullBackOff</code></td><td>Image adı/teqi səhvdir və ya registry-yə giriş yoxdur</td><td>Image adı, <code>imagePullSecrets</code></td></tr>
+                        <tr><td><code>CrashLoopBackOff</code></td><td>Konteyner başlayıb dərhal çökür</td><td><code>kubectl logs --previous</code></td></tr>
+                        <tr><td><code>OOMKilled</code></td><td>Memory limit aşılıb</td><td>limits, tətbiqin yaddaş istifadəsi</td></tr>
+                        <tr><td>Service cavab vermir</td><td>Selector label-ları uyğun gəlmir, readiness uğursuzdur</td><td><code>kubectl get endpoints web</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:graduation-cap}}
+                <p class="text-neutral-800">Lokal öyrənmək üçün: <strong>kind</strong>, <strong>minikube</strong> və ya <strong>k3d</strong> — bir kompüterdə tam klaster. Sertifikatlar: KCNA (giriş), CKA (administrator), CKAD (developer).</p>
+            </div>
+        </section>
+<!--END-->

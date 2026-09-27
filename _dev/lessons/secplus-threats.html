@@ -1,0 +1,90 @@
+<!--PAGE title="Security+: Təhdidlər, Zəifliklər və Müdafiə" icon="skull" badge="CompTIA · Security+" nav="intro:Giriş|actors:Təhdid aktorları|vectors:Hücum vektorları|vulns:Zəifliklər|indicators:Əlamətlər|mitigate:Müdafiə"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:skull}} Giriş: Domen 2 (22%)</h2>
+            <p class="lead">
+                Bu domen "düşməni tanı" haqqındadır: kim hücum edir və niyə, hansı yolla daxil olur, hansı zəifliklərdən istifadə edir
+                və hücumun əlamətləri nələrdir. İmtahan sualları adətən ssenari şəklindədir: "log-da bu görünür — hansı hücumdur?"
+            </p>
+        </section>
+
+        <section id="actors" class="section-card">
+            <h2 class="section-title">{{i:users}} 1. Təhdid Aktorları</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Aktor</th><th>Resurs / bacarıq</th><th>Motiv</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Nation-state</strong> (APT)</td><td>Çox yüksək</td><td>Casusluq, müharibə, sabotaj</td></tr>
+                        <tr><td><strong>Organized crime</strong></td><td>Yüksək</td><td>Maliyyə: ransomware, fırıldaqçılıq</td></tr>
+                        <tr><td><strong>Hacktivist</strong></td><td>Orta</td><td>İdeologiya, etiraz</td></tr>
+                        <tr><td><strong>Insider threat</strong></td><td>Daxili giriş</td><td>İntiqam, pul, ehtiyatsızlıq</td></tr>
+                        <tr><td><strong>Unskilled attacker</strong></td><td>Aşağı, hazır alətlər</td><td>Maraq, şöhrət</td></tr>
+                        <tr><td><strong>Shadow IT</strong></td><td>Daxili</td><td>Rahatlıq — IT-nin xəbəri olmadan sistemlər</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="vectors" class="section-card">
+            <h2 class="section-title">{{i:door-open}} 2. Hücum Vektorları</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:mail}}<p class="text-neutral-700"><strong>Mesaj əsaslı:</strong> email phishing, SMS (smishing), IM, səsli zəng (vishing).</p></div>
+                <div class="feature-item">{{i:image}}<p class="text-neutral-700"><strong>Fayl və şəkil əsaslı:</strong> zərərli sənədlər, makrolar.</p></div>
+                <div class="feature-item">{{i:usb}}<p class="text-neutral-700"><strong>Removable device:</strong> atılmış USB fləşlər (baiting).</p></div>
+                <div class="feature-item">{{i:package}}<p class="text-neutral-700"><strong>Supply chain:</strong> MSP, vendor, zəmanətli proqram yeniləməsi vasitəsilə.</p></div>
+                <div class="feature-item">{{i:wifi}}<p class="text-neutral-700"><strong>Şəbəkə:</strong> açıq/zəif Wi-Fi, Bluetooth, açıq servis portları, defolt parollar.</p></div>
+                <div class="feature-item">{{i:user-x}}<p class="text-neutral-700"><strong>İnsan:</strong> pretexting, impersonation, watering hole, typosquatting, BEC (business email compromise).</p></div>
+            </div>
+        </section>
+
+        <section id="vulns" class="section-card">
+            <h2 class="section-title">{{i:bug}} 3. Zəiflik Növləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>İzah</th></tr></thead>
+                    <tbody>
+                        <tr><td>SQL injection</td><td>İstifadəçi girişi sorğuya birbaşa qoşulur: <code>' OR 1=1 --</code></td></tr>
+                        <tr><td>XSS</td><td>Saytda başqa istifadəçinin brauzerində işləyən skript</td></tr>
+                        <tr><td>Buffer overflow</td><td>Ayrılmış yaddaşdan artıq yazmaq → kod icrası</td></tr>
+                        <tr><td>Race condition (TOCTOU)</td><td>Yoxlama ilə istifadə arasındakı zaman fərqindən istifadə</td></tr>
+                        <tr><td>Zero-day</td><td>Hələ patch-i olmayan, istehsalçıya məlum olmayan zəiflik</td></tr>
+                        <tr><td>Misconfiguration</td><td>Açıq bucket, defolt parol, lazımsız açıq portlar</td></tr>
+                        <tr><td>Legacy / EOL</td><td>Artıq yenilənməyən sistemlər</td></tr>
+                        <tr><td>Mobil</td><td>Side loading, jailbreak/root</td></tr>
+                        <tr><td>VM escape</td><td>VM-dən hypervisor-a çıxmaq</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="indicators" class="section-card">
+            <h2 class="section-title">{{i:siren}} 4. Zərərli Fəaliyyətin Əlamətləri</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Log-da görünən</th><th>Ehtimal olunan hücum</th></tr></thead>
+                    <tbody>
+                        <tr><td>Çoxlu hesaba eyni parolla giriş cəhdləri</td><td>Password spraying</td></tr>
+                        <tr><td>Bir hesaba minlərlə fərqli parol</td><td>Brute force</td></tr>
+                        <tr><td>İstifadəçi 10 dəqiqə ərzində Bakı və Sinqapurdan daxil olur</td><td>Impossible travel — oğurlanmış hesab</td></tr>
+                        <tr><td>Hesab kilidlənmələri, gecə yarısı giriş</td><td>Hesab ələ keçirilməsi</td></tr>
+                        <tr><td>Faylların uzantısı dəyişir, fidyə qeydi</td><td>Ransomware</td></tr>
+                        <tr><td>Eyni MAC üçün çoxlu IP, ARP dəyişiklikləri</td><td>ARP poisoning (on-path)</td></tr>
+                        <tr><td>Log-lar silinib, boşluqlar var</td><td>İzləri gizlətmək</td></tr>
+                        <tr><td>MFA təsdiq sorğularının seli</td><td>MFA fatigue</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700">Malware növləri: ransomware, trojan, worm (özü yayılır), spyware, bloatware, virus, keylogger, logic bomb, rootkit.</p>
+        </section>
+
+        <section id="mitigate" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 5. Müdafiə Texnikaları</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:layers}}<p class="text-neutral-700"><strong>Segmentation</strong> və <strong>isolation</strong> — yayılmanı məhdudlaşdırmaq.</p></div>
+                <div class="feature-item">{{i:list-checks}}<p class="text-neutral-700"><strong>Access control:</strong> least privilege, ACL, icazə siyahıları (application allow list).</p></div>
+                <div class="feature-item">{{i:refresh-cw}}<p class="text-neutral-700"><strong>Patching</strong>, <strong>encryption</strong>, <strong>monitoring</strong>.</p></div>
+                <div class="feature-item">{{i:settings}}<p class="text-neutral-700"><strong>Configuration enforcement</strong> və <strong>hardening:</strong> lazımsız servisləri söndürmək, defolt parolları dəyişmək, host firewall, EDR.</p></div>
+                <div class="feature-item">{{i:power-off}}<p class="text-neutral-700"><strong>Decommissioning:</strong> istifadə olunmayan sistemləri və hesabları vaxtında silmək.</p></div>
+                <div class="feature-item">{{i:graduation-cap}}<p class="text-neutral-700"><strong>Security awareness</strong> — phishing simulyasiyaları və təlim.</p></div>
+            </div>
+        </section>
+<!--END-->

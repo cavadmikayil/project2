@@ -1,0 +1,138 @@
+<!--PAGE title="Çıxışı Parse Etmək: TextFSM və Genie" icon="table" badge="Automation · Parsing" nav="intro:Giriş|ntc:ntc-templates|own:Öz şablonun|genie:Genie|compare:Müqayisə|usecase:Real ssenari"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:table}} Giriş: Mətni Məlumata Çevirmək</h2>
+            <p class="lead">
+                <code>show</code> əmrləri insan üçün yazılıb: sütunlar, boşluqlar, başlıqlar. Skript üçün isə lazım olan
+                <strong>strukturlaşdırılmış məlumatdır</strong> — məsələn, hər interfeys üçün <code>{"name": ..., "status": ...}</code>.
+                Bu çevrilməyə <strong>parsing</strong> deyilir. Hər dəfə regex yazmaq əvəzinə hazır şablonlardan istifadə olunur.
+            </p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>Interface              IP-Address      OK? Method Status                Protocol
+GigabitEthernet0/0     10.0.0.1        YES manual up                    up
+GigabitEthernet0/1     unassigned      YES unset  administratively down down
+
+        ↓ parse
+
+[{"interface": "GigabitEthernet0/0", "ip_address": "10.0.0.1", "status": "up", "proto": "up"},
+ {"interface": "GigabitEthernet0/1", "ip_address": "unassigned", "status": "administratively down", "proto": "down"}]</code></pre>
+            </div>
+        </section>
+
+        <section id="ntc" class="section-card">
+            <h2 class="section-title">{{i:library}} 1. ntc-templates: Hazır Kitabxana</h2>
+            <p class="lead">Network to Code icmasının <strong>ntc-templates</strong> layihəsində Cisco, Arista, Juniper, Huawei və digər platformalar üçün yüzlərlə TextFSM şablonu var.</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>pip install ntc-templates
+
+from ntc_templates.parse import parse_output
+
+raw = open("show_cdp_neighbors_detail.txt").read()
+neighbors = parse_output(platform="cisco_ios", command="show cdp neighbors detail", data=raw)
+for n in neighbors:
+    print(n["destination_host"], n["management_ip"], n["local_port"], "→", n["remote_port"])
+
+# Netmiko ilə birbaşa
+conn.send_command("show version", use_textfsm=True)
+# [{'version': '17.9.4a', 'hostname': 'R1', 'uptime': '3 weeks...', 'serial': ['FDO2213A0BC'], ...}]</code></pre>
+                <p class="code-note">Açar adlarını öyrənmək üçün şablon faylına baxın: <code>ntc_templates/templates/cisco_ios_show_version.textfsm</code> — <code>Value</code> sətirləri sahələri müəyyən edir.</p>
+            </div>
+        </section>
+
+        <section id="own" class="section-card">
+            <h2 class="section-title">{{i:pencil-ruler}} 2. Öz TextFSM Şablonunu Yazmaq</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># ntp_assoc.textfsm — "show ntp associations" üçün
+Value Filldown SYNC_MARK (\*|\+|\-|\#|~|x)?
+Value PEER (\d+\.\d+\.\d+\.\d+)
+Value REF (\S+)
+Value STRATUM (\d+)
+Value REACH (\d+)
+
+Start
+  ^\s*(?:${SYNC_MARK})?${PEER}\s+${REF}\s+${STRATUM}\s+\d+\s+\d+\s+${REACH} -&gt; Record</code></pre>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>import textfsm
+
+with open("ntp_assoc.textfsm") as t:
+    fsm = textfsm.TextFSM(t)
+rows = fsm.ParseText(raw_output)
+result = [dict(zip(fsm.header, r)) for r in rows]
+bad = [r for r in result if r["STRATUM"] == "16"]      # stratum 16 = sinxronlaşmayıb</code></pre>
+            </div>
+            <div class="table-wrap mt-6">
+                <table class="data-table">
+                    <thead><tr><th>Element</th><th>Mənası</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>Value NAME (regex)</code></td><td>Çıxarılacaq sahə</td></tr>
+                        <tr><td><code>Filldown</code></td><td>Dəyər sonrakı sətirlərə də köçürülür</td></tr>
+                        <tr><td><code>Required</code> / <code>List</code></td><td>Boş olarsa sətir yazılmır / bir neçə dəyər toplanır</td></tr>
+                        <tr><td><code>-&gt; Record</code></td><td>Cari sətri nəticəyə yaz</td></tr>
+                        <tr><td><code>Start</code></td><td>Başlanğıc vəziyyət (state machine)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="genie" class="section-card">
+            <h2 class="section-title">{{i:sparkles}} 3. Cisco Genie / pyATS</h2>
+            <p class="lead">Cisco-nun öz test framework-u <strong>pyATS</strong> və onun parser kitabxanası <strong>Genie</strong> 2000-dən çox Cisco əmri üçün dərin iç-içə strukturlar qaytarır.</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>pip install "pyats[library]"
+
+# Netmiko ilə
+routes = conn.send_command("show ip route", use_genie=True)
+print(routes["vrf"]["default"]["address_family"]["ipv4"]["routes"].keys())
+
+# pyATS CLI — iki vəziyyəti müqayisə etmək (dəyişiklikdən əvvəl və sonra)
+pyats learn ospf interface --testbed-file testbed.yaml --output before
+# ... dəyişiklik ...
+pyats learn ospf interface --testbed-file testbed.yaml --output after
+pyats diff before after</code></pre>
+                <p class="code-note"><code>pyats diff</code> dəyişiklikdən sonra hansı OSPF qonşusunun itdiyini və ya hansı interfeysin down olduğunu dəqiq göstərir — change window üçün əla yoxlama alətidir.</p>
+            </div>
+        </section>
+
+        <section id="compare" class="section-card">
+            <h2 class="section-title">{{i:scale}} 4. Hansını Seçmək</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Regex</th><th>TextFSM / ntc-templates</th><th>Genie</th><th>API (NETCONF/REST)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Multi-vendor</td><td>Özün yazırsan</td><td class="yes">Geniş</td><td>Əsasən Cisco</td><td>Cihaza görə</td></tr>
+                        <tr><td>Nəticə</td><td>Sətirlər</td><td>Düz cədvəl</td><td>Dərin iç-içə dict</td><td>Hazır strukturlaşdırılmış</td></tr>
+                        <tr><td>Etibarlılıq</td><td>Aşağı</td><td>Yaxşı</td><td>Yaxşı</td><td class="yes">Ən yüksək</td></tr>
+                        <tr><td>Nə vaxt</td><td>Bir sahə, tez iş</td><td>Gündəlik skriptlər</td><td>Cisco mühiti, testlər</td><td>Cihaz dəstəkləyirsə — həmişə</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="usecase" class="section-card">
+            <h2 class="section-title">{{i:search}} 5. Real Ssenari: MAC Ünvanı Hansı Portdadır?</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>def find_mac(switches, mac):
+    mac = mac.lower().replace(":", "").replace("-", "").replace(".", "")
+    mac = f"{mac[0:4]}.{mac[4:8]}.{mac[8:12]}"          # Cisco formatı: aabb.ccdd.eeff
+    for sw in switches:
+        with ConnectHandler(**sw) as conn:
+            table = conn.send_command(f"show mac address-table address {mac}", use_textfsm=True)
+            for entry in table if isinstance(table, list) else []:
+                ports = entry["destination_port"]
+                # Trunk/uplink portları deyil, access portu axtarırıq
+                if not any(p.startswith(("Po", "Te", "Twe")) for p in ports):
+                    return sw["host"], ports, entry["vlan_id"]
+    return None
+
+print(find_mac(access_switches, "00:1A:2B:3C:4D:5E"))
+# ('10.10.0.11', ['Gi1/0/17'], '20')</code></pre>
+                <p class="code-note">Helpdesk "bu kompüter hansı rozetkaya qoşulub?" sualını 30 saniyədə cavablandırır. Portun trunk olub-olmadığını <code>show interfaces trunk</code> parse edərək dəqiqləşdirmək daha düzgündür.</p>
+            </div>
+        </section>
+<!--END-->

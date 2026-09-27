@@ -1,0 +1,161 @@
+<!--PAGE title="Şəbəkə Mühəndisləri üçün Python Əsasları" icon="code" badge="Automation · Python" nav="intro:Giriş|setup:Quraşdırma|types:Tiplər|flow:Şərt və dövr|func:Funksiyalar|files:Fayllar və xətalar"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:code}} Giriş: Niyə Python?</h2>
+            <p class="lead">
+                Python oxunaqlı sintaksisi, zəngin kitabxanaları (Netmiko, NAPALM, requests, Nornir) və böyük icması sayəsində
+                şəbəkə avtomatlaşdırmasının de-fakto dilidir. Proqramçı olmaq lazım deyil — 2–3 həftəlik əsas bilik
+                gündəlik işin böyük hissəsini avtomatlaşdırmağa kifayət edir.
+            </p>
+        </section>
+
+        <section id="setup" class="section-card">
+            <h2 class="section-title">{{i:download}} 1. Quraşdırma və Virtual Mühit</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>python3 --version                 # 3.10+ tövsiyə olunur
+mkdir netauto &amp;&amp; cd netauto
+python3 -m venv .venv             # layihəyə xas mühit
+source .venv/bin/activate         # Windows: .venv\Scripts\activate
+pip install netmiko requests pyyaml jinja2
+pip freeze &gt; requirements.txt     # asılılıqları qeyd et
+
+python3                           # interaktiv rejim (REPL) — sınaq üçün ideal
+&gt;&gt;&gt; 2 ** 10
+1024</code></pre>
+                <p class="code-note">Redaktor: <strong>VS Code</strong> + Python extension. Virtual mühit hər layihənin kitabxana versiyalarını ayrı saxlayır.</p>
+            </div>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title">{{i:boxes}} 2. Məlumat Tipləri</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>hostname = "R1"                        # str
+vlan_id = 10                           # int
+cpu = 37.5                             # float
+is_up = True                           # bool
+
+# f-string — ən çox istifadə olunan şey
+print(f"{hostname}: VLAN {vlan_id}, CPU {cpu}%")
+
+# Sətir metodları
+line = "GigabitEthernet0/1   10.0.0.1   YES manual up   up"
+parts = line.split()                   # ['GigabitEthernet0/1', '10.0.0.1', ...]
+print(parts[0], parts[1])
+"Gi0/1".lower(), "  x  ".strip(), "a,b,c".split(","), "-".join(["10", "0", "0", "1"])
+
+# List — sıralı, dəyişə bilən
+vlans = [10, 20, 30]
+vlans.append(40)
+print(vlans[0], vlans[-1], len(vlans))
+
+# Dictionary — açar: dəyər (cihaz məlumatı üçün ideal)
+device = {"host": "10.0.0.1", "device_type": "cisco_ios", "username": "admin"}
+print(device["host"])
+device["port"] = 22
+print(device.get("secret", "yoxdur"))</code></pre>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Tip</th><th>Nümunə</th><th>Şəbəkədə istifadə</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>list</code></td><td><code>["R1", "R2"]</code></td><td>Cihazlar, VLAN-lar, əmrlər</td></tr>
+                        <tr><td><code>dict</code></td><td><code>{"id": 10, "name": "IT"}</code></td><td>Cihaz parametrləri, JSON cavabları</td></tr>
+                        <tr><td><code>tuple</code></td><td><code>("10.0.0.1", 22)</code></td><td>Dəyişməz cütlər</td></tr>
+                        <tr><td><code>set</code></td><td><code>{10, 20}</code></td><td>Unikal dəyərlər, fərqi tapmaq: <code>olmali - var</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="flow" class="section-card">
+            <h2 class="section-title">{{i:git-fork}} 3. Şərtlər və Dövrlər</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>interfaces = [
+    {"name": "Gi0/0", "status": "up", "errors": 0},
+    {"name": "Gi0/1", "status": "down", "errors": 0},
+    {"name": "Gi0/2", "status": "up", "errors": 152},
+]
+
+for intf in interfaces:
+    if intf["status"] == "down":
+        print(f"XƏBƏRDARLIQ: {intf['name']} down-dur")
+    elif intf["errors"] &gt; 100:
+        print(f"{intf['name']}: {intf['errors']} xəta — kabeli yoxla")
+    else:
+        print(f"{intf['name']}: OK")
+
+# Konfiqurasiya əmrləri yaratmaq
+commands = []
+for vid in range(10, 51, 10):          # 10, 20, 30, 40, 50
+    commands += [f"vlan {vid}", f" name VLAN_{vid}"]
+
+# List comprehension — qısa yazılış
+down = [i["name"] for i in interfaces if i["status"] == "down"]
+print(down)                             # ['Gi0/1']</code></pre>
+            </div>
+        </section>
+
+        <section id="func" class="section-card">
+            <h2 class="section-title">{{i:function-square}} 4. Funksiyalar və Modullar</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>import ipaddress
+
+def subnet_info(cidr: str) -&gt; dict:
+    """Şəbəkə haqqında əsas məlumatı qaytarır."""
+    net = ipaddress.ip_network(cidr, strict=False)
+    hosts = list(net.hosts())
+    return {
+        "network": str(net.network_address),
+        "mask": str(net.netmask),
+        "wildcard": str(net.hostmask),
+        "first": str(hosts[0]) if hosts else None,
+        "last": str(hosts[-1]) if hosts else None,
+        "usable": max(net.num_addresses - 2, 0),
+    }
+
+print(subnet_info("192.168.10.77/26"))
+# {'network': '192.168.10.64', 'mask': '255.255.255.192', 'wildcard': '0.0.0.63', ...}
+
+# /24-ü /26-lara bölmək
+for sub in ipaddress.ip_network("10.1.1.0/24").subnets(new_prefix=26):
+    print(sub)
+
+print(ipaddress.ip_address("10.1.1.5") in ipaddress.ip_network("10.1.1.0/25"))   # True</code></pre>
+                <p class="code-note">Daxili <code>ipaddress</code> modulu subnetting-i xətasız edir — IP ilə işləyən hər skriptdə istifadə edin.</p>
+            </div>
+        </section>
+
+        <section id="files" class="section-card">
+            <h2 class="section-title">{{i:file-text}} 5. Fayllar və Xətaların İdarəsi</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>import ipaddress
+
+# devices.txt faylında hər sətirdə bir IP
+with open("devices.txt") as f:
+    devices = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+
+# Nəticəni yazmaq
+from datetime import date
+with open(f"report-{date.today()}.txt", "w", encoding="utf-8") as f:
+    for ip in devices:
+        f.write(f"{ip}\n")
+
+# Xətanı tutmaq — bir cihaz çatılmasa skript dayanmasın
+for ip in devices:
+    try:
+        ipaddress.ip_address(ip)
+    except ValueError:
+        print(f"Səhv IP: {ip}")
+        continue
+    print(f"{ip} yoxlanılır...")</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:key-round}}
+                <p class="text-neutral-800">Parolu skriptə yazmayın: <code>getpass.getpass()</code> ilə soruşun və ya environment dəyişənindən oxuyun — <code>os.environ["NET_PASS"]</code>.</p>
+            </div>
+        </section>
+<!--END-->

@@ -1,0 +1,90 @@
+<!--PAGE title="Network+: Qurulma və Simsiz Şəbəkələr" icon="wifi" badge="CompTIA · Network+" nav="intro:Giriş|routing:Routing|switching:Switching|wireless:Wireless|security:Wi-Fi təhlükəsizliyi|physical:Fiziki qurulma"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:wifi}} Giriş: Network Implementation (20%)</h2>
+            <p class="lead">
+                İkinci domen şəbəkənin necə qurulduğunu yoxlayır: routing və switching xüsusiyyətləri, simsiz şəbəkələrin
+                planlaşdırılması və fiziki quraşdırma. Network+ burada CCNA qədər dərinə getmir, amma anlayışları
+                müqayisəli şəkildə soruşur: "bu ssenari üçün hansı texnologiya ən uyğundur?"
+            </p>
+        </section>
+
+        <section id="routing" class="section-card">
+            <h2 class="section-title">{{i:route}} 1. Routing</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Protokol</th><th>Növ</th><th>Metrika</th><th>AD (Cisco)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Static</td><td>Əl ilə</td><td>—</td><td>1</td></tr>
+                        <tr><td>EIGRP</td><td>Advanced distance vector</td><td>Bandwidth + delay</td><td>90</td></tr>
+                        <tr><td>OSPF</td><td>Link-state</td><td>Cost (bandwidth)</td><td>110</td></tr>
+                        <tr><td>RIP</td><td>Distance vector</td><td>Hop sayı (maks. 15)</td><td>120</td></tr>
+                        <tr><td>BGP</td><td>Path vector</td><td>Atributlar (AS path və s.)</td><td>20 (eBGP) / 200 (iBGP)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:arrow-down-wide-narrow}}<p class="text-neutral-700"><strong>Marşrut seçimi:</strong> əvvəl ən uzun prefiks (longest match), sonra ən kiçik AD, sonra ən kiçik metrika.</p></div>
+                <div class="feature-item">{{i:shuffle}}<p class="text-neutral-700"><strong>NAT/PAT, FHRP (VRRP, HSRP), subinterfeyslər (router-on-a-stick).</strong></p></div>
+            </div>
+        </section>
+
+        <section id="switching" class="section-card">
+            <h2 class="section-title">{{i:git-merge}} 2. Switching</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:tag}}<p class="text-neutral-700"><strong>VLAN və 802.1Q:</strong> tagged (trunk) və untagged (access) portlar, native VLAN, voice VLAN.</p></div>
+                <div class="feature-item">{{i:repeat}}<p class="text-neutral-700"><strong>STP (802.1D) / RSTP (802.1w):</strong> döngələrin qarşısını alır; root bridge — ən kiçik bridge ID.</p></div>
+                <div class="feature-item">{{i:link-2}}<p class="text-neutral-700"><strong>Link aggregation (LACP, 802.3ad):</strong> bir neçə fiziki linki bir məntiqi linkə birləşdirmək.</p></div>
+                <div class="feature-item">{{i:ruler}}<p class="text-neutral-700"><strong>MTU və jumbo frame, port mirroring (SPAN), speed/duplex.</strong> Duplex mismatch — late collision və CRC xətaları.</p></div>
+                <div class="feature-item">{{i:zap}}<p class="text-neutral-700"><strong>PoE:</strong> 802.3af (15.4 W), 802.3at PoE+ (30 W), 802.3bt PoE++ (60/90–100 W).</p></div>
+            </div>
+        </section>
+
+        <section id="wireless" class="section-card">
+            <h2 class="section-title">{{i:radio-tower}} 3. Simsiz Şəbəkələr</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Anlayış</th><th>İzah</th></tr></thead>
+                    <tbody>
+                        <tr><td>2.4 GHz</td><td>Uzun məsafə, divardan yaxşı keçir, amma cəmi 3 üst-üstə düşməyən kanal: <strong>1, 6, 11</strong></td></tr>
+                        <tr><td>5 GHz / 6 GHz</td><td>Çox kanal, yüksək sürət, qısa məsafə; DFS kanalları radarla paylaşılır</td></tr>
+                        <tr><td>Channel width</td><td>20/40/80/160 MHz — geniş kanal sürətli, amma interferensiyaya həssas</td></tr>
+                        <tr><td>SSID / BSSID / ESSID</td><td>Şəbəkə adı / AP radiosunun MAC-ı / bir neçə AP-da eyni SSID</td></tr>
+                        <tr><td>Antenna</td><td>Omnidirectional (hər tərəfə), directional (Yagi, parabolik — nöqtədən nöqtəyə)</td></tr>
+                        <tr><td>Autonomous / lightweight AP</td><td>Müstəqil idarə və ya WLC ilə mərkəzi idarə (CAPWAP)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Site survey (heatmap) quraşdırmadan əvvəl və sonra aparılır. Roaming üçün qonşu AP-ların əhatə sahələri ~15–20% üst-üstə düşməlidir.</p>
+            </div>
+        </section>
+
+        <section id="security" class="section-card">
+            <h2 class="section-title">{{i:lock}} 4. Wi-Fi Təhlükəsizliyi</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Standart</th><th>Şifrələmə</th><th>Vəziyyət</th></tr></thead>
+                    <tbody>
+                        <tr><td>WEP</td><td>RC4</td><td class="no">Sındırılıb — istifadə etməyin</td></tr>
+                        <tr><td>WPA</td><td>TKIP</td><td class="no">Köhnəlib</td></tr>
+                        <tr><td>WPA2</td><td>AES-CCMP</td><td>Hələ geniş istifadədə</td></tr>
+                        <tr><td>WPA3</td><td>AES-GCMP, SAE</td><td class="yes">Tövsiyə olunur</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4"><strong>Personal (PSK/SAE)</strong> — ortaq parol; <strong>Enterprise (802.1X)</strong> — hər istifadəçi öz hesabı ilə, RADIUS server vasitəsilə (EAP-TLS, PEAP). Qonaqlar üçün <strong>captive portal</strong> və ayrıca VLAN.</p>
+        </section>
+
+        <section id="physical" class="section-card">
+            <h2 class="section-title">{{i:cable}} 5. Fiziki Qurulma</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:server}}<p class="text-neutral-700"><strong>Rack:</strong> 1U = 1.75 düym; MDF (əsas paylama otağı) və IDF (mərtəbə otaqları), patch panel.</p></div>
+                <div class="feature-item">{{i:thermometer}}<p class="text-neutral-700"><strong>Soyutma:</strong> hot aisle / cold aisle, rütubət nəzarəti.</p></div>
+                <div class="feature-item">{{i:battery-charging}}<p class="text-neutral-700"><strong>Enerji:</strong> UPS (qısa kəsinti), generator (uzun), PDU, iki ayrı enerji mənbəyi.</p></div>
+                <div class="feature-item">{{i:flame}}<p class="text-neutral-700"><strong>Yanğın:</strong> clean agent (FM-200) sistemləri; plenum kabeli tavan boşluqları üçün.</p></div>
+                <div class="feature-item">{{i:circle-dot}}<p class="text-neutral-700"><strong>Transceiver-lər:</strong> SFP (1G), SFP+ (10G), QSFP+ (40G), QSFP28 (100G).</p></div>
+                <div class="feature-item">{{i:file-text}}<p class="text-neutral-700"><strong>Etiketləmə:</strong> hər kabelin hər iki ucu, port xəritəsi, rack diaqramı.</p></div>
+            </div>
+        </section>
+<!--END-->

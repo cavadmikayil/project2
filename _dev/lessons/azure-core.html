@@ -1,0 +1,103 @@
+<!--PAGE title="Microsoft Azure Əsas Xidmətləri" icon="cloud-sun" badge="Cloud · Azure" nav="intro:Giriş|hierarchy:İyerarxiya|compute:Compute|storage:Storage|identity:Entra ID|cli:Azure CLI"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:cloud-sun}} Giriş: Microsoft Azure</h2>
+            <p class="lead">
+                <strong>Azure</strong> Microsoft-un public cloud platformasıdır. Onun güclü tərəfi Microsoft ekosistemi ilə inteqrasiyadır:
+                Active Directory, Windows Server, SQL Server, Microsoft 365 artıq istifadə edən şirkət üçün Azure təbii növbəti addımdır.
+                <strong>AZ-900</strong> sertifikatı da məhz bu platformanın əsaslarını yoxlayır.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:globe}} Region və pair</h3><p class="text-neutral-700">Hər region başqa bir region ilə cütləşir (region pair) — platforma yeniləmələri növbə ilə edilir, fəlakətdə bərpa prioritetlidir.</p></div>
+                <div class="info-card"><h3>{{i:building}} Availability Zone</h3><p class="text-neutral-700">Region daxilində fiziki olaraq ayrılmış data mərkəzləri; zone-redundant xidmətlər avtomatik yayılır.</p></div>
+                <div class="info-card dark"><h3>{{i:mouse-pointer-2}} İdarəetmə</h3><p>Azure Portal, Azure CLI, Azure PowerShell, Cloud Shell (brauzerdə), ARM/Bicep şablonları.</p></div>
+            </div>
+        </section>
+
+        <section id="hierarchy" class="section-card">
+            <h2 class="section-title">{{i:folder-tree}} 1. Resurs İyerarxiyası</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Management group:</strong> bir neçə subscription-u qruplaşdırır; Azure Policy və RBAC burada təyin olunanda aşağıya miras keçir.</p></li>
+                <li><p class="text-neutral-700"><strong>Subscription:</strong> hesablaşma və limit sərhədi. Tipik bölgü: <code>Production</code>, <code>Dev-Test</code>, <code>Shared-Services</code>.</p></li>
+                <li><p class="text-neutral-700"><strong>Resource group:</strong> eyni həyat dövrünə malik resursların məntiqi konteyneri. Resource group silinəndə içindəki hər şey silinir.</p></li>
+                <li><p class="text-neutral-700"><strong>Resource:</strong> VM, storage account, VNet, SQL database və s. Hər resurs yalnız bir resource group-da olur.</p></li>
+            </ol>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Adlandırma standartı qəbul edin: <code>rg-portal-prod-weu</code>, <code>vm-web01-prod</code>, <code>st</code>+kiçik hərflər (storage account adı yalnız kiçik hərf və rəqəm, qlobal unikal).</p>
+            </div>
+        </section>
+
+        <section id="compute" class="section-card">
+            <h2 class="section-title">{{i:cpu}} 2. Compute Xidmətləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Xidmət</th><th>Model</th><th>İstifadə</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Virtual Machines</strong></td><td>IaaS</td><td>Tam OS nəzarəti; köçürülən (lift-and-shift) serverlər</td></tr>
+                        <tr><td><strong>VM Scale Sets</strong></td><td>IaaS</td><td>Eyni VM-lərdən avtomatik miqyaslanan qrup</td></tr>
+                        <tr><td><strong>App Service</strong></td><td>PaaS</td><td>Veb tətbiq və API (.NET, Node, Python, Java); deployment slot-lar</td></tr>
+                        <tr><td><strong>Azure Functions</strong></td><td>Serverless</td><td>Hadisəyə əsaslanan kod: timer, HTTP, queue</td></tr>
+                        <tr><td><strong>AKS</strong></td><td>Konteyner</td><td>İdarə olunan Kubernetes</td></tr>
+                        <tr><td><strong>Container Apps / ACI</strong></td><td>Konteyner</td><td>Kubernetes bilmədən konteyner işə salmaq</td></tr>
+                        <tr><td><strong>Azure Virtual Desktop</strong></td><td>DaaS</td><td>Cloud-da Windows masaüstü</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="storage" class="section-card">
+            <h2 class="section-title">{{i:hard-drive}} 3. Storage Account</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>{{i:file-box}} Blob</h3><p class="text-neutral-700">Object storage: şəkil, video, backup. Access tier-lər: <strong>Hot</strong>, <strong>Cool</strong>, <strong>Cold</strong>, <strong>Archive</strong>.</p></div>
+                <div class="info-card"><h3>{{i:folder-open}} Files</h3><p class="text-neutral-700">SMB/NFS fayl paylaşımı — ofis file server-inin cloud versiyası.</p></div>
+                <div class="info-card"><h3>{{i:list-ordered}} Queue və Table</h3><p class="text-neutral-700">Mesaj növbəsi və sadə NoSQL cədvəl.</p></div>
+                <div class="info-card accent"><h3>{{i:hard-drive}} Managed Disks</h3><p class="text-neutral-700">VM diskləri: Standard HDD, Standard SSD, Premium SSD, Ultra.</p></div>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Redundancy</th><th>Nüsxələr</th><th>Nədən qoruyur</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>LRS</strong></td><td>1 data mərkəzində 3</td><td>Disk/server nasazlığı</td></tr>
+                        <tr><td><strong>ZRS</strong></td><td>3 AZ-da</td><td>Bütöv data mərkəzinin itməsi</td></tr>
+                        <tr><td><strong>GRS</strong></td><td>LRS + cüt regionda 3</td><td>Regional fəlakət</td></tr>
+                        <tr><td><strong>GZRS</strong></td><td>ZRS + cüt regionda 3</td><td>Ən yüksək dayanıqlıq</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="identity" class="section-card">
+            <h2 class="section-title">{{i:id-card}} 4. Microsoft Entra ID və RBAC</h2>
+            <p class="lead"><strong>Microsoft Entra ID</strong> (əvvəlki adı Azure AD) — cloud identity xidmətidir: Microsoft 365, Azure portal və minlərlə SaaS tətbiqinə single sign-on.</p>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:refresh-cw}}<p class="text-neutral-700"><strong>Entra Connect:</strong> on-prem AD istifadəçilərini Entra ID ilə sinxronlaşdırır (hybrid identity).</p></div>
+                <div class="feature-item">{{i:shield-check}}<p class="text-neutral-700"><strong>Conditional Access:</strong> "Ölkə xaricindən və ya idarə olunmayan cihazdan girişdə MFA tələb et" kimi qaydalar.</p></div>
+                <div class="feature-item">{{i:key-round}}<p class="text-neutral-700"><strong>RBAC rolları:</strong> <code>Owner</code> (hər şey + icazə vermək), <code>Contributor</code> (hər şey, icazəsiz), <code>Reader</code> (yalnız baxmaq).</p></div>
+                <div class="feature-item">{{i:bot}}<p class="text-neutral-700"><strong>Managed Identity:</strong> VM və ya App Service parolsuz olaraq Key Vault və Storage-a çatır.</p></div>
+            </div>
+        </section>
+
+        <section id="cli" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 5. Azure CLI ilə İlk Resurslar</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>az login
+az account set --subscription "Dev-Test"
+
+az group create --name rg-lab-weu --location westeurope
+
+# Ubuntu VM, SSH açarı ilə
+az vm create -g rg-lab-weu -n vm-web01 --image Ubuntu2404 \
+  --size Standard_B2s --admin-username azureuser --generate-ssh-keys
+az vm open-port -g rg-lab-weu -n vm-web01 --port 80
+
+# Storage account və container
+az storage account create -g rg-lab-weu -n stlabcavad2027 --sku Standard_LRS
+az storage container create --account-name stlabcavad2027 -n backups --auth-mode login
+
+az resource list -g rg-lab-weu -o table
+az group delete --name rg-lab-weu --yes --no-wait   # lab bitdi — hamısını sil</code></pre>
+                <p class="code-note">Lab üçün hər şeyi bir resource group-da yaradın: təmizləmək bir əmrdir. Eyni əmrlər Azure Portal-dakı <strong>Cloud Shell</strong>-də quraşdırmadan işləyir.</p>
+            </div>
+        </section>
+<!--END-->

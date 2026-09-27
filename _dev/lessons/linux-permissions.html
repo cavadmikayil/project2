@@ -1,0 +1,103 @@
+<!--PAGE title="Linux İcazələri: Special Bits, ACL və sudo" icon="lock" badge="Linux · İcazələr" nav="intro:Giriş|basic:Təkrar|special:SUID, SGID, sticky|umask:umask|acl:ACL|sudo:sudoers"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:lock}} Giriş: rwx-dən O Yana</h2>
+            <p class="lead">
+                <code>chmod 755</code>-i hamı bilir. Amma paylaşılan qovluqda faylların qrupu niyə dəyişir, <code>/tmp</code>-də niyə başqasının faylını silə bilmirsiniz,
+                <code>passwd</code> adi istifadəçiyə <code>/etc/shadow</code>-u necə yazdırır, və bir istifadəçiyə yalnız bir əmri root kimi necə icazə verirsiniz?
+                Bu dərs həmin suallara cavab verir.
+            </p>
+        </section>
+
+        <section id="basic" class="section-card">
+            <h2 class="section-title">{{i:list-checks}} 1. Qısa Təkrar</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>İcazə</th><th>Faylda</th><th>Qovluqda</th><th>Rəqəm</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>r</code></td><td>Oxumaq</td><td>Siyahını görmək (<code>ls</code>)</td><td>4</td></tr>
+                        <tr><td><code>w</code></td><td>Dəyişmək</td><td>Fayl yaratmaq/silmək</td><td>2</td></tr>
+                        <tr><td><code>x</code></td><td>İcra etmək</td><td>İçəri girmək (<code>cd</code>)</td><td>1</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Faylı silmək üçün faylın özündə yox, <strong>qovluqda</strong> <code>w</code> icazəsi lazımdır. Ona görə 444 icazəli faylı da qovluq sahibi silə bilər.</p>
+            </div>
+        </section>
+
+        <section id="special" class="section-card">
+            <h2 class="section-title">{{i:star}} 2. Special Bits</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Bit</th><th>Rəqəm</th><th>Faylda</th><th>Qovluqda</th><th>ls-də</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>SUID</strong></td><td>4</td><td>Proses faylın <strong>sahibinin</strong> hüququ ilə işləyir</td><td>—</td><td><code>-rwsr-xr-x</code></td></tr>
+                        <tr><td><strong>SGID</strong></td><td>2</td><td>Qrupun hüququ ilə</td><td>Yeni fayllar qovluğun <strong>qrupunu</strong> alır</td><td><code>drwxrwsr-x</code></td></tr>
+                        <tr><td><strong>Sticky</strong></td><td>1</td><td>—</td><td>Faylı yalnız sahibi silə bilər</td><td><code>drwxrwxrwt</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Komanda qovluğu: hamı yazır, fayllar "muhasibat" qrupunda qalır, başqasının faylını silmək olmur
+mkdir /srv/muhasibat
+chgrp muhasibat /srv/muhasibat
+chmod 3770 /srv/muhasibat           # 2 (SGID) + 1 (sticky) + 770
+
+ls -l /usr/bin/passwd               # -rwsr-xr-x root — SUID nümunəsi
+
+# Təhlükəsizlik auditi: SUID/SGID fayllar
+find / -xdev -perm /6000 -type f 2&gt;/dev/null</code></pre>
+                <p class="code-note">Gözlənilməz SUID root fayl (məs. <code>/tmp/.x/bash</code>) — ciddi kompromis əlamətidir. Siyahını baseline ilə müqayisə edin.</p>
+            </div>
+        </section>
+
+        <section id="umask" class="section-card">
+            <h2 class="section-title">{{i:filter}} 3. umask: Defolt İcazələr</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>umask            # 0022 — adətən
+# Yeni fayl:   666 − 022 = 644 (rw-r--r--)
+# Yeni qovluq: 777 − 022 = 755 (rwxr-xr-x)
+
+umask 027        # fayl 640, qovluq 750 — "digərləri" heç nə görmür</code></pre>
+            </div>
+            <p class="text-neutral-700">Daimi etmək üçün <code>/etc/login.defs</code> (<code>UMASK</code>), <code>~/.bashrc</code> və ya systemd servis faylında <code>UMask=0027</code>.</p>
+        </section>
+
+        <section id="acl" class="section-card">
+            <h2 class="section-title">{{i:users}} 4. ACL: Bir Neçə İstifadəçi və Qrup</h2>
+            <p class="lead">Standart icazələrdə yalnız bir sahib və bir qrup var. <strong>ACL</strong> əlavə istifadəçi və qruplara fərdi icazə verir.</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>setfacl -m u:auditor:rx /srv/muhasibat          # auditor yalnız oxusun
+setfacl -m g:it:rwx /srv/muhasibat              # IT qrupu tam
+setfacl -d -m g:it:rwx /srv/muhasibat           # default ACL — yeni fayllara da tətbiq olunur
+getfacl /srv/muhasibat
+setfacl -x u:auditor /srv/muhasibat             # sil
+ls -l                                            # icazələrdən sonra "+" — ACL var</code></pre>
+            </div>
+        </section>
+
+        <section id="sudo" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 5. sudo və sudoers</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>visudo -f /etc/sudoers.d/helpdesk       # HƏMİŞƏ visudo — sintaksis səhvi sudo-nu kilidləyir
+
+# /etc/sudoers.d/helpdesk
+%helpdesk  ALL=(root) /usr/bin/systemctl restart nginx, /usr/bin/journalctl -u nginx
+deploy     ALL=(www-data) NOPASSWD: /usr/local/bin/deploy.sh
+%admins    ALL=(ALL:ALL) ALL
+
+sudo -l                                 # mənə nə icazə verilib?
+sudo -u www-data whoami
+grep sudo /var/log/auth.log             # kim nə işlətdi (RHEL: /var/log/secure)</code></pre>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:ban}}<p class="text-neutral-700"><strong>Qaçın:</strong> <code>ALL=(ALL) NOPASSWD: ALL</code> geniş istifadəçilərə; <code>vim</code>, <code>less</code>, <code>find</code> kimi shell aça bilən əmrlərə sudo (GTFOBins).</p></div>
+                <div class="feature-item">{{i:key-round}}<p class="text-neutral-700"><strong>Linux capabilities:</strong> tam root əvəzinə tək hüquq: <code>setcap cap_net_bind_service=+ep /usr/local/bin/app</code> — 80 portunu root olmadan açmaq.</p></div>
+            </div>
+        </section>
+<!--END-->

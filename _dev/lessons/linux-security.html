@@ -1,0 +1,141 @@
+<!--PAGE title="Linux Hardening və Təhlükəsizlik" icon="shield-check" badge="Linux · Təhlükəsizlik" nav="intro:Giriş|updates:Yeniləmələr|ssh:SSH hardening|fail2ban:fail2ban|mac:SELinux və AppArmor|audit:Audit"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} Giriş: İnternetə Açıq Server 5 Dəqiqədə Skan Olunur</h2>
+            <p class="lead">
+                Yeni cloud VM-in public IP-si bir neçə dəqiqə ərzində botlar tərəfindən skan edilir və SSH-a brute force başlayır.
+                <strong>Hardening</strong> — hücum səthini minimuma endirmək: lazımsız hər şeyi söndürmək, qalanı sərtləşdirmək və
+                baş verənləri qeydə almaq. İstinad standartları: <strong>CIS Benchmarks</strong> və <strong>DISA STIG</strong>.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:minimize-2}} Minimal quraşdırma</h3><p class="text-neutral-700">Olmayan paketin zəifliyi olmur. Server üçün qrafik interfeys lazım deyil.</p></div>
+                <div class="info-card"><h3>{{i:layers}} Defense in depth</h3><p class="text-neutral-700">Firewall + SSH açarları + fail2ban + SELinux + audit — biri keçilsə, digəri qoruyur.</p></div>
+                <div class="info-card dark"><h3>{{i:scan-search}} Yoxlama</h3><p><code>lynis audit system</code> — pulsuz audit aləti, tövsiyələr və bal verir.</p></div>
+            </div>
+        </section>
+
+        <section id="updates" class="section-card">
+            <h2 class="section-title">{{i:refresh-cw}} 1. Yeniləmələr və Servislər</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Avtomatik təhlükəsizlik yeniləmələri
+apt install unattended-upgrades &amp;&amp; dpkg-reconfigure -plow unattended-upgrades   # Ubuntu/Debian
+dnf install dnf-automatic &amp;&amp; systemctl enable --now dnf-automatic.timer          # RHEL
+
+needrestart                               # yeniləmədən sonra restart tələb edən servislər
+ls /var/run/reboot-required 2&gt;/dev/null   # kernel yeniləndi — reboot lazımdır
+
+systemctl list-unit-files --state=enabled # açılışda başlayanlar
+systemctl disable --now cups avahi-daemon # lazımsızları söndür
+ss -tulpn                                 # hər dinləyən portun səbəbi bilinməlidir</code></pre>
+            </div>
+        </section>
+
+        <section id="ssh" class="section-card">
+            <h2 class="section-title">{{i:key-round}} 2. SSH Hardening</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># /etc/ssh/sshd_config.d/10-hardening.conf
+PermitRootLogin no
+PasswordAuthentication no
+KbdInteractiveAuthentication no
+PubkeyAuthentication yes
+AllowGroups ssh-users
+MaxAuthTries 3
+LoginGraceTime 30
+ClientAliveInterval 300
+ClientAliveCountMax 2
+X11Forwarding no
+AllowTcpForwarding no
+
+sshd -t &amp;&amp; systemctl reload ssh          # əvvəl yoxla, sonra tətbiq et</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800">Parol girişini söndürməzdən əvvəl açarla girişi <strong>yeni pəncərədə</strong> test edin və köhnə sessiyanı bağlamayın. MFA üçün <code>libpam-google-authenticator</code> və ya FIDO2 açarları (<code>ed25519-sk</code>) istifadə oluna bilər.</p>
+            </div>
+        </section>
+
+        <section id="fail2ban" class="section-card">
+            <h2 class="section-title">{{i:ban}} 3. fail2ban</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>apt install fail2ban
+
+# /etc/fail2ban/jail.local
+[DEFAULT]
+bantime  = 1h
+findtime = 10m
+maxretry = 5
+ignoreip = 127.0.0.1/8 10.0.0.0/24      # öz şəbəkənizi bloklamayın
+
+[sshd]
+enabled = true
+
+[nginx-http-auth]
+enabled = true
+
+systemctl enable --now fail2ban
+fail2ban-client status sshd
+fail2ban-client set sshd unbanip 203.0.113.7</code></pre>
+                <p class="code-note">fail2ban log-ları oxuyur və çoxlu uğursuz cəhd edən IP-ni firewall ilə müvəqqəti bloklayır. SSH açarı ilə giriş olduqda da log-ları təmiz saxlamağa kömək edir.</p>
+            </div>
+        </section>
+
+        <section id="mac" class="section-card">
+            <h2 class="section-title">{{i:lock-keyhole}} 4. SELinux və AppArmor</h2>
+            <p class="lead">Adi icazələr (DAC) sahibə hər şeyi etməyə imkan verir. <strong>MAC</strong> (Mandatory Access Control) isə hətta root prosesini də siyasətlə məhdudlaşdırır: sındırılmış nginx <code>/etc/shadow</code>-u oxuya bilmir.</p>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="mac-se">SELinux (RHEL)</button>
+                <button class="tab-btn inactive-tab" data-pane="mac-aa">AppArmor (Ubuntu)</button>
+            </div>
+            <div id="mac-se">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>getenforce                                 # Enforcing | Permissive | Disabled
+ls -Z /var/www/html                        # kontekstlər
+ausearch -m avc -ts recent                 # nə bloklandı
+sealert -a /var/log/audit/audit.log        # izah və təklif
+
+# Veb faylları qeyri-standart qovluqdadır
+semanage fcontext -a -t httpd_sys_content_t "/srv/www(/.*)?"
+restorecon -Rv /srv/www
+# nginx 8080-də yox, 8081-də dinləsin
+semanage port -a -t http_port_t -p tcp 8081
+setsebool -P httpd_can_network_connect on  # proxy üçün</code></pre>
+                    <p class="code-note">Problem olanda SELinux-u söndürməyin — <code>setenforce 0</code> ilə müvəqqəti yoxlayıb düzgün kontekst və ya boolean tapın.</p>
+                </div>
+            </div>
+            <div id="mac-aa" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>aa-status                                  # yüklənmiş profillər
+aa-complain /etc/apparmor.d/usr.sbin.nginx # yalnız log (öyrənmə rejimi)
+aa-enforce  /etc/apparmor.d/usr.sbin.nginx
+journalctl -k | grep -i apparmor           # bloklamalar</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="audit" class="section-card">
+            <h2 class="section-title">{{i:scroll-text}} 5. Audit və Bütövlük Nəzarəti</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># auditd: kritik faylların dəyişməsi və sudo istifadəsi
+auditctl -w /etc/passwd -p wa -k identity
+auditctl -w /etc/sudoers -p wa -k sudoers
+auditctl -a always,exit -F arch=b64 -S execve -F euid=0 -k root_cmds
+ausearch -k identity --start today
+aureport --summary
+
+# AIDE: fayl bütövlüyü (FIM)
+aide --init &amp;&amp; mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz
+aide --check                               # baseline-dan fərqlər
+
+last -a | head; lastb | head               # uğurlu və uğursuz girişlər</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:send}}
+                <p class="text-neutral-800">Log-ları mərkəzi serverə (rsyslog, SIEM) göndərin: hücumçu root olsa belə, lokal log-ları silməsi izləri tam yox etməz.</p>
+            </div>
+        </section>
+<!--END-->

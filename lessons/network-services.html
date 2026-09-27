@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#activity"></use></svg> NTP, Syslog və SNMP</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#activity"></use></svg> NTP, Syslog və SNMP</h1>
                 <span class="lesson-badge">CCNA · IP Services</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -25,29 +25,29 @@
                 <a href="#syslog" class="nav-link">Syslog</a>
                 <a href="#snmp" class="nav-link">SNMP</a>
                 <a href="#commands" class="nav-link">Doğrulama</a>
-                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#moon"></use></svg></button>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#activity"></use></svg> Giriş: Şəbəkəni İzləmək</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#activity"></use></svg> Giriş: Şəbəkəni İzləmək</h2>
             <p class="lead">
                 Şəbəkəni idarə etmək üçün cihazların <strong>eyni vaxtı</strong> göstərməsi (NTP), baş verən hadisələrin
                 <strong>mərkəzi yerdə qeydə alınması</strong> (Syslog) və vəziyyətin <strong>monitorinqi</strong> (SNMP) vacibdir.
                 Vaxt səhvdirsə, loglardakı hadisələri müqayisə etmək və problemin səbəbini tapmaq demək olar ki, mümkün olmur.
             </p>
             <div class="card-grid">
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#clock"></use></svg> NTP</h3><p class="text-neutral-700">UDP 123 — vaxt sinxronizasiyası.</p></div>
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#scroll-text"></use></svg> Syslog</h3><p class="text-neutral-700">UDP 514 — hadisə mesajlarının serverə göndərilməsi.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#chart-column"></use></svg> SNMP</h3><p>UDP 161 (sorğular), UDP 162 (trap-lar) — monitorinq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#clock"></use></svg> NTP</h3><p class="text-neutral-700">UDP 123 — vaxt sinxronizasiyası.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#scroll-text"></use></svg> Syslog</h3><p class="text-neutral-700">UDP 514 — hadisə mesajlarının serverə göndərilməsi.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#chart-column"></use></svg> SNMP</h3><p>UDP 161 (sorğular), UDP 162 (trap-lar) — monitorinq.</p></div>
             </div>
         </section>
 
         <section id="ntp" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#clock"></use></svg> 1. NTP (Network Time Protocol)</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#clock"></use></svg> 1. NTP (Network Time Protocol)</h2>
             <p class="lead">
                 NTP-də <strong>stratum</strong> vaxt mənbəyinə olan məsafəni göstərir: stratum 0 — atom saatı/GPS,
                 stratum 1 — ona birbaşa qoşulmuş server, hər növbəti səviyyə +1. Maksimum 15; 16 "sinxron deyil" deməkdir.
@@ -79,7 +79,7 @@ SW1(config)# ntp server 10.0.0.1</code></pre>
         </section>
 
         <section id="syslog" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#scroll-text"></use></svg> 2. Syslog</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#scroll-text"></use></svg> 2. Syslog</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>Səviyyə</th><th>Ad</th><th>Nümunə</th></tr></thead>
@@ -96,7 +96,7 @@ SW1(config)# ntp server 10.0.0.1</code></pre>
                 </table>
             </div>
             <div class="note-box mb-6">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#lightbulb"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#lightbulb"></use></svg>
                 <p class="text-neutral-800">Yadda saxlamaq üçün: <strong>"Every Awesome Cisco Engineer Will Need Ice cream Daily"</strong>. Səviyyə təyin etdikdə həmin səviyyə və ondan <strong>daha ciddi</strong> (kiçik nömrəli) mesajlar göndərilir.</p>
             </div>
             <div class="code-block">
@@ -111,11 +111,11 @@ R1# terminal monitor</code></pre>
         </section>
 
         <section id="snmp" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#chart-column"></use></svg> 3. SNMP</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#chart-column"></use></svg> 3. SNMP</h2>
             <div class="card-grid mb-6">
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#monitor"></use></svg> Manager (NMS)</h3><p class="text-neutral-700">Monitorinq serveri — cihazlara sorğu göndərir (Get/Set) və trap-ları qəbul edir.</p></div>
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#cpu"></use></svg> Agent</h3><p class="text-neutral-700">Cihazdakı proqram — MIB-dəki dəyərləri (OID) təqdim edir, hadisə olanda trap göndərir.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#boxes"></use></svg> MIB / OID</h3><p>Monitorinq olunan dəyişənlərin iyerarxik bazası (məs. interfeys trafiki, CPU yükü).</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#monitor"></use></svg> Manager (NMS)</h3><p class="text-neutral-700">Monitorinq serveri — cihazlara sorğu göndərir (Get/Set) və trap-ları qəbul edir.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#cpu"></use></svg> Agent</h3><p class="text-neutral-700">Cihazdakı proqram — MIB-dəki dəyərləri (OID) təqdim edir, hadisə olanda trap göndərir.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#boxes"></use></svg> MIB / OID</h3><p>Monitorinq olunan dəyişənlərin iyerarxik bazası (məs. interfeys trafiki, CPU yükü).</p></div>
             </div>
             <div class="table-wrap mb-6">
                 <table class="data-table">
@@ -155,7 +155,7 @@ R1(config)# snmp-server host 192.168.1.30 version 3 priv monitor</code></pre>
         </section>
 
         <section id="commands" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#search"></use></svg> 4. Doğrulama</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#search"></use></svg> 4. Doğrulama</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>show clock detail
@@ -174,7 +174,7 @@ show snmp group</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

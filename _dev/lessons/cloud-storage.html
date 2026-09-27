@@ -1,0 +1,122 @@
+<!--PAGE title="Cloud Storage və Məlumatın Qorunması" icon="hard-drive" badge="Cloud · Storage" nav="intro:Giriş|types:Növlər|classes:Class-lar|lifecycle:Lifecycle|protect:Qoruma|cli:Praktika"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:hard-drive}} Giriş: Hansı Məlumat, Harada?</h2>
+            <p class="lead">
+                Cloud-da storage seçimi həm performansa, həm də hesaba birbaşa təsir edir. Eyni 10 TB məlumat
+                yanlış class-da saxlananda ayda yüzlərlə dollar artıq ödənilir, yanlış icazə ilə saxlananda isə
+                xəbərlərə düşən məlumat sızmasına çevrilir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:gauge}} Performance</h3><p class="text-neutral-700">IOPS, throughput və latency — verilənlər bazası üçün kritikdir.</p></div>
+                <div class="info-card"><h3>{{i:shield-check}} Durability</h3><p class="text-neutral-700">Məlumatın itməmə ehtimalı. S3 və Blob illik 99.999999999% (11 doqquz) vəd edir.</p></div>
+                <div class="info-card dark"><h3>{{i:activity}} Availability</h3><p>Məlumata istənilən an çata bilmək. Durability-dən fərqlidir: məlumat itməyib, amma müvəqqəti əlçatmaz ola bilər.</p></div>
+            </div>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title">{{i:layers}} 1. Üç Storage Növü</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Block</th><th>File</th><th>Object</th></tr></thead>
+                    <tbody>
+                        <tr><td>Necə görünür</td><td>Boş disk (OS formatlayır)</td><td>Qovluq ağacı, SMB/NFS</td><td>Bucket + key + metadata, HTTP API</td></tr>
+                        <tr><td>AWS</td><td>EBS</td><td>EFS, FSx</td><td>S3</td></tr>
+                        <tr><td>Azure</td><td>Managed Disks</td><td>Azure Files, NetApp Files</td><td>Blob Storage</td></tr>
+                        <tr><td>Güclü tərəf</td><td>Aşağı latency, DB üçün</td><td>Paylaşılan qovluq, köhnə tətbiqlər</td><td>Limitsiz miqyas, ucuz, veb-dən əlçatan</td></tr>
+                        <tr><td>Məhdudiyyət</td><td>Adətən bir VM-ə qoşulur</td><td>Object-dən bahalı</td><td>Faylın ortasını dəyişmək olmur — tam yenidən yazılır</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="classes" class="section-card">
+            <h2 class="section-title">{{i:thermometer}} 2. Storage Class-lar: İsti və Soyuq Məlumat</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>İstifadə tezliyi</th><th>AWS S3</th><th>Azure Blob</th><th>Saxlama / oxuma qiyməti</th></tr></thead>
+                    <tbody>
+                        <tr><td>Hər gün</td><td>Standard</td><td>Hot</td><td>Saxlama bahalı, oxuma ucuz</td></tr>
+                        <tr><td>Ayda bir neçə dəfə</td><td>Standard-IA</td><td>Cool (min. 30 gün)</td><td>Orta</td></tr>
+                        <tr><td>Rübdə bir</td><td>Glacier Instant Retrieval</td><td>Cold (min. 90 gün)</td><td>Saxlama ucuz, oxuma bahalı</td></tr>
+                        <tr><td>İldə bir / qanuni arxiv</td><td>Glacier Deep Archive</td><td>Archive (min. 180 gün)</td><td>Ən ucuz; bərpa saatlar çəkir</td></tr>
+                        <tr><td>Bilinmir</td><td>Intelligent-Tiering</td><td>Lifecycle + last access tracking</td><td>Avtomatik keçid</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800">Minimum saxlama müddəti var: Archive-a qoyub 10 gün sonra silinən fayl üçün yenə 180 günlük pul ödənilir. Kiçik faylların çox olması da əlavə xərc yaradır.</p>
+            </div>
+        </section>
+
+        <section id="lifecycle" class="section-card">
+            <h2 class="section-title">{{i:recycle}} 3. Lifecycle Policy</h2>
+            <p class="lead">Log və backup-lar üçün class keçidlərini əl ilə yox, qayda ilə edin.</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>{
+  "Rules": [{
+    "ID": "logs-retention",
+    "Filter": { "Prefix": "logs/" },
+    "Status": "Enabled",
+    "Transitions": [
+      { "Days": 30,  "StorageClass": "STANDARD_IA" },
+      { "Days": 90,  "StorageClass": "GLACIER_IR" },
+      { "Days": 365, "StorageClass": "DEEP_ARCHIVE" }
+    ],
+    "Expiration": { "Days": 2555 },
+    "NoncurrentVersionExpiration": { "NoncurrentDays": 30 }
+  }]
+}
+
+aws s3api put-bucket-lifecycle-configuration --bucket cavad-logs \
+  --lifecycle-configuration file://lifecycle.json</code></pre>
+                <p class="code-note">2555 gün ≈ 7 il — maliyyə log-ları üçün tipik qanuni saxlama müddəti. Köhnə versiyalar isə 30 gündən sonra silinir.</p>
+            </div>
+        </section>
+
+        <section id="protect" class="section-card">
+            <h2 class="section-title">{{i:lock}} 4. Məlumatı Qorumaq</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:eye-off}}<p class="text-neutral-700"><strong>Block Public Access:</strong> hesab səviyyəsində aktiv saxlayın. Public fayl lazımdırsa — CloudFront/CDN arxasından verin.</p></div>
+                <div class="feature-item">{{i:history}}<p class="text-neutral-700"><strong>Versioning:</strong> silinən və ya üzərinə yazılan fayl geri qaytarılır — ransomware və səhv əmrə qarşı.</p></div>
+                <div class="feature-item">{{i:lock-keyhole}}<p class="text-neutral-700"><strong>Object Lock / Immutable storage:</strong> WORM — müəyyən müddət heç kim, hətta admin də silə bilməz. Backup üçün idealdır.</p></div>
+                <div class="feature-item">{{i:key-round}}<p class="text-neutral-700"><strong>Encryption at rest:</strong> defolt olaraq aktivdir; KMS / Key Vault-da öz açarınız (CMK) ilə açara nəzarət sizdədir.</p></div>
+                <div class="feature-item">{{i:link}}<p class="text-neutral-700"><strong>Pre-signed URL / SAS token:</strong> faylı public etmədən 15 dəqiqəlik müvəqqəti link vermək.</p></div>
+                <div class="feature-item">{{i:copy}}<p class="text-neutral-700"><strong>Replication:</strong> başqa regiona və ya ayrıca backup hesabına avtomatik nüsxə — 3-2-1 qaydasının "1 kənarda" hissəsi.</p></div>
+            </div>
+        </section>
+
+        <section id="cli" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 5. Praktika</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="st-aws">AWS S3</button>
+                <button class="tab-btn inactive-tab" data-pane="st-az">Azure Blob</button>
+            </div>
+            <div id="st-aws">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>aws s3api put-bucket-versioning --bucket cavad-backup --versioning-configuration Status=Enabled
+aws s3api put-public-access-block --bucket cavad-backup \
+  --public-access-block-configuration BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true
+
+aws s3 cp db-2027-01-15.sql.gz s3://cavad-backup/db/ --storage-class STANDARD_IA
+aws s3 presign s3://cavad-backup/db/db-2027-01-15.sql.gz --expires-in 900
+aws s3api list-object-versions --bucket cavad-backup --prefix db/</code></pre>
+                </div>
+            </div>
+            <div id="st-az" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>az storage account blob-service-properties update -g rg-backup \
+  --account-name stcavadbackup --enable-versioning true --enable-delete-retention true --delete-retention-days 14
+
+az storage blob upload --account-name stcavadbackup -c db -f db-2027-01-15.sql.gz \
+  --tier Cool --auth-mode login
+
+az storage blob generate-sas --account-name stcavadbackup -c db -n db-2027-01-15.sql.gz \
+  --permissions r --expiry 2027-01-15T12:00Z --as-user --auth-mode login --full-uri</code></pre>
+                </div>
+            </div>
+        </section>
+<!--END-->

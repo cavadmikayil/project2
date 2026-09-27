@@ -1,0 +1,127 @@
+<!--PAGE title="Serverless: Lambda və Azure Functions" icon="zap" badge="Cloud · Serverless" nav="intro:Giriş|how:Necə işləyir|triggers:Trigger-lər|code:Kod|limits:Məhdudiyyətlər|when:Nə vaxt"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:zap}} Giriş: Server Var, Sadəcə Sizin Deyil</h2>
+            <p class="lead">
+                <strong>Serverless</strong> o demək deyil ki, server yoxdur — o deməkdir ki, serveri siz görmürsünüz və idarə etmirsiniz.
+                Siz yalnız funksiyanı yazırsınız; provayder onu hadisə gələndə işə salır, lazım olduqca paralel nüsxələr açır
+                və yalnız işləyən millisaniyələr üçün pul alır. Heç kim çağırmırsa — xərc sıfırdır.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:function-square}} FaaS</h3><p class="text-neutral-700">AWS Lambda, Azure Functions, Google Cloud Functions.</p></div>
+                <div class="info-card"><h3>{{i:database}} Serverless data</h3><p class="text-neutral-700">DynamoDB, Aurora Serverless, Cosmos DB serverless, S3.</p></div>
+                <div class="info-card dark"><h3>{{i:mail}} Serverless inteqrasiya</h3><p>API Gateway, SQS/SNS, EventBridge, Azure Service Bus, Step Functions, Logic Apps.</p></div>
+            </div>
+        </section>
+
+        <section id="how" class="section-card">
+            <h2 class="section-title">{{i:cog}} 1. Funksiya Necə İşləyir</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Hadisə</strong> gəlir: HTTP sorğu, S3-ə fayl yüklənməsi, növbədə mesaj, cron.</p></li>
+                <li><p class="text-neutral-700">Platforma boş <strong>execution environment</strong> tapır; yoxdursa yenisini yaradır — bu, <strong>cold start</strong>-dır (100 ms – bir neçə saniyə).</p></li>
+                <li><p class="text-neutral-700"><strong>Handler</strong> funksiyası hadisə obyekti ilə çağırılır, nəticə qaytarılır.</p></li>
+                <li><p class="text-neutral-700">Environment bir müddət "isti" saxlanılır — növbəti sorğular sürətli olur (warm start).</p></li>
+                <li><p class="text-neutral-700">Eyni anda 100 sorğu gəlsə, 100 paralel nüsxə açılır (concurrency limitinə qədər).</p></li>
+            </ol>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Funksiya <strong>stateless</strong> olmalıdır: iki çağırış arasında yaddaşda və ya diskdə məlumatın qalacağına güvənməyin. Vəziyyət DB-də, S3-də və ya cache-də saxlanılır.</p>
+            </div>
+        </section>
+
+        <section id="triggers" class="section-card">
+            <h2 class="section-title">{{i:bell-ring}} 2. Tipik Trigger-lər və Ssenarilər</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Trigger</th><th>Ssenari</th></tr></thead>
+                    <tbody>
+                        <tr><td>HTTP (API Gateway / Function URL)</td><td>REST API, webhook qəbulu (GitHub, Telegram bot)</td></tr>
+                        <tr><td>Storage (S3 / Blob)</td><td>Yüklənən şəkildən thumbnail yaratmaq, faylı antivirusla yoxlamaq</td></tr>
+                        <tr><td>Timer (cron)</td><td>Gecə hesabatı, köhnə snapshot-ları təmizləmək, sertifikat müddətini yoxlamaq</td></tr>
+                        <tr><td>Queue (SQS / Service Bus)</td><td>Sifarişləri emal etmək, yükü hamarlamaq</td></tr>
+                        <tr><td>Event bus (EventBridge / Event Grid)</td><td>"Yeni VM yaradıldı → tag-larını yoxla, yoxdursa xəbər ver"</td></tr>
+                        <tr><td>Log / alarm</td><td>CloudWatch alarm → Slack/Teams bildirişi</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="code" class="section-card">
+            <h2 class="section-title">{{i:file-code}} 3. Nümunə: Sağlamlıq Yoxlayan Funksiya</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="sl-lambda">AWS Lambda (Python)</button>
+                <button class="tab-btn inactive-tab" data-pane="sl-func">Azure Functions (Python)</button>
+            </div>
+            <div id="sl-lambda">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>import json, os, urllib.request
+
+SITES = os.environ.get("SITES", "https://cavadmikayil.com").split(",")
+
+def handler(event, context):
+    results = {}
+    for url in SITES:
+        try:
+            with urllib.request.urlopen(url, timeout=5) as r:
+                results[url] = r.status
+        except Exception as e:
+            results[url] = str(e)
+    down = {u: s for u, s in results.items() if s != 200}
+    print(json.dumps({"checked": len(SITES), "down": down}))   # CloudWatch Logs-a düşür
+    return {"statusCode": 200, "body": json.dumps(results)}
+
+# EventBridge Scheduler ilə hər 5 dəqiqədən bir: rate(5 minutes)</code></pre>
+                </div>
+            </div>
+            <div id="sl-func" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>import azure.functions as func
+import logging, os, urllib.request
+
+app = func.FunctionApp()
+
+@app.timer_trigger(schedule="0 */5 * * * *", arg_name="timer")   # NCRONTAB: saniyə ilə başlayır
+def check_sites(timer: func.TimerRequest) -> None:
+    for url in os.environ.get("SITES", "").split(","):
+        try:
+            with urllib.request.urlopen(url, timeout=5) as r:
+                logging.info("%s %s", url, r.status)
+        except Exception as e:
+            logging.error("DOWN %s %s", url, e)          # Application Insights-da alert qurulur</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="limits" class="section-card">
+            <h2 class="section-title">{{i:ruler}} 4. Məhdudiyyətlər və Qiymət</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Parametr</th><th>AWS Lambda</th><th>Azure Functions (Consumption)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Maksimum icra vaxtı</td><td>15 dəqiqə</td><td>Defolt 5, maks. 10 dəqiqə</td></tr>
+                        <tr><td>Yaddaş</td><td>128 MB – 10 GB (CPU yaddaşla artır)</td><td>Plana görə</td></tr>
+                        <tr><td>Ödəniş</td><td>Sorğu sayı + GB-saniyə</td><td>İcra sayı + GB-saniyə</td></tr>
+                        <tr><td>Pulsuz kvota</td><td>Ayda 1 mln sorğu</td><td>Ayda 1 mln icra</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:snowflake}}<p class="text-neutral-700"><strong>Cold start:</strong> kiçik paket, az asılılıq, provisioned concurrency / Premium plan ilə azaldılır.</p></div>
+                <div class="feature-item">{{i:repeat}}<p class="text-neutral-700"><strong>Idempotency:</strong> platforma hadisəni təkrar göndərə bilər — eyni sifarişi iki dəfə emal etməyin.</p></div>
+                <div class="feature-item">{{i:inbox}}<p class="text-neutral-700"><strong>Dead-letter queue:</strong> uğursuz hadisələr itmir, ayrıca növbəyə düşür.</p></div>
+            </div>
+        </section>
+
+        <section id="when" class="section-card">
+            <h2 class="section-title">{{i:scale}} 5. Serverless Nə Vaxt Uyğundur?</h2>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:circle-check}} Uyğundur</h3><p class="text-neutral-700">Qeyri-bərabər trafik, hadisəyə əsaslanan iş, avtomatlaşdırma skriptləri, kiçik API-lər, inteqrasiyalar, prototiplər.</p></div>
+                <div class="info-card dark"><h3>{{i:circle-x}} Uyğun deyil</h3><p>Uzun işləyən proseslər, sabit yüksək yük (VM/konteyner ucuz başa gəlir), çox aşağı latency tələbi, xüsusi OS asılılıqları.</p></div>
+            </div>
+            <div class="note-box mt-6">
+                {{i:briefcase}}
+                <p class="text-neutral-800">Sistem administratoru üçün ən praktik istifadə: <strong>ops avtomatlaşdırması</strong> — gecə dev VM-lərini söndürmək, tag-sız resursları tapmaq, sertifikat müddəti bitənə 30 gün qalanda email göndərmək.</p>
+            </div>
+        </section>
+<!--END-->

@@ -1,0 +1,141 @@
+<!--PAGE title="Ansible ilə Konfiqurasiya İdarəetməsi" icon="settings-2" badge="DevOps · Ansible" nav="intro:Giriş|inventory:Inventory|adhoc:Ad-hoc|playbook:Playbook|vars:Dəyişənlər və şablonlar|roles:Role və Vault"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:settings-2}} Giriş: 100 Serverə Eyni Anda</h2>
+            <p class="lead">
+                50 Linux serverdə NTP serverini dəyişmək lazımdır. Əl ilə — bütün gün və mütləq bir-ikisi unudulacaq.
+                <strong>Ansible</strong> ilə — bir YAML faylı və bir əmr. Ansible <strong>agentless</strong>-dir: serverlərə heç nə quraşdırılmır,
+                SSH (Windows üçün WinRM) üzərindən işləyir. Tələb yalnız hədəfdə Python-dur (şəbəkə cihazlarında o da lazım deyil).
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:target}} Idempotent</h3><p class="text-neutral-700">Playbook-u 10 dəfə işlətmək 1 dəfə işlətməklə eyni nəticə verir: artıq düzgün olan şey dəyişdirilmir.</p></div>
+                <div class="info-card"><h3>{{i:laptop}} Control node</h3><p class="text-neutral-700">Ansible quraşdırılan kompüter (Linux/macOS, Windows-da WSL).</p></div>
+                <div class="info-card dark"><h3>{{i:server}} Managed nodes</h3><p>İdarə olunan serverlər və şəbəkə cihazları.</p></div>
+            </div>
+        </section>
+
+        <section id="inventory" class="section-card">
+            <h2 class="section-title">{{i:list}} 1. Inventory</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># inventory.ini
+[web]
+web01 ansible_host=10.0.10.11
+web02 ansible_host=10.0.10.12
+
+[db]
+db01 ansible_host=10.0.20.11
+
+[linux:children]
+web
+db
+
+[linux:vars]
+ansible_user=deploy
+ansible_ssh_private_key_file=~/.ssh/id_ed25519</code></pre>
+                <p class="code-note">Qruplar playbook-da hədəf seçmək üçün istifadə olunur: <code>hosts: web</code>. Cloud-da dinamik inventory plugin-ləri (aws_ec2, azure_rm) server siyahısını avtomatik çəkir.</p>
+            </div>
+        </section>
+
+        <section id="adhoc" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 2. Ad-hoc Əmrlər</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>pip install ansible
+ansible all -i inventory.ini -m ping                      # əlaqə yoxlaması
+ansible web -i inventory.ini -a "uptime"                  # istənilən əmr
+ansible linux -i inventory.ini -m apt -a "name=htop state=present" --become
+ansible db -i inventory.ini -m service -a "name=postgresql state=restarted" --become
+ansible all -i inventory.ini -m setup -a "filter=ansible_distribution*"   # facts</code></pre>
+                <p class="code-note"><code>--become</code> — sudo ilə işlət. <code>-m</code> modul adıdır; Ansible-da minlərlə modul var: <code>apt</code>, <code>dnf</code>, <code>copy</code>, <code>template</code>, <code>user</code>, <code>ufw</code>, <code>cisco.ios.ios_config</code>.</p>
+            </div>
+        </section>
+
+        <section id="playbook" class="section-card">
+            <h2 class="section-title">{{i:file-code}} 3. Playbook</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># web.yml
+- name: Veb serverləri hazırla
+  hosts: web
+  become: true
+  vars:
+    site_name: portal
+  tasks:
+    - name: nginx quraşdır
+      ansible.builtin.apt:
+        name: nginx
+        state: present
+        update_cache: true
+
+    - name: Sayt konfiqurasiyası
+      ansible.builtin.template:
+        src: templates/site.conf.j2
+        dest: /etc/nginx/sites-available/{{ site_name }}.conf
+      notify: nginx reload            # yalnız fayl dəyişəndə
+
+    - name: nginx işləsin və açılışda başlasın
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true
+
+  handlers:
+    - name: nginx reload
+      ansible.builtin.service:
+        name: nginx
+        state: reloaded
+
+# İşlətmək
+ansible-playbook -i inventory.ini web.yml --check --diff   # quru sınaq: nə dəyişəcək?
+ansible-playbook -i inventory.ini web.yml
+ansible-playbook -i inventory.ini web.yml --limit web01</code></pre>
+                <p class="code-note">Nəticədə hər task üçün <code>ok</code> (dəyişiklik lazım deyildi), <code>changed</code>, <code>failed</code> görünür. İkinci işlədişdə hər şey <code>ok</code> olmalıdır — idempotency-nin sübutu.</p>
+            </div>
+        </section>
+
+        <section id="vars" class="section-card">
+            <h2 class="section-title">{{i:variable}} 4. Dəyişənlər və Jinja2 Şablonları</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># group_vars/linux.yml
+ntp_servers:
+  - 10.0.0.10
+  - 10.0.0.11
+
+# templates/chrony.conf.j2
+{% for s in ntp_servers %}
+server {{ s }} iburst
+{% endfor %}
+{% if inventory_hostname in groups['db'] %}
+# DB serverləri üçün əlavə ayar
+makestep 1 3
+{% endif %}</code></pre>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Yer</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>group_vars/&lt;qrup&gt;.yml</code></td><td>Bütün qrup üçün dəyərlər</td></tr>
+                        <tr><td><code>host_vars/&lt;host&gt;.yml</code></td><td>Bir serverə xas dəyərlər (üstünlük daha yüksəkdir)</td></tr>
+                        <tr><td>Facts</td><td><code>ansible_distribution</code>, <code>ansible_default_ipv4.address</code></td></tr>
+                        <tr><td><code>register</code></td><td>Task-ın nəticəsini dəyişənə yazmaq</td></tr>
+                        <tr><td><code>-e</code></td><td>Əmr sətrindən (ən yüksək üstünlük)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="roles" class="section-card">
+            <h2 class="section-title">{{i:package}} 5. Role-lar, Galaxy və Vault</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:folder-tree}}<p class="text-neutral-700"><strong>Role:</strong> tasks, handlers, templates, defaults — təkrar istifadə olunan paket. <code>ansible-galaxy role init nginx</code>.</p></div>
+                <div class="feature-item">{{i:store}}<p class="text-neutral-700"><strong>Galaxy və Collections:</strong> hazır role və modullar: <code>ansible-galaxy collection install cisco.ios</code>.</p></div>
+                <div class="feature-item">{{i:lock}}<p class="text-neutral-700"><strong>Ansible Vault:</strong> parolları şifrəli saxlamaq: <code>ansible-vault encrypt group_vars/all/vault.yml</code>, işlədərkən <code>--ask-vault-pass</code>.</p></div>
+                <div class="feature-item">{{i:circle-check}}<p class="text-neutral-700"><strong>ansible-lint</strong> və Molecule — playbook-ları CI-da yoxlamaq və test etmək.</p></div>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><strong>Ansible yoxsa Terraform?</strong> Terraform infrastrukturu <em>yaradır</em> (VM, VPC, DNS), Ansible isə yaranmış serverlərin içini <em>konfiqurasiya edir</em> (paketlər, fayllar, servislər). Adətən ikisi birlikdə işləyir.</p>
+            </div>
+        </section>
+<!--END-->

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git ilə Komanda İşi: GitHub Flow və Pull Request — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#git-pull-request"></use></svg> Git ilə Komanda İşi: GitHub Flow və Pull Request</h1>
+                <span class="lesson-badge">DevOps · Git</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#flow" class="nav-link">GitHub Flow</a>
+                <a href="#pr" class="nav-link">Pull Request</a>
+                <a href="#sync" class="nav-link">Sinxronizasiya</a>
+                <a href="#conflict" class="nav-link">Konflikt</a>
+                <a href="#rules" class="nav-link">Qaydalar</a>
+                <a href="../index.html#devops" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#git-pull-request"></use></svg> Giriş: Beş Nəfər, Bir Kod Bazası</h2>
+            <p class="lead">
+                Tək işləyəndə Git sadəcə tarixçədir. Komandada isə əsas sual yaranır: hər kəs eyni fayllarda işləyəndə
+                dəyişikliklər bir-birini necə pozmasın və <code>main</code> həmişə işlək qalsın? Cavab —
+                qısamüddətli branch-lar, <strong>Pull Request</strong> (GitLab-da Merge Request) və avtomatik yoxlamalardır.
+            </p>
+        </section>
+
+        <section id="flow" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#git-fork"></use></svg> 1. GitHub Flow</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><code>main</code> həmişə deploy oluna bilən vəziyyətdədir.</p></li>
+                <li><p class="text-neutral-700">Hər iş üçün təsviri adlı branch: <code>feature/guest-wifi</code>, <code>fix/ospf-cost</code>.</p></li>
+                <li><p class="text-neutral-700">Kiçik, məntiqi commit-lər və tez-tez <code>push</code>.</p></li>
+                <li><p class="text-neutral-700"><strong>Pull Request</strong> açılır — CI testləri işləyir, həmkarlar review edir.</p></li>
+                <li><p class="text-neutral-700">Təsdiqdən sonra <code>main</code>-ə merge, branch silinir, avtomatik deploy.</p></li>
+            </ol>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Model</th><th>Xülasə</th><th>Kimə uyğundur</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>GitHub Flow</strong></td><td>main + qısa feature branch-lar</td><td>Veb, SaaS, tez-tez deploy</td></tr>
+                        <tr><td><strong>Trunk-based</strong></td><td>Hamı gündə bir neçə dəfə main-ə birləşdirir, feature flag-larla</td><td>Yüksək səviyyəli CI/CD komandaları</td></tr>
+                        <tr><td><strong>Git Flow</strong></td><td>main, develop, release/*, hotfix/*</td><td>Versiyalı məhsullar, planlı release-lər</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="pr" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#message-square-code"></use></svg> 2. Yaxşı Pull Request</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#minimize-2"></use></svg><p class="text-neutral-700"><strong>Kiçik olsun:</strong> 400 sətirdən az — review keyfiyyəti ölçü ilə kəskin düşür.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#file-text"></use></svg><p class="text-neutral-700"><strong>Təsvir:</strong> nə dəyişdi, niyə, necə test olundu, ekran görüntüsü; əlaqəli issue: <code>Closes #42</code>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#circle-check"></use></svg><p class="text-neutral-700"><strong>CI yaşıl olsun:</strong> qırmızı testlə review istəməyin.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#message-circle"></use></svg><p class="text-neutral-700"><strong>Review mədəniyyəti:</strong> kodu tənqid edin, insanı yox; "niyə belə?" sualı əmrdən yaxşıdır.</p></div>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Merge üsulu</th><th>Nəticə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Create a merge commit</td><td>Bütün commit-lər + birləşmə commit-i qalır</td></tr>
+                        <tr><td>Squash and merge</td><td>PR-ın bütün commit-ləri main-də bir commit olur — təmiz tarixçə</td></tr>
+                        <tr><td>Rebase and merge</td><td>Commit-lər main-in üstünə ardıcıl düzülür, merge commit yoxdur</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="sync" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#refresh-cw"></use></svg> 3. Remote ilə Sinxronizasiya</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>git fetch origin                 # yenilikləri yüklə, heç nəyi dəyişmə
+git status                       # "Your branch is behind 'origin/main' by 3 commits"
+git pull                         # fetch + merge (və ya config ilə rebase)
+
+# Öz branch-ını main-in son vəziyyəti ilə yeniləmək
+git switch feature/guest-wifi
+git fetch origin
+git merge origin/main            # təhlükəsiz: tarixçəni dəyişmir
+# və ya
+git rebase origin/main           # commit-lərini main-in üstünə köçürür (xətti tarixçə)
+git push --force-with-lease      # rebase-dən sonra — yalnız ÖZ branch-ında
+
+git tag -a v1.4.0 -m "Release 1.4.0"   # release-i işarələmək
+git push origin v1.4.0</code></pre>
+                <p class="code-note">Qızıl qayda: başqalarının istifadə etdiyi branch-da (xüsusən <code>main</code>) <strong>rebase və force push etməyin</strong> — onların tarixçəsi pozulur.</p>
+            </div>
+        </section>
+
+        <section id="conflict" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#git-compare"></use></svg> 4. Merge Konfliktini Həll Etmək</h2>
+            <p class="lead">İki nəfər eyni faylın eyni sətrini fərqli dəyişəndə Git hansını seçəcəyini bilmir və qərarı sizə buraxır.</p>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>$ git merge origin/main
+CONFLICT (content): Merge conflict in R1.cfg
+
+$ cat R1.cfg
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+ntp server 10.0.0.10
+=======
+ntp server 10.0.0.20
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/main</code></pre>
+            </div>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">Hər iki versiyanı oxuyun, lazım olsa müəlliflə danışın (<code>git log -p</code>).</p></li>
+                <li><p class="text-neutral-700">Faylı düzgün son vəziyyətə gətirin və <code>&lt;&lt;&lt;</code>, <code>===</code>, <code>&gt;&gt;&gt;</code> işarələrini silin.</p></li>
+                <li><p class="text-neutral-700"><code>git add R1.cfg</code> → <code>git commit</code> (rebase zamanı: <code>git rebase --continue</code>).</p></li>
+                <li><p class="text-neutral-700">Testləri yenidən işlədin. Vəziyyətdən çıxmaq üçün: <code>git merge --abort</code>.</p></li>
+            </ol>
+        </section>
+
+        <section id="rules" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#shield-check"></use></svg> 5. Repo Qaydaları</h2>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#lock"></use></svg><p class="text-neutral-700"><strong>Branch protection:</strong> main-ə birbaşa push qadağandır, PR + ən azı 1 təsdiq + yaşıl CI tələb olunur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#users"></use></svg><p class="text-neutral-700"><strong>CODEOWNERS:</strong> <code>/network/ @netteam</code> — şəbəkə fayllarına dəyişiklik avtomatik şəbəkə komandasına review-a gedir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#file-lock"></use></svg><p class="text-neutral-700"><strong>Signed commits:</strong> SSH və ya GPG imzası ilə müəllifin həqiqiliyi.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#scan-search"></use></svg><p class="text-neutral-700"><strong>Secret scanning və push protection:</strong> açar və parol push olunmadan bloklanır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#file-text"></use></svg><p class="text-neutral-700"><strong>PR template:</strong> <code>.github/pull_request_template.md</code> — hər PR eyni strukturda təsvir olunur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#tag"></use></svg><p class="text-neutral-700"><strong>Semantic versioning:</strong> <code>MAJOR.MINOR.PATCH</code> — uyğunsuz dəyişiklik, yeni funksiya, düzəliş.</p></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="brand-footer">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+                    <a href="../index.html">Ana Səhifə</a>
+                    <a href="../index.html#ccna">CCNA</a>
+                    <a href="../tools.html">Tools</a>
+                    <a href="../links.html">Faydalı Linklər</a>
+                    <a href="../about.html">Haqqında</a>
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
+            </div>
+            <div class="brand-footer-social-wrap">
+                <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+                    <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" data-social="instagram"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                    <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı" data-social="youtube"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></a>
+                    <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn" data-social="linkedin"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg></a>
+                    <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt" data-social="blog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></a>
+                    <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram" data-social="telegram"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg></a>
+                    <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" data-social="tiktok"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M448.5 209.9c-44 .1-87-13.6-122.8-39.2l0 178.7c0 33.1-10.1 65.4-29 92.6s-45.6 48-76.6 59.6-64.8 13.5-96.9 5.3-60.9-25.9-82.7-50.8-35.3-56-39-88.9 2.9-66.1 18.6-95.2 40-52.7 69.6-67.7 62.9-20.5 95.7-16l0 89.9c-15-4.7-31.1-4.6-46 .4s-27.9 14.6-37 27.3-14 28.1-13.9 43.9 5.2 31 14.5 43.7 22.4 22.1 37.4 26.9 31.1 4.8 46-.1 28-14.4 37.2-27.1 14.2-28.1 14.2-43.8l0-349.4 88 0c-.1 7.4 .6 14.9 1.9 22.2 3.1 16.3 9.4 31.9 18.7 45.7s21.3 25.6 35.2 34.6c19.9 13.1 43.2 20.1 67 20.1l0 87.4z"/></svg></a>
+                    <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email" data-social="email"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></a>
+                </div>
+            </div>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

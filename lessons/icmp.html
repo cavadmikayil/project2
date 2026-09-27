@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#radar"></use></svg> ICMP: Ping və Traceroute</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#radar"></use></svg> ICMP: Ping və Traceroute</h1>
                 <span class="lesson-badge">CCNA · Network Fundamentals</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -25,15 +25,15 @@
                 <a href="#ping" class="nav-link">Ping</a>
                 <a href="#traceroute" class="nav-link">Traceroute</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
-                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#moon"></use></svg></button>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#radar"></use></svg> Giriş: Şəbəkənin Diaqnostika Dili</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#radar"></use></svg> Giriş: Şəbəkənin Diaqnostika Dili</h2>
             <p class="lead">
                 ICMP (Internet Control Message Protocol) IP-nin "xidməti" protokoludur: məlumat daşımır, əvəzinə
                 xətaları və vəziyyəti bildirir. Port nömrəsi yoxdur — birbaşa IP paketinin içində (protokol nömrəsi
@@ -42,7 +42,7 @@
         </section>
 
         <section id="types" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#list-ordered"></use></svg> 1. Əsas ICMP Mesajları</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#list-ordered"></use></svg> 1. Əsas ICMP Mesajları</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Type</th><th>Ad</th><th>Nə vaxt göndərilir</th></tr></thead>
@@ -58,7 +58,7 @@
         </section>
 
         <section id="ping" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#activity"></use></svg> 2. Ping Nəticələrini Oxumaq (Cisco IOS)</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#activity"></use></svg> 2. Ping Nəticələrini Oxumaq (Cisco IOS)</h2>
             <div class="code-block">
                 <pre><code>R1# ping 10.2.2.50
 Type escape sequence to abort.
@@ -81,13 +81,13 @@ Success rate is 80 percent (4/5), round-trip min/avg/max = 1/2/4 ms</code></pre>
                 </table>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#lightbulb"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#lightbulb"></use></svg>
                 <p class="text-neutral-800">Birinci paketin itməsi (<code>.!!!!</code>) adətən normaldır: router həmin anda ARP ilə növbəti hop-un MAC ünvanını öyrənir və ilk paket gözləmə müddətində atılır.</p>
             </div>
         </section>
 
         <section id="traceroute" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#route"></use></svg> 3. Traceroute Necə İşləyir?</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#route"></use></svg> 3. Traceroute Necə İşləyir?</h2>
             <ol class="steps max-w-3xl mx-auto mb-6">
                 <li><p class="text-neutral-700">Birinci paket <strong>TTL = 1</strong> ilə göndərilir. Birinci router TTL-i 0-a endirir, paketi atır və <strong>ICMP Time Exceeded</strong> qaytarır — beləcə onun ünvanı məlum olur.</p></li>
                 <li><p class="text-neutral-700">Növbəti paket <strong>TTL = 2</strong> ilə gedir və ikinci router cavab verir.</p></li>
@@ -103,7 +103,7 @@ Success rate is 80 percent (4/5), round-trip min/avg/max = 1/2/4 ms</code></pre>
         </section>
 
         <section id="commands" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#terminal"></use></svg> 4. Praktiki Əmrlər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#terminal"></use></svg> 4. Praktiki Əmrlər</h2>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="icmp-ios">Cisco IOS</button>
                 <button class="tab-btn inactive-tab" data-pane="icmp-pc">Kompüter</button>
@@ -137,7 +137,7 @@ traceroute -I 8.8.8.8</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

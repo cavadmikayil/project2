@@ -1,0 +1,120 @@
+<!--PAGE title="Linux Fayl Sistemi Dərindən" icon="folder-tree" badge="Linux · Fayl sistemi" nav="intro:Giriş|fhs:FHS|inode:Inode və linklər|find:find|mount:Mount və fstab|special:Xüsusi FS-lər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:folder-tree}} Giriş: Linux-da Hər Şey Fayldır</h2>
+            <p class="lead">
+                Linux-da disk (<code>/dev/sda</code>), terminal (<code>/dev/tty</code>), proses məlumatı (<code>/proc/1234</code>), hətta təsadüfi ədəd generatoru
+                (<code>/dev/urandom</code>) belə fayl kimi görünür. Fayl sisteminin quruluşunu və işləmə məntiqini bilmək — "disk dolub, amma
+                heç bir böyük fayl görünmür" kimi problemləri dəqiqələrlə həll etmək deməkdir.
+            </p>
+        </section>
+
+        <section id="fhs" class="section-card">
+            <h2 class="section-title">{{i:folder-open}} 1. Filesystem Hierarchy Standard</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Qovluq</th><th>Məzmun</th><th>Praktik qeyd</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>/etc</code></td><td>Sistem konfiqurasiyası</td><td>Dəyişiklikdən əvvəl backup: <code>cp file{,.bak}</code></td></tr>
+                        <tr><td><code>/var</code></td><td>Dəyişən məlumat: log, spool, cache, DB</td><td>Disk dolması çox vaxt <code>/var/log</code>-dadır</td></tr>
+                        <tr><td><code>/home</code>, <code>/root</code></td><td>İstifadəçi qovluqları</td><td>Ayrıca bölmədə saxlamaq faydalıdır</td></tr>
+                        <tr><td><code>/usr</code></td><td>Proqramlar və kitabxanalar (read-only ola bilər)</td><td><code>/usr/local</code> — əl ilə quraşdırılanlar</td></tr>
+                        <tr><td><code>/opt</code></td><td>Üçüncü tərəf paketlər</td><td>Vendor proqramları</td></tr>
+                        <tr><td><code>/tmp</code>, <code>/var/tmp</code></td><td>Müvəqqəti fayllar</td><td><code>/tmp</code> reboot-da təmizlənə bilər</td></tr>
+                        <tr><td><code>/boot</code></td><td>Kernel, initramfs, GRUB</td><td>Dolarsa kernel yeniləməsi uğursuz olur</td></tr>
+                        <tr><td><code>/dev</code>, <code>/proc</code>, <code>/sys</code></td><td>Cihazlar, proses və kernel məlumatı</td><td>Virtual — diskdə yer tutmur</td></tr>
+                        <tr><td><code>/srv</code></td><td>Servislərin məlumatı</td><td>Veb sayt, FTP faylları</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="inode" class="section-card">
+            <h2 class="section-title">{{i:link}} 2. Inode, Hard Link və Symbolic Link</h2>
+            <p class="lead"><strong>Inode</strong> faylın metadata-sını saxlayır: icazələr, sahib, ölçü, tarixlər, məlumat bloklarının yeri. Fayl adı isə sadəcə qovluqdakı "ad → inode nömrəsi" qeydidir.</p>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>ls -li report.txt             # birinci sütun — inode nömrəsi
+stat report.txt               # bütün metadata
+df -i                         # inode istifadəsi — 100% olarsa yer olsa belə fayl yaradılmır
+
+ln report.txt report-hard.txt     # hard link: eyni inode, iki ad
+ln -s /var/log/nginx logs         # symlink: yol göstəricisi, ayrıca inode
+readlink -f logs                  # symlink-in son hədəfi</code></pre>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Hard link</th><th>Symbolic link</th></tr></thead>
+                    <tbody>
+                        <tr><td>Inode</td><td>Eyni</td><td>Fərqli</td></tr>
+                        <tr><td>Orijinal silinəndə</td><td class="yes">Məlumat qalır</td><td class="no">Link "qırılır"</td></tr>
+                        <tr><td>Qovluğa</td><td class="no">Olmaz</td><td class="yes">Olar</td></tr>
+                        <tr><td>Başqa fayl sisteminə</td><td class="no">Olmaz</td><td class="yes">Olar</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box mt-6">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><strong>"Disk dolub, amma fayl yoxdur":</strong> silinmiş, lakin hələ proses tərəfindən açıq saxlanılan fayl yer tutmağa davam edir. <code>lsof +L1</code> ilə tapın və prosesi restart edin.</p>
+            </div>
+        </section>
+
+        <section id="find" class="section-card">
+            <h2 class="section-title">{{i:search}} 3. find və du ilə Axtarış</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>du -xh --max-depth=1 / 2&gt;/dev/null | sort -h | tail     # ən böyük qovluqlar
+find /var -xdev -type f -size +500M -exec ls -lh {} \;  # 500 MB-dan böyük fayllar
+find /var/log -name "*.gz" -mtime +30 -delete            # 30 gündən köhnə arxiv log-lar
+find /home -type f -perm -o+w                            # hamının yaza bildiyi fayllar
+find / -xdev -user olduser 2&gt;/dev/null                   # silinmiş istifadəçinin faylları
+find /etc -newer /tmp/marker                             # marker-dən sonra dəyişənlər
+find . -name "*.conf" -exec grep -l "Listen 80" {} +     # məzmuna görə
+locate nginx.conf                                        # indekslə sürətli axtarış (updatedb)</code></pre>
+                <p class="code-note"><code>-xdev</code> — başqa fayl sistemlərinə (məs. NFS, /proc) keçmə. <code>-delete</code>-dən əvvəl həmişə eyni əmri onsuz işlədib siyahıya baxın.</p>
+            </div>
+        </section>
+
+        <section id="mount" class="section-card">
+            <h2 class="section-title">{{i:hard-drive}} 4. Mount və /etc/fstab</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>lsblk -f                          # disklər, bölmələr, FS tipləri, UUID
+findmnt                           # mount ağacı
+mount /dev/sdb1 /mnt/data
+umount /mnt/data                  # "target is busy" → lsof +f -- /mnt/data
+
+# /etc/fstab
+# &lt;cihaz&gt;                                  &lt;nöqtə&gt;    &lt;tip&gt;  &lt;seçimlər&gt;                 &lt;dump&gt; &lt;pass&gt;
+UUID=3f2a...-9c1d                          /data       xfs    defaults,noatime            0      2
+//fs01/share                               /mnt/share  cifs   credentials=/root/.smb,_netdev  0  0
+10.0.0.20:/export/backup                   /backup     nfs    defaults,_netdev,nofail     0      0
+
+mount -a                          # fstab-ı yoxla — reboot-dan ƏVVƏL mütləq!
+systemctl daemon-reload</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800">fstab-da səhv sistemin açılmamasına (emergency mode) səbəb ola bilər. Cihaz adı (<code>/dev/sdb1</code>) dəyişə bilər — həmişə <strong>UUID</strong> istifadə edin; şəbəkə diskləri üçün <code>_netdev</code> və <code>nofail</code>.</p>
+            </div>
+        </section>
+
+        <section id="special" class="section-card">
+            <h2 class="section-title">{{i:cpu}} 5. /proc və /sys</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>cat /proc/cpuinfo | grep "model name" | head -1
+cat /proc/meminfo | head -5
+cat /proc/loadavg
+cat /proc/1234/cmdline | tr '\0' ' '    # prosesin tam əmri
+ls -l /proc/1234/fd                    # prosesin açıq faylları
+cat /proc/sys/net/ipv4/ip_forward      # 1 = routing aktivdir
+
+sysctl net.ipv4.ip_forward=1           # müvəqqəti dəyişiklik
+echo "net.ipv4.ip_forward = 1" &gt; /etc/sysctl.d/99-router.conf   # daimi
+sysctl --system
+
+cat /sys/class/net/eth0/speed          # NIC sürəti
+cat /sys/block/sda/queue/rotational    # 1 = HDD, 0 = SSD</code></pre>
+            </div>
+        </section>
+<!--END-->

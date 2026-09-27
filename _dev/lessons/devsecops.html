@@ -1,0 +1,105 @@
+<!--PAGE title="DevSecOps: Pipeline-da Təhlükəsizlik" icon="shield-check" badge="DevOps · DevSecOps" nav="intro:Giriş|shift:Shift left|scans:Skan növləri|pipeline:Pipeline|supply:Supply chain|culture:Proses"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} Giriş: Təhlükəsizlik Sonda Yox, Hər Addımda</h2>
+            <p class="lead">
+                Ənənəvi modeldə təhlükəsizlik komandası release-dən bir həftə əvvəl pentest edir və 40 problem tapır — release ya gecikir,
+                ya da problemlər "sonra düzəldilər" deyə çıxarılır. <strong>DevSecOps</strong> yoxlamaları avtomatlaşdırıb pipeline-a
+                yerləşdirir: zəiflik developer-in yazdığı gün, düzəltmək ən ucuz olanda tapılır.
+            </p>
+        </section>
+
+        <section id="shift" class="section-card">
+            <h2 class="section-title">{{i:arrow-left}} 1. Shift Left</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Mərhələ</th><th>Təhlükəsizlik tədbiri</th></tr></thead>
+                    <tbody>
+                        <tr><td>Plan / dizayn</td><td>Threat modeling (STRIDE), təhlükəsizlik tələbləri</td></tr>
+                        <tr><td>Kod (IDE)</td><td>Linter plugin-ləri, pre-commit hook ilə secret yoxlaması</td></tr>
+                        <tr><td>Commit / PR</td><td>SAST, SCA, secret scanning, IaC scan, code review</td></tr>
+                        <tr><td>Build</td><td>Container image scan, SBOM, imzalama</td></tr>
+                        <tr><td>Test / staging</td><td>DAST, API testləri</td></tr>
+                        <tr><td>Production</td><td>WAF, runtime qoruma, CSPM, monitorinq, bug bounty</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Qayda: <strong>pipeline sürətli olmalıdır</strong>. Hər PR-da tez skanlar (saniyələr), ağır DAST isə gecə və ya staging-də işləsin. Developer-i 40 dəqiqə gözlədən təhlükəsizlik yan keçilir.</p>
+            </div>
+        </section>
+
+        <section id="scans" class="section-card">
+            <h2 class="section-title">{{i:scan-search}} 2. Skan Növləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Nəyi yoxlayır</th><th>Açıq mənbəli alətlər</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>SAST</strong></td><td>Mənbə kodda SQL injection, XSS, təhlükəli funksiyalar</td><td>Semgrep, Bandit (Python), CodeQL</td></tr>
+                        <tr><td><strong>SCA</strong></td><td>Kitabxanalardakı məlum CVE-lər və lisenziyalar</td><td>Dependabot, OWASP Dependency-Check, Trivy</td></tr>
+                        <tr><td><strong>Secret scanning</strong></td><td>Kodda unudulmuş açar, token, parol</td><td>gitleaks, trufflehog, GitHub push protection</td></tr>
+                        <tr><td><strong>IaC scan</strong></td><td>Terraform/K8s-də açıq port, şifrələnməmiş disk, root konteyner</td><td>Checkov, tfsec/Trivy config, kube-linter</td></tr>
+                        <tr><td><strong>Container scan</strong></td><td>Image-dakı OS paketlərinin zəiflikləri</td><td>Trivy, Grype</td></tr>
+                        <tr><td><strong>DAST</strong></td><td>İşləyən tətbiqə xaricdən hücum simulyasiyası</td><td>OWASP ZAP, Nuclei</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="pipeline" class="section-card">
+            <h2 class="section-title">{{i:workflow}} 3. Pipeline Nümunəsi</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># .github/workflows/security.yml
+name: Security
+on: [pull_request]
+permissions:
+  contents: read
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - name: Secret-lər
+        run: docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:latest detect --source /repo --redact
+
+      - name: SAST (Semgrep)
+        run: pipx run semgrep scan --config auto --error
+
+      - name: Asılılıqlar və IaC (Trivy)
+        run: |
+          docker run --rm -v "$PWD:/src" aquasec/trivy:latest fs --scanners vuln,misconfig \
+            --severity HIGH,CRITICAL --exit-code 1 /src
+
+      - name: Image skanı
+        run: |
+          docker build -t app:${{ github.sha }} .
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest \
+            image --severity CRITICAL --exit-code 1 app:${{ github.sha }}</code></pre>
+                <p class="code-note"><code>--exit-code 1</code> — yalnız HIGH/CRITICAL tapıntıda pipeline dayanır. Başlanğıcda "yalnız xəbər ver" rejimi ilə başlayıb, mövcud problemlər təmizləndikcə sərtləşdirin.</p>
+            </div>
+        </section>
+
+        <section id="supply" class="section-card">
+            <h2 class="section-title">{{i:package-search}} 4. Software Supply Chain</h2>
+            <p class="lead">SolarWinds, Log4Shell, xz-utils — hücumlar artıq birbaşa sizə yox, istifadə etdiyiniz kitabxana və alətlərə yönəlir.</p>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:list-checks}}<p class="text-neutral-700"><strong>SBOM:</strong> Software Bill of Materials — artefaktın bütün komponentlərinin siyahısı (SPDX, CycloneDX). Yeni CVE çıxanda "biz təsirlənirikmi?" suala dəqiqələrlə cavab.</p></div>
+                <div class="feature-item">{{i:pen-line}}<p class="text-neutral-700"><strong>İmzalama:</strong> Sigstore / cosign ilə image imzalanır, cluster yalnız imzalı image-ları qəbul edir.</p></div>
+                <div class="feature-item">{{i:pin}}<p class="text-neutral-700"><strong>Pinning:</strong> asılılıqları lock faylı ilə, GitHub action-ları commit SHA ilə sabitləyin.</p></div>
+                <div class="feature-item">{{i:chart-no-axes-column-increasing}}<p class="text-neutral-700"><strong>SLSA:</strong> build prosesinin etibarlılıq səviyyələri — kim, harada, hansı mənbədən qurdu (provenance).</p></div>
+            </div>
+        </section>
+
+        <section id="culture" class="section-card">
+            <h2 class="section-title">{{i:users}} 5. Proses və Mədəniyyət</h2>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:user-check}} Security champions</h3><p class="text-neutral-700">Hər developer komandasında təhlükəsizliyə məsul, xüsusi təlim almış bir nəfər.</p></div>
+                <div class="info-card"><h3>{{i:list-filter}} Triage</h3><p class="text-neutral-700">Hər tapıntı eyni deyil: exploit olunurmu, internetdən əlçatandırmı? False positive-ləri qeyd edib susdurun.</p></div>
+                <div class="info-card"><h3>{{i:calendar-clock}} SLA</h3><p class="text-neutral-700">Critical — 7 gün, High — 30 gün, Medium — 90 gün ərzində düzəliş.</p></div>
+                <div class="info-card dark"><h3>{{i:graduation-cap}} Təlim</h3><p>OWASP Top 10 bilikləri, təhlükəsiz kod nümunələri, daxili CTF-lər.</p></div>
+            </div>
+        </section>
+<!--END-->

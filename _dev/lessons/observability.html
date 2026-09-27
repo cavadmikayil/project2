@@ -1,0 +1,109 @@
+<!--PAGE title="Monitoring və Observability" icon="chart-line" badge="DevOps · Observability" nav="intro:Giriş|pillars:Üç sütun|golden:Qızıl siqnallar|prom:Prometheus|grafana:Grafana və alert|slo:SLO"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:chart-line}} Giriş: "Sayt Yavaşdır" — Amma Harada?</h2>
+            <p class="lead">
+                <strong>Monitoring</strong> əvvəlcədən bilinən sualları cavablandırır: server işləyirmi, disk dolubmu?
+                <strong>Observability</strong> isə sistemin çıxışlarına (metrika, log, trace) baxaraq əvvəlcədən düşünülməmiş suallara
+                cavab tapmaq imkanıdır: "niyə yalnız Bakıdakı mobil istifadəçilər üçün ödəniş 8 saniyə çəkir?"
+            </p>
+        </section>
+
+        <section id="pillars" class="section-card">
+            <h2 class="section-title">{{i:columns-3}} 1. Üç Sütun</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Metrics</th><th>Logs</th><th>Traces</th></tr></thead>
+                    <tbody>
+                        <tr><td>Nədir</td><td>Zamana görə rəqəmlər</td><td>Hadisələrin mətn qeydləri</td><td>Bir sorğunun servislər arasında yolu</td></tr>
+                        <tr><td>Nümunə</td><td><code>cpu_usage=73%</code>, sorğu/saniyə</td><td><code>ERROR payment timeout order=5521</code></td><td>API 20ms → auth 5ms → DB 780ms</td></tr>
+                        <tr><td>Sual</td><td>Nə vaxt və nə qədər?</td><td>Tam olaraq nə baş verdi?</td><td>Harada yavaşladı?</td></tr>
+                        <tr><td>Alətlər</td><td>Prometheus, Zabbix, CloudWatch</td><td>ELK/OpenSearch, Loki, Graylog</td><td>Jaeger, Tempo, Zipkin</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><strong>OpenTelemetry</strong> — üçünü də vahid standartla toplamaq üçün açıq layihə. Tətbiqə bir dəfə əlavə olunur, məlumat istənilən backend-ə göndərilir.</p>
+            </div>
+        </section>
+
+        <section id="golden" class="section-card">
+            <h2 class="section-title">{{i:gauge}} 2. Nəyi Ölçmək Lazımdır</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3>{{i:timer}} Latency</h3><p class="text-neutral-700">Cavab müddəti — ortalama yox, <strong>p95/p99</strong>: istifadəçilərin ən pis 5%-i nə görür?</p></div>
+                <div class="info-card"><h3>{{i:activity}} Traffic</h3><p class="text-neutral-700">Sorğu/saniyə, aktiv sessiyalar, Mbps.</p></div>
+                <div class="info-card"><h3>{{i:circle-x}} Errors</h3><p class="text-neutral-700">5xx cavabların faizi, uğursuz əməliyyatlar.</p></div>
+                <div class="info-card dark"><h3>{{i:gauge}} Saturation</h3><p>Resursun nə qədər dolu olduğu: CPU, RAM, disk, növbə uzunluğu.</p></div>
+            </div>
+            <p class="text-neutral-700">Bunlar Google SRE-nin <strong>dörd qızıl siqnalıdır</strong>. Serverlər üçün <strong>USE</strong> (Utilization, Saturation, Errors), servislər üçün <strong>RED</strong> (Rate, Errors, Duration) metodları da geniş istifadə olunur.</p>
+        </section>
+
+        <section id="prom" class="section-card">
+            <h2 class="section-title">{{i:flame}} 3. Prometheus</h2>
+            <p class="lead">Prometheus hədəflərin <code>/metrics</code> endpoint-lərini müəyyən intervalla <strong>çəkir</strong> (pull) və time-series DB-də saxlayır.</p>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># prometheus.yml
+scrape_configs:
+  - job_name: node                       # Linux serverlər (node_exporter, port 9100)
+    static_configs:
+      - targets: ["web01:9100", "web02:9100", "db01:9100"]
+  - job_name: snmp                       # şəbəkə cihazları snmp_exporter ilə
+    static_configs:
+      - targets: ["10.0.0.1"]
+    metrics_path: /snmp
+    params: { module: [if_mib] }</code></pre>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># PromQL nümunələri
+up == 0                                                    # çatılmayan hədəflər
+100 - avg by (instance)(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100   # CPU %
+node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes * 100 &lt; 10
+rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m])   # xəta faizi
+histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))       # p95 latency
+predict_linear(node_filesystem_avail_bytes[6h], 24*3600) &lt; 0   # disk 24 saata dolacaq</code></pre>
+            </div>
+        </section>
+
+        <section id="grafana" class="section-card">
+            <h2 class="section-title">{{i:bell-ring}} 4. Grafana və Alert-lər</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:layout-dashboard}}<p class="text-neutral-700"><strong>Grafana:</strong> Prometheus, Loki, Zabbix, Elasticsearch, CloudWatch-dan dashboard-lar. Hazır dashboard-lar grafana.com-da (məs. Node Exporter Full).</p></div>
+                <div class="feature-item">{{i:send}}<p class="text-neutral-700"><strong>Alertmanager:</strong> alert-ləri qruplaşdırır, təkrarları susdurur, Telegram, Slack, email və ya PagerDuty-yə göndərir.</p></div>
+            </div>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># alerts.yml
+groups:
+  - name: servers
+    rules:
+      - alert: DiskAlmostFull
+        expr: node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes &lt; 0.10
+        for: 10m                          # 10 dəqiqə davam edərsə
+        labels: { severity: warning }
+        annotations:
+          summary: "{{ $labels.instance }}: diskin 10%-dən azı boşdur"</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:bell-off}}
+                <p class="text-neutral-800"><strong>Alert fatigue:</strong> gündə 200 alert gələndə heç birinə baxılmır. Hər alert <strong>hərəkət tələb etməlidir</strong> və runbook linki olmalıdır; simptoma (istifadəçi xəta görür) səbəbdən (CPU 80%) çox alert qurun.</p>
+            </div>
+        </section>
+
+        <section id="slo" class="section-card">
+            <h2 class="section-title">{{i:target}} 5. SLI, SLO və Error Budget</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Termin</th><th>Mənası</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>SLI</strong></td><td>Ölçülən göstərici</td><td>300 ms-dən tez cavablanan sorğuların faizi</td></tr>
+                        <tr><td><strong>SLO</strong></td><td>Daxili hədəf</td><td>30 gündə SLI ≥ 99.5%</td></tr>
+                        <tr><td><strong>SLA</strong></td><td>Müştəri ilə müqavilə, cəriməli</td><td>99.9%, pozulsa kompensasiya</td></tr>
+                        <tr><td><strong>Error budget</strong></td><td>100% − SLO</td><td>0.5% = ayda ~3.6 saat "pis" vaxt</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700">Error budget qalıbsa, komanda cəsarətlə yeni funksiyalar çıxarır. Budget bitibsə — yeni release-lər dayanır, diqqət sabitliyə yönəlir. Bu, developer və ops arasındakı "sürət yoxsa sabitlik" mübahisəsini rəqəmlə həll edir.</p>
+        </section>
+<!--END-->

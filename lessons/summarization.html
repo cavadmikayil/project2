@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#boxes"></use></svg> CIDR və Route Summarization</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#boxes"></use></svg> CIDR və Route Summarization</h1>
                 <span class="lesson-badge">CCNA · IP Connectivity</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -25,41 +25,41 @@
                 <a href="#method" class="nav-link">Summary tapmaq</a>
                 <a href="#pitfalls" class="nav-link">Diqqət</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
-                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#moon"></use></svg></button>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#boxes"></use></svg> Giriş: Daha Az Marşrut, Daha Sabit Şəbəkə</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#boxes"></use></svg> Giriş: Daha Az Marşrut, Daha Sabit Şəbəkə</h2>
             <p class="lead">
                 Böyük şəbəkədə yüzlərlə alt şəbəkə ola bilər. Hər birini ayrıca elan etmək marşrut cədvəllərini
                 böyüdür və bir linkin qalxıb-enməsi bütün şəbəkədə yenidən hesablamaya səbəb olur. <strong>Summarization</strong>
                 (aggregation) ardıcıl şəbəkələri tək, daha qısa prefiksli marşrutla təqdim edir.
             </p>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#list-filter"></use></svg> Kiçik cədvəl</h3><p class="text-neutral-700">Daha az yaddaş və CPU, daha sürətli axtarış.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#shield-check"></use></svg> Sabitlik</h3><p class="text-neutral-700">Summary daxilindəki bir alt şəbəkənin itməsi summary-ni dəyişmir — dəyişiklik lokal qalır.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#settings"></use></svg> Sadə idarəetmə</h3><p>ACL və filtrlərdə bir sətir çoxlu şəbəkəni əhatə edir.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#list-filter"></use></svg> Kiçik cədvəl</h3><p class="text-neutral-700">Daha az yaddaş və CPU, daha sürətli axtarış.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#shield-check"></use></svg> Sabitlik</h3><p class="text-neutral-700">Summary daxilindəki bir alt şəbəkənin itməsi summary-ni dəyişmir — dəyişiklik lokal qalır.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#settings"></use></svg> Sadə idarəetmə</h3><p>ACL və filtrlərdə bir sətir çoxlu şəbəkəni əhatə edir.</p></div>
             </div>
         </section>
 
         <section id="cidr" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#globe"></use></svg> 1. CIDR (Classless Inter-Domain Routing)</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#globe"></use></svg> 1. CIDR (Classless Inter-Domain Routing)</h2>
             <p class="lead">
                 1993-dən əvvəl ünvanlar sinifli (A/B/C) paylanırdı: 300 host lazım olan şirkət B sinfi (65 534 host)
                 alırdı. CIDR sinifləri ləğv etdi və istənilən uzunluqlu prefiksə (<code>/x</code> yazılışı) icazə verdi.
             </p>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#split"></use></svg><p class="text-neutral-700"><strong>Subnetting:</strong> prefiksi uzadıb şəbəkəni kiçik hissələrə bölmək (/24 → dörd /26).</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#git-merge"></use></svg><p class="text-neutral-700"><strong>Supernetting (summarization):</strong> prefiksi qısaldıb ardıcıl şəbəkələri birləşdirmək (dörd /24 → bir /22).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#split"></use></svg><p class="text-neutral-700"><strong>Subnetting:</strong> prefiksi uzadıb şəbəkəni kiçik hissələrə bölmək (/24 → dörd /26).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#git-merge"></use></svg><p class="text-neutral-700"><strong>Supernetting (summarization):</strong> prefiksi qısaldıb ardıcıl şəbəkələri birləşdirmək (dörd /24 → bir /22).</p></div>
             </div>
         </section>
 
         <section id="method" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#calculator"></use></svg> 2. Summary Marşrutu Tapmaq</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#calculator"></use></svg> 2. Summary Marşrutu Tapmaq</h2>
             <p class="lead"><strong>Tapşırıq:</strong> 172.16.8.0/24, 172.16.9.0/24, 172.16.10.0/24, 172.16.11.0/24 şəbəkələrini birləşdirin.</p>
             <ol class="steps max-w-3xl mx-auto mb-6">
                 <li><p class="text-neutral-700">Fərqlənən okteti (3-cü) binara çevirin.</p></li>
@@ -77,22 +77,22 @@ Summary:  172.16.8.0/22   (maska 255.255.252.0)
 Əhatə:    172.16.8.0 – 172.16.11.255</code></pre>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#lightbulb"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#lightbulb"></use></svg>
                 <p class="text-neutral-800"><strong>Sürətli yoxlama:</strong> şəbəkə sayı 2-nin qüvvəti olmalı (2, 4, 8…) və birinci şəbəkə blok ölçüsünə bölünməlidir. 8, 9, 10, 11 — 4 şəbəkə, 8 ədədi 4-ə bölünür — uyğundur. 9–12 birləşdirilə bilməz: 9 dördə bölünmür.</p>
             </div>
         </section>
 
         <section id="pitfalls" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#triangle-alert"></use></svg> 3. Diqqət Edilməli Məqamlar</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#triangle-alert"></use></svg> 3. Diqqət Edilməli Məqamlar</h2>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#circle-alert"></use></svg><p class="text-neutral-700"><strong>Həddən artıq geniş summary:</strong> 172.16.0.0/16 yazmaq başqa yerdə olan şəbəkələri də "udar" və trafik səhv istiqamətə gedə bilər.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#circle-alert"></use></svg><p class="text-neutral-700"><strong>Qara dəlik (black hole):</strong> summary daxilində mövcud olmayan şəbəkəyə gələn trafik summary-ni elan edən routerə çatır və orada atılır — bu, gözlənilən davranışdır, amma nəzərə alınmalıdır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#circle-alert"></use></svg><p class="text-neutral-700"><strong>Ardıcıl olmayan ünvanlama:</strong> summarization yalnız ünvanlar ardıcıl bloklarda planlaşdırıldıqda işləyir — IP planını əvvəlcədən düşünün.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#circle-alert"></use></svg><p class="text-neutral-700"><strong>Həddən artıq geniş summary:</strong> 172.16.0.0/16 yazmaq başqa yerdə olan şəbəkələri də "udar" və trafik səhv istiqamətə gedə bilər.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#circle-alert"></use></svg><p class="text-neutral-700"><strong>Qara dəlik (black hole):</strong> summary daxilində mövcud olmayan şəbəkəyə gələn trafik summary-ni elan edən routerə çatır və orada atılır — bu, gözlənilən davranışdır, amma nəzərə alınmalıdır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#circle-alert"></use></svg><p class="text-neutral-700"><strong>Ardıcıl olmayan ünvanlama:</strong> summarization yalnız ünvanlar ardıcıl bloklarda planlaşdırıldıqda işləyir — IP planını əvvəlcədən düşünün.</p></div>
             </div>
         </section>
 
         <section id="commands" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#terminal"></use></svg> 4. Praktiki Əmrlər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#terminal"></use></svg> 4. Praktiki Əmrlər</h2>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="sum-static">Statik summary</button>
                 <button class="tab-btn inactive-tab" data-pane="sum-ospf">OSPF (ABR-də)</button>
@@ -129,7 +129,7 @@ show ip ospf border-routers</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

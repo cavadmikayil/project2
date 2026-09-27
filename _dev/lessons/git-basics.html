@@ -1,0 +1,120 @@
+<!--PAGE title="Git Əsasları" icon="git-branch" badge="DevOps · Git" nav="intro:Giriş|areas:Üç zona|first:İlk repo|history:Tarixçə|branch:Branch-lar|undo:Geri qaytarmaq"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:git-branch}} Giriş: Faylların "Zaman Maşını"</h2>
+            <p class="lead">
+                <code>config_final.txt</code>, <code>config_final2.txt</code>, <code>config_son_versiya_DUZGUN.txt</code> — tanış gəlir?
+                <strong>Git</strong> faylların hər vəziyyətini (commit) yadda saxlayan paylanmış versiya nəzarəti sistemidir:
+                kim, nə vaxt, nəyi, niyə dəyişdi — hamısı tarixçədədir və istənilən ana qayıtmaq olar.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:git-commit-horizontal}} Commit</h3><p class="text-neutral-700">Layihənin müəyyən andakı "şəkli" + müəllif + mesaj. Unikal SHA hash ilə tanınır.</p></div>
+                <div class="info-card"><h3>{{i:folder-git-2}} Repository</h3><p class="text-neutral-700">Layihə + onun bütün tarixçəsi (<code>.git</code> qovluğu).</p></div>
+                <div class="info-card dark"><h3>{{i:cloud-upload}} Remote</h3><p>GitHub, GitLab, Azure Repos — repo-nun serverdəki nüsxəsi. Git özü isə internetsiz də işləyir.</p></div>
+            </div>
+        </section>
+
+        <section id="areas" class="section-card">
+            <h2 class="section-title">{{i:layers}} 1. Üç Zona</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Zona</th><th>Nədir</th><th>Keçid əmri</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Working directory</strong></td><td>Diskdəki fayllar — burada redaktə edirsiniz</td><td>—</td></tr>
+                        <tr><td><strong>Staging area (index)</strong></td><td>Növbəti commit-ə daxil olacaq dəyişikliklər</td><td><code>git add</code></td></tr>
+                        <tr><td><strong>Repository</strong></td><td>Yadda saxlanmış commit-lər</td><td><code>git commit</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Staging sayəsində 5 dəyişdirilmiş fayldan yalnız 2-sini bir commit-ə qoymaq olar: hər commit bir məntiqi dəyişiklik olsun — "VLAN 30 əlavə edildi", "NTP server dəyişdi".</p>
+            </div>
+        </section>
+
+        <section id="first" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 2. İlk Repository</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Bir dəfəlik ayar
+git config --global user.name "Cavad Mikayil"
+git config --global user.email "info@cavadmikayil.com"
+git config --global init.defaultBranch main
+
+mkdir network-configs && cd network-configs
+git init
+echo "hostname R1" &gt; R1.cfg
+git status                      # qırmızı: untracked
+git add R1.cfg                  # və ya: git add .
+git status                      # yaşıl: staged
+git commit -m "R1 ilkin konfiqurasiya"
+
+# GitHub-da boş repo yaradıb qoşmaq
+git remote add origin git@github.com:cavadmikayil/network-configs.git
+git push -u origin main
+
+# Mövcud repo-nu yükləmək
+git clone https://github.com/cavadmikayil/project2.git</code></pre>
+                <p class="code-note"><code>.gitignore</code> faylına git-ə düşməməli olanları yazın: <code>*.log</code>, <code>.env</code>, <code>__pycache__/</code>, parollu fayllar.</p>
+            </div>
+        </section>
+
+        <section id="history" class="section-card">
+            <h2 class="section-title">{{i:history}} 3. Tarixçəyə Baxmaq</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>git log --oneline --graph --all     # qısa, branch-larla qrafik
+git log -p R1.cfg                   # faylın hər dəyişikliyi ilə
+git log --author="Cavad" --since="2 weeks ago"
+
+git diff                            # staged olmayan dəyişikliklər
+git diff --staged                   # commit-ə gedəcək dəyişikliklər
+git diff main..feature/vlan30       # iki branch arasında
+
+git show a1b2c3d                    # bir commit-in tam məzmunu
+git blame R1.cfg                    # hər sətri kim və hansı commit-də yazıb</code></pre>
+            </div>
+            <div class="note-box mt-6">
+                {{i:pencil}}
+                <p class="text-neutral-800"><strong>Yaxşı commit mesajı</strong> əmr formasında və qısa olur: "Add VLAN 30 for guests", "Fix OSPF area on R2". "update", "fix", "asdf" kimi mesajlar 6 ay sonra heç nə demir.</p>
+            </div>
+        </section>
+
+        <section id="branch" class="section-card">
+            <h2 class="section-title">{{i:git-fork}} 4. Branch-lar</h2>
+            <p class="lead">Branch — commit-ə göstərici (pointer). Yeni ideya üzərində <code>main</code>-i pozmadan ayrıca xətdə işləmək imkanı verir.</p>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>git switch -c feature/vlan30        # yeni branch yarat və keç
+# ... dəyişikliklər, commit-lər ...
+git switch main
+git merge feature/vlan30            # dəyişiklikləri main-ə birləşdir
+git branch -d feature/vlan30        # birləşmiş branch-ı sil
+git branch -a                       # bütün branch-lar (remote da daxil)</code></pre>
+            </div>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:fast-forward}} Fast-forward</h3><p class="text-neutral-700">main-də yeni commit yoxdursa, göstərici sadəcə irəli sürüşür — əlavə commit yaranmır.</p></div>
+                <div class="info-card accent"><h3>{{i:git-merge}} Merge commit</h3><p class="text-neutral-700">Hər iki tərəfdə yeni commit varsa, iki valideynli birləşmə commit-i yaranır.</p></div>
+            </div>
+        </section>
+
+        <section id="undo" class="section-card">
+            <h2 class="section-title">{{i:undo-2}} 5. Səhvi Geri Qaytarmaq</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Vəziyyət</th><th>Əmr</th><th>Təhlükəsizmi?</th></tr></thead>
+                    <tbody>
+                        <tr><td>Faylda dəyişikliyi at (commit olunmayıb)</td><td><code>git restore R1.cfg</code></td><td>Dəyişiklik itir</td></tr>
+                        <tr><td>Faylı staging-dən çıxar</td><td><code>git restore --staged R1.cfg</code></td><td class="yes">Bəli</td></tr>
+                        <tr><td>Son commit mesajını düzəlt (push olunmayıb)</td><td><code>git commit --amend</code></td><td>Yalnız lokal</td></tr>
+                        <tr><td>Push olunmuş commit-i ləğv et</td><td><code>git revert a1b2c3d</code></td><td class="yes">Bəli — yeni "əks" commit yaradır</td></tr>
+                        <tr><td>Lokal commit-ləri tamamilə sil</td><td><code>git reset --hard HEAD~1</code></td><td class="no">Xeyr — ehtiyatla</td></tr>
+                        <tr><td>Yarımçıq işi müvəqqəti kənara qoy</td><td><code>git stash</code> / <code>git stash pop</code></td><td class="yes">Bəli</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:life-buoy}}
+                <p class="text-neutral-800"><code>git reflog</code> — "itmiş" commit-ləri tapmaq üçün son xilas yolu: HEAD-in son bütün hərəkətlərini göstərir.</p>
+            </div>
+        </section>
+<!--END-->

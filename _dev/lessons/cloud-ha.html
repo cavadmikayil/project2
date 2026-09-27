@@ -1,0 +1,103 @@
+<!--PAGE title="High Availability, Load Balancing və Auto Scaling" icon="scaling" badge="Cloud · Arxitektura" nav="intro:Giriş|sla:SLA|lb:Load balancing|scale:Auto scaling|dr:Disaster recovery|waf:Well-Architected"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:scaling}} Giriş: "Hər Şey Nə Vaxtsa Sıradan Çıxır"</h2>
+            <p class="lead">
+                Amazon-un CTO-su Werner Vogels-in məşhur sözü: <em>"Everything fails, all the time."</em>
+                Cloud-da tək bir VM-in etibarlılığı ofisdəki serverdən yüksək deyil. Fərq ondadır ki, cloud-da
+                nasazlığa hazır arxitektura qurmaq ucuz və asandır: bir neçə AZ, load balancer, avtomatik əvəzləmə.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:activity}} High Availability</h3><p class="text-neutral-700">Komponent sıradan çıxanda xidmət qısa fasilə ilə və ya fasiləsiz davam edir.</p></div>
+                <div class="info-card"><h3>{{i:shield-plus}} Fault tolerance</h3><p class="text-neutral-700">Heç bir fasilə olmadan — daha bahalı, tam ehtiyat (redundancy) tələb edir.</p></div>
+                <div class="info-card dark"><h3>{{i:life-buoy}} Disaster recovery</h3><p>Bütöv regionun itməsindən sonra bərpa planı.</p></div>
+            </div>
+        </section>
+
+        <section id="sla" class="section-card">
+            <h2 class="section-title">{{i:percent}} 1. SLA və "Doqquzlar"</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Availability</th><th>İldə icazəli fasilə</th><th>Ayda</th></tr></thead>
+                    <tbody>
+                        <tr><td>99%</td><td>3.65 gün</td><td>7.2 saat</td></tr>
+                        <tr><td>99.9%</td><td>8.76 saat</td><td>43.8 dəqiqə</td></tr>
+                        <tr><td>99.95%</td><td>4.38 saat</td><td>21.9 dəqiqə</td></tr>
+                        <tr><td>99.99%</td><td>52.6 dəqiqə</td><td>4.4 dəqiqə</td></tr>
+                        <tr><td>99.999%</td><td>5.26 dəqiqə</td><td>26 saniyə</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:calculator}}
+                <p class="text-neutral-800"><strong>Ardıcıl asılılıqlar SLA-nı vurur:</strong> 99.95% veb × 99.99% DB = ~99.94%. <strong>Paralel ehtiyat SLA-nı artırır:</strong> iki müstəqil 99% instance-dan ən azı birinin işləməsi = 1 − 0.01² = 99.99%.</p>
+            </div>
+        </section>
+
+        <section id="lb" class="section-card">
+            <h2 class="section-title">{{i:split}} 2. Load Balancing</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Səviyyə</th><th>AWS</th><th>Azure</th><th>Nə görür</th></tr></thead>
+                    <tbody>
+                        <tr><td>L7 (HTTP)</td><td>Application LB</td><td>Application Gateway</td><td>URL path, host header, cookie; TLS termination, WAF</td></tr>
+                        <tr><td>L4 (TCP/UDP)</td><td>Network LB</td><td>Azure Load Balancer</td><td>IP və port; çox yüksək sürət, statik IP</td></tr>
+                        <tr><td>Qlobal / DNS</td><td>Route 53, Global Accelerator</td><td>Traffic Manager, Front Door</td><td>İstifadəçini ən yaxın və ya sağlam regiona göndərir</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:heart-pulse}}<p class="text-neutral-700"><strong>Health check:</strong> <code>GET /health</code> 200 qaytarmayan instance trafik almır. Endpoint DB bağlantısını da yoxlamalıdır.</p></div>
+                <div class="feature-item">{{i:cookie}}<p class="text-neutral-700"><strong>Sticky session:</strong> istifadəçini eyni serverə bağlayır — amma session-u Redis kimi xarici yerdə saxlamaq daha yaxşıdır (stateless).</p></div>
+                <div class="feature-item">{{i:timer-reset}}<p class="text-neutral-700"><strong>Connection draining:</strong> çıxarılan instance-ın açıq sorğuları bitənə qədər gözləmək.</p></div>
+            </div>
+        </section>
+
+        <section id="scale" class="section-card">
+            <h2 class="section-title">{{i:move-vertical}} 3. Auto Scaling</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>{{i:arrow-up}} Vertical (scale up)</h3><p class="text-neutral-700">Daha güclü VM. Sadədir, amma limiti var və adətən restart tələb edir.</p></div>
+                <div class="info-card accent"><h3>{{i:arrow-right}} Horizontal (scale out)</h3><p class="text-neutral-700">Daha çox VM. Limitsiz, fasiləsiz — amma tətbiq stateless olmalıdır.</p></div>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Policy</th><th>Necə işləyir</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Target tracking</td><td>Metrikanı hədəfdə saxlayır</td><td>Orta CPU 50% olsun</td></tr>
+                        <tr><td>Step scaling</td><td>Həddə görə addım-addım</td><td>CPU &gt; 70% → +2, &gt; 90% → +4</td></tr>
+                        <tr><td>Scheduled</td><td>Təqvimə görə</td><td>İş günləri 08:30-da minimum 6</td></tr>
+                        <tr><td>Predictive</td><td>Keçmiş trafikdən proqnoz</td><td>Hər bazar ertəsi səhər artım</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4">Parametrlər: <strong>min</strong> (HA üçün ən azı 2, fərqli AZ-larda), <strong>desired</strong>, <strong>max</strong> (hesabı qorumaq üçün), <strong>cooldown</strong> (yeni instance-ın açılıb yükü götürməsi üçün vaxt).</p>
+        </section>
+
+        <section id="dr" class="section-card">
+            <h2 class="section-title">{{i:life-buoy}} 4. Disaster Recovery Strategiyaları</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Strategiya</th><th>İkinci regionda nə var</th><th>RTO</th><th>Xərc</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Backup &amp; Restore</strong></td><td>Yalnız backup-lar</td><td>Saatlar–günlər</td><td>Ən aşağı</td></tr>
+                        <tr><td><strong>Pilot Light</strong></td><td>DB replikası işləyir, serverlər söndürülüb</td><td>Onlarla dəqiqə</td><td>Aşağı</td></tr>
+                        <tr><td><strong>Warm Standby</strong></td><td>Kiçildilmiş tam mühit işləyir</td><td>Dəqiqələr</td><td>Orta</td></tr>
+                        <tr><td><strong>Multi-site active/active</strong></td><td>Tam güc, trafik iki regiona paylanır</td><td>Demək olar ki, sıfır</td><td>Ən yüksək</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700"><strong>RPO</strong> — nə qədər məlumat itkisi qəbul olunur (son backup-dan bəri), <strong>RTO</strong> — xidmət nə qədər müddətə bərpa olunmalıdır. Biznes bu rəqəmləri müəyyən edir, IT isə strategiyanı seçir. Plan ildə ən azı bir dəfə real test olunmalıdır.</p>
+        </section>
+
+        <section id="waf" class="section-card">
+            <h2 class="section-title">{{i:landmark}} 5. Well-Architected Framework</h2>
+            <p class="lead">AWS və Azure arxitekturanı eyni sütunlar üzrə qiymətləndirir:</p>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:settings}}<p class="text-neutral-700"><strong>Operational Excellence:</strong> IaC, avtomatlaşdırma, monitorinq, kiçik və geri qaytarıla bilən dəyişikliklər.</p></div>
+                <div class="feature-item">{{i:shield-check}}<p class="text-neutral-700"><strong>Security:</strong> identity, şifrələmə, hər qatda qoruma, izlənilə bilənlik.</p></div>
+                <div class="feature-item">{{i:activity}}<p class="text-neutral-700"><strong>Reliability:</strong> çoxlu AZ, avtomatik bərpa, test olunmuş DR.</p></div>
+                <div class="feature-item">{{i:gauge}}<p class="text-neutral-700"><strong>Performance Efficiency:</strong> düzgün resurs tipi, caching, CDN.</p></div>
+                <div class="feature-item">{{i:wallet}}<p class="text-neutral-700"><strong>Cost Optimization:</strong> right-sizing, reserved/spot, istifadə olunmayanı söndürmək.</p></div>
+                <div class="feature-item">{{i:leaf}}<p class="text-neutral-700"><strong>Sustainability</strong> (AWS): daha az resursla eyni nəticə.</p></div>
+            </div>
+        </section>
+<!--END-->

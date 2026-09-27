@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NETCONF, RESTCONF və YANG — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#file-cog"></use></svg> NETCONF, RESTCONF və YANG</h1>
+                <span class="lesson-badge">Automation · Model-driven</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#yang" class="nav-link">YANG</a>
+                <a href="#netconf" class="nav-link">NETCONF</a>
+                <a href="#restconf" class="nav-link">RESTCONF</a>
+                <a href="#python" class="nav-link">Python ilə</a>
+                <a href="#telemetry" class="nav-link">Telemetry</a>
+                <a href="../index.html#automation" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#file-cog"></use></svg> Giriş: Model-Driven Programmability</h2>
+            <p class="lead">
+                CLI insanlar üçündür: çıxış versiyadan versiyaya dəyişir, xəta mesajları mətn şəklindədir. <strong>Model-driven</strong> yanaşmada
+                cihazın konfiqurasiyası və vəziyyəti <strong>YANG</strong> modeli ilə dəqiq təsvir olunur, proqramlar isə cihazla
+                <strong>NETCONF</strong> (SSH, XML) və ya <strong>RESTCONF</strong> (HTTPS, JSON/XML) protokolları ilə strukturlaşdırılmış məlumat mübadiləsi edir.
+            </p>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>NETCONF</th><th>RESTCONF</th></tr></thead>
+                    <tbody>
+                        <tr><td>Standart</td><td>RFC 6241</td><td>RFC 8040</td></tr>
+                        <tr><td>Nəqliyyat</td><td>SSH, port <strong>830</strong></td><td>HTTPS, port <strong>443</strong></td></tr>
+                        <tr><td>Kodlaşdırma</td><td>XML</td><td>JSON və ya XML</td></tr>
+                        <tr><td>Əməliyyatlar</td><td><code>get</code>, <code>get-config</code>, <code>edit-config</code>, <code>lock</code>, <code>commit</code></td><td>GET, POST, PUT, PATCH, DELETE</td></tr>
+                        <tr><td>Transaction / candidate</td><td class="yes">Var</td><td class="no">Yoxdur</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="yang" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#list-tree"></use></svg> 1. YANG: Məlumat Modeli</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>module example-vlan {
+  namespace "urn:example:vlan";
+  prefix ev;
+
+  container vlans {
+    list vlan {
+      key "id";
+      leaf id   { type uint16 { range "1..4094"; } }
+      leaf name { type string { length "1..32"; } }
+      leaf enabled { type boolean; default true; }
+    }
+  }
+}</code></pre>
+                <p class="code-note">YANG məlumatın strukturunu və qaydalarını müəyyən edir: VLAN ID-si 1–4094 aralığında olmalıdır — 5000 göndərsəniz, cihaz konfiqurasiyanı tətbiq etmədən rədd edir.</p>
+            </div>
+            <div class="card-grid">
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#box"></use></svg> container</h3><p class="text-neutral-700">Qovluq kimi qruplaşdırma.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#list"></use></svg> list + key</h3><p class="text-neutral-700">Təkrarlanan elementlər (interfeyslər, VLAN-lar), açarla tanınır.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#leaf"></use></svg> leaf</h3><p class="text-neutral-700">Tək dəyər: ad, IP, MTU.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#library"></use></svg> Model mənbələri</h3><p><strong>IETF</strong> və <strong>OpenConfig</strong> (vendor-neytral), <strong>native</strong> (Cisco-IOS-XE-native — bütün CLI imkanları).</p></div>
+            </div>
+        </section>
+
+        <section id="netconf" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#terminal"></use></svg> 2. NETCONF</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>! IOS XE-də aktivləşdirmək
+netconf-yang
+restconf
+ip http secure-server
+username netadmin privilege 15 secret S3cret!</code></pre>
+            </div>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Klient SSH ilə 830 portuna qoşulur (<code>netconf</code> subsystem).</p></li>
+                <li><p class="text-neutral-700">Hər iki tərəf <code>&lt;hello&gt;</code> mesajı ilə <strong>capabilities</strong>-ləri (dəstəklənən modellər və imkanlar) mübadilə edir.</p></li>
+                <li><p class="text-neutral-700">Klient <code>&lt;rpc&gt;</code> göndərir, cihaz <code>&lt;rpc-reply&gt;</code> ilə cavab verir.</p></li>
+                <li><p class="text-neutral-700">Datastore-lar: <strong>running</strong>, <strong>startup</strong>, <strong>candidate</strong> (dəyişiklik əvvəlcə burada yığılır, sonra <code>commit</code>).</p></li>
+            </ol>
+        </section>
+
+        <section id="restconf" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#globe"></use></svg> 3. RESTCONF</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Interfeysləri oxumaq (IETF modeli)
+curl -sk -u netadmin:S3cret! \
+  -H "Accept: application/yang-data+json" \
+  https://10.10.0.254/restconf/data/ietf-interfaces:interfaces
+
+# Loopback yaratmaq (PUT idempotentdir)
+curl -sk -u netadmin:S3cret! -X PUT \
+  -H "Content-Type: application/yang-data+json" \
+  https://10.10.0.254/restconf/data/ietf-interfaces:interfaces/interface=Loopback100 \
+  -d '{"ietf-interfaces:interface": {
+        "name": "Loopback100",
+        "type": "iana-if-type:softwareLoopback",
+        "enabled": true,
+        "ietf-ip:ipv4": {"address": [{"ip": "100.100.100.1", "netmask": "255.255.255.255"}]}
+      }}'</code></pre>
+                <p class="code-note">URL strukturu: <code>/restconf/data/&lt;modul&gt;:&lt;container&gt;/&lt;list&gt;=&lt;açar&gt;</code>. Media tipi <code>application/yang-data+json</code>-dır, adi <code>application/json</code> yox.</p>
+            </div>
+        </section>
+
+        <section id="python" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#code"></use></svg> 4. Python: ncclient</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>from ncclient import manager      # pip install ncclient
+
+FILTER = """
+&lt;filter&gt;
+  &lt;interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces"&gt;
+    &lt;interface&gt;&lt;name/&gt;&lt;enabled/&gt;&lt;/interface&gt;
+  &lt;/interfaces&gt;
+&lt;/filter&gt;"""
+
+CONFIG = """
+&lt;config&gt;
+  &lt;native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native"&gt;
+    &lt;hostname&gt;EDGE-R1&lt;/hostname&gt;
+  &lt;/native&gt;
+&lt;/config&gt;"""
+
+with manager.connect(host="10.10.0.254", port=830, username="netadmin",
+                     password="S3cret!", hostkey_verify=False) as m:
+    print([c for c in m.server_capabilities if "ietf-interfaces" in c][:1])
+    reply = m.get_config(source="running", filter=FILTER)
+    print(reply.xml[:500])
+    m.edit_config(target="running", config=CONFIG)    # candidate varsa: target="candidate" + m.commit()</code></pre>
+                <p class="code-note">Lab üçün <code>hostkey_verify=False</code> rahatdır; production-da cihazın SSH açarını <code>known_hosts</code>-a əlavə edin.</p>
+            </div>
+        </section>
+
+        <section id="telemetry" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#activity"></use></svg> 5. Model-Driven Telemetry</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#repeat"></use></svg> SNMP polling</h3><p class="text-neutral-700">Monitorinq serveri hər 5 dəqiqədən bir soruşur — qısa pikləri görmür, cihazı yükləyir.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#radio"></use></svg> Streaming telemetry</h3><p class="text-neutral-700">Cihaz özü YANG məlumatını hər 10 saniyədən bir və ya dəyişiklik anında göndərir (gNMI, gRPC dial-out).</p></div>
+            </div>
+            <div class="code-block mt-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>telemetry ietf subscription 101
+ encoding encode-kvgpb
+ filter xpath /process-cpu-ios-xe-oper:cpu-usage/cpu-utilization/five-seconds
+ stream yang-push
+ update-policy periodic 1000          ! santisaniyə = 10 saniyə
+ receiver ip address 10.0.0.60 57500 protocol grpc-tcp</code></pre>
+                <p class="code-note">Qəbul tərəfində adətən <strong>Telegraf</strong> → <strong>InfluxDB/Prometheus</strong> → <strong>Grafana</strong> (TIG stack) istifadə olunur.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="brand-footer">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+                    <a href="../index.html">Ana Səhifə</a>
+                    <a href="../index.html#ccna">CCNA</a>
+                    <a href="../tools.html">Tools</a>
+                    <a href="../links.html">Faydalı Linklər</a>
+                    <a href="../about.html">Haqqında</a>
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
+            </div>
+            <div class="brand-footer-social-wrap">
+                <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+                    <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" data-social="instagram"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                    <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı" data-social="youtube"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></a>
+                    <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn" data-social="linkedin"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg></a>
+                    <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt" data-social="blog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></a>
+                    <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram" data-social="telegram"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg></a>
+                    <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" data-social="tiktok"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M448.5 209.9c-44 .1-87-13.6-122.8-39.2l0 178.7c0 33.1-10.1 65.4-29 92.6s-45.6 48-76.6 59.6-64.8 13.5-96.9 5.3-60.9-25.9-82.7-50.8-35.3-56-39-88.9 2.9-66.1 18.6-95.2 40-52.7 69.6-67.7 62.9-20.5 95.7-16l0 89.9c-15-4.7-31.1-4.6-46 .4s-27.9 14.6-37 27.3-14 28.1-13.9 43.9 5.2 31 14.5 43.7 22.4 22.1 37.4 26.9 31.1 4.8 46-.1 28-14.4 37.2-27.1 14.2-28.1 14.2-43.8l0-349.4 88 0c-.1 7.4 .6 14.9 1.9 22.2 3.1 16.3 9.4 31.9 18.7 45.7s21.3 25.6 35.2 34.6c19.9 13.1 43.2 20.1 67 20.1l0 87.4z"/></svg></a>
+                    <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email" data-social="email"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></a>
+                </div>
+            </div>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

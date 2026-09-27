@@ -1,0 +1,154 @@
+<!--PAGE title="Jinja2 ilə Konfiqurasiya Şablonları" icon="file-code" badge="Automation · Jinja2" nav="intro:Giriş|syntax:Sintaksis|switch:Switch şablonu|render:Python ilə render|filters:Filtr və makrolar|sot:Source of truth"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:file-code}} Giriş: Məlumat + Şablon = Konfiqurasiya</h2>
+            <p class="lead">
+                100 access switch-in konfiqurasiyası 95% eynidir; fərq hostname, IP, VLAN-lar və port təsvirlərindədir.
+                <strong>Jinja2</strong> şablon mühərriki bu 95%-i bir dəfə yazmağa, fərqləri isə YAML/CSV məlumatından doldurmağa imkan verir.
+                Ansible, Nornir, NetBox və Salt da məhz Jinja2 istifadə edir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:database}} Məlumat</h3><p class="text-neutral-700">Nə fərqlidir: <code>hostname: ACC-SW1</code>, <code>mgmt_ip: 10.10.0.11</code>.</p></div>
+                <div class="info-card"><h3>{{i:file-code}} Şablon</h3><p class="text-neutral-700">Necə görünməlidir: <code>hostname {{ hostname }}</code>.</p></div>
+                <div class="info-card dark"><h3>{{i:file-check}} Nəticə</h3><p>Hər cihaz üçün hazır, standart konfiqurasiya faylı.</p></div>
+            </div>
+        </section>
+
+        <section id="syntax" class="section-card">
+            <h2 class="section-title">{{i:braces}} 1. Sintaksis</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Yazılış</th><th>Mənası</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>{{ ... }}</code></td><td>Dəyəri çap et</td><td><code>hostname {{ hostname }}</code></td></tr>
+                        <tr><td><code>{% ... %}</code></td><td>Məntiq: for, if, set, macro</td><td><code>{% for v in vlans %}</code></td></tr>
+                        <tr><td><code>{# ... #}</code></td><td>Şərh — nəticəyə düşmür</td><td><code>{# TODO: QoS #}</code></td></tr>
+                        <tr><td><code>{%- ... -%}</code></td><td>Ətrafdakı boş sətirləri sil</td><td>Təmiz nəticə üçün</td></tr>
+                        <tr><td><code>| filtr</code></td><td>Dəyəri çevir</td><td><code>{{ name | upper }}</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="switch" class="section-card">
+            <h2 class="section-title">{{i:network}} 2. Access Switch Şablonu</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="j2-data">acc-sw1.yaml</button>
+                <button class="tab-btn inactive-tab" data-pane="j2-tpl">access.j2</button>
+            </div>
+            <div id="j2-data">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>hostname: ACC-SW1
+mgmt_ip: 10.10.0.11
+mgmt_mask: 255.255.255.0
+gateway: 10.10.0.1
+vlans:
+  - { id: 10, name: MUHASIBAT }
+  - { id: 20, name: IT }
+  - { id: 99, name: MGMT }
+access_ports:
+  - { port: Gi1/0/1, vlan: 10, desc: "Muhasib-1" }
+  - { port: Gi1/0/2, vlan: 20, desc: "IT-Admin", voice: 150 }
+uplink: Gi1/0/48</code></pre>
+                </div>
+            </div>
+            <div id="j2-tpl" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>hostname {{ hostname }}
+!
+{% for v in vlans %}
+vlan {{ v.id }}
+ name {{ v.name }}
+{% endfor %}
+!
+{% for p in access_ports %}
+interface {{ p.port }}
+ description {{ p.desc }}
+ switchport mode access
+ switchport access vlan {{ p.vlan }}
+{% if p.voice is defined %}
+ switchport voice vlan {{ p.voice }}
+{% endif %}
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+{% endfor %}
+interface {{ uplink }}
+ switchport mode trunk
+ switchport trunk allowed vlan {{ vlans | map(attribute='id') | join(',') }}
+!
+interface Vlan99
+ ip address {{ mgmt_ip }} {{ mgmt_mask }}
+!
+ip default-gateway {{ gateway }}</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="render" class="section-card">
+            <h2 class="section-title">{{i:play}} 3. Python ilə Render</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>import yaml
+from pathlib import Path
+from jinja2 import Environment, FileSystemLoader, StrictUndefined
+
+env = Environment(
+    loader=FileSystemLoader("templates"),
+    trim_blocks=True,          # {% %} teqindən sonrakı yeni sətri sil
+    lstrip_blocks=True,        # teqdən əvvəlki boşluqları sil
+    undefined=StrictUndefined, # məlumatda olmayan dəyişən → xəta (boş sətir yox!)
+)
+tpl = env.get_template("access.j2")
+
+Path("configs").mkdir(exist_ok=True)
+for f in Path("data").glob("*.yaml"):
+    data = yaml.safe_load(f.read_text())
+    Path(f"configs/{data['hostname']}.cfg").write_text(tpl.render(**data))
+    print("yaradıldı:", data["hostname"])</code></pre>
+                <p class="code-note"><code>StrictUndefined</code> vacibdir: onsuz <code>{{ gatway }}</code> kimi yazı səhvi səssizcə boş sətir yaradır və cihaz idarəetməni itirə bilər.</p>
+            </div>
+        </section>
+
+        <section id="filters" class="section-card">
+            <h2 class="section-title">{{i:filter}} 4. Filtrlər, Makrolar, Miras</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>{{ hostname | upper }}                     {# ACC-SW1 #}
+{{ desc | default("BOŞ") }}                {# dəyər yoxdursa #}
+{{ ports | length }}                       {# say #}
+{{ vlans | selectattr('id', 'lt', 100) | list }}
+{{ "%-20s" | format(p.port) }}             {# sütun hizası #}
+
+{# Makro — təkrarlanan blok üçün funksiya #}
+{% macro access_port(port, vlan, desc) -%}
+interface {{ port }}
+ description {{ desc }}
+ switchport mode access
+ switchport access vlan {{ vlan }}
+{%- endmacro %}
+
+{{ access_port("Gi1/0/5", 10, "Printer") }}
+
+{# Miras: base.j2-də ümumi hissələr, access.j2 yalnız fərqləri əlavə edir #}
+{% extends "base.j2" %}
+{% block interfaces %} ... {% endblock %}</code></pre>
+            </div>
+        </section>
+
+        <section id="sot" class="section-card">
+            <h2 class="section-title">{{i:database}} 5. Source of Truth Yanaşması</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Məlumat mərkəzdə:</strong> NetBox və ya git-dəki YAML — cihazlar, IP-lər, VLAN-lar, portlar.</p></li>
+                <li><p class="text-neutral-700"><strong>Şablonlar git-də</strong> review olunur.</p></li>
+                <li><p class="text-neutral-700"><strong>CI render edir</strong> və nəticəni lint/test edir (batfish, yamllint).</p></li>
+                <li><p class="text-neutral-700"><strong>Diff:</strong> yaradılan konfiqurasiya cihazdakı ilə müqayisə olunur (NAPALM <code>compare_config</code>).</p></li>
+                <li><p class="text-neutral-700"><strong>Təsdiqdən sonra push</strong> — Netmiko, NAPALM və ya Ansible.</p></li>
+            </ol>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Hədəf: heç kim cihaza birbaşa konfiqurasiya yazmır. Dəyişiklik = məlumatda dəyişiklik + PR. Cihaz konfiqurasiyası həmişə source of truth-un nəticəsidir.</p>
+            </div>
+        </section>
+<!--END-->

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud IAM: Giriş İdarəetməsi — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#key-round"></use></svg> Cloud IAM: Giriş İdarəetməsi</h1>
+                <span class="lesson-badge">Cloud · IAM</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#parts" class="nav-link">Komponentlər</a>
+                <a href="#policy" class="nav-link">Policy</a>
+                <a href="#roles" class="nav-link">Role-lar</a>
+                <a href="#azure" class="nav-link">Azure RBAC</a>
+                <a href="#best" class="nav-link">Qaydalar</a>
+                <a href="../index.html#cloud" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#key-round"></use></svg> Giriş: Cloud-da Yeni Perimetr — Identity</h2>
+            <p class="lead">
+                Ofisdə firewall hər şeyi qoruyurdu. Cloud-da isə hər resurs internetdən əlçatan API ilə idarə olunur, və
+                sızmış bir access key bütün infrastrukturu silməyə kifayət edir. Buna görə cloud-da əsas təhlükəsizlik sərhədi
+                <strong>identity</strong>-dir: kim, nəyə, hansı şərtlə çata bilər.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#user-check"></use></svg> Authentication</h3><p class="text-neutral-700">Sən kimsən? Parol + MFA, SSO, qısamüddətli token.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#shield-check"></use></svg> Authorization</h3><p class="text-neutral-700">Nə edə bilərsən? Policy-lər və rollar.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#scroll-text"></use></svg> Audit</h3><p>Nə etdin? AWS CloudTrail, Azure Activity Log — hər API çağırışı qeydə alınır.</p></div>
+            </div>
+        </section>
+
+        <section id="parts" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#blocks"></use></svg> 1. AWS IAM Komponentləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Komponent</th><th>Nədir</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>User</strong></td><td>Uzunmüddətli credential-ı olan şəxs və ya tətbiq</td><td>Köhnə üsul; insanlar üçün Identity Center tövsiyə olunur</td></tr>
+                        <tr><td><strong>Group</strong></td><td>User-lərin toplusu; policy qrupa bağlanır</td><td><code>NetworkAdmins</code>, <code>Developers</code></td></tr>
+                        <tr><td><strong>Role</strong></td><td>Müvəqqəti götürülən (assume) icazə dəsti, parolu yoxdur</td><td>EC2-nin S3-dən oxuması, başqa hesaba giriş</td></tr>
+                        <tr><td><strong>Policy</strong></td><td>JSON sənəd: hansı Action, hansı Resource, Allow/Deny</td><td><code>AmazonS3ReadOnlyAccess</code></td></tr>
+                        <tr><td><strong>Identity Center</strong></td><td>SSO: şirkət hesabı ilə bütün AWS hesablarına giriş</td><td>Entra ID və ya Okta ilə inteqrasiya</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="policy" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#file-json"></use></svg> 2. Policy-ni Oxumaq</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadReportsBucket",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:ListBucket"],
+      "Resource": [
+        "arn:aws:s3:::cavad-reports",
+        "arn:aws:s3:::cavad-reports/*"
+      ]
+    },
+    {
+      "Sid": "DenyOutsideEU",
+      "Effect": "Deny",
+      "Action": "*",
+      "Resource": "*",
+      "Condition": { "StringNotEquals": { "aws:RequestedRegion": ["eu-central-1", "eu-west-1"] } }
+    }
+  ]
+}</code></pre>
+                <p class="code-note"><code>ListBucket</code> bucket-ın özünə (<code>cavad-reports</code>), <code>GetObject</code> isə obyektlərə (<code>cavad-reports/*</code>) aiddir — ona görə iki ARN yazılıb.</p>
+            </div>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">Defolt olaraq hər şey <strong>qadağandır</strong> (implicit deny).</p></li>
+                <li><p class="text-neutral-700">Hər hansı policy-də <strong>explicit Deny</strong> varsa — nəticə Deny, Allow-lardan asılı olmayaraq.</p></li>
+                <li><p class="text-neutral-700">Əks halda explicit <strong>Allow</strong> varsa — icazə verilir.</p></li>
+            </ol>
+        </section>
+
+        <section id="roles" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#repeat"></use></svg> 3. Role-lar: Açarsız İcazə</h2>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#server"></use></svg><p class="text-neutral-700"><strong>Instance profile:</strong> EC2-yə role verilir, tətbiq SDK avtomatik müvəqqəti açar alır. Kodda və ya serverdə access key saxlanmır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#building-2"></use></svg><p class="text-neutral-700"><strong>Cross-account:</strong> Security hesabındakı auditor Production hesabında <code>ReadOnly</code> role-u götürür.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#brand-github"></use></svg><p class="text-neutral-700"><strong>OIDC federation:</strong> GitHub Actions secret-siz, qısamüddətli token ilə AWS/Azure-a deploy edir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#timer"></use></svg><p class="text-neutral-700"><strong>STS:</strong> müvəqqəti credential-lar 15 dəqiqə – 12 saat etibarlıdır, oğurlansa belə tez köhnəlir.</p></div>
+            </div>
+            <div class="code-block mt-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>aws sts assume-role \
+  --role-arn arn:aws:iam::222233334444:role/ReadOnlyAudit \
+  --role-session-name cavad-audit</code></pre>
+            </div>
+        </section>
+
+        <section id="azure" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#id-card"></use></svg> 4. Azure RBAC</h2>
+            <p class="lead">Azure-da icazə = <strong>security principal</strong> (kim) + <strong>role definition</strong> (nə) + <strong>scope</strong> (harada: management group, subscription, resource group, resurs).</p>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Developer qrupuna yalnız dev resource group-da Contributor
+az role assignment create \
+  --assignee-object-id &lt;group-object-id&gt; --assignee-principal-type Group \
+  --role "Contributor" \
+  --scope /subscriptions/&lt;sub-id&gt;/resourceGroups/rg-portal-dev
+
+az role assignment list --scope /subscriptions/&lt;sub-id&gt;/resourceGroups/rg-portal-dev -o table</code></pre>
+            </div>
+            <div class="card-grid">
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#user-cog"></use></svg> Entra rolları</h3><p class="text-neutral-700">Identity-ni idarə edir: Global Administrator, User Administrator, Helpdesk Administrator.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#cloud"></use></svg> Azure RBAC rolları</h3><p class="text-neutral-700">Resursları idarə edir: Owner, Contributor, Reader, Virtual Machine Contributor.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#clock"></use></svg> PIM</h3><p class="text-neutral-700">Privileged Identity Management: admin rolu daimi yox, lazım olanda təsdiqlə və vaxt limiti ilə aktivləşir (just-in-time).</p></div>
+            </div>
+        </section>
+
+        <section id="best" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#shield-check"></use></svg> 5. Qızıl Qaydalar</h2>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#minimize-2"></use></svg><p class="text-neutral-700"><strong>Least privilege:</strong> <code>AdministratorAccess</code> yox — işə lazım olan minimum. AWS IAM Access Analyzer istifadə olunmayan icazələri göstərir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#smartphone"></use></svg><p class="text-neutral-700"><strong>MFA hamı üçün</strong>, xüsusən root/Global Admin. Phishing-ə davamlı FIDO2 açarları ən yaxşısıdır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#key-round"></use></svg><p class="text-neutral-700"><strong>Uzunmüddətli açar yoxdur:</strong> role, managed identity, OIDC. Açar lazımdırsa — rotasiya və Secrets Manager/Key Vault.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#siren"></use></svg><p class="text-neutral-700"><strong>Break-glass hesabı:</strong> SSO işləməyəndə istifadə olunan, seyfdə saxlanan və girişi alert yaradan təcili hesab.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#scan-eye"></use></svg><p class="text-neutral-700"><strong>Access review:</strong> rüblük — işdən çıxanların və rol dəyişənlərin icazələrini təmizləyin.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#git-branch"></use></svg><p class="text-neutral-700"><strong>Açarları git-ə yazmayın:</strong> GitHub secret scanning və <code>gitleaks</code> commit-dən əvvəl yoxlayır.</p></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="brand-footer">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+                    <a href="../index.html">Ana Səhifə</a>
+                    <a href="../index.html#ccna">CCNA</a>
+                    <a href="../tools.html">Tools</a>
+                    <a href="../links.html">Faydalı Linklər</a>
+                    <a href="../about.html">Haqqında</a>
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
+            </div>
+            <div class="brand-footer-social-wrap">
+                <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+                    <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" data-social="instagram"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                    <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı" data-social="youtube"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></a>
+                    <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn" data-social="linkedin"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg></a>
+                    <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt" data-social="blog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></a>
+                    <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram" data-social="telegram"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg></a>
+                    <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" data-social="tiktok"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M448.5 209.9c-44 .1-87-13.6-122.8-39.2l0 178.7c0 33.1-10.1 65.4-29 92.6s-45.6 48-76.6 59.6-64.8 13.5-96.9 5.3-60.9-25.9-82.7-50.8-35.3-56-39-88.9 2.9-66.1 18.6-95.2 40-52.7 69.6-67.7 62.9-20.5 95.7-16l0 89.9c-15-4.7-31.1-4.6-46 .4s-27.9 14.6-37 27.3-14 28.1-13.9 43.9 5.2 31 14.5 43.7 22.4 22.1 37.4 26.9 31.1 4.8 46-.1 28-14.4 37.2-27.1 14.2-28.1 14.2-43.8l0-349.4 88 0c-.1 7.4 .6 14.9 1.9 22.2 3.1 16.3 9.4 31.9 18.7 45.7s21.3 25.6 35.2 34.6c19.9 13.1 43.2 20.1 67 20.1l0 87.4z"/></svg></a>
+                    <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email" data-social="email"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></a>
+                </div>
+            </div>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

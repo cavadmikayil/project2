@@ -1,0 +1,103 @@
+<!--PAGE title="Linux Performans Troubleshooting" icon="gauge" badge="Linux · Performans" nav="intro:Giriş|first60:İlk 60 saniyə|cpu:CPU və load|memory:Yaddaş|io:Disk I/O|deep:Dərin analiz"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:gauge}} Giriş: "Server Yavaşdır"</h2>
+            <p class="lead">
+                Bu şikayətin arxasında dörd resursdan biri dayanır: <strong>CPU</strong>, <strong>yaddaş</strong>, <strong>disk I/O</strong> və ya <strong>şəbəkə</strong>.
+                Təcrübəli administrator təxmin etmir — Brendan Gregg-in <strong>USE metodunu</strong> tətbiq edir: hər resurs üçün
+                <strong>U</strong>tilization (nə qədər məşğuldur), <strong>S</strong>aturation (növbə varmı), <strong>E</strong>rrors (xəta varmı).
+            </p>
+        </section>
+
+        <section id="first60" class="section-card">
+            <h2 class="section-title">{{i:timer}} 1. İlk 60 Saniyə</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>uptime                     # load average: 1, 5, 15 dəqiqə — artır, yoxsa azalır?
+dmesg -T | tail            # OOM killer, disk xətaları, NIC problemləri
+vmstat 1 5                 # r (CPU növbəsi), si/so (swap), wa (I/O gözləmə)
+mpstat -P ALL 1 3          # CPU-lar arasında paylanma — bir nüvə 100%-dirmi?
+pidstat 1 3                # hansı proses CPU yeyir
+iostat -xz 1 3             # disk: %util, await, aqu-sz
+free -h                    # RAM və swap
+sar -n DEV 1 3             # şəbəkə trafiki
+sar -n TCP,ETCP 1 3        # TCP bağlantıları və retransmit-lər
+top                        # ümumi mənzərə</code></pre>
+                <p class="code-note"><code>vmstat</code>, <code>mpstat</code>, <code>iostat</code>, <code>pidstat</code>, <code>sar</code> — <strong>sysstat</strong> paketindədir. Serverlərə əvvəlcədən quraşdırın; <code>sar</code> keçmiş günlərin məlumatını da saxlayır.</p>
+            </div>
+        </section>
+
+        <section id="cpu" class="section-card">
+            <h2 class="section-title">{{i:cpu}} 2. CPU və Load Average</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:calculator}}<p class="text-neutral-700"><strong>Load average</strong> — işləyən + növbədə gözləyən (+ D vəziyyətində olan) proseslərin orta sayı. 8 nüvəli serverdə 8 — tam yük, 16 — ciddi növbə.</p></div>
+                <div class="feature-item">{{i:hard-drive}}<p class="text-neutral-700"><strong>Load yüksək, CPU boşdur?</strong> — proseslər D vəziyyətində disk/NFS gözləyir. <code>top</code>-da yüksək <code>wa</code>.</p></div>
+                <div class="feature-item">{{i:user}}<p class="text-neutral-700"><strong>us</strong> — tətbiq kodu, <strong>sy</strong> — kernel (çoxlu syscall, şəbəkə), <strong>st</strong> — steal: VM-də hypervisor CPU verməyib (qonşu VM-lər).</p></div>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Görüntü</th><th>Ehtimal</th></tr></thead>
+                    <tbody>
+                        <tr><td>Bir proses 100% (bir nüvə)</td><td>Tək axınlı tətbiq, sonsuz dövr</td></tr>
+                        <tr><td>Yüksək <code>sy</code></td><td>Həddən çox kiçik I/O, context switch, şəbəkə yükü</td></tr>
+                        <tr><td>Yüksək <code>st</code> (&gt;10%)</td><td>Host həddən çox yüklənib — VM-i başqa hosta köçürün</td></tr>
+                        <tr><td>Çoxlu qısa ömürlü proseslər</td><td>Cron/skriptlər hər saniyə fork edir — <code>execsnoop</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="memory" class="section-card">
+            <h2 class="section-title">{{i:memory-stick}} 3. Yaddaş</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>$ free -h
+               total   used   free   shared  buff/cache   available
+Mem:            15Gi   5.1Gi  412Mi   210Mi      10Gi        9.8Gi
+Swap:          4.0Gi     0B   4.0Gi</code></pre>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:info}}<p class="text-neutral-700"><strong>"free" azdır — narahat olmayın:</strong> Linux boş RAM-ı disk cache üçün istifadə edir. Baxılacaq sütun — <strong>available</strong>.</p></div>
+                <div class="feature-item">{{i:arrow-down-up}}<p class="text-neutral-700"><strong>Swap-a aktiv yazma</strong> (<code>vmstat</code>-da <code>si</code>/<code>so</code> daim &gt; 0) — real yaddaş çatışmazlığı.</p></div>
+                <div class="feature-item">{{i:trending-up}}<p class="text-neutral-700"><strong>Memory leak:</strong> prosesin RSS-i günlərlə durmadan artır — <code>ps -o pid,rss,etime,cmd --sort=-rss | head</code>.</p></div>
+                <div class="feature-item">{{i:skull}}<p class="text-neutral-700"><strong>OOM:</strong> <code>journalctl -k | grep -i "out of memory"</code>. Kritik servisləri qorumaq: <code>OOMScoreAdjust=-500</code> (systemd).</p></div>
+            </div>
+        </section>
+
+        <section id="io" class="section-card">
+            <h2 class="section-title">{{i:hard-drive}} 4. Disk I/O</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>$ iostat -xz 1
+Device   r/s    w/s   rkB/s   wkB/s  r_await w_await aqu-sz  %util
+nvme0n1  12.0  850.0  96.0   54200.0   0.4    18.6    15.9   98.7
+
+iotop -oPa                 # hansı proses diskə yazır
+pidstat -d 1               # proses üzrə I/O
+df -h; df -i               # yer və inode</code></pre>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Sütun</th><th>Mənası</th><th>Narahatlıq həddi (təxmini)</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>%util</code></td><td>Diskin məşğul olduğu vaxt</td><td>HDD-də &gt;80% davamlı; SSD/NVMe-də paralellik səbəbindən yanıldıcı ola bilər</td></tr>
+                        <tr><td><code>r_await</code> / <code>w_await</code></td><td>Sorğunun orta gözləmə müddəti (ms)</td><td>SSD &gt;10 ms, HDD &gt;30–50 ms</td></tr>
+                        <tr><td><code>aqu-sz</code></td><td>Orta növbə uzunluğu</td><td>Davamlı &gt;1 — saturation</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="deep" class="section-card">
+            <h2 class="section-title">{{i:microscope}} 5. Dərin Analiz Alətləri</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:bug}}<p class="text-neutral-700"><strong>strace -p PID -f -tt:</strong> proses hansı syscall-larda ilişib — məsələn, cavab verməyən DNS və ya kilidlənmiş faylda.</p></div>
+                <div class="feature-item">{{i:file-search}}<p class="text-neutral-700"><strong>lsof -p PID:</strong> açıq fayllar, socket-lər; "too many open files" üçün <code>ulimit -n</code> və <code>LimitNOFILE</code>.</p></div>
+                <div class="feature-item">{{i:flame}}<p class="text-neutral-700"><strong>perf top / perf record:</strong> CPU vaxtının hansı funksiyalara getdiyi; flame graph.</p></div>
+                <div class="feature-item">{{i:radar}}<p class="text-neutral-700"><strong>eBPF (bcc, bpftrace):</strong> <code>execsnoop</code>, <code>opensnoop</code>, <code>biolatency</code>, <code>tcpretrans</code> — production-da təhlükəsiz müşahidə.</p></div>
+            </div>
+            <div class="note-box">
+                {{i:chart-line}}
+                <p class="text-neutral-800">Ən yaxşı troubleshooting problem baş verməmişdən əvvəl başlayır: node_exporter + Prometheus + Grafana ilə <strong>baseline</strong> toplayın. "Normal"ı bilmədən "anormal"ı tanımaq çətindir (DevOps kateqoriyasındakı Observability dərsi).</p>
+            </div>
+        </section>
+<!--END-->

@@ -1,0 +1,128 @@
+<!--PAGE title="Mətn Emalı: grep, sed, awk və Pipe-lar" icon="text-search" badge="Linux · Mətn emalı" nav="intro:Giriş|pipes:Pipe və yönləndirmə|grep:grep|sed:sed|awk:awk|recipes:Reseptlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:text-search}} Giriş: Unix Fəlsəfəsi</h2>
+            <p class="lead">
+                "Bir işi yaxşı görən kiçik proqramlar yazın və onları birləşdirin." Linux-da log analizi, hesabat və konfiqurasiya dəyişiklikləri üçün
+                ayrıca proqram yazmaq çox vaxt lazım deyil: <code>grep</code>, <code>sed</code>, <code>awk</code>, <code>sort</code>, <code>uniq</code> pipe (<code>|</code>)
+                ilə birləşəndə 1 GB-lıq log-dan saniyələr içində cavab çıxarır.
+            </p>
+        </section>
+
+        <section id="pipes" class="section-card">
+            <h2 class="section-title">{{i:arrow-right-left}} 1. Pipe və Yönləndirmə</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Yazılış</th><th>Mənası</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>cmd1 | cmd2</code></td><td>cmd1-in stdout-u cmd2-nin stdin-inə</td></tr>
+                        <tr><td><code>&gt; file</code> / <code>&gt;&gt; file</code></td><td>stdout-u fayla yaz / əlavə et</td></tr>
+                        <tr><td><code>2&gt; err.log</code></td><td>stderr-i fayla</td></tr>
+                        <tr><td><code>&amp;&gt; all.log</code> və ya <code>&gt; all.log 2&gt;&amp;1</code></td><td>Hər ikisini</td></tr>
+                        <tr><td><code>&lt; file</code></td><td>Faylı stdin kimi ver</td></tr>
+                        <tr><td><code>| tee out.txt</code></td><td>Həm ekrana, həm fayla</td></tr>
+                        <tr><td><code>&gt;/dev/null</code></td><td>Çıxışı at</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>sort file | uniq -c | sort -rn | head      # ən çox təkrarlanan sətirlər
+cut -d: -f1,7 /etc/passwd                  # 1-ci və 7-ci sahə
+wc -l access.log                           # sətir sayı
+tail -f /var/log/syslog | grep --line-buffered -i error
+column -t -s, data.csv                     # CSV-ni cədvəl kimi göstər
+tr 'a-z' 'A-Z' &lt; names.txt
+diff -u old.conf new.conf                  # fərqlər</code></pre>
+            </div>
+        </section>
+
+        <section id="grep" class="section-card">
+            <h2 class="section-title">{{i:search}} 2. grep</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>grep -i "failed password" /var/log/auth.log          # böyük-kiçik hərfə fərq qoymadan
+grep -c "404" access.log                              # sayı
+grep -v "^#" /etc/ssh/sshd_config | grep -v "^$"      # şərh və boş sətirləri çıxar
+grep -rn "Listen" /etc/apache2/                        # rekursiv, sətir nömrəsi ilə
+grep -E "error|warn|crit" app.log                      # extended regex, "və ya"
+grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b" auth.log    # yalnız IP-ləri çıxar
+grep -A3 -B1 "Out of memory" /var/log/kern.log         # kontekst: 1 sətir əvvəl, 3 sonra
+grep -l "password" *.conf                              # yalnız fayl adları
+zgrep "Failed" /var/log/auth.log.*.gz                  # sıxılmış log-larda</code></pre>
+            </div>
+        </section>
+
+        <section id="sed" class="section-card">
+            <h2 class="section-title">{{i:replace}} 3. sed: Axın Redaktoru</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>sed 's/http:/https:/g' links.txt                       # əvəzlə (ekrana)
+sed -i.bak 's/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
+                                                       # faylda dəyiş, .bak nüsxəsi saxla
+sed -n '100,120p' big.log                              # yalnız 100–120-ci sətirlər
+sed '/^$/d' file                                       # boş sətirləri sil
+sed -n '/2027-01-15 10:00/,/2027-01-15 10:30/p' app.log   # zaman aralığı
+sed 's|/var/www/old|/srv/www/new|g' site.conf          # yolda / olduqda başqa ayırıcı</code></pre>
+                <p class="code-note"><code>sed -i</code> faylı birbaşa dəyişir — əvvəlcə <code>-i</code> olmadan işlədib nəticəni yoxlayın, sonra <code>-i.bak</code> ilə tətbiq edin.</p>
+            </div>
+        </section>
+
+        <section id="awk" class="section-card">
+            <h2 class="section-title">{{i:table}} 4. awk: Sütunlarla İş</h2>
+            <p class="lead"><code>awk</code> hər sətri sahələrə bölür: <code>$1</code>, <code>$2</code> ... <code>$NF</code> (sonuncu). Şərt və hesablama da edə bilir.</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>awk '{print $1}' access.log | sort | uniq -c | sort -rn | head     # ən aktiv IP-lər
+awk '$9 == 500 {print $7}' access.log | sort | uniq -c | sort -rn   # 500 xəta verən URL-lər
+awk -F: '$3 &gt;= 1000 {print $1}' /etc/passwd                         # adi istifadəçilər
+awk '{sum += $10} END {printf "%.1f MB\n", sum/1024/1024}' access.log  # ümumi trafik
+df -h | awk 'NR&gt;1 &amp;&amp; $5+0 &gt; 80 {print $6, $5}'                      # 80%-dən dolu bölmələr
+ps aux | awk '{mem[$1] += $6} END {for (u in mem) print u, mem[u]/1024 " MB"}'   # istifadəçiyə görə RAM</code></pre>
+                <p class="code-note"><code>-F:</code> — ayırıcı; <code>NR</code> — sətir nömrəsi; <code>END</code> bloku bütün sətirlərdən sonra işləyir.</p>
+            </div>
+        </section>
+
+        <section id="recipes" class="section-card">
+            <h2 class="section-title">{{i:chef-hat}} 5. Hazır Reseptlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="tx-ssh">SSH hücumları</button>
+                <button class="tab-btn inactive-tab" data-pane="tx-web">Veb log</button>
+                <button class="tab-btn inactive-tab" data-pane="tx-conf">Konfiqurasiya</button>
+            </div>
+            <div id="tx-ssh">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code># Ən çox uğursuz SSH cəhdi edən 10 IP
+grep "Failed password" /var/log/auth.log \
+  | grep -oE "from ([0-9]{1,3}\.){3}[0-9]{1,3}" | awk '{print $2}' \
+  | sort | uniq -c | sort -rn | head
+
+# Hansı istifadəçi adları sınanıb
+grep "Invalid user" /var/log/auth.log | awk '{print $8}' | sort | uniq -c | sort -rn | head</code></pre>
+                </div>
+            </div>
+            <div id="tx-web" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code># Saatlara görə sorğu sayı
+awk '{print substr($4, 14, 2)}' access.log | sort | uniq -c
+
+# Status kodlarının paylanması
+awk '{print $9}' access.log | sort | uniq -c | sort -rn
+
+# Ən çox yüklənən 10 fayl (bayt ilə)
+awk '{bytes[$7] += $10} END {for (u in bytes) print bytes[u], u}' access.log | sort -rn | head</code></pre>
+                </div>
+            </div>
+            <div id="tx-conf" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code># Aktiv (şərh olmayan) konfiqurasiya
+grep -Ev '^\s*(#|$)' /etc/nginx/nginx.conf
+
+# İki serverin paket siyahısını müqayisə et
+diff &lt;(ssh web01 'dpkg -l | awk "/^ii/{print \$2}"') &lt;(ssh web02 'dpkg -l | awk "/^ii/{print \$2}"')</code></pre>
+                </div>
+            </div>
+        </section>
+<!--END-->

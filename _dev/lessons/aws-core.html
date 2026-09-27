@@ -1,0 +1,103 @@
+<!--PAGE title="AWS Əsas Xidmətləri" icon="cloud-cog" badge="Cloud · AWS" nav="intro:Giriş|global:Qlobal infrastruktur|compute:Compute|storage:Storage və DB|cli:AWS CLI|lab:Mini lab"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:cloud-cog}} Giriş: Amazon Web Services</h2>
+            <p class="lead">
+                <strong>AWS</strong> 2006-cı ildən fəaliyyət göstərən ən böyük public cloud provayderidir və 200-dən çox xidmət təklif edir.
+                Onların hamısını öyrənmək lazım deyil — real layihələrin 80%-i eyni 10–15 əsas xidmət üzərində qurulur.
+                Bu dərsdə məhz o xidmətləri və aralarındakı əlaqəni görəcəyik.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:user-cog}} Root user</h3><p class="text-neutral-700">Hesabı yaradan email. Yalnız billing və hesab ayarları üçün — dərhal MFA qoyun və gündəlik işdə istifadə etməyin.</p></div>
+                <div class="info-card"><h3>{{i:users}} IAM user / role</h3><p class="text-neutral-700">Gündəlik iş üçün məhdud icazəli hesablar. Serverlər və xidmətlər açar yox, <strong>role</strong> istifadə edir.</p></div>
+                <div class="info-card dark"><h3>{{i:layout-dashboard}} İdarəetmə</h3><p>AWS Management Console (veb), AWS CLI, SDK-lar (Python boto3) və Infrastructure as Code (CloudFormation, Terraform).</p></div>
+            </div>
+        </section>
+
+        <section id="global" class="section-card">
+            <h2 class="section-title">{{i:globe}} 1. Qlobal İnfrastruktur</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Anlayış</th><th>Nədir</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Region</strong></td><td>Coğrafi ərazi; bir-birindən müstəqil bir neçə AZ-dan ibarət</td><td><code>eu-central-1</code> (Frankfurt)</td></tr>
+                        <tr><td><strong>Availability Zone</strong></td><td>Ayrıca enerji, soyutma və şəbəkəsi olan bir və ya bir neçə data mərkəzi</td><td><code>eu-central-1a</code>, <code>1b</code>, <code>1c</code></td></tr>
+                        <tr><td><strong>Edge location</strong></td><td>CloudFront CDN və Route 53 üçün istifadəçiyə yaxın nöqtələr</td><td>Yüzlərlə şəhərdə</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700">Region seçərkən dörd sual verilir: <strong>qanunvericilik</strong> (məlumat hansı ölkədə qalmalıdır), <strong>latency</strong> (istifadəçilərə yaxınlıq), <strong>xidmətin mövcudluğu</strong> (yeni xidmətlər hər regionda olmur) və <strong>qiymət</strong> (regionlar arasında fərqlənir).</p>
+            <div class="note-box mt-4">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Yüksək əlçatanlıq üçün tətbiq ən azı <strong>iki AZ-a</strong> yayılır. Bir AZ-da yanğın və ya enerji kəsintisi olsa, digər AZ işləməyə davam edir.</p>
+            </div>
+        </section>
+
+        <section id="compute" class="section-card">
+            <h2 class="section-title">{{i:cpu}} 2. Compute Xidmətləri</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:server}}<p class="text-neutral-700"><strong>EC2:</strong> virtual serverlər. Instance type ailəsini göstərir: <code>t3</code> (ümumi, burstable), <code>m7</code> (balanslı), <code>c7</code> (CPU), <code>r7</code> (RAM).</p></div>
+                <div class="feature-item">{{i:disc}}<p class="text-neutral-700"><strong>AMI:</strong> EC2 üçün şablon — OS və əvvəlcədən quraşdırılmış proqramlar.</p></div>
+                <div class="feature-item">{{i:scaling}}<p class="text-neutral-700"><strong>Auto Scaling Group:</strong> yükə görə EC2 sayını avtomatik artırıb-azaldır, sıradan çıxanı əvəz edir.</p></div>
+                <div class="feature-item">{{i:split}}<p class="text-neutral-700"><strong>Elastic Load Balancing:</strong> ALB (HTTP/HTTPS, L7), NLB (TCP/UDP, L4) — trafiki sağlam instance-lara paylayır.</p></div>
+                <div class="feature-item">{{i:zap}}<p class="text-neutral-700"><strong>Lambda:</strong> server olmadan kod — hadisə gələndə işləyir, millisaniyə ilə ödənilir.</p></div>
+                <div class="feature-item">{{i:container}}<p class="text-neutral-700"><strong>ECS / EKS / Fargate:</strong> konteynerlər üçün; EKS — idarə olunan Kubernetes.</p></div>
+            </div>
+        </section>
+
+        <section id="storage" class="section-card">
+            <h2 class="section-title">{{i:database}} 3. Storage və Verilənlər Bazaları</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Xidmət</th><th>Növ</th><th>Nə vaxt istifadə olunur</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>S3</strong></td><td>Object storage</td><td>Fayllar, backup, statik veb-sayt, log arxivi; 11 doqquzluq (99.999999999%) durability</td></tr>
+                        <tr><td><strong>EBS</strong></td><td>Block storage</td><td>EC2-yə qoşulan disk (C: və ya /dev/xvda); bir AZ daxilində</td></tr>
+                        <tr><td><strong>EFS</strong></td><td>File storage (NFS)</td><td>Bir neçə Linux server eyni qovluğu paylaşanda</td></tr>
+                        <tr><td><strong>RDS / Aurora</strong></td><td>Relational DB</td><td>MySQL, PostgreSQL, SQL Server — backup və patch AWS-dədir; Multi-AZ ilə failover</td></tr>
+                        <tr><td><strong>DynamoDB</strong></td><td>NoSQL key-value</td><td>Çox yüksək sürət və miqyas, serverless tətbiqlər</td></tr>
+                        <tr><td><strong>S3 Glacier</strong></td><td>Arxiv</td><td>Nadir oxunan məlumat, çox ucuz, geri qaytarma dəqiqələr–saatlar</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4">Digər vacib xidmətlər: <strong>VPC</strong> (şəxsi şəbəkə), <strong>Route 53</strong> (DNS), <strong>CloudFront</strong> (CDN), <strong>CloudWatch</strong> (metrika və log), <strong>CloudTrail</strong> (API audit logu), <strong>IAM</strong> (giriş idarəetməsi).</p>
+        </section>
+
+        <section id="cli" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 4. AWS CLI ilə İş</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>aws configure                      # Access key, region (məs. eu-central-1), output: json
+aws sts get-caller-identity        # hansı hesab/istifadəçi ilə işləyirəm?
+
+# EC2
+aws ec2 describe-instances --query "Reservations[].Instances[].[InstanceId,State.Name,PublicIpAddress]" --output table
+aws ec2 stop-instances --instance-ids i-0abc123def4567890
+
+# S3
+aws s3 mb s3://cavad-backup-2027                  # bucket yarat (adı qlobal unikal olmalıdır)
+aws s3 cp report.pdf s3://cavad-backup-2027/reports/
+aws s3 sync ./site s3://cavad-backup-2027/site --delete
+aws s3 ls s3://cavad-backup-2027 --recursive --human-readable
+
+# CloudWatch log-ları
+aws logs tail /aws/lambda/my-func --follow</code></pre>
+                <p class="code-note">Kompüterdə uzunmüddətli access key saxlamaq əvəzinə <code>aws configure sso</code> (IAM Identity Center) istifadə edin — qısamüddətli açarlar avtomatik yenilənir.</p>
+            </div>
+        </section>
+
+        <section id="lab" class="section-card">
+            <h2 class="section-title">{{i:flask-conical}} 5. Mini Lab: İki AZ-lı Veb Tətbiq</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>VPC:</strong> <code>10.0.0.0/16</code>, iki AZ-da public və private subnet-lər.</p></li>
+                <li><p class="text-neutral-700"><strong>ALB</strong> public subnet-lərdə, yalnız 443 portu internetə açıq.</p></li>
+                <li><p class="text-neutral-700"><strong>Auto Scaling Group</strong> private subnet-lərdə, minimum 2 EC2, CPU 60%-dən yuxarı olanda artır.</p></li>
+                <li><p class="text-neutral-700"><strong>RDS PostgreSQL Multi-AZ</strong> — yalnız veb serverlərin security group-undan 5432 portuna giriş.</p></li>
+                <li><p class="text-neutral-700"><strong>S3</strong> — istifadəçi faylları; EC2 bucket-a IAM role ilə çatır (açarsız).</p></li>
+                <li><p class="text-neutral-700"><strong>CloudWatch alarm</strong> + budget alert; iş bitəndə bütün resursları silin.</p></li>
+            </ol>
+            <div class="note-box">
+                {{i:piggy-bank}}
+                <p class="text-neutral-800"><strong>Free Tier</strong> yeni hesablara məhdud pulsuz istifadə verir, amma NAT Gateway, Load Balancer və böyük instance-lar pulludur. İlk gün <strong>AWS Budgets</strong>-də 5–10 USD-lik alert yaradın.</p>
+            </div>
+        </section>
+<!--END-->

@@ -1,0 +1,82 @@
+<!--PAGE title="CompTIA Troubleshooting Metodologiyası" icon="search-check" badge="CompTIA · Troubleshooting" nav="intro:Giriş|steps:6 addım|hw:Hardware|display:Video və storage|net:Şəbəkə|scenarios:Ssenarilər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:search-check}} Giriş: Təxmin Yox, Metod</h2>
+            <p class="lead">
+                Təcrübəsiz texnik "bəlkə RAM-dır" deyib hissələri bir-bir dəyişir. Peşəkar isə hər dəfə eyni ardıcıl metodu tətbiq edir.
+                CompTIA bu metodu A+, Network+ və Server+ imtahanlarında birbaşa soruşur — və ən çox <strong>addımların sırası</strong> üzrə.
+            </p>
+        </section>
+
+        <section id="steps" class="section-card">
+            <h2 class="section-title">{{i:list-ordered}} 1. Altı Addım (A+)</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Identify the problem</strong> — istifadəçidən məlumat topla, simptomları müəyyən et, son dəyişiklikləri soruş, lazım olsa backup et. Bir neçə problem varsa, onları ayrı-ayrı həll et.</p></li>
+                <li><p class="text-neutral-700"><strong>Establish a theory of probable cause</strong> — <em>question the obvious</em>: kabel qoşuludurmu, düymə basılıbmı? Lazım olsa xarici mənbələrə (sənəd, internet) bax.</p></li>
+                <li><p class="text-neutral-700"><strong>Test the theory</strong> — təsdiqlənsə, növbəti addıma; təsdiqlənməsə, yeni nəzəriyyə qur və ya eskalasiya et.</p></li>
+                <li><p class="text-neutral-700"><strong>Establish a plan of action</strong> və <strong>implement the solution</strong> — lazım olsa şirkət siyasətinə və change management-ə uyğun.</p></li>
+                <li><p class="text-neutral-700"><strong>Verify full system functionality</strong> və mümkünsə <strong>preventive measures</strong> tətbiq et.</p></li>
+                <li><p class="text-neutral-700"><strong>Document</strong> — tapıntılar, görülən işlər və nəticə.</p></li>
+            </ol>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Network+ versiyası 7 addımdır: "implement the solution or escalate" ayrıca addım kimi yazılır. Hər ikisində də <strong>sənədləşmə sonuncu</strong>, <strong>problemi müəyyən etmək birinci</strong> addımdır.</p>
+            </div>
+        </section>
+
+        <section id="hw" class="section-card">
+            <h2 class="section-title">{{i:cpu}} 2. Hardware Simptomları</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Simptom</th><th>Ehtimal olunan səbəb</th></tr></thead>
+                    <tbody>
+                        <tr><td>Heç bir işıq, fan yoxdur</td><td>Enerji kabeli, rozetka, PSU</td></tr>
+                        <tr><td>Fan fırlanır, ekran qaradır, beep kodları</td><td>RAM, video kart, CPU — POST uğursuzdur</td></tr>
+                        <tr><td>Təsadüfi yenidən başlama, BSOD</td><td>Həddən artıq istilik, RAM, driver, PSU</td></tr>
+                        <tr><td>Yanıq iyi, şişmiş kondensatorlar</td><td>Anakart/PSU nasazlığı — dərhal söndür</td></tr>
+                        <tr><td>Sistem vaxtı hər dəfə sıfırlanır</td><td>CMOS batareyası (CR2032)</td></tr>
+                        <tr><td>Yüksək fan səsi, gecikmələr</td><td>Toz, termopasta, qızma → throttling</td></tr>
+                        <tr><td>Noutbuk batareyası şişib</td><td>Dərhal istifadəni dayandır, düzgün utilizasiya et</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="display" class="section-card">
+            <h2 class="section-title">{{i:monitor}} 3. Video və Storage</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>{{i:monitor-off}} Ekran qaradır</h3><p class="text-neutral-700">Monitor enerjisi, düzgün giriş mənbəyi (input), kabel, xarici monitorla sınaq. Noutbukda zəif görüntü — arxa işıq (backlight) və ya inverter.</p></div>
+                <div class="info-card"><h3>{{i:grid-3x3}} Artefaktlar, rəng xətləri</h3><p class="text-neutral-700">Video kartın qızması və ya nasazlığı, driver.</p></div>
+                <div class="info-card accent"><h3>{{i:hard-drive}} Tıqqıltı səsi (click of death)</h3><p class="text-neutral-700">HDD mexaniki nasazlıq — dərhal backup. S.M.A.R.T. xəbərdarlıqlarına diqqət.</p></div>
+                <div class="info-card dark"><h3>{{i:circle-x}} "No boot device"</h3><p>Boot sırası, disk qoşulması, zədələnmiş bootloader (<code>bootrec</code>), RAID konfiqurasiyası.</p></div>
+            </div>
+        </section>
+
+        <section id="net" class="section-card">
+            <h2 class="section-title">{{i:wifi-off}} 4. Şəbəkə Problemləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Simptom</th><th>Yoxlama</th></tr></thead>
+                    <tbody>
+                        <tr><td>IP <code>169.254.x.x</code></td><td>DHCP server, kabel/VLAN, DHCP scope dolub</td></tr>
+                        <tr><td>IP ilə açılır, adla açılmır</td><td>DNS — <code>nslookup</code>, <code>ipconfig /flushdns</code></td></tr>
+                        <tr><td>Lokal işləyir, internet yoxdur</td><td>Default gateway, ISP, proxy</td></tr>
+                        <tr><td>Aralıq kəsilmələr, yavaşlıq</td><td>Wi-Fi interference, kanal, siqnal gücü, duplex mismatch, kabel zədəsi</td></tr>
+                        <tr><td>IP conflict xəbərdarlığı</td><td>Statik ünvan DHCP aralığında</td></tr>
+                        <tr><td>Link işığı yanmır</td><td>Kabel, port, NIC driver, switch portu shutdown</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="scenarios" class="section-card">
+            <h2 class="section-title">{{i:message-square-text}} 5. İmtahan Tipli Ssenarilər</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:circle-help}}<p class="text-neutral-700"><strong>"Texnik nəzəriyyəni təsdiqlədi. NEXT nə etməlidir?"</strong> → Plan of action qurub həlli tətbiq etmək.</p></div>
+                <div class="feature-item">{{i:circle-help}}<p class="text-neutral-700"><strong>"İstifadəçi printerin çap etmədiyini deyir. FIRST?"</strong> → Problemi müəyyən etmək: istifadəçidən məlumat toplamaq (son dəyişikliklər, xəta mesajı).</p></div>
+                <div class="feature-item">{{i:circle-help}}<p class="text-neutral-700"><strong>"Həll tətbiq olundu, istifadəçi razıdır. Son addım?"</strong> → Sənədləşdirmək.</p></div>
+                <div class="feature-item">{{i:circle-help}}<p class="text-neutral-700"><strong>"Nəzəriyyə təsdiqlənmədi"</strong> → Yeni nəzəriyyə qurmaq və ya eskalasiya etmək.</p></div>
+                <div class="feature-item">{{i:circle-help}}<p class="text-neutral-700"><strong>"Laser printer çapında ləkələr sürtülür"</strong> → Fuser.</p></div>
+                <div class="feature-item">{{i:circle-help}}<p class="text-neutral-700"><strong>"Hər səhifədə eyni yerdə təkrarlanan ləkə"</strong> → Drum (imaging drum).</p></div>
+            </div>
+        </section>
+<!--END-->
