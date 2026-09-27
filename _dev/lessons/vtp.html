@@ -1,0 +1,86 @@
+<!--PAGE title="VTP" icon="radio-tower" badge="CCNA · Network Access" nav="intro:Giriş|modes:Modlar|danger:Revision riski|versions:Versiyalar|commands:Əmrlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:radio-tower}} Giriş: VTP Nədir?</h2>
+            <p class="lead">
+                <strong>VLAN Trunking Protocol</strong> (VTP) Cisco-ya məxsus protokoldur və VTP domenindəki switch-lər arasında VLAN məlumatlarını
+                (VLAN ID, ad) mərkəzləşdirilmiş şəkildə paylaşır. Bir "server" switch-də edilən dəyişiklik trunk bağlantılı "client" switch-lərə
+                avtomatik yayılır — 50 switch-də eyni VLAN-ı əl ilə yaratmağa ehtiyac qalmır.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:building}} Domen</h3><p class="text-neutral-700">Eyni VTP domen adı və parolu olan switch-lər qrupu. Ad böyük-kiçik hərfə həssasdır.</p></div>
+                <div class="info-card"><h3>{{i:git-merge}} Yalnız trunk</h3><p class="text-neutral-700">VTP elanları yalnız trunk portlar üzərindən ötürülür.</p></div>
+                <div class="info-card dark"><h3>{{i:hash}} Revision</h3><p>Hər dəyişiklik revision nömrəsini 1 artırır; ən böyük nömrə "qalib" gəlir.</p></div>
+            </div>
+        </section>
+
+        <section id="modes" class="section-card">
+            <h2 class="section-title">{{i:list}} 1. VTP Modları</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Mod</th><th>VLAN yarada bilər?</th><th>VLAN-ları yayır?</th><th>Qəbul edib tətbiq edir?</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Server</strong> (defolt)</td><td class="yes">Bəli</td><td class="yes">Bəli</td><td class="yes">Bəli</td></tr>
+                        <tr><td><strong>Client</strong></td><td class="no">Xeyr</td><td class="yes">Bəli (ötürür)</td><td class="yes">Bəli</td></tr>
+                        <tr><td><strong>Transparent</strong></td><td>Bəli (yalnız lokal)</td><td>Özü göndərmir, gələni ötürür</td><td class="no">Xeyr</td></tr>
+                        <tr><td><strong>Off</strong> (VTPv3)</td><td>Bəli (lokal)</td><td class="no">Xeyr, ötürmür də</td><td class="no">Xeyr</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="danger" class="section-card">
+            <h2 class="section-title">{{i:triangle-alert}} 2. Vacib Xəbərdarlıq: Revision Nömrəsi</h2>
+            <div class="note-box mb-6">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800"><strong>Diqqət:</strong> Hər VTP dəyişikliyi konfiqurasiya revision nömrəsini artırır. Eyni domenə daha yüksək revision nömrəli (məsələn, lab-dan gətirilmiş) server və ya client switch qoşularsa, o öz — bəlkə boş — VLAN bazasını bütün digər switch-lərə yayar və mövcud VLAN-ları silər. Nəticə: bütün access portlar VLAN-sız qalır, ofis işləmir.</p>
+            </div>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">Yeni switch-i şəbəkəyə qoşmazdan əvvəl <code>show vtp status</code> ilə revision nömrəsini yoxlayın.</p></li>
+                <li><p class="text-neutral-700">Revision-u sıfırlamaq üçün: modu <code>transparent</code> edib yenidən <code>client</code>-ə qaytarın və ya domen adını müvəqqəti dəyişin.</p></li>
+                <li><p class="text-neutral-700">Bir çox şirkət riski tamamilə aradan qaldırmaq üçün bütün switch-ləri <strong>transparent</strong> rejimdə saxlayır və VLAN-ları avtomatlaşdırma ilə idarə edir.</p></li>
+            </ol>
+        </section>
+
+        <section id="versions" class="section-card">
+            <h2 class="section-title">{{i:git-branch}} 3. Versiyalar və Pruning</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>VTPv1 / v2</h3><p class="text-neutral-700">Yalnız VLAN 1–1005 (normal diapazon). v2 transparent switch-in domen adını yoxlamadan ötürməsini və Token Ring dəstəyini əlavə edir.</p></div>
+                <div class="info-card accent"><h3>VTPv3</h3><p class="text-neutral-700">Extended VLAN-lar (1006–4094), <strong>primary server</strong> anlayışı — yalnız o dəyişiklik edə bilər, bu da təsadüfi silinmə riskini kəskin azaldır. Parol gizlədilə bilir.</p></div>
+            </div>
+            <p class="text-neutral-700"><strong>VTP pruning:</strong> switch-də həmin VLAN-dan heç bir port yoxdursa, həmin VLAN-ın broadcast və naməlum unicast trafiki o switch-ə gedən trunk-dan kəsilir — lazımsız trafik azalır.</p>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 4. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="vtp-config">Konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="vtp-verify">Doğrulama</button>
+            </div>
+            <div id="vtp-config">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Switch(config)# vtp domain MYCOMPANY
+Switch(config)# vtp version 2
+Switch(config)# vtp mode server
+Switch(config)# vtp password Cisco123
+Switch(config)# vtp pruning
+
+! Client switch
+Switch(config)# vtp domain MYCOMPANY
+Switch(config)# vtp mode client
+Switch(config)# vtp password Cisco123</code></pre>
+                    <p class="code-note">Domen adı, versiya və parol bütün switch-lərdə eyni olmalıdır. Pruning server-də aktivləşdirilir və domenə yayılır.</p>
+                </div>
+            </div>
+            <div id="vtp-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show vtp status
+show vtp password
+show vtp counters
+show interfaces trunk</code></pre>
+                    <p class="code-note"><code>show vtp status</code>: domen, mod, versiya, <strong>Configuration Revision</strong> və son dəyişikliyi kimin etdiyi. VLAN-lar yayılmırsa — trunk, domen adı və parolu yoxlayın.</p>
+                </div>
+            </div>
+        </section>
+<!--END-->

@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#users"></use></svg> AAA: RADIUS və TACACS+</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#users"></use></svg> AAA: RADIUS və TACACS+</h1>
                 <span class="lesson-badge">CCNA · Security Fundamentals</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -26,29 +26,29 @@
                 <a href="#admin" class="nav-link">Admin girişi</a>
                 <a href="#user" class="nav-link">İstifadəçi girişi</a>
                 <a href="#commands" class="nav-link">Doğrulama</a>
-                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#users"></use></svg> Giriş: Mərkəzi Hesablar</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#users"></use></svg> Giriş: Mərkəzi Hesablar</h2>
             <p class="lead">
                 100 switch-in hər birində lokal istifadəçi saxlamaq idarə olunmazdır: işçi işdən çıxanda onun hesabını
                 hər cihazdan ayrıca silmək lazımdır. <strong>AAA</strong> hesabları mərkəzi serverdə (Cisco ISE,
                 FreeRADIUS, Windows NPS) saxlayır və hər girişi orada yoxlayır.
             </p>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#user-check"></use></svg> Authentication</h3><p class="text-neutral-700">Kimdir? — istifadəçi adı, parol, sertifikat, MFA.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#key"></use></svg> Authorization</h3><p class="text-neutral-700">Nə edə bilər? — privilege səviyyəsi, icazəli əmrlər, VLAN təyinatı.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#scroll-text"></use></svg> Accounting</h3><p>Nə etdi? — giriş vaxtı, icra olunan əmrlər, sessiya müddəti.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#user-check"></use></svg> Authentication</h3><p class="text-neutral-700">Kimdir? — istifadəçi adı, parol, sertifikat, MFA.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key"></use></svg> Authorization</h3><p class="text-neutral-700">Nə edə bilər? — privilege səviyyəsi, icazəli əmrlər, VLAN təyinatı.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#scroll-text"></use></svg> Accounting</h3><p>Nə etdi? — giriş vaxtı, icra olunan əmrlər, sessiya müddəti.</p></div>
             </div>
         </section>
 
         <section id="protocols" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#scale"></use></svg> 1. TACACS+ və RADIUS</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#scale"></use></svg> 1. TACACS+ və RADIUS</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th></th><th>TACACS+</th><th>RADIUS</th></tr></thead>
@@ -65,20 +65,20 @@
         </section>
 
         <section id="methods" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#list-ordered"></use></svg> 2. Metod Siyahıları</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#list-ordered"></use></svg> 2. Metod Siyahıları</h2>
             <p class="lead">
                 <code>aaa authentication login default group tacacs+ local</code> — metodlar soldan sağa sınanır.
                 Növbəti metoda yalnız əvvəlki <strong>cavab vermədikdə</strong> (server əlçatmaz) keçilir.
                 Server "parol səhvdir" deyirsə, lokal hesab yoxlanılmır.
             </p>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#triangle-alert"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#triangle-alert"></use></svg>
                 <p class="text-neutral-800">Həmişə sonda <code>local</code> ehtiyat metodu və lokal admin hesabı saxlayın. Əks halda server əlçatmaz olanda cihaza heç kim daxil ola bilməz. <code>aaa new-model</code> yazıldığı anda VTY xətləri avtomatik olaraq defolt AAA metoduna keçir — konfiqurasiyanı konsoldan edin.</p>
             </div>
         </section>
 
         <section id="admin" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#terminal"></use></svg> 3. Admin Girişi — TACACS+</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#terminal"></use></svg> 3. Admin Girişi — TACACS+</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>R1(config)# username backup-admin privilege 15 algorithm-type scrypt secret Ehtiyat!2026
@@ -99,7 +99,7 @@ R1(config-line)# transport input ssh</code></pre>
         </section>
 
         <section id="user" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#wifi"></use></svg> 4. İstifadəçi Girişi — RADIUS</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wifi"></use></svg> 4. İstifadəçi Girişi — RADIUS</h2>
             <p class="lead">RADIUS-dan adətən şəbəkəyə giriş üçün istifadə olunur: switch portunda 802.1X, simsiz WPA2/3-Enterprise və uzaqdan VPN.</p>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
@@ -116,7 +116,7 @@ SW1(config)# dot1x system-auth-control</code></pre>
         </section>
 
         <section id="commands" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#search"></use></svg> 5. Doğrulama</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#search"></use></svg> 5. Doğrulama</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>show aaa servers
@@ -133,7 +133,7 @@ debug aaa authentication</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

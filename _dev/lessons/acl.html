@@ -1,0 +1,126 @@
+<!--PAGE title="Access Control Lists (ACL)" icon="list-filter" badge="CCNA · Security Fundamentals" nav="intro:Giriş|logic:Emal məntiqi|types:Növlər|wildcard:Wildcard|commands:Əmrlər|placement:Yerləşdirmə"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:list-filter}} Giriş: ACL Nədir?</h2>
+            <p class="lead">
+                <strong>Access Control List</strong> (ACL) router və ya switch interfeysindən keçən trafiki qaydalar əsasında buraxan (permit) və ya rədd edən (deny) siyahıdır.
+                ACL-lər paket filtrləmə, NAT-ın hansı ünvanlara tətbiq olunacağını seçmək, VTY girişini məhdudlaşdırmaq, QoS təsnifatı və marşrut filtrləmə üçün istifadə olunur.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:shield}} Təhlükəsizlik</h3><p class="text-neutral-700">Qonaq VLAN-ı serverlərə buraxmamaq, yalnız admin şəbəkəsindən SSH.</p></div>
+                <div class="info-card"><h3>{{i:arrow-left-right}} NAT və QoS</h3><p class="text-neutral-700">"Hansı trafik?" sualına cavab — ACL seçici kimi.</p></div>
+                <div class="info-card dark"><h3>{{i:calculator}} Alət</h3><p><a class="font-semibold underline" href="../tools/wildcard.html">Wildcard Mask Kalkulyatoru</a> ilə qaydaları yoxlayın.</p></div>
+            </div>
+        </section>
+
+        <section id="logic" class="section-card">
+            <h2 class="section-title">{{i:list-ordered}} 1. Emal Məntiqi</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Siyahı <strong>yuxarıdan aşağıya</strong> yoxlanılır.</p></li>
+                <li><p class="text-neutral-700"><strong>İlk uyğun</strong> qayda tətbiq olunur, qalanlarına baxılmır — sıra vacibdir: xüsusi qaydalar əvvəl, ümumilər sonra.</p></li>
+                <li><p class="text-neutral-700">Heç bir qayda uyğun gəlməzsə — sonda gizli <strong>implicit deny any</strong> işləyir. Ən azı bir <code>permit</code> olmayan ACL bütün trafiki bloklayır.</p></li>
+                <li><p class="text-neutral-700">Hər interfeysdə hər istiqamət (in/out) və protokol (IPv4/IPv6) üçün yalnız <strong>bir ACL</strong>.</p></li>
+            </ol>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title">{{i:scale}} 2. Standart və Genişləndirilmiş ACL</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Xüsusiyyət</th><th>Standart ACL</th><th>Genişləndirilmiş ACL</th></tr></thead>
+                    <tbody>
+                        <tr><td>Nömrə diapazonu</td><td>1–99, 1300–1999</td><td>100–199, 2000–2699</td></tr>
+                        <tr><td>Filtr meyarı</td><td>Yalnız mənbə IP</td><td>Mənbə/təyinat IP, protokol, port, TCP bayraqları</td></tr>
+                        <tr><td>Tövsiyə olunan yer</td><td>Təyinata yaxın</td><td>Mənbəyə yaxın</td></tr>
+                        <tr><td>Named variant</td><td><code>ip access-list standard AD</code></td><td><code>ip access-list extended AD</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="wildcard" class="section-card">
+            <h2 class="section-title">{{i:asterisk}} 3. Wildcard Mask</h2>
+            <p class="text-neutral-700 mb-6">ACL-lərdə subnet maskası əvəzinə wildcard mask istifadə olunur: <strong>0</strong> bit — dəqiq uyğunluq tələb edir, <strong>1</strong> bit — həmin bit önəmsizdir.</p>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:target}}<p class="text-neutral-700"><code>0.0.0.0</code> — yalnız dəqiq IP (<code>host 10.1.1.5</code> ilə eyni).</p></div>
+                <div class="feature-item">{{i:globe}}<p class="text-neutral-700"><code>255.255.255.255</code> — istənilən ünvan (<code>any</code> ilə eyni).</p></div>
+                <div class="feature-item">{{i:house}}<p class="text-neutral-700"><code>0.0.0.255</code> — /24 subnetin bütün host-ları (məs. 192.168.1.0/24).</p></div>
+                <div class="feature-item">{{i:calculator}}<p class="text-neutral-700">Hesablama: wildcard = 255.255.255.255 − subnet maska. /20 → <code>0.0.15.255</code>.</p></div>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 4. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="acl-standard">Standart</button>
+                <button class="tab-btn inactive-tab" data-pane="acl-extended">Genişləndirilmiş</button>
+                <button class="tab-btn inactive-tab" data-pane="acl-named">Named</button>
+                <button class="tab-btn inactive-tab" data-pane="acl-vty">VTY</button>
+                <button class="tab-btn inactive-tab" data-pane="acl-verify">Doğrulama</button>
+            </div>
+            <div id="acl-standard">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Router(config)# access-list 10 permit 192.168.1.0 0.0.0.255
+Router(config)# access-list 10 deny any
+Router(config)# interface GigabitEthernet0/1
+Router(config-if)# ip access-group 10 out</code></pre>
+                    <p class="code-note">192.168.1.0/24 şəbəkəsinə icazə verir, qalan hər şeyi rədd edir; standart ACL təyinata yaxın interfeysə tətbiq olunur.</p>
+                </div>
+            </div>
+            <div id="acl-extended" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Router(config)# access-list 110 permit tcp 192.168.1.0 0.0.0.255 any eq 80
+Router(config)# access-list 110 permit tcp 192.168.1.0 0.0.0.255 any eq 443
+Router(config)# access-list 110 permit udp 192.168.1.0 0.0.0.255 any eq 53
+Router(config)# access-list 110 deny ip any any log
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ip access-group 110 in</code></pre>
+                    <p class="code-note">192.168.1.0/24-dən yalnız HTTP, HTTPS və DNS; qalanı rədd edilir və loglanır. Mənbəyə yaxın interfeysdə, <code>in</code> istiqamətində.</p>
+                </div>
+            </div>
+            <div id="acl-named" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Router(config)# ip access-list extended BLOCK-FTP
+Router(config-ext-nacl)# 10 deny tcp any any eq 21
+Router(config-ext-nacl)# 20 permit ip any any
+Router(config-ext-nacl)# 15 deny tcp any any eq 23      ! 10 və 20 arasına əlavə
+Router(config-ext-nacl)# no 15                           ! tək sətri sil
+Router(config)# interface GigabitEthernet0/1
+Router(config-if)# ip access-group BLOCK-FTP in</code></pre>
+                    <p class="code-note">Named ACL-də sıra nömrələri ilə istənilən yerə qayda əlavə etmək və tək sətri silmək olur — nömrəli ACL-ə nisbətən çox rahatdır.</p>
+                </div>
+            </div>
+            <div id="acl-vty" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Router(config)# ip access-list standard MGMT
+Router(config-std-nacl)# permit 10.0.99.0 0.0.0.255
+Router(config)# line vty 0 4
+Router(config-line)# access-class MGMT in</code></pre>
+                    <p class="code-note">SSH/Telnet girişini yalnız idarəetmə şəbəkəsinə açır. VTY xətlərində <code>ip access-group</code> yox, <code>access-class</code> istifadə olunur.</p>
+                </div>
+            </div>
+            <div id="acl-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show access-lists
+show ip interface GigabitEthernet0/1 | include access list
+show running-config | section access-list
+clear access-list counters</code></pre>
+                    <p class="code-note">Hər qaydanın yanında <code>(N matches)</code> sayğacı görünür — qaydanın işləyib-işləmədiyini yoxlamağın ən sürətli yolu.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="placement" class="section-card">
+            <h2 class="section-title">{{i:map-pin}} 5. Yerləşdirmə Qaydaları</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:arrow-right}}<p class="text-neutral-700"><strong>Extended — mənbəyə yaxın:</strong> lazımsız trafik şəbəkədən keçmədən dayandırılır.</p></div>
+                <div class="feature-item">{{i:arrow-left}}<p class="text-neutral-700"><strong>Standard — təyinata yaxın:</strong> yalnız mənbəni gördüyü üçün mənbəyə yaxın qoyulsa, digər təyinatlara da girişi kəsər.</p></div>
+                <div class="feature-item">{{i:triangle-alert}}<p class="text-neutral-700"><strong>Uzaq router-də ACL dəyişikliyi:</strong> əvvəl <code>reload in 10</code> — özünüzü kilidləsəniz, router 10 dəqiqəyə köhnə konfiqurasiyaya qayıdacaq.</p></div>
+                <div class="feature-item">{{i:file-text}}<p class="text-neutral-700"><strong>Remark yazın:</strong> <code>remark Qonaq VLAN-ı serverlərə bağlıdır</code> — 1 il sonra qaydanın niyə olduğunu biləcəksiniz.</p></div>
+            </div>
+        </section>
+<!--END-->

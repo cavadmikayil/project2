@@ -90,7 +90,21 @@ python3 -m http.server 8000
    Skript dərsi `lessons/` qovluğuna yazır, footer-ləri yeniləyir və yoxlayır. Sonda `yoxlama: problem yoxdur` görməlisiniz. Problem varsa, nə edəcəyinizi yazır (məs. çatışmayan ikon).
 6. **Yoxlayın** (`python3 -m http.server 8000`) və **publish edin** (bölmə 9).
 
-> Əl ilə yazılmış köhnə dərslər (`osi-model`, `stp`, `acl` və s.) birbaşa `lessons/` qovluğunda redaktə olunur — onların `_dev/lessons` mənbəyi yoxdur. `_dev/lessons`-də mənbəyi olan dərsləri isə `lessons/`-da redaktə etməyin: növbəti build dəyişikliyi silər.
+> Bütün 140 dərsin mənbəyi `_dev/lessons/` qovluğundadır. `lessons/` qovluğundakı faylları birbaşa redaktə etməyin — növbəti build dəyişikliyi silər.
+>
+> Dərsə xas CSS və ya JavaScript lazımdırsa (məs. qrafik, axtarış), mənbə faylına iki istəyə bağlı blok əlavə edin:
+> ```html
+> <!--HEAD-->
+>     <style> .menim-klasim { ... } </style>
+>     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+> <!--/HEAD-->
+> ...
+> <!--END-->
+> <!--FOOT-->
+>     <script> /* lesson.js və theme.js-dən sonra işləyir */ </script>
+> <!--/FOOT-->
+> ```
+> Nümunələr: `dynamic-routing.html` (Chart.js qrafiki), `cisco-commands.html` (axtarışlı əmr siyahısı).
 
 ## 6. Yeni kateqoriya
 

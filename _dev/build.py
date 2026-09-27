@@ -217,7 +217,7 @@ def footer(prefix, cls='brand-footer'):
 # ---------------------------------------------------------------------------
 # Dərs mənbələrinin qurulması
 # ---------------------------------------------------------------------------
-def lesson_head(attrs):
+def lesson_head(attrs, extra_head=''):
     links = '\n'.join(
         f'                <a href="#{i}" class="nav-link">{label}</a>'
         for i, label in (item.split(':', 1) for item in attrs['nav'].split('|')))
@@ -236,7 +236,7 @@ def lesson_head(attrs):
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/lesson.css">
-    <link rel="stylesheet" href="../assets/theme.css">
+    <link rel="stylesheet" href="../assets/theme.css">{extra_head}
 </head>
 <body class="antialiased">
 
@@ -257,13 +257,13 @@ def lesson_head(attrs):
 '''
 
 
-def lesson_end():
+def lesson_end(extra_foot=''):
     return f'''    </main>
 
     {footer("../")}
 
     <script src="../assets/lesson.js"></script>
-    <script src="../assets/theme.js"></script>
+    <script src="../assets/theme.js"></script>{extra_foot}
 </body>
 </html>
 '''
@@ -280,10 +280,19 @@ def build_lessons():
         for key in ('title', 'icon', 'nav'):
             if key not in attrs:
                 raise SystemExit(f'{src.name}: PAGE markerində "{key}" yoxdur')
-        text = text[:m.start()] + lesson_head(attrs) + text[m.end():]
+        # İstəyə bağlı: <!--HEAD-->...<!--/HEAD--> (səhifəyə xas CSS/skript <head>-ə)
+        # və <!--FOOT-->...<!--/FOOT--> (səhifəyə xas skriptlər lesson.js-dən sonra)
+        blocks = {}
+        for name in ('HEAD', 'FOOT'):
+            bm = re.search(rf'\n?<!--{name}-->\n?(.*?)<!--/{name}-->\n?', text, re.S)
+            blocks[name] = ('\n' + bm.group(1).rstrip()) if bm else ''
+            if bm:
+                text = text[:bm.start()] + text[bm.end():]
+        m = re.search(r'<!--PAGE (.*?)-->\n?', text, re.S)
+        text = text[:m.start()] + lesson_head(attrs, blocks['HEAD']) + text[m.end():]
         if '<!--END-->' not in text:
             raise SystemExit(f'{src.name}: <!--END--> markeri yoxdur')
-        text = text.replace('<!--END-->', lesson_end())
+        text = text.replace('<!--END-->', lesson_end(blocks['FOOT']))
         text = re.sub(r'\{\{i:([a-z0-9-]+)\}\}', lambda mm: icon('../', mm.group(1)), text)
         if '{{i:' in text:
             raise SystemExit(f'{src.name}: açılmamış {{{{i:...}}}} markeri')

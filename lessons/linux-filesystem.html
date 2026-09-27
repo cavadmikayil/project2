@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#folder-tree"></use></svg> Linux Fayl Sistemi Dərindən</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#folder-tree"></use></svg> Linux Fayl Sistemi Dərindən</h1>
                 <span class="lesson-badge">Linux · Fayl sistemi</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -26,15 +26,15 @@
                 <a href="#find" class="nav-link">find</a>
                 <a href="#mount" class="nav-link">Mount və fstab</a>
                 <a href="#special" class="nav-link">Xüsusi FS-lər</a>
-                <a href="../index.html#linux" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
+                <a href="../index.html#linux" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#folder-tree"></use></svg> Giriş: Linux-da Hər Şey Fayldır</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#folder-tree"></use></svg> Giriş: Linux-da Hər Şey Fayldır</h2>
             <p class="lead">
                 Linux-da disk (<code>/dev/sda</code>), terminal (<code>/dev/tty</code>), proses məlumatı (<code>/proc/1234</code>), hətta təsadüfi ədəd generatoru
                 (<code>/dev/urandom</code>) belə fayl kimi görünür. Fayl sisteminin quruluşunu və işləmə məntiqini bilmək — "disk dolub, amma
@@ -43,7 +43,7 @@
         </section>
 
         <section id="fhs" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#folder-open"></use></svg> 1. Filesystem Hierarchy Standard</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#folder-open"></use></svg> 1. Filesystem Hierarchy Standard</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Qovluq</th><th>Məzmun</th><th>Praktik qeyd</th></tr></thead>
@@ -63,7 +63,7 @@
         </section>
 
         <section id="inode" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#link"></use></svg> 2. Inode, Hard Link və Symbolic Link</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#link"></use></svg> 2. Inode, Hard Link və Symbolic Link</h2>
             <p class="lead"><strong>Inode</strong> faylın metadata-sını saxlayır: icazələr, sahib, ölçü, tarixlər, məlumat bloklarının yeri. Fayl adı isə sadəcə qovluqdakı "ad → inode nömrəsi" qeydidir.</p>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
@@ -87,13 +87,13 @@ readlink -f logs                  # symlink-in son hədəfi</code></pre>
                 </table>
             </div>
             <div class="note-box mt-6">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#lightbulb"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#lightbulb"></use></svg>
                 <p class="text-neutral-800"><strong>"Disk dolub, amma fayl yoxdur":</strong> silinmiş, lakin hələ proses tərəfindən açıq saxlanılan fayl yer tutmağa davam edir. <code>lsof +L1</code> ilə tapın və prosesi restart edin.</p>
             </div>
         </section>
 
         <section id="find" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#search"></use></svg> 3. find və du ilə Axtarış</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#search"></use></svg> 3. find və du ilə Axtarış</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>du -xh --max-depth=1 / 2&gt;/dev/null | sort -h | tail     # ən böyük qovluqlar
@@ -109,7 +109,7 @@ locate nginx.conf                                        # indekslə sürətli a
         </section>
 
         <section id="mount" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#hard-drive"></use></svg> 4. Mount və /etc/fstab</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#hard-drive"></use></svg> 4. Mount və /etc/fstab</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>lsblk -f                          # disklər, bölmələr, FS tipləri, UUID
@@ -127,13 +127,13 @@ mount -a                          # fstab-ı yoxla — reboot-dan ƏVVƏL mütl�
 systemctl daemon-reload</code></pre>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#triangle-alert"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#triangle-alert"></use></svg>
                 <p class="text-neutral-800">fstab-da səhv sistemin açılmamasına (emergency mode) səbəb ola bilər. Cihaz adı (<code>/dev/sdb1</code>) dəyişə bilər — həmişə <strong>UUID</strong> istifadə edin; şəbəkə diskləri üçün <code>_netdev</code> və <code>nofail</code>.</p>
             </div>
         </section>
 
         <section id="special" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#cpu"></use></svg> 5. /proc və /sys</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#cpu"></use></svg> 5. /proc və /sys</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>cat /proc/cpuinfo | grep "model name" | head -1
@@ -157,7 +157,7 @@ cat /sys/block/sda/queue/rotational    # 1 = HDD, 0 = SSD</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

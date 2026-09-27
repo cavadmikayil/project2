@@ -1,0 +1,108 @@
+<!--PAGE title="NAT / PAT" icon="arrow-left-right" badge="CCNA · IP Services" nav="intro:Giriş|terms:Terminlər|types:Növlər|commands:Əmrlər|troubleshoot:Troubleshooting"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:arrow-left-right}} Giriş: NAT Nədir?</h2>
+            <p class="lead">
+                <strong>Network Address Translation</strong> (NAT) daxili şəbəkənin private IP ünvanlarını (RFC 1918: <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>,
+                <code>192.168.0.0/16</code>) internetdə istifadə oluna bilən public IP-yə çevirir. Bu, məhdud public IPv4 ehtiyatına qənaət edir və daxili
+                şəbəkə strukturunu xaricdən gizlədir. Evdəki router-dən tutmuş şirkət firewall-una qədər hər yerdə işləyir.
+            </p>
+        </section>
+
+        <section id="terms" class="section-card">
+            <h2 class="section-title">{{i:book-open}} 1. Dörd Termin</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Termin</th><th>Mənası</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Inside Local</strong></td><td>Daxili cihazın daxildə görünən (private) ünvanı</td><td><code>192.168.1.10</code></td></tr>
+                        <tr><td><strong>Inside Global</strong></td><td>Daxili cihazın internetdə göründüyü (public) ünvan</td><td><code>203.0.113.5</code></td></tr>
+                        <tr><td><strong>Outside Global</strong></td><td>Xarici cihazın real public ünvanı</td><td><code>8.8.8.8</code></td></tr>
+                        <tr><td><strong>Outside Local</strong></td><td>Xarici cihazın daxildən göründüyü ünvan (adətən Outside Global ilə eyni)</td><td><code>8.8.8.8</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><strong>Local</strong> — daxildən baxanda, <strong>Global</strong> — xaricdən baxanda. <strong>Inside/Outside</strong> isə cihazın harada yerləşdiyini göstərir.</p>
+            </div>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title">{{i:layers}} 2. NAT Növləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Necə işləyir</th><th>İstifadə sahəsi</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Static NAT</strong></td><td>Bir private IP ↔ bir public IP (1:1, daimi, iki istiqamətli)</td><td>Xaricdən əlçatan olmalı server (veb, mail)</td></tr>
+                        <tr><td><strong>Dynamic NAT</strong></td><td>Private IP-lər public IP pool-undan növbə ilə istifadə edir (1:1, müvəqqəti)</td><td>Kifayət qədər public IP olduqda (nadir)</td></tr>
+                        <tr><td><strong>PAT</strong> (NAT overload)</td><td>Çoxlu private IP → bir public IP; bağlantılar <strong>port nömrələri</strong> ilə fərqləndirilir</td><td>Ev/ofis internet paylaşımı — ən geniş yayılmış üsul</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4">PAT nəzəri olaraq bir public IP ilə ~65 000 eyni vaxtlı bağlantıya imkan verir. Provayderlər IPv4 çatışmazlığına görə öz tərəflərində də NAT edir — <strong>CGNAT</strong> (<code>100.64.0.0/10</code>).</p>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 3. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="nat-static">Static NAT</button>
+                <button class="tab-btn inactive-tab" data-pane="nat-dynamic">Dynamic NAT</button>
+                <button class="tab-btn inactive-tab" data-pane="nat-pat">PAT (Overload)</button>
+                <button class="tab-btn inactive-tab" data-pane="nat-verify">Doğrulama</button>
+            </div>
+            <div id="nat-static">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Router(config)# ip nat inside source static 192.168.1.10 203.0.113.10
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ip nat inside
+Router(config-if)# interface GigabitEthernet0/1
+Router(config-if)# ip nat outside
+
+! Yalnız bir port (port forwarding): xarici 443 → daxili server
+Router(config)# ip nat inside source static tcp 192.168.1.10 443 203.0.113.10 443</code></pre>
+                    <p class="code-note">Daxili server 203.0.113.10 public IP-si ilə daimi əlaqələndirilir; daxili və xarici interfeyslər mütləq işarələnməlidir.</p>
+                </div>
+            </div>
+            <div id="nat-dynamic" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Router(config)# access-list 1 permit 192.168.1.0 0.0.0.255
+Router(config)# ip nat pool MYPOOL 203.0.113.10 203.0.113.20 netmask 255.255.255.0
+Router(config)# ip nat inside source list 1 pool MYPOOL</code></pre>
+                    <p class="code-note">192.168.1.0/24 cihazları pool-dakı boş public IP-lərdən birini alır. Pool bitəndə yeni cihazlar internetə çıxa bilmir.</p>
+                </div>
+            </div>
+            <div id="nat-pat" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Router(config)# access-list 1 permit 192.168.1.0 0.0.0.255
+Router(config)# ip nat inside source list 1 interface GigabitEthernet0/1 overload
+
+! Pool ilə PAT
+Router(config)# ip nat inside source list 1 pool MYPOOL overload</code></pre>
+                    <p class="code-note">Bütün daxili cihazlar xarici interfeysin public IP-si ilə internetə çıxır — ev və ofisdə ən çox istifadə olunan üsul.</p>
+                </div>
+            </div>
+            <div id="nat-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ip nat translations
+show ip nat statistics
+debug ip nat
+clear ip nat translation *</code></pre>
+                    <p class="code-note"><code>translations</code> cədvəlində dörd sütun: Inside global, Inside local, Outside local, Outside global. PAT-da ünvanlardan sonra port nömrəsi görünür.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="troubleshoot" class="section-card">
+            <h2 class="section-title">{{i:search-check}} 4. Tipik Problemlər</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:arrow-left-right}}<p class="text-neutral-700"><strong>inside/outside səhv və ya unudulub</strong> — tərcümə cədvəli boş qalır.</p></div>
+                <div class="feature-item">{{i:list-filter}}<p class="text-neutral-700"><strong>ACL daxili şəbəkəni əhatə etmir</strong> — wildcard-ı yoxlayın, <code>show access-lists</code>-də hit sayına baxın.</p></div>
+                <div class="feature-item">{{i:route}}<p class="text-neutral-700"><strong>Default route yoxdur</strong> — tərcümə olsa da paket internetə getmir.</p></div>
+                <div class="feature-item">{{i:circle-slash}}<p class="text-neutral-700"><strong>Dynamic pool bitib</strong> — <code>show ip nat statistics</code>-də "misses" artır; PAT-a keçin.</p></div>
+            </div>
+        </section>
+<!--END-->

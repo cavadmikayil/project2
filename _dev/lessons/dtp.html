@@ -1,0 +1,149 @@
+<!--PAGE title="VLAN, Trunking və DTP" icon="split" badge="CCNA · Network Access" nav="intro:Giriş|access-ports:Access portlar|vlan-trunking:Trunking|dtp-modes:DTP modları|best:Tövsiyələr"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:split}} Giriş: Şəbəkə Seqmentasiyası və Bağlantı</h2>
+            <p class="lead">
+                Bu dərs VLAN texnologiyasının əsas komponentlərini araşdırır: <strong>access portlar</strong>, <strong>VLAN trunking</strong> (802.1Q) və
+                Cisco-nun <strong>Dynamic Trunking Protocol</strong>-u (DTP). Bu elementlər şəbəkəni məntiqi seqmentlərə bölür, switch-lər arasında
+                bir neçə VLAN-ı bir kabel üzərindən daşıyır və cihazlararası əlaqəni idarə edir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:plug}} Access port</h3><p class="text-neutral-700">Bir VLAN, tag-sız frame-lər — kompüter, printer, kamera üçün.</p></div>
+                <div class="info-card"><h3>{{i:git-merge}} Trunk port</h3><p class="text-neutral-700">Çoxlu VLAN, 802.1Q tag ilə — switch–switch, switch–router, switch–server (hypervisor).</p></div>
+                <div class="info-card dark"><h3>{{i:handshake}} DTP</h3><p>Portun trunk olub-olmayacağını qonşu ilə avtomatik danışır. Production-da adətən söndürülür.</p></div>
+            </div>
+        </section>
+
+        <section id="access-ports" class="section-card">
+            <h2 class="section-title">{{i:plug}} 1. Access Portlar</h2>
+            <p class="text-neutral-700 mb-6">Access port switch-də yalnız bir VLAN-a aid olan və son istifadəçi cihazlarını qoşmaq üçün istifadə olunan portdur. Bu portdan yalnız həmin VLAN-ın trafiki ötürülür və frame-lər tag-sız olur. IP telefon üçün əlavə olaraq <strong>voice VLAN</strong> təyin edilə bilər.</p>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="access-config">Konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="access-verify">Doğrulama</button>
+            </div>
+            <div id="access-config">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Switch(config)# vlan 10
+Switch(config-vlan)# name Sales
+Switch(config-vlan)# exit
+Switch(config)# interface FastEthernet0/1
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport access vlan 10
+Switch(config-if)# switchport voice vlan 150
+Switch(config-if)# no shutdown
+
+! Bir neçə portu birlikdə
+Switch(config)# interface range fa0/2 - 12
+Switch(config-if-range)# switchport mode access
+Switch(config-if-range)# switchport access vlan 10</code></pre>
+                    <p class="code-note">VLAN 10-u yaradır və portları access rejimində VLAN 10-a qoşur. Mövcud olmayan VLAN təyin olunarsa, switch onu avtomatik yaradır.</p>
+                </div>
+            </div>
+            <div id="access-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show vlan brief
+show interfaces FastEthernet0/1 switchport</code></pre>
+                    <p class="code-note"><code>show vlan brief</code> VLAN-ları və onlara aid access portları göstərir (trunk portlar burada görünmür). <code>switchport</code> çıxışında Administrative/Operational Mode və Access VLAN-a baxın.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="vlan-trunking" class="section-card">
+            <h2 class="section-title">{{i:git-merge}} 2. VLAN Trunking (802.1Q)</h2>
+            <p class="text-neutral-700 mb-6">Trunk port bir neçə VLAN-ın trafikini bir linkdən ötürür. <strong>IEEE 802.1Q</strong> frame-ə 4 baytlıq tag əlavə edir (içində 12 bitlik VLAN ID — 1–4094). <strong>Native VLAN</strong>-ın frame-ləri isə tag-sız gedir, ona görə hər iki tərəfdə eyni olmalıdır.</p>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="trunk-config">Konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="trunk-verify">Doğrulama</button>
+            </div>
+            <div id="trunk-config">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Switch(config)# interface GigabitEthernet0/1
+Switch(config-if)# switchport trunk encapsulation dot1q   ! yalnız ISL də dəstəkləyən köhnə switch-lərdə
+Switch(config-if)# switchport mode trunk
+Switch(config-if)# switchport trunk allowed vlan 10,20,30
+Switch(config-if)# switchport trunk allowed vlan add 40
+Switch(config-if)# switchport trunk native vlan 99
+Switch(config-if)# no shutdown</code></pre>
+                    <p class="code-note"><code>allowed vlan 10,20,30</code> siyahını əvəz edir; mövcud siyahıya əlavə etmək üçün mütləq <code>add</code> yazın — əks halda digər VLAN-lar kəsilir.</p>
+                </div>
+            </div>
+            <div id="trunk-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show interfaces trunk
+show interfaces GigabitEthernet0/1 switchport</code></pre>
+                    <p class="code-note"><code>show interfaces trunk</code> dörd blok göstərir: mode və native VLAN, icazə verilən VLAN-lar, aktiv VLAN-lar və STP forwarding vəziyyətində olan VLAN-lar.</p>
+                </div>
+            </div>
+            <div class="note-box mt-6">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800"><strong>Native VLAN mismatch:</strong> iki tərəfdə fərqli native VLAN olduqda CDP xəbərdarlıq verir və trafik səhv VLAN-a "sızır".</p>
+            </div>
+        </section>
+
+        <section id="dtp-modes" class="section-card">
+            <h2 class="section-title">{{i:handshake}} 3. Dynamic Trunking Protocol (DTP) Modları</h2>
+            <p class="text-neutral-700 mb-6">DTP Cisco-ya məxsus protokoldur və switch portları arasında trunk əlaqəsini avtomatik qurmağa kömək edir. Aşağıdakı cədvəl iki tərəfin modlarından asılı olaraq nəticəni göstərir.</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Qonşu port modu</th><th>Access</th><th>Trunk</th><th>Dynamic Auto</th><th>Dynamic Desirable</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Access</strong></td><td>Access</td><td class="no">Uyğunsuz</td><td>Access</td><td>Access</td></tr>
+                        <tr><td><strong>Trunk</strong></td><td class="no">Uyğunsuz</td><td class="yes">Trunk</td><td class="yes">Trunk</td><td class="yes">Trunk</td></tr>
+                        <tr><td><strong>Dynamic Auto</strong></td><td>Access</td><td class="yes">Trunk</td><td>Access</td><td class="yes">Trunk</td></tr>
+                        <tr><td><strong>Dynamic Desirable</strong></td><td>Access</td><td class="yes">Trunk</td><td class="yes">Trunk</td><td class="yes">Trunk</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box mb-6">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Yadda saxlama qaydası: <strong>auto + auto = access</strong> — iki passiv tərəf heç vaxt trunk təklif etmir. Müasir Catalyst switch-lərdə defolt mod adətən <strong>dynamic auto</strong>-dur.</p>
+            </div>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="dtp-on">On (Trunk)</button>
+                <button class="tab-btn inactive-tab" data-pane="dtp-off">Off (Access)</button>
+                <button class="tab-btn inactive-tab" data-pane="dtp-desirable">Dynamic Desirable</button>
+                <button class="tab-btn inactive-tab" data-pane="dtp-auto">Dynamic Auto</button>
+                <button class="tab-btn inactive-tab" data-pane="dtp-nonegotiate">Nonegotiate</button>
+            </div>
+            <div id="dtp-on">
+                <p class="text-neutral-700 mb-3"><code>switchport mode trunk</code> — portu daimi trunk edir. DTP paketləri göndərməyə davam edir, amma qonşudan asılı olmayaraq trunk-dır.</p>
+                <div class="code-block"><button class="copy-btn">Kopyala</button><pre><code>Switch(config-if)# switchport mode trunk</code></pre></div>
+            </div>
+            <div id="dtp-off" class="hidden">
+                <p class="text-neutral-700 mb-3"><code>switchport mode access</code> — portu daimi access edir və DTP danışıqlarında iştirak etmir.</p>
+                <div class="code-block"><button class="copy-btn">Kopyala</button><pre><code>Switch(config-if)# switchport mode access</code></pre></div>
+            </div>
+            <div id="dtp-desirable" class="hidden">
+                <p class="text-neutral-700 mb-3"><code>switchport mode dynamic desirable</code> — aktiv şəkildə trunk təklif edir. Qonşu <code>trunk</code>, <code>dynamic auto</code> və ya <code>dynamic desirable</code> olarsa, trunk qurulur.</p>
+                <div class="code-block"><button class="copy-btn">Kopyala</button><pre><code>Switch(config-if)# switchport mode dynamic desirable</code></pre></div>
+            </div>
+            <div id="dtp-auto" class="hidden">
+                <p class="text-neutral-700 mb-3"><code>switchport mode dynamic auto</code> — passivdir: yalnız qonşu <code>trunk</code> və ya <code>dynamic desirable</code> olarsa trunk qurulur.</p>
+                <div class="code-block"><button class="copy-btn">Kopyala</button><pre><code>Switch(config-if)# switchport mode dynamic auto</code></pre></div>
+            </div>
+            <div id="dtp-nonegotiate" class="hidden">
+                <p class="text-neutral-700 mb-3"><code>switchport nonegotiate</code> — portda DTP paketlərinin göndərilməsini dayandırır. <code>switchport mode trunk</code> (və ya access) ilə birlikdə istifadə olunur.</p>
+                <div class="code-block"><button class="copy-btn">Kopyala</button><pre><code>Switch(config-if)# switchport mode trunk
+Switch(config-if)# switchport nonegotiate</code></pre></div>
+            </div>
+            <div class="code-block mt-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show dtp interface FastEthernet0/1
+show interfaces FastEthernet0/1 switchport</code></pre>
+                <p class="code-note">DTP statusu və portun inzibati (Administrative) və faktiki (Operational) rejimi.</p>
+            </div>
+        </section>
+
+        <section id="best" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 4. Tövsiyələr və Təhlükəsizlik</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:ban}}<p class="text-neutral-700"><strong>DTP-yə güvənməyin:</strong> portları əl ilə <code>access</code> və ya <code>trunk</code> + <code>nonegotiate</code> edin — hücumçu DTP ilə öz portunu trunk edib bütün VLAN-lara çıxa bilər (switch spoofing).</p></div>
+                <div class="feature-item">{{i:tag}}<p class="text-neutral-700"><strong>Native VLAN:</strong> istifadə olunmayan VLAN (məs. 999) seçin — double tagging (VLAN hopping) hücumuna qarşı.</p></div>
+                <div class="feature-item">{{i:list-filter}}<p class="text-neutral-700"><strong>Allowed VLAN:</strong> trunk-da yalnız lazım olan VLAN-lar.</p></div>
+                <div class="feature-item">{{i:power-off}}<p class="text-neutral-700"><strong>İstifadə olunmayan portlar:</strong> <code>shutdown</code> + ayrıca "parking" VLAN-a.</p></div>
+            </div>
+        </section>
+<!--END-->

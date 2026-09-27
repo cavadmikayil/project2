@@ -3,137 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VTP (VLAN Trunking Protocol) Dərs Vəsaiti</title>
+    <title>VTP — Dərs Vəsaiti</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
     <link rel="stylesheet" href="../assets/theme.css">
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #171717; }
-        .section-card { background-color: white; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); padding: 1.5rem; margin-bottom: 2rem; }
-        .tab-btn { padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.2s, color 0.2s; cursor: pointer; white-space: nowrap; }
-        .active-tab { background-color: #f59e0b; color: #0a0a0a; }
-        .inactive-tab { background-color: #e5e5e5; color: #404040; }
-        .code-block { background-color: #171717; color: #e5e5e5; border-radius: 0.5rem; padding: 1rem; position: relative; overflow-x: auto; }
-        .copy-btn { position: absolute; top: 0.75rem; right: 0.75rem; background-color: #404040; color: #ffffff; border: none; padding: 0.25rem 0.75rem; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem; transition: background-color 0.2s; }
-        .copy-btn:hover { background-color: #737373; }
-        .feature-item { display: flex; align-items: center; margin-bottom: 0.75rem; }
-        .feature-icon { font-size: 1.5rem; margin-right: 0.75rem; color: #d97706; }
-        .warning-box { background: #fef3c7; border-left: 5px solid #f59e0b; padding: 1rem 1.25rem; border-radius: 0 0.5rem 0.5rem 0; }
-    </style>
 </head>
 <body class="antialiased">
 
     <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-amber-700">VTP (VLAN Trunking Protocol)</h1>
-            <div class="flex flex-wrap items-center gap-4 overflow-x-auto pb-2 md:pb-0">
-                <a href="#intro" class="text-neutral-600 hover:text-amber-700 font-medium">Giriş</a>
-                <a href="#modes" class="text-neutral-600 hover:text-amber-700 font-medium">Modlar</a>
-                <a href="#danger" class="text-neutral-600 hover:text-amber-700 font-medium">Vacib Xəbərdarlıq</a>
-                <a href="#commands" class="text-neutral-600 hover:text-amber-700 font-medium">Əmrlər</a>
-                <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#radio-tower"></use></svg> VTP</h1>
+                <span class="lesson-badge">CCNA · Network Access</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#modes" class="nav-link">Modlar</a>
+                <a href="#danger" class="nav-link">Revision riski</a>
+                <a href="#versions" class="nav-link">Versiyalar</a>
+                <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
-    <main class="container mx-auto px-6 py-8">
-
-        <section id="intro" class="section-card text-center">
-            <h2 class="text-3xl font-bold mb-4 text-neutral-800">Giriş: VTP Nədir?</h2>
-            <p class="text-neutral-600 max-w-3xl mx-auto">
-                VLAN Trunking Protocol (VTP) — Cisco-ya məxsus protokoldur ki, VTP domenindəki switch-lər
-                arasında VLAN məlumatlarını (VLAN ID, ad) mərkəzləşdirilmiş şəkildə paylaşmağa imkan verir.
-                Bu, hər switch-də VLAN-ları əl ilə yaratmaq ehtiyacını aradan qaldırır — bir "server" switch-də
-                edilən dəyişiklik bütün trunk bağlantılı "client" switch-lərə avtomatik yayılır.
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#radio-tower"></use></svg> Giriş: VTP Nədir?</h2>
+            <p class="lead">
+                <strong>VLAN Trunking Protocol</strong> (VTP) Cisco-ya məxsus protokoldur və VTP domenindəki switch-lər arasında VLAN məlumatlarını
+                (VLAN ID, ad) mərkəzləşdirilmiş şəkildə paylaşır. Bir "server" switch-də edilən dəyişiklik trunk bağlantılı "client" switch-lərə
+                avtomatik yayılır — 50 switch-də eyni VLAN-ı əl ilə yaratmağa ehtiyac qalmır.
             </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#building"></use></svg> Domen</h3><p class="text-neutral-700">Eyni VTP domen adı və parolu olan switch-lər qrupu. Ad böyük-kiçik hərfə həssasdır.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#git-merge"></use></svg> Yalnız trunk</h3><p class="text-neutral-700">VTP elanları yalnız trunk portlar üzərindən ötürülür.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#hash"></use></svg> Revision</h3><p>Hər dəyişiklik revision nömrəsini 1 artırır; ən böyük nömrə "qalib" gəlir.</p></div>
+            </div>
         </section>
 
         <section id="modes" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">1. VTP Modları</h2>
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white border border-neutral-200 rounded-lg shadow-sm">
-                    <thead>
-                        <tr class="bg-neutral-100 text-left text-sm font-semibold text-neutral-700 uppercase tracking-wider">
-                            <th class="py-3 px-4 border-b border-neutral-200">Mod</th>
-                            <th class="py-3 px-4 border-b border-neutral-200">VLAN yarada bilər?</th>
-                            <th class="py-3 px-4 border-b border-neutral-200">VLAN-ları yayır?</th>
-                            <th class="py-3 px-4 border-b border-neutral-200">VLAN-ları qəbul edir?</th>
-                        </tr>
-                    </thead>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#list"></use></svg> 1. VTP Modları</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Mod</th><th>VLAN yarada bilər?</th><th>VLAN-ları yayır?</th><th>Qəbul edib tətbiq edir?</th></tr></thead>
                     <tbody>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Server (defolt)</td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Bəli</td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Bəli</td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Bəli</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Client</td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Xeyr</td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Xeyr</td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Bəli</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Transparent</td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Bəli (yalnız lokal)</td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Yayımı ötürür, özü göndərmir</td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Xeyr (öz VLAN bazasını dəyişmir)</td>
-                        </tr>
+                        <tr><td><strong>Server</strong> (defolt)</td><td class="yes">Bəli</td><td class="yes">Bəli</td><td class="yes">Bəli</td></tr>
+                        <tr><td><strong>Client</strong></td><td class="no">Xeyr</td><td class="yes">Bəli (ötürür)</td><td class="yes">Bəli</td></tr>
+                        <tr><td><strong>Transparent</strong></td><td>Bəli (yalnız lokal)</td><td>Özü göndərmir, gələni ötürür</td><td class="no">Xeyr</td></tr>
+                        <tr><td><strong>Off</strong> (VTPv3)</td><td>Bəli (lokal)</td><td class="no">Xeyr, ötürmür də</td><td class="no">Xeyr</td></tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
         <section id="danger" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">2. Vacib Xəbərdarlıq: Revision Nömrəsi</h2>
-            <div class="warning-box max-w-3xl mx-auto">
-                <strong>Diqqət:</strong> Hər VTP dəyişikliyi konfiqurasiya revision nömrəsini artırır. Eyni VTP
-                domenində, lakin daha yüksək revision nömrəsi olan yeni bir "server" və ya "client" switch
-                şəbəkəyə qoşularsa, o öz (bəlkə köhnə/boş) VLAN bazasını bütün digər switch-lərə yayaraq
-                mövcud VLAN-ları silə bilər. Yeni switch əlavə etməzdən əvvəl həmişə onun revision nömrəsini
-                <code>show vtp status</code> ilə yoxlayın və ya VTP mode-unu <code>transparent</code> edərək riski aradan qaldırın.
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#triangle-alert"></use></svg> 2. Vacib Xəbərdarlıq: Revision Nömrəsi</h2>
+            <div class="note-box mb-6">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#triangle-alert"></use></svg>
+                <p class="text-neutral-800"><strong>Diqqət:</strong> Hər VTP dəyişikliyi konfiqurasiya revision nömrəsini artırır. Eyni domenə daha yüksək revision nömrəli (məsələn, lab-dan gətirilmiş) server və ya client switch qoşularsa, o öz — bəlkə boş — VLAN bazasını bütün digər switch-lərə yayar və mövcud VLAN-ları silər. Nəticə: bütün access portlar VLAN-sız qalır, ofis işləmir.</p>
             </div>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">Yeni switch-i şəbəkəyə qoşmazdan əvvəl <code>show vtp status</code> ilə revision nömrəsini yoxlayın.</p></li>
+                <li><p class="text-neutral-700">Revision-u sıfırlamaq üçün: modu <code>transparent</code> edib yenidən <code>client</code>-ə qaytarın və ya domen adını müvəqqəti dəyişin.</p></li>
+                <li><p class="text-neutral-700">Bir çox şirkət riski tamamilə aradan qaldırmaq üçün bütün switch-ləri <strong>transparent</strong> rejimdə saxlayır və VLAN-ları avtomatlaşdırma ilə idarə edir.</p></li>
+            </ol>
+        </section>
+
+        <section id="versions" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#git-branch"></use></svg> 3. Versiyalar və Pruning</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>VTPv1 / v2</h3><p class="text-neutral-700">Yalnız VLAN 1–1005 (normal diapazon). v2 transparent switch-in domen adını yoxlamadan ötürməsini və Token Ring dəstəyini əlavə edir.</p></div>
+                <div class="info-card accent"><h3>VTPv3</h3><p class="text-neutral-700">Extended VLAN-lar (1006–4094), <strong>primary server</strong> anlayışı — yalnız o dəyişiklik edə bilər, bu da təsadüfi silinmə riskini kəskin azaldır. Parol gizlədilə bilir.</p></div>
+            </div>
+            <p class="text-neutral-700"><strong>VTP pruning:</strong> switch-də həmin VLAN-dan heç bir port yoxdursa, həmin VLAN-ın broadcast və naməlum unicast trafiki o switch-ə gedən trunk-dan kəsilir — lazımsız trafik azalır.</p>
         </section>
 
         <section id="commands" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">3. Praktiki Əmrlər</h2>
-            <div class="flex justify-center mb-6 space-x-2" id="vtp-tabs">
-                <button data-type="config" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 active-tab">Konfiqurasiya</button>
-                <button data-type="verify" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">Doğrulama</button>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#terminal"></use></svg> 4. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="vtp-config">Konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="vtp-verify">Doğrulama</button>
             </div>
-            <div id="vtp-commands-content">
-                <div id="vtp-config-commands" class="protocol-pane">
-                    <div class="code-block">
-                        <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                        <pre><code class="language-cisco">Switch(config)# vtp domain MYCOMPANY
+            <div id="vtp-config">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Switch(config)# vtp domain MYCOMPANY
+Switch(config)# vtp version 2
 Switch(config)# vtp mode server
 Switch(config)# vtp password Cisco123
-Switch(config)# vtp pruning</code></pre>
-                        <p class="text-neutral-400 text-sm mt-2">VTP domenini təyin edir, switch-i server rejiminə qoyur, domenə parol əlavə edir və lazımsız VLAN trafikini trunk-lardan kəsən pruning funksiyasını aktivləşdirir.</p>
-                    </div>
+Switch(config)# vtp pruning
+
+! Client switch
+Switch(config)# vtp domain MYCOMPANY
+Switch(config)# vtp mode client
+Switch(config)# vtp password Cisco123</code></pre>
+                    <p class="code-note">Domen adı, versiya və parol bütün switch-lərdə eyni olmalıdır. Pruning server-də aktivləşdirilir və domenə yayılır.</p>
                 </div>
-                <div id="vtp-verify-commands" class="protocol-pane hidden">
-                    <div class="code-block">
-                        <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                        <pre><code class="language-cisco">show vtp status
+            </div>
+            <div id="vtp-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show vtp status
 show vtp password
-show vtp counters</code></pre>
-                        <p class="text-neutral-400 text-sm mt-2">VTP domen, mod, versiya və revision nömrəsini, konfiqurasiya edilmiş parolu və VTP mesaj statistikasını göstərir.</p>
-                    </div>
+show vtp counters
+show interfaces trunk</code></pre>
+                    <p class="code-note"><code>show vtp status</code>: domen, mod, versiya, <strong>Configuration Revision</strong> və son dəyişikliyi kimin etdiyi. VLAN-lar yayılmırsa — trunk, domen adı və parolu yoxlayın.</p>
                 </div>
             </div>
         </section>
-
     </main>
 
     <footer class="brand-footer">
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
@@ -160,52 +149,8 @@ show vtp counters</code></pre>
         </div>
     </footer>
 
-    <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-
-        function setupTabs(tabContainerId, contentContainerId, prefix) {
-            const tabsContainer = document.getElementById(tabContainerId);
-            const contentContainer = document.getElementById(contentContainerId);
-            tabsContainer.addEventListener('click', (event) => {
-                if (event.target.classList.contains('tab-btn')) {
-                    const targetType = event.target.dataset.type;
-                    tabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
-                        btn.classList.remove('active-tab');
-                        btn.classList.add('inactive-tab');
-                    });
-                    event.target.classList.add('active-tab');
-                    event.target.classList.remove('inactive-tab');
-                    contentContainer.querySelectorAll('.protocol-pane').forEach(pane => {
-                        pane.classList.toggle('hidden', pane.id !== `${prefix}-${targetType}-commands`);
-                    });
-                }
-            });
-        }
-        setupTabs('vtp-tabs', 'vtp-commands-content', 'vtp');
-
-        function copyCode(button) {
-            const pre = button.nextElementSibling;
-            const code = pre.querySelector('code');
-            const textToCopy = code.innerText;
-            const textArea = document.createElement('textarea');
-            textArea.value = textToCopy;
-            document.body.appendChild(textArea);
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                button.innerText = 'Kopyalandı!';
-                setTimeout(() => { button.innerText = 'Kopyala'; }, 2000);
-            } catch (err) {
-                console.error('Kopyalama uğursuz oldu', err);
-            }
-            document.body.removeChild(textArea);
-        }
-    </script>
+    <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>
 </html>
+

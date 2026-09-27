@@ -3,71 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPv6 Dərs Vəsaiti</title>
+    <title>IPv6 — Dərs Vəsaiti</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
     <link rel="stylesheet" href="../assets/theme.css">
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #171717; }
-        .section-card { background-color: white; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); padding: 1.5rem; margin-bottom: 2rem; }
-        .tab-btn { padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.2s, color 0.2s; cursor: pointer; white-space: nowrap; }
-        .active-tab { background-color: #f59e0b; color: #0a0a0a; }
-        .inactive-tab { background-color: #e5e5e5; color: #404040; }
-        .code-block { background-color: #171717; color: #e5e5e5; border-radius: 0.5rem; padding: 1rem; position: relative; overflow-x: auto; }
-        .copy-btn { position: absolute; top: 0.75rem; right: 0.75rem; background-color: #404040; color: #ffffff; border: none; padding: 0.25rem 0.75rem; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem; transition: background-color 0.2s; }
-        .copy-btn:hover { background-color: #737373; }
-        .feature-item { display: flex; align-items: center; margin-bottom: 0.75rem; }
-        .feature-icon { font-size: 1.5rem; margin-right: 0.75rem; color: #d97706; }
-    </style>
 </head>
 <body class="antialiased">
 
     <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-amber-700">IPv6</h1>
-            <div class="flex flex-wrap items-center gap-4 overflow-x-auto pb-2 md:pb-0">
-                <a href="#intro" class="text-neutral-600 hover:text-amber-700 font-medium">Giriş</a>
-                <a href="#shorten" class="text-neutral-600 hover:text-amber-700 font-medium">Qısaltma</a>
-                <a href="#types" class="text-neutral-600 hover:text-amber-700 font-medium">Ünvan Növləri</a>
-                <a href="#slaac" class="text-neutral-600 hover:text-amber-700 font-medium">SLAAC/EUI-64</a>
-                <a href="#commands" class="text-neutral-600 hover:text-amber-700 font-medium">Əmrlər</a>
-                <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#globe"></use></svg> IPv6</h1>
+                <span class="lesson-badge">CCNA · Network Fundamentals</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#shorten" class="nav-link">Qısaltma</a>
+                <a href="#types" class="nav-link">Ünvan növləri</a>
+                <a href="#slaac" class="nav-link">SLAAC və EUI-64</a>
+                <a href="#ndp" class="nav-link">NDP</a>
+                <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
-    <main class="container mx-auto px-6 py-8">
-
-        <section id="intro" class="section-card text-center">
-            <h2 class="text-3xl font-bold mb-4 text-neutral-800">Giriş: Niyə IPv6?</h2>
-            <p class="text-neutral-600 max-w-3xl mx-auto">
-                IPv4-ün 32 bitlik ünvan sahəsi (~4.3 milyard ünvan) internetin böyüməsi ilə tükəndi. IPv6
-                <strong>128 bitlik</strong> ünvanlardan istifadə edir (~3.4×10<sup>38</sup> ünvan), NAT
-                ehtiyacını aradan qaldırır, sadələşdirilmiş başlığa malikdir və avtomatik konfiqurasiyanı
-                (SLAAC) dəstəkləyir. IPv6-da broadcast yoxdur — onun yerinə multicast istifadə olunur, ARP-ın
-                yerini isə NDP (Neighbor Discovery Protocol) tutur.
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#globe"></use></svg> Giriş: Niyə IPv6?</h2>
+            <p class="lead">
+                IPv4-ün 32 bitlik ünvan sahəsi (~4.3 milyard ünvan) internetin böyüməsi ilə tükəndi. <strong>IPv6</strong> 128 bitlik ünvanlardan istifadə edir
+                (~3.4×10<sup>38</sup> ünvan), NAT ehtiyacını aradan qaldırır, sadələşdirilmiş başlığa malikdir və avtomatik konfiqurasiyanı (SLAAC) dəstəkləyir.
+                IPv6-da <strong>broadcast yoxdur</strong> — onun yerinə multicast işləyir; ARP-ın yerini isə <strong>NDP</strong> (Neighbor Discovery Protocol) tutur.
             </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#hash"></use></svg> 128 bit</h3><p class="text-neutral-700">8 qrup × 16 bit, hex yazılış. Standart LAN subnet-i — <code>/64</code>.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#radio"></use></svg> Multicast</h3><p class="text-neutral-700">Broadcast əvəzinə — yalnız maraqlı cihazlar qəbul edir.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#calculator"></use></svg> Alət</h3><p><a class="font-semibold underline" href="../tools/ipv6.html">IPv6 Kalkulyatoru</a> ilə qısaltma və EUI-64-ü yoxlayın.</p></div>
+            </div>
         </section>
 
         <section id="shorten" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">1. Ünvanın Yazılışı və Qısaldılması</h2>
-            <p class="text-center text-neutral-600 mb-6 max-w-3xl mx-auto">
-                IPv6 ünvanı iki nöqtə ilə ayrılmış 8 qrupdan (hextet), hər biri 4 hex simvoldan (16 bit) ibarətdir.
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div class="feature-item">
-                    <span class="num-badge mr-3">1</span>
-                    <p class="text-neutral-700"><strong>Qayda 1:</strong> Hər qrupdakı <em>öndəki sıfırlar</em> atıla bilər: <code>0db8</code> → <code>db8</code>, <code>0001</code> → <code>1</code>.</p>
-                </div>
-                <div class="feature-item">
-                    <span class="num-badge mr-3">2</span>
-                    <p class="text-neutral-700"><strong>Qayda 2:</strong> Ardıcıl tam sıfır qruplar <code>::</code> ilə əvəz oluna bilər — <em>yalnız bir dəfə</em>.</p>
-                </div>
-            </div>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#minimize-2"></use></svg> 1. Ünvanın Yazılışı və Qısaldılması</h2>
+            <p class="text-neutral-700 mb-6">IPv6 ünvanı iki nöqtə ilə ayrılmış 8 qrupdan (hextet) ibarətdir; hər qrup 4 hex simvoldur (16 bit).</p>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Qayda 1:</strong> hər qrupdakı <em>öndəki sıfırlar</em> atıla bilər: <code>0db8</code> → <code>db8</code>, <code>0001</code> → <code>1</code>.</p></li>
+                <li><p class="text-neutral-700"><strong>Qayda 2:</strong> ardıcıl tam sıfır qruplar <code>::</code> ilə əvəz oluna bilər — <em>yalnız bir dəfə</em>. RFC 5952-yə görə ən uzun ardıcıllıq qısaldılır, hərflər kiçik yazılır.</p></li>
+            </ol>
             <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
                 <pre><code>Tam:        2001:0db8:0000:0000:0000:ff00:0042:8329
 Qayda 1:    2001:db8:0:0:0:ff00:42:8329
 Qayda 2:    2001:db8::ff00:42:8329
@@ -80,65 +68,32 @@ Səhv:       2001::25de::cade   ← "::" iki dəfə istifadə oluna bilməz</cod
         </section>
 
         <section id="types" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">2. Ünvan Növləri</h2>
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white border border-neutral-200 rounded-lg shadow-sm">
-                    <thead>
-                        <tr class="bg-neutral-100 text-left text-sm font-semibold text-neutral-700 uppercase tracking-wider">
-                            <th class="py-3 px-4 border-b border-neutral-200">Növ</th>
-                            <th class="py-3 px-4 border-b border-neutral-200">Prefiks</th>
-                            <th class="py-3 px-4 border-b border-neutral-200">IPv4 analoqu / izah</th>
-                        </tr>
-                    </thead>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#list"></use></svg> 2. Ünvan Növləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Prefiks</th><th>IPv4 analoqu / izah</th></tr></thead>
                     <tbody>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Global Unicast</td>
-                            <td class="py-3 px-4 border-b border-neutral-200"><code>2000::/3</code></td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Public IP — internetdə marşrutlaşdırılır</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Link-Local</td>
-                            <td class="py-3 px-4 border-b border-neutral-200"><code>FE80::/10</code></td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Yalnız öz seqmentində; hər IPv6 interfeysində avtomatik yaranır</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Unique Local</td>
-                            <td class="py-3 px-4 border-b border-neutral-200"><code>FC00::/7</code></td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Private IP (10.x, 192.168.x) analoqu</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Multicast</td>
-                            <td class="py-3 px-4 border-b border-neutral-200"><code>FF00::/8</code></td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Qrupa göndərmə (FF02::1 bütün node-lar, FF02::2 bütün router-lər)</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Loopback</td>
-                            <td class="py-3 px-4 border-b border-neutral-200"><code>::1/128</code></td>
-                            <td class="py-3 px-4 border-b border-neutral-200">127.0.0.1 analoqu</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Unspecified</td>
-                            <td class="py-3 px-4 border-b border-neutral-200"><code>::/128</code></td>
-                            <td class="py-3 px-4 border-b border-neutral-200">0.0.0.0 analoqu — ünvan hələ yoxdur</td>
-                        </tr>
+                        <tr><td><strong>Global Unicast</strong></td><td><code>2000::/3</code></td><td>Public IP — internetdə marşrutlaşdırılır</td></tr>
+                        <tr><td><strong>Link-Local</strong></td><td><code>FE80::/10</code></td><td>Yalnız öz seqmentində; hər IPv6 interfeysində avtomatik yaranır; routing protokolları next-hop kimi bunu istifadə edir</td></tr>
+                        <tr><td><strong>Unique Local</strong></td><td><code>FC00::/7</code></td><td>Private IP (10.x, 192.168.x) analoqu; praktikada <code>FD00::/8</code></td></tr>
+                        <tr><td><strong>Multicast</strong></td><td><code>FF00::/8</code></td><td>Qrupa göndərmə: <code>FF02::1</code> bütün node-lar, <code>FF02::2</code> bütün router-lər</td></tr>
+                        <tr><td><strong>Anycast</strong></td><td>Unicast diapazonundan</td><td>Eyni ünvan bir neçə cihazda — ən yaxın olan cavab verir</td></tr>
+                        <tr><td><strong>Loopback</strong></td><td><code>::1/128</code></td><td>127.0.0.1 analoqu</td></tr>
+                        <tr><td><strong>Unspecified</strong></td><td><code>::/128</code></td><td>0.0.0.0 analoqu — ünvan hələ yoxdur</td></tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
         <section id="slaac" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">3. SLAAC və EUI-64</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-amber-50 p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-semibold text-amber-800 mb-2">SLAAC</h3>
-                    <p class="text-neutral-700">Stateless Address Autoconfiguration: host router-dən Router Advertisement (RA) mesajı ilə /64 prefiksi öyrənir və interfeys ID-sini özü yaradır — DHCP server lazım olmadan.</p>
-                </div>
-                <div class="bg-neutral-100 p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-semibold text-neutral-900 mb-2">EUI-64</h3>
-                    <p class="text-neutral-700">48 bitlik MAC ünvanı ortadan ikiyə bölünür, arasına <code>FFFE</code> əlavə olunur və 7-ci bit (U/L) çevrilir — nəticədə 64 bitlik interfeys ID alınır.</p>
-                </div>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#fingerprint"></use></svg> 3. SLAAC və EUI-64</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3>SLAAC</h3><p class="text-neutral-700">Stateless Address Autoconfiguration: host router-in <strong>Router Advertisement</strong> (RA) mesajından /64 prefiksi öyrənir və interfeys ID-sini özü yaradır — DHCP server olmadan.</p></div>
+                <div class="info-card"><h3>EUI-64</h3><p class="text-neutral-700">48 bitlik MAC ortadan bölünür, arasına <code>FFFE</code> əlavə olunur və 7-ci bit (U/L) çevrilir — 64 bitlik interfeys ID alınır.</p></div>
+                <div class="info-card dark"><h3>DHCPv6</h3><p>Stateless (yalnız DNS kimi əlavə parametrlər) və stateful (ünvanın özü də) rejimləri var.</p></div>
             </div>
-            <div class="code-block mt-6">
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
                 <pre><code>MAC:          00:1A:2B:3C:4D:5E
 Bölünür:      001A2B | 3C4D5E
 FFFE əlavə:   001A2B FFFE 3C4D5E
@@ -146,67 +101,78 @@ FFFE əlavə:   001A2B FFFE 3C4D5E
 Interface ID: 021A:2BFF:FE3C:4D5E
 Prefiks /64:  2001:db8:1:1::/64
 Nəticə:       2001:db8:1:1:21a:2bff:fe3c:4d5e</code></pre>
+                <p class="code-note">Məxfilik üçün müasir OS-lar EUI-64 əvəzinə təsadüfi interfeys ID-si (privacy extensions) istifadə edir — MAC ünvanı internetə görünmür.</p>
+            </div>
+        </section>
+
+        <section id="ndp" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#radar"></use></svg> 4. Neighbor Discovery Protocol (ICMPv6)</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Mesaj</th><th>Type</th><th>Vəzifəsi</th></tr></thead>
+                    <tbody>
+                        <tr><td>Router Solicitation (RS)</td><td>133</td><td>Host: "Burada router varmı?" → <code>FF02::2</code></td></tr>
+                        <tr><td>Router Advertisement (RA)</td><td>134</td><td>Router: prefiks, gateway, SLAAC/DHCPv6 bayraqları</td></tr>
+                        <tr><td>Neighbor Solicitation (NS)</td><td>135</td><td>ARP sorğusunun analoqu; həmçinin DAD (dublikat ünvan yoxlaması)</td></tr>
+                        <tr><td>Neighbor Advertisement (NA)</td><td>136</td><td>ARP cavabının analoqu</td></tr>
+                        <tr><td>Redirect</td><td>137</td><td>Daha yaxşı next-hop bildirişi</td></tr>
+                    </tbody>
+                </table>
             </div>
         </section>
 
         <section id="commands" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">4. Praktiki Əmrlər</h2>
-            <div class="flex justify-center mb-6 space-x-2 flex-wrap" id="v6-tabs">
-                <button data-type="basic" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 active-tab">Əsas Konfiqurasiya</button>
-                <button data-type="routing" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">Marşrutlaşdırma</button>
-                <button data-type="verify" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">Doğrulama</button>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#terminal"></use></svg> 5. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="v6-basic">Əsas konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="v6-routing">Marşrutlaşdırma</button>
+                <button class="tab-btn inactive-tab" data-pane="v6-verify">Doğrulama</button>
             </div>
-            <div id="v6-commands-content">
-                <div id="v6-basic-commands" class="protocol-pane">
-                    <div class="code-block">
-                        <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                        <pre><code class="language-cisco">Router(config)# ipv6 unicast-routing
-
+            <div id="v6-basic">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Router(config)# ipv6 unicast-routing
 Router(config)# interface GigabitEthernet0/0
 Router(config-if)# ipv6 address 2001:db8:1:1::1/64
 Router(config-if)# ipv6 address fe80::1 link-local
 Router(config-if)# no shutdown
-
 Router(config)# interface GigabitEthernet0/1
 Router(config-if)# ipv6 address 2001:db8:1:2::/64 eui-64</code></pre>
-                        <p class="text-neutral-400 text-sm mt-2">Router-də IPv6 marşrutlaşdırmanı aktivləşdirir (bu olmadan router paketləri ötürmür və RA göndərmir), statik global və link-local ünvan, ikinci interfeysdə isə EUI-64 ilə ünvan təyin edir.</p>
-                    </div>
+                    <p class="code-note"><code>ipv6 unicast-routing</code> olmadan router IPv6 paketlərini ötürmür və RA göndərmir. İkinci interfeysdə ünvan EUI-64 ilə yaranır.</p>
                 </div>
-                <div id="v6-routing-commands" class="protocol-pane hidden">
-                    <div class="code-block">
-                        <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                        <pre><code class="language-cisco">Router(config)# ipv6 route ::/0 2001:db8:ffff::1
+            </div>
+            <div id="v6-routing" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Router(config)# ipv6 route ::/0 2001:db8:ffff::1
 Router(config)# ipv6 route 2001:db8:2::/48 GigabitEthernet0/1 fe80::2
-
 Router(config)# ipv6 router ospf 1
 Router(config-rtr)# router-id 1.1.1.1
 Router(config)# interface GigabitEthernet0/0
 Router(config-if)# ipv6 ospf 1 area 0</code></pre>
-                        <p class="text-neutral-400 text-sm mt-2">IPv6 defolt marşrut, çıxış interfeysi + link-local next-hop ilə statik marşrut və OSPFv3 konfiqurasiyası (OSPFv3 interfeys səviyyəsində aktivləşdirilir).</p>
-                    </div>
+                    <p class="code-note">Link-local next-hop istifadə edəndə çıxış interfeysi mütləq göstərilməlidir. OSPFv3 interfeys səviyyəsində aktivləşdirilir, router-id IPv4 formatındadır.</p>
                 </div>
-                <div id="v6-verify-commands" class="protocol-pane hidden">
-                    <div class="code-block">
-                        <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                        <pre><code class="language-cisco">show ipv6 interface brief
+            </div>
+            <div id="v6-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ipv6 interface brief
 show ipv6 interface GigabitEthernet0/0
 show ipv6 route
 show ipv6 neighbors
 show ipv6 ospf neighbor
 ping ipv6 2001:db8:1:1::2</code></pre>
-                        <p class="text-neutral-400 text-sm mt-2">İnterfeys ünvanları (link-local daxil), qoşulduğu multicast qrupları, IPv6 marşrut cədvəli, NDP qonşu cədvəli (ARP analoqu), OSPFv3 qonşuları və əlçatanlıq.</p>
-                    </div>
+                    <p class="code-note">İnterfeys ünvanları (link-local daxil), qoşulduğu multicast qrupları, marşrut cədvəli, NDP qonşu cədvəli, OSPFv3 qonşuları və əlçatanlıq.</p>
                 </div>
             </div>
         </section>
-
     </main>
 
     <footer class="brand-footer">
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
@@ -233,52 +199,8 @@ ping ipv6 2001:db8:1:1::2</code></pre>
         </div>
     </footer>
 
-    <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-
-        function setupTabs(tabContainerId, contentContainerId, prefix) {
-            const tabsContainer = document.getElementById(tabContainerId);
-            const contentContainer = document.getElementById(contentContainerId);
-            tabsContainer.addEventListener('click', (event) => {
-                if (event.target.classList.contains('tab-btn')) {
-                    const targetType = event.target.dataset.type;
-                    tabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
-                        btn.classList.remove('active-tab');
-                        btn.classList.add('inactive-tab');
-                    });
-                    event.target.classList.add('active-tab');
-                    event.target.classList.remove('inactive-tab');
-                    contentContainer.querySelectorAll('.protocol-pane').forEach(pane => {
-                        pane.classList.toggle('hidden', pane.id !== `${prefix}-${targetType}-commands`);
-                    });
-                }
-            });
-        }
-        setupTabs('v6-tabs', 'v6-commands-content', 'v6');
-
-        function copyCode(button) {
-            const pre = button.nextElementSibling;
-            const code = pre.querySelector('code');
-            const textToCopy = code.innerText;
-            const textArea = document.createElement('textarea');
-            textArea.value = textToCopy;
-            document.body.appendChild(textArea);
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                button.innerText = 'Kopyalandı!';
-                setTimeout(() => { button.innerText = 'Kopyala'; }, 2000);
-            } catch (err) {
-                console.error('Kopyalama uğursuz oldu', err);
-            }
-            document.body.removeChild(textArea);
-        }
-    </script>
+    <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>
 </html>
+

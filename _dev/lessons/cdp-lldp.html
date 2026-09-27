@@ -1,0 +1,130 @@
+<!--PAGE title="CDP və LLDP" icon="radar" badge="CCNA · Network Access" nav="intro:Giriş|cdp:CDP|lldp:LLDP|comparison:Müqayisə|security:Təhlükəsizlik"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:radar}} Giriş: Şəbəkə Kəşf Protokolları</h2>
+            <p class="lead">
+                Şəbəkə cihazlarının bir-birini avtomatik kəşf etməsi və məlumat mübadiləsi şəbəkə idarəçiliyində çox vacibdir.
+                Bu dərs iki əsas kəşf protokolunu — <strong>Cisco Discovery Protocol (CDP)</strong> və <strong>Link Layer Discovery Protocol (LLDP)</strong> — araşdırır.
+                Onlar topologiya xəritəsini qurmağa, problemləri aradan qaldırmağa və "bu kabel hansı porta gedir?" sualına saniyələr içində cavab tapmağa kömək edir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:map}} Topologiya</h3><p class="text-neutral-700">Sənəd olmayan şəbəkənin xəritəsini qonşuluq məlumatlarından bərpa etmək.</p></div>
+                <div class="info-card"><h3>{{i:cable}} Kabel yoxlaması</h3><p class="text-neutral-700">Port-to-port bağlantısını fiziki olaraq otağa getmədən təsdiqləmək.</p></div>
+                <div class="info-card dark"><h3>{{i:phone}} IP telefonlar</h3><p>Voice VLAN məlumatı və PoE gücü CDP/LLDP-MED ilə danışılır.</p></div>
+            </div>
+        </section>
+
+        <section id="cdp" class="section-card">
+            <h2 class="section-title">{{i:radar}} 1. Cisco Discovery Protocol (CDP)</h2>
+            <p class="text-neutral-700 mb-6">CDP Cisco-nun qonşu Cisco cihazları haqqında məlumat toplamaq üçün hazırladığı mülkiyyət (proprietary) protokoludur. Layer 2 səviyyəsində işləyir və yalnız <strong>birbaşa qoşulmuş</strong> cihazlar haqqında məlumat mübadiləsi aparır — router-dən keçmir.</p>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:link}}<p class="text-neutral-700"><strong>Qonşu məlumatı:</strong> device ID, local/remote port, platforma, IOS versiyası, IP ünvanı, native VLAN, duplex.</p></div>
+                <div class="feature-item">{{i:lock}}<p class="text-neutral-700"><strong>Cisco mülkiyyəti:</strong> yalnız Cisco (və CDP dəstəkləyən bəzi) cihazlar arasında işləyir.</p></div>
+                <div class="feature-item">{{i:timer}}<p class="text-neutral-700"><strong>Timer-lər:</strong> hər <strong>60 saniyədən</strong> bir elan göndərir, holdtime <strong>180 saniyədir</strong>.</p></div>
+                <div class="feature-item">{{i:layers}}<p class="text-neutral-700"><strong>Layer 2:</strong> multicast MAC <code>0100.0CCC.CCCC</code> ünvanına göndərilir, IP konfiqurasiyası tələb etmir.</p></div>
+            </div>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="cdp-config">Konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="cdp-verify">Doğrulama</button>
+            </div>
+            <div id="cdp-config">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>! Qlobal
+cdp run
+no cdp run
+cdp timer 30
+cdp holdtime 120
+
+! İnterfeysdə
+interface GigabitEthernet0/1
+ cdp enable
+ no cdp enable</code></pre>
+                    <p class="code-note">CDP Cisco cihazlarında defolt olaraq aktivdir. İnternetə və ya etibarsız şəbəkəyə baxan interfeyslərdə söndürülməlidir.</p>
+                </div>
+            </div>
+            <div id="cdp-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show cdp
+show cdp neighbors
+show cdp neighbors detail
+show cdp entry SW2
+show cdp interface
+show cdp traffic</code></pre>
+                    <p class="code-note"><code>show cdp neighbors</code>-da <strong>Local Intrfce</strong> sizin portunuz, <strong>Port ID</strong> isə qonşunun portudur. IP ünvanını görmək üçün <code>detail</code> lazımdır.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="lldp" class="section-card">
+            <h2 class="section-title">{{i:globe}} 2. Link Layer Discovery Protocol (LLDP)</h2>
+            <p class="text-neutral-700 mb-6">LLDP <strong>IEEE 802.1AB</strong> standartına əsaslanan, istehsalçıdan asılı olmayan (vendor-neutral) kəşf protokoludur. Cisco, Juniper, HPE, Aruba, MikroTik, serverlər və IP telefonlar arasında işləyir.</p>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:globe}}<p class="text-neutral-700"><strong>Multi-vendor:</strong> müxtəlif istehsalçıların cihazları bir-birini görür.</p></div>
+                <div class="feature-item">{{i:settings}}<p class="text-neutral-700"><strong>Standart:</strong> IEEE 802.1AB; LLDP-MED genişlənməsi IP telefonlar üçün.</p></div>
+                <div class="feature-item">{{i:arrow-left-right}}<p class="text-neutral-700"><strong>Ayrı istiqamətlər:</strong> göndərmə (transmit) və qəbul (receive) ayrıca idarə olunur.</p></div>
+                <div class="feature-item">{{i:chart-column}}<p class="text-neutral-700"><strong>TLV formatı:</strong> Type-Length-Value — yeni məlumat növlərini əlavə etmək asandır.</p></div>
+                <div class="feature-item">{{i:timer}}<p class="text-neutral-700"><strong>Timer-lər:</strong> elan hər <strong>30 saniyə</strong>, holdtime <strong>120 saniyə</strong>, reinit delay 2 saniyə.</p></div>
+            </div>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="lldp-config">Konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="lldp-verify">Doğrulama</button>
+            </div>
+            <div id="lldp-config">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>! Qlobal (Cisco-da defolt olaraq söndürülüdür)
+lldp run
+lldp timer 30
+lldp holdtime 120
+
+! İnterfeysdə
+interface GigabitEthernet0/1
+ lldp transmit
+ lldp receive
+ no lldp transmit
+ no lldp receive</code></pre>
+                    <p class="code-note">Cisco IOS-da LLDP defolt olaraq söndürülüdür — multi-vendor mühitdə <code>lldp run</code> ilə aktivləşdirin.</p>
+                </div>
+            </div>
+            <div id="lldp-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show lldp
+show lldp neighbors
+show lldp neighbors detail
+show lldp interface
+show lldp traffic</code></pre>
+                    <p class="code-note">Linux serverdə LLDP üçün <code>lldpd</code> paketi: <code>lldpcli show neighbors</code> — server hansı switch portuna qoşulub, dərhal görünür.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="comparison" class="section-card">
+            <h2 class="section-title">{{i:scale}} 3. CDP və LLDP Müqayisəsi</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Xüsusiyyət</th><th>CDP</th><th>LLDP</th></tr></thead>
+                    <tbody>
+                        <tr><td>İstehsalçı</td><td>Cisco (mülkiyyət)</td><td>IEEE standartı (vendor-neutral)</td></tr>
+                        <tr><td>Standart</td><td>Yoxdur</td><td>IEEE 802.1AB</td></tr>
+                        <tr><td>Cihaz dəstəyi</td><td>Əsasən Cisco</td><td>Bütün istehsalçılar</td></tr>
+                        <tr><td>Elan / holdtime</td><td>60 s / 180 s</td><td>30 s / 120 s</td></tr>
+                        <tr><td>Cisco-da defolt</td><td class="yes">Aktiv</td><td class="no">Söndürülü</td></tr>
+                        <tr><td>Məlumat formatı</td><td>Cisco TLV-ləri</td><td>Standart TLV-lər (+ LLDP-MED)</td></tr>
+                        <tr><td>Əsas məqsəd</td><td>Cisco şəbəkəsinin kəşfi</td><td>Heterogen şəbəkələrdə kəşf</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="security" class="section-card">
+            <h2 class="section-title">{{i:shield-alert}} 4. Təhlükəsizlik</h2>
+            <p class="text-neutral-700 mb-6">Kəşf protokolları açıq mətnlə göndərilir: hücumçu bir paket tutaraq cihazın modelini, IOS versiyasını və idarəetmə IP-sini öyrənir — zəiflik axtarmaq üçün ideal başlanğıc.</p>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:plug-zap}}<p class="text-neutral-700"><strong>İstifadəçi portlarında söndürün:</strong> <code>no cdp enable</code>, <code>no lldp transmit</code> (IP telefon yoxdursa).</p></div>
+                <div class="feature-item">{{i:globe}}<p class="text-neutral-700"><strong>İnternetə baxan interfeyslərdə</strong> həmişə söndürün.</p></div>
+                <div class="feature-item">{{i:network}}<p class="text-neutral-700"><strong>Infrastruktur linklərində</strong> (switch–switch, switch–router) aktiv saxlayın — troubleshooting üçün dəyərlidir.</p></div>
+            </div>
+        </section>
+<!--END-->

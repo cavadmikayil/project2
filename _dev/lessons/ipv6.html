@@ -1,0 +1,135 @@
+<!--PAGE title="IPv6" icon="globe" badge="CCNA · Network Fundamentals" nav="intro:Giriş|shorten:Qısaltma|types:Ünvan növləri|slaac:SLAAC və EUI-64|ndp:NDP|commands:Əmrlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:globe}} Giriş: Niyə IPv6?</h2>
+            <p class="lead">
+                IPv4-ün 32 bitlik ünvan sahəsi (~4.3 milyard ünvan) internetin böyüməsi ilə tükəndi. <strong>IPv6</strong> 128 bitlik ünvanlardan istifadə edir
+                (~3.4×10<sup>38</sup> ünvan), NAT ehtiyacını aradan qaldırır, sadələşdirilmiş başlığa malikdir və avtomatik konfiqurasiyanı (SLAAC) dəstəkləyir.
+                IPv6-da <strong>broadcast yoxdur</strong> — onun yerinə multicast işləyir; ARP-ın yerini isə <strong>NDP</strong> (Neighbor Discovery Protocol) tutur.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:hash}} 128 bit</h3><p class="text-neutral-700">8 qrup × 16 bit, hex yazılış. Standart LAN subnet-i — <code>/64</code>.</p></div>
+                <div class="info-card"><h3>{{i:radio}} Multicast</h3><p class="text-neutral-700">Broadcast əvəzinə — yalnız maraqlı cihazlar qəbul edir.</p></div>
+                <div class="info-card dark"><h3>{{i:calculator}} Alət</h3><p><a class="font-semibold underline" href="../tools/ipv6.html">IPv6 Kalkulyatoru</a> ilə qısaltma və EUI-64-ü yoxlayın.</p></div>
+            </div>
+        </section>
+
+        <section id="shorten" class="section-card">
+            <h2 class="section-title">{{i:minimize-2}} 1. Ünvanın Yazılışı və Qısaldılması</h2>
+            <p class="text-neutral-700 mb-6">IPv6 ünvanı iki nöqtə ilə ayrılmış 8 qrupdan (hextet) ibarətdir; hər qrup 4 hex simvoldur (16 bit).</p>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Qayda 1:</strong> hər qrupdakı <em>öndəki sıfırlar</em> atıla bilər: <code>0db8</code> → <code>db8</code>, <code>0001</code> → <code>1</code>.</p></li>
+                <li><p class="text-neutral-700"><strong>Qayda 2:</strong> ardıcıl tam sıfır qruplar <code>::</code> ilə əvəz oluna bilər — <em>yalnız bir dəfə</em>. RFC 5952-yə görə ən uzun ardıcıllıq qısaldılır, hərflər kiçik yazılır.</p></li>
+            </ol>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>Tam:        2001:0db8:0000:0000:0000:ff00:0042:8329
+Qayda 1:    2001:db8:0:0:0:ff00:42:8329
+Qayda 2:    2001:db8::ff00:42:8329
+
+Tam:        fe80:0000:0000:0000:0000:0000:0000:0001
+Qısa:       fe80::1
+
+Səhv:       2001::25de::cade   ← "::" iki dəfə istifadə oluna bilməz</code></pre>
+            </div>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title">{{i:list}} 2. Ünvan Növləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Prefiks</th><th>IPv4 analoqu / izah</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Global Unicast</strong></td><td><code>2000::/3</code></td><td>Public IP — internetdə marşrutlaşdırılır</td></tr>
+                        <tr><td><strong>Link-Local</strong></td><td><code>FE80::/10</code></td><td>Yalnız öz seqmentində; hər IPv6 interfeysində avtomatik yaranır; routing protokolları next-hop kimi bunu istifadə edir</td></tr>
+                        <tr><td><strong>Unique Local</strong></td><td><code>FC00::/7</code></td><td>Private IP (10.x, 192.168.x) analoqu; praktikada <code>FD00::/8</code></td></tr>
+                        <tr><td><strong>Multicast</strong></td><td><code>FF00::/8</code></td><td>Qrupa göndərmə: <code>FF02::1</code> bütün node-lar, <code>FF02::2</code> bütün router-lər</td></tr>
+                        <tr><td><strong>Anycast</strong></td><td>Unicast diapazonundan</td><td>Eyni ünvan bir neçə cihazda — ən yaxın olan cavab verir</td></tr>
+                        <tr><td><strong>Loopback</strong></td><td><code>::1/128</code></td><td>127.0.0.1 analoqu</td></tr>
+                        <tr><td><strong>Unspecified</strong></td><td><code>::/128</code></td><td>0.0.0.0 analoqu — ünvan hələ yoxdur</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="slaac" class="section-card">
+            <h2 class="section-title">{{i:fingerprint}} 3. SLAAC və EUI-64</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3>SLAAC</h3><p class="text-neutral-700">Stateless Address Autoconfiguration: host router-in <strong>Router Advertisement</strong> (RA) mesajından /64 prefiksi öyrənir və interfeys ID-sini özü yaradır — DHCP server olmadan.</p></div>
+                <div class="info-card"><h3>EUI-64</h3><p class="text-neutral-700">48 bitlik MAC ortadan bölünür, arasına <code>FFFE</code> əlavə olunur və 7-ci bit (U/L) çevrilir — 64 bitlik interfeys ID alınır.</p></div>
+                <div class="info-card dark"><h3>DHCPv6</h3><p>Stateless (yalnız DNS kimi əlavə parametrlər) və stateful (ünvanın özü də) rejimləri var.</p></div>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>MAC:          00:1A:2B:3C:4D:5E
+Bölünür:      001A2B | 3C4D5E
+FFFE əlavə:   001A2B FFFE 3C4D5E
+7-ci bit:     00 → 02
+Interface ID: 021A:2BFF:FE3C:4D5E
+Prefiks /64:  2001:db8:1:1::/64
+Nəticə:       2001:db8:1:1:21a:2bff:fe3c:4d5e</code></pre>
+                <p class="code-note">Məxfilik üçün müasir OS-lar EUI-64 əvəzinə təsadüfi interfeys ID-si (privacy extensions) istifadə edir — MAC ünvanı internetə görünmür.</p>
+            </div>
+        </section>
+
+        <section id="ndp" class="section-card">
+            <h2 class="section-title">{{i:radar}} 4. Neighbor Discovery Protocol (ICMPv6)</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Mesaj</th><th>Type</th><th>Vəzifəsi</th></tr></thead>
+                    <tbody>
+                        <tr><td>Router Solicitation (RS)</td><td>133</td><td>Host: "Burada router varmı?" → <code>FF02::2</code></td></tr>
+                        <tr><td>Router Advertisement (RA)</td><td>134</td><td>Router: prefiks, gateway, SLAAC/DHCPv6 bayraqları</td></tr>
+                        <tr><td>Neighbor Solicitation (NS)</td><td>135</td><td>ARP sorğusunun analoqu; həmçinin DAD (dublikat ünvan yoxlaması)</td></tr>
+                        <tr><td>Neighbor Advertisement (NA)</td><td>136</td><td>ARP cavabının analoqu</td></tr>
+                        <tr><td>Redirect</td><td>137</td><td>Daha yaxşı next-hop bildirişi</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 5. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="v6-basic">Əsas konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="v6-routing">Marşrutlaşdırma</button>
+                <button class="tab-btn inactive-tab" data-pane="v6-verify">Doğrulama</button>
+            </div>
+            <div id="v6-basic">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Router(config)# ipv6 unicast-routing
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ipv6 address 2001:db8:1:1::1/64
+Router(config-if)# ipv6 address fe80::1 link-local
+Router(config-if)# no shutdown
+Router(config)# interface GigabitEthernet0/1
+Router(config-if)# ipv6 address 2001:db8:1:2::/64 eui-64</code></pre>
+                    <p class="code-note"><code>ipv6 unicast-routing</code> olmadan router IPv6 paketlərini ötürmür və RA göndərmir. İkinci interfeysdə ünvan EUI-64 ilə yaranır.</p>
+                </div>
+            </div>
+            <div id="v6-routing" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Router(config)# ipv6 route ::/0 2001:db8:ffff::1
+Router(config)# ipv6 route 2001:db8:2::/48 GigabitEthernet0/1 fe80::2
+Router(config)# ipv6 router ospf 1
+Router(config-rtr)# router-id 1.1.1.1
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ipv6 ospf 1 area 0</code></pre>
+                    <p class="code-note">Link-local next-hop istifadə edəndə çıxış interfeysi mütləq göstərilməlidir. OSPFv3 interfeys səviyyəsində aktivləşdirilir, router-id IPv4 formatındadır.</p>
+                </div>
+            </div>
+            <div id="v6-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ipv6 interface brief
+show ipv6 interface GigabitEthernet0/0
+show ipv6 route
+show ipv6 neighbors
+show ipv6 ospf neighbor
+ping ipv6 2001:db8:1:1::2</code></pre>
+                    <p class="code-note">İnterfeys ünvanları (link-local daxil), qoşulduğu multicast qrupları, marşrut cədvəli, NDP qonşu cədvəli, OSPFv3 qonşuları və əlçatanlıq.</p>
+                </div>
+            </div>
+        </section>
+<!--END-->

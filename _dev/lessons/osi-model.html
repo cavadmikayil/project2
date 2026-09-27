@@ -1,0 +1,114 @@
+<!--PAGE title="OSI və TCP/IP Modeli" icon="layers" badge="CCNA · Network Fundamentals" nav="intro:Giriş|layers:7 Qat|tcpip:TCP/IP|encap:Enkapsulyasiya|commands:Troubleshooting"-->
+<!--HEAD-->
+    <style>
+        .layer-row { display: grid; grid-template-columns: 3rem 1fr; align-items: stretch; border-radius: 0.6rem; overflow: hidden; margin-bottom: 0.5rem; }
+        .layer-num { display: flex; align-items: center; justify-content: center; font-weight: 700; color: #ffffff; font-size: 1.25rem; }
+        .layer-body { background: #f5f5f5; padding: 0.75rem 1rem; }
+        body.dark-mode .layer-body { background: #1f1f1f; }
+    </style>
+<!--/HEAD-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:layers}} Giriş: Niyə Qatlı Model?</h2>
+            <p class="lead">
+                <strong>OSI</strong> (Open Systems Interconnection) modeli şəbəkə rabitəsini 7 məntiqi qata bölən istinad modelidir.
+                Hər qat öz vəzifəsini yerinə yetirir və yalnız qonşu qatlarla əlaqə saxlayır. Bu bölgü protokolları müstəqil
+                inkişaf etdirməyə, cihazların rolunu anlamağa və ən əsası — problemləri sistemli şəkildə, qat-qat aradan qaldırmağa kömək edir.
+                Real şəbəkələrdə isə daha sadə, 4 qatlı <strong>TCP/IP</strong> modeli işləyir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:puzzle}} Modullu dizayn</h3><p class="text-neutral-700">Wi-Fi-dan Ethernet-ə keçmək HTTP-ni dəyişmir — yalnız aşağı qatlar dəyişir.</p></div>
+                <div class="info-card"><h3>{{i:languages}} Ortaq dil</h3><p class="text-neutral-700">"L2 problemi", "L7 firewall" — mühəndislər qat nömrələri ilə danışır.</p></div>
+                <div class="info-card dark"><h3>{{i:search-check}} Troubleshooting</h3><p>Qat-qat yoxlama təxminləri aradan qaldırır və vaxta qənaət edir.</p></div>
+            </div>
+        </section>
+
+        <section id="layers" class="section-card">
+            <h2 class="section-title">{{i:list-ordered}} 1. OSI Modelinin 7 Qatı</h2>
+            <p class="text-neutral-700 mb-6">Yadda saxlamaq üçün (7 → 1): <strong>"All People Seem To Need Data Processing"</strong>.</p>
+            <div class="max-w-4xl mx-auto">
+                <div class="layer-row"><div class="layer-num" style="background:#171717">7</div><div class="layer-body"><p class="text-neutral-700"><strong>Application (Tətbiq)</strong> — istifadəçi proqramlarına şəbəkə xidməti. <em>HTTP, HTTPS, DNS, FTP, SMTP, SSH, DHCP</em> · PDU: Data</p></div></div>
+                <div class="layer-row"><div class="layer-num" style="background:#262626">6</div><div class="layer-body"><p class="text-neutral-700"><strong>Presentation (Təqdimat)</strong> — məlumatın formatı, şifrələmə, sıxılma. <em>TLS/SSL, JPEG, ASCII</em> · PDU: Data</p></div></div>
+                <div class="layer-row"><div class="layer-num" style="background:#404040">5</div><div class="layer-body"><p class="text-neutral-700"><strong>Session (Sessiya)</strong> — sessiyaların açılması, idarəsi və bağlanması. <em>NetBIOS, RPC</em> · PDU: Data</p></div></div>
+                <div class="layer-row"><div class="layer-num" style="background:#78350f">4</div><div class="layer-body"><p class="text-neutral-700"><strong>Transport (Nəqliyyat)</strong> — uç-uca çatdırılma, port nömrələri, seqmentləşdirmə. <em>TCP, UDP</em> · PDU: Segment / Datagram</p></div></div>
+                <div class="layer-row"><div class="layer-num" style="background:#92400e">3</div><div class="layer-body"><p class="text-neutral-700"><strong>Network (Şəbəkə)</strong> — məntiqi ünvanlama və marşrutlaşdırma. <em>IPv4, IPv6, ICMP, OSPF</em> · Cihaz: Router · PDU: Packet</p></div></div>
+                <div class="layer-row"><div class="layer-num" style="background:#b45309">2</div><div class="layer-body"><p class="text-neutral-700"><strong>Data Link (Kanal)</strong> — fiziki ünvanlama (MAC), çərçivələmə, xəta aşkarlama. <em>Ethernet, 802.1Q, STP, PPP</em> · Cihaz: Switch · PDU: Frame</p></div></div>
+                <div class="layer-row"><div class="layer-num" style="background:#d97706">1</div><div class="layer-body"><p class="text-neutral-700"><strong>Physical (Fiziki)</strong> — bitlərin kabel və ya radio ilə ötürülməsi. <em>Kabel, konnektor, siqnal, Wi-Fi radio</em> · Cihaz: Hub, kabel · PDU: Bit</p></div></div>
+            </div>
+        </section>
+
+        <section id="tcpip" class="section-card">
+            <h2 class="section-title">{{i:scale}} 2. OSI və TCP/IP Müqayisəsi</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>OSI qatları</th><th>TCP/IP qatı</th><th>Nümunə protokollar</th></tr></thead>
+                    <tbody>
+                        <tr><td>7 · 6 · 5</td><td>Application</td><td>HTTP, DNS, SSH, DHCP, SNMP</td></tr>
+                        <tr><td>4</td><td>Transport</td><td>TCP, UDP</td></tr>
+                        <tr><td>3</td><td>Internet</td><td>IPv4, IPv6, ICMP</td></tr>
+                        <tr><td>2 · 1</td><td>Network Access (Link)</td><td>Ethernet, Wi-Fi (802.11), ARP</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:handshake}} TCP</h3><p class="text-neutral-700">Bağlantı yönümlü (3-way handshake: SYN → SYN-ACK → ACK), çatdırılmanı təsdiqləyir, itən seqmentləri yenidən göndərir. HTTP, SSH, FTP üçün.</p></div>
+                <div class="info-card"><h3>{{i:zap}} UDP</h3><p class="text-neutral-700">Bağlantısız, təsdiqsiz, lakin sürətli və az yüklü. DNS sorğuları, DHCP, VoIP, video axını üçün.</p></div>
+            </div>
+        </section>
+
+        <section id="encap" class="section-card">
+            <h2 class="section-title">{{i:package}} 3. Enkapsulyasiya</h2>
+            <p class="text-neutral-700 mb-6">Göndərən tərəfdə məlumat yuxarıdan aşağıya enərkən hər qat öz başlığını (header) əlavə edir; qəbul edən tərəfdə isə başlıqlar aşağıdan yuxarıya doğru çıxarılır (de-enkapsulyasiya).</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>Data                                         ← Application
+[TCP/UDP header | Data]                      ← Segment  (L4: portlar)
+[IP header | TCP header | Data]              ← Packet   (L3: IP ünvanları)
+[Eth header | IP | TCP | Data | FCS trailer] ← Frame    (L2: MAC ünvanları)
+0101101001110...                             ← Bits     (L1)</code></pre>
+                <p class="code-note">Router paketi ötürərkən L2 başlığını hər hop-da yenidən yazır (yeni MAC-lar), L3 başlığındakı IP ünvanları isə (NAT olmadıqda) dəyişmir.</p>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:search-check}} 4. Qat-qat Troubleshooting (Aşağıdan Yuxarı)</h2>
+            <p class="text-neutral-700 mb-6">Problem axtararkən ən etibarlı üsul <strong>bottom-up</strong> yanaşmasıdır: əvvəlcə fiziki bağlantını, sonra MAC/VLAN, sonra IP və marşrutu, ən sonda isə tətbiqi yoxlayın.</p>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="osi-l12">Qat 1–2</button>
+                <button class="tab-btn inactive-tab" data-pane="osi-l3">Qat 3</button>
+                <button class="tab-btn inactive-tab" data-pane="osi-l47">Qat 4–7</button>
+            </div>
+            <div id="osi-l12">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show interfaces status
+show interfaces GigabitEthernet0/1
+show mac address-table
+show vlan brief
+show cdp neighbors</code></pre>
+                    <p class="code-note">Port up/down statusu, speed/duplex uyğunsuzluğu, CRC xətaları (L1), MAC cədvəli, VLAN təyinatı və qonşu cihazlar (L2).</p>
+                </div>
+            </div>
+            <div id="osi-l3" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ip interface brief
+show ip route
+show arp
+ping 192.168.1.1
+traceroute 8.8.8.8</code></pre>
+                    <p class="code-note">İnterfeys IP-ləri, marşrut cədvəli, ARP (IP↔MAC), əlçatanlıq (ICMP) və yolun hansı hop-da kəsildiyi.</p>
+                </div>
+            </div>
+            <div id="osi-l47" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show access-lists
+show ip nat translations
+telnet 192.168.1.10 80
+show ip dhcp binding
+show control-plane host open-ports</code></pre>
+                    <p class="code-note">Portları bloklayan ACL-lər, NAT tərcümələri, müəyyən TCP portunun açıq olub-olmaması, DHCP icarələri və cihazın özündə açıq portlar.</p>
+                </div>
+            </div>
+        </section>
+<!--END-->

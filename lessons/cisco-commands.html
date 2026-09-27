@@ -3,117 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İnteraktiv Cisco IOS Əmrləri Axtarış Sistemi</title>
+    <title>Cisco IOS Əmrləri — Dərs Vəsaiti</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Neutral Harmony -->
-    <!-- Application Structure Plan: The SPA uses a two-column layout: a fixed sidebar on the left for category navigation and a main content area on the right for displaying commands. This structure allows users to first narrow down their search by category and then use a live search bar for specific queries within the main content. Each command is presented as a 'card' with a title, description, and a one-click 'copy' button. This design transforms the static command list into an efficient, interactive tool for network engineers, prioritizing quick command lookup and practical use over the original document's linear structure. -->
-    <!-- Visualization & Content Choices: 
-        - Report Info: Full list of Cisco commands -> Goal: Organize, Inform, Enable Action -> Viz/Method: A filterable and searchable list of command 'cards'. -> Interaction: 1) Clickable category links in the sidebar to filter the list. 2) A live search input to filter commands by name/description. 3) A 'Copy' button on each card to copy the command syntax to the clipboard. -> Justification: This interactive approach is far more user-friendly and efficient for a technical reference guide than a static text document. It allows users to find and use commands in seconds. -> Library/Method: Vanilla JavaScript for all interactivity, Tailwind CSS for modern styling. No charts or complex graphics are needed.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link rel="stylesheet" href="../assets/lesson.css">
     <link rel="stylesheet" href="../assets/theme.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f5f5f5; /* zinc-100 */
-        }
-        .category-nav > * + * { margin-top: 0.5rem; }
-        @media (max-width: 767px) {
-            /* Mobil: kateqoriyalar yan panel yox, üstdə sürüşən sıra */
-            .category-nav { display: flex; gap: 0.5rem; overflow-x: auto; scrollbar-width: none; padding-bottom: 0.25rem; }
-            .category-nav::-webkit-scrollbar { display: none; }
-            .category-nav > * + * { margin-top: 0; }
-            .category-nav .sidebar-link { white-space: nowrap; flex-shrink: 0; border: 1px solid #e5e5e5; }
-        }
-        .sidebar-link {
-            display: block;
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            transition: background-color 0.2s, color 0.2s;
-            color: #404040; /* zinc-700 */
-            font-weight: 500;
-        }
-        .sidebar-link:hover {
-            background-color: #e5e5e5; /* zinc-200 */
-        }
-        .sidebar-link.active {
-            background-color: #f59e0b; /* sky-500 */
-            color: #0a0a0a;
-            font-weight: 600;
-        }
-        .command-card {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.07), 0 1px 2px -1px rgb(0 0 0 / 0.07);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .command-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-        }
-        .copy-btn {
-            background-color: #f5f5f5; /* zinc-100 */
-            color: #525252; /* zinc-600 */
-            transition: background-color 0.2s;
-        }
-        .copy-btn:hover {
-            background-color: #e5e5e5; /* zinc-200 */
-        }
+        .cmd-search { width: 100%; padding: 0.9rem 1rem 0.9rem 2.75rem; border: 1px solid #d4d4d4; border-radius: 0.8rem; font-size: 1rem; background: #ffffff; color: #171717; }
+        .cmd-search:focus { outline: none; border-color: #f59e0b; box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25); }
+        .cmd-search-wrap { position: relative; }
+        .cmd-search-wrap .icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: #737373; }
+        .cmd-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0 1.25rem; }
+        .cmd-chip { padding: 0.45rem 0.9rem; border-radius: 9999px; border: 1px solid #e5e5e5; background: #ffffff; font-size: 0.85rem; font-weight: 600; color: #404040; }
+        .cmd-chip:hover { border-color: #f59e0b; }
+        .cmd-chip.active { background: #0a0a0a; border-color: #0a0a0a; color: #ffffff; }
+        .cmd-chip .count { font-size: 0.72rem; margin-left: 0.3rem; color: #a3a3a3; }
+        .cmd-chip.active .count { color: #fbbf24; }
+        .cmd-card { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding: 1rem 1.1rem; border: 1px solid #e5e5e5; border-radius: 0.8rem; background: #ffffff; }
+        .cmd-card:hover { border-color: #f59e0b; }
+        .cmd-card code.cmd { font-size: 0.98rem; font-weight: 700; color: #92400e; background: #fffbeb; padding: 0.25rem 0.5rem; border-radius: 0.4rem; overflow-wrap: anywhere; }
+        .cmd-card p { color: #525252; margin-top: 0.55rem; font-size: 0.92rem; }
+        .cmd-copy { flex-shrink: 0; padding: 0.4rem 0.8rem; border-radius: 0.55rem; font-size: 0.82rem; font-weight: 600; background: #f5f5f5; color: #404040; }
+        .cmd-copy:hover { background: #e5e5e5; }
+        .cmd-copy.done { background: #fde68a; color: #78350f; }
+        body.dark-mode .cmd-search, body.dark-mode .cmd-chip, body.dark-mode .cmd-card { background: #171717; border-color: #333333; color: #e5e5e5; }
+        body.dark-mode .cmd-chip.active { background: #f59e0b; border-color: #f59e0b; color: #0a0a0a; }
+        body.dark-mode .cmd-chip.active .count { color: #0a0a0a; }
+        body.dark-mode .cmd-card code.cmd { background: #2a2113; color: #fbbf24; }
+        body.dark-mode .cmd-card p { color: #a3a3a3; }
+        body.dark-mode .cmd-copy { background: #262626; color: #e5e5e5; }
     </style>
 </head>
-<body class="text-neutral-800">
+<body class="antialiased">
 
-    <div class="flex flex-col md:flex-row md:min-h-screen">
-        <!-- Sidebar -->
-        <aside class="w-full md:w-64 bg-white/50 backdrop-blur-sm border-b md:border-b-0 md:border-r border-neutral-200 p-4 md:fixed md:h-full">
-            <div class="flex items-center justify-between mb-3 md:mb-6">
-                <h1 class="text-xl font-bold text-amber-700">Cisco Əmrləri</h1>
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#square-terminal"></use></svg> Cisco IOS Əmrləri</h1>
+                <span class="lesson-badge">CCNA · Network Fundamentals</span>
             </div>
-            <a href="../index.html" class="portal-home-link block mb-3 md:mb-6"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
-            <nav id="category-nav" class="category-nav">
-                <a href="#" class="sidebar-link active" data-category="all">Bütün Əmrlər</a>
-                <a href="#" class="sidebar-link" data-category="general">Ümumi Konfiqurasiya</a>
-                <a href="#" class="sidebar-link" data-category="interface">İnterfeys Konfiqurasiyası</a>
-                <a href="#" class="sidebar-link" data-category="routing">Marşrutlaşdırma</a>
-                <a href="#" class="sidebar-link" data-category="switch">Switchə Xüsusi</a>
-                <a href="#" class="sidebar-link" data-category="show">Göstərmə (Show)</a>
-                <a href="#" class="sidebar-link" data-category="debug">Debug</a>
-                <a href="#" class="sidebar-link" data-category="clear">Təmizləmə (Clear)</a>
-                <a href="#" class="sidebar-link" data-category="vtp">VTP Əmrləri</a>
-                <a href="#" class="sidebar-link" data-category="other">Digər Əmrlər</a>
-            </nav>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="flex-1 md:ml-64 p-4 md:p-10">
-            <div class="max-w-4xl mx-auto">
-                <div class="mb-8">
-                    <h2 class="text-2xl md:text-4xl font-bold text-neutral-800">İnteraktiv Əmr Siyahısı</h2>
-                    <p class="text-neutral-600 mt-2">Cisco IOS əmrlərini asanlıqla tapmaq və istifadə etmək üçün axtarış sistemindən və kateqoriyalardan istifadə edin. Hər hansı bir əmri kopyalamaq üçün "Kopyala" düyməsinə klikləyin.</p>
-                </div>
-
-                <!-- Search Input -->
-                <div class="mb-8 sticky top-4 z-10">
-                    <input type="text" id="search-input" placeholder="Əmr axtar..." class="w-full p-4 border border-neutral-300 rounded-xl shadow-sm focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition">
-                </div>
-                
-                <!-- Command List -->
-                <div id="command-list" class="grid grid-cols-1 gap-6">
-                    <!-- Commands will be injected here by JavaScript -->
-                </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#modes" class="nav-link">Rejimlər</a>
+                <a href="#commands" class="nav-link">Əmr siyahısı</a>
+                <a href="#tips" class="nav-link">Məsləhətlər</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
-        </main>
-    </div>
+        </nav>
+    </header>
 
-    <footer class="brand-footer md:ml-64">
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#square-terminal"></use></svg> Giriş: İnteraktiv Əmr Arayışı</h2>
+            <p class="lead">
+                Cisco IOS əmrlərini tez tapmaq üçün arayış: axtarış sahəsinə əmrin və ya təsvirin bir hissəsini yazın, kateqoriya seçin və
+                "Kopyala" ilə əmri götürün. <code>&lt;...&gt;</code> içindəki hissələri öz dəyərlərinizlə əvəz edin.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#search"></use></svg> Axtarış</h3><p class="text-neutral-700">"ospf", "vlan", "parol" kimi sözlərlə həm əmrdə, həm təsvirdə axtarır.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#keyboard"></use></svg> Qısaltmalar</h3><p class="text-neutral-700">IOS unikal prefiksi qəbul edir: <code>sh ip int br</code> = <code>show ip interface brief</code>.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-play"></use></svg> Məşq</h3><p>Əmrləri <a class="font-semibold underline" href="../tools/cli.html">Cisco CLI Simulyatorunda</a> sınayın.</p></div>
+            </div>
+        </section>
+
+        <section id="modes" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#layers"></use></svg> 1. IOS Rejimləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Rejim</th><th>Prompt</th><th>Giriş</th><th>Çıxış</th></tr></thead>
+                    <tbody>
+                        <tr><td>User EXEC</td><td><code>Router&gt;</code></td><td>Konsol/SSH ilə giriş</td><td><code>exit</code></td></tr>
+                        <tr><td>Privileged EXEC</td><td><code>Router#</code></td><td><code>enable</code></td><td><code>disable</code></td></tr>
+                        <tr><td>Global config</td><td><code>Router(config)#</code></td><td><code>configure terminal</code></td><td><code>end</code> / Ctrl+Z</td></tr>
+                        <tr><td>Interface config</td><td><code>Router(config-if)#</code></td><td><code>interface g0/0</code></td><td><code>exit</code></td></tr>
+                        <tr><td>Line config</td><td><code>Router(config-line)#</code></td><td><code>line vty 0 4</code></td><td><code>exit</code></td></tr>
+                        <tr><td>Router config</td><td><code>Router(config-router)#</code></td><td><code>router ospf 1</code></td><td><code>exit</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#list"></use></svg> 2. Əmr Siyahısı</h2>
+            <div class="cmd-search-wrap">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#search"></use></svg>
+                <input type="search" id="search-input" class="cmd-search" placeholder="Əmr axtar... (məs. vlan, ospf, parol)" autocomplete="off" spellcheck="false" aria-label="Əmr axtar">
+            </div>
+            <div id="category-nav" class="cmd-chips" role="tablist" aria-label="Kateqoriyalar"></div>
+            <p id="cmd-count" class="text-sm text-neutral-600 mb-3" aria-live="polite"></p>
+            <div id="command-list" class="grid gap-3"></div>
+        </section>
+
+        <section id="tips" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#lightbulb"></use></svg> 3. CLI Məsləhətləri</h2>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-help"></use></svg><p class="text-neutral-700"><code>?</code> — mümkün əmrlər; <code>sh ?</code> — "sh" ilə başlayanlar; <code>show ip ?</code> — növbəti söz.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#keyboard"></use></svg><p class="text-neutral-700"><strong>Tab</strong> — əmri tamamlayır; <strong>↑ / ↓</strong> — tarixçə; <strong>Ctrl+A / Ctrl+E</strong> — sətrin əvvəli/sonu.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#filter"></use></svg><p class="text-neutral-700">Çıxışı filtrləmək: <code>show run | include ip address</code>, <code>| section router</code>, <code>| begin interface</code>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#repeat"></use></svg><p class="text-neutral-700">Konfiqurasiya rejimindən <code>show</code> işlətmək: <code>do show ip interface brief</code>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#ban"></use></svg><p class="text-neutral-700"><code>no ip domain-lookup</code> — yazı səhvi olan əmrin DNS kimi axtarılıb terminalı dondurmasının qarşısını alır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#save"></use></svg><p class="text-neutral-700">Dəyişiklikdən sonra <code>copy running-config startup-config</code> (və ya <code>wr</code>) — əks halda reboot-da itir.</p></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="brand-footer">
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
@@ -140,6 +141,8 @@
         </div>
     </footer>
 
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
     <script>
         const commands = [
             // General
@@ -233,74 +236,70 @@
             { cmd: 'access-list <nömrə> permit|deny <şərt>', desc: 'Standart və ya genişləndirilmiş ACL yaradır.', cat: 'other' },
         ];
 
+        const CATEGORIES = [
+            ['all', 'Hamısı'], ['general', 'Ümumi'], ['interface', 'İnterfeys'], ['routing', 'Marşrutlaşdırma'],
+            ['switch', 'Switch'], ['show', 'Show'], ['debug', 'Debug'], ['clear', 'Clear'], ['vtp', 'VTP'], ['other', 'Digər']
+        ];
         const commandList = document.getElementById('command-list');
         const searchInput = document.getElementById('search-input');
         const categoryNav = document.getElementById('category-nav');
+        let activeCat = 'all';
 
-        function renderCommands(filter = 'all', searchTerm = '') {
-            commandList.innerHTML = '';
-            const filteredCommands = commands.filter(c => {
-                const inCategory = (filter === 'all' || c.cat === filter);
-                const inSearch = (searchTerm === '' || c.cmd.toLowerCase().includes(searchTerm) || c.desc.toLowerCase().includes(searchTerm));
-                return inCategory && inSearch;
-            });
+        const esc = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+        // Təsvirdəki `...` hissələrini kod kimi göstər
+        const fmt = s => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>');
 
-            if (filteredCommands.length === 0) {
-                commandList.innerHTML = `<p class="text-neutral-500 col-span-1">Nəticə tapılmadı.</p>`;
-                return;
-            }
+        function renderChips() {
+            categoryNav.innerHTML = CATEGORIES.map(([id, label]) => {
+                const n = id === 'all' ? commands.length : commands.filter(c => c.cat === id).length;
+                return `<button type="button" class="cmd-chip ${id === activeCat ? 'active' : ''}" data-category="${id}" role="tab" aria-selected="${id === activeCat}">${label}<span class="count">${n}</span></button>`;
+            }).join('');
+        }
 
-            filteredCommands.forEach(command => {
-                const card = document.createElement('div');
-                card.className = 'command-card p-5';
-                card.innerHTML = `
-                    <div class="flex justify-between items-start">
-                        <div class="flex-1">
-                            <code class="text-lg font-semibold text-amber-800 bg-amber-50 p-2 rounded-md">${command.cmd}</code>
-                            <p class="text-neutral-600 mt-3">${command.desc}</p>
-                        </div>
-                        <button class="copy-btn ml-4 px-4 py-2 rounded-lg text-sm font-semibold" onclick="copyCommand(this, '${command.cmd}')">Kopyala</button>
+        function renderCommands() {
+            const term = searchInput.value.trim().toLowerCase();
+            const list = commands.filter(c => (activeCat === 'all' || c.cat === activeCat) &&
+                (!term || c.cmd.toLowerCase().includes(term) || c.desc.toLowerCase().includes(term)));
+            document.getElementById('cmd-count').textContent = `${list.length} əmr göstərilir`;
+            commandList.innerHTML = list.length ? list.map((c, i) => `
+                <div class="cmd-card">
+                    <div class="min-w-0">
+                        <code class="cmd">${esc(c.cmd)}</code>
+                        <p>${fmt(c.desc)}</p>
                     </div>
-                `;
-                commandList.appendChild(card);
-            });
+                    <button type="button" class="cmd-copy" data-cmd="${esc(c.cmd)}">Kopyala</button>
+                </div>`).join('') : '<p class="text-neutral-600">Nəticə tapılmadı.</p>';
         }
 
-        function copyCommand(button, text) {
-            navigator.clipboard.writeText(text).then(() => {
-                button.innerText = 'Kopyalandı!';
-                button.classList.add('bg-orange-200');
-                setTimeout(() => {
-                    button.innerText = 'Kopyala';
-                    button.classList.remove('bg-orange-200');
-                }, 2000);
-            }).catch(err => {
-                console.error('Kopyalama uğursuz oldu: ', err);
-            });
-        }
-
-        categoryNav.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (e.target.tagName === 'A') {
-                const category = e.target.dataset.category;
-                
-                // Update active link
-                categoryNav.querySelector('.active').classList.remove('active');
-                e.target.classList.add('active');
-                
-                // Render
-                renderCommands(category, searchInput.value.toLowerCase());
+        function copyText(text, done) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(done, () => { fallback(); done(); });
+            } else { fallback(); done(); }
+            function fallback() {
+                const a = document.createElement('textarea');
+                a.value = text; a.style.position = 'fixed'; a.style.opacity = '0';
+                document.body.appendChild(a); a.select();
+                try { document.execCommand('copy'); } catch (e) {}
+                a.remove();
             }
-        });
+        }
 
-        searchInput.addEventListener('input', () => {
-            const activeCategory = categoryNav.querySelector('.active').dataset.category;
-            renderCommands(activeCategory, searchInput.value.toLowerCase());
+        commandList.addEventListener('click', e => {
+            const btn = e.target.closest('.cmd-copy');
+            if (!btn) return;
+            copyText(btn.dataset.cmd, () => {
+                btn.textContent = 'Kopyalandı!'; btn.classList.add('done');
+                setTimeout(() => { btn.textContent = 'Kopyala'; btn.classList.remove('done'); }, 2000);
+            });
         });
-
-        // Initial render
-        renderCommands();
+        categoryNav.addEventListener('click', e => {
+            const chip = e.target.closest('.cmd-chip');
+            if (!chip) return;
+            activeCat = chip.dataset.category;
+            renderChips(); renderCommands();
+        });
+        searchInput.addEventListener('input', renderCommands);
+        renderChips(); renderCommands();
     </script>
-    <script src="../assets/theme.js"></script>
 </body>
 </html>
