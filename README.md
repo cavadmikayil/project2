@@ -2,7 +2,7 @@
 
 Şəbəkə, CCNA, Server, Helpdesk, Təhlükəsizlik və AI üzrə Azərbaycan dilində pulsuz təlim portalı.
 
-**Canlı sayt:** https://cavadmikayil.github.io/project2/
+**Canlı sayt:** https://portal.cavadmikayil.com/ (köhnə ünvan cavadmikayil.github.io/project2 avtomatik bura yönləndirilir)
 
 | Kateqoriya | Dərs sayı |
 |---|---|

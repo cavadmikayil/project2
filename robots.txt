@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cavadmikayil.github.io/project2/sitemap.xml
+Sitemap: https://portal.cavadmikayil.com/sitemap.xml

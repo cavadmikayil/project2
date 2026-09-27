@@ -48,7 +48,7 @@ SOCIALS = [
 
 # Saytın ünvanı — canonical, Open Graph, sitemap.xml və robots.txt buradan qurulur.
 # Repo adı dəyişəndə və ya öz domen qoşulanda yalnız bunu dəyişib "python3 _dev/build.py" işlədin.
-SITE_URL = 'https://cavadmikayil.github.io/project2/'
+SITE_URL = 'https://portal.cavadmikayil.com/'
 SITE_NAME = 'Cavad Mikayil Təlim Portalı'
 AUTHOR = 'Cavad Mikayil'
 # Google Search Console → "HTML tag" üsulu ilə verilən content dəyəri (boşdursa tag əlavə olunmur)
