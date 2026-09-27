@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haqqında — Cavad Mikayil Təlim Portalı</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/lesson.css">
+    <link rel="stylesheet" href="assets/theme.css">
+    <style>
+        .about-hero {
+            background: #0a0a0a;
+            color: #ffffff;
+            border-radius: 1.25rem;
+            padding: 2.25rem 2rem;
+            margin-bottom: 1.5rem;
+            display: grid;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        @media (min-width: 768px) { .about-hero { grid-template-columns: auto 1fr; } }
+        .about-avatar {
+            width: 7rem;
+            height: 7rem;
+            border-radius: 9999px;
+            background: #f59e0b;
+            color: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            font-weight: 800;
+            box-shadow: 0 0 0 6px #262626;
+        }
+        .about-hero h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; }
+        .about-hero .accent { color: #fbbf24; }
+        .about-hero p { color: #d4d4d4; }
+        .kicker { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700; color: #fbbf24 !important; margin-bottom: 0.4rem; }
+        .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+        .stat-box { background: #ffffff; border: 1px solid #e5e5e5; border-radius: 1rem; padding: 1.1rem 1.25rem; }
+        .stat-box .num { font-size: 1.9rem; font-weight: 800; color: #0a0a0a; line-height: 1.1; }
+        .stat-box .lbl { font-size: 0.85rem; color: #525252; font-weight: 600; }
+        .stat-box .icon { color: #d97706; margin-bottom: 0.4rem; }
+        .social-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 0.9rem; }
+        .social-card {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            padding: 0.9rem 1rem;
+            border: 1px solid #e5e5e5;
+            border-radius: 0.9rem;
+            background: #ffffff;
+            transition: border-color .15s, transform .15s, box-shadow .15s;
+        }
+        .social-card:hover { border-color: #f59e0b; transform: translateY(-2px); box-shadow: 0 10px 18px -10px rgb(0 0 0 / 0.25); }
+        .social-card > .icon { margin-left: auto; color: #a3a3a3; flex-shrink: 0; }
+        .social-icon { width: 2.75rem; height: 2.75rem; border-radius: 0.75rem; background: #0a0a0a; color: #fbbf24; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .social-icon .icon { width: 1.3rem; height: 1.3rem; }
+        .social-card:hover .social-icon { background: #f59e0b; color: #0a0a0a; }
+        .social-name { display: block; font-weight: 700; color: #0a0a0a; }
+        .social-handle { display: block; font-size: 0.8rem; color: #737373; overflow-wrap: anywhere; }
+        .offer-card { display: flex; flex-direction: column; gap: 0.4rem; padding: 1.1rem 1.2rem; border: 1px solid #e5e5e5; border-radius: 1rem; background: #ffffff; transition: border-color .15s; }
+        .offer-card:hover { border-color: #f59e0b; }
+        .offer-card h3 { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: #0a0a0a; }
+        .offer-card h3 .icon { color: #d97706; }
+        .offer-card p { font-size: 0.9rem; color: #525252; }
+        .btn-primary, .btn-secondary-dark {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            padding: 0.7rem 1.3rem;
+            border-radius: 0.75rem;
+            transition: background-color .15s, color .15s, border-color .15s;
+        }
+        .btn-primary { background: #f59e0b; color: #0a0a0a; }
+        .btn-primary:hover { background: #fbbf24; }
+        .btn-secondary-dark { border: 1px solid #404040; color: #ffffff; }
+        .btn-secondary-dark:hover { border-color: #f59e0b; color: #fbbf24; }
+        body.dark-mode .about-hero { background: #000000 !important; box-shadow: 0 0 0 1px #262626; }
+        body.dark-mode .stat-box, body.dark-mode .social-card, body.dark-mode .offer-card { background: #171717; border-color: #262626; }
+        body.dark-mode .stat-box .num, body.dark-mode .social-name, body.dark-mode .offer-card h3 { color: #ffffff; }
+        body.dark-mode .stat-box .lbl, body.dark-mode .offer-card p { color: #d4d4d4; }
+        body.dark-mode .social-handle { color: #a3a3a3; }
+        body.dark-mode .stat-box .icon, body.dark-mode .offer-card h3 .icon { color: #fbbf24; }
+        body.dark-mode .social-card:hover, body.dark-mode .offer-card:hover { border-color: #f59e0b; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-3 flex flex-wrap gap-x-3 gap-y-2 justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 text-lg font-extrabold text-neutral-900">
+                <span class="site-logo"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"></use></svg></span> Cavad Mikayil Təlim Portalı
+            </a>
+            <nav class="site-nav order-last md:order-none md:ml-auto" aria-label="Sayt menyusu">
+                    <a href="index.html" data-nav="home"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#house"></use></svg> Ana Səhifə</a>
+                    <a href="index.html#ccna" data-nav="ccna"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"></use></svg> CCNA</a>
+                    <a href="links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#library"></use></svg> Faydalı Linklər</a>
+                    <a href="about.html" data-nav="about" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#user-round"></use></svg> Haqqında</a>
+                </nav>
+            <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#moon"></use></svg></button>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section class="about-hero">
+            <div class="about-avatar" aria-hidden="true">CM</div>
+            <div>
+                <p class="kicker"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#user-round"></use></svg> Haqqında</p>
+                <h1>Cavad Mikayil <span class="accent">Təlim Portalı</span></h1>
+                <p class="mt-3 max-w-3xl">
+                    Bu portal şəbəkə, CCNA və IT öyrənən tələbələr üçün Cavad Mikayil tərəfindən hazırlanmış pulsuz təlim
+                    platformasıdır. Məqsəd mövzuları Azərbaycan dilində, sadə izahlar, real Cisco əmrləri, laboratoriya
+                    nümunələri və interaktiv alətlərlə öyrətməkdir.
+                </p>
+                <div class="flex flex-wrap gap-3 mt-5">
+                    <a href="index.html" class="btn-primary"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"></use></svg> Dərslərə başla</a>
+                    <a href="#social" class="btn-secondary-dark"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#users"></use></svg> Sosial şəbəkələr</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="stat-row">
+            <div class="stat-box"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#book-open"></use></svg><p class="num">50</p><p class="lbl">dərs</p></div>
+            <div class="stat-box"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"></use></svg><p class="num">25</p><p class="lbl">CCNA 200-301 dərsi</p></div>
+            <div class="stat-box"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#notebook-pen"></use></svg><p class="num">150+</p><p class="lbl">izahlı test sualı</p></div>
+            <div class="stat-box"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#library"></use></svg><p class="num">90+</p><p class="lbl">faydalı link</p></div>
+        </div>
+
+        <section class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#layout-grid"></use></svg> Portalda Nə Var?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <a class="offer-card" href="index.html"><h3><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#network"></use></svg> Network Dərsləri</h3><p>OSI modelindən VLAN, STP, OSPF, NAT, ACL və Layer 2 təhlükəsizliyinə qədər 25 dərs.</p></a>
+                <a class="offer-card" href="index.html#ccna"><h3><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"></use></svg> CCNA Dərsləri</h3><p>Cisco CCNA 200-301 kurikulumunun bölmələri üzrə 25 dərs: QoS, AAA, Firewall, VPN, WAN və s.</p></a>
+                <a class="offer-card" href="tools/quiz.html"><h3><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#notebook-pen"></use></svg> Quiz və Subnet Kalkulyatoru</h3><p>Hər mövzu üzrə izahlı testlər və subnetting məşqi. Nəticələriniz profilinizdə saxlanılır.</p></a>
+                <a class="offer-card" href="links.html"><h3><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#library"></use></svg> Faydalı Linklər</h3><p>AI alətləri, Cyber Security, CTF, Cloud və Programming üzrə seçilmiş mənbələr.</p></a>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#route"></use></svg> Necə Öyrənmək Tövsiyə Olunur?</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">Dərsi dashboard-dakı ardıcıllıqla oxuyun və <strong>"Oxudum"</strong> işarəsi qoyun.</p></li>
+                <li><p class="text-neutral-700">Əmrləri Cisco Packet Tracer və ya GNS3-də öz əlinizlə təkrarlayın.</p></li>
+                <li><p class="text-neutral-700">Mövzu testini keçin — hər sualın izahı var.</p></li>
+                <li><p class="text-neutral-700">70%-dən aşağı nəticə aldığınız mövzular dashboard-da "Təkrar tövsiyə olunur" bölməsində görünəcək.</p></li>
+            </ol>
+        </section>
+
+        <section id="social" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#users"></use></svg> Sosial Şəbəkələr və Əlaqə</h2>
+            <p class="lead">Yeni dərslər, videolar və məqalələrdən xəbərdar olmaq üçün izləyin. Sual və təklifləriniz üçün email göndərə bilərsiniz.</p>
+            <div class="social-grid">
+                    <a class="social-card" href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" data-social="blog">
+                        <span class="social-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#pen-line"></use></svg></span>
+                        <span class="min-w-0">
+                            <span class="social-name">Blog sayt</span>
+                            <span class="social-handle">cavadmikayil.com</span>
+                        </span>
+                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#external-link"></use></svg>
+                    </a>
+                    <a class="social-card" href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" data-social="instagram">
+                        <span class="social-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-instagram"></use></svg></span>
+                        <span class="min-w-0">
+                            <span class="social-name">Instagram</span>
+                            <span class="social-handle">@cavadmikayil.com_</span>
+                        </span>
+                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#external-link"></use></svg>
+                    </a>
+                    <a class="social-card" href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" data-social="youtube">
+                        <span class="social-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-youtube"></use></svg></span>
+                        <span class="min-w-0">
+                            <span class="social-name">YouTube kanalı</span>
+                            <span class="social-handle">@cavadmikayil</span>
+                        </span>
+                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#external-link"></use></svg>
+                    </a>
+                    <a class="social-card" href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" data-social="linkedin">
+                        <span class="social-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-linkedin-in"></use></svg></span>
+                        <span class="min-w-0">
+                            <span class="social-name">LinkedIn</span>
+                            <span class="social-handle">Peşəkar profil</span>
+                        </span>
+                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#external-link"></use></svg>
+                    </a>
+                    <a class="social-card" href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" data-social="telegram">
+                        <span class="social-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-telegram"></use></svg></span>
+                        <span class="min-w-0">
+                            <span class="social-name">Telegram</span>
+                            <span class="social-handle">@cavadmikayil</span>
+                        </span>
+                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#external-link"></use></svg>
+                    </a>
+                    <a class="social-card" href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" data-social="tiktok">
+                        <span class="social-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-tiktok"></use></svg></span>
+                        <span class="min-w-0">
+                            <span class="social-name">TikTok</span>
+                            <span class="social-handle">@cavadmikayil</span>
+                        </span>
+                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#external-link"></use></svg>
+                    </a>
+                    <a class="social-card" href="mailto:info@cavadmikayil.com" data-social="email">
+                        <span class="social-icon"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#mail"></use></svg></span>
+                        <span class="min-w-0">
+                            <span class="social-name">Email</span>
+                            <span class="social-handle">info@cavadmikayil.com</span>
+                        </span>
+                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#arrow-right"></use></svg>
+                    </a>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#shield-check"></use></svg> Məxfilik</h2>
+            <p class="text-neutral-700">
+                Portalda qeydiyyat və parol yoxdur. Adınız, irəliləyişiniz və test nəticələriniz yalnız istifadə etdiyiniz
+                brauzerdə saxlanılır və heç bir serverə göndərilmir.
+            </p>
+        </section>
+    </main>
+
+    <footer class="brand-footer">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">Şəbəkə, CCNA və IT üzrə pulsuz təlim materialları</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+                    <a href="index.html">Ana Səhifə</a>
+                    <a href="index.html#ccna">CCNA</a>
+                    <a href="links.html">Faydalı Linklər</a>
+                    <a href="about.html">Haqqında</a>
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
+            </div>
+            <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+                <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#pen-line"></use></svg></a>
+                <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-instagram"></use></svg></a>
+                <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-youtube"></use></svg></a>
+                <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-linkedin-in"></use></svg></a>
+                <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-telegram"></use></svg></a>
+                <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-tiktok"></use></svg></a>
+                <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#mail"></use></svg></a>
+            </div>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
+
+    <script src="assets/theme.js"></script>
+</body>
+</html>

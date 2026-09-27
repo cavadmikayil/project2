@@ -19,7 +19,8 @@
             padding: 2rem;
             margin-bottom: 1.5rem;
         }
-        .links-hero h2 { font-size: 1.9rem; font-weight: 800; line-height: 1.2; }
+        .links-hero .hero-title { font-size: 1.9rem; font-weight: 800; line-height: 1.2; }
+        .hero-kicker { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700; color: #fbbf24 !important; text-transform: none; margin-bottom: 0.5rem; }
         .links-hero .accent { color: #fbbf24; }
         .links-hero p { color: #d4d4d4; }
         .hero-stat { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 700; color: #fbbf24; font-size: 0.9rem; }
@@ -97,21 +98,24 @@
 <body class="antialiased">
 
     <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
-            <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="assets/icons.svg#library"></use></svg> Faydalı Linklər</h1>
-            <div class="flex flex-wrap items-center gap-4">
-                <a href="#extras" class="nav-link">Layihə ideyaları</a>
-                <a href="#films" class="nav-link">Filmlər</a>
-                <a href="#source" class="nav-link">Mənbə</a>
-                <a href="index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#moon"></use></svg></button>
-            </div>
-        </nav>
+        <div class="container mx-auto px-6 py-3 flex flex-wrap gap-x-3 gap-y-2 justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 text-lg font-extrabold text-neutral-900">
+                <span class="site-logo"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"></use></svg></span> Cavad Mikayil Təlim Portalı
+            </a>
+            <nav class="site-nav order-last md:order-none md:ml-auto" aria-label="Sayt menyusu">
+                    <a href="index.html" data-nav="home"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#house"></use></svg> Ana Səhifə</a>
+                    <a href="index.html#ccna" data-nav="ccna"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#graduation-cap"></use></svg> CCNA</a>
+                    <a href="links.html" data-nav="links" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#library"></use></svg> Faydalı Linklər</a>
+                    <a href="about.html" data-nav="about"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#user-round"></use></svg> Haqqında</a>
+                </nav>
+            <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#moon"></use></svg></button>
+        </div>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section class="links-hero">
-            <h2>IT dünyasında öyrənmək üçün <span class="accent">seçilmiş mənbələr</span></h2>
+            <p class="hero-kicker"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#library"></use></svg> Faydalı Linklər</p>
+            <h1 class="hero-title">IT dünyasında öyrənmək üçün <span class="accent">seçilmiş mənbələr</span></h1>
             <p class="mt-3 max-w-3xl">
                 AI alətləri, Computer Science, Cyber Security, CTF, Cloud, Programming və daha çoxu — kurslar, kitablar,
                 YouTube kanalları və GitHub repoları bir yerdə. Mənbələrin əksəriyyəti ingiliscədir; türkcə olanlar ayrıca işarələnib.
@@ -120,6 +124,8 @@
                 <span class="hero-stat"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#link"></use></svg> <span id="stat-links"></span> link</span>
                 <span class="hero-stat"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#layout-grid"></use></svg> <span id="stat-cats"></span> bölmə</span>
                 <span class="hero-stat"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#external-link"></use></svg> Keçidlər yeni pəncərədə açılır</span>
+                <a class="hero-stat hover:underline" href="#extras"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#lightbulb"></use></svg> Layihə ideyaları</a>
+                <a class="hero-stat hover:underline" href="#films"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#clapperboard"></use></svg> Filmlər</a>
             </div>
             <label class="search-wrap block">
                 <svg class="icon" aria-hidden="true"><use href="assets/icons.svg#search"></use></svg>
@@ -190,11 +196,21 @@
                     <p class="brand-footer-tagline">Şəbəkə, CCNA və IT üzrə pulsuz təlim materialları</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
-                    <a href="index.html">Portal</a>
-                    <a href="index.html#ccna">CCNA Dərsləri</a>
+                    <a href="index.html">Ana Səhifə</a>
+                    <a href="index.html#ccna">CCNA</a>
                     <a href="links.html">Faydalı Linklər</a>
+                    <a href="about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
                 </nav>
+            </div>
+            <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+                <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#pen-line"></use></svg></a>
+                <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-instagram"></use></svg></a>
+                <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-youtube"></use></svg></a>
+                <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-linkedin-in"></use></svg></a>
+                <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-telegram"></use></svg></a>
+                <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#brand-tiktok"></use></svg></a>
+                <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg#mail"></use></svg></a>
             </div>
             <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
         </div>
