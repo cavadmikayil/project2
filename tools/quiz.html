@@ -106,6 +106,7 @@
         </div>
     </footer>
 
+    <script src="../assets/student.js"></script>
     <script>
         const TOPICS = {
             osi: 'OSI / TCP-IP',
@@ -190,7 +191,7 @@
             { t: 'subnet', q: '255.255.255.240 maskası hansı prefiksə uyğundur?', a: ['/28', '/27', '/29', '/26'], e: '240 = 11110000 → 24 + 4 = /28.' }
         ];
 
-        const BEST_KEY = 'edu-portal-quiz-best';
+        const BEST_KEY = Student.key('edu-portal-quiz-best');
         const $ = id => document.getElementById(id);
         const screens = ['start-screen', 'question-screen', 'result-screen'];
         let session = null;
@@ -214,14 +215,14 @@
         }
 
         function loadBest() {
-            try { return JSON.parse(localStorage.getItem(BEST_KEY)) || {}; } catch (e) { return {}; }
+            return Student.read(BEST_KEY, {});
         }
 
         function saveBest(topic, percent) {
             const best = loadBest();
             if (!(topic in best) || percent > best[topic]) {
                 best[topic] = percent;
-                try { localStorage.setItem(BEST_KEY, JSON.stringify(best)); } catch (e) { /* yaddaş əlçatmazdır */ }
+                Student.write(BEST_KEY, best);
             }
         }
 
