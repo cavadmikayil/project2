@@ -148,7 +148,7 @@ def footer(prefix, cls='brand-footer'):
             <div class="brand-footer-top">
                 <div>
                     <a href="{prefix}index.html" class="brand-footer-name">{icon(prefix, 'graduation-cap')} Cavad Mikayil Təlim Portalı</a>
-                    <p class="brand-footer-tagline">Şəbəkə, CCNA, Server, Helpdesk, Təhlükəsizlik və AI üzrə pulsuz təlim materialları</p>
+                    <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
 {links}
@@ -156,7 +156,6 @@ def footer(prefix, cls='brand-footer'):
                 </nav>
             </div>
             <div class="brand-footer-social-wrap">
-                <p class="brand-footer-social-title">Sosial şəbəkələrdə izləyin</p>
                 <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
 {social}
                 </div>

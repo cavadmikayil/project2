@@ -172,6 +172,14 @@
             align-items: flex-start;
         }
         .stat-label { font-size: 0.8rem; font-weight: 600; color: #525252; }
+        @media (max-width: 639px) {
+            /* Mobil: statistika 2 × 2 */
+            #stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 0.75rem !important; }
+            .stat-tile { flex-direction: column; gap: 0.5rem; padding: 0.9rem; }
+            .stat-tile .icon-badge { width: 2.25rem; height: 2.25rem; }
+            .stat-value { font-size: 1.3rem; }
+            #stat-best { font-size: 0.85rem; }
+        }
         .stat-value { font-size: 1.6rem; font-weight: 800; line-height: 1.2; }
         .panel {
             background: #ffffff;
@@ -442,7 +450,7 @@
 
         <main class="container mx-auto px-6 pb-12">
 
-            <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 -mt-16 mb-8 relative">
+            <section id="stats-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 -mt-16 mb-8 relative">
                 <div class="stat-tile">
                     <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#book-open"></use></svg></span>
                     <div class="flex-1">
@@ -499,7 +507,7 @@
             <div class="brand-footer-top">
                 <div>
                     <a href="index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
-                    <p class="brand-footer-tagline">Şəbəkə, CCNA, Server, Helpdesk, Təhlükəsizlik və AI üzrə pulsuz təlim materialları</p>
+                    <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="index.html">Ana Səhifə</a>
@@ -510,7 +518,6 @@
                 </nav>
             </div>
             <div class="brand-footer-social-wrap">
-                <p class="brand-footer-social-title">Sosial şəbəkələrdə izləyin</p>
                 <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
                     <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" data-social="instagram"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
                     <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı" data-social="youtube"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></a>
