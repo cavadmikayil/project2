@@ -16,12 +16,14 @@
             background: linear-gradient(135deg, #0a0a0a 0%, #262626 100%);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
         }
+        body > footer.brand-footer { align-self: stretch; }
 
         .slideshow-container {
             max-width: 1000px;
+            margin: 4.5rem 1rem 0;
             position: relative;
             background: white;
             border-radius: 20px;
@@ -668,6 +670,24 @@
             <button class="nav-btn" onclick="changeSlide(1)">Növbəti <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#chevron-right"></use></svg></button>
         </div>
     </div>
+
+    <footer class="brand-footer">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">Şəbəkə, CCNA və IT üzrə pulsuz təlim materialları</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+                    <a href="../index.html">Portal</a>
+                    <a href="../index.html#ccna">CCNA Dərsləri</a>
+                    <a href="../links.html">Faydalı Linklər</a>
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
+            </div>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
 
     <script>
         let currentSlideIndex = 0;

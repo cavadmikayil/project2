@@ -127,3 +127,47 @@ body.dark-mode .sidebar-link.active { color: #0a0a0a !important; }
 body.dark-mode .theme-toggle-btn { background: #262626; border-color: #404040; color: #fbbf24; }
 body.dark-mode .theme-toggle-btn:hover { background: #262626; border-color: #f59e0b; }
 body.dark-mode .num-badge { background: #262626; }
+
+/* ---------- Ümumi footer (bütün səhifələr) ---------- */
+footer.brand-footer {
+    background: #0a0a0a;
+    color: #d4d4d4;
+    border-top: 3px solid #f59e0b;
+    margin-top: 3rem;
+}
+.brand-footer-inner {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 1.5rem;
+}
+.brand-footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid #262626;
+}
+.brand-footer-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #ffffff;
+}
+.brand-footer-name .icon { color: #fbbf24; }
+.brand-footer-tagline { font-size: 0.875rem; color: #a3a3a3; margin-top: 0.25rem; }
+.brand-footer-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; font-size: 0.9rem; font-weight: 600; }
+.brand-footer-links a { color: #e5e5e5; }
+.brand-footer-links a:hover { color: #fbbf24; }
+.brand-footer-copy { padding-top: 1rem; font-size: 0.85rem; color: #a3a3a3; text-align: center; }
+.brand-footer-copy strong { color: #fbbf24; font-weight: 700; }
+body.dark-mode footer.brand-footer {
+    background-color: #000000 !important;
+    color: #d4d4d4 !important;
+    box-shadow: none !important;
+    border-top: 3px solid #f59e0b;
+}
+.brand-footer a { text-decoration: none; }
