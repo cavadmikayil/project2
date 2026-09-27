@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>Video Dərslər — Cavad Mikayil Təlim Portalı</title>
     <!--SEO-->
     <meta name="description" content="Cavad Mikayilin YouTube kursları portalda: videolar düzgün ardıcıllıqla, Növbəti və Baxdım düymələri, hər kurs üzrə irəliləyiş və uyğun dərs vəsaitləri.">
@@ -47,12 +48,14 @@
         .course-card:hover { border-color: #f59e0b; transform: translateY(-2px); }
         .course-card.active { border: 2px solid #f59e0b; background: #fffbeb; }
         .course-card .badge { width: 2.8rem; height: 2.8rem; border-radius: 0.8rem; background: #0a0a0a; color: #fbbf24; display: inline-flex; align-items: center; justify-content: center; }
-        .course-card h3 { font-weight: 800; font-size: 1.1rem; color: #0a0a0a; }
+        .course-card h3 { font-weight: 800; font-size: 1.05rem; line-height: 1.3; color: #0a0a0a; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .course-card .desc { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .course-card .desc { font-size: 0.88rem; color: #525252; }
         .course-card .meta { font-size: 0.8rem; font-weight: 600; color: #737373; margin-top: auto; }
         .mini-bar { height: 0.45rem; background: #e5e5e5; border-radius: 9999px; overflow: hidden; }
         .mini-bar i { display: block; height: 100%; background: #f59e0b; }
 
+        #course-detail { scroll-margin-top: 6rem; }
         .watch { display: grid; grid-template-columns: minmax(0, 1fr) 22rem; gap: 1.25rem; align-items: start; }
         .player-frame { position: relative; aspect-ratio: 16 / 9; background: #000000; border-radius: 0.9rem; overflow: hidden; }
         .player-frame iframe, .player-frame > div { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
@@ -68,7 +71,7 @@
         .list-panel { border: 1px solid #e5e5e5; border-radius: 0.9rem; background: #ffffff; overflow: hidden; }
         .list-head { padding: 0.9rem 1rem; border-bottom: 1px solid #e5e5e5; }
         .list-head h3 { font-weight: 800; display: flex; align-items: center; gap: 0.4rem; }
-        .video-list { max-height: 30rem; overflow-y: auto; list-style: none; padding: 0.35rem; margin: 0; }
+        .video-list { position: relative; max-height: 30rem; overflow-y: auto; list-style: none; padding: 0.35rem; margin: 0; }
         .video-row { width: 100%; display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.55rem 0.6rem; border-radius: 0.6rem; text-align: left; font-size: 0.9rem; font-weight: 600; color: #262626; }
         .video-row:hover { background: #fafafa; }
         .video-row .num { flex-shrink: 0; width: 1.6rem; font-size: 0.78rem; font-weight: 700; color: #a3a3a3; padding-top: 0.1rem; text-align: right; }
@@ -88,7 +91,12 @@
         @media (max-width: 1023px) { .watch { grid-template-columns: 1fr; } .video-list { max-height: 22rem; } }
         @media (max-width: 767px) { .hub-hero { padding: 1.4rem; } .hub-hero h1 { font-size: 1.45rem; } .now-title { font-size: 1.1rem; } }
         @media (max-width: 640px) {
-            .course-grid { grid-template-columns: 1fr; gap: 0.6rem; }
+            /* Mobil: kurslar üfüqi sürüşən zolaqdır — pleyer aşağıda itmir */
+            .course-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 0.6rem; padding-bottom: 0.5rem; -webkit-overflow-scrolling: touch; }
+            .course-card { flex: 0 0 78%; scroll-snap-align: start; padding: 0.9rem; gap: 0.4rem; }
+            .course-card:hover { transform: none; }
+            .course-card .badge { width: 2.2rem; height: 2.2rem; }
+            .course-card h3 { font-size: 0.95rem; }
             .course-card .desc { display: none; }
             .controls .btn { flex: 1 1 auto; padding: 0.6rem 0.7rem; }
         }
@@ -184,7 +192,9 @@
         const playlistId = s => { const m = String(s || '').match(/[?&]list=([\w-]+)/); return m ? m[1] : (/^[\w-]{10,}$/.test(s || '') ? s : null); };
         const COURSES = (window.VIDEO_COURSES || []).map(c => ({
             id: c.id, title: c.title, desc: c.desc || '', icon: c.icon || 'circle-play',
-            list: playlistId(c.playlist), fixed: Array.isArray(c.videos) && c.videos.length ? c.videos.slice() : null,
+            list: playlistId(c.playlist),
+            fixed: Array.isArray(c.videos) && c.videos.length ? c.videos.map(v => typeof v === 'string' ? v : v.id).filter(Boolean) : null,
+            presets: Array.isArray(c.videos) ? c.videos.filter(v => v && v.id && v.title) : [],
             lessons: c.lessons || [], notes: c.notes || {}
         })).filter(c => c.id && c.title && (c.list || c.fixed));
         const lessonBySlug = {};
@@ -198,6 +208,9 @@
         const pos = Student.read(POS_KEY, {});
         const idsCache = Student.read(IDS_KEY, {});
         const titles = Student.read(TITLES_KEY, {});
+        // videos.js-də yazılmış adlar YouTube-dan sorğu etmədən istifadə olunur
+        const presetTitles = {};
+        COURSES.forEach(c => c.presets.forEach(v => { presetTitles[v.id] = v.title; }));
         const done = new Set(Student.read(Student.key('edu-portal-done'), []));
 
         const idsOf = c => c.fixed || idsCache[c.id] || null;
@@ -207,7 +220,7 @@
             const n = ids.filter(v => watched[v]).length;
             return { n, total: ids.length, pct: ids.length ? Math.round(100 * n / ids.length) : 0 };
         };
-        const titleOf = (id, i) => titles[id] || `Video ${i + 1}`;
+        const titleOf = (id, i) => presetTitles[id] || titles[id] || `Video ${i + 1}`;
 
         let active = null, cur = 0, player = null, ids = null;
 
@@ -292,7 +305,7 @@
             list.innerHTML = ids.map((v, i) => `<li><button type="button" class="video-row ${watched[v] ? 'watched' : ''} ${i === cur ? 'current' : ''}" data-i="${i}" ${i === cur ? 'aria-current="true"' : ''}>
                 <span class="num">${i + 1}</span>
                 <span class="state">${icon(i === cur ? 'circle-play' : watched[v] ? 'circle-check' : 'circle')}</span>
-                <span class="t ${titles[v] ? '' : 'pending'}" data-title="${v}">${esc(titleOf(v, i))}</span>
+                <span class="t ${presetTitles[v] || titles[v] ? '' : 'pending'}" data-title="${v}">${esc(titleOf(v, i))}</span>
             </button></li>`).join('');
             const n = ids.filter(v => watched[v]).length;
             $('list-progress').textContent = `${n} / ${ids.length} video baxılıb`;
@@ -337,7 +350,12 @@
         function go(i) {
             if (!ids || i < 0 || i >= ids.length) return;
             setCur(i);
-            if (player && player.playVideoAt) player.playVideoAt(i);
+            const c = COURSES.find(x => x.id === active);
+            if (!player) return;
+            playerMessage('');
+            // Video siyahısı videos.js-dədirsə hər video ayrıca yüklənir (playlist API-si lazım deyil)
+            if (c && c.fixed && player.loadVideoById) player.loadVideoById(ids[i]);
+            else if (player.playVideoAt) player.playVideoAt(i);
         }
 
         // ---- Video adları (YouTube oEmbed; alınmasa noembed.com) ---------------------------
@@ -361,7 +379,7 @@
             if (ids && ids[cur] === v) renderNow();
         }
         async function loadTitles(list) {
-            const queue = list.filter(v => !titles[v]);
+            const queue = list.filter(v => !titles[v] && !presetTitles[v]);
             const worker = async () => { while (queue.length) { const v = queue.shift(); saveTitle(v, await fetchTitle(v)); } };
             await Promise.all([worker(), worker(), worker(), worker()]);
         }
@@ -421,25 +439,36 @@
             if (active !== c.id) return;
             const start = cur;
             let cued = false;
-            player = new YT.Player('yt-player', {
-                // youtube.com (youtube-nocookie.com yox): "nocookie" domendə playlist API bəzi
-                // brauzerlərdə (xüsusən Safari-nin cross-site tracking bloku ilə) etibarsız işləyir.
-                host: 'https://www.youtube.com',
-                width: '100%', height: '100%',
-                // origin — Google-un tövsiyəsi: JS API ilə pleyer arasında əlaqə yalnız bu saytdan qəbul olunur
-                playerVars: { rel: 0, playsinline: 1, modestbranding: 1, origin: location.origin },
+            // iframe-i özümüz yaradırıq: YouTube (2025-ci ildən) embed-i açan saytı Referer ilə tanıyır,
+            // Referer olmayanda "Error 153" / "An error occurred" verir. referrerpolicy və origin açıq yazılır.
+            const params = new URLSearchParams({ enablejsapi: '1', origin: location.origin, rel: '0', playsinline: '1', modestbranding: '1' });
+            const frame = document.createElement('iframe');
+            frame.id = 'yt-player';
+            frame.title = c.title;
+            frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+            frame.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+            frame.setAttribute('allowfullscreen', '');
+            frame.src = c.fixed
+                ? `https://www.youtube.com/embed/${encodeURIComponent(c.fixed[start] || c.fixed[0])}?${params}`
+                : `https://www.youtube.com/embed/videoseries?list=${encodeURIComponent(c.list)}&${params}`;
+            const holder = $('yt-player');
+            if (!holder) return;
+            holder.replaceWith(frame);
+            player = new YT.Player(frame, {
                 events: {
                     onReady: () => {
                         playerMessage('');
-                        if (c.fixed) { player.cuePlaylist(c.fixed, start); cued = true; gotIds(c, c.fixed); return; }
-                        // playerVars ilə deyil, açıq cuePlaylist çağırışı ilə — playlist API-ni daha etibarlı işə salır
-                        player.cuePlaylist({ listType: 'playlist', list: c.list, index: start });
+                        // Video siyahısı videos.js-dədir: iframe artıq qalınan videonu göstərir, playlist API-si lazım deyil
+                        if (c.fixed) { cued = true; gotIds(c, c.fixed); return; }
+                        // Playlist iframe-in src-i ilə (embed/videoseries) yüklənir — YouTube-un standart embed üsulu
                         let tries = 0;
                         const poll = setInterval(() => {
                             const list = player && player.getPlaylist && player.getPlaylist();
                             if (list && list.length) {
                                 clearInterval(poll);
                                 gotIds(c, list);
+                                // İstifadəçinin qaldığı videodan davam et (avtomatik oynatmadan)
+                                if (start > 0 && start < list.length) player.cuePlaylist(list, start);
                                 cued = true;
                             } else if (++tries > 50) {
                                 clearInterval(poll);
@@ -448,14 +477,20 @@
                         }, 300);
                     },
                     onStateChange: e => {
-                        if (!cued || !player.getPlaylistIndex) return;
-                        const i = player.getPlaylistIndex();
-                        if (i >= 0 && i !== cur) setCur(i);
+                        if (!cued) return;
+                        if (!c.fixed && player.getPlaylistIndex) {
+                            const i = player.getPlaylistIndex();
+                            if (i >= 0 && i !== cur) setCur(i);
+                        }
                         if (e.data === YT.PlayerState.PLAYING && player.getVideoData) {
                             const d = player.getVideoData();
                             if (d && d.video_id && d.title) saveTitle(d.video_id, d.title);
                         }
-                        if (e.data === YT.PlayerState.ENDED && ids && ids[cur] && !watched[ids[cur]]) setWatched(ids[cur], true);
+                        if (e.data === YT.PlayerState.ENDED && ids && ids[cur]) {
+                            if (!watched[ids[cur]]) setWatched(ids[cur], true);
+                            // Sona çatan video baxılmış sayılır və növbəti video açılır
+                            if (c.fixed && cur < ids.length - 1) go(cur + 1);
+                        }
                     },
                     onError: e => {
                         failMessage(c, 'Bu video portalda açılmadı. YouTube-da baxın və ya "Növbəti"yə keçin.', e && e.data);
@@ -469,13 +504,21 @@
             active = c.id;
             if (push) history.replaceState(null, '', '#' + c.id);
             renderCards();
+            // Mobil zolaqda seçilmiş kurs görünsün
+            const grid = $('course-grid'), card = grid.querySelector('.course-card.active');
+            if (card && grid.scrollWidth > grid.clientWidth) grid.scrollLeft = card.offsetLeft - grid.offsetLeft;
             renderDetail(c);
             startPlayer(c);
         }
 
         $('course-grid').addEventListener('click', e => {
             const b = e.target.closest('[data-course]');
-            if (b && b.dataset.course !== active) openCourse(b.dataset.course, true);
+            if (b && b.dataset.course !== active) {
+                openCourse(b.dataset.course, true);
+                // Kurs seçiləndə pleyerə keç (xüsusən mobildə)
+                const d = $('course-detail');
+                if (d && d.getBoundingClientRect().top > innerHeight * 0.5) d.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         });
         $('login-note').hidden = !!Student.current() || !COURSES.length;
         if (!COURSES.length) renderEmpty();
