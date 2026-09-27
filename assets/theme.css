@@ -225,3 +225,64 @@ body.dark-mode .site-logo { color: #0a0a0a; }
     .site-nav::-webkit-scrollbar { display: none; }
     .site-nav a { padding: 0.4rem 0.7rem; font-size: 0.85rem; }
 }
+
+/* ---------- Mobil: yığcam sabit başlıq ----------
+   Başlıq bir sətir ad + bir sətir sürüşən menyu olur; Portal və tema düyməsi menyunun əvvəlinə keçir */
+@media (max-width: 767px) {
+    header.sticky > nav.container {
+        flex-wrap: wrap !important;
+        gap: 0.35rem 0.75rem !important;
+        padding: 0.6rem 1rem !important;
+    }
+    header.sticky > nav.container h1 {
+        font-size: 1.1rem !important;
+        line-height: 1.3 !important;
+    }
+    header.sticky > nav.container h1 .icon { width: 1.1em; height: 1.1em; }
+    header.sticky > nav.container > div:first-child { gap: 0.4rem 0.6rem !important; }
+    header.sticky > nav.container > div:last-child {
+        flex-wrap: nowrap !important;
+        overflow-x: auto;
+        width: 100%;
+        gap: 1rem !important;
+        padding-bottom: 0.2rem !important;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+    header.sticky > nav.container > div:last-child::-webkit-scrollbar { display: none; }
+    header.sticky > nav.container > div:last-child > * { flex-shrink: 0; white-space: nowrap; font-size: 0.875rem; }
+    header.sticky > nav.container .portal-home-link,
+    header.sticky > nav.container .theme-toggle-btn { order: -1; }
+    .lesson-badge { font-size: 0.68rem; padding: 0.2rem 0.5rem; }
+
+    /* links.html / about.html başlığı */
+    header.sticky > div.container { padding: 0.6rem 1rem !important; }
+
+    /* Məzmun kənarları və kartlar */
+    main.container { padding-left: 1rem !important; padding-right: 1rem !important; }
+    .section-card { padding: 1.25rem 1rem !important; }
+    .section-title { font-size: 1.3rem !important; }
+    footer.brand-footer .brand-footer-top { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 400px) {
+    header.sticky > div.container > a:first-child { font-size: 0.95rem; }
+    .brand-footer-links { gap: 0.4rem 1rem; }
+}
+@media (max-width: 480px) {
+    header.sticky .lesson-badge { display: none; }
+}
+@media (max-width: 767px) {
+    /* Cədvəllər: kiçik şrift, sıx xanalar; genişdirsə cədvəlin öz çərçivəsində yana sürüşür */
+    .data-table { font-size: 0.85rem; }
+    .data-table th, .data-table td { padding: 0.55rem 0.65rem !important; }
+    main table { font-size: 0.85rem; }
+    /* Köhnə dərslərdəki çox böyük başlıqlar */
+    main h2.text-4xl, main h2.text-3xl { font-size: 1.4rem !important; line-height: 1.3 !important; }
+    main h3.text-2xl { font-size: 1.15rem !important; }
+    /* Footer sosial ikonları bir sıraya sığsın */
+    .brand-footer-social { gap: 0.45rem; }
+    .brand-footer-social a { width: 2.4rem; height: 2.4rem; }
+    .brand-footer-social .icon { width: 1.15rem; height: 1.15rem; }
+    /* Kod blokları */
+    .code-block pre { font-size: 0.8rem; }
+}
