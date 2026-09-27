@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-play"></use></svg> GitHub Actions ilə Pipeline</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-play"></use></svg> GitHub Actions ilə Pipeline</h1>
                 <span class="lesson-badge">DevOps · CI/CD</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -26,29 +26,29 @@
                 <a href="#secrets" class="nav-link">Secret-lər</a>
                 <a href="#advanced" class="nav-link">İrəli səviyyə</a>
                 <a href="#pages" class="nav-link">Real nümunə</a>
-                <a href="../index.html#devops" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
+                <a href="../index.html#devops" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-play"></use></svg> Giriş: Repo-nun İçində CI/CD</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#circle-play"></use></svg> Giriş: Repo-nun İçində CI/CD</h2>
             <p class="lead">
                 <strong>GitHub Actions</strong> — GitHub-a daxil olan avtomatlaşdırma platformasıdır. Repo-da <code>.github/workflows/</code>
                 qovluğuna YAML faylı qoyursunuz və hər push, PR, cədvəl və ya əl ilə başlatma zamanı GitHub-un
                 virtual maşınlarında (runner) əmrləriniz işləyir. Açıq repo-lar üçün pulsuzdur.
             </p>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#bell-ring"></use></svg> Event</h3><p class="text-neutral-700">Workflow-u nə başladır: <code>push</code>, <code>pull_request</code>, <code>schedule</code>, <code>workflow_dispatch</code>.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#server"></use></svg> Runner</h3><p class="text-neutral-700"><code>ubuntu-latest</code>, <code>windows-latest</code>, <code>macos-latest</code> və ya öz serveriniz (self-hosted).</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#puzzle"></use></svg> Action</h3><p>Hazır addım: <code>actions/checkout</code>, <code>actions/setup-python</code> — Marketplace-də minlərlə.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#bell-ring"></use></svg> Event</h3><p class="text-neutral-700">Workflow-u nə başladır: <code>push</code>, <code>pull_request</code>, <code>schedule</code>, <code>workflow_dispatch</code>.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#server"></use></svg> Runner</h3><p class="text-neutral-700"><code>ubuntu-latest</code>, <code>windows-latest</code>, <code>macos-latest</code> və ya öz serveriniz (self-hosted).</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#puzzle"></use></svg> Action</h3><p>Hazır addım: <code>actions/checkout</code>, <code>actions/setup-python</code> — Marketplace-də minlərlə.</p></div>
             </div>
         </section>
 
         <section id="anatomy" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#list-tree"></use></svg> 1. Workflow Quruluşu</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#list-tree"></use></svg> 1. Workflow Quruluşu</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Səviyyə</th><th>Nədir</th><th>Xüsusiyyət</th></tr></thead>
@@ -62,7 +62,7 @@
         </section>
 
         <section id="first" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#file-code"></use></svg> 2. İlk Workflow: Python Testləri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#file-code"></use></svg> 2. İlk Workflow: Python Testləri</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code># .github/workflows/ci.yml
@@ -101,12 +101,12 @@ jobs:
         </section>
 
         <section id="secrets" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#key-round"></use></svg> 3. Secret-lər və İcazələr</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#key-round"></use></svg> 3. Secret-lər və İcazələr</h2>
             <div class="feature-grid mb-6">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#lock"></use></svg><p class="text-neutral-700"><strong>Repository secrets:</strong> Settings → Secrets and variables → Actions. Log-da avtomatik <code>***</code> ilə gizlədilir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#layers"></use></svg><p class="text-neutral-700"><strong>Environments:</strong> <code>production</code> mühitinə ayrıca secret-lər və məcburi reviewer.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#shield"></use></svg><p class="text-neutral-700"><strong>GITHUB_TOKEN:</strong> hər run üçün avtomatik yaranan token; <code>permissions:</code> ilə minimuma endirin.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#fingerprint"></use></svg><p class="text-neutral-700"><strong>OIDC:</strong> <code>id-token: write</code> ilə AWS/Azure-a secret-siz giriş.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#lock"></use></svg><p class="text-neutral-700"><strong>Repository secrets:</strong> Settings → Secrets and variables → Actions. Log-da avtomatik <code>***</code> ilə gizlədilir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#layers"></use></svg><p class="text-neutral-700"><strong>Environments:</strong> <code>production</code> mühitinə ayrıca secret-lər və məcburi reviewer.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#shield"></use></svg><p class="text-neutral-700"><strong>GITHUB_TOKEN:</strong> hər run üçün avtomatik yaranan token; <code>permissions:</code> ilə minimuma endirin.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#fingerprint"></use></svg><p class="text-neutral-700"><strong>OIDC:</strong> <code>id-token: write</code> ilə AWS/Azure-a secret-siz giriş.</p></div>
             </div>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
@@ -127,13 +127,13 @@ jobs:
           rsync -az -e "ssh -i ~/.ssh_key -o StrictHostKeyChecking=accept-new" ./site/ deploy@web01:/var/www/site/</code></pre>
             </div>
             <div class="note-box mt-6">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#triangle-alert"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#triangle-alert"></use></svg>
                 <p class="text-neutral-800">Fork-dan gələn PR-lar secret-lərə çata bilmir — bu qəsdəndir. <code>pull_request_target</code> event-ini yad kodu işlətmək üçün istifadə etməyin. Üçüncü tərəf action-ları tam commit SHA ilə sabitləyin.</p>
             </div>
         </section>
 
         <section id="advanced" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#sliders-horizontal"></use></svg> 4. Faydalı İmkanlar</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#sliders-horizontal"></use></svg> 4. Faydalı İmkanlar</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>on:
@@ -163,7 +163,7 @@ jobs:
         </section>
 
         <section id="pages" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#globe"></use></svg> 5. Real Nümunə: Bu Portalın Workflow-u</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#globe"></use></svg> 5. Real Nümunə: Bu Portalın Workflow-u</h2>
             <p class="lead">Bu sayt GitHub Pages-dədir və <code>.github/workflows/site.yml</code> hər push-da belə işləyir:</p>
             <ol class="steps max-w-3xl mx-auto mb-6">
                 <li><p class="text-neutral-700"><code>python3 _dev/build.py check</code> — ikonlar, kataloq, quiz sualları, daxili linklər.</p></li>
@@ -172,7 +172,7 @@ jobs:
                 <li><p class="text-neutral-700">main-də hər şey yaşıldırsa — <code>actions/deploy-pages</code> ilə dərc.</p></li>
             </ol>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#lightbulb"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#lightbulb"></use></svg>
                 <p class="text-neutral-800">Ayrıca həftəlik workflow xarici linkləri yoxlayır, amma deploy-u bloklamır — kənar saytın müvəqqəti xətası saytın dərcini dayandırmamalıdır.</p>
             </div>
         </section>
@@ -182,7 +182,7 @@ jobs:
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

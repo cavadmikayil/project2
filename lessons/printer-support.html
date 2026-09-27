@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#printer"></use></svg> Printer Dəstəyi</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#printer"></use></svg> Printer Dəstəyi</h1>
                 <span class="lesson-badge">Helpdesk · Periferiya</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -26,15 +26,15 @@
                 <a href="#spooler" class="nav-link">Print spooler</a>
                 <a href="#server" class="nav-link">Print server</a>
                 <a href="#cases" class="nav-link">Problemlər</a>
-                <a href="../index.html#helpdesk" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
+                <a href="../index.html#helpdesk" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#printer"></use></svg> Giriş: Ən Çox Zəng Gələn Cihaz</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#printer"></use></svg> Giriş: Ən Çox Zəng Gələn Cihaz</h2>
             <p class="lead">
                 Printer — helpdesk-in "klassik" düşmənidir: kağız sıxışır, növbə donur, driver uyğun gəlmir, IP dəyişir.
                 Amma problemlərin çoxu bir neçə tipik səbəbdən qaynaqlanır və sistemli yanaşma ilə tez həll olunur.
@@ -42,7 +42,7 @@
         </section>
 
         <section id="types" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#layers"></use></svg> 1. Printer Növləri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#layers"></use></svg> 1. Printer Növləri</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Növ</th><th>Necə çap edir</th><th>Tipik problem</th></tr></thead>
@@ -57,7 +57,7 @@
         </section>
 
         <section id="connect" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#network"></use></svg> 2. Şəbəkə Printerinin Qoşulması</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#network"></use></svg> 2. Şəbəkə Printerinin Qoşulması</h2>
             <ol class="steps max-w-3xl mx-auto mb-6">
                 <li><p class="text-neutral-700">Printerə <strong>statik IP</strong> və ya DHCP rezervasiyası verin — IP dəyişəndə bütün kompüterlərdə çap dayanır.</p></li>
                 <li><p class="text-neutral-700">Printerin konfiqurasiya səhifəsini çap edin (IP, MAC, firmware).</p></li>
@@ -77,7 +77,7 @@ Get-Printer | Select Name, PortName, DriverName, PrinterStatus</code></pre>
         </section>
 
         <section id="spooler" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#list-restart"></use></svg> 3. Print Spooler: Donmuş Növbə</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#list-restart"></use></svg> 3. Print Spooler: Donmuş Növbə</h2>
             <p class="lead">Sənəd növbədə "Printing" vəziyyətində qalıb və silinmir — ən çox rast gəlinən haldır. Həll: spooler xidmətini dayandırıb növbə fayllarını silmək.</p>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
@@ -94,19 +94,19 @@ Start-Service Spooler</code></pre>
         </section>
 
         <section id="server" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#server"></use></svg> 4. Print Server və GPO ilə Paylama</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#server"></use></svg> 4. Print Server və GPO ilə Paylama</h2>
             <div class="card-grid mb-6">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#server"></use></svg> Mərkəzi idarəetmə</h3><p class="text-neutral-700">Windows Server-də Print Management: driver-lər bir yerdə, növbələr bir yerdə, çap statistikası.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#users"></use></svg> GPO ilə yerləşdirmə</h3><p class="text-neutral-700">Printerlər OU-ya görə avtomatik qoşulur — istifadəçi kabinetə gələndə öz şöbəsinin printerini görür.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#server"></use></svg> Mərkəzi idarəetmə</h3><p class="text-neutral-700">Windows Server-də Print Management: driver-lər bir yerdə, növbələr bir yerdə, çap statistikası.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#users"></use></svg> GPO ilə yerləşdirmə</h3><p class="text-neutral-700">Printerlər OU-ya görə avtomatik qoşulur — istifadəçi kabinetə gələndə öz şöbəsinin printerini görür.</p></div>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#shield-alert"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#shield-alert"></use></svg>
                 <p class="text-neutral-800"><strong>Təhlükəsizlik:</strong> 2021-ci ildə "PrintNightmare" zəifliyi Print Spooler vasitəsilə sistemi ələ keçirməyə imkan verdi. Domain Controller-lərdə və çap etməyən serverlərdə Spooler xidmətini söndürün, Windows yeniləmələrini gecikdirməyin.</p>
             </div>
         </section>
 
         <section id="cases" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> 5. Tipik Problemlər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#wrench"></use></svg> 5. Tipik Problemlər</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Problem</th><th>Səbəb / həll</th></tr></thead>
@@ -127,7 +127,7 @@ Start-Service Spooler</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=bcd03dd8#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
