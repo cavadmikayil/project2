@@ -229,6 +229,34 @@
         }
         .portal-card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px -8px rgb(0 0 0 / 0.18); border-color: #f59e0b; }
         .portal-card.done { border: 2px solid #f59e0b; }
+        /* Siyahı görünüşü — kompakt sətirlər */
+        .view-toggle { display: inline-flex; border: 1px solid #e5e5e5; border-radius: 0.75rem; padding: 0.2rem; background: #ffffff; gap: 0.2rem; }
+        .view-btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.4rem 0.75rem; border-radius: 0.55rem; font-size: 0.85rem; font-weight: 600; color: #525252; }
+        .view-btn:hover { color: #0a0a0a; }
+        .view-btn.active { background: #0a0a0a; color: #ffffff; }
+        .view-btn.active .icon { color: #fbbf24; }
+        #card-grid.list-view { grid-template-columns: 1fr; gap: 0.5rem; }
+        .portal-card.lesson-row { flex-direction: row; align-items: center; gap: 0.75rem; padding: 0.5rem 0.9rem; border-radius: 0.75rem; }
+        .lesson-row .icon-badge.sm { width: 2.1rem; height: 2.1rem; font-size: 1rem; border-radius: 0.6rem; }
+        .portal-card.lesson-row:hover { transform: none; box-shadow: 0 6px 14px -8px rgb(0 0 0 / 0.2); }
+        .lesson-row .step-num { min-width: 2rem; }
+        .lesson-row .row-main { flex: 1; min-width: 0; }
+        .lesson-row .row-title { font-weight: 700; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .lesson-row .row-desc { font-size: 0.8rem; color: #737373; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .lesson-row .row-actions { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+        .lesson-row .done-btn { padding: 0.3rem 0.6rem; }
+        @media (max-width: 640px) {
+            .portal-card.lesson-row { flex-wrap: wrap; row-gap: 0.4rem; padding: 0.65rem 0.8rem; }
+            .lesson-row .row-desc, .lesson-row .row-tag, .lesson-row .row-icon { display: none; }
+            .lesson-row .row-actions { width: 100%; justify-content: space-between; padding-left: 3.05rem; }
+            .view-btn span { display: none; }
+        }
+        body.dark-mode .view-toggle { background: #171717; border-color: #333333; }
+        body.dark-mode .view-btn { color: #a3a3a3; }
+        body.dark-mode .view-btn:hover { color: #ffffff; }
+        body.dark-mode .view-btn.active { background: #f59e0b; color: #0a0a0a; }
+        body.dark-mode .view-btn.active .icon { color: #0a0a0a; }
+        body.dark-mode .lesson-row .row-desc { color: #a3a3a3; }
         .card-title { color: #0a0a0a; }
         .card-title:hover { color: #b45309; }
         .portal-tag {
@@ -488,9 +516,15 @@
             </section>
 
             <section id="lessons-section">
-                <div class="mb-4">
-                    <h2 class="section-heading text-neutral-900"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=3b0191a2#book-open"></use></svg> Dərslər</h2>
-                    <p id="lessons-sub" class="text-sm text-neutral-600 mt-1">Tövsiyə olunan öyrənmə ardıcıllığı ilə nömrələnib.</p>
+                <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
+                    <div>
+                        <h2 class="section-heading text-neutral-900"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=3b0191a2#book-open"></use></svg> Dərslər</h2>
+                        <p id="lessons-sub" class="text-sm text-neutral-600 mt-1">Tövsiyə olunan öyrənmə ardıcıllığı ilə nömrələnib.</p>
+                    </div>
+                    <div class="view-toggle" role="group" aria-label="Görünüş">
+                        <button type="button" class="view-btn" data-view="grid" aria-pressed="true" title="Qutular"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=3b0191a2#layout-grid"></use></svg><span>Qutular</span></button>
+                        <button type="button" class="view-btn" data-view="list" aria-pressed="false" title="Siyahı"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=3b0191a2#list"></use></svg><span>Siyahı</span></button>
+                    </div>
                 </div>
                 <div id="cat-bar" class="cat-bar" role="tablist" aria-label="Dərs kateqoriyaları"></div>
                 <div id="chip-bar" class="flex flex-wrap gap-2 mb-6"></div>
@@ -545,7 +579,7 @@
         const icon = (name, cls = '') =>
             `<svg class="icon ${cls}" aria-hidden="true"><use href="assets/icons.svg?v=3b0191a2#${name}"></use></svg>`;
 
-        // Alətlər assets/tools-catalog.js faylındadır; dashboard-da "featured" olanlar göstərilir
+        // Alətlər assets/tools-catalog.js faylındadır; ana səhifədə yalnız axtarış nəticələrində göstərilir
         const tools = window.TOOLS.map((t, i) => ({ ...t, cls: '' }));
 
         // Kateqoriyalar və dərslər assets/catalog.js faylındadır (yeni dərs orada əlavə olunur)
@@ -574,6 +608,10 @@
 
         const $ = id => document.getElementById(id);
         let activeTag = 'Hamısı';
+        // Dərs görünüşü: "grid" (qutular, defolt) və ya "list" (kompakt siyahı) — bu brauzerdə yadda qalır
+        const VIEW_KEY = 'edu-portal-view';
+        let viewMode = 'grid';
+        try { if (localStorage.getItem(VIEW_KEY) === 'list') viewMode = 'list'; } catch (e) {}
         let activeCat = catFromHash();
         const catOf = id => CATEGORIES.find(c => c.id === id);
         const catLabel = id => catOf(id).label;
@@ -764,7 +802,8 @@
         function render() {
             const term = $('search-input').value.trim().toLowerCase();
 
-            const visibleTools = term ? tools.filter(t => matches(t, term)) : tools.filter(t => t.featured);
+            // Ana səhifədə alətlər göstərilmir (menyuda Tools var); yalnız axtarış nəticələrində çıxır
+            const visibleTools = term ? tools.filter(t => matches(t, term)) : [];
             $('tool-count').textContent = tools.length;
             $('tool-grid').innerHTML = visibleTools.map((t, i) => ({ ...t, cls: i % 2 ? 'alt' : '' })).map(t => `
                 <a href="${t.href}" class="tool-card ${t.cls}">
@@ -789,11 +828,36 @@
                 ? `Axtarış nəticələri — bütün kateqoriyalar (${visibleLessons.length})`
                 : catOf(activeCat).desc;
             $('resources-section').hidden = term !== '' || activeCat !== 'ccna';
+            $('card-grid').classList.toggle('list-view', viewMode === 'list');
+            document.querySelectorAll('.view-btn').forEach(b => {
+                const on = b.dataset.view === viewMode;
+                b.classList.toggle('active', on);
+                b.setAttribute('aria-pressed', on);
+            });
             $('card-grid').innerHTML = visibleLessons.map(l => {
                 const isDone = done.has(l.href);
                 const score = quizBest[l.quiz];
                 const scoreBadge = score === undefined ? ''
                     : `<span class="score-badge ${scoreClass(score)}" title="Ən yaxşı test nəticəsi">${score}%</span>`;
+                if (viewMode === 'list') return `
+                <div class="portal-card lesson-row ${isDone ? 'done' : ''}">
+                    <span class="step-num">${term ? catOf(l.cat).short + ' ' : ''}#${l.step}</span>
+                    <span class="icon-badge sm row-icon">${icon(l.icon)}</span>
+                    <div class="row-main">
+                        <a href="${l.href}" data-lesson="${l.href}" class="card-title row-title">${l.title}</a>
+                        <p class="row-desc">${l.desc}</p>
+                    </div>
+                    <span class="portal-tag row-tag">${l.tag}</span>
+                    <div class="row-actions">
+                        <span class="flex items-center gap-2">
+                            <a href="tools/quiz.html?topic=${l.quiz}" class="link-soft">${icon('notebook-pen')} Test</a>
+                            ${scoreBadge}
+                        </span>
+                        <button class="done-btn ${isDone ? 'is-done' : ''}" data-href="${l.href}" aria-pressed="${isDone}">
+                            ${icon(isDone ? 'circle-check' : 'circle-dot')} Oxudum
+                        </button>
+                    </div>
+                </div>`;
                 return `
                 <div class="portal-card ${isDone ? 'done' : ''}">
                     <div class="flex items-center justify-between mb-4">
@@ -895,6 +959,12 @@
             renderChips();
             render();
         });
+
+        document.querySelectorAll('.view-btn').forEach(b => b.addEventListener('click', () => {
+            viewMode = b.dataset.view;
+            try { localStorage.setItem(VIEW_KEY, viewMode); } catch (e) {}
+            render();
+        }));
 
         // Dashboard-dan açılan son dərsi yadda saxla
         $('app-view').addEventListener('click', e => {
