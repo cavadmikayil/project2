@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EtherChannel Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/theme.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .section-card { background-color: white; border-radius: 0.75rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); padding: 1.5rem; margin-bottom: 2rem; }
+        .tab-btn { padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; transition: background-color 0.2s, color 0.2s; cursor: pointer; white-space: nowrap; }
+        .active-tab { background-color: #3b82f6; color: #ffffff; }
+        .inactive-tab { background-color: #e2e8f0; color: #475569; }
+        .code-block { background-color: #1e293b; color: #e2e8f0; border-radius: 0.5rem; padding: 1rem; position: relative; overflow-x: auto; }
+        .copy-btn { position: absolute; top: 0.75rem; right: 0.75rem; background-color: #475569; color: #ffffff; border: none; padding: 0.25rem 0.75rem; border-radius: 0.375rem; cursor: pointer; font-size: 0.875rem; transition: background-color 0.2s; }
+        .copy-btn:hover { background-color: #64748b; }
+        .feature-item { display: flex; align-items: center; margin-bottom: 0.75rem; }
+        .feature-icon { font-size: 1.5rem; margin-right: 0.75rem; color: #10b981; }
+        .yes { color: #059669; font-weight: 600; }
+        .no { color: #dc2626; font-weight: 600; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-blue-600">EtherChannel</h1>
+            <div class="flex flex-wrap items-center gap-4 overflow-x-auto pb-2 md:pb-0">
+                <a href="#intro" class="text-gray-600 hover:text-blue-600 font-medium">Giriş</a>
+                <a href="#protocols" class="text-gray-600 hover:text-blue-600 font-medium">PAgP / LACP</a>
+                <a href="#requirements" class="text-gray-600 hover:text-blue-600 font-medium">Tələblər</a>
+                <a href="#commands" class="text-gray-600 hover:text-blue-600 font-medium">Əmrlər</a>
+                <a href="../index.html" class="portal-home-link">← Portal</a>
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş">🌙</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8">
+
+        <section id="intro" class="section-card text-center">
+            <h2 class="text-3xl font-bold mb-4 text-gray-800">Giriş: EtherChannel Nədir?</h2>
+            <p class="text-gray-600 max-w-3xl mx-auto">
+                EtherChannel (Link Aggregation) bir neçə fiziki Ethernet linkini tək məntiqi link
+                (<code>Port-channel</code>) kimi birləşdirir. Nəticədə bant genişliyi artır (məs. 4×1 Gbps = 4 Gbps),
+                linklərdən biri kəsiləndə trafik digərlərinə keçir və — ən vacibi — STP bu linkləri tək link
+                kimi gördüyü üçün heç birini bloklamır. Bir EtherChannel-də maksimum 8 aktiv link ola bilər.
+            </p>
+        </section>
+
+        <section id="protocols" class="section-card">
+            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">1. PAgP və LACP</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-blue-50 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold text-blue-700 mb-2">LACP</h3>
+                    <p class="text-gray-700">IEEE 802.3ad (802.1AX) açıq standartı. Rejimlər: <strong>active</strong> (danışıq başladır), <strong>passive</strong> (yalnız cavab verir).</p>
+                </div>
+                <div class="bg-purple-50 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold text-purple-700 mb-2">PAgP</h3>
+                    <p class="text-gray-700">Cisco-ya məxsus. Rejimlər: <strong>desirable</strong> (danışıq başladır), <strong>auto</strong> (yalnız cavab verir).</p>
+                </div>
+                <div class="bg-yellow-50 p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold text-yellow-700 mb-2">Statik (on)</h3>
+                    <p class="text-gray-700">Heç bir danışıq protokolu yoxdur — hər iki tərəf <strong>on</strong> olmalıdır. Səhv konfiqurasiya loop yarada bilər.</p>
+                </div>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-700 mb-4">Rejim Kombinasiyaları</h3>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
+                    <thead>
+                        <tr class="bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                            <th class="py-3 px-4 border-b border-gray-200">Switch A</th>
+                            <th class="py-3 px-4 border-b border-gray-200">Switch B</th>
+                            <th class="py-3 px-4 border-b border-gray-200">EtherChannel qurulur?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="py-3 px-4 border-b border-gray-200">active</td><td class="py-3 px-4 border-b border-gray-200">active</td><td class="py-3 px-4 border-b border-gray-200 yes">Bəli (LACP)</td></tr>
+                        <tr><td class="py-3 px-4 border-b border-gray-200">active</td><td class="py-3 px-4 border-b border-gray-200">passive</td><td class="py-3 px-4 border-b border-gray-200 yes">Bəli (LACP)</td></tr>
+                        <tr><td class="py-3 px-4 border-b border-gray-200">passive</td><td class="py-3 px-4 border-b border-gray-200">passive</td><td class="py-3 px-4 border-b border-gray-200 no">Xeyr — heç biri başlatmır</td></tr>
+                        <tr><td class="py-3 px-4 border-b border-gray-200">desirable</td><td class="py-3 px-4 border-b border-gray-200">desirable</td><td class="py-3 px-4 border-b border-gray-200 yes">Bəli (PAgP)</td></tr>
+                        <tr><td class="py-3 px-4 border-b border-gray-200">desirable</td><td class="py-3 px-4 border-b border-gray-200">auto</td><td class="py-3 px-4 border-b border-gray-200 yes">Bəli (PAgP)</td></tr>
+                        <tr><td class="py-3 px-4 border-b border-gray-200">auto</td><td class="py-3 px-4 border-b border-gray-200">auto</td><td class="py-3 px-4 border-b border-gray-200 no">Xeyr — heç biri başlatmır</td></tr>
+                        <tr><td class="py-3 px-4 border-b border-gray-200">on</td><td class="py-3 px-4 border-b border-gray-200">on</td><td class="py-3 px-4 border-b border-gray-200 yes">Bəli (statik)</td></tr>
+                        <tr><td class="py-3 px-4 border-b border-gray-200">on</td><td class="py-3 px-4 border-b border-gray-200">active / desirable</td><td class="py-3 px-4 border-b border-gray-200 no">Xeyr — protokollar qarışdırıla bilməz</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="requirements" class="section-card">
+            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">2. Uyğunluq Tələbləri</h2>
+            <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto">
+                Bir qrupdakı bütün fiziki portlar eyni parametrlərə malik olmalıdır, əks halda portlar
+                "suspended" vəziyyətinə düşür.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="feature-item"><span class="feature-icon">⚡</span><p class="text-gray-700">Eyni <strong>speed</strong> və <strong>duplex</strong></p></div>
+                <div class="feature-item"><span class="feature-icon">🔀</span><p class="text-gray-700">Eyni <strong>switchport mode</strong> (hamısı access və ya hamısı trunk)</p></div>
+                <div class="feature-item"><span class="feature-icon">🏷️</span><p class="text-gray-700">Eyni <strong>access VLAN</strong> və ya eyni <strong>allowed / native VLAN</strong> siyahısı</p></div>
+                <div class="feature-item"><span class="feature-icon">🧩</span><p class="text-gray-700">Eyni <strong>channel-group</strong> nömrəsi və protokol</p></div>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">3. Praktiki Əmrlər</h2>
+            <div class="flex justify-center mb-6 space-x-2 flex-wrap" id="ec-tabs">
+                <button data-type="lacp" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 active-tab">LACP</button>
+                <button data-type="pagp" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">PAgP</button>
+                <button data-type="l3" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">Layer 3</button>
+                <button data-type="verify" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">Doğrulama</button>
+            </div>
+            <div id="ec-commands-content">
+                <div id="ec-lacp-commands" class="protocol-pane">
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
+                        <pre><code class="language-cisco">Switch(config)# interface range GigabitEthernet0/1 - 2
+Switch(config-if-range)# channel-group 1 mode active
+Switch(config-if-range)# exit
+
+Switch(config)# interface Port-channel1
+Switch(config-if)# switchport mode trunk
+Switch(config-if)# switchport trunk allowed vlan 10,20,30</code></pre>
+                        <p class="text-gray-400 text-sm mt-2">Gi0/1–2 portlarını LACP active rejimində Port-channel1-ə birləşdirir və məntiqi interfeysi trunk kimi konfiqurasiya edir (Port-channel-a verilən ayarlar üzv portlara ötürülür).</p>
+                    </div>
+                </div>
+                <div id="ec-pagp-commands" class="protocol-pane hidden">
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
+                        <pre><code class="language-cisco">Switch(config)# interface range GigabitEthernet0/3 - 4
+Switch(config-if-range)# channel-group 2 mode desirable
+Switch(config-if-range)# exit
+
+Switch(config)# port-channel load-balance src-dst-ip</code></pre>
+                        <p class="text-gray-400 text-sm mt-2">Gi0/3–4 portlarını PAgP desirable rejimində Port-channel2-yə birləşdirir və yük bölgüsü üsulunu mənbə+təyinat IP əsasında təyin edir.</p>
+                    </div>
+                </div>
+                <div id="ec-l3-commands" class="protocol-pane hidden">
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
+                        <pre><code class="language-cisco">Switch(config)# interface range GigabitEthernet0/5 - 6
+Switch(config-if-range)# no switchport
+Switch(config-if-range)# channel-group 3 mode active
+Switch(config-if-range)# exit
+
+Switch(config)# interface Port-channel3
+Switch(config-if)# no switchport
+Switch(config-if)# ip address 10.0.0.1 255.255.255.252</code></pre>
+                        <p class="text-gray-400 text-sm mt-2">Multilayer switch-də routed (L3) EtherChannel: həm fiziki portlar, həm də Port-channel interfeysi <code>no switchport</code> olmalıdır; IP ünvanı Port-channel-a verilir.</p>
+                    </div>
+                </div>
+                <div id="ec-verify-commands" class="protocol-pane hidden">
+                    <div class="code-block">
+                        <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
+                        <pre><code class="language-cisco">show etherchannel summary
+show etherchannel port-channel
+show interfaces Port-channel1
+show lacp neighbor
+show pagp neighbor
+show etherchannel load-balance</code></pre>
+                        <p class="text-gray-400 text-sm mt-2">"summary" çıxışında bayraqlar: <strong>SU</strong> = Layer 2, işləyir; <strong>RU</strong> = Layer 3, işləyir; üzv portda <strong>(P)</strong> = bundle-dadır, <strong>(s)</strong> = suspended, <strong>(D)</strong> = down.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white shadow-md py-4 mt-8">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <a href="https://www.cavadmikayil.com" target="_blank" class="text-blue-600 hover:underline font-semibold text-lg">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        function setupTabs(tabContainerId, contentContainerId, prefix) {
+            const tabsContainer = document.getElementById(tabContainerId);
+            const contentContainer = document.getElementById(contentContainerId);
+            tabsContainer.addEventListener('click', (event) => {
+                if (event.target.classList.contains('tab-btn')) {
+                    const targetType = event.target.dataset.type;
+                    tabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
+                        btn.classList.remove('active-tab');
+                        btn.classList.add('inactive-tab');
+                    });
+                    event.target.classList.add('active-tab');
+                    event.target.classList.remove('inactive-tab');
+                    contentContainer.querySelectorAll('.protocol-pane').forEach(pane => {
+                        pane.classList.toggle('hidden', pane.id !== `${prefix}-${targetType}-commands`);
+                    });
+                }
+            });
+        }
+        setupTabs('ec-tabs', 'ec-commands-content', 'ec');
+
+        function copyCode(button) {
+            const pre = button.nextElementSibling;
+            const code = pre.querySelector('code');
+            const textToCopy = code.innerText;
+            const textArea = document.createElement('textarea');
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                button.innerText = 'Kopyalandı!';
+                setTimeout(() => { button.innerText = 'Kopyala'; }, 2000);
+            } catch (err) {
+                console.error('Kopyalama uğursuz oldu', err);
+            }
+            document.body.removeChild(textArea);
+        }
+    </script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>

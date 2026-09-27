@@ -14,6 +14,7 @@
         - Report Info: Full list of Cisco commands -> Goal: Organize, Inform, Enable Action -> Viz/Method: A filterable and searchable list of command 'cards'. -> Interaction: 1) Clickable category links in the sidebar to filter the list. 2) A live search input to filter commands by name/description. 3) A 'Copy' button on each card to copy the command syntax to the clipboard. -> Justification: This interactive approach is far more user-friendly and efficient for a technical reference guide than a static text document. It allows users to find and use commands in seconds. -> Library/Method: Vanilla JavaScript for all interactivity, Tailwind CSS for modern styling. No charts or complex graphics are needed.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link rel="stylesheet" href="../assets/theme.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -60,7 +61,11 @@
     <div class="flex min-h-screen">
         <!-- Sidebar -->
         <aside class="w-64 bg-white/50 backdrop-blur-sm border-r border-zinc-200 p-4 fixed h-full hidden md:block">
-            <h1 class="text-xl font-bold text-sky-600 mb-6">Cisco Əmrləri</h1>
+            <div class="flex items-center justify-between mb-6">
+                <h1 class="text-xl font-bold text-sky-600">Cisco Əmrləri</h1>
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş">🌙</button>
+            </div>
+            <a href="../index.html" class="portal-home-link block mb-6">← Portal</a>
             <nav id="category-nav" class="space-y-2">
                 <a href="#" class="sidebar-link active" data-category="all">Bütün Əmrlər</a>
                 <a href="#" class="sidebar-link" data-category="general">Ümumi Konfiqurasiya</a>
@@ -257,5 +262,6 @@
         // Initial render
         renderCommands();
     </script>
+    <script src="../assets/theme.js"></script>
 </body>
 </html>

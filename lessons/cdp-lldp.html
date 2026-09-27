@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDP və LLDP Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Neutral Harmony -->
+    <!-- Application Structure Plan: The SPA is organized into logical sections: Introduction, CDP (What it is, Features, Commands), LLDP (What it is, Features, Commands), and a Comparison. A sticky header provides quick navigation. Each protocol's command section uses a tabbed interface (Configuration/Verification) with copyable code blocks. This structure facilitates a comprehensive, yet digestible, learning experience by segmenting information and providing practical, interactive elements for command execution. A new footer section has been added for branding. -->
+    <!-- Visualization & Content Choices:
+        - Report Info: CDP/LLDP definitions and features -> Goal: Inform, Organize -> Viz/Method: Textual content with clear headings, bullet points, and Unicode icons for visual emphasis. -> Interaction: Textual consumption. -> Justification: Concepts are best explained with clear text; icons add visual appeal without complex graphics.
+        - Report Info: CDP/LLDP Configuration and Verification Commands -> Goal: Enable Action, Inform -> Viz/Method: Tabbed interface for each protocol (Config/Verify) containing code blocks with "Copy" buttons. -> Interaction: Clickable tabs to switch command views, one-click copy for commands. -> Justification: Directly supports practical learning by allowing users to easily access and copy commands for lab environments.
+        - Report Info: CDP vs. LLDP Comparison -> Goal: Compare, Inform -> Viz/Method: A well-structured HTML table. -> Interaction: Textual consumption. -> Justification: A table is the most effective way to present direct, side-by-side comparisons of features.
+        - Library/Method: Vanilla JavaScript for all interactivity (navigation, tabs, copy functionality), Tailwind CSS for all styling and responsive layout. No charts or complex graphics are needed.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link rel="stylesheet" href="../assets/theme.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* neutral-50 */
+            color: #1e293b; /* neutral-800 */
+        }
+        .section-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+        .active-tab {
+            background-color: #3b82f6; /* blue-500 */
+            color: #ffffff;
+        }
+        .inactive-tab {
+            background-color: #e2e8f0; /* neutral-200 */
+            color: #475569; /* neutral-600 */
+        }
+        .code-block {
+            background-color: #1e293b; /* neutral-800 */
+            color: #e2e8f0; /* neutral-200 */
+            border-radius: 0.5rem;
+            padding: 1rem;
+            position: relative;
+            overflow-x: auto; /* For long commands */
+        }
+        .copy-btn {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background-color: #475569; /* neutral-600 */
+            color: #ffffff;
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background-color 0.2s;
+        }
+        .copy-btn:hover {
+            background-color: #64748b; /* neutral-500 */
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-right: 0.75rem;
+            color: #10b981; /* emerald-500 */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-blue-600">CDP və LLDP Dərs Vəsaiti</h1>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="text-gray-600 hover:text-blue-600 font-medium">Giriş</a>
+                <a href="#cdp" class="text-gray-600 hover:text-blue-600 font-medium">CDP</a>
+                <a href="#lldp" class="text-gray-600 hover:text-blue-600 font-medium">LLDP</a>
+                <a href="#comparison" class="text-gray-600 hover:text-blue-600 font-medium">Müqayisə</a>
+                <a href="../index.html" class="portal-home-link">← Portal</a>
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş">🌙</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8">
+
+        <section id="intro" class="section-card text-center">
+            <h2 class="text-3xl font-bold mb-4 text-gray-800">Giriş: Şəbəkə Kəşf Protokolları</h2>
+            <p class="text-gray-600 max-w-3xl mx-auto">
+                Şəbəkə cihazlarının bir-birini avtomatik olaraq kəşf etməsi və məlumat mübadiləsi aparması şəbəkə idarəçiliyində vacibdir. Bu dərs vəsaiti iki əsas kəşf protokolunu – Cisco Discovery Protocol (CDP) və Link Layer Discovery Protocol (LLDP) – araşdırır. Onlar şəbəkə topologiyasının qurulmasına, problemlərin aradan qaldırılmasına və cihazların konfiqurasiyasına kömək edir.
+            </p>
+        </section>
+
+        <section id="cdp" class="section-card">
+            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">1. Cisco Discovery Protocol (CDP)</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+                CDP, Cisco Systems tərəfindən hazırlanmış, qonşu Cisco cihazları haqqında məlumat toplamaq üçün istifadə olunan mülkiyyət protokoludur. O, Layer 2 səviyyəsində işləyir və birbaşa qoşulmuş cihazlar haqqında məlumatları mübadilə edir.
+            </p>
+
+            <h3 class="text-2xl font-bold text-gray-700 mb-4">Xüsusiyyətləri</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <div class="feature-item">
+                    <span class="feature-icon">🔗</span>
+                    <p class="text-gray-700">**Qonşu Məlumatı:** Cihaz ID-si, port ID-si, platforma, IOS versiyası, IP ünvanı kimi məlumatları toplayır.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🔒</span>
+                    <p class="text-gray-700">**Cisco Mülkiyyəti:** Yalnız Cisco cihazları arasında işləyir.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">⏱️</span>
+                    <p class="text-gray-700">**Periodik Yeniləmələr:** Hər 60 saniyədən bir CDP elanları göndərir.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">⚡</span>
+                    <p class="text-gray-700">**Layer 2:** Şəbəkənin 2-ci qatında (Data Link Layer) fəaliyyət göstərir.</p>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-gray-700 mb-4">Praktiki Əmrlər (CDP)</h3>
+            <div class="flex justify-center mb-6 space-x-2" id="cdp-tabs">
+                <button data-type="config" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 active-tab">Konfiqurasiya</button>
+                <button data-type="verify" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">Doğrulama</button>
+            </div>
+
+            <div id="cdp-commands-content">
+                <div id="cdp-config-commands" class="protocol-pane">
+                    <div class="space-y-4">
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
+                            <pre><code class="language-cisco">global configuration mode:
+cdp run
+
+interface configuration mode:
+cdp enable
+no cdp enable</code></pre>
+                            <p class="text-gray-400 text-sm mt-2">CDP-ni qlobal olaraq aktivləşdirir və ya interfeysdə aktivləşdirir/deaktiv edir.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="cdp-verify-commands" class="protocol-pane hidden">
+                    <div class="space-y-4">
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
+                            <pre><code class="language-cisco">show cdp neighbors
+show cdp neighbors detail
+show cdp interface</code></pre>
+                            <p class="text-gray-400 text-sm mt-2">Qonşu CDP cihazları haqqında qısa və ətraflı məlumatı, həmçinin CDP aktiv olan interfeysləri göstərir.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="lldp" class="section-card">
+            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">2. Link Layer Discovery Protocol (LLDP)</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+                LLDP, IEEE 802.1AB standartına əsaslanan, vendor-agnostic (istehsalçıdan asılı olmayan) bir kəşf protokoludur. O, müxtəlif istehsalçıların cihazları arasında məlumat mübadiləsini təmin edir.
+            </p>
+
+            <h3 class="text-2xl font-bold text-gray-700 mb-4">Xüsusiyyətləri</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <div class="feature-item">
+                    <span class="feature-icon">🌐</span>
+                    <p class="text-gray-700">**Vendor-Agnostic:** Müxtəlif istehsalçıların cihazları arasında işləyir (Cisco, Juniper, HP və s.).</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">⚙️</span>
+                    <p class="text-gray-700">**IEEE Standartı:** IEEE 802.1AB standartına əsaslanır.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🔄</span>
+                    <p class="text-gray-700">**İki Yönlü Məlumat:** Həm məlumat göndərir, həm də qəbul edir.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📊</span>
+                    <p class="text-gray-700">**TLVs (Type-Length-Value):** Məlumatları TLV formatında ötürür, bu da daha çevik məlumat mübadiləsinə imkan verir.</p>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-gray-700 mb-4">Praktiki Əmrlər (LLDP)</h3>
+            <div class="flex justify-center mb-6 space-x-2" id="lldp-tabs">
+                <button data-type="config" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 active-tab">Konfiqurasiya</button>
+                <button data-type="verify" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">Doğrulama</button>
+            </div>
+
+            <div id="lldp-commands-content">
+                <div id="lldp-config-commands" class="protocol-pane">
+                    <div class="space-y-4">
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
+                            <pre><code class="language-cisco">global configuration mode:
+lldp run
+
+interface configuration mode:
+lldp transmit
+lldp receive
+no lldp transmit
+no lldp receive</code></pre>
+                            <p class="text-gray-400 text-sm mt-2">LLDP-ni qlobal olaraq aktivləşdirir və ya interfeysdə göndərmə/qəbul etmə funksiyasını tənzimləyir.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="lldp-verify-commands" class="protocol-pane hidden">
+                    <div class="space-y-4">
+                        <div class="code-block">
+                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
+                            <pre><code class="language-cisco">show lldp neighbors
+show lldp neighbors detail
+show lldp interface</code></pre>
+                            <p class="text-gray-400 text-sm mt-2">Qonşu LLDP cihazları haqqında qısa və ətraflı məlumatı, həmçinin LLDP aktiv olan interfeysləri göstərir.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="comparison" class="section-card">
+            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">3. CDP və LLDP Müqayisəsi</h2>
+            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
+                CDP və LLDP oxşar məqsədlərə xidmət etsələr də, onların əsas fərqləri var. Aşağıdakı cədvəl bu fərqləri ümumiləşdirir.
+            </p>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
+                    <thead>
+                        <tr class="bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                            <th class="py-3 px-4 border-b border-gray-200">Xüsusiyyət</th>
+                            <th class="py-3 px-4 border-b border-gray-200">CDP</th>
+                            <th class="py-3 px-4 border-b border-gray-200">LLDP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-3 px-4 border-b border-gray-200 font-medium">İstehsalçı</td>
+                            <td class="py-3 px-4 border-b border-gray-200">Cisco (mülkiyyət)</td>
+                            <td class="py-3 px-4 border-b border-gray-200">IEEE Standartı (vendor-agnostic)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Standart</td>
+                            <td class="py-3 px-4 border-b border-gray-200">Yoxdur</td>
+                            <td class="py-3 px-4 border-b border-gray-200">IEEE 802.1AB</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Cihaz Dəstəyi</td>
+                            <td class="py-3 px-4 border-b border-gray-200">Yalnız Cisco cihazları</td>
+                            <td class="py-3 px-4 border-b border-gray-200">Bütün istehsalçıların cihazları</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Məlumat Formatı</td>
+                            <td class="py-3 px-4 border-b border-gray-200">Cisco xüsusi formatı</td>
+                            <td class="py-3 px-4 border-b border-gray-200">TLVs (Type-Length-Value)</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Əsas Məqsəd</td>
+                            <td class="py-3 px-4 border-b border-gray-200">Cisco cihazlarının kəşfi və topologiya qurulması</td>
+                            <td class="py-3 px-4 border-b border-gray-200">Heterogen şəbəkələrdə cihaz kəşfi</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white shadow-md py-4 mt-8">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <a href="https://www.cavadmikayil.com" target="_blank" class="text-blue-600 hover:underline font-semibold text-lg">www.cavadmikayil.com</a>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Tab functionality for CDP commands
+        const cdpTabsContainer = document.getElementById('cdp-tabs');
+        const cdpCommandsContent = document.getElementById('cdp-commands-content');
+
+        cdpTabsContainer.addEventListener('click', (event) => {
+            if (event.target.classList.contains('tab-btn')) {
+                const targetType = event.target.dataset.type;
+
+                cdpTabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active-tab');
+                    btn.classList.add('inactive-tab');
+                });
+                event.target.classList.add('active-tab');
+                event.target.classList.remove('inactive-tab');
+
+                cdpCommandsContent.querySelectorAll('.protocol-pane').forEach(pane => {
+                    if (pane.id === `cdp-${targetType}-commands`) {
+                        pane.classList.remove('hidden');
+                    } else {
+                        pane.classList.add('hidden');
+                    }
+                });
+            }
+        });
+
+        // Tab functionality for LLDP commands
+        const lldpTabsContainer = document.getElementById('lldp-tabs');
+        const lldpCommandsContent = document.getElementById('lldp-commands-content');
+
+        lldpTabsContainer.addEventListener('click', (event) => {
+            if (event.target.classList.contains('tab-btn')) {
+                const targetType = event.target.dataset.type;
+
+                lldpTabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active-tab');
+                    btn.classList.add('inactive-tab');
+                });
+                event.target.classList.add('active-tab');
+                event.target.classList.remove('inactive-tab');
+
+                lldpCommandsContent.querySelectorAll('.protocol-pane').forEach(pane => {
+                    if (pane.id === `lldp-${targetType}-commands`) {
+                        pane.classList.remove('hidden');
+                    } else {
+                        pane.classList.add('hidden');
+                    }
+                });
+            }
+        });
+
+        // Copy functionality for code blocks
+        function copyCode(button) {
+            const pre = button.nextElementSibling;
+            const code = pre.querySelector('code');
+            const textToCopy = code.innerText;
+
+            const textArea = document.createElement('textarea');
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                button.innerText = 'Kopyalandı!';
+                setTimeout(() => {
+                    button.innerText = 'Kopyala';
+                }, 2000);
+            } catch (err) {
+                console.error('Kopyalama uğursuz oldu', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // Initialize first tabs as active on load
+        window.onload = function() {
+            document.querySelector('#cdp-tabs .tab-btn[data-type="config"]').click();
+            document.querySelector('#lldp-tabs .tab-btn[data-type="config"]').click();
+        };
+    </script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>

@@ -20,6 +20,7 @@
         - Library/Method: Vanilla JavaScript for all interactive elements (navigation, tabs, copy functionality), Tailwind CSS for all styling and responsive layout. No charts or complex graphics are needed.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link rel="stylesheet" href="../assets/theme.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -90,13 +91,15 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-2xl font-bold text-blue-600">DHCP Snooping Dərs Vəsaiti</h1>
-            <div class="flex space-x-4 overflow-x-auto pb-2 md:pb-0">
+            <div class="flex flex-wrap items-center gap-4 overflow-x-auto pb-2 md:pb-0">
                 <a href="#intro" class="text-gray-600 hover:text-blue-600 font-medium">Giriş</a>
                 <a href="#how-it-works" class="text-gray-600 hover:text-blue-600 font-medium">Necə İşləyir</a>
                 <a href="#configuration" class="text-gray-600 hover:text-blue-600 font-medium">Konfiqurasiya</a>
                 <a href="#errdisable-recovery" class="text-gray-600 hover:text-blue-600 font-medium">Errdisable & Bərpa</a>
                 <a href="#verification" class="text-gray-600 hover:text-blue-600 font-medium">Doğrulama</a>
                 <a href="#scenario" class="text-gray-600 hover:text-blue-600 font-medium">Ümumi Ssenari</a>
+                <a href="../index.html" class="portal-home-link">← Portal</a>
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş">🌙</button>
             </div>
         </nav>
     </header>
@@ -367,5 +370,6 @@ show ip dhcp snooping database</code></pre>
             document.body.removeChild(textArea);
         }
     </script>
+    <script src="../assets/theme.js"></script>
 </body>
 </html>

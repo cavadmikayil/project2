@@ -185,9 +185,33 @@
         li {
             margin: 8px 0;
         }
+
+        .portal-bar {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 1000;
+            display: flex;
+            gap: 8px;
+        }
+        .portal-bar .portal-home-link {
+            background: rgba(255,255,255,0.92);
+            color: #2c3e50;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        .portal-bar .theme-toggle-btn {
+            border-radius: 9999px;
+        }
     </style>
+    <link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
+    <div class="portal-bar">
+        <a href="../index.html" class="portal-home-link">← Portal</a>
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş">🌙</button>
+    </div>
     <div class="slideshow-container">
         <!-- Slide 1: Giriş -->
         <div class="slide active">
@@ -679,5 +703,6 @@
         // İlkin göstərim
         showSlide(0);
     </script>
+    <script src="../assets/theme.js"></script>
 </body>
 </html>

@@ -3,379 +3,650 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CDP və LLDP Dərs Vəsaiti</title>
+    <title>Şəbəkə və IT Dərs Portalı</title>
+    <meta name="description" content="Cisco, şəbəkə və IT infrastrukturu üzrə interaktiv dərs vəsaitləri, subnet kalkulyatoru və testlər.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Neutral Harmony -->
-    <!-- Application Structure Plan: The SPA is organized into logical sections: Introduction, CDP (What it is, Features, Commands), LLDP (What it is, Features, Commands), and a Comparison. A sticky header provides quick navigation. Each protocol's command section uses a tabbed interface (Configuration/Verification) with copyable code blocks. This structure facilitates a comprehensive, yet digestible, learning experience by segmenting information and providing practical, interactive elements for command execution. A new footer section has been added for branding. -->
-    <!-- Visualization & Content Choices:
-        - Report Info: CDP/LLDP definitions and features -> Goal: Inform, Organize -> Viz/Method: Textual content with clear headings, bullet points, and Unicode icons for visual emphasis. -> Interaction: Textual consumption. -> Justification: Concepts are best explained with clear text; icons add visual appeal without complex graphics.
-        - Report Info: CDP/LLDP Configuration and Verification Commands -> Goal: Enable Action, Inform -> Viz/Method: Tabbed interface for each protocol (Config/Verify) containing code blocks with "Copy" buttons. -> Interaction: Clickable tabs to switch command views, one-click copy for commands. -> Justification: Directly supports practical learning by allowing users to easily access and copy commands for lab environments.
-        - Report Info: CDP vs. LLDP Comparison -> Goal: Compare, Inform -> Viz/Method: A well-structured HTML table. -> Interaction: Textual consumption. -> Justification: A table is the most effective way to present direct, side-by-side comparisons of features.
-        - Library/Method: Vanilla JavaScript for all interactivity (navigation, tabs, copy functionality), Tailwind CSS for all styling and responsive layout. No charts or complex graphics are needed.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-
-    <a href="dtp.html">DTP</a>
-<a href="dhcpsnoop.html">DHCP Snooping</a>
-   <a href="dinamikrouting.html">dinamik routing</a>
-<a href="Ciscocommands.html">Cisco Commands</a>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/theme.css">
     <style>
+        [hidden] { display: none !important; }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* neutral-50 */
-            color: #1e293b; /* neutral-800 */
+            background-color: #f8fafc;
+            color: #1e293b;
         }
-        .section-card {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+        .hero {
+            background: linear-gradient(135deg, #1d4ed8 0%, #4338ca 100%);
         }
-        .tab-btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: background-color 0.2s, color 0.2s;
-            cursor: pointer;
-        }
-        .active-tab {
-            background-color: #3b82f6; /* blue-500 */
-            color: #ffffff;
-        }
-        .inactive-tab {
-            background-color: #e2e8f0; /* neutral-200 */
-            color: #475569; /* neutral-600 */
-        }
-        .code-block {
-            background-color: #1e293b; /* neutral-800 */
-            color: #e2e8f0; /* neutral-200 */
-            border-radius: 0.5rem;
-            padding: 1rem;
-            position: relative;
-            overflow-x: auto; /* For long commands */
-        }
-        .copy-btn {
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            background-color: #475569; /* neutral-600 */
-            color: #ffffff;
-            border: none;
-            padding: 0.25rem 0.75rem;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            font-size: 0.875rem;
-            transition: background-color 0.2s;
-        }
-        .copy-btn:hover {
-            background-color: #64748b; /* neutral-500 */
-        }
-        .feature-item {
+
+        /* --- Giriş ekranı --- */
+        .login-bg {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1d4ed8 0%, #4338ca 55%, #7c3aed 100%);
             display: flex;
             align-items: center;
-            margin-bottom: 0.75rem;
+            justify-content: center;
+            padding: 2rem 1rem;
         }
-        .feature-icon {
-            font-size: 1.5rem;
-            margin-right: 0.75rem;
-            color: #10b981; /* emerald-500 */
+        .login-card {
+            background: white;
+            border-radius: 1.25rem;
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.35);
+            width: 100%;
+            max-width: 26rem;
+            padding: 2rem;
         }
+        .field {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.6rem;
+            font-size: 1rem;
+            background: white;
+            color: #1e293b;
+        }
+        .field:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgb(59 130 246 / 0.25); }
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+            padding: 0.8rem 1.25rem;
+            border-radius: 0.6rem;
+            font-weight: 700;
+            transition: background-color .2s;
+        }
+        .btn-primary:hover { background: #1d4ed8; }
+        .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            text-align: left;
+            padding: 0.6rem 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.6rem;
+            background: transparent;
+            color: inherit;
+            transition: border-color .15s, background-color .15s;
+        }
+        .profile-btn:hover { border-color: #3b82f6; background: #eff6ff; }
+        .avatar {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: white;
+            background: linear-gradient(135deg, #0ea5e9, #6366f1);
+            flex-shrink: 0;
+        }
+
+        /* --- Dashboard --- */
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgb(255 255 255 / 0.12);
+            padding: 0.3rem 0.4rem 0.3rem 0.3rem;
+            border-radius: 9999px;
+        }
+        .logout-btn {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.35rem 0.8rem;
+            border-radius: 9999px;
+            background: rgb(255 255 255 / 0.2);
+            color: white;
+            transition: background-color .15s;
+        }
+        .logout-btn:hover { background: rgb(255 255 255 / 0.32); }
+        .stat-tile {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.25rem;
+        }
+        .stat-label { font-size: 0.8rem; font-weight: 600; color: #64748b; }
+        .stat-value { font-size: 1.75rem; font-weight: 800; line-height: 1.2; }
+        .panel {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+        }
+        .portal-card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .portal-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -4px rgb(0 0 0 / 0.15);
+        }
+        .portal-card.done { outline: 2px solid #10b981; }
+        .portal-icon { font-size: 2.25rem; line-height: 1; }
+        .portal-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 9999px;
+            background-color: #eef2ff;
+            color: #4338ca;
+        }
+        .score-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.15rem 0.5rem;
+            border-radius: 9999px;
+        }
+        .score-good { background: #d1fae5; color: #065f46; }
+        .score-mid { background: #fef3c7; color: #92400e; }
+        .score-low { background: #fee2e2; color: #991b1b; }
+        .step-num { font-size: 0.75rem; font-weight: 700; color: #94a3b8; }
+        .tool-card {
+            background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+            color: white;
+            border-radius: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .tool-card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px -4px rgb(0 0 0 / 0.25); }
+        .tool-card.alt { background: linear-gradient(135deg, #8b5cf6 0%, #db2777 100%); }
+        .chip {
+            padding: 0.4rem 0.9rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            background: #e2e8f0;
+            color: #334155;
+            transition: background-color .15s, color .15s;
+        }
+        .chip:hover { background: #cbd5e1; }
+        .chip.active { background: #2563eb; color: white; }
+        .done-btn {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.3rem 0.7rem;
+            border-radius: 9999px;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            background: transparent;
+            transition: all .15s;
+            white-space: nowrap;
+        }
+        .done-btn:hover { border-color: #10b981; color: #059669; }
+        .done-btn.is-done { background: #10b981; border-color: #10b981; color: white; }
+        .progress-track { height: 0.6rem; background: #e2e8f0; border-radius: 9999px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #10b981, #059669); transition: width .4s; }
+        .review-link {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.3rem 0.7rem;
+            border-radius: 9999px;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        body.dark-mode .login-card { background: #1e293b; }
+        body.dark-mode .field { background: #0f172a; color: #e2e8f0; border-color: #475569; }
+        body.dark-mode .profile-btn { border-color: #334155; }
+        body.dark-mode .profile-btn:hover { background: #273449; border-color: #3b82f6; }
+        body.dark-mode .stat-tile, body.dark-mode .panel { background: #1e293b; }
+        body.dark-mode .stat-label { color: #94a3b8; }
+        body.dark-mode .portal-tag { background-color: #334155 !important; color: #c7d2fe !important; }
+        body.dark-mode .hero, body.dark-mode .login-bg { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%); }
+        body.dark-mode .hero h1, body.dark-mode .hero p { color: white !important; }
+        body.dark-mode .chip { background: #334155; color: #e2e8f0; }
+        body.dark-mode .chip.active { background: #2563eb; color: white; }
+        body.dark-mode .done-btn { border-color: #475569; color: #cbd5e1; }
+        body.dark-mode .done-btn.is-done { background: #059669; border-color: #059669; color: white; }
+        body.dark-mode .progress-track { background: #334155; }
+        body.dark-mode .tool-card p, body.dark-mode .tool-card h3 { color: white !important; }
     </style>
 </head>
 <body class="antialiased">
 
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-blue-600">CDP və LLDP Dərs Vəsaiti</h1>
-            <div class="flex space-x-4">
-                <a href="#intro" class="text-gray-600 hover:text-blue-600 font-medium">Giriş</a>
-                <a href="#cdp" class="text-gray-600 hover:text-blue-600 font-medium">CDP</a>
-                <a href="#lldp" class="text-gray-600 hover:text-blue-600 font-medium">LLDP</a>
-                <a href="#comparison" class="text-gray-600 hover:text-blue-600 font-medium">Müqayisə</a>
-            </div>
-        </nav>
-    </header>
-
-    <main class="container mx-auto px-6 py-8">
-
-        <section id="intro" class="section-card text-center">
-            <h2 class="text-3xl font-bold mb-4 text-gray-800">Giriş: Şəbəkə Kəşf Protokolları</h2>
-            <p class="text-gray-600 max-w-3xl mx-auto">
-                Şəbəkə cihazlarının bir-birini avtomatik olaraq kəşf etməsi və məlumat mübadiləsi aparması şəbəkə idarəçiliyində vacibdir. Bu dərs vəsaiti iki əsas kəşf protokolunu – Cisco Discovery Protocol (CDP) və Link Layer Discovery Protocol (LLDP) – araşdırır. Onlar şəbəkə topologiyasının qurulmasına, problemlərin aradan qaldırılmasına və cihazların konfiqurasiyasına kömək edir.
-            </p>
-        </section>
-
-        <section id="cdp" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">1. Cisco Discovery Protocol (CDP)</h2>
-            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
-                CDP, Cisco Systems tərəfindən hazırlanmış, qonşu Cisco cihazları haqqında məlumat toplamaq üçün istifadə olunan mülkiyyət protokoludur. O, Layer 2 səviyyəsində işləyir və birbaşa qoşulmuş cihazlar haqqında məlumatları mübadilə edir.
-            </p>
-
-            <h3 class="text-2xl font-bold text-gray-700 mb-4">Xüsusiyyətləri</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                <div class="feature-item">
-                    <span class="feature-icon">🔗</span>
-                    <p class="text-gray-700">**Qonşu Məlumatı:** Cihaz ID-si, port ID-si, platforma, IOS versiyası, IP ünvanı kimi məlumatları toplayır.</p>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">🔒</span>
-                    <p class="text-gray-700">**Cisco Mülkiyyəti:** Yalnız Cisco cihazları arasında işləyir.</p>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">⏱️</span>
-                    <p class="text-gray-700">**Periodik Yeniləmələr:** Hər 60 saniyədən bir CDP elanları göndərir.</p>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">⚡</span>
-                    <p class="text-gray-700">**Layer 2:** Şəbəkənin 2-ci qatında (Data Link Layer) fəaliyyət göstərir.</p>
-                </div>
-            </div>
-
-            <h3 class="text-2xl font-bold text-gray-700 mb-4">Praktiki Əmrlər (CDP)</h3>
-            <div class="flex justify-center mb-6 space-x-2" id="cdp-tabs">
-                <button data-type="config" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 active-tab">Konfiqurasiya</button>
-                <button data-type="verify" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">Doğrulama</button>
-            </div>
-
-            <div id="cdp-commands-content">
-                <div id="cdp-config-commands" class="protocol-pane">
-                    <div class="space-y-4">
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                            <pre><code class="language-cisco">global configuration mode:
-cdp run
-
-interface configuration mode:
-cdp enable
-no cdp enable</code></pre>
-                            <p class="text-gray-400 text-sm mt-2">CDP-ni qlobal olaraq aktivləşdirir və ya interfeysdə aktivləşdirir/deaktiv edir.</p>
-                        </div>
+    <!-- ============ GİRİŞ EKRANI ============ -->
+    <div id="login-view" hidden>
+        <div class="login-bg">
+            <div class="login-card">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <div class="text-4xl mb-2">🎓</div>
+                        <h1 class="text-2xl font-extrabold text-gray-800">Şəbəkə & IT Dərs Portalı</h1>
+                        <p id="login-stats" class="text-sm text-gray-600 mt-1"></p>
                     </div>
+                    <button class="theme-toggle-btn" aria-label="Tema dəyiş">🌙</button>
                 </div>
 
-                <div id="cdp-verify-commands" class="protocol-pane hidden">
-                    <div class="space-y-4">
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                            <pre><code class="language-cisco">show cdp neighbors
-show cdp neighbors detail
-show cdp interface</code></pre>
-                            <p class="text-gray-400 text-sm mt-2">Qonşu CDP cihazları haqqında qısa və ətraflı məlumatı, həmçinin CDP aktiv olan interfeysləri göstərir.</p>
-                        </div>
-                    </div>
+                <form id="login-form" novalidate>
+                    <label class="block mb-3">
+                        <span class="text-sm font-semibold text-gray-700">Ad Soyad</span>
+                        <input id="login-name" class="field mt-1" type="text" maxlength="40" autocomplete="name" placeholder="məs. Aysel Məmmədova" required>
+                    </label>
+                    <label class="block mb-4">
+                        <span class="text-sm font-semibold text-gray-700">Qrup / Sinif <span class="font-normal text-gray-500">(istəyə bağlı)</span></span>
+                        <input id="login-group" class="field mt-1" type="text" maxlength="20" placeholder="məs. Şəbəkə-101">
+                    </label>
+                    <div id="login-error" class="text-sm text-red-600 font-medium mb-3" hidden></div>
+                    <button type="submit" class="btn-primary w-full">Daxil ol →</button>
+                </form>
+
+                <div id="existing-profiles" class="mt-6" hidden>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2">Bu cihazdakı profillər</p>
+                    <div id="profile-list" class="space-y-2"></div>
                 </div>
+
+                <p class="text-xs text-gray-500 mt-6">
+                    Parol tələb olunmur. İrəliləyişiniz və test nəticələriniz yalnız bu brauzerdə, sizin profilinizdə saxlanılır.
+                </p>
             </div>
-        </section>
-
-        <section id="lldp" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">2. Link Layer Discovery Protocol (LLDP)</h2>
-            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
-                LLDP, IEEE 802.1AB standartına əsaslanan, vendor-agnostic (istehsalçıdan asılı olmayan) bir kəşf protokoludur. O, müxtəlif istehsalçıların cihazları arasında məlumat mübadiləsini təmin edir.
-            </p>
-
-            <h3 class="text-2xl font-bold text-gray-700 mb-4">Xüsusiyyətləri</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                <div class="feature-item">
-                    <span class="feature-icon">🌐</span>
-                    <p class="text-gray-700">**Vendor-Agnostic:** Müxtəlif istehsalçıların cihazları arasında işləyir (Cisco, Juniper, HP və s.).</p>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">⚙️</span>
-                    <p class="text-gray-700">**IEEE Standartı:** IEEE 802.1AB standartına əsaslanır.</p>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">🔄</span>
-                    <p class="text-gray-700">**İki Yönlü Məlumat:** Həm məlumat göndərir, həm də qəbul edir.</p>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">📊</span>
-                    <p class="text-gray-700">**TLVs (Type-Length-Value):** Məlumatları TLV formatında ötürür, bu da daha çevik məlumat mübadiləsinə imkan verir.</p>
-                </div>
-            </div>
-
-            <h3 class="text-2xl font-bold text-gray-700 mb-4">Praktiki Əmrlər (LLDP)</h3>
-            <div class="flex justify-center mb-6 space-x-2" id="lldp-tabs">
-                <button data-type="config" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 active-tab">Konfiqurasiya</button>
-                <button data-type="verify" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">Doğrulama</button>
-            </div>
-
-            <div id="lldp-commands-content">
-                <div id="lldp-config-commands" class="protocol-pane">
-                    <div class="space-y-4">
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                            <pre><code class="language-cisco">global configuration mode:
-lldp run
-
-interface configuration mode:
-lldp transmit
-lldp receive
-no lldp transmit
-no lldp receive</code></pre>
-                            <p class="text-gray-400 text-sm mt-2">LLDP-ni qlobal olaraq aktivləşdirir və ya interfeysdə göndərmə/qəbul etmə funksiyasını tənzimləyir.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="lldp-verify-commands" class="protocol-pane hidden">
-                    <div class="space-y-4">
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                            <pre><code class="language-cisco">show lldp neighbors
-show lldp neighbors detail
-show lldp interface</code></pre>
-                            <p class="text-gray-400 text-sm mt-2">Qonşu LLDP cihazları haqqında qısa və ətraflı məlumatı, həmçinin LLDP aktiv olan interfeysləri göstərir.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="comparison" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">3. CDP və LLDP Müqayisəsi</h2>
-            <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">
-                CDP və LLDP oxşar məqsədlərə xidmət etsələr də, onların əsas fərqləri var. Aşağıdakı cədvəl bu fərqləri ümumiləşdirir.
-            </p>
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-sm">
-                    <thead>
-                        <tr class="bg-gray-100 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                            <th class="py-3 px-4 border-b border-gray-200">Xüsusiyyət</th>
-                            <th class="py-3 px-4 border-b border-gray-200">CDP</th>
-                            <th class="py-3 px-4 border-b border-gray-200">LLDP</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-gray-200 font-medium">İstehsalçı</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Cisco (mülkiyyət)</td>
-                            <td class="py-3 px-4 border-b border-gray-200">IEEE Standartı (vendor-agnostic)</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Standart</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Yoxdur</td>
-                            <td class="py-3 px-4 border-b border-gray-200">IEEE 802.1AB</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Cihaz Dəstəyi</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Yalnız Cisco cihazları</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Bütün istehsalçıların cihazları</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Məlumat Formatı</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Cisco xüsusi formatı</td>
-                            <td class="py-3 px-4 border-b border-gray-200">TLVs (Type-Length-Value)</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-gray-200 font-medium">Əsas Məqsəd</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Cisco cihazlarının kəşfi və topologiya qurulması</td>
-                            <td class="py-3 px-4 border-b border-gray-200">Heterogen şəbəkələrdə cihaz kəşfi</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="bg-white shadow-md py-4 mt-8">
-        <div class="container mx-auto px-6 text-center text-gray-500">
-            <a href="https://www.cavadmikayil.com" target="_blank" class="text-blue-600 hover:underline font-semibold text-lg">www.cavadmikayil.com</a>
         </div>
-    </footer>
+    </div>
 
+    <!-- ============ DASHBOARD ============ -->
+    <div id="app-view" hidden>
+        <header class="hero text-white">
+            <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">🎓</span>
+                    <span class="text-lg md:text-xl font-bold">Şəbəkə & IT Dərs Portalı</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="theme-toggle-btn" aria-label="Tema dəyiş">🌙</button>
+                    <div class="user-chip">
+                        <span id="user-avatar" class="avatar"></span>
+                        <span class="hidden sm:block leading-tight">
+                            <span id="user-name" class="block text-sm font-semibold"></span>
+                            <span id="user-group" class="block text-xs text-blue-100"></span>
+                        </span>
+                        <button id="logout-btn" class="logout-btn">Çıxış</button>
+                    </div>
+                </div>
+            </nav>
+            <div class="container mx-auto px-6 pt-6 pb-24">
+                <h1 class="text-3xl md:text-4xl font-extrabold mb-2">Salam, <span id="greet-name"></span>! 👋</h1>
+                <p id="greet-sub" class="text-blue-100 text-lg mb-6"></p>
+                <div class="max-w-xl">
+                    <input
+                        type="text"
+                        id="search-input"
+                        placeholder="Mövzu axtar... (məs: VLAN, DHCP, IPv6)"
+                        class="w-full p-4 rounded-xl border-0 shadow-lg focus:ring-4 focus:ring-blue-300 text-gray-800"
+                    >
+                </div>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-6 pb-12">
+
+            <section class="grid grid-cols-2 lg:grid-cols-4 gap-4 -mt-16 mb-8 relative">
+                <div class="stat-tile">
+                    <p class="stat-label">📚 Oxunmuş dərslər</p>
+                    <p class="stat-value text-gray-800"><span id="stat-done"></span></p>
+                    <div class="progress-track mt-2"><div id="progress-fill" class="progress-fill" style="width:0%"></div></div>
+                </div>
+                <div class="stat-tile">
+                    <p class="stat-label">📝 Test verilmiş mövzular</p>
+                    <p class="stat-value text-gray-800" id="stat-tests"></p>
+                </div>
+                <div class="stat-tile">
+                    <p class="stat-label">🎯 Orta test nəticəsi</p>
+                    <p class="stat-value text-gray-800" id="stat-avg"></p>
+                </div>
+                <div class="stat-tile">
+                    <p class="stat-label">🏆 Ən güclü mövzu</p>
+                    <p class="stat-value text-gray-800 text-lg" id="stat-best" style="font-size:1.1rem"></p>
+                </div>
+            </section>
+
+            <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+                <div class="panel lg:col-span-2" id="next-panel"></div>
+                <div class="panel" id="side-panel"></div>
+            </section>
+
+            <section id="tools-section" class="mb-12">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">🛠️ İnteraktiv Alətlər</h2>
+                <div id="tool-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+            </section>
+
+            <section id="lessons-section">
+                <div class="mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800">📚 Bütün Dərslər</h2>
+                    <p class="text-sm text-gray-600">Tövsiyə olunan öyrənmə ardıcıllığı ilə nömrələnib.</p>
+                </div>
+                <div id="chip-bar" class="flex flex-wrap gap-2 mb-6"></div>
+                <div id="card-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </section>
+
+            <p id="no-results" class="text-center text-gray-500 mt-10" hidden>Uyğun mövzu tapılmadı.</p>
+        </main>
+
+        <footer class="bg-white border-t border-gray-200 py-8">
+            <div class="container mx-auto px-6 text-center text-gray-500">
+                <p class="mb-2">Yeni mövzular mütəmadi olaraq əlavə olunur.</p>
+                <a href="https://www.cavadmikayil.com" target="_blank" class="text-blue-600 hover:underline font-semibold text-lg">www.cavadmikayil.com</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="assets/student.js"></script>
     <script>
-        // Smooth scroll for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Tab functionality for CDP commands
-        const cdpTabsContainer = document.getElementById('cdp-tabs');
-        const cdpCommandsContent = document.getElementById('cdp-commands-content');
-
-        cdpTabsContainer.addEventListener('click', (event) => {
-            if (event.target.classList.contains('tab-btn')) {
-                const targetType = event.target.dataset.type;
-
-                cdpTabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
-                    btn.classList.remove('active-tab');
-                    btn.classList.add('inactive-tab');
-                });
-                event.target.classList.add('active-tab');
-                event.target.classList.remove('inactive-tab');
-
-                cdpCommandsContent.querySelectorAll('.protocol-pane').forEach(pane => {
-                    if (pane.id === `cdp-${targetType}-commands`) {
-                        pane.classList.remove('hidden');
-                    } else {
-                        pane.classList.add('hidden');
-                    }
-                });
+        const tools = [
+            {
+                title: 'Subnet Kalkulyatoru',
+                desc: 'Şəbəkə/broadcast ünvanı, host sayı, wildcard və binary görünüş — üstəlik özünü yoxlamaq üçün subnetting məşqi.',
+                icon: '🧮',
+                href: 'tools/subnet-calculator.html',
+                cls: ''
+            },
+            {
+                title: 'Şəbəkə Quiz',
+                desc: '16 mövzu üzrə izahlı test sualları. Mövzu seçin, biliyinizi yoxlayın, ən yaxşı nəticənizi yeniləyin.',
+                icon: '📝',
+                href: 'tools/quiz.html',
+                cls: 'alt'
             }
-        });
+        ];
 
-        // Tab functionality for LLDP commands
-        const lldpTabsContainer = document.getElementById('lldp-tabs');
-        const lldpCommandsContent = document.getElementById('lldp-commands-content');
+        // Tövsiyə olunan öyrənmə ardıcıllığı; quiz — tools/quiz.html?topic=... açarı
+        const lessons = [
+            { title: 'OSI və TCP/IP Modeli', desc: '7 qat, TCP/UDP, enkapsulyasiya və qat-qat troubleshooting.', icon: '🧱', tag: 'Fundamentals', href: 'lessons/osi-model.html', quiz: 'osi' },
+            { title: 'CDP və LLDP', desc: 'Şəbəkə kəşf protokolları: qonşu cihazların avtomatik tanınması və konfiqurasiyası.', icon: '🔗', tag: 'Switching', href: 'lessons/cdp-lldp.html', quiz: 'cdp' },
+            { title: 'VLAN, Trunking və DTP', desc: 'Access portlar, VLAN trunking, 802.1Q və Dynamic Trunking Protocol modları.', icon: '🔀', tag: 'Switching', href: 'lessons/dtp.html', quiz: 'vlan' },
+            { title: 'VTP', desc: 'Server/Client/Transparent modları, pruning və təhlükəli revision nömrəsi tələsi.', icon: '📡', tag: 'Switching', href: 'lessons/vtp.html', quiz: 'vtp' },
+            { title: 'Spanning Tree Protocol (STP)', desc: 'Port rolları, port vəziyyətləri, PVST+/Rapid-PVST+/MSTP və PortFast/BPDU Guard.', icon: '🌳', tag: 'Switching', href: 'lessons/stp.html', quiz: 'stp' },
+            { title: 'EtherChannel', desc: 'LACP və PAgP, rejim kombinasiyaları, L2/L3 port-channel və yük bölgüsü.', icon: '🔌', tag: 'Switching', href: 'lessons/etherchannel.html', quiz: 'ec' },
+            { title: 'Port Security', desc: 'Violation rejimləri (Protect/Restrict/Shutdown), sticky MAC və errdisable bərpası.', icon: '🔐', tag: 'Security', href: 'lessons/port-security.html', quiz: 'portsec' },
+            { title: 'DHCP Snooping', desc: 'DHCP spoofing hücumlarından qorunma, trusted/untrusted portlar və errdisable bərpası.', icon: '🛡️', tag: 'Security', href: 'lessons/dhcp-snooping.html', quiz: 'dhcp' },
+            { title: 'Access Control Lists (ACL)', desc: 'Standart/genişləndirilmiş/named ACL-lər, wildcard mask və trafik filterləmə.', icon: '🚧', tag: 'Security', href: 'lessons/acl.html', quiz: 'acl' },
+            { title: 'Marşrutlaşdırma Protokolları', desc: 'RIP, OSPF və EIGRP-nin inzibati məsafə, metrika və konvergensiya müqayisəsi.', icon: '🗺️', tag: 'Routing', href: 'lessons/dynamic-routing.html', quiz: 'routing' },
+            { title: 'NAT / PAT', desc: 'Static NAT, Dynamic NAT və PAT (Overload) — konfiqurasiya və doğrulama.', icon: '🔁', tag: 'Routing', href: 'lessons/nat.html', quiz: 'nat' },
+            { title: 'HSRP və VRRP (FHRP)', desc: 'Defolt qapı ehtiyatlaşdırması: Active/Standby, Master/Backup, preempt və prioritet.', icon: '🧭', tag: 'Routing', href: 'lessons/fhrp.html', quiz: 'fhrp' },
+            { title: 'IPv6', desc: 'Ünvan qısaldılması, ünvan növləri, SLAAC/EUI-64, statik marşrut və OSPFv3.', icon: '6️⃣', tag: 'Routing', href: 'lessons/ipv6.html', quiz: 'ipv6' },
+            { title: 'Cisco IOS Əmrləri', desc: 'Kateqoriyalara bölünmüş, axtarıla bilən və kopyalana bilən əmrlər toplusu.', icon: '💻', tag: 'Reference', href: 'lessons/cisco-commands.html', quiz: 'ios' },
+            { title: 'Power Supply', desc: 'Volt, Amper, Watt əsasları, generator, UPS və stabilizator seçimi.', icon: '⚡', tag: 'Hardware', href: 'lessons/power-supply.html', quiz: 'power' }
+        ];
 
-        lldpTabsContainer.addEventListener('click', (event) => {
-            if (event.target.classList.contains('tab-btn')) {
-                const targetType = event.target.dataset.type;
+        // Quiz mövzularının adları (Subnetting-in ayrıca dərsi yoxdur — kalkulyatorda məşq olunur)
+        const quizTopicNames = Object.fromEntries(lessons.map(l => [l.quiz, l.title]));
+        quizTopicNames.subnet = 'Subnetting';
+        const QUIZ_TOPIC_COUNT = Object.keys(quizTopicNames).length;
 
-                lldpTabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
-                    btn.classList.remove('active-tab');
-                    btn.classList.add('inactive-tab');
-                });
-                event.target.classList.add('active-tab');
-                event.target.classList.remove('inactive-tab');
+        const $ = id => document.getElementById(id);
+        let activeTag = 'Hamısı';
+        let done = new Set();
+        let quizBest = {};
+        let lastOpened = null;
 
-                lldpCommandsContent.querySelectorAll('.protocol-pane').forEach(pane => {
-                    if (pane.id === `lldp-${targetType}-commands`) {
-                        pane.classList.remove('hidden');
-                    } else {
-                        pane.classList.add('hidden');
-                    }
-                });
-            }
-        });
-
-        // Copy functionality for code blocks
-        function copyCode(button) {
-            const pre = button.nextElementSibling;
-            const code = pre.querySelector('code');
-            const textToCopy = code.innerText;
-
-            const textArea = document.createElement('textarea');
-            textArea.value = textToCopy;
-            document.body.appendChild(textArea);
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                button.innerText = 'Kopyalandı!';
-                setTimeout(() => {
-                    button.innerText = 'Kopyala';
-                }, 2000);
-            } catch (err) {
-                console.error('Kopyalama uğursuz oldu', err);
-            }
-            document.body.removeChild(textArea);
+        function initials(name) {
+            return name.split(/\s+/).filter(Boolean).slice(0, 2)
+                .map(w => w[0].toLocaleUpperCase('az')).join('');
         }
 
-        // Initialize first tabs as active on load
-        window.onload = function() {
-            document.querySelector('#cdp-tabs .tab-btn[data-type="config"]').click();
-            document.querySelector('#lldp-tabs .tab-btn[data-type="config"]').click();
-        };
+        function scoreClass(p) {
+            return p >= 80 ? 'score-good' : p >= 60 ? 'score-mid' : 'score-low';
+        }
+
+        // ---------- Giriş ----------
+        function showLogin() {
+            $('app-view').hidden = true;
+            $('login-view').hidden = false;
+            $('login-stats').textContent = `${lessons.length} dərs · ${tools.length} interaktiv alət · 45 test sualı`;
+            $('login-error').hidden = true;
+
+            const profiles = Student.profiles();
+            const list = $('profile-list');
+            list.replaceChildren();
+            Object.entries(profiles).forEach(([id, p]) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'profile-btn';
+                const avatar = document.createElement('span');
+                avatar.className = 'avatar';
+                avatar.textContent = initials(p.name);
+                const text = document.createElement('span');
+                text.className = 'leading-tight';
+                const nameEl = document.createElement('span');
+                nameEl.className = 'block font-semibold text-gray-800';
+                nameEl.textContent = p.name;
+                const groupEl = document.createElement('span');
+                groupEl.className = 'block text-xs text-gray-500';
+                groupEl.textContent = p.group || '—';
+                text.append(nameEl, groupEl);
+                btn.append(avatar, text);
+                btn.addEventListener('click', () => {
+                    Student.switchTo(id);
+                    showDashboard();
+                });
+                list.appendChild(btn);
+            });
+            $('existing-profiles').hidden = Object.keys(profiles).length === 0;
+            $('login-name').focus();
+        }
+
+        $('login-form').addEventListener('submit', e => {
+            e.preventDefault();
+            const name = $('login-name').value.trim().replace(/\s+/g, ' ');
+            if (name.length < 2) {
+                $('login-error').textContent = 'Zəhmət olmasa adınızı daxil edin (ən azı 2 simvol).';
+                $('login-error').hidden = false;
+                return;
+            }
+            Student.login(name, $('login-group').value);
+            $('login-form').reset();
+            showDashboard();
+        });
+
+        $('logout-btn').addEventListener('click', () => {
+            Student.logout();
+            showLogin();
+        });
+
+        // ---------- Dashboard ----------
+        function loadStudentData() {
+            done = new Set(Student.read(Student.key('edu-portal-done'), []));
+            quizBest = Student.read(Student.key('edu-portal-quiz-best'), {});
+            lastOpened = Student.read(Student.key('edu-portal-last'), null);
+        }
+
+        function showDashboard() {
+            const me = Student.current();
+            if (!me) {
+                showLogin();
+                return;
+            }
+            $('login-view').hidden = true;
+            $('app-view').hidden = false;
+            $('user-avatar').textContent = initials(me.name);
+            $('user-name').textContent = me.name;
+            $('user-group').textContent = me.group;
+            $('greet-name').textContent = me.name.split(' ')[0];
+            loadStudentData();
+            renderChips();
+            render();
+            window.scrollTo(0, 0);
+        }
+
+        function renderStats() {
+            const doneCount = lessons.filter(l => done.has(l.href)).length;
+            $('stat-done').textContent = `${doneCount} / ${lessons.length}`;
+            $('progress-fill').style.width = `${(doneCount / lessons.length) * 100}%`;
+
+            const scores = Object.entries(quizBest).filter(([t]) => t in quizTopicNames);
+            $('stat-tests').textContent = `${scores.length} / ${QUIZ_TOPIC_COUNT}`;
+            if (scores.length === 0) {
+                $('stat-avg').textContent = '—';
+                $('stat-best').textContent = 'Hələ test yoxdur';
+            } else {
+                const avg = Math.round(scores.reduce((s, [, p]) => s + p, 0) / scores.length);
+                $('stat-avg').textContent = `${avg}%`;
+                const [bestTopic, bestScore] = scores.reduce((a, b) => (b[1] > a[1] ? b : a));
+                $('stat-best').textContent = `${quizTopicNames[bestTopic]} · ${bestScore}%`;
+            }
+
+            const pct = Math.round((doneCount / lessons.length) * 100);
+            $('greet-sub').textContent = doneCount === 0
+                ? 'Öyrənməyə başlamağa hazırsınız? İlk dərs sizi gözləyir.'
+                : doneCount === lessons.length
+                    ? 'Bütün dərsləri bitirmisiniz — əla nəticədir! Testlərlə biliyinizi möhkəmləndirin.'
+                    : `Dərslərin ${pct}%-ni tamamlamısınız. Belə davam edin!`;
+        }
+
+        function renderPanels() {
+            const next = lessons.find(l => !done.has(l.href));
+            const step = next ? lessons.indexOf(next) + 1 : null;
+            $('next-panel').innerHTML = next ? `
+                <p class="text-sm font-semibold text-blue-600 mb-2">▶ Növbəti dərs · #${step}</p>
+                <div class="flex items-start gap-4">
+                    <span class="portal-icon">${next.icon}</span>
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-1">${next.title}</h3>
+                        <p class="text-gray-600 mb-4">${next.desc}</p>
+                        <div class="flex flex-wrap gap-3">
+                            <a href="${next.href}" class="btn-primary inline-block" data-lesson="${next.href}">Dərsə başla →</a>
+                            <a href="tools/quiz.html?topic=${next.quiz}" class="inline-block font-semibold text-purple-600 hover:underline self-center">📝 Mövzu testi</a>
+                        </div>
+                    </div>
+                </div>
+            ` : `
+                <p class="text-sm font-semibold text-green-600 mb-2">🎉 Təbriklər!</p>
+                <h3 class="text-2xl font-bold text-gray-800 mb-1">Bütün dərsləri tamamladınız</h3>
+                <p class="text-gray-600 mb-4">İndi bütün mövzular üzrə testi keçib nəticənizi yoxlayın.</p>
+                <a href="tools/quiz.html" class="btn-primary inline-block">Ümumi testə başla →</a>
+            `;
+
+            const last = lessons.find(l => l.href === lastOpened);
+            const weak = Object.entries(quizBest)
+                .filter(([t, p]) => t in quizTopicNames && p < 70)
+                .sort((a, b) => a[1] - b[1]);
+            let side = '';
+            if (last) {
+                side += `
+                    <p class="text-sm font-semibold text-gray-500 mb-2">🕘 Son açdığınız dərs</p>
+                    <a href="${last.href}" data-lesson="${last.href}" class="flex items-center gap-3 mb-6 hover:underline">
+                        <span class="text-2xl">${last.icon}</span>
+                        <span class="font-semibold text-gray-800">${last.title}</span>
+                    </a>`;
+            }
+            side += `<p class="text-sm font-semibold text-gray-500 mb-2">🔁 Təkrar tövsiyə olunur</p>`;
+            side += weak.length === 0
+                ? `<p class="text-sm text-gray-600">${Object.keys(quizBest).length === 0
+                    ? 'Mövzu testlərini keçdikcə, 70%-dən aşağı nəticə aldığınız mövzular burada görünəcək.'
+                    : 'Bütün testlərdə 70% və yuxarı nəticəniz var. Əla!'}</p>`
+                : `<div class="flex flex-wrap gap-2">${weak.map(([t, p]) =>
+                    `<a class="review-link" href="tools/quiz.html?topic=${t}">${quizTopicNames[t]} · ${p}%</a>`).join('')}</div>`;
+            $('side-panel').innerHTML = side;
+        }
+
+        function matches(item, term) {
+            return item.title.toLowerCase().includes(term) ||
+                item.desc.toLowerCase().includes(term) ||
+                (item.tag || '').toLowerCase().includes(term);
+        }
+
+        function renderChips() {
+            const tags = ['Hamısı', ...new Set(lessons.map(l => l.tag))];
+            $('chip-bar').innerHTML = tags.map(t =>
+                `<button class="chip ${t === activeTag ? 'active' : ''}" data-tag="${t}">${t}</button>`
+            ).join('');
+        }
+
+        function render() {
+            const term = $('search-input').value.trim().toLowerCase();
+
+            const visibleTools = tools.filter(t => matches(t, term));
+            $('tool-grid').innerHTML = visibleTools.map(t => `
+                <a href="${t.href}" class="tool-card ${t.cls} p-6 flex items-start gap-4 no-underline">
+                    <span class="text-4xl leading-none">${t.icon}</span>
+                    <div>
+                        <h3 class="text-xl font-bold mb-1">${t.title}</h3>
+                        <p class="text-white/90 text-sm">${t.desc}</p>
+                        <span class="inline-block mt-3 font-semibold">Aç →</span>
+                    </div>
+                </a>
+            `).join('');
+            $('tools-section').hidden = visibleTools.length === 0;
+
+            const visibleLessons = lessons
+                .map((l, i) => ({ ...l, step: i + 1 }))
+                .filter(l => (activeTag === 'Hamısı' || l.tag === activeTag) && matches(l, term));
+            $('card-grid').innerHTML = visibleLessons.map(l => {
+                const isDone = done.has(l.href);
+                const score = quizBest[l.quiz];
+                const scoreBadge = score === undefined ? ''
+                    : `<span class="score-badge ${scoreClass(score)}" title="Ən yaxşı test nəticəsi">${score}%</span>`;
+                return `
+                <div class="portal-card p-6 ${isDone ? 'done' : ''}">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="portal-icon">${l.icon}</span>
+                        <div class="flex items-center gap-2">
+                            <span class="step-num">#${l.step}</span>
+                            <span class="portal-tag">${l.tag}</span>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2"><a href="${l.href}" data-lesson="${l.href}" class="hover:text-blue-600">${l.title}</a></h3>
+                    <p class="text-gray-600 text-sm flex-1">${l.desc}</p>
+                    <div class="mt-4 flex items-center justify-between gap-2 flex-wrap">
+                        <div class="flex items-center gap-3">
+                            <a href="${l.href}" data-lesson="${l.href}" class="font-semibold text-blue-600 hover:underline">Dərsə bax →</a>
+                            <a href="tools/quiz.html?topic=${l.quiz}" class="text-sm font-semibold text-purple-600 hover:underline">📝 Test</a>
+                            ${scoreBadge}
+                        </div>
+                        <button class="done-btn ${isDone ? 'is-done' : ''}" data-href="${l.href}" aria-pressed="${isDone}">
+                            ${isDone ? '✓ Oxudum' : '○ Oxudum'}
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+            $('lessons-section').hidden = visibleLessons.length === 0 && term !== '';
+            $('no-results').hidden = visibleTools.length + visibleLessons.length !== 0;
+
+            renderStats();
+            renderPanels();
+        }
+
+        $('chip-bar').addEventListener('click', e => {
+            const chip = e.target.closest('.chip');
+            if (!chip) return;
+            activeTag = chip.dataset.tag;
+            renderChips();
+            render();
+        });
+
+        $('card-grid').addEventListener('click', e => {
+            const btn = e.target.closest('.done-btn');
+            if (!btn) return;
+            const href = btn.dataset.href;
+            if (done.has(href)) done.delete(href); else done.add(href);
+            Student.write(Student.key('edu-portal-done'), [...done]);
+            render();
+        });
+
+        // Dashboard-dan açılan son dərsi yadda saxla
+        $('app-view').addEventListener('click', e => {
+            const link = e.target.closest('a[data-lesson]');
+            if (link) Student.write(Student.key('edu-portal-last'), link.dataset.lesson);
+        });
+
+        $('search-input').addEventListener('input', render);
+
+        // Başqa səhifədən (məs. quiz) geri qayıdanda məlumatları yenilə
+        window.addEventListener('pageshow', e => {
+            if (e.persisted && Student.current()) showDashboard();
+        });
+
+        showDashboard();
     </script>
+    <script src="assets/theme.js"></script>
 </body>
 </html>
