@@ -785,9 +785,9 @@
         }
 
         function matches(item, term) {
-            return item.title.toLowerCase().includes(term) ||
-                item.desc.toLowerCase().includes(term) ||
-                (item.tag || '').toLowerCase().includes(term);
+            return item.title.toLocaleLowerCase('az').replace(/ı/g, 'i').includes(term) ||
+                item.desc.toLocaleLowerCase('az').replace(/ı/g, 'i').includes(term) ||
+                (item.tag || '').toLocaleLowerCase('az').replace(/ı/g, 'i').includes(term);
         }
 
         function renderChips() {
@@ -804,7 +804,7 @@
         }
 
         function render() {
-            const term = $('search-input').value.trim().toLowerCase();
+            const term = $('search-input').value.trim().toLocaleLowerCase('az').replace(/ı/g, 'i');
 
             // Ana səhifədə alətlər göstərilmir (menyuda Tools var); yalnız axtarış nəticələrində çıxır
             const visibleTools = term ? tools.filter(t => matches(t, term)) : [];

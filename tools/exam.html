@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCNA İmtahan Simulyatoru — Cavad Mikayil Təlim Portalı</title>
+    <meta name="description" content="Real CCNA 200-301 imtahanına oxşar rejim: 100 qarışıq sual, 120 dəqiqəlik taymer, sualları qeyd etmək və sonda bölmələr üzrə zəif tərəflərin hesabatı.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+    <link rel="stylesheet" href="../assets/tools.css">
+    <style>
+.mode-card { display: flex; flex-direction: column; gap: 0.6rem; padding: 1.3rem; border: 1px solid #e5e5e5; border-radius: 1rem; background: #ffffff; }
+        .mode-card.main { border: 2px solid #f59e0b; }
+        .mode-card h3 { font-size: 1.2rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem; }
+        .mode-card h3 .icon { color: #d97706; }
+        .mode-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+        .exam-bar { position: sticky; top: 4.5rem; z-index: 20; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: 0.9rem; background: #0a0a0a; color: #ffffff; margin-bottom: 1rem; }
+        .exam-timer { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1.35rem; font-weight: 800; color: #fbbf24; display: inline-flex; align-items: center; gap: 0.4rem; }
+        .exam-timer.warn { color: #fb923c; animation: blink 1s step-start infinite; }
+        @keyframes blink { 50% { opacity: 0.55; } }
+        .exam-progress { font-weight: 700; color: #d4d4d4; font-size: 0.95rem; }
+        .q-card { padding: 1.5rem; border: 1px solid #e5e5e5; border-radius: 1rem; background: #ffffff; }
+        .q-num { font-size: 0.8rem; font-weight: 700; color: #b45309; text-transform: uppercase; letter-spacing: 0.04em; }
+        .q-text { font-size: 1.2rem; font-weight: 700; color: #0a0a0a; margin: 0.4rem 0 1.1rem; line-height: 1.45; }
+        .opt { display: flex; align-items: flex-start; gap: 0.75rem; width: 100%; text-align: left; padding: 0.85rem 1rem; border: 1px solid #d4d4d4; border-radius: 0.75rem; margin-bottom: 0.6rem; background: #ffffff; color: #171717; font-size: 1rem; }
+        .opt:hover { border-color: #f59e0b; }
+        .opt .key { flex-shrink: 0; width: 1.7rem; height: 1.7rem; border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; background: #f5f5f5; color: #404040; }
+        .opt.selected { border: 2px solid #f59e0b; background: #fffbeb; }
+        .opt.selected .key { background: #f59e0b; color: #0a0a0a; }
+        .exam-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: space-between; margin-top: 1rem; }
+        .palette { display: grid; grid-template-columns: repeat(auto-fill, minmax(2.4rem, 1fr)); gap: 0.4rem; }
+        .pal { height: 2.4rem; border-radius: 0.5rem; border: 1px solid #d4d4d4; background: #ffffff; font-size: 0.85rem; font-weight: 700; color: #404040; position: relative; }
+        .pal.answered { background: #262626; border-color: #262626; color: #ffffff; }
+        .pal.flagged { box-shadow: inset 0 0 0 2px #ea580c; }
+        .pal.flagged::after { content: ''; position: absolute; top: 3px; right: 3px; width: 6px; height: 6px; border-radius: 9999px; background: #ea580c; }
+        .pal.current { background: #f59e0b; border-color: #f59e0b; color: #0a0a0a; }
+        .legend { display: flex; flex-wrap: wrap; gap: 0.9rem; font-size: 0.8rem; color: #525252; margin-top: 0.75rem; }
+        .legend span { display: inline-flex; align-items: center; gap: 0.35rem; }
+        .legend i { display: inline-block; width: 0.9rem; height: 0.9rem; border-radius: 0.25rem; border: 1px solid #d4d4d4; }
+        .modal-back { position: fixed; inset: 0; background: rgb(0 0 0 / 0.55); z-index: 60; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+        .modal { max-width: 28rem; width: 100%; background: #ffffff; border-radius: 1rem; padding: 1.5rem; }
+        .modal h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .score-ring { width: 9rem; height: 9rem; border-radius: 9999px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto; }
+        .score-ring { position: relative; }
+        .score-ring::before { content: ''; position: absolute; inset: 0.9rem; border-radius: 9999px; background: #ffffff; }
+        .score-ring b { position: relative; font-size: 2.2rem; font-weight: 800; line-height: 1; }
+        .score-ring small { position: relative; font-size: 0.8rem; font-weight: 700; margin-top: 0.3rem; }
+        body.dark-mode .score-ring::before { background: #171717; }
+        .dom-row { display: grid; grid-template-columns: minmax(0, 14rem) 1fr 5.5rem; gap: 0.75rem; align-items: center; padding: 0.55rem 0; border-bottom: 1px solid #f5f5f5; }
+        .dom-name { font-weight: 700; font-size: 0.92rem; }
+        .dom-bar { height: 0.7rem; background: #e5e5e5; border-radius: 9999px; overflow: hidden; }
+        .dom-fill { height: 100%; border-radius: 9999px; background: #f59e0b; }
+        .dom-fill.weak { background: #c2410c; }
+        .dom-val { text-align: right; font-weight: 700; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+        .review-item { border: 1px solid #e5e5e5; border-radius: 0.75rem; padding: 1rem; margin-bottom: 0.6rem; }
+        .review-item .bad { color: #c2410c; }
+        .review-item .good { color: #b45309; font-weight: 700; }
+        @media (max-width: 640px) {
+            .dom-row { grid-template-columns: 1fr 4.5rem; }
+            .dom-row .dom-bar { grid-column: 1 / -1; grid-row: 2; }
+            .exam-bar { top: 6.5rem; }
+            .q-text { font-size: 1.05rem; }
+        }
+        body.dark-mode .mode-card, body.dark-mode .q-card, body.dark-mode .opt, body.dark-mode .pal, body.dark-mode .modal, body.dark-mode .review-item { background: #171717; border-color: #333333; color: #e5e5e5; }
+        body.dark-mode .mode-card.main { border-color: #f59e0b; }
+        body.dark-mode .q-text { color: #ffffff; }
+        body.dark-mode .opt .key { background: #262626; color: #e5e5e5; }
+        body.dark-mode .opt.selected { background: #2a2113; border-color: #f59e0b; }
+        body.dark-mode .pal.answered { background: #525252; border-color: #525252; }
+        body.dark-mode .pal.current { background: #f59e0b; color: #0a0a0a; }
+        body.dark-mode .exam-bar { background: #000000; border: 1px solid #333333; }
+        body.dark-mode .dom-bar { background: #262626; }
+        body.dark-mode .dom-row { border-color: #262626; }
+        body.dark-mode .legend { color: #a3a3a3; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50" data-site-header>
+        <div class="container mx-auto px-6 py-3 flex flex-wrap gap-x-3 gap-y-2 justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-2 text-lg font-extrabold text-neutral-900">
+                <span class="site-logo"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg></span> Cavad Mikayil Təlim Portalı
+            </a>
+            <nav class="site-nav order-last md:order-none md:ml-auto" aria-label="Sayt menyusu">
+                    <a href="../index.html" data-nav="home"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#house"></use></svg> Ana Səhifə</a>
+                    <a href="../index.html#ccna" data-nav="ccna"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> CCNA</a>
+                    <a href="../tools.html" data-nav="tools" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#toolbox"></use></svg> Tools</a>
+                    <a href="../links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#library"></use></svg> Faydalı Linklər</a>
+                    <a href="../about.html" data-nav="about"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#user-round"></use></svg> Haqqında</a>
+                </nav>
+            <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-5xl">
+        <section class="tool-hero">
+            <a href="../tools.html" class="tool-back"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Bütün alətlər</a>
+            <h1><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> CCNA İmtahan Simulyatoru</h1>
+            <p>Real CCNA 200-301 imtahanına oxşar rejim: 100 qarışıq sual, 120 dəqiqəlik taymer, sualları qeyd etmək və sonda bölmələr üzrə zəif tərəflərin hesabatı.</p>
+        </section>
+
+        <script src="../assets/catalog.js"></script>
+        <script src="../assets/questions.js"></script>
+
+        <div id="view-start">
+            <div id="resume-box" class="note-box mb-6" hidden>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#history"></use></svg>
+                <div class="flex flex-wrap items-center gap-3 justify-between w-full">
+                    <p class="text-neutral-800"><strong>Yarımçıq imtahanınız var.</strong> <span id="resume-info"></span></p>
+                    <div class="flex gap-2"><button id="resume-btn" class="btn btn-amber" type="button">Davam et</button><button id="discard-btn" class="btn btn-ghost" type="button">Ləğv et</button></div>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                <div class="mode-card main">
+                    <h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> Tam imtahan</h3>
+                    <div class="mode-meta"><span class="pill dark">100 sual</span><span class="pill dark">120 dəqiqə</span><span class="pill">6 bölmə</span></div>
+                    <p class="text-neutral-700">Real CCNA 200-301 imtahanının bölmə çəkilərinə uyğun qarışıq suallar. Sonda cavablar, izahlar və zəif bölmələr göstərilir.</p>
+                    <button class="btn btn-amber mt-auto" type="button" data-start="full">İmtahana başla</button>
+                </div>
+                <div class="mode-card">
+                    <h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#zap"></use></svg> Sürətli sınaq</h3>
+                    <div class="mode-meta"><span class="pill dark">30 sual</span><span class="pill dark">36 dəqiqə</span><span class="pill">6 bölmə</span></div>
+                    <p class="text-neutral-700">Eyni qaydalar, qısa formatda — gündəlik məşq və ya dərsdən sonra özünüzü yoxlamaq üçün.</p>
+                    <button class="btn btn-dark mt-auto" type="button" data-start="quick">Sınağa başla</button>
+                </div>
+            </div>
+
+            <section class="section-card">
+                <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#list-checks"></use></svg> Qaydalar</h2>
+                <div class="feature-grid">
+                    <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg><p class="text-neutral-700">Vaxt bitəndə imtahan avtomatik bitir və qiymətləndirilir.</p></div>
+                    <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flag"></use></svg><p class="text-neutral-700">Şübhəli sualları <strong>qeyd edin</strong> və sonda qayıdın — real imtahanda geri qayıtmaq olmur, burada məşq üçün olar.</p></div>
+                    <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#keyboard"></use></svg><p class="text-neutral-700">Klaviatura: <kbd>1</kbd>–<kbd>4</kbd> cavab, <kbd>←</kbd> <kbd>→</kbd> suallar, <kbd>F</kbd> qeyd.</p></div>
+                    <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#save"></use></svg><p class="text-neutral-700">Səhifəni təsadüfən bağlasanız, imtahan bu brauzerdə qalır — davam edə bilərsiniz.</p></div>
+                </div>
+                <div class="table-wrap mt-6">
+                    <table class="data-table">
+                        <thead><tr><th>Bölmə</th><th>Çəki</th><th>Tam imtahanda</th><th>Bankda sual</th></tr></thead>
+                        <tbody id="domain-table"></tbody>
+                    </table>
+                </div>
+                <p class="text-sm text-neutral-600 mt-3">Cisco keçid balını rəsmi açıqlamır; bu simulyasiyada hədəf <strong>82%</strong> götürülüb.</p>
+            </section>
+
+            <section id="history-section" class="section-card" hidden>
+                <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#history"></use></svg> Əvvəlki cəhdlər</h2>
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead><tr><th>Tarix</th><th>Rejim</th><th>Nəticə</th><th>Vaxt</th><th>Ən zəif bölmə</th></tr></thead>
+                        <tbody id="history-rows"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <div id="view-exam" hidden>
+            <div class="exam-bar">
+                <span class="exam-timer" id="timer" aria-live="off"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg><span id="timer-text">120:00</span></span>
+                <span class="exam-progress" id="progress-text"></span>
+                <button id="finish-btn" class="btn btn-amber" type="button">Bitir</button>
+            </div>
+            <div class="grid lg:grid-cols-3 gap-4">
+                <div class="lg:col-span-2">
+                    <div class="q-card">
+                        <p class="q-num" id="q-num"></p>
+                        <p class="q-text" id="q-text"></p>
+                        <div id="q-options" role="radiogroup" aria-labelledby="q-text"></div>
+                    </div>
+                    <div class="exam-nav">
+                        <button id="prev-btn" class="btn btn-ghost" type="button"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#chevron-left"></use></svg> Əvvəlki</button>
+                        <button id="flag-btn" class="btn btn-ghost" type="button" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flag"></use></svg> <span>Qeyd et</span></button>
+                        <button id="next-btn" class="btn btn-dark" type="button">Növbəti <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#chevron-right"></use></svg></button>
+                    </div>
+                </div>
+                <div class="section-card" style="margin-bottom:0">
+                    <h3 class="font-bold mb-3">Suallar</h3>
+                    <div class="palette" id="palette"></div>
+                    <div class="legend">
+                        <span><i style="background:#262626;border-color:#262626"></i> Cavablanıb</span>
+                        <span><i style="box-shadow:inset 0 0 0 2px #ea580c"></i> Qeyd olunub</span>
+                        <span><i style="background:#f59e0b;border-color:#f59e0b"></i> Cari</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="confirm-modal" class="modal-back" hidden role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+            <div class="modal">
+                <h3 id="confirm-title">İmtahanı bitirmək?</h3>
+                <p class="text-neutral-700 mb-4" id="confirm-text"></p>
+                <div class="flex flex-wrap gap-2 justify-end">
+                    <button id="confirm-no" class="btn btn-ghost" type="button">Suallara qayıt</button>
+                    <button id="confirm-yes" class="btn btn-amber" type="button">Bitir və qiymətləndir</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-result" hidden>
+            <section class="section-card">
+                <div class="grid md:grid-cols-3 gap-6 items-center">
+                    <div id="score-ring" class="score-ring"><b id="score-pct"></b><small id="score-verdict"></small></div>
+                    <div class="md:col-span-2">
+                        <h2 class="text-2xl font-extrabold mb-2" id="result-title"></h2>
+                        <p class="text-neutral-700" id="result-sub"></p>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <button class="btn btn-amber" type="button" data-start="again">Yenidən başla</button>
+                            <a class="btn btn-ghost" href="../index.html#ccna">CCNA dərsləri</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="section-card">
+                <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#chart-column"></use></svg> Bölmələr üzrə nəticə</h2>
+                <div id="domain-results"></div>
+                <div id="weak-box" class="note-box mt-6" hidden>
+                    <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg>
+                    <div><p class="text-neutral-800 font-bold mb-2">Təkrar etməyə dəyər dərslər:</p><div id="weak-lessons" class="flex flex-wrap gap-2"></div></div>
+                </div>
+            </section>
+            <section class="section-card">
+                <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#search-check"></use></svg> Səhv və cavabsız suallar</h2>
+                <div id="review"></div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="brand-footer">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+                    <a href="../index.html">Ana Səhifə</a>
+                    <a href="../index.html#ccna">CCNA</a>
+                    <a href="../tools.html">Tools</a>
+                    <a href="../links.html">Faydalı Linklər</a>
+                    <a href="../about.html">Haqqında</a>
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
+            </div>
+            <div class="brand-footer-social-wrap">
+                <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+                    <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" data-social="instagram"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                    <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı" data-social="youtube"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></a>
+                    <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn" data-social="linkedin"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg></a>
+                    <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt" data-social="blog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></a>
+                    <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram" data-social="telegram"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg></a>
+                    <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" data-social="tiktok"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M448.5 209.9c-44 .1-87-13.6-122.8-39.2l0 178.7c0 33.1-10.1 65.4-29 92.6s-45.6 48-76.6 59.6-64.8 13.5-96.9 5.3-60.9-25.9-82.7-50.8-35.3-56-39-88.9 2.9-66.1 18.6-95.2 40-52.7 69.6-67.7 62.9-20.5 95.7-16l0 89.9c-15-4.7-31.1-4.6-46 .4s-27.9 14.6-37 27.3-14 28.1-13.9 43.9 5.2 31 14.5 43.7 22.4 22.1 37.4 26.9 31.1 4.8 46-.1 28-14.4 37.2-27.1 14.2-28.1 14.2-43.8l0-349.4 88 0c-.1 7.4 .6 14.9 1.9 22.2 3.1 16.3 9.4 31.9 18.7 45.7s21.3 25.6 35.2 34.6c19.9 13.1 43.2 20.1 67 20.1l0 87.4z"/></svg></a>
+                    <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email" data-social="email"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></a>
+                </div>
+            </div>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/student.js"></script>
+    <script>
+const $ = id => document.getElementById(id);
+        const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        const ico = n => `<svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#${n}"></use></svg>`;
+
+        // CCNA 200-301 bölmələri və çəkiləri; suallar dərsin "tag"-ına görə bölməyə düşür
+        const DOMAINS = [
+            { id: 'nf', name: 'Network Fundamentals', weight: 20, tags: ['Network Fundamentals', 'Network Design'] },
+            { id: 'na', name: 'Network Access', weight: 20, tags: ['Network Access'] },
+            { id: 'ic', name: 'IP Connectivity', weight: 25, tags: ['IP Connectivity'] },
+            { id: 'is', name: 'IP Services', weight: 10, tags: ['IP Services', 'Network Management'] },
+            { id: 'sf', name: 'Security Fundamentals', weight: 15, tags: ['Security Fundamentals'] },
+            { id: 'ap', name: 'Automation and Programmability', weight: 10, quiz: ['netauto', 'restapi', 'netconf', 'sdn', 'ansiblenet', 'pydata', 'jinja', 'yaml'] }
+        ];
+        const MODES = { full: { n: 100, min: 120, label: 'Tam imtahan' }, quick: { n: 30, min: 36, label: 'Sürətli sınaq' } };
+        const PASS = 82;
+        const ACTIVE_KEY = Student.key('edu-portal-exam-active');
+        const HISTORY_KEY = Student.key('edu-portal-exam-history');
+
+        const lessonByQuiz = {};
+        CATALOG.lessons.forEach(l => { lessonByQuiz[l.quiz] = l; });
+        const domainOf = q => {
+            const l = lessonByQuiz[q.t];
+            if (!l) return null;
+            return DOMAINS.find(d => (d.tags && l.cat === 'ccna' && d.tags.includes(l.tag)) || (d.quiz && d.quiz.includes(q.t))) || null;
+        };
+        const POOLS = {};
+        DOMAINS.forEach(d => { POOLS[d.id] = []; });
+        QUESTIONS.forEach((q, i) => { const d = domainOf(q); if (d) POOLS[d.id].push(i); });
+
+        const shuffle = arr => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+        function quotas(n) {
+            const raw = DOMAINS.map(d => ({ id: d.id, exact: n * d.weight / 100 }));
+            raw.forEach(r => { r.count = Math.floor(r.exact); });
+            let left = n - raw.reduce((s, r) => s + r.count, 0);
+            raw.slice().sort((a, b) => (b.exact % 1) - (a.exact % 1)).forEach(r => { if (left > 0) { r.count++; left--; } });
+            return Object.fromEntries(raw.map(r => [r.id, r.count]));
+        }
+
+        function buildExam(mode) {
+            const n = MODES[mode].n, q = quotas(n);
+            let picked = [];
+            const spare = [];
+            DOMAINS.forEach(d => {
+                const pool = shuffle(POOLS[d.id]);
+                picked = picked.concat(pool.slice(0, q[d.id]));
+                spare.push(...pool.slice(q[d.id]));
+            });
+            // Bölmədə sual çatmırsa, qalan yerləri digər bölmələrdən doldur
+            shuffle(spare).forEach(i => { if (picked.length < n) picked.push(i); });
+            return shuffle(picked).map(i => ({ i, text: QUESTIONS[i].q, order: shuffle([0, 1, 2, 3].slice(0, QUESTIONS[i].a.length)) }));
+        }
+
+        let exam = null, cur = 0, tick = null;
+        const read = () => Student.read(ACTIVE_KEY, null);
+        const save = () => Student.write(ACTIVE_KEY, exam);
+        const valid = e => e && Array.isArray(e.qs) && e.qs.every(x => QUESTIONS[x.i] && QUESTIONS[x.i].q === x.text);
+
+        function show(view) {
+            ['start', 'exam', 'result'].forEach(v => { $('view-' + v).hidden = v !== view; });
+            window.scrollTo(0, 0);
+        }
+
+        function renderStart() {
+            const q = quotas(100);
+            $('domain-table').innerHTML = DOMAINS.map(d => `<tr><td>${d.name}</td><td>${d.weight}%</td><td>${q[d.id]}</td><td>${POOLS[d.id].length}</td></tr>`).join('');
+            const hist = Student.read(HISTORY_KEY, []);
+            $('history-section').hidden = hist.length === 0;
+            $('history-rows').innerHTML = hist.slice().reverse().map(h => `<tr>
+                <td>${new Date(h.date).toLocaleDateString('az')}</td><td>${MODES[h.mode] ? MODES[h.mode].label : h.mode}</td>
+                <td><strong>${h.pct}%</strong> (${h.correct}/${h.total})</td><td>${Math.round(h.secs / 60)} dəq</td><td>${esc(h.weakest || '—')}</td></tr>`).join('');
+            const act = read();
+            if (valid(act) && !act.done) {
+                const leftMin = Math.max(0, Math.ceil((act.end - Date.now()) / 60000));
+                $('resume-info').textContent = `${MODES[act.mode].label}: ${Object.keys(act.answers).length}/${act.qs.length} cavab, ${leftMin} dəqiqə qalıb.`;
+                $('resume-box').hidden = false;
+            } else {
+                $('resume-box').hidden = true;
+            }
+            show('start');
+        }
+
+        function start(mode) {
+            const qs = buildExam(mode);
+            exam = { mode, qs, answers: {}, flags: [], start: Date.now(), end: Date.now() + MODES[mode].min * 60000, done: false };
+            save();
+            cur = 0;
+            enterExam();
+        }
+
+        function enterExam() {
+            show('exam');
+            renderQuestion();
+            clearInterval(tick);
+            tick = setInterval(updateTimer, 1000);
+            updateTimer();
+        }
+
+        function updateTimer() {
+            const left = Math.max(0, exam.end - Date.now());
+            const m = Math.floor(left / 60000), s = Math.floor(left / 1000) % 60;
+            $('timer-text').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            $('timer').classList.toggle('warn', left < 10 * 60000);
+            if (left <= 0) finish(true);
+        }
+
+        function renderQuestion() {
+            const item = exam.qs[cur], Q = QUESTIONS[item.i];
+            $('q-num').textContent = `Sual ${cur + 1} / ${exam.qs.length}`;
+            $('q-text').textContent = Q.q;
+            const chosen = exam.answers[cur];
+            $('q-options').innerHTML = item.order.map((ai, k) => `
+                <button type="button" class="opt ${chosen === ai ? 'selected' : ''}" data-a="${ai}" role="radio" aria-checked="${chosen === ai}">
+                    <span class="key">${k + 1}</span><span>${esc(Q.a[ai])}</span>
+                </button>`).join('');
+            const flagged = exam.flags.includes(cur);
+            $('flag-btn').setAttribute('aria-pressed', flagged);
+            $('flag-btn').querySelector('span').textContent = flagged ? 'Qeydi götür' : 'Qeyd et';
+            $('prev-btn').disabled = cur === 0;
+            $('next-btn').disabled = cur === exam.qs.length - 1;
+            const answered = Object.keys(exam.answers).length;
+            $('progress-text').textContent = `${answered} / ${exam.qs.length} cavablanıb · ${exam.flags.length} qeyd`;
+            $('palette').innerHTML = exam.qs.map((_, k) => {
+                const cls = [k === cur ? 'current' : '', exam.answers[k] !== undefined ? 'answered' : '', exam.flags.includes(k) ? 'flagged' : ''].join(' ');
+                return `<button type="button" class="pal ${cls}" data-go="${k}" aria-label="Sual ${k + 1}">${k + 1}</button>`;
+            }).join('');
+        }
+
+        function choose(ai) { exam.answers[cur] = ai; save(); renderQuestion(); }
+        function go(k) { if (k >= 0 && k < exam.qs.length) { cur = k; renderQuestion(); } }
+        function toggleFlag() {
+            exam.flags = exam.flags.includes(cur) ? exam.flags.filter(x => x !== cur) : exam.flags.concat(cur);
+            save(); renderQuestion();
+        }
+
+        function askFinish() {
+            const un = exam.qs.length - Object.keys(exam.answers).length;
+            $('confirm-text').textContent = un
+                ? `${un} sual cavabsızdır${exam.flags.length ? `, ${exam.flags.length} sual qeyd olunub` : ''}. Cavabsız suallar səhv sayılır.`
+                : (exam.flags.length ? `Bütün suallar cavablanıb, ${exam.flags.length} sual qeyd olunub.` : 'Bütün suallar cavablanıb.');
+            $('confirm-modal').hidden = false;
+            $('confirm-yes').focus();
+        }
+
+        function finish(timeUp) {
+            clearInterval(tick);
+            $('confirm-modal').hidden = true;
+            exam.done = true;
+            const secs = Math.round((Math.min(Date.now(), exam.end) - exam.start) / 1000);
+            const per = {};
+            DOMAINS.forEach(d => { per[d.id] = { name: d.name, total: 0, correct: 0 }; });
+            const wrong = [];
+            exam.qs.forEach((item, k) => {
+                const Q = QUESTIONS[item.i], d = domainOf(Q), ok = exam.answers[k] === 0;
+                if (d) { per[d.id].total++; if (ok) per[d.id].correct++; }
+                if (!ok) wrong.push({ k, Q, chosen: exam.answers[k], d });
+            });
+            const correct = exam.qs.length - wrong.length;
+            const pct = Math.round(100 * correct / exam.qs.length);
+            const rows = DOMAINS.map(d => ({ ...per[d.id], id: d.id, pct: per[d.id].total ? Math.round(100 * per[d.id].correct / per[d.id].total) : null })).filter(r => r.total);
+            const weakest = rows.slice().sort((a, b) => a.pct - b.pct)[0];
+            const hist = Student.read(HISTORY_KEY, []);
+            hist.push({ date: Date.now(), mode: exam.mode, pct, correct, total: exam.qs.length, secs, weakest: weakest ? weakest.name : '' });
+            Student.write(HISTORY_KEY, hist.slice(-20));
+            Student.write(ACTIVE_KEY, null);
+
+            const passed = pct >= PASS;
+            $('score-pct').textContent = pct + '%';
+            $('score-verdict').textContent = passed ? 'KEÇDİ' : 'KEÇMƏDİ';
+            $('score-ring').style.background = `conic-gradient(${passed ? '#f59e0b' : '#c2410c'} ${pct * 3.6}deg, ${document.body.classList.contains('dark-mode') ? '#262626' : '#e5e5e5'} 0deg)`;
+            $('result-title').textContent = (timeUp ? 'Vaxt bitdi. ' : '') + (passed ? 'Təbriklər — hədəf keçildi!' : 'Hələ hazır deyilsiniz — zəif bölmələrə fokuslanın.');
+            $('result-sub').textContent = `${correct} / ${exam.qs.length} düzgün · ${Math.floor(secs / 60)} dəq ${secs % 60} san · hədəf ${PASS}%`;
+            $('domain-results').innerHTML = rows.map(r => `
+                <div class="dom-row">
+                    <span class="dom-name">${r.name}${r.pct < 70 ? ' <span class="pill" style="background:#ffedd5;color:#9a3412">Zəif</span>' : ''}</span>
+                    <div class="dom-bar"><div class="dom-fill ${r.pct < 70 ? 'weak' : ''}" style="width:${r.pct}%"></div></div>
+                    <span class="dom-val">${r.correct}/${r.total} · ${r.pct}%</span>
+                </div>`).join('');
+            // Zəif bölmələrdə səhv edilən dərslər
+            const weakIds = rows.filter(r => r.pct < 70).map(r => r.id);
+            const lessons = [];
+            wrong.forEach(w => { const l = lessonByQuiz[w.Q.t]; if (l && w.d && weakIds.includes(w.d.id) && !lessons.includes(l)) lessons.push(l); });
+            $('weak-box').hidden = lessons.length === 0;
+            $('weak-lessons').innerHTML = lessons.map(l => `<a class="pill" href="../${l.href}">${ico(l.icon)} ${esc(l.title)}</a>`).join('');
+            $('review').innerHTML = wrong.length ? wrong.map(w => {
+                const l = lessonByQuiz[w.Q.t];
+                return `<div class="review-item">
+                    <p class="text-sm text-neutral-600 mb-1">Sual ${w.k + 1} · ${w.d ? w.d.name : ''}</p>
+                    <p class="font-bold mb-2">${esc(w.Q.q)}</p>
+                    <p class="bad text-sm">${ico('circle-x')} Sizin cavab: ${w.chosen === undefined ? 'cavab verilməyib' : esc(w.Q.a[w.chosen])}</p>
+                    <p class="good text-sm">${ico('circle-check')} Düzgün: ${esc(w.Q.a[0])}</p>
+                    <p class="text-neutral-700 text-sm mt-2">${esc(w.Q.e)}</p>
+                    ${l ? `<a class="link-strong text-sm mt-2 inline-flex" href="../${l.href}">${ico('book-open')} ${esc(l.title)}</a>` : ''}
+                </div>`;
+            }).join('') : '<p class="text-neutral-700">Səhv yoxdur — əla nəticə!</p>';
+            exam = null;
+            show('result');
+        }
+
+        document.addEventListener('click', e => {
+            const s = e.target.closest('[data-start]');
+            if (s) { start(s.dataset.start === 'again' ? (Student.read(HISTORY_KEY, []).slice(-1)[0] || {}).mode || 'full' : s.dataset.start); return; }
+            if (!exam) return;
+            const opt = e.target.closest('.opt');
+            if (opt) { choose(+opt.dataset.a); return; }
+            const pal = e.target.closest('[data-go]');
+            if (pal) go(+pal.dataset.go);
+        });
+        $('prev-btn').addEventListener('click', () => go(cur - 1));
+        $('next-btn').addEventListener('click', () => go(cur + 1));
+        $('flag-btn').addEventListener('click', toggleFlag);
+        $('finish-btn').addEventListener('click', askFinish);
+        $('confirm-no').addEventListener('click', () => { $('confirm-modal').hidden = true; });
+        $('confirm-yes').addEventListener('click', () => finish(false));
+        $('resume-btn').addEventListener('click', () => { exam = read(); cur = 0; if (Date.now() >= exam.end) finish(true); else enterExam(); });
+        $('discard-btn').addEventListener('click', () => { Student.write(ACTIVE_KEY, null); renderStart(); });
+        document.addEventListener('keydown', e => {
+            if (!exam || $('view-exam').hidden) return;
+            if (!$('confirm-modal').hidden) { if (e.key === 'Escape') $('confirm-modal').hidden = true; return; }
+            if (e.target.closest('input, textarea')) return;
+            const item = exam.qs[cur];
+            if (/^[1-4]$/.test(e.key) && +e.key <= item.order.length) choose(item.order[+e.key - 1]);
+            else if (e.key === 'ArrowRight') go(cur + 1);
+            else if (e.key === 'ArrowLeft') go(cur - 1);
+            else if (e.key.toLowerCase() === 'f') toggleFlag();
+        });
+
+        renderStart();
+    </script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>

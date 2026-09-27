@@ -194,9 +194,9 @@
         }
 
         function renderCommands() {
-            const term = searchInput.value.trim().toLowerCase();
+            const term = searchInput.value.trim().toLocaleLowerCase('az').replace(/ı/g, 'i');
             const list = commands.filter(c => (activeCat === 'all' || c.cat === activeCat) &&
-                (!term || c.cmd.toLowerCase().includes(term) || c.desc.toLowerCase().includes(term)));
+                (!term || c.cmd.toLocaleLowerCase('az').replace(/ı/g, 'i').includes(term) || c.desc.toLocaleLowerCase('az').replace(/ı/g, 'i').includes(term)));
             document.getElementById('cmd-count').textContent = `${list.length} əmr göstərilir`;
             commandList.innerHTML = list.length ? list.map((c, i) => `
                 <div class="cmd-card">
