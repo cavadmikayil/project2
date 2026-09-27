@@ -3,689 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Power Supply - IT Dərsləri</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #262626 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        body > footer.brand-footer { align-self: stretch; }
-
-        .slideshow-container {
-            max-width: 1000px;
-            margin: 4.5rem 1rem 0;
-            position: relative;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            overflow: hidden;
-        }
-
-        .slide {
-            display: none;
-            padding: 40px;
-            min-height: 600px;
-            animation: fadeIn 0.5s;
-        }
-
-        .slide.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1 {
-            color: #0a0a0a;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        h2 {
-            color: #b45309;
-            margin-bottom: 20px;
-            font-size: 2em;
-            border-bottom: 3px solid #b45309;
-            padding-bottom: 10px;
-        }
-
-        h3 {
-            color: #c2410c;
-            margin: 20px 0 10px 0;
-            font-size: 1.3em;
-        }
-
-        .content {
-            font-size: 1.1em;
-            line-height: 1.8;
-            color: #333;
-        }
-
-        .formula-box {
-            background: linear-gradient(45deg, #f59e0b, #fbbf24);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            text-align: center;
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #0a0a0a;
-        }
-
-        .info-box {
-            background: #f5f5f5;
-            border-left: 5px solid #b45309;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 0 10px 10px 0;
-        }
-
-        .warning-box {
-            background: #fef3c7;
-            border-left: 5px solid #f59e0b;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 0 10px 10px 0;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-
-        .grid-item {
-            background: linear-gradient(135deg, #262626, #0a0a0a);
-            padding: 20px;
-            border-radius: 10px;
-            color: white;
-            text-align: center;
-        }
-
-        .navigation {
-            text-align: center;
-            padding: 20px;
-            background: #0a0a0a;
-        }
-
-        .nav-btn {
-            background: #b45309;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            margin: 0 10px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-btn:hover {
-            background: #92400e;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .slide-counter {
-            color: white;
-            margin: 0 20px;
-            font-weight: bold;
-        }
-
-        .diagram {
-            background: white;
-            border: 2px solid #d4d4d4;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
-            font-size: 18px;
-        }
-
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        .comparison-table th, .comparison-table td {
-            border: 1px solid #d4d4d4;
-            padding: 12px;
-            text-align: left;
-        }
-
-        .comparison-table th {
-            background: #b45309;
-            color: white;
-        }
-
-        .comparison-table tr:nth-child(even) {
-            background: #fafafa;
-        }
-
-        ul {
-            margin: 15px 0;
-            padding-left: 30px;
-        }
-
-        li {
-            margin: 8px 0;
-        }
-
-        .slide h1 .icon, .slide h2 .icon { color: #f59e0b; }
-        .nav-btn .icon { vertical-align: -0.25em; }
-
-        .portal-bar {
-            position: fixed;
-            top: 16px;
-            left: 16px;
-            z-index: 1000;
-            display: flex;
-            gap: 8px;
-        }
-        .portal-bar .portal-home-link {
-            background: rgba(255,255,255,0.92);
-            color: #0a0a0a;
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-        body.dark-mode .portal-bar .portal-home-link { background: #262626; }
-        .portal-bar .theme-toggle-btn {
-            border-radius: 9999px;
-        }
-            @media (max-width: 767px) {
-            .slideshow-container { margin: 4rem 0.75rem 0; border-radius: 14px; }
-            .slide { padding: 20px 16px; min-height: 0; }
-            h1 { font-size: 1.7em; margin-bottom: 18px; }
-            h2 { font-size: 1.35em; line-height: 1.3; }
-            h3 { font-size: 1.1em; }
-            .content { font-size: 1em; line-height: 1.65; }
-            .navigation { padding: 14px 10px; gap: 10px; }
-            .nav-btn { padding: 10px 14px; }
-        }
-</style>
+    <title>Power Supply — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
     <link rel="stylesheet" href="../assets/theme.css">
+    <style>
+        .formula { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1.35rem; font-weight: 700; text-align: center; padding: 1rem; border-radius: 0.75rem; background: #0a0a0a; color: #fbbf24; }
+        .formula small { display: block; font-size: 0.85rem; font-weight: 500; color: #d4d4d4; margin-top: 0.25rem; font-family: Inter, sans-serif; }
+        .flow { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem; }
+        .flow span { padding: 0.5rem 0.9rem; border-radius: 0.6rem; background: #fef3c7; color: #78350f; font-weight: 600; }
+        .flow .icon { color: #d97706; }
+        body.dark-mode .flow span { background: #2a2113; color: #fbbf24; }
+        .total-row td { font-weight: 700; background: #fffbeb; }
+        body.dark-mode .total-row td { background: #2a2113; }
+    </style>
 </head>
-<body>
-    <div class="portal-bar">
-        <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
-        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
-    </div>
-    <div class="slideshow-container">
-        <!-- Slide 1: Giriş -->
-        <div class="slide active">
-            <h1><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#zap"></use></svg> POWER SUPPLY</h1>
-            <div class="content">
-                <h2>Elektrik təchizatı sistemləri</h2>
-                <div class="info-box">
-                    <strong>Bu dərsdə öyrənəcəyimiz mövzular:</strong>
-                    <ul>
-                        <li>Volt, Amper, Watt anlayışları</li>
-                        <li>Generator sistemləri</li>
-                        <li>UPS (Fasiləsiz elektrik təchizatı)</li>
-                        <li>Stabilizator cihazları</li>
-                        <li>Praktik tətbiq nümunələri</li>
-                    </ul>
-                </div>
-                <div class="warning-box">
-                    <strong>Diqqət:</strong> Elektrik təchizatı IT sistemlərinin ən vacib komponentidir. Düzgün elektrik təchizatı olmadan heç bir kompüter sistemi etibarlı işləyə bilməz.
-                </div>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#plug-zap"></use></svg> Power Supply</h1>
+                <span class="lesson-badge">CCNA · Network Fundamentals</span>
             </div>
-        </div>
-
-        <!-- Slide 2: Volt -->
-        <div class="slide">
-            <h2><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#battery"></use></svg> VOLT (V) - Elektrik gərginliyi</h2>
-            <div class="content">
-                <h3>Volt nədir?</h3>
-                <p>Volt - elektrik dövrəsində elektrik gərginliyinin ölçü vahididir.</p>
-                
-                <div class="formula-box">
-                    V = W / A
-                    <br>
-                    <small>Volt = Watt / Amper</small>
-                </div>
-
-                <div class="grid-container">
-                    <div class="grid-item">
-                        <strong>Ev elektrik şəbəkəsi</strong>
-                        <br>220V AC
-                    </div>
-                    <div class="grid-item">
-                        <strong>Kompüter PSU</strong>
-                        <br>12V, 5V, 3.3V DC
-                    </div>
-                    <div class="grid-item">
-                        <strong>USB gərginliyi</strong>
-                        <br>5V DC
-                    </div>
-                    <div class="grid-item">
-                        <strong>Batareya</strong>
-                        <br>1.5V, 3.7V, 12V DC
-                    </div>
-                </div>
-
-                <div class="info-box">
-                    <strong>Praktik məlumat:</strong> Kompüter power supply-ı 220V AC gərginliyi müxtəlif DC gərginliklərə çevirir: +12V (prosessor, HDD), +5V (USB, RAM), +3.3V (cip setlər).
-                </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#units" class="nav-link">Volt, Amper, Watt</a>
+                <a href="#generator" class="nav-link">Generator</a>
+                <a href="#ups" class="nav-link">UPS</a>
+                <a href="#stabilizer" class="nav-link">Stabilizator</a>
+                <a href="#practice" class="nav-link">Praktika</a>
+                <a href="#summary" class="nav-link">Xülasə</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
-        </div>
+        </nav>
+    </header>
 
-        <!-- Slide 3: Amper -->
-        <div class="slide">
-            <h2><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#zap"></use></svg> AMPER (A) - Elektrik cərəyanı</h2>
-            <div class="content">
-                <h3>Amper nədir?</h3>
-                <p>Amper - elektrik dövrəsindən keçən cərəyanın gücünün ölçü vahididir.</p>
-                
-                <div class="formula-box">
-                    A = W / V
-                    <br>
-                    <small>Amper = Watt / Volt</small>
-                </div>
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#plug-zap"></use></svg> Giriş: Elektrik Təchizatı Sistemləri</h2>
+            <p class="lead">
+                Ən yaxşı server və switch belə elektrik olmadan dəyərsizdir. Qəfil kəsilmə diskdəki məlumatı zədələyir, gərginlik sıçrayışı
+                power supply-ı yandırır, aşağı gərginlik isə cihazların təsadüfi yenidən başlamasına səbəb olur. Bu dərsdə IT mütəxəssisinin
+                bilməli olduğu əsas elektrik anlayışlarını və qoruma avadanlıqlarını öyrənirik.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#battery"></use></svg> Anlayışlar</h3><p class="text-neutral-700">Volt, Amper, Watt və VA — güc hesablamasının əsası.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#shield-check"></use></svg> Qoruma</h3><p class="text-neutral-700">Generator, UPS və stabilizator — hər biri fərqli problemi həll edir.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#triangle-alert"></use></svg> Diqqət</h3><p>Etibarlı elektrik təchizatı olmadan heç bir IT sistemi etibarlı işləyə bilməz.</p></div>
+            </div>
+        </section>
 
-                <h3>IT avadanlıqlarında amper istehlakı:</h3>
-                <table class="comparison-table">
-                    <tr>
-                        <th>Cihaz</th>
-                        <th>Gərginlik</th>
-                        <th>Cərəyan</th>
-                        <th>İzah</th>
-                    </tr>
-                    <tr>
-                        <td>Kompüter (orta)</td>
-                        <td>220V</td>
-                        <td>2-4A</td>
-                        <td>Normal iş rejimi</td>
-                    </tr>
-                    <tr>
-                        <td>Server</td>
-                        <td>220V</td>
-                        <td>5-10A</td>
-                        <td>Yüksək performans</td>
-                    </tr>
-                    <tr>
-                        <td>Monitor LED</td>
-                        <td>220V</td>
-                        <td>0.3-0.8A</td>
-                        <td>Enerji səmərəli</td>
-                    </tr>
-                    <tr>
-                        <td>Printer</td>
-                        <td>220V</td>
-                        <td>1-2A</td>
-                        <td>Çap zamanı daha çox</td>
-                    </tr>
+        <section id="units" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#zap"></use></svg> 1. Volt, Amper və Watt</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#battery"></use></svg> Volt (V) — gərginlik</h3><p class="text-neutral-700">Elektronları "itələyən" təzyiq. Ev şəbəkəsi 220–230 V AC; kompüter PSU-su bunu 12 V, 5 V, 3.3 V DC-yə çevirir.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#activity"></use></svg> Amper (A) — cərəyan</h3><p class="text-neutral-700">Dövrədən keçən cərəyanın miqdarı. Avtomat açarlar (məs. 16 A) və kabel kəsiyi buna görə seçilir.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#lightbulb"></use></svg> Watt (W) — güc</h3><p class="text-neutral-700">Sərf olunan enerjinin sürəti. Hesab (kWh) və istilik (soyutma) watt ilə hesablanır.</p></div>
+            </div>
+            <div class="formula mb-6">W = V × A<small>Watt = Volt × Amper &nbsp;·&nbsp; A = W / V &nbsp;·&nbsp; V = W / A</small></div>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Mənbə / cihaz</th><th>Gərginlik</th><th>Tipik cərəyan / güc</th></tr></thead>
+                    <tbody>
+                        <tr><td>Ev və ofis şəbəkəsi</td><td>220–230 V AC</td><td>Rozetka adətən 16 A</td></tr>
+                        <tr><td>Kompüter (orta)</td><td>220 V</td><td>1–2 A (200–400 W)</td></tr>
+                        <tr><td>Server</td><td>220 V</td><td>2–5 A (400–1100 W)</td></tr>
+                        <tr><td>LED monitor</td><td>220 V</td><td>0.1–0.3 A (20–60 W)</td></tr>
+                        <tr><td>USB</td><td>5 V DC (PD ilə 20 V-a qədər)</td><td>0.5–5 A</td></tr>
+                        <tr><td>PoE switch portu</td><td>~48–57 V DC</td><td>15.4–90 W</td></tr>
+                    </tbody>
                 </table>
-
-                <div class="warning-box">
-                    <strong>Vacib:</strong> Cihazların amper istehlakını bilmək elektrik dövrəsinin düzgün qurulması üçün çox vacibdir.
-                </div>
             </div>
-        </div>
-
-        <!-- Slide 4: Watt -->
-        <div class="slide">
-            <h2><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#lightbulb"></use></svg> WATT (W) - Elektrik gücü</h2>
-            <div class="content">
-                <h3>Watt nədir?</h3>
-                <p>Watt - elektrik enerjisinin sərf edilmə sürətinin ölçü vahididir.</p>
-                
-                <div class="formula-box">
-                    W = V × A
-                    <br>
-                    <small>Watt = Volt × Amper</small>
-                </div>
-
-                <h3>Kompüter komponentlərinin güc istehlakı:</h3>
-                <div class="grid-container">
-                    <div class="grid-item">
-                        <strong>CPU Intel i5</strong>
-                        <br>65-95W
-                    </div>
-                    <div class="grid-item">
-                        <strong>GPU GTX 1660</strong>
-                        <br>120W
-                    </div>
-                    <div class="grid-item">
-                        <strong>RAM (16GB)</strong>
-                        <br>10-15W
-                    </div>
-                    <div class="grid-item">
-                        <strong>SSD</strong>
-                        <br>2-5W
-                    </div>
-                    <div class="grid-item">
-                        <strong>HDD</strong>
-                        <br>5-10W
-                    </div>
-                    <div class="grid-item">
-                        <strong>Anakart</strong>
-                        <br>20-30W
-                    </div>
-                </div>
-
-                <div class="info-box">
-                    <strong>PSU seçimi:</strong> Sistem komponentlərinin ümumi watt istehlakına 20-30% əlavə edərək PSU gücünü hesablayın. Məsələn, 400W sistem üçün 500-600W PSU seçin.
-                </div>
-            </div>
-        </div>
-
-        <!-- Slide 5: Generator -->
-        <div class="slide">
-            <h2><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#factory"></use></svg> GENERATOR sistemləri</h2>
-            <div class="content">
-                <h3>Generator nədir?</h3>
-                <p>Generator - mexaniki enerjini elektrik enerjisinə çevirən cihazdır.</p>
-
-                <div class="diagram">
-                    <strong>Generator işləmə prinsipi:</strong>
-                    <br>
-                    Yanacaq → Motor → Alternator → Elektrik enerjisi
-                </div>
-
-                <h3>IT mərkəzlərində generator növləri:</h3>
-                <table class="comparison-table">
-                    <tr>
-                        <th>Generator növü</th>
-                        <th>Güc</th>
-                        <th>Yanacaq</th>
-                        <th>İstifadə sahəsi</th>
-                    </tr>
-                    <tr>
-                        <td>Kiçik ofis</td>
-                        <td>5-15 kVA</td>
-                        <td>Benzin</td>
-                        <td>Qısa müddətli kəsilmələr</td>
-                    </tr>
-                    <tr>
-                        <td>Orta ofis</td>
-                        <td>20-100 kVA</td>
-                        <td>Dizel</td>
-                        <td>Uzunmüddətli backup</td>
-                    </tr>
-                    <tr>
-                        <td>Data Center</td>
-                        <td>500+ kVA</td>
-                        <td>Dizel/Qaz</td>
-                        <td>24/7 ehtiyat güc</td>
-                    </tr>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Komponent</th><th>Təxmini güc</th><th>Komponent</th><th>Təxmini güc</th></tr></thead>
+                    <tbody>
+                        <tr><td>CPU (masaüstü)</td><td>65–125 W</td><td>SSD</td><td>2–5 W</td></tr>
+                        <tr><td>Video kart (orta)</td><td>120–250 W</td><td>HDD</td><td>5–10 W</td></tr>
+                        <tr><td>RAM (16 GB)</td><td>5–10 W</td><td>Anakart</td><td>20–40 W</td></tr>
+                    </tbody>
                 </table>
-
-                <div class="warning-box">
-                    <strong>Diqqət edilməli məqamlar:</strong>
-                    <ul>
-                        <li>Avtomatik start sistemi</li>
-                        <li>Yanacaq tutumu və təchizatı</li>
-                        <li>Səs-küy səviyyəsi</li>
-                        <li>Texniki xidmət tezliyi</li>
-                    </ul>
-                </div>
             </div>
-        </div>
+            <div class="note-box">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#calculator"></use></svg>
+                <p class="text-neutral-800"><strong>PSU seçimi:</strong> komponentlərin ümumi gücünə 20–30% ehtiyat əlavə edin — 400 W sistem üçün 500–600 W PSU. <strong>80 PLUS</strong> sertifikatı (Bronze → Titanium) səmərəliliyi göstərir: az istilik, az hesab.</p>
+            </div>
+        </section>
 
-        <!-- Slide 6: UPS -->
-        <div class="slide">
-            <h2><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#refresh-cw"></use></svg> UPS - Fasiləsiz elektrik təchizatı</h2>
-            <div class="content">
-                <h3>UPS nədir?</h3>
-                <p>UPS (Uninterruptible Power Supply) - elektrik kəsilməsi zamanı qısa müddət ərzində backup enerji təmin edən sistemdir.</p>
-
-                <h3>UPS növləri:</h3>
-                <div class="grid-container">
-                    <div class="grid-item">
-                        <strong>Standby UPS</strong>
-                        <br>Ən sadə və ucuz
-                        <br>5-10 dəqiqə
-                    </div>
-                    <div class="grid-item">
-                        <strong>Line-Interactive</strong>
-                        <br>Gərginlik tənzimləyici
-                        <br>10-30 dəqiqə
-                    </div>
-                    <div class="grid-item">
-                        <strong>Online UPS</strong>
-                        <br>Ən etibarlı
-                        <br>30+ dəqiqə
-                    </div>
-                </div>
-
-                <h3>IT avadanlıqları üçün UPS seçimi:</h3>
-                <table class="comparison-table">
-                    <tr>
-                        <th>Sistem</th>
-                        <th>UPS gücü</th>
-                        <th>Backup müddəti</th>
-                        <th>UPS növü</th>
-                    </tr>
-                    <tr>
-                        <td>Fərdi kompüter</td>
-                        <td>600-1000VA</td>
-                        <td>5-15 dəqiqə</td>
-                        <td>Standby</td>
-                    </tr>
-                    <tr>
-                        <td>Kiçik server</td>
-                        <td>1500-3000VA</td>
-                        <td>10-30 dəqiqə</td>
-                        <td>Line-Interactive</td>
-                    </tr>
-                    <tr>
-                        <td>Data Center</td>
-                        <td>10000VA+</td>
-                        <td>30+ dəqiqə</td>
-                        <td>Online</td>
-                    </tr>
+        <section id="generator" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#factory"></use></svg> 2. Generator</h2>
+            <p class="text-neutral-700 mb-4">Generator mexaniki enerjini elektrik enerjisinə çevirir və uzunmüddətli kəsilmələrdə — saatlar, günlər — enerji verir.</p>
+            <div class="flow mb-6"><span>Yanacaq</span><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-right"></use></svg><span>Mühərrik</span><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-right"></use></svg><span>Alternator</span><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-right"></use></svg><span>Elektrik</span></div>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Obyekt</th><th>Güc</th><th>Yanacaq</th><th>Məqsəd</th></tr></thead>
+                    <tbody>
+                        <tr><td>Kiçik ofis</td><td>5–15 kVA</td><td>Benzin/dizel</td><td>Qısa kəsilmələr</td></tr>
+                        <tr><td>Orta ofis</td><td>20–100 kVA</td><td>Dizel</td><td>Uzunmüddətli ehtiyat</td></tr>
+                        <tr><td>Data mərkəzi</td><td>500+ kVA</td><td>Dizel / qaz</td><td>24/7 ehtiyat güc, N+1</td></tr>
+                    </tbody>
                 </table>
-
-                <div class="info-box">
-                    <strong>UPS hesablama:</strong> Cihazların watt istehlakını 0.6-0.7-yə bölərək VA (Volt-Amper) dəyərini tapın. Məsələn: 400W sistem üçün 600-700VA UPS lazımdır.
-                </div>
             </div>
-        </div>
-
-        <!-- Slide 7: Stabilizator -->
-        <div class="slide">
-            <h2><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#chart-column"></use></svg> STABILIZATOR - Gərginlik tənzimləyicisi</h2>
-            <div class="content">
-                <h3>Stabilizator nədir?</h3>
-                <p>Stabilizator - şəbəkə gərginliyini sabit səviyyədə saxlayan cihazdır.</p>
-
-                <div class="diagram">
-                    <strong>Stabilizator işləmə prinsipi:</strong>
-                    <br>
-                    Dəyişkən giriş gərginliyi → Tənzimləmə dövrəsi → Sabit çıxış gərginliyi
-                </div>
-
-                <h3>Stabilizator növləri:</h3>
-                <div class="grid-container">
-                    <div class="grid-item">
-                        <strong>Relay tipli</strong>
-                        <br>Ərzan, səs-küylü
-                        <br>±10% dəqiqlik
-                    </div>
-                    <div class="grid-item">
-                        <strong>Servo tipli</strong>
-                        <br>Daha dəqiq
-                        <br>±3-5% dəqiqlik
-                    </div>
-                    <div class="grid-item">
-                        <strong>Elektronik</strong>
-                        <br>Səssiz, sürətli
-                        <br>±1-3% dəqiqlik
-                    </div>
-                </div>
-
-                <h3>IT sistemlərində stabilizator tətbiqi:</h3>
-                <ul>
-                    <li><strong>Serverlər:</strong> Yüksək dəqiqliyə malik elektronik stabilizatorlar</li>
-                    <li><strong>Kompüterlər:</strong> Servo tipli stabilizatorlar kifayət edir</li>
-                    <li><strong>Printerlər:</strong> Relay tipli stabilizatorlar uyğundur</li>
-                    <li><strong>Şəbəkə avadanlıqları:</strong> Online stabilizatorlar tövsiyə olunur</li>
-                </ul>
-
-                <div class="warning-box">
-                    <strong>Vacib xüsusiyyətlər:</strong>
-                    <ul>
-                        <li>Giriş gərginlik diapazonu (150-280V)</li>
-                        <li>Çıxış gərginlik dəqiqliyi (±3-5%)</li>
-                        <li>Reaksiya vaxtı (< 1 saniyə)</li>
-                        <li>Həddindən artıq yük qorunması</li>
-                    </ul>
-                </div>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#power"></use></svg><p class="text-neutral-700"><strong>ATS</strong> (Automatic Transfer Switch) — şəbəkə kəsiləndə generatoru avtomatik işə salıb yükü ona keçirir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg><p class="text-neutral-700"><strong>Start vaxtı</strong> 10–30 saniyədir — bu boşluğu UPS doldurur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#fuel"></use></svg><p class="text-neutral-700"><strong>Yanacaq ehtiyatı</strong>, səs-küy, havalandırma və müntəzəm test (ayda bir yük altında).</p></div>
             </div>
-        </div>
+        </section>
 
-        <!-- Slide 8: Praktik nümunələr -->
-        <div class="slide">
-            <h2><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#wrench"></use></svg> PRAKTİK tətbiq nümunələri</h2>
-            <div class="content">
-                <h3>Ofis elektrik təchizatı planı:</h3>
-                <div class="diagram">
-                    <strong>Elektrik təchizat sxemi:</strong>
-                    <br>
-                    Şəbəkə → Stabilizator → UPS → IT avadanlıqları
-                    <br>
-                    ↓ (kəsilmə zamanı)
-                    <br>
-                    Generator → Stabilizator → UPS → IT avadanlıqları
-                </div>
-
-                <h3>Real layihə nümunəsi - 20 kompüterli ofis:</h3>
-                <table class="comparison-table">
-                    <tr>
-                        <th>Avadanlıq</th>
-                        <th>Say</th>
-                        <th>Vahid güc</th>
-                        <th>Ümumi güc</th>
-                    </tr>
-                    <tr>
-                        <td>Kompüter</td>
-                        <td>20</td>
-                        <td>400W</td>
-                        <td>8000W</td>
-                    </tr>
-                    <tr>
-                        <td>Monitor</td>
-                        <td>20</td>
-                        <td>50W</td>
-                        <td>1000W</td>
-                    </tr>
-                    <tr>
-                        <td>Server</td>
-                        <td>2</td>
-                        <td>800W</td>
-                        <td>1600W</td>
-                    </tr>
-                    <tr>
-                        <td>Şəbəkə avadanlıqları</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>500W</td>
-                    </tr>
-                    <tr style="background: #b45309; color: white; font-weight: bold;">
-                        <td colspan="3">ÜMUMI</td>
-                        <td>11.1 kW</td>
-                    </tr>
+        <section id="ups" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#battery-charging"></use></svg> 3. UPS — Fasiləsiz Enerji Təchizatı</h2>
+            <p class="text-neutral-700 mb-6"><strong>UPS</strong> (Uninterruptible Power Supply) kəsilmə anında batareyadan dərhal enerji verir: serverlərin düzgün söndürülməsi və ya generatorun işə düşməsi üçün vaxt qazandırır.</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Necə işləyir</th><th>Keçid vaxtı</th><th>Harada</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Standby (offline)</strong></td><td>Normalda şəbəkədən, kəsilmədə batareyaya keçir</td><td>~5–12 ms</td><td>Fərdi kompüter</td></tr>
+                        <tr><td><strong>Line-interactive</strong></td><td>+ AVR: kiçik gərginlik dəyişmələrini batareyasız düzəldir</td><td>~2–4 ms</td><td>Ofis, kiçik server, switch</td></tr>
+                        <tr><td><strong>Online (double conversion)</strong></td><td>AC → DC → AC daim; çıxış həmişə təmizdir</td><td>0 ms</td><td>Server otağı, data mərkəzi</td></tr>
+                    </tbody>
                 </table>
-
-                <h3>Tövsiyə edilən avadanlıqlar:</h3>
-                <ul>
-                    <li><strong>Stabilizator:</strong> 15kVA servo tipli (25% ehtiyat)</li>
-                    <li><strong>UPS:</strong> 15kVA online tipli (15 dəqiqə backup)</li>
-                    <li><strong>Generator:</strong> 20kVA dizel (50% ehtiyat)</li>
-                </ul>
-
-                <div class="info-box">
-                    <strong>Maliyyət təhlili:</strong> Bu konfiqurasiya təxminən $8,000-12,000 arasında dəyər edir, lakin etibarlı elektrik təchizatı IT sistemlərinin fasiləsiz işləməsini təmin edir.
-                </div>
             </div>
-        </div>
-
-        <!-- Slide 9: Xülasə -->
-        <div class="slide">
-            <h2><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#notebook-pen"></use></svg> XÜLASƏ və əsas məqamlar</h2>
-            <div class="content">
-                <h3>Dərsdə öyrəndiklərimiz:</h3>
-                <div class="grid-container">
-                    <div class="grid-item">
-                        <strong>VOLT</strong>
-                        <br>Elektrik gərginliyi
-                        <br>V = W / A
-                    </div>
-                    <div class="grid-item">
-                        <strong>AMPER</strong>
-                        <br>Elektrik cərəyanı
-                        <br>A = W / V
-                    </div>
-                    <div class="grid-item">
-                        <strong>WATT</strong>
-                        <br>Elektrik gücü
-                        <br>W = V × A
-                    </div>
-                </div>
-
-                <div class="info-box">
-                    <strong>Elektrik təchizatı komponentləri:</strong>
-                    <ul>
-                        <li><strong>Generator:</strong> Uzunmüddətli ehtiyat enerji mənbəyi</li>
-                        <li><strong>UPS:</strong> Qısamüddətli fasiləsiz enerji təminatı</li>
-                        <li><strong>Stabilizator:</strong> Gərginlik dalgalanmalarından qorunma</li>
-                    </ul>
-                </div>
-
-                <div class="warning-box">
-                    <strong>IT mütəxəssisi üçün vacib:</strong>
-                    <ul>
-                        <li>Avadanlıqların güc istehlakını hesablaya bilmək</li>
-                        <li>Uyğun UPS və stabilizator seçə bilmək</li>
-                        <li>Elektrik təchizat sxemlərini qura bilmək</li>
-                        <li>Elektrik təhlükəsizlik qaydalarına riayət etmək</li>
-                    </ul>
-                </div>
-
-                <div class="formula-box">
-                    Unutmayın: Etibarlı elektrik təchizatı = Etibarlı IT sistemi!
-                </div>
-
-                <div style="text-align: center; margin-top: 40px;">
-                    <h3 style="color: #b45309;">Suallar və cavablar</h3>
-                    <p style="font-size: 1.2em; color: #737373;">Dərs başa çatdı. Suallarınızı verə bilərsiniz!</p>
-                </div>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#calculator"></use></svg><p class="text-neutral-700"><strong>VA və W:</strong> VA = W / power factor. Köhnə UPS-lərdə PF ~0.6–0.7, müasirlərdə ~0.9–1.0. 400 W yük üçün ən azı 600–700 VA.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#clock"></use></svg><p class="text-neutral-700"><strong>Backup müddəti</strong> növdən yox, batareya tutumundan və yükdən asılıdır — istehsalçının runtime cədvəlinə baxın.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#cable"></use></svg><p class="text-neutral-700"><strong>İdarəetmə kartı</strong> (SNMP/USB): batareya bitmədən serverlərə avtomatik "shutdown" əmri.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#battery-warning"></use></svg><p class="text-neutral-700"><strong>Batareya ömrü</strong> 3–5 ildir; ildə bir dəfə runtime testi edin.</p></div>
             </div>
-        </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Sistem</th><th>UPS gücü</th><th>Tövsiyə olunan növ</th></tr></thead>
+                    <tbody>
+                        <tr><td>Fərdi kompüter</td><td>600–1000 VA</td><td>Standby / line-interactive</td></tr>
+                        <tr><td>Kiçik server, şəbəkə rack-ı</td><td>1500–3000 VA</td><td>Line-interactive / online</td></tr>
+                        <tr><td>Data mərkəzi</td><td>10 kVA+</td><td>Online, N+1</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-        <!-- Navigation -->
-        <div class="navigation">
-            <button class="nav-btn" onclick="changeSlide(-1)"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#chevron-left"></use></svg> Əvvəlki</button>
-            <span class="slide-counter">
-                <span id="currentSlide">1</span> / <span id="totalSlides">9</span>
-            </span>
-            <button class="nav-btn" onclick="changeSlide(1)">Növbəti <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#chevron-right"></use></svg></button>
-        </div>
-    </div>
+        <section id="stabilizer" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#chart-column"></use></svg> 4. Stabilizator (AVR)</h2>
+            <p class="text-neutral-700 mb-4">Stabilizator dəyişkən şəbəkə gərginliyini (məs. 170–260 V) sabit 220 V-a gətirir. Kəsilmədən qorumur — bunun üçün UPS lazımdır.</p>
+            <div class="flow mb-6"><span>Dəyişkən giriş</span><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-right"></use></svg><span>Tənzimləmə</span><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-right"></use></svg><span>Sabit çıxış</span></div>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>Relay tipli</h3><p class="text-neutral-700">Ucuz, pilləli tənzimləmə, klik səsi; dəqiqlik ~±8–10%.</p></div>
+                <div class="info-card"><h3>Servo tipli</h3><p class="text-neutral-700">Mühərrikli, dəqiq (~±1–3%), amma nisbətən yavaş reaksiya.</p></div>
+                <div class="info-card accent"><h3>Elektron (tiristor/triak)</h3><p class="text-neutral-700">Səssiz və sürətli (millisaniyələr), dəqiqlik ~±2–5%.</p></div>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left-right"></use></svg><p class="text-neutral-700"><strong>Giriş diapazonu</strong> (məs. 150–280 V) — regionun şəbəkəsinə uyğun seçilməlidir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#target"></use></svg><p class="text-neutral-700"><strong>Çıxış dəqiqliyi</strong> və <strong>reaksiya vaxtı</strong>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#shield-alert"></use></svg><p class="text-neutral-700"><strong>Həddindən artıq yük</strong> və qısa qapanma qoruması; gücü yükdən 25–30% çox seçin.</p></div>
+            </div>
+        </section>
+
+        <section id="practice" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#wrench"></use></svg> 5. Praktik Nümunə: 20 Kompüterli Ofis</h2>
+            <div class="flow mb-6"><span>Şəbəkə / Generator (ATS)</span><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-right"></use></svg><span>Stabilizator</span><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-right"></use></svg><span>UPS</span><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-right"></use></svg><span>IT avadanlıqları</span></div>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Avadanlıq</th><th>Say</th><th>Vahid güc</th><th>Ümumi</th></tr></thead>
+                    <tbody>
+                        <tr><td>Kompüter</td><td>20</td><td>300 W</td><td>6 000 W</td></tr>
+                        <tr><td>Monitor</td><td>20</td><td>40 W</td><td>800 W</td></tr>
+                        <tr><td>Server</td><td>2</td><td>600 W</td><td>1 200 W</td></tr>
+                        <tr><td>Switch, router, Wi-Fi</td><td>—</td><td>—</td><td>500 W</td></tr>
+                        <tr class="total-row"><td colspan="3">CƏMİ</td><td>8.5 kW</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#server"></use></svg><p class="text-neutral-700"><strong>UPS:</strong> bütün ofis yerinə tez-tez yalnız server və şəbəkə rack-ı (≈1.7 kW) üçün 3 kVA online UPS — kompüterlər üçün fərdi 800 VA UPS-lər.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#chart-column"></use></svg><p class="text-neutral-700"><strong>Stabilizator:</strong> ~12 kVA (8.5 kW + 25–30% ehtiyat).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#factory"></use></svg><p class="text-neutral-700"><strong>Generator:</strong> ~15 kVA dizel + ATS — kondisionerlər və işıqlandırma da qoşulacaqsa, daha böyük.</p></div>
+            </div>
+            <div class="note-box">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#lightbulb"></use></svg>
+                <p class="text-neutral-800">Hər watt həm də <strong>istilikdir</strong>: 1.7 kW-lıq rack ~5 800 BTU/saat istilik verir (1 W ≈ 3.41 BTU/h) — server otağının kondisioneri buna görə seçilir.</p>
+            </div>
+        </section>
+
+        <section id="summary" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#notebook-pen"></use></svg> 6. Xülasə</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>Volt</h3><p class="text-neutral-700">Gərginlik · V = W / A</p></div>
+                <div class="info-card"><h3>Amper</h3><p class="text-neutral-700">Cərəyan · A = W / V</p></div>
+                <div class="info-card accent"><h3>Watt</h3><p class="text-neutral-700">Güc · W = V × A</p></div>
+            </div>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Avadanlıq</th><th>Nədən qoruyur</th><th>Müddət</th></tr></thead>
+                    <tbody>
+                        <tr><td>Stabilizator</td><td>Aşağı/yüksək gərginlik</td><td>—</td></tr>
+                        <tr><td>UPS</td><td>Kəsilmə, qısa dalğalanma (online — hamısı)</td><td>Dəqiqələr</td></tr>
+                        <tr><td>Generator</td><td>Uzunmüddətli kəsilmə</td><td>Saatlar–günlər</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#calculator"></use></svg><p class="text-neutral-700">Avadanlıqların güc istehlakını hesablaya bilmək.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#battery-charging"></use></svg><p class="text-neutral-700">Uyğun UPS və stabilizator seçmək.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#workflow"></use></svg><p class="text-neutral-700">Elektrik təchizat sxemini qurmaq.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#shield-alert"></use></svg><p class="text-neutral-700">Elektrik təhlükəsizliyi qaydalarına riayət etmək — gərginlik altında işləməmək.</p></div>
+            </div>
+        </section>
+    </main>
 
     <footer class="brand-footer">
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
@@ -712,43 +246,8 @@
         </div>
     </footer>
 
-    <script>
-        let currentSlideIndex = 0;
-        const slides = document.querySelectorAll('.slide');
-        const totalSlides = slides.length;
-        
-        document.getElementById('totalSlides').textContent = totalSlides;
-
-        function showSlide(index) {
-            slides.forEach(slide => slide.classList.remove('active'));
-            slides[index].classList.add('active');
-            document.getElementById('currentSlide').textContent = index + 1;
-        }
-
-        function changeSlide(direction) {
-            currentSlideIndex += direction;
-            
-            if (currentSlideIndex < 0) {
-                currentSlideIndex = totalSlides - 1;
-            } else if (currentSlideIndex >= totalSlides) {
-                currentSlideIndex = 0;
-            }
-            
-            showSlide(currentSlideIndex);
-        }
-
-        // Klaviatura ilə idarəetmə
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'ArrowLeft') {
-                changeSlide(-1);
-            } else if (event.key === 'ArrowRight') {
-                changeSlide(1);
-            }
-        });
-
-        // İlkin göstərim
-        showSlide(0);
-    </script>
+    <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>
 </html>
+

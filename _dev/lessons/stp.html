@@ -1,0 +1,110 @@
+<!--PAGE title="Spanning Tree Protocol (STP)" icon="network" badge="CCNA · Network Access" nav="intro:Giriş|election:Seçki|roles:Rollar|states:Vəziyyətlər|versions:Növlər|commands:Əmrlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:network}} Giriş: STP Nədir?</h2>
+            <p class="lead">
+                <strong>Spanning Tree Protocol</strong> (STP, IEEE 802.1D) Layer 2 şəbəkədə switch-lər arasındakı fiziki dövrələri (loop) aşkarlayıb
+                topologiyanı məntiqi ağaca (tree) çevirir. Loop olduqda Ethernet frame-ləri sonsuz dövr edir (<strong>broadcast storm</strong>),
+                MAC cədvəli qeyri-sabit olur və şəbəkə saniyələr içində dayanır. STP artıq yolları bloklayır, amma itirmir —
+                əsas yol kəsiləndə ehtiyat yol avtomatik aktivləşir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:repeat}} Broadcast storm</h3><p class="text-neutral-700">L2 frame-də TTL yoxdur — loop-dakı broadcast heç vaxt ölmür.</p></div>
+                <div class="info-card"><h3>{{i:copy}} Duplicate frame</h3><p class="text-neutral-700">Eyni frame hədəfə bir neçə yoldan çatır.</p></div>
+                <div class="info-card dark"><h3>{{i:shuffle}} MAC flapping</h3><p>Switch eyni MAC-ı növbə ilə fərqli portlarda görür.</p></div>
+            </div>
+        </section>
+
+        <section id="election" class="section-card">
+            <h2 class="section-title">{{i:crown}} 1. Root Bridge Seçkisi və Cost</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Bridge ID</strong> = priority (defolt 32768, 4096-lıq addımlarla) + VLAN ID (extended system ID) + MAC. Ən <strong>kiçik</strong> BID Root Bridge olur.</p></li>
+                <li><p class="text-neutral-700">Hər qeyri-root switch Root-a ən kiçik ümumi <strong>cost</strong>-lu portu <strong>Root Port</strong> seçir.</p></li>
+                <li><p class="text-neutral-700">Hər seqmentdə Root-a ən yaxın switch-in portu <strong>Designated Port</strong> olur.</p></li>
+                <li><p class="text-neutral-700">Qalan portlar bloklanır (<strong>Alternate/Blocking</strong>).</p></li>
+            </ol>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Link sürəti</th><th>Qısa cost (802.1D)</th><th>Uzun cost (802.1t)</th></tr></thead>
+                    <tbody>
+                        <tr><td>10 Mbps</td><td>100</td><td>2 000 000</td></tr>
+                        <tr><td>100 Mbps</td><td>19</td><td>200 000</td></tr>
+                        <tr><td>1 Gbps</td><td>4</td><td>20 000</td></tr>
+                        <tr><td>10 Gbps</td><td>2</td><td>2 000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4">Bərabərlik olduqda: kiçik qonşu BID → kiçik qonşu port priority → kiçik qonşu port nömrəsi.</p>
+        </section>
+
+        <section id="roles" class="section-card">
+            <h2 class="section-title">{{i:users}} 2. Port Rolları</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:crown}}<p class="text-neutral-700"><strong>Root Bridge:</strong> ən kiçik Bridge ID-li switch; bütün portları designated-dir.</p></div>
+                <div class="feature-item">{{i:door-open}}<p class="text-neutral-700"><strong>Root Port:</strong> qeyri-root switch-də Root Bridge-ə ən az cost-lu port (hər switch-də bir).</p></div>
+                <div class="feature-item">{{i:circle-check}}<p class="text-neutral-700"><strong>Designated Port:</strong> hər seqmentdə trafiki ötürən seçilmiş port (forwarding).</p></div>
+                <div class="feature-item">{{i:ban}}<p class="text-neutral-700"><strong>Alternate / Blocking:</strong> loop yaratmamaq üçün trafik ötürməyən ehtiyat port. RSTP-də həmçinin <strong>Backup</strong> rolu var.</p></div>
+            </div>
+        </section>
+
+        <section id="states" class="section-card">
+            <h2 class="section-title">{{i:timer}} 3. Port Vəziyyətləri</h2>
+            <p class="text-neutral-700 mb-6">Klassik STP portu forwarding-ə keçirməzdən əvvəl bir neçə mərhələdən keçirir — bu 30–50 saniyə çəkir (forward delay 15 s × 2, max age 20 s). RSTP bu prosesi saniyələrə endirir.</p>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>STP (802.1D)</th><th>RSTP (802.1w)</th><th>İzah</th></tr></thead>
+                    <tbody>
+                        <tr><td>Blocking</td><td>Discarding</td><td>Frame qəbul/ötürmür, yalnız BPDU dinləyir</td></tr>
+                        <tr><td>Listening</td><td>Discarding</td><td>Topologiyanı öyrənir, hələ MAC öyrənmir</td></tr>
+                        <tr><td>Learning</td><td>Learning</td><td>MAC cədvəlini doldurur, hələ ötürmür</td></tr>
+                        <tr><td>Forwarding</td><td>Forwarding</td><td>Tam işlək — trafik ötürülür</td></tr>
+                        <tr><td>Disabled</td><td>Discarding</td><td>Port inzibati olaraq söndürülüb</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="versions" class="section-card">
+            <h2 class="section-title">{{i:layers}} 4. STP Növləri</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3>PVST+</h3><p class="text-neutral-700">Cisco-ya məxsus, hər VLAN üçün ayrıca 802.1D instansı. Köhnə Cisco IOS-larda defolt.</p></div>
+                <div class="info-card accent"><h3>Rapid-PVST+</h3><p class="text-neutral-700">RSTP-nin VLAN-başına versiyası: saniyələr içində konvergensiya. Müasir tövsiyə olunan rejim.</p></div>
+                <div class="info-card dark"><h3>MSTP (802.1s)</h3><p>VLAN-ları bir neçə instansda qruplaşdırır — böyük şəbəkələrdə CPU yükünü azaldır, multi-vendor.</p></div>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 5. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="stp-config">Konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="stp-verify">Doğrulama</button>
+            </div>
+            <div id="stp-config">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Switch(config)# spanning-tree mode rapid-pvst
+Switch(config)# spanning-tree vlan 10 priority 4096
+Switch(config)# spanning-tree vlan 20 root primary        ! və ya root secondary
+Switch(config)# interface FastEthernet0/1
+Switch(config-if)# spanning-tree portfast
+Switch(config-if)# spanning-tree bpduguard enable
+Switch(config-if)# spanning-tree cost 10                  ! yol seçiminə təsir</code></pre>
+                    <p class="code-note">Rapid-PVST+ rejimini aktivləşdirir, VLAN 10 üçün bu switch-i Root Bridge edir, son istifadəçi portunda PortFast və BPDU Guard qoşur. Root Bridge-i həmişə özünüz seçin — təsadüfi köhnə switch-in root olması trafiki pis yola yönəldir.</p>
+                </div>
+            </div>
+            <div id="stp-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show spanning-tree
+show spanning-tree vlan 10
+show spanning-tree interface FastEthernet0/1
+show spanning-tree summary
+show spanning-tree root</code></pre>
+                    <p class="code-note">"This bridge is the root" — bu switch Root Bridge-dir. Port rolları: Root, Desg, Altn; vəziyyətlər: FWD, BLK/LRN.</p>
+                </div>
+            </div>
+            <div class="note-box mt-6">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">PortFast, BPDU Guard, Root Guard və Loop Guard kimi qoruma mexanizmləri <a class="font-semibold underline" href="stp-advanced.html">Rapid PVST+ və STP Qoruma</a> dərsində ətraflı izah olunur.</p>
+            </div>
+        </section>
+<!--END-->

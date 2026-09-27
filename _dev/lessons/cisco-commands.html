@@ -1,0 +1,241 @@
+<!--PAGE title="Cisco IOS Əmrləri" icon="square-terminal" badge="CCNA · Network Fundamentals" nav="intro:Giriş|modes:Rejimlər|commands:Əmr siyahısı|tips:Məsləhətlər"-->
+<!--HEAD-->
+    <style>
+        .cmd-search { width: 100%; padding: 0.9rem 1rem 0.9rem 2.75rem; border: 1px solid #d4d4d4; border-radius: 0.8rem; font-size: 1rem; background: #ffffff; color: #171717; }
+        .cmd-search:focus { outline: none; border-color: #f59e0b; box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25); }
+        .cmd-search-wrap { position: relative; }
+        .cmd-search-wrap .icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: #737373; }
+        .cmd-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0 1.25rem; }
+        .cmd-chip { padding: 0.45rem 0.9rem; border-radius: 9999px; border: 1px solid #e5e5e5; background: #ffffff; font-size: 0.85rem; font-weight: 600; color: #404040; }
+        .cmd-chip:hover { border-color: #f59e0b; }
+        .cmd-chip.active { background: #0a0a0a; border-color: #0a0a0a; color: #ffffff; }
+        .cmd-chip .count { font-size: 0.72rem; margin-left: 0.3rem; color: #a3a3a3; }
+        .cmd-chip.active .count { color: #fbbf24; }
+        .cmd-card { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding: 1rem 1.1rem; border: 1px solid #e5e5e5; border-radius: 0.8rem; background: #ffffff; }
+        .cmd-card:hover { border-color: #f59e0b; }
+        .cmd-card code.cmd { font-size: 0.98rem; font-weight: 700; color: #92400e; background: #fffbeb; padding: 0.25rem 0.5rem; border-radius: 0.4rem; overflow-wrap: anywhere; }
+        .cmd-card p { color: #525252; margin-top: 0.55rem; font-size: 0.92rem; }
+        .cmd-copy { flex-shrink: 0; padding: 0.4rem 0.8rem; border-radius: 0.55rem; font-size: 0.82rem; font-weight: 600; background: #f5f5f5; color: #404040; }
+        .cmd-copy:hover { background: #e5e5e5; }
+        .cmd-copy.done { background: #fde68a; color: #78350f; }
+        body.dark-mode .cmd-search, body.dark-mode .cmd-chip, body.dark-mode .cmd-card { background: #171717; border-color: #333333; color: #e5e5e5; }
+        body.dark-mode .cmd-chip.active { background: #f59e0b; border-color: #f59e0b; color: #0a0a0a; }
+        body.dark-mode .cmd-chip.active .count { color: #0a0a0a; }
+        body.dark-mode .cmd-card code.cmd { background: #2a2113; color: #fbbf24; }
+        body.dark-mode .cmd-card p { color: #a3a3a3; }
+        body.dark-mode .cmd-copy { background: #262626; color: #e5e5e5; }
+    </style>
+<!--/HEAD-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:square-terminal}} Giriş: İnteraktiv Əmr Arayışı</h2>
+            <p class="lead">
+                Cisco IOS əmrlərini tez tapmaq üçün arayış: axtarış sahəsinə əmrin və ya təsvirin bir hissəsini yazın, kateqoriya seçin və
+                "Kopyala" ilə əmri götürün. <code>&lt;...&gt;</code> içindəki hissələri öz dəyərlərinizlə əvəz edin.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:search}} Axtarış</h3><p class="text-neutral-700">"ospf", "vlan", "parol" kimi sözlərlə həm əmrdə, həm təsvirdə axtarır.</p></div>
+                <div class="info-card"><h3>{{i:keyboard}} Qısaltmalar</h3><p class="text-neutral-700">IOS unikal prefiksi qəbul edir: <code>sh ip int br</code> = <code>show ip interface brief</code>.</p></div>
+                <div class="info-card dark"><h3>{{i:circle-play}} Məşq</h3><p>Əmrləri <a class="font-semibold underline" href="../tools/cli.html">Cisco CLI Simulyatorunda</a> sınayın.</p></div>
+            </div>
+        </section>
+
+        <section id="modes" class="section-card">
+            <h2 class="section-title">{{i:layers}} 1. IOS Rejimləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Rejim</th><th>Prompt</th><th>Giriş</th><th>Çıxış</th></tr></thead>
+                    <tbody>
+                        <tr><td>User EXEC</td><td><code>Router&gt;</code></td><td>Konsol/SSH ilə giriş</td><td><code>exit</code></td></tr>
+                        <tr><td>Privileged EXEC</td><td><code>Router#</code></td><td><code>enable</code></td><td><code>disable</code></td></tr>
+                        <tr><td>Global config</td><td><code>Router(config)#</code></td><td><code>configure terminal</code></td><td><code>end</code> / Ctrl+Z</td></tr>
+                        <tr><td>Interface config</td><td><code>Router(config-if)#</code></td><td><code>interface g0/0</code></td><td><code>exit</code></td></tr>
+                        <tr><td>Line config</td><td><code>Router(config-line)#</code></td><td><code>line vty 0 4</code></td><td><code>exit</code></td></tr>
+                        <tr><td>Router config</td><td><code>Router(config-router)#</code></td><td><code>router ospf 1</code></td><td><code>exit</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:list}} 2. Əmr Siyahısı</h2>
+            <div class="cmd-search-wrap">
+                {{i:search}}
+                <input type="search" id="search-input" class="cmd-search" placeholder="Əmr axtar... (məs. vlan, ospf, parol)" autocomplete="off" spellcheck="false" aria-label="Əmr axtar">
+            </div>
+            <div id="category-nav" class="cmd-chips" role="tablist" aria-label="Kateqoriyalar"></div>
+            <p id="cmd-count" class="text-sm text-neutral-600 mb-3" aria-live="polite"></p>
+            <div id="command-list" class="grid gap-3"></div>
+        </section>
+
+        <section id="tips" class="section-card">
+            <h2 class="section-title">{{i:lightbulb}} 3. CLI Məsləhətləri</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:circle-help}}<p class="text-neutral-700"><code>?</code> — mümkün əmrlər; <code>sh ?</code> — "sh" ilə başlayanlar; <code>show ip ?</code> — növbəti söz.</p></div>
+                <div class="feature-item">{{i:keyboard}}<p class="text-neutral-700"><strong>Tab</strong> — əmri tamamlayır; <strong>↑ / ↓</strong> — tarixçə; <strong>Ctrl+A / Ctrl+E</strong> — sətrin əvvəli/sonu.</p></div>
+                <div class="feature-item">{{i:filter}}<p class="text-neutral-700">Çıxışı filtrləmək: <code>show run | include ip address</code>, <code>| section router</code>, <code>| begin interface</code>.</p></div>
+                <div class="feature-item">{{i:repeat}}<p class="text-neutral-700">Konfiqurasiya rejimindən <code>show</code> işlətmək: <code>do show ip interface brief</code>.</p></div>
+                <div class="feature-item">{{i:ban}}<p class="text-neutral-700"><code>no ip domain-lookup</code> — yazı səhvi olan əmrin DNS kimi axtarılıb terminalı dondurmasının qarşısını alır.</p></div>
+                <div class="feature-item">{{i:save}}<p class="text-neutral-700">Dəyişiklikdən sonra <code>copy running-config startup-config</code> (və ya <code>wr</code>) — əks halda reboot-da itir.</p></div>
+            </div>
+        </section>
+<!--END-->
+<!--FOOT-->
+    <script>
+        const commands = [
+            // General
+            { cmd: 'delete flash:vlan.dat', desc: '`vlan.dat` faylını flash yaddaşdan silir (Switch-də).', cat: 'general' },
+            { cmd: 'erase startup-config', desc: 'Router/Switch üçün başlanğıc konfiqurasiyasını silir.', cat: 'general' },
+            { cmd: 'reload', desc: 'Cihazı yenidən yükləyir.', cat: 'general' },
+            { cmd: 'show clock', desc: 'Cari saat tənzimləmələrini göstərir.', cat: 'show' },
+            { cmd: 'clock set HH:MM:SS Day Month Year', desc: 'Cihazın saatını təyin edir.', cat: 'general' },
+            { cmd: 'hostname <Ad>', desc: 'Cihazın adını təyin edir və ya dəyişdirir.', cat: 'general' },
+            { cmd: 'no ip domain-lookup', desc: 'İstənməyən DNS axtarışlarının qarşısını alır/deaktiv edir.', cat: 'general' },
+            { cmd: 'enable secret <parol>', desc: 'İmtiyazlı EXEC rejimi üçün şifrələnmiş parol təyin edir.', cat: 'general' },
+            { cmd: 'line console 0', desc: 'Konsol portuna daxil olur.', cat: 'general' },
+            { cmd: 'line vty 0 15', desc: 'Virtual terminal (vty) xətlərini konfiqurasiya edir.', cat: 'general' },
+            { cmd: 'service password-encryption', desc: 'Bütün açıq mətn parollarını şifrələyir.', cat: 'general' },
+            { cmd: 'banner motd #<mesaj>#', desc: 'Giriş üçün xəbərdarlıq banneri yaradır.', cat: 'general' },
+            { cmd: 'copy running-config startup-config', desc: 'Cari konfiqurasiyanı başlanğıc konfiqurasiyasına yazır.', cat: 'general' },
+            
+            // Interface
+            { cmd: 'interface <növ><nömrə>', desc: 'Müəyyən bir interfeysə daxil olur.', cat: 'interface' },
+            { cmd: 'ip address <IP> <maska>', desc: 'İnterfeysə IPv4 ünvanı təyin edir.', cat: 'interface' },
+            { cmd: 'ipv6 address <IPv6>/<prefix>', desc: 'İnterfeysə IPv6 ünvanı təyin edir.', cat: 'interface' },
+            { cmd: 'no shutdown', desc: 'İnterfeysi aktivləşdirir.', cat: 'interface' },
+            { cmd: 'shutdown', desc: 'İnterfeysi deaktiv edir.', cat: 'interface' },
+            { cmd: 'description <təsvir>', desc: 'İnterfeysə təsvir əlavə edir.', cat: 'interface' },
+            { cmd: 'clock rate <dəyər>', desc: 'Serial interfeysdə saat dərəcəsini təyin edir (DCE tərəfində).', cat: 'interface' },
+            { cmd: 'encapsulation <növ>', desc: 'İnterfeys üçün kapsulyasiya növünü təyin edir.', cat: 'interface' },
+            { cmd: 'bandwidth <dəyər>', desc: 'İnterfeysin bant genişliyini təyin edir (Kbit/s).', cat: 'interface' },
+            { cmd: 'ip helper-address <server_IP>', desc: 'DHCP və digər xidmətlər üçün helper ünvanı təyin edir.', cat: 'interface' },
+            { cmd: 'ip nat inside', desc: 'NAT daxili interfeys kimi təyin edir.', cat: 'interface' },
+            { cmd: 'ip nat outside', desc: 'NAT xarici interfeys kimi təyin edir.', cat: 'interface' },
+
+            // Routing
+            { cmd: 'router eigrp <AS>', desc: 'EIGRP marşrutlaşdırma protokolunu aktivləşdirir.', cat: 'routing' },
+            { cmd: 'router ospf <ID>', desc: 'OSPF marşrutlaşdırma protokolunu aktivləşdirir.', cat: 'routing' },
+            { cmd: 'router rip', desc: 'RIP marşrutlaşdırma protokolunu aktivləşdirir.', cat: 'routing' },
+            { cmd: 'network <şəbəkə>', desc: 'EIGRP/RIP-də şəbəkələri elan edir.', cat: 'routing' },
+            { cmd: 'network <şəbəkə> <wildcard> area <sahə>', desc: 'OSPF-də şəbəkələri elan edir.', cat: 'routing' },
+            { cmd: 'no auto-summary', desc: 'EIGRP/RIP-də avtomatik xülasəni deaktiv edir.', cat: 'routing' },
+            { cmd: 'passive-interface <interfeys>', desc: 'Müəyyən interfeysdə yeniləmələrin göndərilməsini dayandırır.', cat: 'routing' },
+            { cmd: 'ip route <şəbəkə> <maska> <növbəti_hop>', desc: 'Statik marşrut təyin edir.', cat: 'routing' },
+            { cmd: 'ip route 0.0.0.0 0.0.0.0 <növbəti_hop>', desc: 'Defolt marşrut təyin edir.', cat: 'routing' },
+
+            // Switch
+            { cmd: 'vlan <VLAN_ID>', desc: 'Yeni VLAN yaradır və ya mövcud olana daxil olur.', cat: 'switch' },
+            { cmd: 'name <VLAN_adı>', desc: 'VLAN-a ad verir.', cat: 'switch' },
+            { cmd: 'interface vlan <VLAN_ID>', desc: 'VLAN interfeysinə (SVI) daxil olur.', cat: 'switch' },
+            { cmd: 'ip default-gateway <IP>', desc: 'Switch üçün defolt qapı yolunu konfiqurasiya edir.', cat: 'switch' },
+            { cmd: 'switchport mode access', desc: 'Portu giriş (access) portu kimi təyin edir.', cat: 'switch' },
+            { cmd: 'switchport access vlan <VLAN_ID>', desc: 'Giriş portunu müəyyən bir VLAN-a təyin edir.', cat: 'switch' },
+            { cmd: 'switchport mode trunk', desc: 'Portu trunk portu kimi təyin edir.', cat: 'switch' },
+            { cmd: 'switchport trunk allowed vlan <siyahı>', desc: 'Trunk portunda icazə verilən VLAN-ları təyin edir.', cat: 'switch' },
+            { cmd: 'switchport port-security', desc: 'Port təhlükəsizliyini aktivləşdirir.', cat: 'switch' },
+            { cmd: 'spanning-tree portfast', desc: 'PortFast funksiyasını aktivləşdirir.', cat: 'switch' },
+
+            // Show
+            { cmd: 'show running-config', desc: 'Cari işləyən konfiqurasiyanı göstərir.', cat: 'show' },
+            { cmd: 'show startup-config', desc: 'Başlanğıc konfiqurasiya faylını göstərir.', cat: 'show' },
+            { cmd: 'show version', desc: 'IOS versiyasını və cihaz məlumatlarını göstərir.', cat: 'show' },
+            { cmd: 'show ip interface brief', desc: 'İnterfeyslərin IP ünvanlarını və statusunu qısa şəkildə göstərir.', cat: 'show' },
+            { cmd: 'show interfaces', desc: 'Bütün interfeyslərin ətraflı statistikalarını göstərir.', cat: 'show' },
+            { cmd: 'show ip route', desc: 'IP marşrutlaşdırma cədvəlini göstərir.', cat: 'show' },
+            { cmd: 'show ip eigrp neighbors', desc: 'EIGRP qonşularını göstərir.', cat: 'show' },
+            { cmd: 'show ip ospf neighbor', desc: 'OSPF qonşularını göstərir.', cat: 'show' },
+            { cmd: 'show cdp neighbors detail', desc: 'CDP qonşuları haqqında ətraflı məlumatı göstərir.', cat: 'show' },
+            { cmd: 'show vlan brief', desc: 'VLAN məlumatlarını qısa şəkildə göstərir.', cat: 'show' },
+            { cmd: 'show interface trunk', desc: 'Trunk interfeysləri göstərir.', cat: 'show' },
+            { cmd: 'show mac-address-table', desc: 'MAC ünvan cədvəlini göstərir.', cat: 'show' },
+
+            // Debug
+            { cmd: 'debug ip packet', desc: 'IP paketlərinin debug-unu aktivləşdirir.', cat: 'debug' },
+            { cmd: 'debug ip routing', desc: 'IP marşrutlaşdırma debug-unu aktivləşdirir.', cat: 'debug' },
+            { cmd: 'debug ip eigrp', desc: 'EIGRP debug-unu aktivləşdirir.', cat: 'debug' },
+            { cmd: 'debug ip ospf events', desc: 'OSPF hadisələrinin debug-unu aktivləşdirir.', cat: 'debug' },
+            { cmd: 'undebug all', desc: 'Bütün debug-ları deaktiv edir.', cat: 'debug' },
+
+            // Clear
+            { cmd: 'clear ip route *', desc: 'Bütün IP marşrutlarını təmizləyir.', cat: 'clear' },
+            { cmd: 'clear ip ospf process', desc: 'OSPF prosesini təmizləyir.', cat: 'clear' },
+            { cmd: 'clear ip eigrp neighbors', desc: 'EIGRP qonşuluqlarını təmizləyir.', cat: 'clear' },
+            
+            // VTP
+            { cmd: 'vtp domain <ad>', desc: 'VTP domen adını təyin edir.', cat: 'vtp' },
+            { cmd: 'vtp mode <rejim>', desc: 'VTP rejimini təyin edir (server, client, transparent).', cat: 'vtp' },
+            { cmd: 'vtp password <parol>', desc: 'VTP parolu təyin edir.', cat: 'vtp' },
+            
+            // Other
+            { cmd: 'ip domain-name <ad>', desc: 'Domen adını təyin edir.', cat: 'other' },
+            { cmd: 'ip name-server <IP>', desc: 'DNS server ünvanını təyin edir.', cat: 'other' },
+            { cmd: 'ip dhcp pool <ad>', desc: 'DHCP pool yaradır.', cat: 'other' },
+            { cmd: 'ip dhcp excluded-address <IP>', desc: 'DHCP pool-dan xaric ediləcək ünvanları təyin edir.', cat: 'other' },
+            { cmd: 'access-list <nömrə> permit|deny <şərt>', desc: 'Standart və ya genişləndirilmiş ACL yaradır.', cat: 'other' },
+        ];
+
+        const CATEGORIES = [
+            ['all', 'Hamısı'], ['general', 'Ümumi'], ['interface', 'İnterfeys'], ['routing', 'Marşrutlaşdırma'],
+            ['switch', 'Switch'], ['show', 'Show'], ['debug', 'Debug'], ['clear', 'Clear'], ['vtp', 'VTP'], ['other', 'Digər']
+        ];
+        const commandList = document.getElementById('command-list');
+        const searchInput = document.getElementById('search-input');
+        const categoryNav = document.getElementById('category-nav');
+        let activeCat = 'all';
+
+        const esc = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+        // Təsvirdəki `...` hissələrini kod kimi göstər
+        const fmt = s => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>');
+
+        function renderChips() {
+            categoryNav.innerHTML = CATEGORIES.map(([id, label]) => {
+                const n = id === 'all' ? commands.length : commands.filter(c => c.cat === id).length;
+                return `<button type="button" class="cmd-chip ${id === activeCat ? 'active' : ''}" data-category="${id}" role="tab" aria-selected="${id === activeCat}">${label}<span class="count">${n}</span></button>`;
+            }).join('');
+        }
+
+        function renderCommands() {
+            const term = searchInput.value.trim().toLowerCase();
+            const list = commands.filter(c => (activeCat === 'all' || c.cat === activeCat) &&
+                (!term || c.cmd.toLowerCase().includes(term) || c.desc.toLowerCase().includes(term)));
+            document.getElementById('cmd-count').textContent = `${list.length} əmr göstərilir`;
+            commandList.innerHTML = list.length ? list.map((c, i) => `
+                <div class="cmd-card">
+                    <div class="min-w-0">
+                        <code class="cmd">${esc(c.cmd)}</code>
+                        <p>${fmt(c.desc)}</p>
+                    </div>
+                    <button type="button" class="cmd-copy" data-cmd="${esc(c.cmd)}">Kopyala</button>
+                </div>`).join('') : '<p class="text-neutral-600">Nəticə tapılmadı.</p>';
+        }
+
+        function copyText(text, done) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(done, () => { fallback(); done(); });
+            } else { fallback(); done(); }
+            function fallback() {
+                const a = document.createElement('textarea');
+                a.value = text; a.style.position = 'fixed'; a.style.opacity = '0';
+                document.body.appendChild(a); a.select();
+                try { document.execCommand('copy'); } catch (e) {}
+                a.remove();
+            }
+        }
+
+        commandList.addEventListener('click', e => {
+            const btn = e.target.closest('.cmd-copy');
+            if (!btn) return;
+            copyText(btn.dataset.cmd, () => {
+                btn.textContent = 'Kopyalandı!'; btn.classList.add('done');
+                setTimeout(() => { btn.textContent = 'Kopyala'; btn.classList.remove('done'); }, 2000);
+            });
+        });
+        categoryNav.addEventListener('click', e => {
+            const chip = e.target.closest('.cmd-chip');
+            if (!chip) return;
+            activeCat = chip.dataset.category;
+            renderChips(); renderCommands();
+        });
+        searchInput.addEventListener('input', renderCommands);
+        renderChips(); renderCommands();
+    </script>
+<!--/FOOT-->

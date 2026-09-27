@@ -3,301 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DHCP Snooping Dərs Vəsaiti</title>
+    <title>DHCP Snooping — Dərs Vəsaiti</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Neutral Harmony -->
-    <!-- Application Structure Plan: The SPA is organized into logical sections: Introduction, How it Works, Configuration, Errdisable & Recovery, Verification, and an Overall Scenario. A sticky header provides quick navigation. The Configuration section uses interactive tabs for global, interface-specific (now including rate limiting), and Option 82 commands. Errdisable & Recovery is a new dedicated section explaining the concepts and their configurations. The Verification section is updated with new commands. This modular and interactive design facilitates a structured learning path, allowing users to grasp concepts and immediately apply them through practical commands. The footer includes branding. -->
-    <!-- Visualization & Content Choices:
-        - Report Info: DHCP Snooping definition and purpose -> Goal: Inform -> Viz/Method: Clear textual explanations with headings and bullet points. -> Interaction: Textual consumption. -> Justification: Concepts are best conveyed through precise text.
-        - Report Info: DHCP Snooping trusted/untrusted ports and binding table -> Goal: Inform, Explain Process -> Viz/Method: Textual explanations with conceptual descriptions. -> Interaction: Textual consumption. -> Justification: Explaining a security mechanism's logic is best done through clear, concise text.
-        - Report Info: Configuration Commands (Global, Interface, Option 82, Rate Limiting) -> Goal: Enable Action, Inform -> Viz/Method: Tabbed interface for Configuration (Global/Interface/Option 82) containing code blocks with "Copy" buttons. Rate limiting is integrated into the Interface tab. -> Interaction: Clickable tabs to switch views, one-click copy for commands. -> Justification: Provides a hands-on learning experience, making commands readily available for practice.
-        - Report Info: Errdisable and Errdisable Recovery concepts and commands -> Goal: Inform, Enable Action -> Viz/Method: Dedicated textual sections for explanation, and code blocks for configuration. -> Interaction: Textual consumption and copy commands. -> Justification: These are critical related security features that need clear explanation and practical commands.
-        - Report Info: Verification Commands (including errdisable status) -> Goal: Inform, Guide -> Viz/Method: A list of commands with "Copy" buttons. -> Interaction: One-click copy for commands. -> Justification: Essential for verifying the successful implementation of security features.
-        - Report Info: Overall Scenario -> Goal: Synthesize -> Viz/Method: Concluding textual summary. -> Interaction: Textual consumption. -> Justification: Helps users connect all the learned concepts into a practical workflow.
-        - Library/Method: Vanilla JavaScript for all interactive elements (navigation, tabs, copy functionality), Tailwind CSS for all styling and responsive layout. No charts or complex graphics are needed.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link rel="stylesheet" href="../assets/lesson.css">
     <link rel="stylesheet" href="../assets/theme.css">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #ffffff; /* neutral-50 */
-            color: #171717; /* neutral-800 */
-        }
-        .section-card {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .tab-btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: background-color 0.2s, color 0.2s;
-            cursor: pointer;
-            white-space: nowrap; /* Prevent text wrapping in tabs */
-        }
-        .active-tab {
-            background-color: #f59e0b; /* blue-500 */
-            color: #0a0a0a;
-        }
-        .inactive-tab {
-            background-color: #e5e5e5; /* neutral-200 */
-            color: #404040; /* neutral-600 */
-        }
-        .code-block {
-            background-color: #171717; /* neutral-800 */
-            color: #e5e5e5; /* neutral-200 */
-            border-radius: 0.5rem;
-            padding: 1rem;
-            position: relative;
-            overflow-x: auto; /* For long commands */
-        }
-        .copy-btn {
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            background-color: #404040; /* neutral-600 */
-            color: #ffffff;
-            border: none;
-            padding: 0.25rem 0.75rem;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            font-size: 0.875rem;
-            transition: background-color 0.2s;
-        }
-        .copy-btn:hover {
-            background-color: #737373; /* neutral-500 */
-        }
-        .feature-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
-        .feature-icon {
-            font-size: 1.5rem;
-            margin-right: 0.75rem;
-            color: #d97706; /* emerald-500 */
-        }
-    </style>
 </head>
 <body class="antialiased">
 
     <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-amber-700">DHCP Snooping Dərs Vəsaiti</h1>
-            <div class="flex flex-wrap items-center gap-4 overflow-x-auto pb-2 md:pb-0">
-                <a href="#intro" class="text-neutral-600 hover:text-amber-700 font-medium">Giriş</a>
-                <a href="#how-it-works" class="text-neutral-600 hover:text-amber-700 font-medium">Necə İşləyir</a>
-                <a href="#configuration" class="text-neutral-600 hover:text-amber-700 font-medium">Konfiqurasiya</a>
-                <a href="#errdisable-recovery" class="text-neutral-600 hover:text-amber-700 font-medium">Errdisable & Bərpa</a>
-                <a href="#verification" class="text-neutral-600 hover:text-amber-700 font-medium">Doğrulama</a>
-                <a href="#scenario" class="text-neutral-600 hover:text-amber-700 font-medium">Ümumi Ssenari</a>
-                <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#shield"></use></svg> DHCP Snooping</h1>
+                <span class="lesson-badge">CCNA · Security Fundamentals</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#how-it-works" class="nav-link">Necə işləyir</a>
+                <a href="#configuration" class="nav-link">Konfiqurasiya</a>
+                <a href="#errdisable-recovery" class="nav-link">Errdisable</a>
+                <a href="#verification" class="nav-link">Doğrulama</a>
+                <a href="#scenario" class="nav-link">Ssenari</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
-    <main class="container mx-auto px-6 py-8">
-
-        <section id="intro" class="section-card text-center">
-            <h2 class="text-3xl font-bold mb-4 text-neutral-800">Giriş: DHCP Snooping Nədir?</h2>
-            <p class="text-neutral-600 max-w-3xl mx-auto">
-                DHCP Snooping — Layer 2 switch-lərdə DHCP hücumlarının qarşısını almaq üçün istifadə olunan təhlükəsizlik mexanizmidir. DHCP Spoofing hücumu zamanı hücumçu switch-ə saxta DHCP server kimi qoşulur və istifadəçilərə saxta IP, gateway, DNS verir. DHCP Snooping bunu bloklayır.
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#shield"></use></svg> Giriş: DHCP Snooping Nədir?</h2>
+            <p class="lead">
+                <strong>DHCP Snooping</strong> Layer 2 switch-lərdə DHCP hücumlarının qarşısını alan təhlükəsizlik mexanizmidir. <strong>DHCP spoofing</strong> hücumunda
+                hücumçu saxta DHCP server kimi çıxış edir və istifadəçilərə saxta gateway və DNS verir — bütün trafik onun kompüterindən keçir (man-in-the-middle).
+                Hətta ehtiyatsızlıqla qoşulmuş ev router-i də eyni problemi yaradır. DHCP Snooping belə cavabları bloklayır.
             </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#user-x"></use></svg> Rogue DHCP</h3><p class="text-neutral-700">Saxta server daha tez cavab verir və klientlər onun parametrlərini qəbul edir.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#battery-low"></use></svg> DHCP starvation</h3><p class="text-neutral-700">Hücumçu minlərlə saxta MAC ilə bütün ünvanları "yeyir" — rate limit bunu dayandırır.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#database"></use></svg> Binding table</h3><p>DAI və IP Source Guard üçün etibarlı IP–MAC–port məlumat bazası.</p></div>
+            </div>
         </section>
 
         <section id="how-it-works" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">1. DHCP Snooping Necə İşləyir?</h2>
-            <p class="text-center text-neutral-600 mb-8 max-w-3xl mx-auto">
-                DHCP Snooping, switch portlarını "etibarlı" (trusted) və "etibarsız" (untrusted) olaraq təsnif edərək fəaliyyət göstərir.
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div class="bg-amber-50 p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-semibold text-amber-800 mb-2">Etibarlı (Trusted) Portlar</h3>
-                    <p class="text-neutral-700">
-                        Bu portlar şəbəkədəki qanuni DHCP serverlərinə qoşulur. Etibarlı portlardan gələn bütün DHCP mesajlarına etibar edilir və onlar yoxlanılmadan ötürülür. Adətən, DHCP serverinə və ya digər switch-lərə qoşulan uplink portları etibarlı olaraq konfiqurasiya edilir.
-                    </p>
-                </div>
-                <div class="bg-neutral-100 p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-semibold text-neutral-900 mb-2">Etibarsız (Untrusted) Portlar</h3>
-                    <p class="text-neutral-700">
-                        Bu portlar son istifadəçi cihazlarına qoşulur. Etibarsız portlardan gələn DHCP server mesajları (məsələn, DHCP Offer, DHCP ACK) bloklanır. Yalnız DHCP müştəri mesajlarına (məsələn, DHCP Discover, DHCP Request) icazə verilir. Bu, icazəsiz DHCP serverlərinin şəbəkədə fəaliyyət göstərməsinin qarşısını alır.
-                    </p>
-                </div>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#workflow"></use></svg> 1. DHCP Snooping Necə İşləyir?</h2>
+            <p class="text-neutral-700 mb-6">Switch portları <strong>trusted</strong> (etibarlı) və <strong>untrusted</strong> (etibarsız) kimi təsnif olunur. Snooping aktiv olanda bütün portlar defolt olaraq untrusted-dir.</p>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#shield-check"></use></svg> Trusted portlar</h3><p class="text-neutral-700">Qanuni DHCP serverə və ya digər switch-lərə (uplink) gedən portlar. Bu portlardan gələn bütün DHCP mesajları yoxlanılmadan ötürülür.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#shield-alert"></use></svg> Untrusted portlar</h3><p class="text-neutral-700">Son istifadəçi portları. Bu portlardan gələn <strong>server mesajları</strong> (OFFER, ACK, NAK) atılır; yalnız klient mesajlarına (DISCOVER, REQUEST) icazə verilir.</p></div>
             </div>
-
-            <h3 class="text-2xl font-bold text-neutral-700 mb-4">DHCP Snooping Binding Table</h3>
-            <p class="text-neutral-600 mb-4">
-                DHCP Snooping aktivləşdirildikdə, switch, etibarsız portlardan gələn qanuni DHCP ACK mesajlarını izləyərək bir <strong>DHCP snooping binding table</strong> (bağlama cədvəli) yaradır. Bu cədvəl IP ünvanı, MAC ünvanı, VLAN ID-si, port nömrəsi və kirayə müddəti kimi məlumatları ehtiva edir. Bu cədvəl, sonrakı təhlükəsizlik xüsusiyyətləri (məsələn, Dynamic ARP Inspection, IP Source Guard) üçün əsas rol oynayır.
-            </p>
-            <div class="feature-item">
-                <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#clipboard-list"></use></svg></span>
-                <p class="text-neutral-700"><strong>Cədvəl Məzmunu:</strong> IP ünvanı, MAC ünvanı, VLAN ID, Port, Kirayə müddəti.</p>
-            </div>
-            <div class="feature-item">
-                <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#shield"></use></svg></span>
-                <p class="text-neutral-700"><strong>Təhlükəsizlik:</strong> Yalnız qanuni IP-MAC bağlamalarına icazə verir.</p>
+            <h3 class="text-xl font-bold mb-3">DHCP Snooping Binding Table</h3>
+            <p class="text-neutral-700 mb-4">Switch untrusted portlara gedən qanuni DHCP ACK mesajlarını izləyərək <strong>binding table</strong> yaradır: IP ünvanı, MAC ünvanı, VLAN, port və icarə müddəti. Bu cədvəl <strong>Dynamic ARP Inspection</strong> və <strong>IP Source Guard</strong> üçün əsasdır.</p>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#clipboard-list"></use></svg><p class="text-neutral-700"><strong>Cədvəl məzmunu:</strong> IP, MAC, VLAN ID, port, icarə müddəti.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#shield"></use></svg><p class="text-neutral-700"><strong>Təhlükəsizlik:</strong> yalnız qanuni IP–MAC bağlamalarına etibar edilir.</p></div>
             </div>
         </section>
 
         <section id="configuration" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">2. Konfiqurasiya Əmrləri</h2>
-            <p class="text-center text-neutral-600 mb-8 max-w-3xl mx-auto">
-                DHCP Snooping-i konfiqurasiya etmək üçün əvvəlcə onu qlobal olaraq aktivləşdirmək, sonra isə hər bir VLAN üçün aktivləşdirmək lazımdır. Daha sonra portları etibarlı və ya etibarsız olaraq təyin etmək lazımdır.
-            </p>
-
-            <div class="flex justify-center mb-6 space-x-2" id="config-tabs">
-                <button data-type="global" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 active-tab">Qlobal Konfiqurasiya</button>
-                <button data-type="interface" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">İnterfeys Konfiqurasiyası</button>
-                <button data-type="option82" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">Option 82</button>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#settings"></use></svg> 2. Konfiqurasiya</h2>
+            <p class="text-neutral-700 mb-6">Əvvəlcə DHCP Snooping qlobal, sonra VLAN-lar üçün aktivləşdirilir; ən sonda trusted portlar təyin olunur. <strong>Sıra vacibdir:</strong> uplink-i trust etmədən VLAN-da aktivləşdirsəniz, bütün klientlər ünvan ala bilməz.</p>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="ds-global">Qlobal</button>
+                <button class="tab-btn inactive-tab" data-pane="ds-interface">İnterfeys və rate limit</button>
+                <button class="tab-btn inactive-tab" data-pane="ds-option82">Option 82</button>
             </div>
-
-            <div id="config-commands-content">
-                <div id="global-commands" class="protocol-pane">
-                    <h3 class="text-2xl font-semibold text-neutral-700 mb-4">Qlobal DHCP Snooping Konfiqurasiyası</h3>
-                    <div class="space-y-4">
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                            <pre><code class="language-cisco">Switch(config)# ip dhcp snooping
-Switch(config)# ip dhcp snooping vlan 10,20,30</code></pre>
-                            <p class="text-neutral-400 text-sm mt-2">DHCP Snooping-i qlobal olaraq aktivləşdirir və müəyyən VLAN-lar üçün aktivləşdirir.</p>
-                        </div>
-                    </div>
+            <div id="ds-global">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Switch(config)# ip dhcp snooping
+Switch(config)# ip dhcp snooping vlan 10,20,30
+Switch(config)# ip dhcp snooping database flash:dhcp-snooping.db   ! reboot-dan sonra cədvəl qalsın</code></pre>
+                    <p class="code-note">DHCP Snooping qlobal və seçilmiş VLAN-lar üçün aktivləşir. Binding cədvəlini fayla yazmaq DAI istifadə edəndə vacibdir.</p>
                 </div>
-
-                <div id="interface-commands" class="protocol-pane hidden">
-                    <h3 class="text-2xl font-semibold text-neutral-700 mb-4">İnterfeys Səviyyəsində Konfiqurasiya və Rate Limiting</h3>
-                    <div class="space-y-4">
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                            <pre><code class="language-cisco">Switch(config)# interface GigabitEthernet0/1
+            </div>
+            <div id="ds-interface" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>! DHCP server və ya uplink portu
+Switch(config)# interface GigabitEthernet0/1
 Switch(config-if)# ip dhcp snooping trust
-Switch(config-if)# exit</code></pre>
-                            <p class="text-neutral-400 text-sm mt-2">GigabitEthernet0/1 portunu etibarlı (trusted) edir. DHCP serverin qoşulduğu portlar etibarlı olmalıdır.</p>
-                        </div>
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                            <pre><code class="language-cisco">Switch(config)# interface FastEthernet0/2
-Switch(config-if)# ip dhcp snooping limit rate 15</code></pre>
-                            <p class="text-neutral-400 text-sm mt-2">FastEthernet0/2 portunda (adətən son istifadəçi portu) DHCP paketlərinin sürətini saniyədə 15-lə məhdudlaşdırır. Bu portlar defolt olaraq etibarsızdır.</p>
-                        </div>
-                    </div>
-                </div>
+Switch(config-if)# exit
 
-                <div id="option82-commands" class="protocol-pane hidden">
-                    <h3 class="text-2xl font-semibold text-neutral-700 mb-4">DHCP Snooping Option 82 Konfiqurasiyası</h3>
-                    <p class="text-neutral-600 mb-4">
-                        Option 82, DHCP mesajına agent circuit ID və agent remote ID məlumatlarını əlavə edir. Bu, DHCP serverə sorğunun hansı switch-dən və hansı portdan gəldiyini müəyyən etməyə kömək edir.
-                    </p>
-                    <div class="space-y-4">
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                            <pre><code class="language-cisco">Switch(config)# ip dhcp snooping information option
-Switch(config)# ip dhcp snooping information option allow-untrusted</code></pre>
-                            <p class="text-neutral-400 text-sm mt-2">DHCP snooping information option 82-ni qlobal olaraq aktivləşdirir. İkinci əmr etibarsız portlardan gələn Option 82 məlumatlarını qəbul etməyə icazə verir.</p>
-                        </div>
-                    </div>
+! İstifadəçi portları (defolt untrusted)
+Switch(config)# interface range FastEthernet0/2 - 24
+Switch(config-if-range)# ip dhcp snooping limit rate 15</code></pre>
+                    <p class="code-note">İstifadəçi portlarında DHCP paketlərinin sürəti saniyədə 15-lə məhdudlaşır — starvation hücumu port err-disabled olmaqla dayandırılır.</p>
+                </div>
+            </div>
+            <div id="ds-option82" class="hidden">
+                <p class="text-neutral-700 mb-3"><strong>Option 82</strong> (DHCP relay agent information) DHCP mesajına circuit ID və remote ID əlavə edir — server sorğunun hansı switch və portdan gəldiyini bilir.</p>
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Switch(config)# ip dhcp snooping information option
+Switch(config)# ip dhcp snooping information option allow-untrusted
+! və ya Option 82-ni tamamilə söndürmək:
+Switch(config)# no ip dhcp snooping information option</code></pre>
+                    <p class="code-note">Tipik problem: Cisco switch defolt olaraq Option 82 əlavə edir, Windows DHCP server və ya IOS DHCP isə "giaddr = 0" olan belə paketləri rədd edir. Klientlər ünvan ala bilmirsə — bu ayarı yoxlayın.</p>
                 </div>
             </div>
         </section>
 
         <section id="errdisable-recovery" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">3. Errdisable və Bərpa Mexanizmləri</h2>
-            <p class="text-center text-neutral-600 mb-8 max-w-3xl mx-auto">
-                Şəbəkə təhlükəsizliyi qaydaları pozulduqda və ya müəyyən səhvlər baş verdikdə, switch portları özünü qorumaq üçün <code>err-disabled</code> vəziyyətinə düşə bilər. Bu vəziyyət portu deaktiv edir, lakin fiziki olaraq aktiv görünür.
-            </p>
-
-            <h3 class="text-2xl font-bold text-neutral-700 mb-4">Errdisable Nədir?</h3>
-            <p class="text-neutral-600 mb-4">
-                <code>err-disabled</code> vəziyyəti, switch-in bir portu avtomatik olaraq söndürdüyü bir təhlükəsizlik mexanizmidir. Bu, şəbəkəni potensial zərərli və ya səhv konfiqurasiyadan qorumaq üçün edilir. Port <code>err-disabled</code> vəziyyətinə düşdükdə, heç bir trafik ötürmür.
-            </p>
-            <h4 class="text-xl font-semibold text-neutral-700 mb-2">Əsas Səbəblər:</h4>
-            <ul class="list-disc list-inside text-neutral-700 ml-4 mb-6">
-                <li>DHCP Snooping rate limit pozulması (<code>%DHCP_SNOOPING-5-DHCP_SNOOPING_RATE_LIMIT_EXCEEDED</code>)</li>
-                <li>BPDU Guard ihlalı</li>
-                <li>Port Security ihlalı</li>
-                <li>Loopback aşkarlanması</li>
-                <li>Link-flap (portun tez-tez yuxarı/aşağı düşməsi)</li>
-                <li>Digər təhlükəsizlik xüsusiyyətləri ilə bağlı problemlər</li>
-            </ul>
-
-            <h3 class="text-2xl font-bold text-neutral-700 mb-4">Errdisable Recovery Nədir?</h3>
-            <p class="text-neutral-600 mb-4">
-                <code>errdisable recovery</code> funksiyası <code>err-disabled</code> olmuş portların avtomatik olaraq bərpasını təmin edir. Bu, şəbəkə administratorunun əl ilə müdaxiləsi olmadan portun müəyyən bir müddətdən sonra yenidən aktivləşdirilməsinə imkan verir.
-            </p>
-            <h4 class="text-xl font-semibold text-neutral-700 mb-2">Konfiqurasiya:</h4>
-            <div class="code-block mb-6">
-                <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                <pre><code class="language-cisco">Switch(config)# errdisable recovery cause dhcp-rate-limit
-Switch(config)# errdisable recovery interval 30</code></pre>
-                <p class="text-neutral-400 text-sm mt-2">Bu misalda: DHCP rate limit pozuntusu nəticəsində err-disable olan portlar 30 saniyə sonra avtomatik yenidən aktiv olacaq.</p>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-slash"></use></svg> 3. Errdisable və Bərpa</h2>
+            <p class="text-neutral-700 mb-6"><code>err-disabled</code> — switch-in təhlükəsizlik qaydası pozulduqda portu avtomatik söndürdüyü vəziyyətdir. Port fiziki olaraq qoşulu görünür, amma heç bir trafik ötürmür.</p>
+            <div class="feature-grid mb-6">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#gauge"></use></svg><p class="text-neutral-700">DHCP snooping rate limit (<code>%DHCP_SNOOPING-5-DHCP_SNOOPING_RATE_LIMIT_EXCEEDED</code>)</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#ban"></use></svg><p class="text-neutral-700">BPDU Guard pozuntusu</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#lock-keyhole"></use></svg><p class="text-neutral-700">Port Security pozuntusu</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#repeat"></use></svg><p class="text-neutral-700">Loopback aşkarlanması, link-flap</p></div>
             </div>
-            <p class="text-neutral-600">
-                Siz <code>errdisable recovery cause ?</code> əmrindən istifadə edərək avtomatik bərpa üçün digər səbəbləri də görə bilərsiniz.
-            </p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>Switch(config)# errdisable recovery cause dhcp-rate-limit
+Switch(config)# errdisable recovery interval 30
+Switch(config)# errdisable recovery cause ?        ! bütün səbəblər</code></pre>
+                <p class="code-note">DHCP rate limit səbəbindən err-disabled olan portlar 30 saniyə sonra avtomatik yenidən aktivləşir. Əl ilə: <code>shutdown</code> → <code>no shutdown</code>.</p>
+            </div>
         </section>
 
         <section id="verification" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">4. Doğrulama Əmrləri</h2>
-            <p class="text-center text-neutral-600 mb-8 max-w-3xl mx-auto">
-                DHCP Snooping və Errdisable Recovery konfiqurasiyasından sonra onların düzgün işlədiyini yoxlamaq üçün aşağıdakı əmrlərdən istifadə edə bilərsiniz.
-            </p>
-            <div class="space-y-4">
-                <div class="code-block">
-                    <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                    <pre><code class="language-cisco">show ip dhcp snooping
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg> 4. Doğrulama</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show ip dhcp snooping
 show ip dhcp snooping binding
 show ip dhcp snooping statistics
-show ip dhcp snooping database</code></pre>
-                    <p class="text-neutral-400 text-sm mt-2">DHCP Snooping-in qlobal statusunu, binding cədvəlini, statistikalarını və verilənlər bazasının yerini göstərir.</p>
-                </div>
-                <div class="code-block">
-                    <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                    <pre><code class="language-cisco">show ip dhcp snooping interface FastEthernet0/1</code></pre>
-                    <p class="text-neutral-400 text-sm mt-2">Müəyyən bir interfeysdə DHCP Snooping statusunu göstərir.</p>
-                </div>
-                 <div class="code-block">
-                    <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                    <pre><code class="language-cisco">show interface status err-disabled</code></pre>
-                    <p class="text-neutral-400 text-sm mt-2">Hansı səbəbdən portun <code>err-disabled</code> vəziyyətinə düşdüyünü göstərir.</p>
-                </div>
-                <div class="code-block">
-                    <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                    <pre><code class="language-cisco">show errdisable recovery</code></pre>
-                    <p class="text-neutral-400 text-sm mt-2">Errdisable recovery statusunu və tənzimlənmiş səbəbləri göstərir.</p>
-                </div>
+show ip dhcp snooping database
+show ip dhcp snooping interface FastEthernet0/1
+show interfaces status err-disabled
+show errdisable recovery</code></pre>
+                <p class="code-note">Qlobal status, trusted portlar və rate limit-lər, binding cədvəli, statistika (atılan paketlər), err-disabled portlar və avtomatik bərpa ayarları.</p>
             </div>
         </section>
 
-        <section id="scenario" class="section-card text-center">
-            <h2 class="text-3xl font-bold mb-4 text-neutral-800">5. Ümumi Ssenari</h2>
-            <p class="text-neutral-600 max-w-3xl mx-auto">
-                Bu funksiyaların birgə işləməsi üçün tipik bir ssenari:
-            </p>
-            <ul class="list-disc list-inside text-neutral-700 text-left mx-auto max-w-2xl">
-                <li>DHCP snooping qlobal olaraq aktivləşdirilir.</li>
-                <li>DHCP serverin qoşulduğu port <code>ip dhcp snooping trust</code> əmri ilə etibarlı seçilir.</li>
-                <li>Digər portlara (son istifadəçi portları) <code>ip dhcp snooping limit rate</code> əmri ilə rate limit tətbiq olunur.</li>
-                <li>Əgər bir portda rate limit pozulsa, həmin port <code>err-disabled</code> vəziyyətinə düşür.</li>
-                <li><code>errdisable recovery cause dhcp-rate-limit</code> və <code>errdisable recovery interval</code> əmrləri vasitəsilə port müəyyən müddətdən sonra avtomatik bərpa olunur.</li>
-            </ul>
+        <section id="scenario" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#clipboard-list"></use></svg> 5. Tam Ssenari</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">DHCP snooping qlobal və istifadəçi VLAN-ları üçün aktivləşdirilir.</p></li>
+                <li><p class="text-neutral-700">DHCP serverə gedən və uplink portlar <code>ip dhcp snooping trust</code> ilə etibarlı edilir.</p></li>
+                <li><p class="text-neutral-700">İstifadəçi portlarına <code>ip dhcp snooping limit rate</code> tətbiq olunur.</p></li>
+                <li><p class="text-neutral-700">Rate limit pozulan port <code>err-disabled</code> olur və <code>errdisable recovery</code> ilə müəyyən müddətdən sonra bərpa edilir.</p></li>
+                <li><p class="text-neutral-700">Binding table əsasında <strong>Dynamic ARP Inspection</strong> (<code>ip arp inspection vlan 10</code>) aktivləşdirilir — ARP spoofing də bloklanır.</p></li>
+            </ol>
+            <div class="note-box">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#lightbulb"></use></svg>
+                <p class="text-neutral-800">DAI və IP Source Guard haqqında ətraflı: <a class="font-semibold underline" href="l2-security.html">Layer 2 Təhlükəsizliyi</a> dərsi.</p>
+            </div>
         </section>
-
     </main>
 
     <footer class="brand-footer">
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
@@ -324,77 +186,8 @@ show ip dhcp snooping database</code></pre>
         </div>
     </footer>
 
-    <script>
-        // Smooth scroll for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Generic tab functionality
-        function setupTabs(tabContainerId, contentContainerId, initialTabDataType) {
-            const tabsContainer = document.getElementById(tabContainerId);
-            const contentContainer = document.getElementById(contentContainerId);
-
-            if (!tabsContainer || !contentContainer) return; // Exit if elements not found
-
-            tabsContainer.addEventListener('click', (event) => {
-                if (event.target.classList.contains('tab-btn')) {
-                    const targetType = event.target.dataset.type;
-
-                    tabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
-                        btn.classList.remove('active-tab');
-                        btn.classList.add('inactive-tab');
-                    });
-                    event.target.classList.add('active-tab');
-                    event.target.classList.remove('inactive-tab');
-
-                    contentContainer.querySelectorAll('.protocol-pane').forEach(pane => {
-                        if (pane.id === `${targetType}-commands`) {
-                            pane.classList.remove('hidden');
-                        } else {
-                            pane.classList.add('hidden');
-                        }
-                    });
-                }
-            });
-
-            // Initialize active tab on load
-            const initialTabBtn = tabsContainer.querySelector(`.tab-btn[data-type="${initialTabDataType}"]`);
-            if (initialTabBtn) {
-                initialTabBtn.click();
-            }
-        }
-
-        // Setup tabs for Configuration section
-        setupTabs('config-tabs', 'config-commands-content', 'global');
-
-        // Copy functionality for code blocks
-        function copyCode(button) {
-            const pre = button.nextElementSibling;
-            const code = pre.querySelector('code');
-            const textToCopy = code.innerText;
-
-            const textArea = document.createElement('textarea');
-            textArea.value = textToCopy;
-            document.body.appendChild(textArea);
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                button.innerText = 'Kopyalandı!';
-                setTimeout(() => {
-                    button.innerText = 'Kopyala';
-                }, 2000);
-            } catch (err) {
-                console.error('Kopyalama uğursuz oldu', err);
-            }
-            document.body.removeChild(textArea);
-        }
-    </script>
+    <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>
 </html>
+

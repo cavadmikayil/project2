@@ -1,0 +1,122 @@
+<!--PAGE title="DHCP Snooping" icon="shield" badge="CCNA · Security Fundamentals" nav="intro:Giriş|how-it-works:Necə işləyir|configuration:Konfiqurasiya|errdisable-recovery:Errdisable|verification:Doğrulama|scenario:Ssenari"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:shield}} Giriş: DHCP Snooping Nədir?</h2>
+            <p class="lead">
+                <strong>DHCP Snooping</strong> Layer 2 switch-lərdə DHCP hücumlarının qarşısını alan təhlükəsizlik mexanizmidir. <strong>DHCP spoofing</strong> hücumunda
+                hücumçu saxta DHCP server kimi çıxış edir və istifadəçilərə saxta gateway və DNS verir — bütün trafik onun kompüterindən keçir (man-in-the-middle).
+                Hətta ehtiyatsızlıqla qoşulmuş ev router-i də eyni problemi yaradır. DHCP Snooping belə cavabları bloklayır.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:user-x}} Rogue DHCP</h3><p class="text-neutral-700">Saxta server daha tez cavab verir və klientlər onun parametrlərini qəbul edir.</p></div>
+                <div class="info-card"><h3>{{i:battery-low}} DHCP starvation</h3><p class="text-neutral-700">Hücumçu minlərlə saxta MAC ilə bütün ünvanları "yeyir" — rate limit bunu dayandırır.</p></div>
+                <div class="info-card dark"><h3>{{i:database}} Binding table</h3><p>DAI və IP Source Guard üçün etibarlı IP–MAC–port məlumat bazası.</p></div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="section-card">
+            <h2 class="section-title">{{i:workflow}} 1. DHCP Snooping Necə İşləyir?</h2>
+            <p class="text-neutral-700 mb-6">Switch portları <strong>trusted</strong> (etibarlı) və <strong>untrusted</strong> (etibarsız) kimi təsnif olunur. Snooping aktiv olanda bütün portlar defolt olaraq untrusted-dir.</p>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3>{{i:shield-check}} Trusted portlar</h3><p class="text-neutral-700">Qanuni DHCP serverə və ya digər switch-lərə (uplink) gedən portlar. Bu portlardan gələn bütün DHCP mesajları yoxlanılmadan ötürülür.</p></div>
+                <div class="info-card"><h3>{{i:shield-alert}} Untrusted portlar</h3><p class="text-neutral-700">Son istifadəçi portları. Bu portlardan gələn <strong>server mesajları</strong> (OFFER, ACK, NAK) atılır; yalnız klient mesajlarına (DISCOVER, REQUEST) icazə verilir.</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">DHCP Snooping Binding Table</h3>
+            <p class="text-neutral-700 mb-4">Switch untrusted portlara gedən qanuni DHCP ACK mesajlarını izləyərək <strong>binding table</strong> yaradır: IP ünvanı, MAC ünvanı, VLAN, port və icarə müddəti. Bu cədvəl <strong>Dynamic ARP Inspection</strong> və <strong>IP Source Guard</strong> üçün əsasdır.</p>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:clipboard-list}}<p class="text-neutral-700"><strong>Cədvəl məzmunu:</strong> IP, MAC, VLAN ID, port, icarə müddəti.</p></div>
+                <div class="feature-item">{{i:shield}}<p class="text-neutral-700"><strong>Təhlükəsizlik:</strong> yalnız qanuni IP–MAC bağlamalarına etibar edilir.</p></div>
+            </div>
+        </section>
+
+        <section id="configuration" class="section-card">
+            <h2 class="section-title">{{i:settings}} 2. Konfiqurasiya</h2>
+            <p class="text-neutral-700 mb-6">Əvvəlcə DHCP Snooping qlobal, sonra VLAN-lar üçün aktivləşdirilir; ən sonda trusted portlar təyin olunur. <strong>Sıra vacibdir:</strong> uplink-i trust etmədən VLAN-da aktivləşdirsəniz, bütün klientlər ünvan ala bilməz.</p>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="ds-global">Qlobal</button>
+                <button class="tab-btn inactive-tab" data-pane="ds-interface">İnterfeys və rate limit</button>
+                <button class="tab-btn inactive-tab" data-pane="ds-option82">Option 82</button>
+            </div>
+            <div id="ds-global">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Switch(config)# ip dhcp snooping
+Switch(config)# ip dhcp snooping vlan 10,20,30
+Switch(config)# ip dhcp snooping database flash:dhcp-snooping.db   ! reboot-dan sonra cədvəl qalsın</code></pre>
+                    <p class="code-note">DHCP Snooping qlobal və seçilmiş VLAN-lar üçün aktivləşir. Binding cədvəlini fayla yazmaq DAI istifadə edəndə vacibdir.</p>
+                </div>
+            </div>
+            <div id="ds-interface" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>! DHCP server və ya uplink portu
+Switch(config)# interface GigabitEthernet0/1
+Switch(config-if)# ip dhcp snooping trust
+Switch(config-if)# exit
+
+! İstifadəçi portları (defolt untrusted)
+Switch(config)# interface range FastEthernet0/2 - 24
+Switch(config-if-range)# ip dhcp snooping limit rate 15</code></pre>
+                    <p class="code-note">İstifadəçi portlarında DHCP paketlərinin sürəti saniyədə 15-lə məhdudlaşır — starvation hücumu port err-disabled olmaqla dayandırılır.</p>
+                </div>
+            </div>
+            <div id="ds-option82" class="hidden">
+                <p class="text-neutral-700 mb-3"><strong>Option 82</strong> (DHCP relay agent information) DHCP mesajına circuit ID və remote ID əlavə edir — server sorğunun hansı switch və portdan gəldiyini bilir.</p>
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Switch(config)# ip dhcp snooping information option
+Switch(config)# ip dhcp snooping information option allow-untrusted
+! və ya Option 82-ni tamamilə söndürmək:
+Switch(config)# no ip dhcp snooping information option</code></pre>
+                    <p class="code-note">Tipik problem: Cisco switch defolt olaraq Option 82 əlavə edir, Windows DHCP server və ya IOS DHCP isə "giaddr = 0" olan belə paketləri rədd edir. Klientlər ünvan ala bilmirsə — bu ayarı yoxlayın.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="errdisable-recovery" class="section-card">
+            <h2 class="section-title">{{i:circle-slash}} 3. Errdisable və Bərpa</h2>
+            <p class="text-neutral-700 mb-6"><code>err-disabled</code> — switch-in təhlükəsizlik qaydası pozulduqda portu avtomatik söndürdüyü vəziyyətdir. Port fiziki olaraq qoşulu görünür, amma heç bir trafik ötürmür.</p>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:gauge}}<p class="text-neutral-700">DHCP snooping rate limit (<code>%DHCP_SNOOPING-5-DHCP_SNOOPING_RATE_LIMIT_EXCEEDED</code>)</p></div>
+                <div class="feature-item">{{i:ban}}<p class="text-neutral-700">BPDU Guard pozuntusu</p></div>
+                <div class="feature-item">{{i:lock-keyhole}}<p class="text-neutral-700">Port Security pozuntusu</p></div>
+                <div class="feature-item">{{i:repeat}}<p class="text-neutral-700">Loopback aşkarlanması, link-flap</p></div>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>Switch(config)# errdisable recovery cause dhcp-rate-limit
+Switch(config)# errdisable recovery interval 30
+Switch(config)# errdisable recovery cause ?        ! bütün səbəblər</code></pre>
+                <p class="code-note">DHCP rate limit səbəbindən err-disabled olan portlar 30 saniyə sonra avtomatik yenidən aktivləşir. Əl ilə: <code>shutdown</code> → <code>no shutdown</code>.</p>
+            </div>
+        </section>
+
+        <section id="verification" class="section-card">
+            <h2 class="section-title">{{i:circle-check}} 4. Doğrulama</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show ip dhcp snooping
+show ip dhcp snooping binding
+show ip dhcp snooping statistics
+show ip dhcp snooping database
+show ip dhcp snooping interface FastEthernet0/1
+show interfaces status err-disabled
+show errdisable recovery</code></pre>
+                <p class="code-note">Qlobal status, trusted portlar və rate limit-lər, binding cədvəli, statistika (atılan paketlər), err-disabled portlar və avtomatik bərpa ayarları.</p>
+            </div>
+        </section>
+
+        <section id="scenario" class="section-card">
+            <h2 class="section-title">{{i:clipboard-list}} 5. Tam Ssenari</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">DHCP snooping qlobal və istifadəçi VLAN-ları üçün aktivləşdirilir.</p></li>
+                <li><p class="text-neutral-700">DHCP serverə gedən və uplink portlar <code>ip dhcp snooping trust</code> ilə etibarlı edilir.</p></li>
+                <li><p class="text-neutral-700">İstifadəçi portlarına <code>ip dhcp snooping limit rate</code> tətbiq olunur.</p></li>
+                <li><p class="text-neutral-700">Rate limit pozulan port <code>err-disabled</code> olur və <code>errdisable recovery</code> ilə müəyyən müddətdən sonra bərpa edilir.</p></li>
+                <li><p class="text-neutral-700">Binding table əsasında <strong>Dynamic ARP Inspection</strong> (<code>ip arp inspection vlan 10</code>) aktivləşdirilir — ARP spoofing də bloklanır.</p></li>
+            </ol>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">DAI və IP Source Guard haqqında ətraflı: <a class="font-semibold underline" href="l2-security.html">Layer 2 Təhlükəsizliyi</a> dərsi.</p>
+            </div>
+        </section>
+<!--END-->

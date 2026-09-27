@@ -360,4 +360,10 @@
 <symbol id="waves" viewBox="0 0 24 24"><path d="M2 12q2.5 2 5 0t5 0 5 0 5 0" /> <path d="M2 19q2.5 2 5 0t5 0 5 0 5 0" /> <path d="M2 5q2.5 2 5 0t5 0 5 0 5 0" /></symbol>
 <symbol id="webhook" viewBox="0 0 24 24"><path d="M18 16.98h-5.99c-1.1 0-1.95.94-2.48 1.9A4 4 0 0 1 2 17c.01-.7.2-1.4.57-2" /> <path d="m6 17 3.13-5.78c.53-.97.1-2.18-.5-3.1a4 4 0 1 1 6.89-4.06" /> <path d="m12 6 3.13 5.73C15.66 12.7 16.9 13 18 13a4 4 0 0 1 0 8" /></symbol>
 <symbol id="chart-no-axes-column-increasing" viewBox="0 0 24 24"><path d="M5 21v-6" /> <path d="M12 21V9" /> <path d="M19 21V3" /></symbol>
+<symbol id="asterisk" viewBox="0 0 24 24"><path d="M12 5v14" /> <path d="m18.065 8.496-12.125 7" /> <path d="m5.94 8.504 12.125 7" /></symbol>
+<symbol id="battery-low" viewBox="0 0 24 24"><path d="M22 14v-4" /> <path d="M6 14v-4" /> <rect x="2" y="6" width="16" height="12" rx="2" /></symbol>
+<symbol id="battery-warning" viewBox="0 0 24 24"><path d="M10 17h.01" /> <path d="M10 7v6" /> <path d="M14 6h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2" /> <path d="M22 14v-4" /> <path d="M6 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2" /></symbol>
+<symbol id="circle-slash" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /> <line x1="9" x2="15" y1="15" y2="9" /></symbol>
+<symbol id="fuel" viewBox="0 0 24 24"><path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 4 0v-6.998a2 2 0 0 0-.59-1.42L18 5" /> <path d="M14 21V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v16" /> <path d="M2 21h13" /> <path d="M3 9h11" /></symbol>
+<symbol id="turtle" viewBox="0 0 24 24"><path d="m12 10 2 4v3a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-3a8 8 0 1 0-16 0v3a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-3l2-4h4Z" /> <path d="M4.82 7.9 8 10" /> <path d="M15.18 7.9 12 10" /> <path d="M16.93 10H20a2 2 0 0 1 0 4H2" /></symbol>
 </svg>

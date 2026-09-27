@@ -1,0 +1,183 @@
+<!--PAGE title="Power Supply" icon="plug-zap" badge="CCNA · Network Fundamentals" nav="intro:Giriş|units:Volt, Amper, Watt|generator:Generator|ups:UPS|stabilizer:Stabilizator|practice:Praktika|summary:Xülasə"-->
+<!--HEAD-->
+    <style>
+        .formula { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1.35rem; font-weight: 700; text-align: center; padding: 1rem; border-radius: 0.75rem; background: #0a0a0a; color: #fbbf24; }
+        .formula small { display: block; font-size: 0.85rem; font-weight: 500; color: #d4d4d4; margin-top: 0.25rem; font-family: Inter, sans-serif; }
+        .flow { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem; }
+        .flow span { padding: 0.5rem 0.9rem; border-radius: 0.6rem; background: #fef3c7; color: #78350f; font-weight: 600; }
+        .flow .icon { color: #d97706; }
+        body.dark-mode .flow span { background: #2a2113; color: #fbbf24; }
+        .total-row td { font-weight: 700; background: #fffbeb; }
+        body.dark-mode .total-row td { background: #2a2113; }
+    </style>
+<!--/HEAD-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:plug-zap}} Giriş: Elektrik Təchizatı Sistemləri</h2>
+            <p class="lead">
+                Ən yaxşı server və switch belə elektrik olmadan dəyərsizdir. Qəfil kəsilmə diskdəki məlumatı zədələyir, gərginlik sıçrayışı
+                power supply-ı yandırır, aşağı gərginlik isə cihazların təsadüfi yenidən başlamasına səbəb olur. Bu dərsdə IT mütəxəssisinin
+                bilməli olduğu əsas elektrik anlayışlarını və qoruma avadanlıqlarını öyrənirik.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:battery}} Anlayışlar</h3><p class="text-neutral-700">Volt, Amper, Watt və VA — güc hesablamasının əsası.</p></div>
+                <div class="info-card"><h3>{{i:shield-check}} Qoruma</h3><p class="text-neutral-700">Generator, UPS və stabilizator — hər biri fərqli problemi həll edir.</p></div>
+                <div class="info-card dark"><h3>{{i:triangle-alert}} Diqqət</h3><p>Etibarlı elektrik təchizatı olmadan heç bir IT sistemi etibarlı işləyə bilməz.</p></div>
+            </div>
+        </section>
+
+        <section id="units" class="section-card">
+            <h2 class="section-title">{{i:zap}} 1. Volt, Amper və Watt</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>{{i:battery}} Volt (V) — gərginlik</h3><p class="text-neutral-700">Elektronları "itələyən" təzyiq. Ev şəbəkəsi 220–230 V AC; kompüter PSU-su bunu 12 V, 5 V, 3.3 V DC-yə çevirir.</p></div>
+                <div class="info-card"><h3>{{i:activity}} Amper (A) — cərəyan</h3><p class="text-neutral-700">Dövrədən keçən cərəyanın miqdarı. Avtomat açarlar (məs. 16 A) və kabel kəsiyi buna görə seçilir.</p></div>
+                <div class="info-card accent"><h3>{{i:lightbulb}} Watt (W) — güc</h3><p class="text-neutral-700">Sərf olunan enerjinin sürəti. Hesab (kWh) və istilik (soyutma) watt ilə hesablanır.</p></div>
+            </div>
+            <div class="formula mb-6">W = V × A<small>Watt = Volt × Amper &nbsp;·&nbsp; A = W / V &nbsp;·&nbsp; V = W / A</small></div>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Mənbə / cihaz</th><th>Gərginlik</th><th>Tipik cərəyan / güc</th></tr></thead>
+                    <tbody>
+                        <tr><td>Ev və ofis şəbəkəsi</td><td>220–230 V AC</td><td>Rozetka adətən 16 A</td></tr>
+                        <tr><td>Kompüter (orta)</td><td>220 V</td><td>1–2 A (200–400 W)</td></tr>
+                        <tr><td>Server</td><td>220 V</td><td>2–5 A (400–1100 W)</td></tr>
+                        <tr><td>LED monitor</td><td>220 V</td><td>0.1–0.3 A (20–60 W)</td></tr>
+                        <tr><td>USB</td><td>5 V DC (PD ilə 20 V-a qədər)</td><td>0.5–5 A</td></tr>
+                        <tr><td>PoE switch portu</td><td>~48–57 V DC</td><td>15.4–90 W</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Komponent</th><th>Təxmini güc</th><th>Komponent</th><th>Təxmini güc</th></tr></thead>
+                    <tbody>
+                        <tr><td>CPU (masaüstü)</td><td>65–125 W</td><td>SSD</td><td>2–5 W</td></tr>
+                        <tr><td>Video kart (orta)</td><td>120–250 W</td><td>HDD</td><td>5–10 W</td></tr>
+                        <tr><td>RAM (16 GB)</td><td>5–10 W</td><td>Anakart</td><td>20–40 W</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:calculator}}
+                <p class="text-neutral-800"><strong>PSU seçimi:</strong> komponentlərin ümumi gücünə 20–30% ehtiyat əlavə edin — 400 W sistem üçün 500–600 W PSU. <strong>80 PLUS</strong> sertifikatı (Bronze → Titanium) səmərəliliyi göstərir: az istilik, az hesab.</p>
+            </div>
+        </section>
+
+        <section id="generator" class="section-card">
+            <h2 class="section-title">{{i:factory}} 2. Generator</h2>
+            <p class="text-neutral-700 mb-4">Generator mexaniki enerjini elektrik enerjisinə çevirir və uzunmüddətli kəsilmələrdə — saatlar, günlər — enerji verir.</p>
+            <div class="flow mb-6"><span>Yanacaq</span>{{i:arrow-right}}<span>Mühərrik</span>{{i:arrow-right}}<span>Alternator</span>{{i:arrow-right}}<span>Elektrik</span></div>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Obyekt</th><th>Güc</th><th>Yanacaq</th><th>Məqsəd</th></tr></thead>
+                    <tbody>
+                        <tr><td>Kiçik ofis</td><td>5–15 kVA</td><td>Benzin/dizel</td><td>Qısa kəsilmələr</td></tr>
+                        <tr><td>Orta ofis</td><td>20–100 kVA</td><td>Dizel</td><td>Uzunmüddətli ehtiyat</td></tr>
+                        <tr><td>Data mərkəzi</td><td>500+ kVA</td><td>Dizel / qaz</td><td>24/7 ehtiyat güc, N+1</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:power}}<p class="text-neutral-700"><strong>ATS</strong> (Automatic Transfer Switch) — şəbəkə kəsiləndə generatoru avtomatik işə salıb yükü ona keçirir.</p></div>
+                <div class="feature-item">{{i:timer}}<p class="text-neutral-700"><strong>Start vaxtı</strong> 10–30 saniyədir — bu boşluğu UPS doldurur.</p></div>
+                <div class="feature-item">{{i:fuel}}<p class="text-neutral-700"><strong>Yanacaq ehtiyatı</strong>, səs-küy, havalandırma və müntəzəm test (ayda bir yük altında).</p></div>
+            </div>
+        </section>
+
+        <section id="ups" class="section-card">
+            <h2 class="section-title">{{i:battery-charging}} 3. UPS — Fasiləsiz Enerji Təchizatı</h2>
+            <p class="text-neutral-700 mb-6"><strong>UPS</strong> (Uninterruptible Power Supply) kəsilmə anında batareyadan dərhal enerji verir: serverlərin düzgün söndürülməsi və ya generatorun işə düşməsi üçün vaxt qazandırır.</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Necə işləyir</th><th>Keçid vaxtı</th><th>Harada</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Standby (offline)</strong></td><td>Normalda şəbəkədən, kəsilmədə batareyaya keçir</td><td>~5–12 ms</td><td>Fərdi kompüter</td></tr>
+                        <tr><td><strong>Line-interactive</strong></td><td>+ AVR: kiçik gərginlik dəyişmələrini batareyasız düzəldir</td><td>~2–4 ms</td><td>Ofis, kiçik server, switch</td></tr>
+                        <tr><td><strong>Online (double conversion)</strong></td><td>AC → DC → AC daim; çıxış həmişə təmizdir</td><td>0 ms</td><td>Server otağı, data mərkəzi</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:calculator}}<p class="text-neutral-700"><strong>VA və W:</strong> VA = W / power factor. Köhnə UPS-lərdə PF ~0.6–0.7, müasirlərdə ~0.9–1.0. 400 W yük üçün ən azı 600–700 VA.</p></div>
+                <div class="feature-item">{{i:clock}}<p class="text-neutral-700"><strong>Backup müddəti</strong> növdən yox, batareya tutumundan və yükdən asılıdır — istehsalçının runtime cədvəlinə baxın.</p></div>
+                <div class="feature-item">{{i:cable}}<p class="text-neutral-700"><strong>İdarəetmə kartı</strong> (SNMP/USB): batareya bitmədən serverlərə avtomatik "shutdown" əmri.</p></div>
+                <div class="feature-item">{{i:battery-warning}}<p class="text-neutral-700"><strong>Batareya ömrü</strong> 3–5 ildir; ildə bir dəfə runtime testi edin.</p></div>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Sistem</th><th>UPS gücü</th><th>Tövsiyə olunan növ</th></tr></thead>
+                    <tbody>
+                        <tr><td>Fərdi kompüter</td><td>600–1000 VA</td><td>Standby / line-interactive</td></tr>
+                        <tr><td>Kiçik server, şəbəkə rack-ı</td><td>1500–3000 VA</td><td>Line-interactive / online</td></tr>
+                        <tr><td>Data mərkəzi</td><td>10 kVA+</td><td>Online, N+1</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="stabilizer" class="section-card">
+            <h2 class="section-title">{{i:chart-column}} 4. Stabilizator (AVR)</h2>
+            <p class="text-neutral-700 mb-4">Stabilizator dəyişkən şəbəkə gərginliyini (məs. 170–260 V) sabit 220 V-a gətirir. Kəsilmədən qorumur — bunun üçün UPS lazımdır.</p>
+            <div class="flow mb-6"><span>Dəyişkən giriş</span>{{i:arrow-right}}<span>Tənzimləmə</span>{{i:arrow-right}}<span>Sabit çıxış</span></div>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>Relay tipli</h3><p class="text-neutral-700">Ucuz, pilləli tənzimləmə, klik səsi; dəqiqlik ~±8–10%.</p></div>
+                <div class="info-card"><h3>Servo tipli</h3><p class="text-neutral-700">Mühərrikli, dəqiq (~±1–3%), amma nisbətən yavaş reaksiya.</p></div>
+                <div class="info-card accent"><h3>Elektron (tiristor/triak)</h3><p class="text-neutral-700">Səssiz və sürətli (millisaniyələr), dəqiqlik ~±2–5%.</p></div>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:arrow-left-right}}<p class="text-neutral-700"><strong>Giriş diapazonu</strong> (məs. 150–280 V) — regionun şəbəkəsinə uyğun seçilməlidir.</p></div>
+                <div class="feature-item">{{i:target}}<p class="text-neutral-700"><strong>Çıxış dəqiqliyi</strong> və <strong>reaksiya vaxtı</strong>.</p></div>
+                <div class="feature-item">{{i:shield-alert}}<p class="text-neutral-700"><strong>Həddindən artıq yük</strong> və qısa qapanma qoruması; gücü yükdən 25–30% çox seçin.</p></div>
+            </div>
+        </section>
+
+        <section id="practice" class="section-card">
+            <h2 class="section-title">{{i:wrench}} 5. Praktik Nümunə: 20 Kompüterli Ofis</h2>
+            <div class="flow mb-6"><span>Şəbəkə / Generator (ATS)</span>{{i:arrow-right}}<span>Stabilizator</span>{{i:arrow-right}}<span>UPS</span>{{i:arrow-right}}<span>IT avadanlıqları</span></div>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Avadanlıq</th><th>Say</th><th>Vahid güc</th><th>Ümumi</th></tr></thead>
+                    <tbody>
+                        <tr><td>Kompüter</td><td>20</td><td>300 W</td><td>6 000 W</td></tr>
+                        <tr><td>Monitor</td><td>20</td><td>40 W</td><td>800 W</td></tr>
+                        <tr><td>Server</td><td>2</td><td>600 W</td><td>1 200 W</td></tr>
+                        <tr><td>Switch, router, Wi-Fi</td><td>—</td><td>—</td><td>500 W</td></tr>
+                        <tr class="total-row"><td colspan="3">CƏMİ</td><td>8.5 kW</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:server}}<p class="text-neutral-700"><strong>UPS:</strong> bütün ofis yerinə tez-tez yalnız server və şəbəkə rack-ı (≈1.7 kW) üçün 3 kVA online UPS — kompüterlər üçün fərdi 800 VA UPS-lər.</p></div>
+                <div class="feature-item">{{i:chart-column}}<p class="text-neutral-700"><strong>Stabilizator:</strong> ~12 kVA (8.5 kW + 25–30% ehtiyat).</p></div>
+                <div class="feature-item">{{i:factory}}<p class="text-neutral-700"><strong>Generator:</strong> ~15 kVA dizel + ATS — kondisionerlər və işıqlandırma da qoşulacaqsa, daha böyük.</p></div>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Hər watt həm də <strong>istilikdir</strong>: 1.7 kW-lıq rack ~5 800 BTU/saat istilik verir (1 W ≈ 3.41 BTU/h) — server otağının kondisioneri buna görə seçilir.</p>
+            </div>
+        </section>
+
+        <section id="summary" class="section-card">
+            <h2 class="section-title">{{i:notebook-pen}} 6. Xülasə</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>Volt</h3><p class="text-neutral-700">Gərginlik · V = W / A</p></div>
+                <div class="info-card"><h3>Amper</h3><p class="text-neutral-700">Cərəyan · A = W / V</p></div>
+                <div class="info-card accent"><h3>Watt</h3><p class="text-neutral-700">Güc · W = V × A</p></div>
+            </div>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Avadanlıq</th><th>Nədən qoruyur</th><th>Müddət</th></tr></thead>
+                    <tbody>
+                        <tr><td>Stabilizator</td><td>Aşağı/yüksək gərginlik</td><td>—</td></tr>
+                        <tr><td>UPS</td><td>Kəsilmə, qısa dalğalanma (online — hamısı)</td><td>Dəqiqələr</td></tr>
+                        <tr><td>Generator</td><td>Uzunmüddətli kəsilmə</td><td>Saatlar–günlər</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:calculator}}<p class="text-neutral-700">Avadanlıqların güc istehlakını hesablaya bilmək.</p></div>
+                <div class="feature-item">{{i:battery-charging}}<p class="text-neutral-700">Uyğun UPS və stabilizator seçmək.</p></div>
+                <div class="feature-item">{{i:workflow}}<p class="text-neutral-700">Elektrik təchizat sxemini qurmaq.</p></div>
+                <div class="feature-item">{{i:shield-alert}}<p class="text-neutral-700">Elektrik təhlükəsizliyi qaydalarına riayət etmək — gərginlik altında işləməmək.</p></div>
+            </div>
+        </section>
+<!--END-->

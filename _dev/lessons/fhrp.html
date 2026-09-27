@@ -1,0 +1,102 @@
+<!--PAGE title="HSRP və VRRP (FHRP)" icon="life-buoy" badge="CCNA · IP Connectivity" nav="intro:Giriş|how:Necə işləyir|compare:Müqayisə|states:Vəziyyətlər|commands:Əmrlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:life-buoy}} Giriş: FHRP Nədir?</h2>
+            <p class="lead">
+                Kompüterlərdə bir <strong>default gateway</strong> yazılır. O router sıradan çıxsa, bütün VLAN internetsiz qalır — ikinci router olsa belə.
+                <strong>First Hop Redundancy Protocol</strong> (FHRP) bu problemi həll edir: bir neçə router ortaq <strong>virtual IP</strong> və <strong>virtual MAC</strong>
+                paylaşır; aktiv router nasaz olanda ehtiyat router onun yerini alır və istifadəçilər heç nə hiss etmir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>HSRP</h3><p class="text-neutral-700">Cisco-ya məxsus, ən geniş yayılmış.</p></div>
+                <div class="info-card"><h3>VRRP</h3><p class="text-neutral-700">Açıq standart (RFC 5798) — multi-vendor.</p></div>
+                <div class="info-card dark"><h3>GLBP</h3><p>Cisco-ya məxsus; yükü bir neçə router arasında da bölür.</p></div>
+            </div>
+        </section>
+
+        <section id="how" class="section-card">
+            <h2 class="section-title">{{i:workflow}} 1. Necə İşləyir</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">R1 (<code>192.168.1.2</code>) və R2 (<code>192.168.1.3</code>) eyni qrupdadır; virtual IP <code>192.168.1.1</code> — kompüterlərin gateway-i.</p></li>
+                <li><p class="text-neutral-700">Router-lər hello mesajları mübadiləsi edir; ən yüksək <strong>priority</strong> (bərabər olduqda ən yüksək IP) Active/Master olur.</p></li>
+                <li><p class="text-neutral-700">Active router virtual IP-nin ARP sorğularına <strong>virtual MAC</strong> ilə cavab verir (HSRPv1: <code>0000.0C07.ACxx</code>, VRRP: <code>0000.5E00.01xx</code>).</p></li>
+                <li><p class="text-neutral-700">Hold time ərzində hello gəlməsə, Standby router Active olur və gratuitous ARP göndərir — switch-lərin MAC cədvəli yenilənir.</p></li>
+                <li><p class="text-neutral-700">Kompüterlərin ARP cədvəli dəyişmir, çünki virtual MAC eyni qalır.</p></li>
+            </ol>
+        </section>
+
+        <section id="compare" class="section-card">
+            <h2 class="section-title">{{i:scale}} 2. HSRP və VRRP Müqayisəsi</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Xüsusiyyət</th><th>HSRP</th><th>VRRP</th></tr></thead>
+                    <tbody>
+                        <tr><td>İstehsalçı</td><td>Cisco (mülkiyyət)</td><td>Açıq standart (RFC 5798)</td></tr>
+                        <tr><td>Rollar</td><td>Active / Standby / Listen</td><td>Master / Backup</td></tr>
+                        <tr><td>Virtual IP</td><td>Ayrıca virtual IP tələb olunur</td><td>Router-in öz IP-si virtual IP ola bilər</td></tr>
+                        <tr><td>Defolt hello / hold</td><td>3 s / 10 s</td><td>1 s / ~3 s</td></tr>
+                        <tr><td>Defolt priority</td><td>100</td><td>100</td></tr>
+                        <tr><td>Preempt</td><td class="no">Defolt söndürülü</td><td class="yes">Defolt aktiv</td></tr>
+                        <tr><td>Multicast ünvan</td><td>224.0.0.2 (v1), 224.0.0.102 (v2)</td><td>224.0.0.18</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="states" class="section-card">
+            <h2 class="section-title">{{i:activity}} 3. HSRP Rolları və Anlayışlar</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:circle-check}}<p class="text-neutral-700"><strong>Active:</strong> trafiki faktiki ötürən router; virtual IP/MAC-a cavab verir.</p></div>
+                <div class="feature-item">{{i:circle-pause}}<p class="text-neutral-700"><strong>Standby:</strong> Active nasaz olanda dərhal yerinə keçməyə hazır router.</p></div>
+                <div class="feature-item">{{i:ear}}<p class="text-neutral-700"><strong>Listen:</strong> qrupda olan, amma Active/Standby olmayan router-lər.</p></div>
+                <div class="feature-item">{{i:star}}<p class="text-neutral-700"><strong>Preempt:</strong> daha yüksək prioritetli router bərpa olunanda Active rolunu geri alır.</p></div>
+                <div class="feature-item">{{i:radar}}<p class="text-neutral-700"><strong>Object tracking:</strong> uplink kəsiləndə priority avtomatik azalır və Standby Active olur.</p></div>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 4. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="fhrp-hsrp">HSRP</button>
+                <button class="tab-btn inactive-tab" data-pane="fhrp-vrrp">VRRP</button>
+                <button class="tab-btn inactive-tab" data-pane="fhrp-verify">Doğrulama</button>
+            </div>
+            <div id="fhrp-hsrp">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ip address 192.168.1.2 255.255.255.0
+Router(config-if)# standby version 2
+Router(config-if)# standby 1 ip 192.168.1.1
+Router(config-if)# standby 1 priority 110
+Router(config-if)# standby 1 preempt
+
+! Uplink izlənməsi: Gi0/1 düşərsə priority 20 azalır (110 → 90)
+Router(config)# track 10 interface GigabitEthernet0/1 line-protocol
+Router(config-if)# standby 1 track 10 decrement 20</code></pre>
+                    <p class="code-note">HSRP qrup 1, virtual IP 192.168.1.1; bu router 110 prioritetlə Active olur. Tracking olmadan internet linki kəsilsə də router Active qalar və trafik qara dəliyə düşər.</p>
+                </div>
+            </div>
+            <div id="fhrp-vrrp" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ip address 192.168.1.2 255.255.255.0
+Router(config-if)# vrrp 1 ip 192.168.1.1
+Router(config-if)# vrrp 1 priority 110
+Router(config-if)# vrrp 1 preempt</code></pre>
+                    <p class="code-note">VRRP qrup 1; bu router Master olmaq üçün prioriteti artırır. Yeni IOS XE versiyalarında VRRPv3 sintaksisi: <code>fhrp version vrrp v3</code> → <code>vrrp 1 address-family ipv4</code>.</p>
+                </div>
+            </div>
+            <div id="fhrp-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show standby brief
+show standby
+show vrrp brief
+show vrrp
+show track</code></pre>
+                    <p class="code-note"><code>show standby brief</code>: interfeys, qrup, priority, P (preempt), State, Active və Standby router-lər, virtual IP.</p>
+                </div>
+            </div>
+        </section>
+<!--END-->

@@ -3,215 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spanning Tree Protocol (STP) Dərs Vəsaiti</title>
+    <title>Spanning Tree Protocol (STP) — Dərs Vəsaiti</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
     <link rel="stylesheet" href="../assets/theme.css">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #ffffff;
-            color: #171717;
-        }
-        .section-card {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .tab-btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: background-color 0.2s, color 0.2s;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        .active-tab { background-color: #f59e0b; color: #0a0a0a; }
-        .inactive-tab { background-color: #e5e5e5; color: #404040; }
-        .code-block {
-            background-color: #171717;
-            color: #e5e5e5;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            position: relative;
-            overflow-x: auto;
-        }
-        .copy-btn {
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            background-color: #404040;
-            color: #ffffff;
-            border: none;
-            padding: 0.25rem 0.75rem;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            font-size: 0.875rem;
-            transition: background-color 0.2s;
-        }
-        .copy-btn:hover { background-color: #737373; }
-        .feature-item { display: flex; align-items: center; margin-bottom: 0.75rem; }
-        .feature-icon { font-size: 1.5rem; margin-right: 0.75rem; color: #d97706; }
-    </style>
 </head>
 <body class="antialiased">
 
     <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-amber-700">Spanning Tree Protocol (STP)</h1>
-            <div class="flex flex-wrap items-center gap-4 overflow-x-auto pb-2 md:pb-0">
-                <a href="#intro" class="text-neutral-600 hover:text-amber-700 font-medium">Giriş</a>
-                <a href="#roles" class="text-neutral-600 hover:text-amber-700 font-medium">Port Rolları</a>
-                <a href="#states" class="text-neutral-600 hover:text-amber-700 font-medium">Vəziyyətlər</a>
-                <a href="#versions" class="text-neutral-600 hover:text-amber-700 font-medium">STP Növləri</a>
-                <a href="#commands" class="text-neutral-600 hover:text-amber-700 font-medium">Əmrlər</a>
-                <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#network"></use></svg> Spanning Tree Protocol (STP)</h1>
+                <span class="lesson-badge">CCNA · Network Access</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#election" class="nav-link">Seçki</a>
+                <a href="#roles" class="nav-link">Rollar</a>
+                <a href="#states" class="nav-link">Vəziyyətlər</a>
+                <a href="#versions" class="nav-link">Növlər</a>
+                <a href="#commands" class="nav-link">Əmrlər</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
-    <main class="container mx-auto px-6 py-8">
-
-        <section id="intro" class="section-card text-center">
-            <h2 class="text-3xl font-bold mb-4 text-neutral-800">Giriş: STP Nədir?</h2>
-            <p class="text-neutral-600 max-w-3xl mx-auto">
-                Spanning Tree Protocol (STP, IEEE 802.1D) Layer 2 şəbəkələrdə switch-lər arasında yaranan
-                fiziki dövrələri (loop) aşkarlayaraq şəbəkəni məntiqi olaraq ağac (tree) topologiyasına
-                çevirir. Loop-lar olmadan Ethernet çərçivələri sonsuza qədər dövr edə bilər (broadcast storm),
-                MAC ünvan cədvəli qeyri-sabit olar. STP artıq yolları "blocking" vəziyyətinə salaraq yalnız
-                bir aktiv yol saxlayır, lakin ehtiyat yolları itirmir — əsas yol kəsildikdə avtomatik aktivləşir.
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#network"></use></svg> Giriş: STP Nədir?</h2>
+            <p class="lead">
+                <strong>Spanning Tree Protocol</strong> (STP, IEEE 802.1D) Layer 2 şəbəkədə switch-lər arasındakı fiziki dövrələri (loop) aşkarlayıb
+                topologiyanı məntiqi ağaca (tree) çevirir. Loop olduqda Ethernet frame-ləri sonsuz dövr edir (<strong>broadcast storm</strong>),
+                MAC cədvəli qeyri-sabit olur və şəbəkə saniyələr içində dayanır. STP artıq yolları bloklayır, amma itirmir —
+                əsas yol kəsiləndə ehtiyat yol avtomatik aktivləşir.
             </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#repeat"></use></svg> Broadcast storm</h3><p class="text-neutral-700">L2 frame-də TTL yoxdur — loop-dakı broadcast heç vaxt ölmür.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#copy"></use></svg> Duplicate frame</h3><p class="text-neutral-700">Eyni frame hədəfə bir neçə yoldan çatır.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#shuffle"></use></svg> MAC flapping</h3><p>Switch eyni MAC-ı növbə ilə fərqli portlarda görür.</p></div>
+            </div>
+        </section>
+
+        <section id="election" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#crown"></use></svg> 1. Root Bridge Seçkisi və Cost</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Bridge ID</strong> = priority (defolt 32768, 4096-lıq addımlarla) + VLAN ID (extended system ID) + MAC. Ən <strong>kiçik</strong> BID Root Bridge olur.</p></li>
+                <li><p class="text-neutral-700">Hər qeyri-root switch Root-a ən kiçik ümumi <strong>cost</strong>-lu portu <strong>Root Port</strong> seçir.</p></li>
+                <li><p class="text-neutral-700">Hər seqmentdə Root-a ən yaxın switch-in portu <strong>Designated Port</strong> olur.</p></li>
+                <li><p class="text-neutral-700">Qalan portlar bloklanır (<strong>Alternate/Blocking</strong>).</p></li>
+            </ol>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Link sürəti</th><th>Qısa cost (802.1D)</th><th>Uzun cost (802.1t)</th></tr></thead>
+                    <tbody>
+                        <tr><td>10 Mbps</td><td>100</td><td>2 000 000</td></tr>
+                        <tr><td>100 Mbps</td><td>19</td><td>200 000</td></tr>
+                        <tr><td>1 Gbps</td><td>4</td><td>20 000</td></tr>
+                        <tr><td>10 Gbps</td><td>2</td><td>2 000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4">Bərabərlik olduqda: kiçik qonşu BID → kiçik qonşu port priority → kiçik qonşu port nömrəsi.</p>
         </section>
 
         <section id="roles" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">1. Port Rolları</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div class="feature-item">
-                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#crown"></use></svg></span>
-                    <p class="text-neutral-700"><strong>Root Bridge:</strong> Ən aşağı Bridge ID-yə malik switch; bütün STP hesablamaları ondan başlayır.</p>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#door-open"></use></svg></span>
-                    <p class="text-neutral-700"><strong>Root Port:</strong> Hər qeyri-root switch-də Root Bridge-ə ən aşağı xərcli (cost) port.</p>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#circle-check"></use></svg></span>
-                    <p class="text-neutral-700"><strong>Designated Port:</strong> Hər seqmentdə trafiki ötürən, seçilmiş port (forwarding vəziyyətində).</p>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#ban"></use></svg></span>
-                    <p class="text-neutral-700"><strong>Blocking (Alternate) Port:</strong> Loop yaratmamaq üçün trafik ötürməyən, ehtiyat port.</p>
-                </div>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#users"></use></svg> 2. Port Rolları</h2>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#crown"></use></svg><p class="text-neutral-700"><strong>Root Bridge:</strong> ən kiçik Bridge ID-li switch; bütün portları designated-dir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#door-open"></use></svg><p class="text-neutral-700"><strong>Root Port:</strong> qeyri-root switch-də Root Bridge-ə ən az cost-lu port (hər switch-də bir).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#circle-check"></use></svg><p class="text-neutral-700"><strong>Designated Port:</strong> hər seqmentdə trafiki ötürən seçilmiş port (forwarding).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#ban"></use></svg><p class="text-neutral-700"><strong>Alternate / Blocking:</strong> loop yaratmamaq üçün trafik ötürməyən ehtiyat port. RSTP-də həmçinin <strong>Backup</strong> rolu var.</p></div>
             </div>
         </section>
 
         <section id="states" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">2. Port Vəziyyətləri</h2>
-            <p class="text-center text-neutral-600 mb-6 max-w-3xl mx-auto">
-                Klassik STP (802.1D) portu forwarding vəziyyətinə keçirməzdən əvvəl bir neçə mərhələdən keçirir,
-                bu da 30-50 saniyə çəkə bilər. RSTP (802.1w) bu prosesi sürətləndirir.
-            </p>
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white border border-neutral-200 rounded-lg shadow-sm">
-                    <thead>
-                        <tr class="bg-neutral-100 text-left text-sm font-semibold text-neutral-700 uppercase tracking-wider">
-                            <th class="py-3 px-4 border-b border-neutral-200">STP (802.1D)</th>
-                            <th class="py-3 px-4 border-b border-neutral-200">RSTP (802.1w)</th>
-                            <th class="py-3 px-4 border-b border-neutral-200">Açıqlama</th>
-                        </tr>
-                    </thead>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> 3. Port Vəziyyətləri</h2>
+            <p class="text-neutral-700 mb-6">Klassik STP portu forwarding-ə keçirməzdən əvvəl bir neçə mərhələdən keçirir — bu 30–50 saniyə çəkir (forward delay 15 s × 2, max age 20 s). RSTP bu prosesi saniyələrə endirir.</p>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>STP (802.1D)</th><th>RSTP (802.1w)</th><th>İzah</th></tr></thead>
                     <tbody>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Blocking</td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Discarding</td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Çərçivə qəbul/ötürmür, yalnız BPDU dinləyir</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Listening</td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Discarding</td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Topologiyanı öyrənir, hələ MAC öyrənmir</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Learning</td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Learning</td>
-                            <td class="py-3 px-4 border-b border-neutral-200">MAC ünvan cədvəlini doldurmağa başlayır</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-4 border-b border-neutral-200 font-medium">Forwarding</td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Forwarding</td>
-                            <td class="py-3 px-4 border-b border-neutral-200">Tam işlək — trafik ötürülür</td>
-                        </tr>
+                        <tr><td>Blocking</td><td>Discarding</td><td>Frame qəbul/ötürmür, yalnız BPDU dinləyir</td></tr>
+                        <tr><td>Listening</td><td>Discarding</td><td>Topologiyanı öyrənir, hələ MAC öyrənmir</td></tr>
+                        <tr><td>Learning</td><td>Learning</td><td>MAC cədvəlini doldurur, hələ ötürmür</td></tr>
+                        <tr><td>Forwarding</td><td>Forwarding</td><td>Tam işlək — trafik ötürülür</td></tr>
+                        <tr><td>Disabled</td><td>Discarding</td><td>Port inzibati olaraq söndürülüb</td></tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
         <section id="versions" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">3. STP Növləri</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-amber-50 p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-semibold text-amber-800 mb-2">PVST+</h3>
-                    <p class="text-neutral-700">Cisco-ya məxsus, hər VLAN üçün ayrı STP instansı yaradır. Defolt Cisco IOS rejimidir.</p>
-                </div>
-                <div class="bg-orange-50 p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-semibold text-orange-800 mb-2">Rapid-PVST+</h3>
-                    <p class="text-neutral-700">RSTP-nin VLAN-başına versiyası. Çox sürətli konvergensiya (saniyələr ərzində).</p>
-                </div>
-                <div class="bg-neutral-100 p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-semibold text-neutral-900 mb-2">MSTP</h3>
-                    <p class="text-neutral-700">Bir neçə VLAN-ı instansda qruplaşdırır, böyük şəbəkələrdə CPU yükünü azaldır.</p>
-                </div>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#layers"></use></svg> 4. STP Növləri</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3>PVST+</h3><p class="text-neutral-700">Cisco-ya məxsus, hər VLAN üçün ayrıca 802.1D instansı. Köhnə Cisco IOS-larda defolt.</p></div>
+                <div class="info-card accent"><h3>Rapid-PVST+</h3><p class="text-neutral-700">RSTP-nin VLAN-başına versiyası: saniyələr içində konvergensiya. Müasir tövsiyə olunan rejim.</p></div>
+                <div class="info-card dark"><h3>MSTP (802.1s)</h3><p>VLAN-ları bir neçə instansda qruplaşdırır — böyük şəbəkələrdə CPU yükünü azaldır, multi-vendor.</p></div>
             </div>
         </section>
 
         <section id="commands" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">4. Praktiki Əmrlər</h2>
-            <div class="flex justify-center mb-6 space-x-2" id="stp-tabs">
-                <button data-type="config" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 active-tab">Konfiqurasiya</button>
-                <button data-type="verify" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">Doğrulama</button>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#terminal"></use></svg> 5. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="stp-config">Konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="stp-verify">Doğrulama</button>
             </div>
-            <div id="stp-commands-content">
-                <div id="stp-config-commands" class="protocol-pane">
-                    <div class="space-y-4">
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                            <pre><code class="language-cisco">Switch(config)# spanning-tree mode rapid-pvst
+            <div id="stp-config">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Switch(config)# spanning-tree mode rapid-pvst
 Switch(config)# spanning-tree vlan 10 priority 4096
-
+Switch(config)# spanning-tree vlan 20 root primary        ! və ya root secondary
 Switch(config)# interface FastEthernet0/1
 Switch(config-if)# spanning-tree portfast
-Switch(config-if)# spanning-tree bpduguard enable</code></pre>
-                            <p class="text-neutral-400 text-sm mt-2">RSTP (PVST+) rejimini aktivləşdirir, VLAN 10 üçün bu switch-i Root Bridge etməyə çalışır (aşağı prioritet), son istifadəçi portunda PortFast və BPDU Guard aktivləşdirir.</p>
-                        </div>
-                    </div>
-                </div>
-                <div id="stp-verify-commands" class="protocol-pane hidden">
-                    <div class="space-y-4">
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                            <pre><code class="language-cisco">show spanning-tree
-show spanning-tree vlan 10
-show spanning-tree interface FastEthernet0/1
-show spanning-tree summary</code></pre>
-                            <p class="text-neutral-400 text-sm mt-2">STP statusunu, Root Bridge məlumatını, port rollarını/vəziyyətlərini və ümumi xülasəni göstərir.</p>
-                        </div>
-                    </div>
+Switch(config-if)# spanning-tree bpduguard enable
+Switch(config-if)# spanning-tree cost 10                  ! yol seçiminə təsir</code></pre>
+                    <p class="code-note">Rapid-PVST+ rejimini aktivləşdirir, VLAN 10 üçün bu switch-i Root Bridge edir, son istifadəçi portunda PortFast və BPDU Guard qoşur. Root Bridge-i həmişə özünüz seçin — təsadüfi köhnə switch-in root olması trafiki pis yola yönəldir.</p>
                 </div>
             </div>
+            <div id="stp-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show spanning-tree
+show spanning-tree vlan 10
+show spanning-tree interface FastEthernet0/1
+show spanning-tree summary
+show spanning-tree root</code></pre>
+                    <p class="code-note">"This bridge is the root" — bu switch Root Bridge-dir. Port rolları: Root, Desg, Altn; vəziyyətlər: FWD, BLK/LRN.</p>
+                </div>
+            </div>
+            <div class="note-box mt-6">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#lightbulb"></use></svg>
+                <p class="text-neutral-800">PortFast, BPDU Guard, Root Guard və Loop Guard kimi qoruma mexanizmləri <a class="font-semibold underline" href="stp-advanced.html">Rapid PVST+ və STP Qoruma</a> dərsində ətraflı izah olunur.</p>
+            </div>
         </section>
-
     </main>
 
     <footer class="brand-footer">
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
@@ -238,52 +174,8 @@ show spanning-tree summary</code></pre>
         </div>
     </footer>
 
-    <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-
-        function setupTabs(tabContainerId, contentContainerId, prefix) {
-            const tabsContainer = document.getElementById(tabContainerId);
-            const contentContainer = document.getElementById(contentContainerId);
-            tabsContainer.addEventListener('click', (event) => {
-                if (event.target.classList.contains('tab-btn')) {
-                    const targetType = event.target.dataset.type;
-                    tabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
-                        btn.classList.remove('active-tab');
-                        btn.classList.add('inactive-tab');
-                    });
-                    event.target.classList.add('active-tab');
-                    event.target.classList.remove('inactive-tab');
-                    contentContainer.querySelectorAll('.protocol-pane').forEach(pane => {
-                        pane.classList.toggle('hidden', pane.id !== `${prefix}-${targetType}-commands`);
-                    });
-                }
-            });
-        }
-        setupTabs('stp-tabs', 'stp-commands-content', 'stp');
-
-        function copyCode(button) {
-            const pre = button.nextElementSibling;
-            const code = pre.querySelector('code');
-            const textToCopy = code.innerText;
-            const textArea = document.createElement('textarea');
-            textArea.value = textToCopy;
-            document.body.appendChild(textArea);
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                button.innerText = 'Kopyalandı!';
-                setTimeout(() => { button.innerText = 'Kopyala'; }, 2000);
-            } catch (err) {
-                console.error('Kopyalama uğursuz oldu', err);
-            }
-            document.body.removeChild(textArea);
-        }
-    </script>
+    <script src="../assets/lesson.js"></script>
     <script src="../assets/theme.js"></script>
 </body>
 </html>
+

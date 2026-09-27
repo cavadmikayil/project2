@@ -3,272 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marşrutlaşdırma Protokolları Vizuallaşdırması</title>
+    <title>Marşrutlaşdırma Protokolları — Dərs Vəsaiti</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Neutral Harmony -->
-    <!-- Application Structure Plan: The SPA is structured into distinct thematic sections: Introduction, Administrative Distance, Metric Comparison, Convergence Speed, and a new 'Practical Commands' section. The 'Practical Commands' section uses a tabbed interface for RIP, OSPF, and EIGRP, allowing users to view specific configuration and verification commands for each protocol. This structured approach facilitates a deeper understanding by combining theoretical concepts with practical implementation details, enhancing user exploration and task-oriented learning. -->
-    <!-- Visualization & Content Choices:
-        - Report Info: Administrative Distances of RIP, OSPF, EIGRP -> Goal: Compare, Inform -> Viz/Method: Bar Chart using Chart.js. -> Interaction: Static, but clear labels and tooltips provide detailed values on hover. -> Justification: A bar chart is ideal for directly comparing numerical values across different categories, making the hierarchy of administrative distances immediately apparent.
-        - Report Info: Metrics of RIP, OSPF, EIGRP -> Goal: Inform, Organize -> Viz/Method: Structured HTML/CSS with descriptive text. -> Interaction: Textual consumption. -> Justification: Metrics involve complex calculations (e.g., EIGRP's composite metric); a simple chart would oversimplify. Clear, concise text is best for explaining these differences.
-        - Report Info: Convergence Speeds of RIP, OSPF, EIGRP -> Goal: Compare, Inform -> Viz/Method: Qualitative comparison using HTML/CSS styled text blocks. -> Interaction: Textual consumption. -> Justification: Convergence is a conceptual speed; a precise numerical chart might be misleading without specific network conditions. Qualitative descriptors (slow, fast, very fast) are more appropriate for a general overview.
-        - Report Info: Practical Commands for RIP, OSPF, EIGRP -> Goal: Enable Action, Inform -> Viz/Method: Tabbed interface with code blocks and "Copy" buttons. -> Interaction: Clickable tabs to switch between protocol commands, one-click copy for commands. -> Justification: Provides direct, actionable examples for users to implement the theoretical knowledge, significantly enhancing the practical utility of the application.
-        - Library/Method: Chart.js for the bar chart, Vanilla JavaScript for all interactivity (tabs, copy functionality), Tailwind CSS for all styling and responsive layout.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link rel="stylesheet" href="../assets/lesson.css">
     <link rel="stylesheet" href="../assets/theme.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #ffffff; /* neutral-50 */
-            color: #171717; /* neutral-800 */
-        }
-        .section-card {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 700px; /* Max width for chart container */
-            margin-left: auto;
-            margin-right: auto;
-            height: 350px; /* Base height */
-            max-height: 400px; /* Max height */
-        }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 400px;
-            }
-        }
-        .tab-btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: background-color 0.2s, color 0.2s;
-            cursor: pointer;
-        }
-        .active-tab {
-            background-color: #f59e0b; /* blue-500 */
-            color: #0a0a0a;
-        }
-        .inactive-tab {
-            background-color: #e5e5e5; /* neutral-200 */
-            color: #404040; /* neutral-600 */
-        }
-        .code-block {
-            background-color: #171717; /* neutral-800 */
-            color: #e5e5e5; /* neutral-200 */
-            border-radius: 0.5rem;
-            padding: 1rem;
-            position: relative;
-            overflow-x: auto; /* For long commands */
-        }
-        .copy-btn {
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            background-color: #404040; /* neutral-600 */
-            color: #ffffff;
-            border: none;
-            padding: 0.25rem 0.75rem;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            font-size: 0.875rem;
-            transition: background-color 0.2s;
-        }
-        .copy-btn:hover {
-            background-color: #737373; /* neutral-500 */
-        }
+        .chart-container { position: relative; width: 100%; max-width: 700px; margin: 0 auto; height: 340px; }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
     </style>
 </head>
 <body class="antialiased">
 
     <header class="bg-white shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-amber-700">Marşrutlaşdırma Protokolları</h1>
-            <div class="flex items-center gap-4">
-                <a href="../index.html" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#map"></use></svg> Marşrutlaşdırma Protokolları</h1>
+                <span class="lesson-badge">CCNA · IP Connectivity</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#admin-distance" class="nav-link">Administrative distance</a>
+                <a href="#types" class="nav-link">Növlər</a>
+                <a href="#metrics" class="nav-link">Metrikalar</a>
+                <a href="#convergence" class="nav-link">Konvergensiya</a>
+                <a href="#practical-commands" class="nav-link">Əmrlər</a>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
-    <main class="container mx-auto px-6 py-8">
-
-        <section id="intro" class="section-card text-center">
-            <h2 class="text-3xl font-bold mb-4 text-neutral-800">Giriş: Marşrutlaşdırma Protokolları</h2>
-            <p class="text-neutral-600 max-w-3xl mx-auto">
-                Bu tətbiq, şəbəkə mühitində ən çox istifadə olunan daxili marşrutlaşdırma protokollarından üçünü – RIP, OSPF və EIGRP-ni vizual şəkildə müqayisə etmək üçün nəzərdə tutulmuşdur. Hər bir protokolun əsas xüsusiyyətlərini (inzibati məsafə, metrika və konvergensiya sürəti) araşdıraraq onların fərqlərini və üstünlüklərini daha yaxşı başa düşəcəksiniz.
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#map"></use></svg> Giriş: Marşrutlaşdırma Protokolları</h2>
+            <p class="lead">
+                Statik marşrutlar kiçik şəbəkədə işləyir, amma 30 router-li şəbəkədə hər dəyişiklik saatlarla əl işi deməkdir.
+                <strong>Dinamik marşrutlaşdırma protokolları</strong> router-lərə şəbəkə haqqında məlumat mübadiləsi etməyə, ən yaxşı yolu avtomatik seçməyə
+                və link kəsiləndə alternativ yola keçməyə imkan verir. Bu dərsdə üç daxili protokolu — <strong>RIP</strong>, <strong>OSPF</strong> və <strong>EIGRP</strong>-ni müqayisə edirik.
             </p>
         </section>
 
         <section id="admin-distance" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">1. İnzibati Məsafə (Administrative Distance)</h2>
-            <p class="text-center text-neutral-600 mb-8 max-w-3xl mx-auto">
-                İnzibati məsafə (AD), routerin müxtəlif marşrutlaşdırma protokollarından öyrənilmiş yollar arasında ən etibarlı olanı seçmək üçün istifadə etdiyi bir dəyərdir. Daha kiçik AD dəyəri daha yüksək etibarlılıq deməkdir. Aşağıdakı qrafik hər bir protokolun defolt AD dəyərlərini göstərir.
-            </p>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#chart-column"></use></svg> 1. Administrative Distance (AD)</h2>
+            <p class="text-neutral-700 mb-6">Router eyni şəbəkəni bir neçə mənbədən öyrənəndə ən etibarlısını <strong>administrative distance</strong> ilə seçir: kiçik AD — daha etibarlı. Aşağıdakı qrafik Cisco-nun defolt AD dəyərlərini göstərir.</p>
             <div class="chart-container">
-                <canvas id="adChart"></canvas>
+                <canvas id="adChart" aria-label="Administrative distance qrafiki" role="img"></canvas>
             </div>
-            <p class="text-center text-sm text-neutral-500 mt-4">
-                Qeyd: Defolt AD dəyərləri Cisco cihazları üçün tipikdir.
-            </p>
+            <div class="table-wrap mt-6">
+                <table class="data-table">
+                    <thead><tr><th>Mənbə</th><th>AD</th><th>Mənbə</th><th>AD</th></tr></thead>
+                    <tbody>
+                        <tr><td>Connected</td><td>0</td><td>OSPF</td><td>110</td></tr>
+                        <tr><td>Static</td><td>1</td><td>IS-IS</td><td>115</td></tr>
+                        <tr><td>eBGP</td><td>20</td><td>RIP</td><td>120</td></tr>
+                        <tr><td>EIGRP (daxili)</td><td>90</td><td>iBGP</td><td>200</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4"><strong>Seçim ardıcıllığı:</strong> əvvəlcə ən uzun prefiks (longest match), sonra ən kiçik AD, sonra protokolun öz metrikası.</p>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#layers"></use></svg> 2. Protokol Növləri</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#signpost"></use></svg> Distance vector</h3><p class="text-neutral-700">"Qonşum nə deyirsə, ona inanıram": router yalnız qonşunun gördüyü məsafə və istiqaməti bilir. Nümunə: RIP.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#map"></use></svg> Link-state</h3><p class="text-neutral-700">Hər router şəbəkənin tam xəritəsini (LSDB) toplayır və ən qısa yolu Dijkstra (SPF) ilə özü hesablayır. Nümunə: OSPF, IS-IS.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#sparkles"></use></svg> Advanced distance vector</h3><p>Distance vector əsaslı, amma sürətli və ağıllı (DUAL alqoritmi). Nümunə: EIGRP.</p></div>
+            </div>
+            <p class="text-neutral-700 mt-4"><strong>IGP</strong> (RIP, OSPF, EIGRP) bir təşkilat daxilində, <strong>EGP</strong> (BGP) isə təşkilatlar və provayderlər arasında — internetin özündə işləyir.</p>
         </section>
 
         <section id="metrics" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">2. Metrika Müqayisəsi</h2>
-            <p class="text-center text-neutral-600 mb-8 max-w-3xl mx-auto">
-                Hər bir marşrutlaşdırma protokolu ən yaxşı yolu təyin etmək üçün özünəməxsus bir metrikadan istifadə edir. Bu metrikalar marşrutun "dəyərini" ölçür.
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-amber-50 p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-semibold text-amber-800 mb-2">RIP (Hop Count)</h3>
-                    <p class="text-neutral-700">
-                        RIP ən sadə metrikadan – <strong>hop sayı</strong>ndan istifadə edir. Bu, mənbədən təyinat nöqtəsinə qədər keçilən routerlərin sayıdır. Maksimum hop sayı 15-dir; 16 hop əlçatmaz hesab olunur. Bu, böyük şəbəkələr üçün məhdudiyyət yaradır.
-                    </p>
-                </div>
-                <div class="bg-orange-50 p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-semibold text-orange-800 mb-2">OSPF (Cost)</h3>
-                    <p class="text-neutral-700">
-                        OSPF <strong>xərc</strong> (cost) metrikasından istifadə edir. Xərc, interfeysin bant genişliyinə əsaslanır (defolt olaraq 10^8 / bant genişliyi). Daha yüksək bant genişliyi daha aşağı xərcə malikdir. Bu, daha səmərəli yolların seçilməsinə imkan verir.
-                    </p>
-                </div>
-                <div class="bg-neutral-100 p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-semibold text-neutral-900 mb-2">EIGRP (Composite Metric)</h3>
-                    <p class="text-neutral-700">
-                        EIGRP <strong>kompozit metrika</strong>dan istifadə edir. Bu metrika bant genişliyi, gecikmə, etibarlılıq və yüklənmə kimi bir neçə amilin birləşməsidir. Defolt olaraq, yalnız bant genişliyi və gecikmə istifadə olunur. Bu, ən dəqiq yol seçiminə imkan verir.
-                    </p>
-                </div>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#ruler"></use></svg> 3. Metrika Müqayisəsi</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>RIP — hop count</h3><p class="text-neutral-700">Keçilən router sayı. Maksimum 15; 16 — əlçatmaz. 1 Gbps və 10 Mbps linki eyni sayır.</p></div>
+                <div class="info-card accent"><h3>OSPF — cost</h3><p class="text-neutral-700">Reference bandwidth / interfeys bandwidth (defolt 10<sup>8</sup> / bw). Yüksək bant — kiçik cost.</p></div>
+                <div class="info-card dark"><h3>EIGRP — kompozit</h3><p>Bandwidth, delay, reliability, load. Defolt olaraq yalnız bandwidth və delay (K1, K3).</p></div>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>RIPv2</th><th>OSPFv2</th><th>EIGRP</th></tr></thead>
+                    <tbody>
+                        <tr><td>Standart</td><td>Açıq</td><td>Açıq</td><td>Cisco (RFC 7868 informational)</td></tr>
+                        <tr><td>Yeniləmə</td><td>Hər 30 s tam cədvəl</td><td>Dəyişiklikdə LSA</td><td>Dəyişiklikdə, qismən</td></tr>
+                        <tr><td>Multicast</td><td>224.0.0.9</td><td>224.0.0.5 / .6</td><td>224.0.0.10</td></tr>
+                        <tr><td>Miqyas</td><td>Kiçik</td><td>Böyük (area-lar)</td><td>Böyük</td></tr>
+                    </tbody>
+                </table>
             </div>
         </section>
 
         <section id="convergence" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">3. Konvergensiya Sürəti</h2>
-            <p class="text-center text-neutral-600 mb-8 max-w-3xl mx-auto">
-                Konvergensiya, şəbəkənin topologiya dəyişikliyindən sonra bütün routerlərin marşrut cədvəllərini yeniləməsi və sabit vəziyyətə qayıtması üçün lazım olan vaxtdır.
-            </p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-neutral-100 p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-semibold text-neutral-900 mb-2">RIP (Yavaş)</h3>
-                    <p class="text-neutral-700">
-                        RIP <strong>yavaş</strong> konvergensiyaya malikdir. Dəyişikliklər periodik yeniləmələr vasitəsilə yayılır və "count-to-infinity" kimi problemləri aradan qaldırmaq üçün holddown timerlərindən istifadə edir.
-                    </p>
-                </div>
-                <div class="bg-amber-50 p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-semibold text-amber-800 mb-2">OSPF (Orta)</h3>
-                    <p class="text-neutral-700">
-                        OSPF <strong>orta</strong> konvergensiyaya malikdir. Link-state yeniləmələri dəyişiklikləri dərhal yayır, lakin SPF alqoritminin yenidən hesablanması müəyyən vaxt tələb edir.
-                    </p>
-                </div>
-                <div class="bg-amber-50 p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-semibold text-amber-800 mb-2">EIGRP (Çox Sürətli)</h3>
-                    <p class="text-neutral-700">
-                        EIGRP <strong>çox sürətli</strong> konvergensiyaya malikdir. DUAL (Diffusing Update Algorithm) alqoritmi alternativ yolları saxlayır və topologiya dəyişikliklərinə tez reaksiya verir, əksər hallarda sorğu göndərmədən konvergensiya edir.
-                    </p>
-                </div>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> 4. Konvergensiya Sürəti</h2>
+            <p class="text-neutral-700 mb-6">Konvergensiya — topologiya dəyişikliyindən sonra bütün router-lərin marşrut cədvəllərini yeniləyib yenidən razılığa gəlməsi üçün lazım olan vaxt.</p>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#turtle"></use></svg><p class="text-neutral-700"><strong>RIP — yavaş:</strong> dəyişikliklər periodik yeniləmələrlə yayılır; count-to-infinity-yə qarşı hold-down timer, split horizon, route poisoning istifadə olunur. Dəqiqələr çəkə bilər.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#gauge"></use></svg><p class="text-neutral-700"><strong>OSPF — sürətli:</strong> LSA-lar dərhal yayılır, hər router SPF-i yenidən hesablayır. Adətən saniyələr (BFD ilə daha tez).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#zap"></use></svg><p class="text-neutral-700"><strong>EIGRP — çox sürətli:</strong> DUAL əvvəlcədən hesablanmış ehtiyat yolu (<strong>feasible successor</strong>) saxlayır — varsa, keçid demək olar ki, anidir.</p></div>
             </div>
         </section>
 
         <section id="practical-commands" class="section-card">
-            <h2 class="text-3xl font-bold mb-6 text-center text-neutral-800">4. Praktiki Əmrlər</h2>
-            <p class="text-center text-neutral-600 mb-8 max-w-3xl mx-auto">
-                Aşağıda RIP, OSPF və EIGRP protokollarının əsas konfiqurasiya və doğrulama əmrləri verilmişdir. Hər bir protokolun əmrlərinə baxmaq üçün müvafiq taba klikləyin. Kodu terminalınıza asanlıqla köçürmək üçün "Kopyala" düyməsindən istifadə edə bilərsiniz.
-            </p>
-            <div class="flex justify-center mb-6 space-x-2" id="protocol-tabs">
-                <button data-protocol="rip" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 active-tab">RIP</button>
-                <button data-protocol="ospf" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">OSPF</button>
-                <button data-protocol="eigrp" class="tab-btn px-6 py-2 rounded-md font-semibold transition-colors duration-200 inactive-tab">EIGRP</button>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#terminal"></use></svg> 5. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="rt-rip">RIP</button>
+                <button class="tab-btn inactive-tab" data-pane="rt-ospf">OSPF</button>
+                <button class="tab-btn inactive-tab" data-pane="rt-eigrp">EIGRP</button>
             </div>
-
-            <div id="protocol-commands-content">
-                <div id="rip-commands" class="protocol-pane">
-                    <h3 class="text-2xl font-semibold text-neutral-700 mb-4">RIP Əmrləri</h3>
-                    <div class="space-y-4">
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                            <pre><code class="language-cisco">router rip
+            <div id="rt-rip">
+                <div class="code-block mb-6">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>router rip
  version 2
  network 192.168.1.0
  network 192.168.2.0
  no auto-summary
  passive-interface GigabitEthernet0/1</code></pre>
-                            <p class="text-neutral-400 text-sm mt-2">RIPv2-ni aktivləşdirir və şəbəkələri elan edir. Avtomatik xülasəni deaktiv edir və müəyyən interfeysi passiv edir.</p>
-                        </div>
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                            <pre><code class="language-cisco">show ip protocols
-show ip route rip
-show ip interface brief</code></pre>
-                            <p class="text-neutral-400 text-sm mt-2">RIP protokolu məlumatlarını, RIP marşrutlarını və interfeys statuslarını göstərir.</p>
-                        </div>
-                    </div>
+                    <p class="code-note">RIPv2-ni aktivləşdirir, classful şəbəkələri elan edir, avtomatik xülasəni söndürür və LAN interfeysini passiv edir.</p>
                 </div>
-
-                <div id="ospf-commands" class="protocol-pane hidden">
-                    <h3 class="text-2xl font-semibold text-neutral-700 mb-4">OSPF Əmrləri</h3>
-                    <div class="space-y-4">
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                            <pre><code class="language-cisco">router ospf 1
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ip protocols
+show ip route rip
+debug ip rip</code></pre>
+                </div>
+            </div>
+            <div id="rt-ospf" class="hidden">
+                <div class="code-block mb-6">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>router ospf 1
  router-id 1.1.1.1
  network 192.168.1.0 0.0.0.255 area 0
  network 10.0.0.0 0.0.0.255 area 0
  passive-interface default
  no passive-interface GigabitEthernet0/0</code></pre>
-                            <p class="text-neutral-400 text-sm mt-2">OSPF prosesini aktivləşdirir, router ID təyin edir və şəbəkələri elan edir. Bütün interfeysləri passiv edir, sonra seçilmişləri aktivləşdirir.</p>
-                        </div>
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                            <pre><code class="language-cisco">show ip protocols
+                    <p class="code-note">OSPF prosesi, router ID və şəbəkələr (wildcard ilə). Bütün interfeyslər passiv edilir, yalnız qonşuluq lazım olan açılır. Ətraflı: <a class="font-semibold underline" href="ospf.html">OSPF dərsi</a>.</p>
+                </div>
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ip protocols
 show ip route ospf
 show ip ospf neighbor
 show ip ospf interface brief
 show ip ospf database</code></pre>
-                            <p class="text-neutral-400 text-sm mt-2">OSPF protokolu məlumatlarını, OSPF marşrutlarını, qonşuları, interfeys statuslarını və məlumat bazasını göstərir.</p>
-                        </div>
-                    </div>
                 </div>
-
-                <div id="eigrp-commands" class="protocol-pane hidden">
-                    <h3 class="text-2xl font-semibold text-neutral-700 mb-4">EIGRP Əmrləri</h3>
-                    <div class="space-y-4">
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                            <pre><code class="language-cisco">router eigrp 100
+            </div>
+            <div id="rt-eigrp" class="hidden">
+                <div class="code-block mb-6">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>router eigrp 100
  network 192.168.1.0 0.0.0.255
  network 10.0.0.0 0.0.0.255
  no auto-summary
  passive-interface GigabitEthernet0/1</code></pre>
-                            <p class="text-neutral-400 text-sm mt-2">EIGRP prosesini aktivləşdirir və şəbəkələri elan edir. Avtomatik xülasəni deaktiv edir və müəyyən interfeysi passiv edir.</p>
-                        </div>
-                        <div class="code-block">
-                            <button class="copy-btn" onclick="copyCode(this)">Kopyala</button>
-                            <pre><code class="language-cisco">show ip protocols
+                    <p class="code-note">EIGRP AS 100 — qonşularda AS nömrəsi eyni olmalıdır. Named mode (<code>router eigrp CAMPUS</code>) yeni tövsiyə olunan sintaksisdir.</p>
+                </div>
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ip protocols
 show ip route eigrp
 show ip eigrp neighbors
 show ip eigrp topology
-show ip eigrp interface</code></pre>
-                            <p class="text-neutral-400 text-sm mt-2">EIGRP protokolu məlumatlarını, EIGRP marşrutlarını, qonşuları, topologiya cədvəlini və interfeys statuslarını göstərir.</p>
-                        </div>
-                    </div>
+show ip eigrp interfaces</code></pre>
                 </div>
             </div>
         </section>
-
     </main>
 
     <footer class="brand-footer">
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
@@ -295,177 +205,53 @@ show ip eigrp interface</code></pre>
         </div>
     </footer>
 
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
     <script>
-        const adData = {
-            labels: ['Connected Interface', 'Static Route', 'EIGRP', 'OSPF', 'RIP'],
-            datasets: [{
-                label: 'İnzibati Məsafə (AD)',
-                data: [0, 1, 90, 110, 120],
-                backgroundColor: [
-                    'rgba(10, 10, 10, 0.85)', /* Connected */
-                    'rgba(82, 82, 82, 0.85)', /* Static */
-                    'rgba(146, 64, 14, 0.85)', /* EIGRP */
-                    'rgba(217, 119, 6, 0.85)', /* OSPF */
-                    'rgba(251, 191, 36, 0.85)'  /* RIP */
-                ],
-                borderColor: [
-                    'rgba(10, 10, 10, 1)',
-                    'rgba(82, 82, 82, 1)',
-                    'rgba(146, 64, 14, 1)',
-                    'rgba(217, 119, 6, 1)',
-                    'rgba(245, 158, 11, 1)'
-                ],
-                borderWidth: 1
-            }]
-        };
-
-        const adConfig = {
-            type: 'bar',
-            data: adData,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                let label = context.dataset.label || '';
-                                if (label) {
-                                    label += ': ';
-                                }
-                                label += context.raw;
-                                return label;
-                            },
-                            title: function(context) {
-                                const protocol = context[0].label;
-                                let description = '';
-                                if (protocol === 'Connected Interface') description = 'Birbaşa qoşulmuş şəbəkə';
-                                else if (protocol === 'Static Route') description = 'Əl ilə təyin edilmiş marşrut';
-                                else if (protocol === 'EIGRP') description = 'Enhanced Interior Gateway Routing Protocol';
-                                else if (protocol === 'OSPF') description = 'Open Shortest Path First';
-                                else if (protocol === 'RIP') description = 'Routing Information Protocol';
-                                return `${protocol}\n${description}`;
-                            }
-                        },
-                        titleFont: {
-                            size: 14,
-                            weight: 'bold'
-                        },
-                        bodyFont: {
-                            size: 12
-                        },
-                        padding: 10,
-                        boxPadding: 5,
-                        displayColors: true,
-                        usePointStyle: true,
-                        multiKeyBackground: '#000',
-                        cornerRadius: 6,
-                        boxWidth: 10,
-                        boxHeight: 10,
-                        titleAlign: 'center',
-                        bodyAlign: 'center',
-                        footerAlign: 'center',
-                        callbacks: {
-                            label: function(context) {
-                                const value = context.parsed.y;
-                                return 'AD Dəyəri: ' + value;
-                            },
-                            title: function(context) {
-                                const label = context[0].label;
-                                // Wrap labels if they are too long
-                                const words = label.split(' ');
-                                let line = '';
-                                const lines = [];
-                                const maxCharsPerLine = 16; // Max characters per line before wrapping
-                                for (let i = 0; i < words.length; i++) {
-                                    if (line.length + words[i].length + 1 > maxCharsPerLine && i > 0) {
-                                        lines.push(line.trim());
-                                        line = words[i] + ' ';
-                                    } else {
-                                        line += words[i] + ' ';
-                                    }
-                                }
-                                lines.push(line.trim());
-                                return lines;
-                            }
-                        }
-                    }
+        (function () {
+            if (!window.Chart) return;
+            var descriptions = {
+                'Connected Interface': 'Birbaşa qoşulmuş şəbəkə',
+                'Static Route': 'Əl ilə təyin edilmiş marşrut',
+                'EIGRP': 'Enhanced Interior Gateway Routing Protocol',
+                'OSPF': 'Open Shortest Path First',
+                'RIP': 'Routing Information Protocol'
+            };
+            Chart.defaults.color = '#737373';
+            Chart.defaults.font.family = 'Inter, sans-serif';
+            new Chart(document.getElementById('adChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Connected Interface', 'Static Route', 'EIGRP', 'OSPF', 'RIP'],
+                    datasets: [{
+                        label: 'Administrative distance',
+                        data: [0, 1, 90, 110, 120],
+                        backgroundColor: ['rgba(10, 10, 10, 0.85)', 'rgba(82, 82, 82, 0.85)', 'rgba(146, 64, 14, 0.85)', 'rgba(217, 119, 6, 0.85)', 'rgba(251, 191, 36, 0.85)'],
+                        borderColor: ['#0a0a0a', '#525252', '#92400e', '#d97706', '#f59e0b'],
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'İnzibati Məsafə Dəyəri'
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            padding: 10,
+                            callbacks: {
+                                title: function (ctx) { return [ctx[0].label, descriptions[ctx[0].label] || '']; },
+                                label: function (ctx) { return 'AD dəyəri: ' + ctx.parsed.y; }
+                            }
                         }
                     },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Marşrutlaşdırma Protokolu'
-                        }
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'AD dəyəri' }, grid: { color: 'rgba(115, 115, 115, 0.2)' } },
+                        x: { title: { display: true, text: 'Marşrut mənbəyi' }, grid: { display: false } }
                     }
                 }
-            }
-        };
-
-        // Tab functionality for practical commands
-        const protocolTabsContainer = document.getElementById('protocol-tabs');
-        const protocolCommandsContent = document.getElementById('protocol-commands-content');
-
-        protocolTabsContainer.addEventListener('click', (event) => {
-            if (event.target.classList.contains('tab-btn')) {
-                const targetProtocol = event.target.dataset.protocol;
-
-                // Update tab styles
-                protocolTabsContainer.querySelectorAll('.tab-btn').forEach(btn => {
-                    btn.classList.remove('active-tab');
-                    btn.classList.add('inactive-tab');
-                });
-                event.target.classList.add('active-tab');
-                event.target.classList.remove('inactive-tab');
-
-                // Update content visibility
-                protocolCommandsContent.querySelectorAll('.protocol-pane').forEach(pane => {
-                    if (pane.id === `${targetProtocol}-commands`) {
-                        pane.classList.remove('hidden');
-                    } else {
-                        pane.classList.add('hidden');
-                    }
-                });
-            }
-        });
-
-        // Copy functionality for code blocks
-        function copyCode(button) {
-            const pre = button.nextElementSibling;
-            const code = pre.querySelector('code');
-            const textToCopy = code.innerText;
-
-            const textArea = document.createElement('textarea');
-            textArea.value = textToCopy;
-            document.body.appendChild(textArea);
-            textArea.select();
-            try {
-                document.execCommand('copy');
-                button.innerText = 'Kopyalandı!';
-                setTimeout(() => {
-                    button.innerText = 'Kopyala';
-                }, 2000);
-            } catch (err) {
-                console.error('Kopyalama uğursuz oldu', err);
-            }
-            document.body.removeChild(textArea);
-        }
-
-        window.onload = function() {
-            const adChartCtx = document.getElementById('adChart').getContext('2d');
-            new Chart(adChartCtx, adConfig);
-        };
+            });
+        })();
     </script>
-    <script src="../assets/theme.js"></script>
 </body>
 </html>

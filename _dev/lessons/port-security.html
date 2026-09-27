@@ -1,0 +1,90 @@
+<!--PAGE title="Port Security" icon="lock-keyhole" badge="CCNA · Security Fundamentals" nav="intro:Giriş|learning:MAC öyrənmə|violation:Violation rejimləri|commands:Əmrlər|recover:Bərpa"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:lock-keyhole}} Giriş: Port Security Nədir?</h2>
+            <p class="lead">
+                <strong>Port Security</strong> switch portuna qoşula bilən cihazların sayını və/və ya MAC ünvanlarını məhdudlaşdıran Layer 2 təhlükəsizlik funksiyasıdır.
+                O, MAC flooding hücumlarının və icazəsiz cihazların (şəxsi router, noutbuk) şəbəkəyə qoşulmasının qarşısını alır.
+                İcazə verilən MAC sayı aşıldıqda və ya naməlum MAC görünəndə konfiqurasiya edilmiş <strong>violation</strong> rejiminə uyğun tədbir görülür.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:skull}} MAC flooding</h3><p class="text-neutral-700">Hücumçu minlərlə saxta MAC göndərir, CAM cədvəli dolur və switch hub kimi hər şeyi yaymağa başlayır.</p></div>
+                <div class="info-card"><h3>{{i:router}} Rogue cihaz</h3><p class="text-neutral-700">İstifadəçi rozetkaya öz Wi-Fi router-ini qoşur — IT-nin xəbəri olmadan açıq şəbəkə.</p></div>
+                <div class="info-card dark"><h3>{{i:plug}} Yalnız access port</h3><p>Port security access (və ya statik trunk) portda konfiqurasiya olunur, dinamik DTP portunda yox.</p></div>
+            </div>
+        </section>
+
+        <section id="learning" class="section-card">
+            <h2 class="section-title">{{i:book-open}} 1. MAC Ünvanlarının Öyrənilməsi</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:keyboard}}<p class="text-neutral-700"><strong>Static:</strong> <code>switchport port-security mac-address aaaa.bbbb.cccc</code> — əl ilə yazılır, config-də saxlanır.</p></div>
+                <div class="feature-item">{{i:refresh-cw}}<p class="text-neutral-700"><strong>Dynamic:</strong> defolt — portdan öyrənilir, amma switch yenidən başlayanda itir.</p></div>
+                <div class="feature-item">{{i:pin}}<p class="text-neutral-700"><strong>Sticky:</strong> dinamik öyrənilən MAC-lar avtomatik running-config-ə yazılır; <code>write memory</code> ilə daimi olur.</p></div>
+                <div class="feature-item">{{i:hash}}<p class="text-neutral-700"><strong>Maximum:</strong> defolt 1. IP telefon + kompüter üçün adətən 2 (voice VLAN-da telefon ayrıca sayılır).</p></div>
+            </div>
+        </section>
+
+        <section id="violation" class="section-card">
+            <h2 class="section-title">{{i:siren}} 2. Violation (Pozuntu) Rejimləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Rejim</th><th>Naməlum trafik</th><th>Log / SNMP</th><th>Violation sayğacı</th><th>Port statusu</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Protect</strong></td><td>Atılır</td><td class="no">Yoxdur</td><td class="no">Artmır</td><td class="yes">Aktiv qalır</td></tr>
+                        <tr><td><strong>Restrict</strong></td><td>Atılır</td><td class="yes">Syslog və SNMP trap</td><td class="yes">Artır</td><td class="yes">Aktiv qalır</td></tr>
+                        <tr><td><strong>Shutdown</strong> (defolt)</td><td>Atılır</td><td class="yes">Syslog və SNMP trap</td><td class="yes">Artır</td><td class="no">err-disabled</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 3. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="ps-config">Konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="ps-verify">Doğrulama</button>
+            </div>
+            <div id="ps-config">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Switch(config)# interface FastEthernet0/1
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport port-security
+Switch(config-if)# switchport port-security maximum 2
+Switch(config-if)# switchport port-security mac-address sticky
+Switch(config-if)# switchport port-security violation restrict
+Switch(config-if)# switchport port-security aging time 60</code></pre>
+                    <p class="code-note">Portda maksimum 2 MAC, öyrənilənlər sticky olaraq saxlanır, pozuntu zamanı "restrict". <code>switchport port-security</code> əmri olmadan digər ayarlar işləmir — ən çox unudulan addım.</p>
+                </div>
+            </div>
+            <div id="ps-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show port-security
+show port-security interface FastEthernet0/1
+show port-security address
+show interfaces status err-disabled
+show errdisable recovery</code></pre>
+                    <p class="code-note"><code>interface</code> çıxışında: Port Status (Secure-up / Secure-shutdown), Violation Mode, Maximum MAC, Last Source Address və Security Violation Count.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="recover" class="section-card">
+            <h2 class="section-title">{{i:life-buoy}} 4. err-disabled Portun Bərpası</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>! Əl ilə: əvvəlcə səbəbi aradan qaldırın (icazəsiz cihazı ayırın)
+Switch(config)# interface FastEthernet0/1
+Switch(config-if)# shutdown
+Switch(config-if)# no shutdown
+
+! Avtomatik: 5 dəqiqədən sonra portu yenidən aç
+Switch(config)# errdisable recovery cause psecure-violation
+Switch(config)# errdisable recovery interval 300</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Port security MAC-ı saxtalaşdırmağa (spoofing) qarşı tam qoruma deyil. Güclü həll — <strong>802.1X</strong> (hər cihazın autentifikasiyası). Port security isə sadə və hər switch-də mövcud olan ilk müdafiə xəttidir.</p>
+            </div>
+        </section>
+<!--END-->

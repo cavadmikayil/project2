@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#gauge"></use></svg> Linux Performans Troubleshooting</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#gauge"></use></svg> Linux Performans Troubleshooting</h1>
                 <span class="lesson-badge">Linux · Performans</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -26,15 +26,15 @@
                 <a href="#memory" class="nav-link">Yaddaş</a>
                 <a href="#io" class="nav-link">Disk I/O</a>
                 <a href="#deep" class="nav-link">Dərin analiz</a>
-                <a href="../index.html#linux" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#moon"></use></svg></button>
+                <a href="../index.html#linux" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#gauge"></use></svg> Giriş: "Server Yavaşdır"</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#gauge"></use></svg> Giriş: "Server Yavaşdır"</h2>
             <p class="lead">
                 Bu şikayətin arxasında dörd resursdan biri dayanır: <strong>CPU</strong>, <strong>yaddaş</strong>, <strong>disk I/O</strong> və ya <strong>şəbəkə</strong>.
                 Təcrübəli administrator təxmin etmir — Brendan Gregg-in <strong>USE metodunu</strong> tətbiq edir: hər resurs üçün
@@ -43,7 +43,7 @@
         </section>
 
         <section id="first60" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#timer"></use></svg> 1. İlk 60 Saniyə</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#timer"></use></svg> 1. İlk 60 Saniyə</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>uptime                     # load average: 1, 5, 15 dəqiqə — artır, yoxsa azalır?
@@ -61,11 +61,11 @@ top                        # ümumi mənzərə</code></pre>
         </section>
 
         <section id="cpu" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#cpu"></use></svg> 2. CPU və Load Average</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#cpu"></use></svg> 2. CPU və Load Average</h2>
             <div class="feature-grid mb-6">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#calculator"></use></svg><p class="text-neutral-700"><strong>Load average</strong> — işləyən + növbədə gözləyən (+ D vəziyyətində olan) proseslərin orta sayı. 8 nüvəli serverdə 8 — tam yük, 16 — ciddi növbə.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#hard-drive"></use></svg><p class="text-neutral-700"><strong>Load yüksək, CPU boşdur?</strong> — proseslər D vəziyyətində disk/NFS gözləyir. <code>top</code>-da yüksək <code>wa</code>.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#user"></use></svg><p class="text-neutral-700"><strong>us</strong> — tətbiq kodu, <strong>sy</strong> — kernel (çoxlu syscall, şəbəkə), <strong>st</strong> — steal: VM-də hypervisor CPU verməyib (qonşu VM-lər).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#calculator"></use></svg><p class="text-neutral-700"><strong>Load average</strong> — işləyən + növbədə gözləyən (+ D vəziyyətində olan) proseslərin orta sayı. 8 nüvəli serverdə 8 — tam yük, 16 — ciddi növbə.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#hard-drive"></use></svg><p class="text-neutral-700"><strong>Load yüksək, CPU boşdur?</strong> — proseslər D vəziyyətində disk/NFS gözləyir. <code>top</code>-da yüksək <code>wa</code>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#user"></use></svg><p class="text-neutral-700"><strong>us</strong> — tətbiq kodu, <strong>sy</strong> — kernel (çoxlu syscall, şəbəkə), <strong>st</strong> — steal: VM-də hypervisor CPU verməyib (qonşu VM-lər).</p></div>
             </div>
             <div class="table-wrap">
                 <table class="data-table">
@@ -81,7 +81,7 @@ top                        # ümumi mənzərə</code></pre>
         </section>
 
         <section id="memory" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#memory-stick"></use></svg> 3. Yaddaş</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#memory-stick"></use></svg> 3. Yaddaş</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>$ free -h
@@ -90,15 +90,15 @@ Mem:            15Gi   5.1Gi  412Mi   210Mi      10Gi        9.8Gi
 Swap:          4.0Gi     0B   4.0Gi</code></pre>
             </div>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#info"></use></svg><p class="text-neutral-700"><strong>"free" azdır — narahat olmayın:</strong> Linux boş RAM-ı disk cache üçün istifadə edir. Baxılacaq sütun — <strong>available</strong>.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#arrow-down-up"></use></svg><p class="text-neutral-700"><strong>Swap-a aktiv yazma</strong> (<code>vmstat</code>-da <code>si</code>/<code>so</code> daim &gt; 0) — real yaddaş çatışmazlığı.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#trending-up"></use></svg><p class="text-neutral-700"><strong>Memory leak:</strong> prosesin RSS-i günlərlə durmadan artır — <code>ps -o pid,rss,etime,cmd --sort=-rss | head</code>.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#skull"></use></svg><p class="text-neutral-700"><strong>OOM:</strong> <code>journalctl -k | grep -i "out of memory"</code>. Kritik servisləri qorumaq: <code>OOMScoreAdjust=-500</code> (systemd).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#info"></use></svg><p class="text-neutral-700"><strong>"free" azdır — narahat olmayın:</strong> Linux boş RAM-ı disk cache üçün istifadə edir. Baxılacaq sütun — <strong>available</strong>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#arrow-down-up"></use></svg><p class="text-neutral-700"><strong>Swap-a aktiv yazma</strong> (<code>vmstat</code>-da <code>si</code>/<code>so</code> daim &gt; 0) — real yaddaş çatışmazlığı.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#trending-up"></use></svg><p class="text-neutral-700"><strong>Memory leak:</strong> prosesin RSS-i günlərlə durmadan artır — <code>ps -o pid,rss,etime,cmd --sort=-rss | head</code>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#skull"></use></svg><p class="text-neutral-700"><strong>OOM:</strong> <code>journalctl -k | grep -i "out of memory"</code>. Kritik servisləri qorumaq: <code>OOMScoreAdjust=-500</code> (systemd).</p></div>
             </div>
         </section>
 
         <section id="io" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#hard-drive"></use></svg> 4. Disk I/O</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#hard-drive"></use></svg> 4. Disk I/O</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>$ iostat -xz 1
@@ -122,15 +122,15 @@ df -h; df -i               # yer və inode</code></pre>
         </section>
 
         <section id="deep" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#microscope"></use></svg> 5. Dərin Analiz Alətləri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#microscope"></use></svg> 5. Dərin Analiz Alətləri</h2>
             <div class="feature-grid mb-6">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#bug"></use></svg><p class="text-neutral-700"><strong>strace -p PID -f -tt:</strong> proses hansı syscall-larda ilişib — məsələn, cavab verməyən DNS və ya kilidlənmiş faylda.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#file-search"></use></svg><p class="text-neutral-700"><strong>lsof -p PID:</strong> açıq fayllar, socket-lər; "too many open files" üçün <code>ulimit -n</code> və <code>LimitNOFILE</code>.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#flame"></use></svg><p class="text-neutral-700"><strong>perf top / perf record:</strong> CPU vaxtının hansı funksiyalara getdiyi; flame graph.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#radar"></use></svg><p class="text-neutral-700"><strong>eBPF (bcc, bpftrace):</strong> <code>execsnoop</code>, <code>opensnoop</code>, <code>biolatency</code>, <code>tcpretrans</code> — production-da təhlükəsiz müşahidə.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#bug"></use></svg><p class="text-neutral-700"><strong>strace -p PID -f -tt:</strong> proses hansı syscall-larda ilişib — məsələn, cavab verməyən DNS və ya kilidlənmiş faylda.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#file-search"></use></svg><p class="text-neutral-700"><strong>lsof -p PID:</strong> açıq fayllar, socket-lər; "too many open files" üçün <code>ulimit -n</code> və <code>LimitNOFILE</code>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#flame"></use></svg><p class="text-neutral-700"><strong>perf top / perf record:</strong> CPU vaxtının hansı funksiyalara getdiyi; flame graph.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#radar"></use></svg><p class="text-neutral-700"><strong>eBPF (bcc, bpftrace):</strong> <code>execsnoop</code>, <code>opensnoop</code>, <code>biolatency</code>, <code>tcpretrans</code> — production-da təhlükəsiz müşahidə.</p></div>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#chart-line"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#chart-line"></use></svg>
                 <p class="text-neutral-800">Ən yaxşı troubleshooting problem baş verməmişdən əvvəl başlayır: node_exporter + Prometheus + Grafana ilə <strong>baseline</strong> toplayın. "Normal"ı bilmədən "anormal"ı tanımaq çətindir (DevOps kateqoriyasındakı Observability dərsi).</p>
             </div>
         </section>
@@ -140,7 +140,7 @@ df -h; df -i               # yer və inode</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=3b0191a2#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=fc47fef9#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

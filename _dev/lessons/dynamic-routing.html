@@ -1,0 +1,191 @@
+<!--PAGE title="Marşrutlaşdırma Protokolları" icon="map" badge="CCNA · IP Connectivity" nav="intro:Giriş|admin-distance:Administrative distance|types:Növlər|metrics:Metrikalar|convergence:Konvergensiya|practical-commands:Əmrlər"-->
+<!--HEAD-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container { position: relative; width: 100%; max-width: 700px; margin: 0 auto; height: 340px; }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
+    </style>
+<!--/HEAD-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:map}} Giriş: Marşrutlaşdırma Protokolları</h2>
+            <p class="lead">
+                Statik marşrutlar kiçik şəbəkədə işləyir, amma 30 router-li şəbəkədə hər dəyişiklik saatlarla əl işi deməkdir.
+                <strong>Dinamik marşrutlaşdırma protokolları</strong> router-lərə şəbəkə haqqında məlumat mübadiləsi etməyə, ən yaxşı yolu avtomatik seçməyə
+                və link kəsiləndə alternativ yola keçməyə imkan verir. Bu dərsdə üç daxili protokolu — <strong>RIP</strong>, <strong>OSPF</strong> və <strong>EIGRP</strong>-ni müqayisə edirik.
+            </p>
+        </section>
+
+        <section id="admin-distance" class="section-card">
+            <h2 class="section-title">{{i:chart-column}} 1. Administrative Distance (AD)</h2>
+            <p class="text-neutral-700 mb-6">Router eyni şəbəkəni bir neçə mənbədən öyrənəndə ən etibarlısını <strong>administrative distance</strong> ilə seçir: kiçik AD — daha etibarlı. Aşağıdakı qrafik Cisco-nun defolt AD dəyərlərini göstərir.</p>
+            <div class="chart-container">
+                <canvas id="adChart" aria-label="Administrative distance qrafiki" role="img"></canvas>
+            </div>
+            <div class="table-wrap mt-6">
+                <table class="data-table">
+                    <thead><tr><th>Mənbə</th><th>AD</th><th>Mənbə</th><th>AD</th></tr></thead>
+                    <tbody>
+                        <tr><td>Connected</td><td>0</td><td>OSPF</td><td>110</td></tr>
+                        <tr><td>Static</td><td>1</td><td>IS-IS</td><td>115</td></tr>
+                        <tr><td>eBGP</td><td>20</td><td>RIP</td><td>120</td></tr>
+                        <tr><td>EIGRP (daxili)</td><td>90</td><td>iBGP</td><td>200</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4"><strong>Seçim ardıcıllığı:</strong> əvvəlcə ən uzun prefiks (longest match), sonra ən kiçik AD, sonra protokolun öz metrikası.</p>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title">{{i:layers}} 2. Protokol Növləri</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:signpost}} Distance vector</h3><p class="text-neutral-700">"Qonşum nə deyirsə, ona inanıram": router yalnız qonşunun gördüyü məsafə və istiqaməti bilir. Nümunə: RIP.</p></div>
+                <div class="info-card accent"><h3>{{i:map}} Link-state</h3><p class="text-neutral-700">Hər router şəbəkənin tam xəritəsini (LSDB) toplayır və ən qısa yolu Dijkstra (SPF) ilə özü hesablayır. Nümunə: OSPF, IS-IS.</p></div>
+                <div class="info-card dark"><h3>{{i:sparkles}} Advanced distance vector</h3><p>Distance vector əsaslı, amma sürətli və ağıllı (DUAL alqoritmi). Nümunə: EIGRP.</p></div>
+            </div>
+            <p class="text-neutral-700 mt-4"><strong>IGP</strong> (RIP, OSPF, EIGRP) bir təşkilat daxilində, <strong>EGP</strong> (BGP) isə təşkilatlar və provayderlər arasında — internetin özündə işləyir.</p>
+        </section>
+
+        <section id="metrics" class="section-card">
+            <h2 class="section-title">{{i:ruler}} 3. Metrika Müqayisəsi</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>RIP — hop count</h3><p class="text-neutral-700">Keçilən router sayı. Maksimum 15; 16 — əlçatmaz. 1 Gbps və 10 Mbps linki eyni sayır.</p></div>
+                <div class="info-card accent"><h3>OSPF — cost</h3><p class="text-neutral-700">Reference bandwidth / interfeys bandwidth (defolt 10<sup>8</sup> / bw). Yüksək bant — kiçik cost.</p></div>
+                <div class="info-card dark"><h3>EIGRP — kompozit</h3><p>Bandwidth, delay, reliability, load. Defolt olaraq yalnız bandwidth və delay (K1, K3).</p></div>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>RIPv2</th><th>OSPFv2</th><th>EIGRP</th></tr></thead>
+                    <tbody>
+                        <tr><td>Standart</td><td>Açıq</td><td>Açıq</td><td>Cisco (RFC 7868 informational)</td></tr>
+                        <tr><td>Yeniləmə</td><td>Hər 30 s tam cədvəl</td><td>Dəyişiklikdə LSA</td><td>Dəyişiklikdə, qismən</td></tr>
+                        <tr><td>Multicast</td><td>224.0.0.9</td><td>224.0.0.5 / .6</td><td>224.0.0.10</td></tr>
+                        <tr><td>Miqyas</td><td>Kiçik</td><td>Böyük (area-lar)</td><td>Böyük</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="convergence" class="section-card">
+            <h2 class="section-title">{{i:timer}} 4. Konvergensiya Sürəti</h2>
+            <p class="text-neutral-700 mb-6">Konvergensiya — topologiya dəyişikliyindən sonra bütün router-lərin marşrut cədvəllərini yeniləyib yenidən razılığa gəlməsi üçün lazım olan vaxt.</p>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:turtle}}<p class="text-neutral-700"><strong>RIP — yavaş:</strong> dəyişikliklər periodik yeniləmələrlə yayılır; count-to-infinity-yə qarşı hold-down timer, split horizon, route poisoning istifadə olunur. Dəqiqələr çəkə bilər.</p></div>
+                <div class="feature-item">{{i:gauge}}<p class="text-neutral-700"><strong>OSPF — sürətli:</strong> LSA-lar dərhal yayılır, hər router SPF-i yenidən hesablayır. Adətən saniyələr (BFD ilə daha tez).</p></div>
+                <div class="feature-item">{{i:zap}}<p class="text-neutral-700"><strong>EIGRP — çox sürətli:</strong> DUAL əvvəlcədən hesablanmış ehtiyat yolu (<strong>feasible successor</strong>) saxlayır — varsa, keçid demək olar ki, anidir.</p></div>
+            </div>
+        </section>
+
+        <section id="practical-commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 5. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="rt-rip">RIP</button>
+                <button class="tab-btn inactive-tab" data-pane="rt-ospf">OSPF</button>
+                <button class="tab-btn inactive-tab" data-pane="rt-eigrp">EIGRP</button>
+            </div>
+            <div id="rt-rip">
+                <div class="code-block mb-6">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>router rip
+ version 2
+ network 192.168.1.0
+ network 192.168.2.0
+ no auto-summary
+ passive-interface GigabitEthernet0/1</code></pre>
+                    <p class="code-note">RIPv2-ni aktivləşdirir, classful şəbəkələri elan edir, avtomatik xülasəni söndürür və LAN interfeysini passiv edir.</p>
+                </div>
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ip protocols
+show ip route rip
+debug ip rip</code></pre>
+                </div>
+            </div>
+            <div id="rt-ospf" class="hidden">
+                <div class="code-block mb-6">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>router ospf 1
+ router-id 1.1.1.1
+ network 192.168.1.0 0.0.0.255 area 0
+ network 10.0.0.0 0.0.0.255 area 0
+ passive-interface default
+ no passive-interface GigabitEthernet0/0</code></pre>
+                    <p class="code-note">OSPF prosesi, router ID və şəbəkələr (wildcard ilə). Bütün interfeyslər passiv edilir, yalnız qonşuluq lazım olan açılır. Ətraflı: <a class="font-semibold underline" href="ospf.html">OSPF dərsi</a>.</p>
+                </div>
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ip protocols
+show ip route ospf
+show ip ospf neighbor
+show ip ospf interface brief
+show ip ospf database</code></pre>
+                </div>
+            </div>
+            <div id="rt-eigrp" class="hidden">
+                <div class="code-block mb-6">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>router eigrp 100
+ network 192.168.1.0 0.0.0.255
+ network 10.0.0.0 0.0.0.255
+ no auto-summary
+ passive-interface GigabitEthernet0/1</code></pre>
+                    <p class="code-note">EIGRP AS 100 — qonşularda AS nömrəsi eyni olmalıdır. Named mode (<code>router eigrp CAMPUS</code>) yeni tövsiyə olunan sintaksisdir.</p>
+                </div>
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ip protocols
+show ip route eigrp
+show ip eigrp neighbors
+show ip eigrp topology
+show ip eigrp interfaces</code></pre>
+                </div>
+            </div>
+        </section>
+<!--END-->
+<!--FOOT-->
+    <script>
+        (function () {
+            if (!window.Chart) return;
+            var descriptions = {
+                'Connected Interface': 'Birbaşa qoşulmuş şəbəkə',
+                'Static Route': 'Əl ilə təyin edilmiş marşrut',
+                'EIGRP': 'Enhanced Interior Gateway Routing Protocol',
+                'OSPF': 'Open Shortest Path First',
+                'RIP': 'Routing Information Protocol'
+            };
+            Chart.defaults.color = '#737373';
+            Chart.defaults.font.family = 'Inter, sans-serif';
+            new Chart(document.getElementById('adChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Connected Interface', 'Static Route', 'EIGRP', 'OSPF', 'RIP'],
+                    datasets: [{
+                        label: 'Administrative distance',
+                        data: [0, 1, 90, 110, 120],
+                        backgroundColor: ['rgba(10, 10, 10, 0.85)', 'rgba(82, 82, 82, 0.85)', 'rgba(146, 64, 14, 0.85)', 'rgba(217, 119, 6, 0.85)', 'rgba(251, 191, 36, 0.85)'],
+                        borderColor: ['#0a0a0a', '#525252', '#92400e', '#d97706', '#f59e0b'],
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            padding: 10,
+                            callbacks: {
+                                title: function (ctx) { return [ctx[0].label, descriptions[ctx[0].label] || '']; },
+                                label: function (ctx) { return 'AD dəyəri: ' + ctx.parsed.y; }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'AD dəyəri' }, grid: { color: 'rgba(115, 115, 115, 0.2)' } },
+                        x: { title: { display: true, text: 'Marşrut mənbəyi' }, grid: { display: false } }
+                    }
+                }
+            });
+        })();
+    </script>
+<!--/FOOT-->
