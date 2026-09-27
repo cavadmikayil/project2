@@ -18,4 +18,11 @@
 window.VIDEO_CHANNEL = 'https://www.youtube.com/@cavadmikayil/courses';
 
 window.VIDEO_COURSES = [
+    {
+        id: 'fortigate',
+        title: 'FortiGate',
+        desc: 'Fortinet FortiGate firewall: quraşdırma, konfiqurasiya və idarəetmə üzrə tam kurs.',
+        icon: 'shield-check',
+        playlist: 'https://www.youtube.com/playlist?list=PLIWUHiy6unDu6EoViNjZUy18s9CgUY_JY',
+    },
 ];
