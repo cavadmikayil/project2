@@ -1,0 +1,113 @@
+<!--PAGE title="Cloud Security Əsasları" icon="cloud-cog" badge="Təhlükəsizlik · Cloud" nav="intro:Giriş|shared:Paylaşılan məsuliyyət|iam:IAM|storage:Storage|network:Şəbəkə|monitor:Monitorinq|check:Yoxlama"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:cloud-cog}} Giriş: Bulud Özü-Özlüyündə Təhlükəsiz Deyil</h2>
+            <p class="lead">
+                AWS, Azure və Google Cloud infrastrukturu yüksək səviyyədə qoruyur. Amma bulud insidentlərinin
+                böyük hissəsi provayderin yox, <strong>müştərinin konfiqurasiya səhvlərindən</strong> yaranır: hamıya
+                açıq storage, həddən artıq icazəli hesablar, kodda unudulmuş açarlar.
+            </p>
+        </section>
+
+        <section id="shared" class="section-card">
+            <h2 class="section-title">{{i:scale}} 1. Paylaşılan Məsuliyyət Modeli</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Sahə</th><th>IaaS (VM)</th><th>PaaS</th><th>SaaS</th></tr></thead>
+                    <tbody>
+                        <tr><td>Fiziki data mərkəzi, hardware</td><td>Provayder</td><td>Provayder</td><td>Provayder</td></tr>
+                        <tr><td>OS və yamalar</td><td><strong>Müştəri</strong></td><td>Provayder</td><td>Provayder</td></tr>
+                        <tr><td>Tətbiq</td><td><strong>Müştəri</strong></td><td><strong>Müştəri</strong></td><td>Provayder</td></tr>
+                        <tr><td>Məlumat, hesablar, icazələr</td><td><strong>Müştəri</strong></td><td><strong>Müştəri</strong></td><td><strong>Müştəri</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4">Hər modeldə <strong>məlumat və identity</strong> həmişə sizin məsuliyyətinizdir — Microsoft 365-də belə.</p>
+        </section>
+
+        <section id="iam" class="section-card">
+            <h2 class="section-title">{{i:user-lock}} 2. IAM — Buludun Əsas Nəzarət Nöqtəsi</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:crown}}<p class="text-neutral-700"><strong>Root / Global Admin hesabı:</strong> güclü MFA, gündəlik işdə istifadə olunmur, açarları yoxdur.</p></div>
+                <div class="feature-item">{{i:user-check}}<p class="text-neutral-700"><strong>Least privilege:</strong> <code>*:*</code> (hər şeyə icazə) siyasətlərindən qaçın; rolları konkret resurslara məhdudlaşdırın.</p></div>
+                <div class="feature-item">{{i:key-round}}<p class="text-neutral-700"><strong>Uzunmüddətli access key-lərdən qaçın:</strong> VM-lər və tətbiqlər üçün role / managed identity istifadə edin.</p></div>
+                <div class="feature-item">{{i:git-branch}}<p class="text-neutral-700"><strong>Kodda sir yoxdur:</strong> açarlar Git-ə düşərsə, dəqiqələr içində avtomatik botlar tərəfindən tapılır — secrets manager / Key Vault.</p></div>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>// AWS IAM: yalnız bir bucket-dan oxumaq icazəsi (least privilege)
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": ["s3:GetObject"],
+    "Resource": "arn:aws:s3:::company-reports/*"
+  }]
+}</code></pre>
+            </div>
+        </section>
+
+        <section id="storage" class="section-card">
+            <h2 class="section-title">{{i:database}} 3. Storage Təhlükəsizliyi</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Risk</th><th>Tədbir</th></tr></thead>
+                    <tbody>
+                        <tr><td>Hamıya açıq bucket/container</td><td>"Block public access" hesab səviyyəsində aktiv; paylaşım üçün müddətli (pre-signed/SAS) linklər</td></tr>
+                        <tr><td>Şifrələnməmiş məlumat</td><td>At-rest şifrələmə (standart aktivdir), həssas məlumat üçün müştəri idarə etdiyi açarlar (KMS/Key Vault)</td></tr>
+                        <tr><td>Silinmə / ransomware</td><td>Versioning, soft delete, Object Lock (immutable)</td></tr>
+                        <tr><td>Kim nəyi oxudu?</td><td>Access logging aktiv</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="network" class="section-card">
+            <h2 class="section-title">{{i:network}} 4. Bulud Şəbəkəsi</h2>
+            <div class="code-block mb-6">
+                <pre><code>VPC / VNet 10.10.0.0/16
+├── Public subnet  10.10.1.0/24   → Load balancer, (lazımdırsa) bastion
+├── Private subnet 10.10.2.0/24   → Tətbiq serverləri (internetə yalnız NAT gateway ilə çıxış)
+└── Data subnet    10.10.3.0/24   → Verilənlər bazası (yalnız tətbiq subnet-indən giriş)</code></pre>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:brick-wall}}<p class="text-neutral-700"><strong>Security Group / NSG:</strong> stateful firewall qaydaları — <code>0.0.0.0/0</code> üçün 22/3389 portlarını açmayın.</p></div>
+                <div class="feature-item">{{i:terminal}}<p class="text-neutral-700"><strong>Admin girişi:</strong> SSM Session Manager, Azure Bastion və ya VPN — public IP-li RDP/SSH yox.</p></div>
+                <div class="feature-item">{{i:link}}<p class="text-neutral-700"><strong>Private endpoint:</strong> PaaS xidmətlərinə (DB, storage) internetsiz, daxili şəbəkədən giriş.</p></div>
+            </div>
+        </section>
+
+        <section id="monitor" class="section-card">
+            <h2 class="section-title">{{i:activity}} 5. Log və Monitorinq</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>AWS</th><th>Azure</th><th>Nə edir</th></tr></thead>
+                    <tbody>
+                        <tr><td>CloudTrail</td><td>Activity Log</td><td>Kim hansı API əməliyyatını etdi</td></tr>
+                        <tr><td>GuardDuty</td><td>Defender for Cloud</td><td>Təhdid aşkarlama</td></tr>
+                        <tr><td>Security Hub / Config</td><td>Defender CSPM / Policy</td><td>Konfiqurasiya uyğunluğu (misconfiguration)</td></tr>
+                        <tr><td>VPC Flow Logs</td><td>NSG Flow Logs</td><td>Şəbəkə trafiki qeydləri</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box mt-6">
+                {{i:banknote}}
+                <p class="text-neutral-800"><strong>Büdcə xəbərdarlığı da təhlükəsizlik alətidir:</strong> oğurlanmış açarla açılan kripto-mayninq serverləri çox vaxt ilk olaraq gözlənilməz hesabla görünür.</p>
+            </div>
+        </section>
+
+        <section id="check" class="section-card">
+            <h2 class="section-title">{{i:list-checks}} 6. Yeni Bulud Hesabı Üçün İlk 10 Addım</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">Root/Global Admin-ə MFA; onu gündəlik istifadə etməmək.</p></li>
+                <li><p class="text-neutral-700">SSO ilə adlı istifadəçi hesabları; paylaşılan hesab yoxdur.</p></li>
+                <li><p class="text-neutral-700">Audit log-ları bütün regionlarda aktiv və ayrı hesabda saxlanılır.</p></li>
+                <li><p class="text-neutral-700">Storage üçün "block public access".</p></li>
+                <li><p class="text-neutral-700">Standart şifrələmə aktivdir.</p></li>
+                <li><p class="text-neutral-700">Təhdid aşkarlama xidməti açıqdır.</p></li>
+                <li><p class="text-neutral-700">Büdcə və anomaliya xəbərdarlıqları.</p></li>
+                <li><p class="text-neutral-700">İstifadə olunmayan regionları siyasətlə bağlamaq.</p></li>
+                <li><p class="text-neutral-700">Infrastructure as Code (Terraform/Bicep) — dəyişikliklər review ilə.</p></li>
+                <li><p class="text-neutral-700">Resurslara sahib (owner) və mühit (prod/test) teqləri.</p></li>
+            </ol>
+        </section>
+<!--END-->

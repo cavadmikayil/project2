@@ -1,0 +1,128 @@
+<!--PAGE title="Docker və Konteynerlər" icon="container" badge="Server · DevOps" nav="intro:Giriş|vs:VM ilə fərq|basics:Əsas əmrlər|dockerfile:Dockerfile|compose:Compose|best:Yaxşı təcrübə"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:container}} Giriş: "Mənim kompüterimdə işləyirdi"</h2>
+            <p class="lead">
+                Proqram developer-in kompüterində işləyir, serverdə isə fərqli kitabxana versiyası səbəbindən çökür.
+                <strong>Konteyner</strong> proqramı bütün asılılıqları ilə birlikdə bir paketə (<strong>image</strong>) yığır —
+                o, istənilən Docker olan serverdə eyni cür işləyir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:package}} Image</h3><p class="text-neutral-700">Dəyişməz şablon: OS kitabxanaları + proqram + konfiqurasiya. Qatlardan (layer) ibarətdir.</p></div>
+                <div class="info-card"><h3>{{i:play}} Container</h3><p class="text-neutral-700">Image-dan işə salınmış proses. Silinəndə içindəki dəyişikliklər də silinir.</p></div>
+                <div class="info-card dark"><h3>{{i:cloud}} Registry</h3><p>Image-lərin saxlandığı yer: Docker Hub, GitHub Container Registry, şirkət daxili registry.</p></div>
+            </div>
+        </section>
+
+        <section id="vs" class="section-card">
+            <h2 class="section-title">{{i:scale}} 1. Konteyner və Virtual Maşın</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Virtual maşın</th><th>Konteyner</th></tr></thead>
+                    <tbody>
+                        <tr><td>Nəyi virtuallaşdırır</td><td>Hardware — hər VM-in öz kernel-i var</td><td>OS — host kernel-i paylaşılır</td></tr>
+                        <tr><td>Ölçü</td><td>GB-larla</td><td>MB-larla</td></tr>
+                        <tr><td>Başlama vaxtı</td><td>Dəqiqələr</td><td>Saniyələr</td></tr>
+                        <tr><td>İzolyasiya</td><td class="yes">Güclü</td><td>Daha zəif (namespaces, cgroups)</td></tr>
+                        <tr><td>Tipik istifadə</td><td>Fərqli OS-lər, tam server</td><td>Mikroservislər, tətbiqlər, CI/CD</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="basics" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 2. Əsas Əmrlər</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>docker run -d --name web -p 8080:80 nginx:1.27   # arxa planda, host:8080 → konteyner:80
+docker ps                     # işləyən konteynerlər (-a: hamısı)
+docker logs -f web            # log-lar
+docker exec -it web sh        # konteynerin içinə gir
+docker stop web && docker rm web
+docker images                 # lokal image-lər
+docker pull postgres:16       # image yüklə
+
+# Məlumatın qalıcı olması üçün volume
+docker volume create pgdata
+docker run -d --name db -e POSTGRES_PASSWORD=GucluParol \
+  -v pgdata:/var/lib/postgresql/data postgres:16
+
+docker system df              # disk istifadəsi
+docker system prune           # istifadə olunmayan konteyner/image/şəbəkələri təmizlə</code></pre>
+                <p class="code-note"><code>-p 8080:80</code> — host portu:konteyner portu. Volume olmadan verilənlər bazası konteyneri silindikdə bütün məlumat itir.</p>
+            </div>
+        </section>
+
+        <section id="dockerfile" class="section-card">
+            <h2 class="section-title">{{i:file-code}} 3. Dockerfile ilə Öz Image-ınız</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Dockerfile — Python veb tətbiqi
+FROM python:3.12-slim
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+RUN useradd -m appuser
+USER appuser
+
+EXPOSE 8000
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "app:app"]
+
+# Qurmaq və işə salmaq
+docker build -t myapp:1.0 .
+docker run -d -p 8000:8000 --name myapp myapp:1.0</code></pre>
+                <p class="code-note"><code>requirements.txt</code> kodun qalanından əvvəl kopyalanır: kod dəyişəndə asılılıqlar qatı keşdən götürülür və build sürətlənir. <code>USER appuser</code> — konteyner root kimi işləməsin.</p>
+            </div>
+        </section>
+
+        <section id="compose" class="section-card">
+            <h2 class="section-title">{{i:boxes}} 4. Docker Compose: Çox Konteynerli Tətbiq</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># compose.yaml
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://app:${DB_PASSWORD}@db:5432/app
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+
+# İdarəetmə
+docker compose up -d
+docker compose ps
+docker compose logs -f web
+docker compose down          # dayandır (volume qalır)</code></pre>
+                <p class="code-note">Compose şəbəkəsində konteynerlər bir-birini <strong>xidmət adı</strong> ilə tapır (<code>db:5432</code>) — daxili DNS. Parol <code>.env</code> faylından gəlir və git-ə əlavə olunmur.</p>
+            </div>
+        </section>
+
+        <section id="best" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 5. Yaxşı Təcrübələr</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:tag}}<p class="text-neutral-700"><strong>Versiyanı sabitləyin:</strong> <code>nginx:latest</code> yox, <code>nginx:1.27</code> — gözlənilməz yeniləmə olmasın.</p></div>
+                <div class="feature-item">{{i:minimize-2}}<p class="text-neutral-700"><strong>Kiçik base image:</strong> <code>-slim</code>, <code>alpine</code> — daha az zəiflik, daha sürətli yükləmə.</p></div>
+                <div class="feature-item">{{i:key-round}}<p class="text-neutral-700"><strong>Sirləri image-a qoymayın:</strong> parol və açarlar environment, secret və ya vault ilə verilir.</p></div>
+                <div class="feature-item">{{i:user-check}}<p class="text-neutral-700"><strong>Root olmayan istifadəçi</strong> və yalnız lazım olan portlar.</p></div>
+                <div class="feature-item">{{i:scan-search}}<p class="text-neutral-700"><strong>Image-ları skan edin:</strong> <code>docker scout cves</code> və ya Trivy ilə məlum zəiflikləri yoxlayın.</p></div>
+                <div class="feature-item">{{i:database}}<p class="text-neutral-700"><strong>Məlumat volume-da:</strong> konteyner istənilən vaxt silinə bilən kimi düşünülməlidir.</p></div>
+            </div>
+        </section>
+<!--END-->

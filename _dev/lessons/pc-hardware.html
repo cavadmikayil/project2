@@ -1,0 +1,91 @@
+<!--PAGE title="PC Hardware və Diaqnostika" icon="cpu" badge="Helpdesk · Hardware" nav="intro:Giriş|parts:Komponentlər|post:POST və BIOS|storage:Disklər|symptoms:Simptomlar|safety:Təhlükəsizlik"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:cpu}} Giriş: Qutunun İçində Nə Var?</h2>
+            <p class="lead">
+                Hardware problemini düzgün təyin etmək — kompüteri boş yerə dəyişməyin və ya lazımsız hissə almağın
+                qarşısını alır. Helpdesk mütəxəssisi hər komponentin nə etdiyini, necə xarab olduğunu və bunu hansı
+                simptomlarla göstərdiyini bilməlidir.
+            </p>
+        </section>
+
+        <section id="parts" class="section-card">
+            <h2 class="section-title">{{i:layout-grid}} 1. Əsas Komponentlər</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Komponent</th><th>Vəzifəsi</th><th>Bilinməli detal</th></tr></thead>
+                    <tbody>
+                        <tr><td>Motherboard</td><td>Bütün hissələri birləşdirir</td><td>Form faktor (ATX, mATX), socket, chipset, RAM yuvaları</td></tr>
+                        <tr><td>CPU</td><td>Hesablamalar</td><td>Socket uyğunluğu, soyutma (thermal paste)</td></tr>
+                        <tr><td>RAM</td><td>İşləyən proqramların müvəqqəti yaddaşı</td><td>DDR4 və DDR5 bir-birinə uyğun deyil; dual channel üçün cüt modul</td></tr>
+                        <tr><td>Storage</td><td>Daimi yaddaş</td><td>HDD, SATA SSD, NVMe M.2 (ən sürətli)</td></tr>
+                        <tr><td>PSU</td><td>AC-ni DC-yə çevirir (12V, 5V, 3.3V)</td><td>Güc (W), 80 PLUS səmərəliliyi</td></tr>
+                        <tr><td>GPU</td><td>Görüntü</td><td>İnteqrasiya olunmuş və ya ayrıca kart; əlavə qida kabeli</td></tr>
+                        <tr><td>CMOS batareyası</td><td>BIOS parametrlərini və saatı saxlayır</td><td>CR2032; bitəndə saat hər açılışda sıfırlanır</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="post" class="section-card">
+            <h2 class="section-title">{{i:power}} 2. POST, BIOS/UEFI</h2>
+            <p class="lead">Kompüter yandırılanda <strong>POST</strong> (Power-On Self-Test) hardware-i yoxlayır. Problem olarsa, ekran açılmadan <strong>səs siqnalları (beep)</strong> və ya anakart LED-ləri ilə xəbər verir — kodlar istehsalçıya görə fərqlidir, anakartın kitabçasına baxın.</p>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:settings}}<p class="text-neutral-700"><strong>UEFI:</strong> BIOS-un müasir əvəzi — GPT diskləri, Secure Boot, qrafik interfeys. Giriş: <code>F2</code>, <code>Del</code>, <code>F10</code>, <code>F12</code> (boot menyu).</p></div>
+                <div class="feature-item">{{i:shield-check}}<p class="text-neutral-700"><strong>Secure Boot və TPM 2.0:</strong> Windows 11 üçün tələbdir; BitLocker açarını TPM saxlayır.</p></div>
+                <div class="feature-item">{{i:list-ordered}}<p class="text-neutral-700"><strong>Boot order:</strong> "No bootable device" xətasında ilk baxılan yer.</p></div>
+                <div class="feature-item">{{i:refresh-cw}}<p class="text-neutral-700"><strong>Firmware yeniləməsi:</strong> yalnız istehsalçının rəsmi alətilə və qidası kəsilməyən mühitdə.</p></div>
+            </div>
+        </section>
+
+        <section id="storage" class="section-card">
+            <h2 class="section-title">{{i:hard-drive}} 3. Disklər və SMART</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th></th><th>HDD</th><th>SATA SSD</th><th>NVMe SSD</th></tr></thead>
+                    <tbody>
+                        <tr><td>Sürət (təxmini)</td><td>100–200 MB/s</td><td>~550 MB/s</td><td>2000–7000+ MB/s</td></tr>
+                        <tr><td>Xarab olma əlaməti</td><td>Tıqqıltı səsi, yavaşlama, bad sector</td><td colspan="2">Birdən yox olma, yalnız oxuma rejimi, SMART xəbərdarlığı</td></tr>
+                        <tr><td>Zərbəyə həssaslıq</td><td class="no">Yüksək</td><td colspan="2" class="yes">Aşağı</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>Get-PhysicalDisk | Select FriendlyName, MediaType, HealthStatus, OperationalStatus
+Get-PhysicalDisk | Get-StorageReliabilityCounter | Select Temperature, Wear, ReadErrorsTotal
+wmic diskdrive get model,status</code></pre>
+                <p class="code-note"><strong>SMART</strong> — diskin öz sağlamlıq göstəriciləri. "Warning" və ya artan reallocated sector sayı — məlumatı dərhal köçürüb diski dəyişmək siqnalıdır. Pulsuz alət: CrystalDiskInfo.</p>
+            </div>
+        </section>
+
+        <section id="symptoms" class="section-card">
+            <h2 class="section-title">{{i:stethoscope}} 4. Simptomdan Səbəbə</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Simptom</th><th>Ehtimal olunan səbəb</th><th>Yoxlama</th></tr></thead>
+                    <tbody>
+                        <tr><td>Heç bir reaksiya yoxdur</td><td>Qida kabeli, PSU, düymə</td><td>Başqa kabel/rozetka; PSU testeri</td></tr>
+                        <tr><td>Fanlar fırlanır, ekran qaradır</td><td>RAM, GPU, monitor kabeli</td><td>RAM-ı çıxarıb-taxmaq (reseat), bir modul ilə yoxlamaq</td></tr>
+                        <tr><td>Təsadüfi söndürülmə</td><td>Qızma, PSU</td><td>Temperatur (HWMonitor), toz, thermal paste</td></tr>
+                        <tr><td>Təsadüfi BSOD, fayllar zədələnir</td><td>RAM</td><td><code>mdsched</code> və ya MemTest86</td></tr>
+                        <tr><td>Saat hər dəfə sıfırlanır</td><td>CMOS batareyası</td><td>CR2032 dəyişmək</td></tr>
+                        <tr><td>Yüksək fan səsi, yavaşlama</td><td>Termal throttling</td><td>Radiatoru təmizləmək</td></tr>
+                        <tr><td>Noutbuk batareyası şişib</td><td>Li-ion deqradasiyası</td><td><strong>Dərhal istifadəni dayandırın</strong> — yanğın riski</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="safety" class="section-card">
+            <h2 class="section-title">{{i:shield-alert}} 5. Təhlükəsizlik və ESD</h2>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:zap}} ESD</h3><p class="text-neutral-700">Statik elektrik komponentləri görünməz şəkildə zədələyə bilər. Antistatik bilərzik, antistatik xalça; hissələri kənarlarından tutun.</p></div>
+                <div class="info-card"><h3>{{i:plug}} Qidanı ayırın</h3><p class="text-neutral-700">Açmazdan əvvəl kabeli çıxarın, noutbukda batareyanı ayırın; güc düyməsini basıb qalıq enerjini boşaldın.</p></div>
+                <div class="info-card dark"><h3>{{i:ban}} PSU-nu açmayın</h3><p>İçindəki kondensatorlar söndürüldükdən sonra da təhlükəli gərginlik saxlayır — PSU bütöv dəyişdirilir.</p></div>
+            </div>
+            <div class="note-box mt-6">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Hissəni dəyişməzdən əvvəl <strong>zəmanəti</strong> yoxlayın (seriya nömrəsi ilə istehsalçı saytında) — korporativ cihazlarda çox vaxt istehsalçı növbəti iş günü pulsuz dəyişir.</p>
+            </div>
+        </section>
+<!--END-->

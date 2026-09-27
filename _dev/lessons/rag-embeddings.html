@@ -1,0 +1,95 @@
+<!--PAGE title="Embeddings və RAG" icon="database-zap" badge="AI · Arxitektura" nav="intro:Giriş|embeddings:Embeddings|vectordb:Vector DB|rag:RAG axını|chunking:Chunking|quality:Keyfiyyət|usecase:Ssenari"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:database-zap}} Giriş: Modelə Öz Sənədlərinizi "Oxutmaq"</h2>
+            <p class="lead">
+                LLM şirkətinizin daxili runbook-larını, KB məqalələrini və siyasətlərini bilmir və onun biliyi müəyyən
+                tarixdə dayanıb. Hər şeyi prompt-a yapışdırmaq isə mümkün deyil. <strong>RAG</strong> (Retrieval-Augmented
+                Generation) həll yoludur: sualla əlaqəli sənəd parçaları əvvəlcə <strong>axtarılır</strong>, sonra modelə
+                kontekst kimi verilir və model cavabı <strong>həmin mənbələrə əsasən</strong> yazır.
+            </p>
+        </section>
+
+        <section id="embeddings" class="section-card">
+            <h2 class="section-title">{{i:move-3d}} 1. Embeddings: Mənanın Ədədlərlə İfadəsi</h2>
+            <p class="lead"><strong>Embedding modeli</strong> mətni yüzlərlə və ya minlərlə ədəddən ibarət vektora çevirir. Mənaca yaxın mətnlərin vektorları da bir-birinə yaxın olur — hətta eyni sözlər işlənməsə belə.</p>
+            <div class="code-block mb-6">
+                <pre><code>"Printer çap etmir"          → [0.12, -0.83, 0.44, ...]  ┐ yaxın
+"Sənəd növbədə ilişib qalıb"  → [0.10, -0.79, 0.47, ...]  ┘
+"OSPF qonşuluğu qurulmur"     → [-0.65, 0.21, -0.08, ...]    uzaq</code></pre>
+            </div>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:search}} Keyword axtarış</h3><p class="text-neutral-700">Dəqiq sözü tapır: "0x2142", "CVE-2024-3400", xəta kodu. Sinonimləri görmür.</p></div>
+                <div class="info-card accent"><h3>{{i:sparkles}} Semantik axtarış</h3><p class="text-neutral-700">Mənanı tapır: "wifi qoşulmur" sualına "simsiz şəbəkə problemləri" məqaləsi. Dəqiq kodlarda zəifdir.</p></div>
+            </div>
+            <p class="text-neutral-700 mt-4">Praktikada ikisi birləşdirilir — <strong>hybrid search</strong>.</p>
+        </section>
+
+        <section id="vectordb" class="section-card">
+            <h2 class="section-title">{{i:database}} 2. Vector Database</h2>
+            <p class="lead">Milyonlarla vektor arasında ən yaxınlarını millisaniyələrlə tapmaq üçün xüsusi indekslər istifadə olunur. Yaxınlıq adətən <strong>cosine similarity</strong> ilə ölçülür.</p>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Seçim</th><th>Xüsusiyyət</th></tr></thead>
+                    <tbody>
+                        <tr><td>pgvector (PostgreSQL)</td><td>Mövcud PostgreSQL-ə əlavə — kiçik/orta layihələr üçün sadə seçim</td></tr>
+                        <tr><td>Chroma, FAISS</td><td>Lokal, prototip və öyrənmə üçün</td></tr>
+                        <tr><td>Qdrant, Weaviate, Milvus</td><td>Ayrıca vector DB serverləri, filtrlər, miqyaslanma</td></tr>
+                        <tr><td>Elasticsearch / OpenSearch</td><td>Keyword + vector (hybrid) bir yerdə</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="rag" class="section-card">
+            <h2 class="section-title">{{i:workflow}} 3. RAG Axını</h2>
+            <div class="code-block mb-6">
+                <pre><code>HAZIRLIQ (bir dəfə və yenilənəndə)
+Sənədlər → parçalara bölmə (chunking) → embedding → vector DB (+ mənbə, tarix, icazə)
+
+SORĞU ZAMANI
+İstifadəçi sualı → embedding → ən yaxın 5 parça (retrieval)
+      → prompt: "Yalnız aşağıdakı mənbələrə əsasən cavab ver, mənbəni göstər:
+                 [parça 1] [parça 2] ... Sual: ..."
+      → LLM → cavab + istinadlar</code></pre>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:circle-check}}<p class="text-neutral-700"><strong>Aktual məlumat:</strong> sənədi yeniləyirsiniz — modeli yenidən öyrətmədən cavab dəyişir.</p></div>
+                <div class="feature-item">{{i:quote}}<p class="text-neutral-700"><strong>İstinadlar:</strong> cavabın hansı sənəddən gəldiyi göstərilir — yoxlamaq asandır.</p></div>
+                <div class="feature-item">{{i:lock-keyhole}}<p class="text-neutral-700"><strong>İcazələr:</strong> axtarış istifadəçinin görə bildiyi sənədlərlə məhdudlaşdırılmalıdır.</p></div>
+            </div>
+        </section>
+
+        <section id="chunking" class="section-card">
+            <h2 class="section-title">{{i:scissors}} 4. Chunking — Keyfiyyətin Gizli Açarı</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Problem</th><th>Nəticə</th><th>Həll</th></tr></thead>
+                    <tbody>
+                        <tr><td>Parça çox böyükdür</td><td>Lazımsız məlumat, kontekst israfı, dəqiqlik düşür</td><td>Təxminən 200–800 token</td></tr>
+                        <tr><td>Parça çox kiçikdir</td><td>Kontekst itir ("bu əmr" — hansı əmr?)</td><td>Qonşu parçalarla overlap (10–20%)</td></tr>
+                        <tr><td>Mexaniki bölmə</td><td>Cədvəl və ya kod bloku ortadan kəsilir</td><td>Başlıq, bölmə, paraqraf sərhədləri ilə bölmək</td></tr>
+                        <tr><td>Metadata yoxdur</td><td>Köhnə və yeni versiya qarışır</td><td>Mənbə, tarix, versiya, şöbə sahələri</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="quality" class="section-card">
+            <h2 class="section-title">{{i:gauge}} 5. Keyfiyyəti Necə Ölçmək?</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700"><strong>Test sualları dəsti:</strong> 30–50 real sual və gözlənilən mənbə sənəd.</p></li>
+                <li><p class="text-neutral-700"><strong>Retrieval yoxlaması:</strong> düzgün sənəd ilk 5 nəticədə varmı? (Yoxdursa — problem LLM-də deyil, axtarışdadır.)</p></li>
+                <li><p class="text-neutral-700"><strong>Cavab yoxlaması:</strong> cavab mənbəyə sadiqdirmi (faithfulness), sualı tam cavablandırırmı?</p></li>
+                <li><p class="text-neutral-700"><strong>"Bilmirəm" testi:</strong> mənbədə olmayan sual — model uydurmamalı, "sənədlərdə tapılmadı" deməlidir.</p></li>
+            </ol>
+        </section>
+
+        <section id="usecase" class="section-card">
+            <h2 class="section-title">{{i:headset}} 6. Ssenari: Helpdesk Assistenti</h2>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:book-open}} Mənbələr</h3><p class="text-neutral-700">KB məqalələri, həll olunmuş ticket-lər (anonimləşdirilmiş), IT siyasətləri, vendor sənədləri.</p></div>
+                <div class="info-card"><h3>{{i:message-circle}} İstifadə</h3><p class="text-neutral-700">Tier 1 mütəxəssisi müraciəti yazır — assistent oxşar həll olunmuş hallar və addımları istinadlarla təklif edir.</p></div>
+                <div class="info-card dark"><h3>{{i:user-check}} Nəzarət</h3><p>Təklifi mütəxəssis tətbiq edir; yanlış cavablar qeyd olunur və KB düzəldilir.</p></div>
+            </div>
+        </section>
+<!--END-->

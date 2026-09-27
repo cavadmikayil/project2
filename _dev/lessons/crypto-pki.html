@@ -1,0 +1,120 @@
+<!--PAGE title="Kriptoqrafiya və PKI" icon="file-key" badge="Təhlükəsizlik · Kriptoqrafiya" nav="intro:Giriş|sym:Simmetrik/Asimmetrik|hash:Hash|sign:Rəqəmsal imza|pki:PKI|tls:TLS|practice:Praktika"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:file-key}} Giriş: Kriptoqrafiya Nəyi Qoruyur?</h2>
+            <p class="lead">
+                HTTPS, VPN, Wi-Fi, SSH, parolların saxlanması, proqram yeniləmələrinin imzası — hamısı kriptoqrafiyaya
+                əsaslanır. Onun dörd məqsədi var: <strong>məxfilik</strong>, <strong>bütövlük</strong>,
+                <strong>autentifikasiya</strong> və <strong>inkar edilməzlik</strong> (non-repudiation).
+            </p>
+            <div class="note-box">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800"><strong>Qızıl qayda:</strong> öz şifrələmə alqoritminizi heç vaxt icad etməyin. Sınaqdan keçmiş standartlardan (AES, RSA, ECC, SHA-2) və etibarlı kitabxanalardan istifadə edin.</p>
+            </div>
+        </section>
+
+        <section id="sym" class="section-card">
+            <h2 class="section-title">{{i:key-round}} 1. Simmetrik və Asimmetrik Şifrələmə</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Simmetrik</th><th>Asimmetrik</th></tr></thead>
+                    <tbody>
+                        <tr><td>Açar</td><td>Bir ortaq açar</td><td>Açar cütü: public + private</td></tr>
+                        <tr><td>Sürət</td><td class="yes">Çox sürətli</td><td>Yavaş</td></tr>
+                        <tr><td>Problem</td><td>Açarı təhlükəsiz necə paylaşmaq?</td><td>Böyük həcmli məlumat üçün səmərəsiz</td></tr>
+                        <tr><td>Alqoritmlər</td><td>AES-128/256, ChaCha20</td><td>RSA (2048+ bit), ECC (ECDSA, X25519)</td></tr>
+                        <tr><td>İstifadə</td><td>Məlumatın özünü şifrələmək</td><td>Açar mübadiləsi, rəqəmsal imza</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700"><strong>Praktikada ikisi birlikdə işləyir (hibrid):</strong> asimmetrik kriptoqrafiya ilə sessiya açarı razılaşdırılır, sonra bütün trafik həmin simmetrik açarla (AES) şifrələnir. TLS və VPN-lər məhz belə işləyir.</p>
+        </section>
+
+        <section id="hash" class="section-card">
+            <h2 class="section-title">{{i:fingerprint}} 2. Hash Funksiyaları</h2>
+            <p class="lead">Hash istənilən ölçülü məlumatdan sabit uzunluqlu "barmaq izi" yaradır. Geri çevrilmir (şifrələmə deyil!) və məlumatda bir bit dəyişəndə nəticə tamamilə dəyişir.</p>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>echo -n "salam" | sha256sum
+# b1a3... (64 hex simvol = 256 bit)
+
+sha256sum ubuntu-24.04.iso            # yüklənmiş faylın bütövlüyünü yoxla
+Get-FileHash .\setup.exe -Algorithm SHA256   # Windows</code></pre>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Alqoritm</th><th>Vəziyyət</th></tr></thead>
+                    <tbody>
+                        <tr><td>MD5, SHA-1</td><td class="no">Sındırılıb (collision) — təhlükəsizlik üçün istifadə etməyin</td></tr>
+                        <tr><td>SHA-256, SHA-3</td><td class="yes">Bütövlük və imza üçün standart</td></tr>
+                        <tr><td>bcrypt, scrypt, Argon2</td><td class="yes">Parolları saxlamaq üçün — qəsdən yavaş və "duzlu" (salt)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box mt-6">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><strong>Salt</strong> — hər parola əlavə olunan təsadüfi dəyər. Onsuz eyni parollar eyni hash verir və əvvəlcədən hesablanmış cədvəllərlə (rainbow table) tez tapılır.</p>
+            </div>
+        </section>
+
+        <section id="sign" class="section-card">
+            <h2 class="section-title">{{i:pen-line}} 3. Rəqəmsal İmza</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Göndərən sənədin hash-ını hesablayır və onu öz <strong>private</strong> açarı ilə imzalayır.</p></li>
+                <li><p class="text-neutral-700">Alan tərəf imzanı göndərənin <strong>public</strong> açarı ilə yoxlayır və sənədin hash-ı ilə müqayisə edir.</p></li>
+                <li><p class="text-neutral-700">Uyğun gəlirsə: sənəd dəyişdirilməyib (bütövlük) və onu yalnız private açarın sahibi imzalaya bilərdi (autentifikasiya, inkar edilməzlik).</p></li>
+            </ol>
+            <p class="text-neutral-700">Harada: proqram yeniləmələri (code signing), IOS image-ların imzası, email (S/MIME), PDF, Git commit-lər, DKIM.</p>
+        </section>
+
+        <section id="pki" class="section-card">
+            <h2 class="section-title">{{i:badge-check}} 4. PKI və Sertifikatlar</h2>
+            <p class="lead">Public açarın həqiqətən <code>bank.az</code>-a məxsus olduğunu necə bilirik? <strong>Sertifikat</strong> — etibarlı mərkəzin (CA) "bu açar bu adın sahibinindir" deyə imzaladığı sənəddir.</p>
+            <div class="code-block mb-6">
+                <pre><code>Root CA   (brauzer/OS-da əvvəlcədən etibarlı siyahıda)
+   └── Intermediate CA   (Root tərəfindən imzalanıb)
+          └── bank.az sertifikatı   (Intermediate tərəfindən imzalanıb)
+                 subject: CN=bank.az, SAN: bank.az, www.bank.az
+                 etibarlıdır: 2026-01-10 → 2026-04-10
+                 public key: ...</code></pre>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:link}}<p class="text-neutral-700"><strong>Chain of trust:</strong> server intermediate sertifikatı da göndərməlidir — əks halda bəzi cihazlarda "untrusted" xətası.</p></div>
+                <div class="feature-item">{{i:ban}}<p class="text-neutral-700"><strong>Revocation:</strong> oğurlanmış açarın sertifikatı ləğv olunur — CRL və OCSP ilə yoxlanılır.</p></div>
+                <div class="feature-item">{{i:building}}<p class="text-neutral-700"><strong>Daxili PKI:</strong> şirkətlər öz CA-larını qurur (AD Certificate Services) — 802.1X, VPN, daxili saytlar üçün.</p></div>
+            </div>
+        </section>
+
+        <section id="tls" class="section-card">
+            <h2 class="section-title">{{i:lock}} 5. TLS Handshake (sadələşdirilmiş, TLS 1.3)</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>ClientHello:</strong> brauzer dəstəklədiyi alqoritmləri və açar mübadiləsi üçün öz hissəsini göndərir.</p></li>
+                <li><p class="text-neutral-700"><strong>ServerHello:</strong> server alqoritmi seçir, öz açar hissəsini, <strong>sertifikatını</strong> və imzanı göndərir.</p></li>
+                <li><p class="text-neutral-700">Brauzer sertifikatı yoxlayır: CA etibarlıdırmı, ad uyğundurmu, vaxtı keçməyibmi.</p></li>
+                <li><p class="text-neutral-700">Hər iki tərəf (ECDHE) eyni sessiya açarını hesablayır — açar şəbəkədə heç vaxt göndərilmir. Bundan sonra trafik AES-GCM/ChaCha20 ilə şifrələnir.</p></li>
+            </ol>
+            <div class="note-box">
+                {{i:shield-check}}
+                <p class="text-neutral-800"><strong>Forward secrecy:</strong> hər sessiya üçün müvəqqəti açar yaradıldığından, serverin private açarı gələcəkdə oğurlansa belə, əvvəl yazılmış trafik açıla bilməz. SSL 3.0, TLS 1.0/1.1 söndürülməli, TLS 1.2 və 1.3 istifadə olunmalıdır.</p>
+            </div>
+        </section>
+
+        <section id="practice" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 6. OpenSSL ilə Praktika</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Private açar və CSR (sertifikat sorğusu) yaratmaq
+openssl req -new -newkey rsa:2048 -nodes -keyout site.key -out site.csr -subj "/CN=intranet.example.az"
+
+# Sertifikatın məzmununu oxumaq
+openssl x509 -in site.crt -noout -subject -issuer -dates -ext subjectAltName
+
+# Saytın sertifikat zəncirini yoxlamaq
+openssl s_client -connect example.az:443 -servername example.az -showcerts &lt;/dev/null
+
+# Faylı AES-256 ilə şifrələmək və açmaq
+openssl enc -aes-256-cbc -pbkdf2 -salt -in secret.txt -out secret.enc
+openssl enc -d -aes-256-cbc -pbkdf2 -in secret.enc -out secret.txt</code></pre>
+                <p class="code-note">Private açar (<code>site.key</code>) heç vaxt paylaşılmır, email-lə göndərilmir və git-ə əlavə olunmur. CA-ya yalnız CSR göndərilir.</p>
+            </div>
+        </section>
+<!--END-->

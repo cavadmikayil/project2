@@ -1,0 +1,126 @@
+<!--PAGE title="Ethernet və Kabelləmə" icon="cable" badge="CCNA · Network Fundamentals" nav="intro:Giriş|cables:Kabel növləri|pinout:Straight/Crossover|standards:Standartlar|duplex:Speed/Duplex|commands:Əmrlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:cable}} Giriş: Fiziki Qat Niyə Vacibdir?</h2>
+            <p class="lead">
+                Şəbəkə problemlərinin böyük bir hissəsi fiziki qatda — səhv kabel, zədələnmiş konnektor,
+                uzunluq limitinin aşılması və ya speed/duplex uyğunsuzluğu səbəbindən yaranır. Bu dərsdə
+                mis (UTP) və optik kabelləri, onların hansı hallarda istifadə olunduğunu və interfeys
+                xətalarının necə oxunduğunu öyrənəcəksiniz.
+            </p>
+        </section>
+
+        <section id="cables" class="section-card">
+            <h2 class="section-title">{{i:layers}} 1. Kabel Növləri</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Kabel</th><th>Maks. sürət</th><th>Maks. məsafə</th><th>Tipik istifadə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Cat5e UTP</td><td>1 Gbps</td><td>100 m</td><td>Ofis, istifadəçi portları</td></tr>
+                        <tr><td>Cat6 UTP</td><td>1 Gbps (10 Gbps ≤ 55 m)</td><td>100 m</td><td>Ofis, server otağı</td></tr>
+                        <tr><td>Cat6a UTP/STP</td><td>10 Gbps</td><td>100 m</td><td>Data center, uplink</td></tr>
+                        <tr><td>Multimode fiber (MMF)</td><td>10–100 Gbps</td><td>yüzlərlə metr</td><td>Bina daxili magistral</td></tr>
+                        <tr><td>Single-mode fiber (SMF)</td><td>10–400 Gbps</td><td>10 km və daha çox</td><td>Binalararası, provayder xətləri</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-grid">
+                <div class="info-card">
+                    <h3>{{i:cable}} Mis (UTP)</h3>
+                    <p class="text-neutral-700">Ucuz və quraşdırılması asandır, PoE ilə cihazlara enerji ötürə bilir. Elektromaqnit müdaxiləsinə həssasdır və 100 metr limiti var.</p>
+                </div>
+                <div class="info-card accent">
+                    <h3>{{i:zap}} Optik (Fiber)</h3>
+                    <p class="text-neutral-700">İşıq siqnalı ilə işləyir: elektromaqnit müdaxiləsindən təsirlənmir, uzun məsafə və yüksək sürət təmin edir. SMF lazer, MMF isə daha qısa məsafələr üçün istifadə olunur.</p>
+                </div>
+                <div class="info-card dark">
+                    <h3>{{i:square-terminal}} Konsol (Rollover)</h3>
+                    <p>Kompüteri Cisco cihazının konsol portuna qoşmaq üçündür. Şəbəkə trafiki ötürmür, yalnız cihazın ilkin konfiqurasiyası üçün istifadə olunur.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="pinout" class="section-card">
+            <h2 class="section-title">{{i:shuffle}} 2. Straight-through və Crossover</h2>
+            <p class="lead">
+                Kabelin iki ucu eyni standartla (T568B–T568B) sıxılıbsa <strong>straight-through</strong>,
+                fərqli standartla (T568A–T568B) sıxılıbsa <strong>crossover</strong> alınır.
+            </p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Birləşmə</th><th>Kabel</th><th>Səbəb</th></tr></thead>
+                    <tbody>
+                        <tr><td>PC → Switch</td><td class="yes">Straight-through</td><td>Fərqli tip cihazlar (MDI ↔ MDI-X)</td></tr>
+                        <tr><td>Router → Switch</td><td class="yes">Straight-through</td><td>Fərqli tip cihazlar</td></tr>
+                        <tr><td>Switch → Switch</td><td class="no">Crossover</td><td>Eyni tip cihazlar</td></tr>
+                        <tr><td>PC → PC</td><td class="no">Crossover</td><td>Eyni tip cihazlar</td></tr>
+                        <tr><td>PC → Router</td><td class="no">Crossover</td><td>Hər ikisi MDI portudur</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><strong>Auto-MDIX:</strong> müasir switch və kartlar kabel növünü avtomatik tanıyır, ona görə praktikada adətən istənilən kabel işləyir. Amma imtahanlarda və köhnə avadanlıqda bu cədvəli bilmək vacibdir.</p>
+            </div>
+        </section>
+
+        <section id="standards" class="section-card">
+            <h2 class="section-title">{{i:list-ordered}} 3. Ethernet Standartları</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Standart</th><th>Sürət</th><th>Mühit</th><th>IEEE</th></tr></thead>
+                    <tbody>
+                        <tr><td>10BASE-T</td><td>10 Mbps</td><td>UTP (Cat3+)</td><td>802.3i</td></tr>
+                        <tr><td>100BASE-TX (Fast Ethernet)</td><td>100 Mbps</td><td>UTP (Cat5+)</td><td>802.3u</td></tr>
+                        <tr><td>1000BASE-T (Gigabit)</td><td>1 Gbps</td><td>UTP (Cat5e+)</td><td>802.3ab</td></tr>
+                        <tr><td>1000BASE-SX</td><td>1 Gbps</td><td>Multimode fiber</td><td>802.3z</td></tr>
+                        <tr><td>1000BASE-LX</td><td>1 Gbps</td><td>Single-mode fiber</td><td>802.3z</td></tr>
+                        <tr><td>10GBASE-T</td><td>10 Gbps</td><td>UTP (Cat6a)</td><td>802.3an</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="duplex" class="section-card">
+            <h2 class="section-title">{{i:gauge}} 4. Speed, Duplex və İnterfeys Xətaları</h2>
+            <p class="lead">
+                Hər iki tərəf ya auto-negotiation-da olmalı, ya da eyni dəyərlərlə əl ilə təyin edilməlidir.
+                Bir tərəf <code>full</code>, digəri <code>half</code> duplex olduqda link qalxır, amma performans kəskin düşür.
+            </p>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:circle-alert}}<p class="text-neutral-700"><strong>CRC xətaları:</strong> çərçivə zədələnib — pis kabel, müdaxilə və ya duplex uyğunsuzluğu (full-duplex tərəfdə).</p></div>
+                <div class="feature-item">{{i:ruler}}<p class="text-neutral-700"><strong>Runts / Giants:</strong> 64 baytdan kiçik və ya 1518 baytdan (MTU) böyük çərçivələr.</p></div>
+                <div class="feature-item">{{i:timer}}<p class="text-neutral-700"><strong>Late collisions:</strong> 64 baytdan sonra baş verən toqquşma — demək olar ki, həmişə duplex uyğunsuzluğudur (half-duplex tərəfdə).</p></div>
+                <div class="feature-item">{{i:activity}}<p class="text-neutral-700"><strong>Input/Output drops:</strong> bufer dolub — interfeys trafik həcminə çatmır.</p></div>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 5. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="eth-config">Konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="eth-verify">Doğrulama</button>
+            </div>
+            <div id="eth-config">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Switch(config)# interface GigabitEthernet0/1
+Switch(config-if)# description Uplink-to-Core
+Switch(config-if)# speed 1000
+Switch(config-if)# duplex full
+Switch(config-if)# mdix auto
+Switch(config-if)# no shutdown</code></pre>
+                    <p class="code-note">İnterfeysə təsvir verir, sürəti və duplex-i əl ilə təyin edir, auto-MDIX-i aktivləşdirir. Qarşı tərəfdə də eyni dəyərlər olmalıdır.</p>
+                </div>
+            </div>
+            <div id="eth-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show interfaces status
+show interfaces GigabitEthernet0/1
+show interfaces counters errors
+show controllers ethernet-controller GigabitEthernet0/1 phy</code></pre>
+                    <p class="code-note">Portların speed/duplex vəziyyəti ("a-full" = avtomatik, "full" = əl ilə), CRC, runt, late collision sayğacları və fiziki qat məlumatı.</p>
+                </div>
+            </div>
+        </section>
+<!--END-->

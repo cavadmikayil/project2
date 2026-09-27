@@ -1,0 +1,110 @@
+<!--PAGE title="Server Hardware, RAID və Storage" icon="hard-drive" badge="Server · Infrastruktur" nav="intro:Giriş|forms:Form faktorlar|parts:Komponentlər|raid:RAID|storage:Storage|oob:Uzaqdan idarə"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:hard-drive}} Giriş: Server Adi Kompüterdən Nə ilə Fərqlənir?</h2>
+            <p class="lead">
+                Server 7/24 işləmək, onlarla istifadəçiyə xidmət etmək və nasazlıq zamanı dayanmamaq üçün qurulur.
+                Buna görə onda <strong>ehtiyat (redundancy)</strong> hər yerdədir: iki qida bloku, bir neçə disk,
+                səhvləri düzəldən yaddaş və şəbəkə kartları. Məqsəd — bir hissə sıradan çıxanda xidmətin davam etməsi.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:shield-check}} Etibarlılıq</h3><p class="text-neutral-700">ECC RAM, iki PSU, hot-swap disklər — cihaz söndürülmədən dəyişdirilən hissələr.</p></div>
+                <div class="info-card"><h3>{{i:gauge}} Performans</h3><p class="text-neutral-700">Çox nüvəli CPU-lar (bəzən 2 prosessor), yüzlərlə GB RAM, sürətli NVMe disklər.</p></div>
+                <div class="info-card dark"><h3>{{i:settings}} İdarəetmə</h3><p>OS işləməsə belə şəbəkə üzərindən idarə: iDRAC, iLO, IPMI.</p></div>
+            </div>
+        </section>
+
+        <section id="forms" class="section-card">
+            <h2 class="section-title">{{i:server}} 1. Form Faktorlar</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Xüsusiyyət</th><th>Harada</th></tr></thead>
+                    <tbody>
+                        <tr><td>Tower</td><td>Adi kompüter kimi dayanır, səssiz, genişlənməsi asandır</td><td>Kiçik ofis, rack olmayan yer</td></tr>
+                        <tr><td>Rack (1U, 2U, 4U)</td><td>19 düymlük rack-ə yerləşir; 1U = 4.45 sm hündürlük</td><td>Server otağı, data mərkəzi</td></tr>
+                        <tr><td>Blade</td><td>Ortaq şassidə çox nazik serverlər; qida və şəbəkə paylaşılır</td><td>Yüksək sıxlıqlı data mərkəzi</td></tr>
+                        <tr><td>Hyper-converged (HCI)</td><td>Compute + storage + şəbəkə bir klasterdə, proqram ilə idarə</td><td>Virtualizasiya mühiti</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="parts" class="section-card">
+            <h2 class="section-title">{{i:cpu}} 2. Server Komponentləri</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:cpu}}<p class="text-neutral-700"><strong>CPU:</strong> Intel Xeon və ya AMD EPYC — çox nüvə, çox PCIe xətti, böyük RAM dəstəyi.</p></div>
+                <div class="feature-item">{{i:memory-stick}}<p class="text-neutral-700"><strong>ECC RAM:</strong> tək bitlik yaddaş xətalarını avtomatik düzəldir — verilənlər bazası və virtualizasiya üçün vacibdir.</p></div>
+                <div class="feature-item">{{i:plug-zap}}<p class="text-neutral-700"><strong>Redundant PSU:</strong> iki qida bloku, hər biri ayrı UPS-ə/xəttə qoşulur.</p></div>
+                <div class="feature-item">{{i:network}}<p class="text-neutral-700"><strong>NIC:</strong> 10/25 GbE, iki port — NIC teaming (bonding) ilə ehtiyat və yük bölgüsü.</p></div>
+                <div class="feature-item">{{i:hard-drive}}<p class="text-neutral-700"><strong>Disklər:</strong> SAS/SATA HDD (böyük həcm), SSD və NVMe (sürət). Hot-swap yuvalarda.</p></div>
+                <div class="feature-item">{{i:layers}}<p class="text-neutral-700"><strong>RAID controller:</strong> diskləri massivə birləşdirir, çox vaxt batareyalı keşlə (BBU).</p></div>
+            </div>
+        </section>
+
+        <section id="raid" class="section-card">
+            <h2 class="section-title">{{i:layers}} 3. RAID Səviyyələri</h2>
+            <p class="lead">RAID bir neçə diski bir məntiqi diskə birləşdirir — sürət, ehtiyat və ya hər ikisi üçün. <strong>RAID backup deyil:</strong> silinən fayl bütün disklərdən eyni anda silinir.</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Səviyyə</th><th>Min. disk</th><th>İstifadə olunan həcm</th><th>Neçə disk xarab ola bilər</th><th>Tipik istifadə</th></tr></thead>
+                    <tbody>
+                        <tr><td>RAID 0 (striping)</td><td>2</td><td>100%</td><td class="no">0 — biri xarab olsa hər şey itir</td><td>Müvəqqəti, sürət tələb edən iş</td></tr>
+                        <tr><td>RAID 1 (mirroring)</td><td>2</td><td>50%</td><td>1</td><td>OS diski</td></tr>
+                        <tr><td>RAID 5 (paritet)</td><td>3</td><td>(N−1)/N</td><td>1</td><td>Fayl server (kiçik disklər)</td></tr>
+                        <tr><td>RAID 6 (ikiqat paritet)</td><td>4</td><td>(N−2)/N</td><td>2</td><td>Böyük HDD-lər, arxiv</td></tr>
+                        <tr><td>RAID 10 (1+0)</td><td>4</td><td>50%</td><td>Hər mirror cütündən 1</td><td class="yes">Verilənlər bazası, virtualizasiya</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:calculator}}
+                <p class="text-neutral-800"><strong>Nümunə:</strong> 6 × 4 TB disk. RAID 5 = 20 TB, RAID 6 = 16 TB, RAID 10 = 12 TB istifadə olunan həcm. Böyük disklərdə RAID 5 riskli sayılır: bir disk dəyişdirilib yenidən qurularkən (rebuild) saatlarla davam edir və bu vaxt ikinci diskin xarab olması bütün məlumatı məhv edir.</p>
+            </div>
+        </section>
+
+        <section id="storage" class="section-card">
+            <h2 class="section-title">{{i:database}} 4. Storage Növləri: DAS, NAS, SAN</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th></th><th>DAS</th><th>NAS</th><th>SAN</th></tr></thead>
+                    <tbody>
+                        <tr><td>Qoşulma</td><td>Birbaşa serverə (SAS, USB)</td><td>Şəbəkə üzərindən</td><td>Ayrıca storage şəbəkəsi</td></tr>
+                        <tr><td>Səviyyə</td><td>Blok</td><td><strong>Fayl</strong> (SMB, NFS)</td><td><strong>Blok</strong> (iSCSI, Fibre Channel)</td></tr>
+                        <tr><td>Server onu necə görür</td><td>Lokal disk</td><td>Şəbəkə qovluğu</td><td>Lokal disk kimi (LUN)</td></tr>
+                        <tr><td>Tipik istifadə</td><td>Tək server</td><td>Ortaq fayllar, backup</td><td>Virtualizasiya klasteri, verilənlər bazası</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Linux: NAS-dakı NFS paylaşımını qoşmaq
+sudo mount -t nfs 10.0.0.20:/export/backup /mnt/backup
+
+# Linux: Windows/SMB paylaşımını qoşmaq
+sudo mount -t cifs //10.0.0.21/share /mnt/share -o username=admin
+
+# Diskləri və RAID vəziyyətini görmək
+lsblk
+cat /proc/mdstat</code></pre>
+                <p class="code-note"><code>lsblk</code> blok cihazlarını (disklər, bölmələr), <code>/proc/mdstat</code> isə Linux proqram RAID-inin (mdadm) vəziyyətini və rebuild gedişatını göstərir.</p>
+            </div>
+        </section>
+
+        <section id="oob" class="section-card">
+            <h2 class="section-title">{{i:monitor}} 5. Out-of-Band İdarəetmə</h2>
+            <p class="lead">
+                Server donub, OS açılmır, siz isə başqa şəhərdəsiniz. <strong>BMC</strong> (Baseboard Management Controller) —
+                serverin içində ayrıca kiçik kompüterdir və öz şəbəkə portu var. Dell-də <strong>iDRAC</strong>, HPE-də
+                <strong>iLO</strong>, digərlərində <strong>IPMI</strong>/Redfish adlanır.
+            </p>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:power}}<p class="text-neutral-700">Serveri uzaqdan yandırmaq, söndürmək, reset etmək.</p></div>
+                <div class="feature-item">{{i:monitor}}<p class="text-neutral-700">Virtual konsol — ekranı BIOS səviyyəsindən görmək.</p></div>
+                <div class="feature-item">{{i:disc}}<p class="text-neutral-700">Virtual media — ISO faylını qoşub OS quraşdırmaq.</p></div>
+                <div class="feature-item">{{i:thermometer}}<p class="text-neutral-700">Temperatur, fan, PSU və disk sensorları, hardware log-ları.</p></div>
+            </div>
+            <div class="note-box">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800">BMC portunu heç vaxt internetə açmayın — ayrıca <strong>management VLAN</strong>-da saxlayın, standart parolu dəyişin və firmware-i yeniləyin. BMC-yə giriş faktiki olaraq serverə fiziki girişdir.</p>
+            </div>
+        </section>
+<!--END-->

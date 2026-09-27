@@ -1,0 +1,111 @@
+<!--PAGE title="Web Tətbiq Təhlükəsizliyi (OWASP)" icon="bug" badge="Təhlükəsizlik · AppSec" nav="intro:Giriş|top10:OWASP Top 10|sqli:SQL Injection|xss:XSS|access:Access Control|headers:Headers|sdlc:Secure SDLC"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:bug}} Giriş: Firewall Tətbiqin Səhvini Düzəltmir</h2>
+            <p class="lead">
+                Firewall 443 portunu açıq saxlamalıdır — əks halda sayt işləməz. Buna görə hücumların böyük hissəsi
+                elə bu açıq qapıdan, <strong>tətbiqin məntiqindəki səhvlərdən</strong> istifadə edir. <strong>OWASP</strong>
+                (Open Worldwide Application Security Project) ən kritik veb risklərini <em>OWASP Top 10</em> siyahısında toplayır.
+                Bu dərs zəiflikləri <strong>müdafiəçi</strong> — developer və admin gözü ilə izah edir.
+            </p>
+        </section>
+
+        <section id="top10" class="section-card">
+            <h2 class="section-title">{{i:list-ordered}} 1. OWASP Top 10 (2021)</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>#</th><th>Risk</th><th>Qısa izah</th></tr></thead>
+                    <tbody>
+                        <tr><td>A01</td><td>Broken Access Control</td><td>İstifadəçi başqasının məlumatına/funksiyasına çata bilir</td></tr>
+                        <tr><td>A02</td><td>Cryptographic Failures</td><td>Məlumat şifrəsiz, zəif alqoritm, parol açıq saxlanılır</td></tr>
+                        <tr><td>A03</td><td>Injection</td><td>SQL, OS command, LDAP — istifadəçi girişi əmrə çevrilir (XSS də buradadır)</td></tr>
+                        <tr><td>A04</td><td>Insecure Design</td><td>Dizayn mərhələsində təhlükəsizlik nəzərə alınmayıb</td></tr>
+                        <tr><td>A05</td><td>Security Misconfiguration</td><td>Standart parollar, açıq debug, lazımsız xidmətlər</td></tr>
+                        <tr><td>A06</td><td>Vulnerable and Outdated Components</td><td>Köhnə kitabxana/framework</td></tr>
+                        <tr><td>A07</td><td>Identification and Authentication Failures</td><td>Zəif parol siyasəti, brute-force qorunmaması, sessiya səhvləri</td></tr>
+                        <tr><td>A08</td><td>Software and Data Integrity Failures</td><td>Yoxlanılmamış yeniləmələr, etibarsız CI/CD</td></tr>
+                        <tr><td>A09</td><td>Security Logging and Monitoring Failures</td><td>Hücum log-lanmır, heç kim görmür</td></tr>
+                        <tr><td>A10</td><td>Server-Side Request Forgery (SSRF)</td><td>Server hücumçunun verdiyi daxili ünvana sorğu göndərir</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="sqli" class="section-card">
+            <h2 class="section-title">{{i:database}} 2. SQL Injection</h2>
+            <p class="lead">İstifadəçi girişi SQL sorğusuna mətn kimi birləşdirilir və sorğunun məntiqi dəyişdirilə bilir.</p>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="sq-bad">Zəif kod</button>
+                <button class="tab-btn inactive-tab" data-pane="sq-good">Düzgün kod</button>
+            </div>
+            <div id="sq-bad">
+                <div class="code-block">
+                    <pre><code># Python — ETMƏYİN: giriş birbaşa sorğuya yapışdırılır
+query = "SELECT * FROM users WHERE email = '" + email + "'"
+cursor.execute(query)</code></pre>
+                    <p class="code-note">Email sahəsinə dırnaq işarəsi ilə başlayan xüsusi mətn yazılsa, sorğunun şərti dəyişir və bütün cədvəl qaytarıla bilər.</p>
+                </div>
+            </div>
+            <div id="sq-good" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code># Parametrləşdirilmiş sorğu (prepared statement)
+cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+
+# və ya ORM
+User.objects.filter(email=email)</code></pre>
+                    <p class="code-note">Parametr sorğudan ayrı ötürülür — verilənlər bazası onu heç vaxt SQL kodu kimi icra etmir. Əlavə olaraq: tətbiqin DB hesabına minimal icazə (yalnız lazım olan cədvəllər, DROP yox).</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="xss" class="section-card">
+            <h2 class="section-title">{{i:code}} 3. Cross-Site Scripting (XSS)</h2>
+            <p class="lead">İstifadəçinin daxil etdiyi mətn səhifəyə HTML kimi yazılır və başqa istifadəçinin brauzerində skript kimi işləyir — sessiya oğurlanması, saxta forma.</p>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:shield-check}}<p class="text-neutral-700"><strong>Output encoding:</strong> çıxışda <code>&lt;</code> → <code>&amp;lt;</code>. Müasir şablon mühərrikləri (Jinja, React) bunu avtomatik edir — onu söndürməyin.</p></div>
+                <div class="feature-item">{{i:code}}<p class="text-neutral-700"><strong>DOM-da:</strong> <code>innerHTML</code> əvəzinə <code>textContent</code>.</p></div>
+                <div class="feature-item">{{i:file-lock}}<p class="text-neutral-700"><strong>Content-Security-Policy</strong> başlığı — hansı mənbələrdən skript yüklənə biləcəyini məhdudlaşdırır.</p></div>
+                <div class="feature-item">{{i:cookie}}<p class="text-neutral-700"><strong>HttpOnly cookie</strong> — JavaScript sessiya cookie-sini oxuya bilmir.</p></div>
+            </div>
+        </section>
+
+        <section id="access" class="section-card">
+            <h2 class="section-title">{{i:lock-keyhole}} 4. Broken Access Control və IDOR</h2>
+            <p class="lead">Ən çox rast gəlinən risk. Nümunə: <code>/api/invoices/1045</code> sizin fakturanızdır; URL-də rəqəmi <code>1046</code> edəndə başqasının fakturası açılırsa — bu <strong>IDOR</strong>-dur (Insecure Direct Object Reference).</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Hər sorğuda serverdə yoxlama: bu obyekt bu istifadəçiyə aiddirmi?
+invoice = Invoice.objects.get(id=invoice_id, owner=request.user)   # başqasınınsa — 404</code></pre>
+                <p class="code-note">Düyməni gizlətmək icazə deyil — yoxlama həmişə <strong>serverdə</strong>, hər sorğuda aparılmalıdır. Standart: "default deny".</p>
+            </div>
+        </section>
+
+        <section id="headers" class="section-card">
+            <h2 class="section-title">{{i:list-checks}} 5. Təhlükəsizlik Başlıqları (Nginx)</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+add_header Content-Security-Policy "default-src 'self'; frame-ancestors 'none'" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
+server_tokens off;</code></pre>
+                <p class="code-note">HSTS brauzeri yalnız HTTPS istifadə etməyə məcbur edir; <code>frame-ancestors 'none'</code> saytın başqa saytın içində gizli açılmasının (clickjacking) qarşısını alır; <code>server_tokens off</code> Nginx versiyasını gizlədir. Nəticəni securityheaders.com ilə yoxlayın.</p>
+            </div>
+        </section>
+
+        <section id="sdlc" class="section-card">
+            <h2 class="section-title">{{i:workflow}} 6. Secure SDLC</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700"><strong>Dizayn:</strong> threat modeling — "burada kim nəyi səhv istifadə edə bilər?"</p></li>
+                <li><p class="text-neutral-700"><strong>Kod:</strong> code review, SAST (statik analiz — Semgrep, SonarQube).</p></li>
+                <li><p class="text-neutral-700"><strong>Asılılıqlar:</strong> SCA — Dependabot, <code>npm audit</code>, <code>pip-audit</code>.</p></li>
+                <li><p class="text-neutral-700"><strong>Test:</strong> DAST — işləyən tətbiqin öz test mühitində skanı (OWASP ZAP).</p></li>
+                <li><p class="text-neutral-700"><strong>İstismar:</strong> WAF, log-lar, monitorinq, bug bounty / məsul açıqlama siyasəti.</p></li>
+            </ol>
+            <div class="note-box mt-6">
+                {{i:scale}}
+                <p class="text-neutral-800">Təhlükəsizlik testlərini <strong>yalnız öz sistemlərinizdə və ya yazılı icazə ilə</strong> aparın. Praktika üçün qanuni laboratoriyalar: PortSwigger Web Security Academy, OWASP Juice Shop, DVWA.</p>
+            </div>
+        </section>
+<!--END-->

@@ -1,0 +1,79 @@
+<!--PAGE title="Switch Necə İşləyir" icon="network" badge="CCNA · Network Access" nav="intro:Giriş|domains:Domenlər|learning:MAC öyrənmə|decisions:Qərarlar|commands:Əmrlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:network}} Giriş: LAN və Switch</h2>
+            <p class="lead">
+                LAN (Local Area Network) bina və ya kampus daxilindəki şəbəkədir. Müasir LAN-ların mərkəzində
+                <strong>switch</strong> dayanır: o, çərçivələri MAC ünvanlarına əsasən yalnız lazım olan porta göndərir.
+                Köhnə <strong>hub</strong> isə gələn hər siqnalı bütün portlara təkrarlayırdı.
+            </p>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Cihaz</th><th>OSI qatı</th><th>Qərarı nəyə görə verir</th><th>Collision domeni</th><th>Broadcast domeni</th></tr></thead>
+                    <tbody>
+                        <tr><td>Hub</td><td>1</td><td>Qərar vermir — hər şeyi təkrarlayır</td><td>Bütün portlar — 1 domen</td><td>1</td></tr>
+                        <tr><td>Switch</td><td>2</td><td>MAC ünvanı</td><td>Hər port ayrıca</td><td>VLAN başına 1</td></tr>
+                        <tr><td>Router</td><td>3</td><td>IP ünvanı</td><td>Hər port ayrıca</td><td>Hər interfeys ayrıca</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="domains" class="section-card">
+            <h2 class="section-title">{{i:boxes}} 1. Collision və Broadcast Domenləri</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent">
+                    <h3>{{i:zap}} Collision domeni</h3>
+                    <p class="text-neutral-700">Eyni anda ötürərkən siqnalların toqquşa biləcəyi seqment. Half-duplex mühitdə CSMA/CD tələb olunur. Full-duplex switch portunda toqquşma olmur.</p>
+                </div>
+                <div class="info-card dark">
+                    <h3>{{i:radio-tower}} Broadcast domeni</h3>
+                    <p>Broadcast çərçivəsinin (FF:FF:FF:FF:FF:FF) çata bildiyi bütün cihazlar. Switch broadcast-ı ötürür, router isə dayandırır.</p>
+                </div>
+            </div>
+            <div class="note-box">
+                {{i:calculator}}
+                <p class="text-neutral-800"><strong>Nümunə:</strong> 1 router (2 interfeys), hər interfeysə bir switch, hər switch-ə 4 PC qoşulub. Broadcast domeni = <strong>2</strong> (router interfeys sayı qədər). Collision domeni = <strong>10</strong> (hər switch-də 4 PC portu + router-ə uplink = 5, iki switch üçün 10).</p>
+            </div>
+        </section>
+
+        <section id="learning" class="section-card">
+            <h2 class="section-title">{{i:book-open}} 2. Switch MAC Ünvanlarını Necə Öyrənir?</h2>
+            <p class="lead">Switch hər gələn çərçivənin <strong>mənbə MAC</strong> ünvanını və gəldiyi portu MAC cədvəlinə (CAM) yazır.</p>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">PC-A (Fa0/1) PC-B-yə çərçivə göndərir. Switch yazır: <code>PC-A → Fa0/1</code>.</p></li>
+                <li><p class="text-neutral-700">PC-B-nin MAC-ı cədvəldə yoxdur — <strong>unknown unicast</strong>. Switch çərçivəni gəldiyi portdan başqa bütün portlara göndərir (<strong>flood</strong>).</p></li>
+                <li><p class="text-neutral-700">PC-B (Fa0/2) cavab verir. Switch yazır: <code>PC-B → Fa0/2</code> və cavabı yalnız Fa0/1-ə göndərir.</p></li>
+                <li><p class="text-neutral-700">Bundan sonra A ilə B arasındakı trafik yalnız bu iki port arasında gedir.</p></li>
+            </ol>
+            <p class="text-neutral-700">Dinamik qeydlər defolt olaraq <strong>300 saniyə</strong> (5 dəqiqə) istifadə olunmadıqda silinir (aging).</p>
+        </section>
+
+        <section id="decisions" class="section-card">
+            <h2 class="section-title">{{i:split}} 3. Switch-in Üç Qərarı</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Hal</th><th>Qərar</th><th>Nəticə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Təyinat MAC cədvəldə var, fərqli portdadır</td><td class="yes">Forward</td><td>Yalnız həmin porta göndərilir</td></tr>
+                        <tr><td>Təyinat MAC gəldiyi portla eyni portdadır</td><td class="no">Filter</td><td>Çərçivə atılır</td></tr>
+                        <tr><td>Təyinat naməlumdur, broadcast və ya multicast</td><td>Flood</td><td>VLAN-dakı bütün portlara (gəldiyi port istisna)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 4. Praktiki Əmrlər</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show mac address-table
+show mac address-table dynamic interface FastEthernet0/1
+show mac address-table address 001a.2b3c.4d5e
+show mac address-table count
+show mac address-table aging-time
+clear mac address-table dynamic
+SW1(config)# mac address-table static 001a.2b3c.4d5e vlan 10 interface FastEthernet0/5</code></pre>
+                <p class="code-note">MAC cədvəli, müəyyən portda və ya müəyyən MAC üçün qeydlər, qeyd sayı, aging müddəti, dinamik qeydlərin təmizlənməsi və statik MAC qeydi.</p>
+            </div>
+        </section>
+<!--END-->

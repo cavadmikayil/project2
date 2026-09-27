@@ -1,0 +1,128 @@
+<!--PAGE title="Cisco IOS Fayl Sistemi və IOS Yenilənməsi" icon="hard-drive" badge="CCNA · Network Management" nav="intro:Giriş|memory:Yaddaş növləri|fs:Fayl sistemləri|naming:Image adı|backup:Ehtiyat nüsxə|upgrade:Yeniləmə"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:hard-drive}} Giriş: Cihazın İçində Nə Var?</h2>
+            <p class="lead">
+                Router və switch də kompüterdir: əməliyyat sistemi (IOS) fayl kimi saxlanılır, konfiqurasiya mətn
+                faylıdır. Onları kopyalamaq, yedəkləmək və yeniləmək şəbəkə mühəndisinin gündəlik işidir.
+            </p>
+        </section>
+
+        <section id="memory" class="section-card">
+            <h2 class="section-title">{{i:memory-stick}} 1. Yaddaş Növləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Yaddaş</th><th>Nə saxlayır</th><th>Söndürüləndə</th></tr></thead>
+                    <tbody>
+                        <tr><td>ROM</td><td>POST, bootstrap, ROMMON</td><td class="yes">Qalır</td></tr>
+                        <tr><td>Flash</td><td>IOS image faylları (switch-də həm də <code>config.text</code>, <code>vlan.dat</code>)</td><td class="yes">Qalır</td></tr>
+                        <tr><td>NVRAM</td><td><code>startup-config</code></td><td class="yes">Qalır</td></tr>
+                        <tr><td>RAM</td><td>İşləyən IOS, <code>running-config</code>, marşrut və MAC cədvəlləri, buferlər</td><td class="no">Silinir</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="fs" class="section-card">
+            <h2 class="section-title">{{i:folder-tree}} 2. Fayl Sistemləri</h2>
+            <p class="lead">IOS hər yaddaşı və şəbəkə protokolunu "prefiks:" şəklində fayl sistemi kimi göstərir.</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Prefiks</th><th>Növ</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>flash:</code> / <code>bootflash:</code></td><td>Daxili flash yaddaş</td></tr>
+                        <tr><td><code>nvram:</code></td><td>NVRAM — <code>nvram:startup-config</code></td></tr>
+                        <tr><td><code>system:</code></td><td>RAM — <code>system:running-config</code></td></tr>
+                        <tr><td><code>usbflash0:</code></td><td>USB yaddaş</td></tr>
+                        <tr><td><code>tftp:</code>, <code>ftp:</code>, <code>scp:</code>, <code>http(s):</code></td><td>Şəbəkə serverləri</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>R1# show file systems
+R1# dir flash:
+Directory of flash:/
+    1  -rw-   111233316  c2900-universalk9-mz.SPA.157-3.M8.bin
+256487424 bytes total (145250304 bytes free)
+
+R1# more nvram:startup-config
+R1# show flash:</code></pre>
+                <p class="code-note"><code>copy</code> əmri həmişə <strong>copy mənbə təyinat</strong> formasındadır: <code>copy running-config startup-config</code> = <code>copy system:running-config nvram:startup-config</code>.</p>
+            </div>
+        </section>
+
+        <section id="naming" class="section-card">
+            <h2 class="section-title">{{i:file-code}} 3. IOS Image Adını Oxumaq</h2>
+            <div class="code-block">
+                <pre><code>c2900 - universalk9 - mz . SPA . 157-3.M8 . bin
+  │          │         │     │       │
+  │          │         │     │       └─ versiya 15.7(3)M8
+  │          │         │     └───────── rəqəmsal imzalı (Cisco)
+  │          │         └─────────────── RAM-da işləyir (m), sıxılıb (z)
+  │          └───────────────────────── funksiya dəsti (universal, k9 = şifrələmə)
+  └──────────────────────────────────── platforma (ISR 2900)</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Universal image-da bütün funksiyalar var, lakin istifadəsi <strong>lisenziya</strong> ilə açılır. Müasir cihazlarda Cisco <strong>Smart Licensing</strong> istifadə olunur — lisenziyalar Cisco bulud portalında hesabda saxlanılır: <code>show license summary</code>.</p>
+            </div>
+        </section>
+
+        <section id="backup" class="section-card">
+            <h2 class="section-title">{{i:save}} 4. Konfiqurasiyanın Ehtiyat Nüsxəsi</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="fs-manual">Əl ilə</button>
+                <button class="tab-btn inactive-tab" data-pane="fs-archive">Avtomatik (archive)</button>
+            </div>
+            <div id="fs-manual">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1# copy running-config tftp:
+Address or name of remote host []? 10.0.0.50
+Destination filename [r1-confg]? R1-2026-09-27.cfg
+
+R1# copy tftp: running-config
+R1# copy running-config flash:R1-backup.cfg</code></pre>
+                    <p class="code-note">Diqqət: <code>tftp → running-config</code> konfiqurasiyanı <strong>birləşdirir</strong> (merge) — faylda olmayan sətirlər silinmir. Tam əvəz etmək üçün <code>configure replace</code> istifadə olunur.</p>
+                </div>
+            </div>
+            <div id="fs-archive" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# archive
+R1(config-archive)# path tftp://10.0.0.50/$h-$t
+R1(config-archive)# write-memory
+R1(config-archive)# time-period 1440
+
+R1# show archive
+R1# configure replace flash:R1-backup.cfg list</code></pre>
+                    <p class="code-note">Hər <code>write memory</code>-də və gündə bir dəfə (1440 dəqiqə) konfiqurasiya host adı ($h) və vaxt ($t) ilə serverə yazılır. <code>configure replace</code> cari konfiqurasiyanı fayla tam uyğunlaşdırır və fərqləri göstərir.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="upgrade" class="section-card">
+            <h2 class="section-title">{{i:upload}} 5. IOS Yenilənməsi</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Yeni image-ı Cisco saytından yükləyin, platformaya, RAM və flash tutumuna uyğunluğunu yoxlayın (<code>show version</code>, <code>dir flash:</code>).</p></li>
+                <li><p class="text-neutral-700">Konfiqurasiyanın ehtiyat nüsxəsini götürün.</p></li>
+                <li><p class="text-neutral-700">Faylı flash-a köçürün və <strong>MD5/SHA</strong> hash-ını Cisco saytındakı ilə müqayisə edin.</p></li>
+                <li><p class="text-neutral-700"><code>boot system</code> ilə yeni image-ı göstərin, köhnəsini ehtiyat kimi saxlayın, yadda saxlayın və texniki xidmət pəncərəsində <code>reload</code> edin.</p></li>
+            </ol>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>R1# copy tftp://10.0.0.50/c2900-universalk9-mz.SPA.159-3.M9.bin flash:
+R1# verify /md5 flash:c2900-universalk9-mz.SPA.159-3.M9.bin
+
+R1(config)# no boot system
+R1(config)# boot system flash:c2900-universalk9-mz.SPA.159-3.M9.bin
+R1(config)# boot system flash:c2900-universalk9-mz.SPA.157-3.M8.bin
+R1(config)# end
+R1# copy running-config startup-config
+R1# reload
+
+R1# show version | include image file</code></pre>
+                <p class="code-note">Birinci image yüklənməsə, cihaz ikinci <code>boot system</code> sətrinə keçir. Böyük faylı TFTP əvəzinə SCP/FTP ilə köçürmək daha sürətli və etibarlıdır.</p>
+            </div>
+        </section>
+<!--END-->

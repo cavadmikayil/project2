@@ -1,0 +1,9 @@
+{
+  "name": "cavadmikayil-portal-dev",
+  "private": true,
+  "description": "Yalnız ikon mənbələri üçün: python3 _dev/build.py icons add <ad>",
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "7.3.1",
+    "lucide-static": "1.48.0"
+  }
+}

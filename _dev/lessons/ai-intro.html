@@ -1,0 +1,83 @@
+<!--PAGE title="Süni İntellektə Giriş" icon="sparkles" badge="AI · Əsaslar" nav="intro:Giriş|layers:AI, ML, DL|learning:Öyrənmə növləri|history:Tarixçə|uses:İstifadə sahələri|limits:Məhdudiyyətlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:sparkles}} Giriş: AI Nədir və Nə Deyil?</h2>
+            <p class="lead">
+                <strong>Süni intellekt (AI)</strong> — adətən insan zəkası tələb edən işləri (tanımaq, proqnozlaşdırmaq,
+                dil anlamaq, qərar vermək) yerinə yetirən sistemlərdir. Bugünkü AI "düşünən maşın" yox, <strong>verilənlərdən
+                qanunauyğunluq öyrənən statistik modellərdir</strong> — çox güclü, amma səhv edə bilən alətlər.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:target}} Narrow AI</h3><p class="text-neutral-700">Bir və ya bir neçə tapşırıqda güclü: spam filtri, üz tanıma, tərcümə, chatbot. Bu gün istifadə olunan AI budur.</p></div>
+                <div class="info-card"><h3>{{i:brain}} AGI</h3><p class="text-neutral-700">İnsan kimi istənilən intellektual işi öyrənə bilən ümumi intellekt — hələ tədqiqat və müzakirə mövzusudur.</p></div>
+                <div class="info-card dark"><h3>{{i:wand-sparkles}} Generative AI</h3><p>Yeni məzmun yaradan modellər: mətn (LLM), şəkil, səs, video, kod.</p></div>
+            </div>
+        </section>
+
+        <section id="layers" class="section-card">
+            <h2 class="section-title">{{i:layers}} 1. AI ⊃ Machine Learning ⊃ Deep Learning</h2>
+            <div class="code-block mb-6">
+                <pre><code>Süni İntellekt (AI) — qaydalar, axtarış, ekspert sistemləri və ML
+└── Machine Learning — verilənlərdən öyrənir
+    └── Deep Learning — çoxqatlı neural network-lər
+        └── LLM və Generative AI — mətn, şəkil, kod yaradır</code></pre>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Ənənəvi proqramlaşdırma</th><th>Machine Learning</th></tr></thead>
+                    <tbody>
+                        <tr><td>Giriş</td><td>Qaydalar + məlumat</td><td>Məlumat + düzgün cavablar (nümunələr)</td></tr>
+                        <tr><td>Çıxış</td><td>Cavab</td><td><strong>Qaydalar (model)</strong></td></tr>
+                        <tr><td>Nümunə</td><td>"Mövzuda 'udduz' sözü varsa — spam"</td><td>100 000 spam və normal məktubdan spamı özü tanımağı öyrənir</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="learning" class="section-card">
+            <h2 class="section-title">{{i:graduation-cap}} 2. Öyrənmə Növləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Necə öyrənir</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Supervised (nəzarətli)</td><td>Etiketli nümunələrdən: giriş → düzgün cavab</td><td>Spam/normal, ev qiymətinin proqnozu, şəbəkə trafikinin təsnifatı</td></tr>
+                        <tr><td>Unsupervised (nəzarətsiz)</td><td>Etiketsiz məlumatda strukturu özü tapır</td><td>Müştəri seqmentləri, anomaliya aşkarlama (qeyri-adi giriş)</td></tr>
+                        <tr><td>Reinforcement (gücləndirici)</td><td>Hərəkət → mükafat/cəza ilə sınaq-səhv</td><td>Oyun oynayan AI, robot idarəetməsi</td></tr>
+                        <tr><td>Self-supervised</td><td>Məlumatın özündən tapşırıq yaradır (növbəti sözü təxmin et)</td><td>LLM-lərin əsas öyrədilməsi</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="history" class="section-card">
+            <h2 class="section-title">{{i:history}} 3. Qısa Tarixçə</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700"><strong>1950:</strong> Alan Turing "Maşınlar düşünə bilərmi?" sualını verir — Turing testi.</p></li>
+                <li><p class="text-neutral-700"><strong>1956:</strong> Dartmouth konfransı — "Artificial Intelligence" termini.</p></li>
+                <li><p class="text-neutral-700"><strong>1980-lər:</strong> ekspert sistemləri; ardınca "AI qışı" — gözləntilər reallaşmadı.</p></li>
+                <li><p class="text-neutral-700"><strong>2012:</strong> Deep learning (AlexNet) şəkil tanımada sıçrayış — GPU-ların gücü və böyük verilənlər.</p></li>
+                <li><p class="text-neutral-700"><strong>2017:</strong> "Attention Is All You Need" — Transformer arxitekturası.</p></li>
+                <li><p class="text-neutral-700"><strong>2022-dən bəri:</strong> ChatGPT, Claude, Gemini kimi LLM assistentləri kütləvi istifadəyə çıxır.</p></li>
+            </ol>
+        </section>
+
+        <section id="uses" class="section-card">
+            <h2 class="section-title">{{i:briefcase}} 4. IT-də İstifadə Sahələri</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:shield-alert}}<p class="text-neutral-700"><strong>Təhlükəsizlik:</strong> anomaliya aşkarlama, phishing filtrləri, EDR davranış analizi.</p></div>
+                <div class="feature-item">{{i:headset}}<p class="text-neutral-700"><strong>Helpdesk:</strong> ticket təsnifatı, chatbot, knowledge base axtarışı.</p></div>
+                <div class="feature-item">{{i:code}}<p class="text-neutral-700"><strong>Kod və skriptlər:</strong> PowerShell/Python skriptləri, konfiqurasiya nümunələri, review.</p></div>
+                <div class="feature-item">{{i:activity}}<p class="text-neutral-700"><strong>AIOps:</strong> log-larda qanunauyğunluq, alert-lərin qruplaşdırılması, tutum proqnozu.</p></div>
+                <div class="feature-item">{{i:network}}<p class="text-neutral-700"><strong>Şəbəkə:</strong> trafik proqnozu, nasazlıqların kök səbəb analizi.</p></div>
+                <div class="feature-item">{{i:file-text}}<p class="text-neutral-700"><strong>Sənədləşdirmə:</strong> xülasə, tərcümə, runbook qaralaması.</p></div>
+            </div>
+        </section>
+
+        <section id="limits" class="section-card">
+            <h2 class="section-title">{{i:triangle-alert}} 5. Məhdudiyyətlər — Mütləq Bilinməli</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:circle-help}} Hallucination</h3><p class="text-neutral-700">Model inamla səhv fakt, mövcud olmayan əmr və ya mənbə uydura bilər.</p></div>
+                <div class="info-card accent"><h3>{{i:database}} Məlumat keyfiyyəti</h3><p class="text-neutral-700">"Garbage in, garbage out" — pis və ya qərəzli məlumatdan pis model çıxır.</p></div>
+                <div class="info-card dark"><h3>{{i:user-check}} Məsuliyyət insanda qalır</h3><p>AI-ın verdiyi konfiqurasiyanı yoxlamadan istehsalata tətbiq etmək — sizin qərarınızdır.</p></div>
+            </div>
+        </section>
+<!--END-->

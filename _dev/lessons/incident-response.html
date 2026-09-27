@@ -1,0 +1,91 @@
+<!--PAGE title="Incident Response" icon="siren" badge="Təhlükəsizlik · SOC" nav="intro:Giriş|lifecycle:Mərhələlər|prepare:Hazırlıq|contain:Təcrid|evidence:Sübutlar|ransomware:Ransomware|lessons:Nəticələr"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:siren}} Giriş: Panika Plan Deyil</h2>
+            <p class="lead">
+                Hər şirkət gec-tez təhlükəsizlik insidenti yaşayır. Fərq bundadır: bəziləri saatlar ərzində hadisəni
+                məhdudlaşdırır, digərləri həftələrlə "nə baş verir?" sualına cavab axtarır. Bu fərqi əvvəlcədən hazırlanmış
+                <strong>Incident Response (IR) planı</strong> yaradır.
+            </p>
+        </section>
+
+        <section id="lifecycle" class="section-card">
+            <h2 class="section-title">{{i:repeat}} 1. NIST SP 800-61 Həyat Dövrü</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Preparation (Hazırlıq):</strong> plan, rollar, əlaqə siyahısı, alətlər, log-lar, təlimlər.</p></li>
+                <li><p class="text-neutral-700"><strong>Detection &amp; Analysis:</strong> alert-in real insident olduğunu təsdiqləmək, əhatəni və ciddiliyi müəyyən etmək.</p></li>
+                <li><p class="text-neutral-700"><strong>Containment, Eradication &amp; Recovery:</strong> yayılmanı dayandırmaq, zərərli komponentləri silmək, sistemləri təhlükəsiz bərpa etmək.</p></li>
+                <li><p class="text-neutral-700"><strong>Post-Incident Activity:</strong> nəticələr, kök səbəb, təkmilləşdirmələr (lessons learned).</p></li>
+            </ol>
+            <p class="text-neutral-700">Mərhələlər dövri işləyir: bərpa zamanı yeni sübut tapılarsa, yenidən analiz mərhələsinə qayıdılır. SANS modelində eyni proses 6 addımla (PICERL) təsvir olunur.</p>
+        </section>
+
+        <section id="prepare" class="section-card">
+            <h2 class="section-title">{{i:clipboard-list}} 2. Hazırlıq: İnsidentdən Əvvəl Lazım Olanlar</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:users}}<p class="text-neutral-700"><strong>Komanda və rollar:</strong> IR rəhbəri, texniki qrup, hüquq, PR/kommunikasiya, rəhbərlik — kim qərar verir?</p></div>
+                <div class="feature-item">{{i:phone}}<p class="text-neutral-700"><strong>Əlaqə siyahısı (çap olunmuş!):</strong> email və Teams hücum altında ola bilər.</p></div>
+                <div class="feature-item">{{i:file-text}}<p class="text-neutral-700"><strong>Playbook-lar:</strong> phishing, ransomware, hesab ələ keçirilməsi, məlumat sızması üçün addım-addım.</p></div>
+                <div class="feature-item">{{i:scroll-text}}<p class="text-neutral-700"><strong>Log və görünürlük:</strong> SIEM, EDR, kifayət qədər saxlanma müddəti.</p></div>
+                <div class="feature-item">{{i:archive-restore}}<p class="text-neutral-700"><strong>Offline/immutable backup</strong> və yoxlanılmış bərpa.</p></div>
+                <div class="feature-item">{{i:presentation}}<p class="text-neutral-700"><strong>Tabletop təlimləri:</strong> ildə ən azı bir dəfə ssenarini masa arxasında oynamaq.</p></div>
+            </div>
+        </section>
+
+        <section id="contain" class="section-card">
+            <h2 class="section-title">{{i:shield-alert}} 3. Təcrid (Containment) Addımları</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Ssenari</th><th>Qısamüddətli təcrid</th></tr></thead>
+                    <tbody>
+                        <tr><td>Yoluxmuş noutbuk</td><td>EDR ilə şəbəkədən təcrid (söndürməyin — yaddaşdakı sübutlar itə bilər)</td></tr>
+                        <tr><td>Ələ keçirilmiş hesab</td><td>Parolu sıfırlamaq, bütün sessiya və token-ləri ləğv etmək, MFA metodlarını yoxlamaq, mailbox qaydalarını (forwarding) yoxlamaq</td></tr>
+                        <tr><td>Zərərli domen/IP</td><td>Firewall, proxy və DNS səviyyəsində bloklamaq</td></tr>
+                        <tr><td>Serverdən məlumat çıxarılması</td><td>Seqmenti ayırmaq, çıxış trafikini məhdudlaşdırmaq</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800"><strong>Hücumçuya xəbər verməyin:</strong> ələ keçirilmiş mailbox-dan insident barədə yazışmayın, əvvəlcə əhatəni anlayın. Tələsik yarımçıq təmizləmə hücumçunu başqa gizli yolla (persistence) qayıtmağa vadar edir.</p>
+            </div>
+        </section>
+
+        <section id="evidence" class="section-card">
+            <h2 class="section-title">{{i:file-search}} 4. Sübutların Toplanması</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:memory-stick}}<p class="text-neutral-700"><strong>Volatility sırası:</strong> əvvəl ən tez itən məlumat — RAM, şəbəkə bağlantıları, proseslər; sonra disk, log-lar.</p></div>
+                <div class="feature-item">{{i:fingerprint}}<p class="text-neutral-700"><strong>Bütövlük:</strong> toplanan faylların hash-ını (SHA-256) qeyd edin.</p></div>
+                <div class="feature-item">{{i:link}}<p class="text-neutral-700"><strong>Chain of custody:</strong> kim, nə vaxt, nəyi götürdü və harada saxladı — hüquqi proses üçün vacibdir.</p></div>
+                <div class="feature-item">{{i:clock}}<p class="text-neutral-700"><strong>Zaman xətti (timeline):</strong> hər hərəkəti UTC vaxtı ilə qeyd edin.</p></div>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Canlı Windows sistemindən ilkin məlumat (təcriddən əvvəl/sonra)
+Get-NetTCPConnection -State Established | Select LocalAddress, RemoteAddress, RemotePort, OwningProcess
+Get-Process | Select Id, ProcessName, Path, StartTime
+Get-ScheduledTask | Where-Object {$_.State -ne 'Disabled'} | Select TaskName, TaskPath
+Get-CimInstance Win32_StartupCommand | Select Name, Command, Location</code></pre>
+            </div>
+        </section>
+
+        <section id="ransomware" class="section-card">
+            <h2 class="section-title">{{i:file-lock}} 5. Ransomware Playbook-u (xülasə)</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">Yoluxmuş cihazları şəbəkədən təcrid edin; paylaşılan qovluqlara girişi dayandırın.</p></li>
+                <li><p class="text-neutral-700">Backup sistemlərini qoruyun — hücumçu onları da hədəf alır.</p></li>
+                <li><p class="text-neutral-700">IR komandasını, rəhbərliyi, hüquq şöbəsini məlumatlandırın; lazım olsa rəsmi qurumlara və sığorta şirkətinə müraciət.</p></li>
+                <li><p class="text-neutral-700">İlkin giriş yolunu tapın (phishing, açıq RDP, VPN zəifliyi) — bağlanmadan bərpa etmək mənasızdır.</p></li>
+                <li><p class="text-neutral-700">Domain Controller-lərin, admin hesablarının etibarlılığını yoxlayın; <code>krbtgt</code> daxil olmaqla parolları sıfırlayın.</p></li>
+                <li><p class="text-neutral-700">Təmiz backup-dan, prioritet sırası ilə, təmiz şəbəkə seqmentində bərpa edin.</p></li>
+            </ol>
+        </section>
+
+        <section id="lessons" class="section-card">
+            <h2 class="section-title">{{i:book-open}} 6. Post-Incident: Nəticələrdən Öyrənmək</h2>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:search}} Kök səbəb</h3><p class="text-neutral-700">Niyə mümkün oldu? Yamanmamış zəiflik, MFA yoxluğu, zəif seqmentasiya?</p></div>
+                <div class="info-card"><h3>{{i:timer}} Metrikalar</h3><p class="text-neutral-700">MTTD (aşkarlama müddəti), MTTR (cavab/bərpa müddəti), təsirlənən sistemlər.</p></div>
+                <div class="info-card dark"><h3>{{i:list-checks}} Tədbirlər</h3><p>Hər tapıntıya sahib və tarix. "Blameless" yanaşma — insanı yox, prosesi düzəltmək.</p></div>
+            </div>
+        </section>
+<!--END-->

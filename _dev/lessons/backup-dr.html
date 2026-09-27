@@ -1,0 +1,110 @@
+<!--PAGE title="Backup və Disaster Recovery" icon="archive-restore" badge="Server · Əməliyyat" nav="intro:Giriş|rule:3-2-1 qaydası|types:Backup növləri|rpo:RPO və RTO|tools:Alətlər|test:Bərpa testi"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:archive-restore}} Giriş: Backup Yalnız Bərpa Olunanda Dəyərlidir</h2>
+            <p class="lead">
+                Disk xarab olur, işçi səhvən qovluğu silir, ransomware bütün faylları şifrələyir, server otağını su basır.
+                Bütün bu hallarda yeganə xilas — <strong>yoxlanılmış backup</strong>. "Backup alırıq" demək kifayət deyil;
+                sual budur: <em>"Nə qədər vaxta, hansı ana qədər bərpa edə bilərik?"</em>
+            </p>
+        </section>
+
+        <section id="rule" class="section-card">
+            <h2 class="section-title">{{i:copy}} 1. 3-2-1 (və 3-2-1-1-0) Qaydası</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3>{{i:copy}} 3 nüsxə</h3><p class="text-neutral-700">Orijinal + iki backup.</p></div>
+                <div class="info-card"><h3>{{i:hard-drive}} 2 fərqli daşıyıcı</h3><p class="text-neutral-700">Məs. NAS və bulud / lent (tape).</p></div>
+                <div class="info-card dark"><h3>{{i:building}} 1 nüsxə kənarda</h3><p>Başqa binada və ya şəhərdə (offsite).</p></div>
+            </div>
+            <div class="note-box">
+                {{i:shield-alert}}
+                <p class="text-neutral-800"><strong>Ransomware dövrü üçün əlavə:</strong> +1 nüsxə <strong>offline və ya immutable</strong> (dəyişdirilə bilməyən — məs. S3 Object Lock, WORM) və <strong>0 xəta</strong> — bərpa testi problemsiz keçməlidir. Hücumçular əvvəlcə şəbəkədəki backup serverlərini silməyə çalışır.</p>
+            </div>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title">{{i:layers}} 2. Backup Növləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Nəyi kopyalayır</th><th>Backup sürəti / yeri</th><th>Bərpa</th></tr></thead>
+                    <tbody>
+                        <tr><td>Full</td><td>Hər şeyi</td><td>Yavaş, çox yer</td><td class="yes">Ən sadə — bir set</td></tr>
+                        <tr><td>Incremental</td><td>Son istənilən backup-dan bəri dəyişənləri</td><td class="yes">Ən sürətli, ən az yer</td><td>Full + bütün incremental-lar ardıcıl lazımdır</td></tr>
+                        <tr><td>Differential</td><td>Son <strong>full</strong>-dan bəri dəyişənləri</td><td>Günbəgün böyüyür</td><td>Full + sonuncu differential</td></tr>
+                        <tr><td>Snapshot</td><td>Storage/VM səviyyəsində an görüntüsü</td><td>Ani</td><td>Sürətli, amma eyni storage-da — tək başına backup deyil</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4">Tipik cədvəl: bazar günü full, iş günləri incremental; 30 günlük gündəlik, 12 aylıq aylıq nüsxə saxlanılır (<strong>retention</strong> siyasəti, GFS — Grandfather-Father-Son).</p>
+        </section>
+
+        <section id="rpo" class="section-card">
+            <h2 class="section-title">{{i:timer}} 3. RPO və RTO</h2>
+            <div class="code-block mb-6">
+                <pre><code>  son backup              QƏZA                 xidmət bərpa olundu
+      │◄────── RPO ───────►│◄──────── RTO ────────►│
+      │  (itən məlumat)     │   (dayanma müddəti)   │
+──────┴─────────────────────┴───────────────────────┴──────► vaxt</code></pre>
+            </div>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:database}} RPO — Recovery Point Objective</h3><p class="text-neutral-700">Nə qədər məlumat itkisinə dözə bilərik? Gündəlik backup = RPO 24 saat. Bank üçün bu qəbuledilməzdir — replikasiya lazımdır.</p></div>
+                <div class="info-card"><h3>{{i:clock}} RTO — Recovery Time Objective</h3><p class="text-neutral-700">Xidmət nə qədər vaxta bərpa olunmalıdır? 4 saat? 15 dəqiqə? Kiçik RTO bahalı həll (ehtiyat sayt, HA) tələb edir.</p></div>
+            </div>
+        </section>
+
+        <section id="tools" class="section-card">
+            <h2 class="section-title">{{i:wrench}} 4. Praktiki Alətlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="bk-rsync">rsync</button>
+                <button class="tab-btn inactive-tab" data-pane="bk-restic">restic</button>
+                <button class="tab-btn inactive-tab" data-pane="bk-db">Verilənlər bazası</button>
+            </div>
+            <div id="bk-rsync">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code># /srv/data qovluğunu NAS-a sinxronlaşdır (yalnız dəyişənlər ötürülür)
+rsync -aAXv --delete /srv/data/ backup@nas01:/backups/app01/data/
+
+# Əvvəlcə nə edəcəyini göstər (heç nə dəyişmədən)
+rsync -aAXv --delete --dry-run /srv/data/ backup@nas01:/backups/app01/data/</code></pre>
+                    <p class="code-note"><code>--delete</code> mənbədə silinən faylı hədəfdə də silir — yəni rsync güzgüdür, tarixçə saxlamır. Tarixçə üçün snapshot-lu backup aləti lazımdır.</p>
+                </div>
+            </div>
+            <div id="bk-restic" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>restic -r sftp:backup@nas01:/restic/app01 init        # şifrəli repo yarat
+restic -r sftp:backup@nas01:/restic/app01 backup /srv/data /etc
+restic -r sftp:backup@nas01:/restic/app01 snapshots
+restic -r sftp:backup@nas01:/restic/app01 forget --keep-daily 30 --keep-monthly 12 --prune
+restic -r sftp:backup@nas01:/restic/app01 restore latest --target /tmp/restore-test</code></pre>
+                    <p class="code-note">restic deduplikasiya edir, məlumatı şifrələyir və hər backup ayrıca snapshot kimi saxlanılır. Windows mühitində analoqlar: Veeam, Windows Server Backup.</p>
+                </div>
+            </div>
+            <div id="bk-db" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code># PostgreSQL
+pg_dump -U app -Fc app &gt; /backups/app-$(date +%F).dump
+pg_restore -U app -d app_test /backups/app-2026-09-27.dump
+
+# MySQL / MariaDB (tranzaksiyaları kilidləmədən)
+mysqldump --single-transaction -u root -p shop &gt; /backups/shop-$(date +%F).sql</code></pre>
+                    <p class="code-note">İşləyən verilənlər bazasının fayllarını sadəcə kopyalamaq ziddiyyətli (bərpa olunmayan) backup verə bilər — bazanın öz dump/backup alətindən istifadə edin.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="test" class="section-card">
+            <h2 class="section-title">{{i:list-checks}} 5. Bərpa Testi və DR Planı</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Hər ay təsadüfi faylı və hər rüb tam serveri <strong>test mühitinə</strong> bərpa edin.</p></li>
+                <li><p class="text-neutral-700">Bərpa müddətini ölçün və RTO ilə müqayisə edin.</p></li>
+                <li><p class="text-neutral-700">Backup job-larının uğursuzluğu barədə avtomatik bildiriş qurun — səssiz uğursuz backup ən təhlükəlisidir.</p></li>
+                <li><p class="text-neutral-700"><strong>DR planı</strong> yazın: kim, nəyi, hansı ardıcıllıqla bərpa edir; əlaqə siyahısı, parolların harada saxlandığı, prioritet sistemlər.</p></li>
+            </ol>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Backup-ın şifrələmə açarını və DR planını <strong>yalnız</strong> bərpa olunacaq serverdə saxlamayın — qəza zamanı ona çatmaq mümkün olmayacaq.</p>
+            </div>
+        </section>
+<!--END-->

@@ -1,0 +1,88 @@
+<!--PAGE title="Neural Network-lər və Deep Learning" icon="brain-circuit" badge="AI · Deep Learning" nav="intro:Giriş|neuron:Neyron|layers:Qatlar|training:Öyrədilmə|types:Arxitekturalar|hardware:Hardware"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:brain-circuit}} Giriş: Beyindən İlhamlanmış Riyaziyyat</h2>
+            <p class="lead">
+                <strong>Neural network</strong> — bir-birinə bağlı sadə hesablama vahidlərindən (neyronlardan) ibarət
+                modeldir. Tək neyron çox sadə iş görür, amma milyonlarla və milyardlarla neyron birlikdə şəkil tanımaq,
+                səsi mətnə çevirmək və dil yaratmaq kimi mürəkkəb qanunauyğunluqları öyrənə bilir.
+            </p>
+        </section>
+
+        <section id="neuron" class="section-card">
+            <h2 class="section-title">{{i:circle-dot}} 1. Bir Neyron Necə İşləyir?</h2>
+            <div class="code-block mb-6">
+                <pre><code>girişlər   çəkilər (weights)
+  x1 ──── w1 ──┐
+  x2 ──── w2 ──┼──►  Σ (x·w) + b  ──►  aktivasiya f(z)  ──►  çıxış
+  x3 ──── w3 ──┘         (bias)
+
+  z = x1·w1 + x2·w2 + x3·w3 + b</code></pre>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Aktivasiya funksiyası</th><th>Çıxış</th><th>Harada</th></tr></thead>
+                    <tbody>
+                        <tr><td>ReLU</td><td>max(0, z)</td><td>Gizli qatlarda ən çox istifadə olunan</td></tr>
+                        <tr><td>Sigmoid</td><td>0 … 1</td><td>İkili təsnifatda ehtimal</td></tr>
+                        <tr><td>Softmax</td><td>Ehtimallar cəmi = 1</td><td>Çox sinifli təsnifat, LLM-də növbəti token seçimi</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4">Aktivasiya funksiyası olmasa, nə qədər qat əlavə etsək də şəbəkə sadə xətti funksiya olaraq qalardı — qeyri-xəttilik mürəkkəb əlaqələri öyrənməyə imkan verir.</p>
+        </section>
+
+        <section id="layers" class="section-card">
+            <h2 class="section-title">{{i:layers}} 2. Qatlar: Input, Hidden, Output</h2>
+            <div class="code-block mb-6">
+                <pre><code>Input qatı     Gizli qat 1    Gizli qat 2    Output qatı
+(784 piksel)   (128 neyron)   (64 neyron)    (10 rəqəm: 0–9)
+    ○ ─────────── ○ ─────────── ○ ─────────── ○  "0"
+    ○ ─────────── ○ ─────────── ○ ─────────── ○  "1"
+    ⋮              ⋮              ⋮              ⋮
+    ○ ─────────── ○ ─────────── ○ ─────────── ○  "9"</code></pre>
+            </div>
+            <p class="text-neutral-700"><strong>Deep</strong> learning — çoxlu gizli qat deməkdir. İlk qatlar sadə xüsusiyyətləri (xətt, künc), dərin qatlar mürəkkəb anlayışları (göz, üz, mətndə məna) öyrənir. Modelin "parametr sayı" — bütün çəki və bias-ların cəmidir; böyük dil modellərində milyardlarladır.</p>
+        </section>
+
+        <section id="training" class="section-card">
+            <h2 class="section-title">{{i:refresh-cw}} 3. Şəbəkə Necə Öyrədilir?</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Forward pass:</strong> nümunə şəbəkədən keçir və proqnoz alınır.</p></li>
+                <li><p class="text-neutral-700"><strong>Loss:</strong> proqnozun düzgün cavabdan nə qədər uzaq olduğu hesablanır.</p></li>
+                <li><p class="text-neutral-700"><strong>Backpropagation:</strong> hər çəkinin xətaya nə qədər töhfə verdiyi (gradient) geriyə doğru hesablanır.</p></li>
+                <li><p class="text-neutral-700"><strong>Gradient descent:</strong> çəkilər xətanı azaldan istiqamətdə kiçik addımla (<em>learning rate</em>) dəyişdirilir.</p></li>
+                <li><p class="text-neutral-700">Bu, bütün məlumat üzərində dəfələrlə təkrarlanır (<strong>epoch</strong>), məlumat kiçik paketlərlə (<strong>batch</strong>) verilir.</p></li>
+            </ol>
+            <div class="note-box">
+                {{i:mountain}}
+                <p class="text-neutral-800"><strong>Analogiya:</strong> dumanlı dağdan aşağı enmək — ətrafı görmürsünüz, amma ayağınızın altındakı mailliyi hiss edib ən dik aşağı istiqamətdə addım atırsınız. Addım çox böyükdürsə (yüksək learning rate) çuxurun üstündən tullanırsınız, çox kiçikdirsə — enmək günlərlə çəkir.</p>
+            </div>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title">{{i:boxes}} 4. Əsas Arxitekturalar</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Arxitektura</th><th>Güclü olduğu sahə</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td>MLP (tam bağlı)</td><td>Cədvəl məlumatları</td><td>Risk skoru</td></tr>
+                        <tr><td>CNN (Convolutional)</td><td>Şəkil və məkan strukturu</td><td>Üz tanıma, tibbi görüntülər, CAPTCHA</td></tr>
+                        <tr><td>RNN / LSTM</td><td>Ardıcıllıqlar (köhnə yanaşma)</td><td>Zaman sıraları, köhnə tərcümə sistemləri</td></tr>
+                        <tr><td>Transformer</td><td>Ardıcıllıqlar — paralel və uzun kontekst (attention)</td><td>LLM-lər, müasir tərcümə, kod modelləri</td></tr>
+                        <tr><td>Diffusion</td><td>Səs-küydən addım-addım şəkil yaratmaq</td><td>Mətndən şəkil generatorları</td></tr>
+                        <tr><td>Autoencoder</td><td>Məlumatı sıxıb bərpa etmək</td><td>Anomaliya aşkarlama (bərpa xətası böyükdürsə — qeyri-adi)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="hardware" class="section-card">
+            <h2 class="section-title">{{i:cpu}} 5. Niyə GPU? Training və Inference</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3>{{i:grid-3x3}} GPU</h3><p class="text-neutral-700">Neural network əsasən matris vurmasıdır — GPU minlərlə kiçik nüvə ilə bunu paralel edir. Əsas məhdudiyyət çox vaxt VRAM həcmidir.</p></div>
+                <div class="info-card"><h3>{{i:dumbbell}} Training</h3><p class="text-neutral-700">Modeli öyrətmək — böyük modellər üçün minlərlə GPU, həftələr və böyük xərc.</p></div>
+                <div class="info-card dark"><h3>{{i:zap}} Inference</h3><p>Hazır modeldən istifadə — daha ucuzdur; kiçik modellər adi noutbukda da işləyir.</p></div>
+            </div>
+            <p class="text-neutral-700"><strong>Fine-tuning</strong> — hazır, böyük modeli öz kiçik məlumat dəstinizlə əlavə öyrətmək; sıfırdan öyrətməkdən çox ucuzdur. <strong>Quantization</strong> — çəkiləri daha az bitlə (məs. 4-bit) saxlayıb modeli kiçiltmək; bir az keyfiyyət itkisi ilə daha az yaddaş.</p>
+        </section>
+<!--END-->

@@ -1,0 +1,93 @@
+<!--PAGE title="Risk İdarəetməsi və Standartlar" icon="clipboard-check" badge="Təhlükəsizlik · GRC" nav="intro:Giriş|risk:Risk|treat:Risk cavabı|controls:Nəzarətlər|frameworks:Standartlar|policies:Siyasətlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:clipboard-check}} Giriş: Təhlükəsizlik Biznes Qərarıdır</h2>
+            <p class="lead">
+                Bütün riskləri sıfıra endirmək mümkün deyil və bahalıdır. <strong>GRC</strong> (Governance, Risk,
+                Compliance) hansı risklərin vacib olduğunu müəyyən edir, büdcəni ora yönəldir və şirkətin qanun və
+                standartlara uyğunluğunu təmin edir. Texniki mütəxəssis bu dili bildikdə rəhbərliklə daha asan danışır.
+            </p>
+        </section>
+
+        <section id="risk" class="section-card">
+            <h2 class="section-title">{{i:calculator}} 1. Risk Nədir?</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>{{i:gem}} Aktiv (asset)</h3><p class="text-neutral-700">Dəyəri olan hər şey: məlumat, server, reputasiya, insanlar.</p></div>
+                <div class="info-card accent"><h3>{{i:shield-alert}} Təhdid × Zəiflik</h3><p class="text-neutral-700">Təhdid (ransomware qrupu) zəiflikdən (yamanmamış VPN) istifadə edir.</p></div>
+                <div class="info-card dark"><h3>{{i:scale}} Risk = Ehtimal × Təsir</h3><p>Hər ikisi 1–5 şkalası ilə qiymətləndirilir.</p></div>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Risk</th><th>Ehtimal</th><th>Təsir</th><th>Bal</th></tr></thead>
+                    <tbody>
+                        <tr><td>Ransomware ilə fayl serverinin şifrələnməsi</td><td>4</td><td>5</td><td><strong>20 — Yüksək</strong></td></tr>
+                        <tr><td>Noutbukun itirilməsi (disk şifrələnib)</td><td>3</td><td>2</td><td>6 — Aşağı</td></tr>
+                        <tr><td>Əsas internet xəttinin kəsilməsi (ehtiyat xətt yoxdur)</td><td>3</td><td>4</td><td>12 — Orta</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4">Kəmiyyət üsulu: <strong>ALE = SLE × ARO</strong> — bir hadisənin itkisi × illik baş vermə tezliyi. Məs. 20 000 AZN × 0.5 = ildə 10 000 AZN gözlənilən itki; nəzarət tədbirinin illik xərci bundan az olmalıdır.</p>
+        </section>
+
+        <section id="treat" class="section-card">
+            <h2 class="section-title">{{i:split}} 2. Riskə Dörd Cavab</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Strategiya</th><th>Mənası</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Mitigate (azaltmaq)</td><td>Nəzarət tədbiri tətbiq etmək</td><td>MFA, backup, seqmentasiya</td></tr>
+                        <tr><td>Transfer (ötürmək)</td><td>Riski üçüncü tərəfə ötürmək</td><td>Kiber sığorta, idarə olunan xidmət</td></tr>
+                        <tr><td>Avoid (qaçmaq)</td><td>Riskli fəaliyyəti dayandırmaq</td><td>Köhnə, dəstəklənməyən sistemi söndürmək</td></tr>
+                        <tr><td>Accept (qəbul etmək)</td><td>Rəhbərliyin yazılı qərarı ilə riski qəbul etmək</td><td>Xərc faydadan çoxdur</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="controls" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 3. Nəzarət (Control) Növləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Administrativ</th><th>Texniki</th><th>Fiziki</th></tr></thead>
+                    <tbody>
+                        <tr><td>Preventive (qarşısını alan)</td><td>Parol siyasəti, təlim</td><td>Firewall, MFA</td><td>Kilid, kart girişi</td></tr>
+                        <tr><td>Detective (aşkarlayan)</td><td>Audit, icazə baxışı</td><td>SIEM, IDS</td><td>CCTV</td></tr>
+                        <tr><td>Corrective (düzəldən)</td><td>IR planı</td><td>Backup-dan bərpa, EDR karantini</td><td>Yanğın söndürmə sistemi</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4"><strong>Defense in depth:</strong> hər vacib risk bir neçə növ nəzarətlə örtülür — biri uğursuz olanda digəri işləyir.</p>
+        </section>
+
+        <section id="frameworks" class="section-card">
+            <h2 class="section-title">{{i:library}} 4. Standart və Çərçivələr</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Ad</th><th>Nədir</th></tr></thead>
+                    <tbody>
+                        <tr><td>ISO/IEC 27001</td><td>İnformasiya təhlükəsizliyi idarəetmə sistemi (ISMS) — sertifikasiya olunur; Annex A-da 93 nəzarət</td></tr>
+                        <tr><td>NIST CSF 2.0</td><td>6 funksiya: Govern, Identify, Protect, Detect, Respond, Recover</td></tr>
+                        <tr><td>CIS Controls v8</td><td>18 prioritetləşdirilmiş praktik nəzarət — kiçik şirkətlər üçün yaxşı başlanğıc (IG1)</td></tr>
+                        <tr><td>PCI DSS</td><td>Kart məlumatları ilə işləyən şirkətlər üçün məcburi standart</td></tr>
+                        <tr><td>GDPR</td><td>AB vətəndaşlarının şəxsi məlumatlarının qorunması (AB ilə işləyən şirkətlərə də aiddir)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box mt-6">
+                {{i:info}}
+                <p class="text-neutral-800">Azərbaycanda da fəaliyyət sahəsinə görə şəxsi məlumatlar və informasiya təhlükəsizliyi ilə bağlı qanunvericilik və tənzimləyici tələblər mövcuddur — şirkətinizə hansıların aid olduğunu hüquq şöbəsi ilə dəqiqləşdirin.</p>
+            </div>
+        </section>
+
+        <section id="policies" class="section-card">
+            <h2 class="section-title">{{i:file-text}} 5. Əsas Siyasət Sənədləri</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:book-open}}<p class="text-neutral-700"><strong>İnformasiya təhlükəsizliyi siyasəti</strong> — rəhbərlik tərəfindən təsdiqlənmiş ümumi sənəd.</p></div>
+                <div class="feature-item">{{i:user-check}}<p class="text-neutral-700"><strong>Acceptable Use Policy</strong> — işçilər IT resurslarından necə istifadə edə bilər.</p></div>
+                <div class="feature-item">{{i:tag}}<p class="text-neutral-700"><strong>Məlumat təsnifatı</strong> — Public, Internal, Confidential, Restricted və hər biri üçün qaydalar.</p></div>
+                <div class="feature-item">{{i:key-round}}<p class="text-neutral-700"><strong>Giriş nəzarəti</strong> — icazə vermə, baxış (access review), ləğv.</p></div>
+                <div class="feature-item">{{i:archive-restore}}<p class="text-neutral-700"><strong>Backup və BCP/DR</strong> — biznesin davamlılığı.</p></div>
+                <div class="feature-item">{{i:siren}}<p class="text-neutral-700"><strong>Incident Response</strong> — kim, nə edir, necə bildirir.</p></div>
+            </div>
+            <p class="text-neutral-700 mt-6">Yaxşı siyasət qısa, aydın və tətbiq olunandır: yazılıb rəfə qoyulan 80 səhifəlik sənəd heç kimi qorumur.</p>
+        </section>
+<!--END-->

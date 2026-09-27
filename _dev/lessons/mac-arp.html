@@ -1,0 +1,92 @@
+<!--PAGE title="MAC Ünvanı və ARP" icon="fingerprint" badge="CCNA · Network Fundamentals" nav="intro:Giriş|mac:MAC ünvanı|arp:ARP prosesi|remote:Uzaq şəbəkə|commands:Əmrlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:fingerprint}} Giriş: İki Ünvan, İki Vəzifə</h2>
+            <p class="lead">
+                Hər host iki ünvandan istifadə edir: <strong>IP ünvanı</strong> (Layer 3) paketin son təyinatını,
+                <strong>MAC ünvanı</strong> (Layer 2) isə çərçivənin <strong>eyni seqmentdə</strong> növbəti hansı cihaza
+                çatacağını göstərir. Bu ikisini bir-birinə bağlayan protokol <strong>ARP</strong>-dır.
+            </p>
+        </section>
+
+        <section id="mac" class="section-card">
+            <h2 class="section-title">{{i:tag}} 1. MAC Ünvanının Quruluşu</h2>
+            <div class="code-block">
+                <pre><code>MAC:  00:1A:2B : 3C:4D:5E      (48 bit = 12 hex rəqəm)
+      └─ OUI ─┘ └─ NIC ─┘
+      istehsalçı   cihaza məxsus hissə
+
+Cisco yazılışı:  001a.2b3c.4d5e
+Windows:         00-1A-2B-3C-4D-5E
+Linux:           00:1a:2b:3c:4d:5e</code></pre>
+            </div>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:user}} Unicast</h3><p class="text-neutral-700">Tək bir cihaza. Birinci baytın ən kiçik biti 0-dır.</p></div>
+                <div class="info-card accent"><h3>{{i:radio-tower}} Broadcast</h3><p class="text-neutral-700"><code>FF:FF:FF:FF:FF:FF</code> — seqmentdəki bütün cihazlara.</p></div>
+                <div class="info-card dark"><h3>{{i:users}} Multicast</h3><p>Qrupa (məs. <code>01:00:5E:xx:xx:xx</code> — IPv4 multicast, <code>33:33:xx…</code> — IPv6).</p></div>
+            </div>
+        </section>
+
+        <section id="arp" class="section-card">
+            <h2 class="section-title">{{i:search}} 2. ARP Necə İşləyir?</h2>
+            <p class="lead">PC1 (192.168.1.10) eyni şəbəkədəki PC2-yə (192.168.1.20) ping atır, amma PC2-nin MAC ünvanını bilmir:</p>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">PC1 öz <strong>ARP cədvəlinə</strong> baxır — qeyd yoxdur.</p></li>
+                <li><p class="text-neutral-700"><strong>ARP Request</strong> göndərir: "192.168.1.20 kimdir? 192.168.1.10-a cavab ver". Təyinat MAC — <code>FF:FF:FF:FF:FF:FF</code> (broadcast).</p></li>
+                <li><p class="text-neutral-700">Switch broadcast-ı VLAN-dakı bütün portlara göndərir (flood). Yalnız PC2 cavab verir.</p></li>
+                <li><p class="text-neutral-700"><strong>ARP Reply</strong> birbaşa PC1-ə gedir (unicast): "192.168.1.20 = 00:1A:2B:3C:4D:5E".</p></li>
+                <li><p class="text-neutral-700">PC1 bu cütü ARP cədvəlinə yazır və ICMP paketini göndərir.</p></li>
+            </ol>
+            <div class="note-box">
+                {{i:info}}
+                <p class="text-neutral-800"><strong>Gratuitous ARP:</strong> cihaz heç kim soruşmadan öz IP–MAC cütünü elan edir (məs. IP konflikti yoxlamaq və ya HSRP keçidindən sonra switch-lərin cədvəlini yeniləmək üçün).</p>
+            </div>
+        </section>
+
+        <section id="remote" class="section-card">
+            <h2 class="section-title">{{i:route}} 3. Uzaq Şəbəkəyə Göndərəndə Nə Dəyişir?</h2>
+            <p class="lead">
+                Təyinat başqa şəbəkədədirsə host <strong>defolt gateway-in</strong> MAC ünvanını ARP ilə tapır.
+                Hər hop-da <strong>MAC ünvanları dəyişir</strong>, IP ünvanları isə (NAT olmadıqca) eyni qalır.
+            </p>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Seqment</th><th>Mənbə MAC</th><th>Təyinat MAC</th><th>Mənbə IP</th><th>Təyinat IP</th></tr></thead>
+                    <tbody>
+                        <tr><td>PC1 → R1</td><td>PC1</td><td>R1 Gi0/0</td><td>192.168.1.10</td><td>10.2.2.50</td></tr>
+                        <tr><td>R1 → R2</td><td>R1 Gi0/1</td><td>R2 Gi0/1</td><td>192.168.1.10</td><td>10.2.2.50</td></tr>
+                        <tr><td>R2 → Server</td><td>R2 Gi0/0</td><td>Server</td><td>192.168.1.10</td><td>10.2.2.50</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 4. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="arp-cisco">Cisco</button>
+                <button class="tab-btn inactive-tab" data-pane="arp-pc">Kompüter</button>
+            </div>
+            <div id="arp-cisco">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show arp
+show ip arp 192.168.1.20
+show mac address-table dynamic
+show interfaces GigabitEthernet0/0 | include address
+clear arp-cache
+R1(config)# arp 192.168.1.50 0011.2233.4455 arpa</code></pre>
+                    <p class="code-note">Router-in ARP cədvəli (Age "-" = öz interfeysi), switch-in MAC cədvəli, interfeysin öz MAC-ı, ARP keşinin təmizlənməsi və statik ARP qeydi.</p>
+                </div>
+            </div>
+            <div id="arp-pc" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>arp -a
+arp -d *
+ipconfig /all
+ip neigh show</code></pre>
+                    <p class="code-note">Windows-da ARP cədvəli və onun təmizlənməsi (admin hüququ lazımdır), kartın MAC ünvanı ("Physical Address") və Linux-da qonşu cədvəli.</p>
+                </div>
+            </div>
+        </section>
+<!--END-->

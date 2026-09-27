@@ -1,0 +1,73 @@
+<!--PAGE title="Dərsin Adı" icon="server" badge="Server · Bölmə" nav="intro:Giriş|basics:Əsaslar|commands:Əmrlər|trouble:Problemlər"-->
+        <!--
+            Bu şablonu _dev/lessons/<fayl-adi>.html kimi kopyalayın.
+            PAGE markeri:
+              title  — dərsin başlığı
+              icon   — Lucide ikon adı (https://lucide.dev/icons). Sprite-da yoxdursa:
+                       python3 _dev/build.py icons add <ad>
+              badge  — "Kateqoriya · Bölmə". İlk söz (CCNA, Server, Helpdesk, Təhlükəsizlik, AI)
+                       dərsin "Portal" düyməsinin hansı taba qayıtdığını müəyyən edir.
+              nav    — yuxarı menyu: "bölmə-id:Ad|bölmə-id:Ad" (id-lər aşağıdakı section id-ləri ilə eyni)
+            Mətnin içində ikon: iki fiqurlu mötərizə içində i:ikon-adı (aşağıdakı nümunələrə baxın).
+            Bu şərh bloku qurulan səhifədə də qalır — kopyaladıqdan sonra silin.
+        -->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:server}} Giriş: Mövzunun Əsas Sualı</h2>
+            <p class="lead">Dərsin nə haqqında olduğunu və niyə vacib olduğunu 2–3 cümlə ilə izah edin. <strong>Açar sözləri</strong> qalın yazın.</p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:circle-check}} Kart 1</h3><p class="text-neutral-700">Qısa izah.</p></div>
+                <div class="info-card"><h3>{{i:circle-dot}} Kart 2</h3><p class="text-neutral-700">Qısa izah.</p></div>
+                <div class="info-card dark"><h3>{{i:lightbulb}} Kart 3</h3><p>Qara fonlu kart.</p></div>
+            </div>
+        </section>
+
+        <section id="basics" class="section-card">
+            <h2 class="section-title">{{i:list-ordered}} 1. Cədvəl və Addımlar</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Sütun 1</th><th>Sütun 2</th><th>Sütun 3</th></tr></thead>
+                    <tbody>
+                        <tr><td>Dəyər</td><td class="yes">Müsbət (sarı)</td><td class="no">Mənfi</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">Birinci addım.</p></li>
+                <li><p class="text-neutral-700">İkinci addım.</p></li>
+            </ol>
+            <div class="note-box mt-6">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><strong>Qeyd:</strong> vacib xəbərdarlıq və ya məsləhət.</p>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 2. Əmrlər (tab-larla)</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="tpl-linux">Linux</button>
+                <button class="tab-btn inactive-tab" data-pane="tpl-win">Windows</button>
+            </div>
+            <div id="tpl-linux">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>ip a
+ss -tulpn</code></pre>
+                    <p class="code-note">Kodun izahı. Kod içində &lt; və &gt; simvollarını &amp;lt; və &amp;gt; kimi yazın.</p>
+                </div>
+            </div>
+            <div id="tpl-win" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>ipconfig /all</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="trouble" class="section-card">
+            <h2 class="section-title">{{i:wrench}} 3. Xüsusiyyətlər (ikonlu siyahı)</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:shield-check}}<p class="text-neutral-700"><strong>Başlıq:</strong> izah.</p></div>
+                <div class="feature-item">{{i:gauge}}<p class="text-neutral-700"><strong>Başlıq:</strong> izah.</p></div>
+            </div>
+        </section>
+<!--END-->

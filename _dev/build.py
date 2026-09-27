@@ -1,0 +1,382 @@
+#!/usr/bin/env python3
+"""Cavad Mikayil Təlim Portalı — build aləti.
+
+İstifadə (repo kökündən):
+    python3 _dev/build.py                 # dərsləri qur, footer-ləri yenilə, yoxla
+    python3 _dev/build.py icons add NAME  # sprite-a Lucide ikonu əlavə et (əvvəlcə: cd _dev && npm install)
+    python3 _dev/build.py check           # yalnız yoxlama (heç nə yazmır)
+
+Nə edir:
+  1. _dev/lessons/*.html mənbələrini lessons/*.html səhifələrinə çevirir
+     (<!--PAGE ...-->, <!--END--> və {{i:ikon}} markerləri).
+  2. Bütün səhifələrdə footer-i (sosial ikonlarla) eyni saxlayır.
+  3. about.html-dəki sosial kartları SOCIALS siyahısından yeniləyir.
+  4. icons.svg keçidlərinə versiya (?v=hash) əlavə edir ki, brauzer köhnə sprite göstərməsin.
+  5. Yoxlayır: istifadə olunan ikonlar sprite-da var, kataloqdakı dərs faylları mövcuddur,
+     hər dərsin quiz sualı var.
+"""
+import hashlib
+import json
+import pathlib
+import re
+import subprocess
+import sys
+
+DEV = pathlib.Path(__file__).resolve().parent
+ROOT = DEV.parent
+SRC = DEV / 'lessons'
+OUT = ROOT / 'lessons'
+SPRITE = ROOT / 'assets' / 'icons.svg'
+NODE = DEV / 'node_modules'
+
+# ---------------------------------------------------------------------------
+# Sayt məlumatları — sosial linklər və menyu buradan dəyişdirilir
+# ---------------------------------------------------------------------------
+SOCIALS = [
+    # id, ad, url, ikon, qısa izah (Haqqında səhifəsində)
+    ('instagram', 'Instagram', 'https://instagram.com/cavadmikayil.com_', 'brand-instagram', '@cavadmikayil.com_'),
+    ('youtube', 'YouTube kanalı', 'https://youtube.com/@cavadmikayil', 'brand-youtube', '@cavadmikayil'),
+    ('linkedin', 'LinkedIn', 'https://az.linkedin.com/in/cavad-mikayil-0a8153212', 'brand-linkedin-in', 'Peşəkar profil'),
+    ('blog', 'Blog sayt', 'https://cavadmikayil.com', 'globe', 'cavadmikayil.com'),
+    ('telegram', 'Telegram', 'https://t.me/cavadmikayil', 'brand-telegram', '@cavadmikayil'),
+    ('tiktok', 'TikTok', 'https://tiktok.com/@cavadmikayil', 'brand-tiktok', '@cavadmikayil'),
+    ('email', 'Email', 'mailto:info@cavadmikayil.com', 'mail', 'info@cavadmikayil.com'),
+]
+
+NAV = [
+    ('home', 'Ana Səhifə', 'index.html', 'house'),
+    ('ccna', 'CCNA', 'index.html#ccna', 'graduation-cap'),
+    ('links', 'Faydalı Linklər', 'links.html', 'library'),
+    ('about', 'Haqqında', 'about.html', 'user-round'),
+]
+
+# Dərsin badge-i ilə başlayan söz → dashboard-da açılacaq kateqoriya (Portal düyməsi)
+BADGE_TO_CATEGORY = {
+    'CCNA': 'ccna',
+    'Server': 'server',
+    'Helpdesk': 'helpdesk',
+    'Təhlükəsizlik': 'security',
+    'AI': 'ai',
+}
+
+
+# ---------------------------------------------------------------------------
+# İkonlar
+# ---------------------------------------------------------------------------
+def icon(prefix, name, extra=''):
+    cls = f'icon {extra}'.strip()
+    return f'<svg class="{cls}" aria-hidden="true"><use href="{prefix}assets/icons.svg#{name}"></use></svg>'
+
+
+def _brand_svg(name):
+    path = NODE / '@fortawesome/fontawesome-free/svgs/brands' / f'{name}.svg'
+    if path.exists():
+        return path.read_text()
+    return None
+
+
+def _sprite_symbol(name):
+    """Sprite-dakı simvolun viewBox və içini qaytarır (inline SVG üçün)."""
+    m = re.search(rf'<symbol id="{re.escape(name)}" viewBox="([^"]+)">(.*?)</symbol>', SPRITE.read_text(), re.S)
+    if not m:
+        raise SystemExit(f'İkon sprite-da yoxdur: {name}')
+    return m.group(1), m.group(2)
+
+
+def inline_svg(name, cls='icon'):
+    """Sosial ikonlar sprite keşindən asılı olmasın deyə səhifəyə birbaşa yazılır."""
+    view_box, inner = _sprite_symbol(name)
+    return f'<svg class="{cls}" viewBox="{view_box}" aria-hidden="true">{inner}</svg>'
+
+
+def icons_add(names):
+    """Lucide (ISC) və ya Font Awesome brand (CC BY 4.0, 'brand-' prefiksi) ikonlarını sprite-a əlavə edir."""
+    lucide = NODE / 'lucide-static/icons'
+    if not lucide.exists():
+        raise SystemExit('Əvvəlcə ikon paketlərini quraşdırın:  cd _dev && npm install')
+    text = SPRITE.read_text()
+    existing = set(re.findall(r'<symbol id="([a-z0-9-]+)"', text))
+    new = []
+    for name in names:
+        if name in existing:
+            print('artıq var:', name)
+            continue
+        if name.startswith('brand-'):
+            src = _brand_svg(name[6:])
+            if not src:
+                raise SystemExit(f'Font Awesome brand ikonu tapılmadı: {name[6:]}')
+            view_box = re.search(r'viewBox="([^"]+)"', src).group(1)
+            inner = ''.join(f'<path fill="currentColor" stroke="none" d="{d}"/>'
+                            for d in re.findall(r'<path[^>]*\sd="([^"]+)"', src))
+        else:
+            path = lucide / f'{name}.svg'
+            if not path.exists():
+                raise SystemExit(f'Lucide ikonu tapılmadı: {name} (siyahı: https://lucide.dev/icons)')
+            view_box = '0 0 24 24'
+            inner = re.sub(r'\s+', ' ', re.search(r'<svg[^>]*>(.*)</svg>', path.read_text(), re.S).group(1)).strip()
+        new.append(f'<symbol id="{name}" viewBox="{view_box}">{inner}</symbol>')
+        print('əlavə olundu:', name)
+    if new:
+        body = text.rstrip()
+        assert body.endswith('</svg>')
+        SPRITE.write_text(body[:-len('</svg>')] + '\n'.join(new) + '\n</svg>\n')
+
+
+# ---------------------------------------------------------------------------
+# Ümumi hissələr: menyu, footer
+# ---------------------------------------------------------------------------
+def ext_attrs(url):
+    return '' if url.startswith('mailto:') else ' target="_blank" rel="noopener noreferrer"'
+
+
+def nav(prefix, active='', on_dark=False, extra_cls=''):
+    act = ' class="active" aria-current="page"'
+    items = '\n'.join(
+        f'                    <a href="{prefix}{href}" data-nav="{i}"{act if i == active else ""}>{icon(prefix, ic)} {label}</a>'
+        for i, label, href, ic in NAV)
+    cls = 'site-nav' + (' on-dark' if on_dark else '') + (' ' + extra_cls if extra_cls else '')
+    return f'<nav class="{cls}" aria-label="Sayt menyusu">\n{items}\n                </nav>'
+
+
+def footer(prefix, cls='brand-footer'):
+    links = '\n'.join(f'                    <a href="{prefix}{href}">{label}</a>' for _, label, href, _ in NAV)
+    social = '\n'.join(
+        f'                    <a href="{url}"{ext_attrs(url)} title="{name}" aria-label="{name}" data-social="{sid}">{inline_svg(ic)}</a>'
+        for sid, name, url, ic, _ in SOCIALS)
+    return f'''<footer class="{cls}">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="{prefix}index.html" class="brand-footer-name">{icon(prefix, 'graduation-cap')} Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">Şəbəkə, CCNA, Server, Helpdesk, Təhlükəsizlik və AI üzrə pulsuz təlim materialları</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+{links}
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
+            </div>
+            <div class="brand-footer-social-wrap">
+                <p class="brand-footer-social-title">Sosial şəbəkələrdə izləyin</p>
+                <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+{social}
+                </div>
+            </div>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>'''
+
+
+# ---------------------------------------------------------------------------
+# Dərs mənbələrinin qurulması
+# ---------------------------------------------------------------------------
+def lesson_head(attrs):
+    links = '\n'.join(
+        f'                <a href="#{i}" class="nav-link">{label}</a>'
+        for i, label in (item.split(':', 1) for item in attrs['nav'].split('|')))
+    badge_text = attrs.get('badge', '')
+    badge = f'\n                <span class="lesson-badge">{badge_text}</span>' if badge_text else ''
+    cat = BADGE_TO_CATEGORY.get(badge_text.split(' ')[0], '') if badge_text else ''
+    back = f'#{cat}' if cat else ''
+    return f'''<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{attrs["title"]} — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2">{icon("../", attrs["icon"], "text-amber-600")} {attrs["title"]}</h1>{badge}
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+{links}
+                <a href="../index.html{back}" class="portal-home-link">{icon("../", "arrow-left")} Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş">{icon("../", "moon")}</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+'''
+
+
+def lesson_end():
+    return f'''    </main>
+
+    {footer("../")}
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+'''
+
+
+def build_lessons():
+    count = 0
+    for src in sorted(SRC.glob('*.html')):
+        text = src.read_text()
+        m = re.search(r'<!--PAGE (.*?)-->\n?', text, re.S)
+        if not m:
+            raise SystemExit(f'{src.name}: <!--PAGE ...--> markeri yoxdur')
+        attrs = dict(re.findall(r'(\w+)="([^"]*)"', m.group(1)))
+        for key in ('title', 'icon', 'nav'):
+            if key not in attrs:
+                raise SystemExit(f'{src.name}: PAGE markerində "{key}" yoxdur')
+        text = text[:m.start()] + lesson_head(attrs) + text[m.end():]
+        if '<!--END-->' not in text:
+            raise SystemExit(f'{src.name}: <!--END--> markeri yoxdur')
+        text = text.replace('<!--END-->', lesson_end())
+        text = re.sub(r'\{\{i:([a-z0-9-]+)\}\}', lambda mm: icon('../', mm.group(1)), text)
+        if '{{i:' in text:
+            raise SystemExit(f'{src.name}: açılmamış {{{{i:...}}}} markeri')
+        (OUT / src.name).write_text(text)
+        count += 1
+    print(f'{count} dərs quruldu (_dev/lessons → lessons/)')
+
+
+# ---------------------------------------------------------------------------
+# Əl ilə yazılmış səhifələrdə footer və Haqqında kartları
+# ---------------------------------------------------------------------------
+def all_pages():
+    return sorted(ROOT.glob('*.html')) + sorted((ROOT / 'lessons').glob('*.html')) + sorted((ROOT / 'tools').glob('*.html'))
+
+
+def refresh_footers():
+    pat = re.compile(r'<footer class="(brand-footer[^"]*)">[\s\S]*?</footer>')
+    for page in all_pages():
+        prefix = '' if page.parent == ROOT else '../'
+        text = page.read_text()
+        new, n = pat.subn(lambda m: footer(prefix, m.group(1)), text)
+        if n != 1:
+            print(f'XƏBƏRDARLIQ: {page.relative_to(ROOT)} səhifəsində footer tapılmadı')
+        if new != text:
+            page.write_text(new)
+
+
+def refresh_about():
+    page = ROOT / 'about.html'
+    cards = '\n'.join(f'''                    <a class="social-card" href="{url}"{ext_attrs(url)} data-social="{sid}">
+                        <span class="social-icon">{inline_svg(ic)}</span>
+                        <span class="min-w-0">
+                            <span class="social-name">{name}</span>
+                            <span class="social-handle">{handle}</span>
+                        </span>
+                        {icon('', 'external-link' if not url.startswith('mailto:') else 'arrow-right')}
+                    </a>''' for sid, name, url, ic, handle in SOCIALS)
+    text = page.read_text()
+    new, n = re.subn(r'(<div class="social-grid">\n)[\s\S]*?(\n            </div>\n        </section>)',
+                     lambda m: m.group(1) + cards + m.group(2), text, count=1)
+    if n == 1 and new != text:
+        page.write_text(new)
+
+
+def version_sprite_refs():
+    h = hashlib.md5(SPRITE.read_bytes()).hexdigest()[:8]
+    pat = re.compile(r"icons\.svg(?:\?v=[0-9a-f]+)?(?=[#'\"])")
+    files = all_pages() + sorted((ROOT / 'assets').glob('*.js'))
+    for f in files:
+        text = f.read_text()
+        new = pat.sub(f'icons.svg?v={h}', text)
+        if new != text:
+            f.write_text(new)
+    print(f'ikon sprite versiyası: {h}')
+
+
+# ---------------------------------------------------------------------------
+# Yoxlamalar
+# ---------------------------------------------------------------------------
+def load_catalog():
+    """assets/catalog.js-i node ilə oxuyur (node yoxdursa yoxlama ötürülür)."""
+    script = ("global.window={};require(process.argv[1]);require(process.argv[2]);"
+              "console.log(JSON.stringify({c:window.CATALOG,q:window.QUESTIONS}))")
+    try:
+        out = subprocess.run(['node', '-e', script, str(ROOT / 'assets/catalog.js'), str(ROOT / 'assets/questions.js')],
+                             capture_output=True, text=True, check=True).stdout
+    except (OSError, subprocess.CalledProcessError) as e:
+        print('Qeyd: node tapılmadı və ya kataloq oxunmadı — kataloq yoxlaması ötürüldü', getattr(e, 'stderr', ''))
+        return None, None
+    data = json.loads(out)
+    return data['c'], data['q']
+
+
+def check():
+    problems = []
+    symbols = set(re.findall(r'<symbol id="([a-z0-9-]+)"', SPRITE.read_text()))
+    used = {}
+    for f in all_pages() + sorted((ROOT / 'assets').glob('*.js')):
+        for name in re.findall(r'icons\.svg(?:\?v=[0-9a-f]+)?#([a-z0-9-]+)', f.read_text()):
+            used.setdefault(name, f.relative_to(ROOT))
+    for src in SRC.glob('*.html'):
+        text = src.read_text()
+        for name in re.findall(r'\{\{i:([a-z0-9-]+)\}\}', text) + re.findall(r'icon="([a-z0-9-]+)"', text):
+            used.setdefault(name, src.relative_to(ROOT))
+    catalog, questions = load_catalog()
+    if catalog:
+        for item in catalog['categories']:
+            used.setdefault(item['icon'], 'assets/catalog.js')
+        keys = set()
+        for lesson in catalog['lessons']:
+            used.setdefault(lesson['icon'], 'assets/catalog.js')
+            if not (ROOT / lesson['href']).exists():
+                problems.append(f'kataloqda fayl yoxdur: {lesson["href"]}')
+            if lesson['quiz'] in keys:
+                problems.append(f'təkrarlanan quiz açarı: {lesson["quiz"]}')
+            keys.add(lesson['quiz'])
+            if lesson['cat'] not in {c['id'] for c in catalog['categories']}:
+                problems.append(f'naməlum kateqoriya: {lesson["cat"]} ({lesson["href"]})')
+        counts = {}
+        for q in questions:
+            counts[q['t']] = counts.get(q['t'], 0) + 1
+            if q['t'] not in keys:
+                problems.append(f'sualın mövzusu kataloqda yoxdur: {q["t"]}')
+            if len(q['a']) != 4 or len(set(q['a'])) != 4:
+                problems.append(f'sualda 4 fərqli cavab olmalıdır: {q["q"][:50]}')
+        for k in keys:
+            if counts.get(k, 0) < 2:
+                problems.append(f'mövzuda 2-dən az sual var: {k}')
+        listed = {l['href'] for l in catalog['lessons']}
+        for f in (ROOT / 'lessons').glob('*.html'):
+            if f'lessons/{f.name}' not in listed:
+                problems.append(f'dərs faylı kataloqda yoxdur: lessons/{f.name}')
+        print(f'kataloq: {len(catalog["categories"])} kateqoriya, {len(catalog["lessons"])} dərs, {len(questions)} sual')
+    for name, where in sorted(used.items()):
+        if name not in symbols:
+            problems.append(f'ikon sprite-da yoxdur: {name} ({where}) → python3 _dev/build.py icons add {name}')
+    if problems:
+        print('\nPROBLEMLƏR:')
+        for p in problems:
+            print('  -', p)
+        return False
+    print('yoxlama: problem yoxdur')
+    return True
+
+
+def main(argv):
+    if argv[:2] == ['icons', 'add'] and len(argv) > 2:
+        icons_add(argv[2:])
+        version_sprite_refs()
+        return 0
+    if argv == ['check']:
+        return 0 if check() else 1
+    if argv:
+        print(__doc__)
+        return 2
+    build_lessons()
+    refresh_footers()
+    refresh_about()
+    version_sprite_refs()
+    return 0 if check() else 1
+
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv[1:]))

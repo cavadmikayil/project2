@@ -1,0 +1,125 @@
+<!--PAGE title="Windows Server və Active Directory" icon="building" badge="Server · Windows" nav="intro:Giriş|concepts:Anlayışlar|roles:FSMO və DC|ou:OU dizaynı|gpo:Group Policy|ps:PowerShell"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:building}} Giriş: Mərkəzi İdarəetmə</h2>
+            <p class="lead">
+                200 kompüterli ofisdə hər kompüterdə ayrıca hesab yaratmaq mümkün deyil. <strong>Active Directory Domain
+                Services (AD DS)</strong> istifadəçiləri, kompüterləri və qaydaları mərkəzdə saxlayır: işçi istənilən
+                domen kompüterinə öz hesabı ilə daxil olur, admin isə bütün cihazlara siyasəti bir yerdən tətbiq edir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:user-check}} Autentifikasiya</h3><p class="text-neutral-700">Kerberos ilə — parol şəbəkədə göndərilmir, bilet (ticket) istifadə olunur.</p></div>
+                <div class="info-card"><h3>{{i:settings}} Mərkəzi siyasət</h3><p class="text-neutral-700">Group Policy ilə parol qaydaları, proqram quraşdırma, USB məhdudiyyəti.</p></div>
+                <div class="info-card dark"><h3>{{i:globe}} DNS-ə əsaslanır</h3><p>AD DNS olmadan işləmir — klientlər Domain Controller-i DNS SRV qeydləri ilə tapır.</p></div>
+            </div>
+        </section>
+
+        <section id="concepts" class="section-card">
+            <h2 class="section-title">{{i:book-open}} 1. Əsas Anlayışlar</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Termin</th><th>Mənası</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Domain</td><td>Ortaq verilənlər bazası və qaydaları olan obyektlər qrupu</td><td><code>corp.example.az</code></td></tr>
+                        <tr><td>Domain Controller (DC)</td><td>AD bazasını saxlayan və girişləri yoxlayan server</td><td>DC01, DC02 (ən azı iki!)</td></tr>
+                        <tr><td>Forest / Tree</td><td>Bir və ya bir neçə domenin ən yuxarı konteyneri</td><td>Holdinq və onun şirkətləri</td></tr>
+                        <tr><td>OU</td><td>Organizational Unit — obyektləri qruplaşdıran qovluq; GPO buraya bağlanır</td><td>OU=Muhasibat</td></tr>
+                        <tr><td>Security Group</td><td>İcazə vermək üçün istifadəçi qrupu</td><td>GG-Muhasibat-Read</td></tr>
+                        <tr><td>Site</td><td>Fiziki yerləşmə (şəbəkə) — replikasiya trafikini idarə etmək üçün</td><td>Baku-HQ, Ganja-Branch</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="roles" class="section-card">
+            <h2 class="section-title">{{i:server}} 2. Domain Controller və FSMO Rolları</h2>
+            <p class="lead">DC-lər bir-birinə dəyişiklikləri replikasiya edir (multi-master). Amma bəzi əməliyyatları yalnız bir DC edə bilər — bunlar <strong>FSMO</strong> rollarıdır.</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Rol</th><th>Səviyyə</th><th>Vəzifəsi</th></tr></thead>
+                    <tbody>
+                        <tr><td>Schema Master</td><td>Forest</td><td>AD sxemini dəyişmək</td></tr>
+                        <tr><td>Domain Naming Master</td><td>Forest</td><td>Domen əlavə/silmək</td></tr>
+                        <tr><td>PDC Emulator</td><td>Domain</td><td>Vaxt mənbəyi, parol dəyişikliyinin tez yayılması, hesab kilidlənməsi</td></tr>
+                        <tr><td>RID Master</td><td>Domain</td><td>Yeni obyektlər üçün unikal ID blokları paylamaq</td></tr>
+                        <tr><td>Infrastructure Master</td><td>Domain</td><td>Domenlərarası istinadları yeniləmək</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800">Həmişə ən azı <strong>iki DC</strong> olsun. Tək DC xarab olarsa, heç kim daxil ola bilmir. DC-ni virtual maşın snapshot-undan geri qaytarmaq replikasiya problemləri yarada bilər — AD-ni öz backup üsulu ilə (System State) yedəkləyin.</p>
+            </div>
+        </section>
+
+        <section id="ou" class="section-card">
+            <h2 class="section-title">{{i:folder-tree}} 3. OU Dizaynı və İcazələr</h2>
+            <div class="code-block mb-6">
+                <pre><code>corp.example.az
+├── OU=Baku
+│   ├── OU=Users
+│   │   ├── OU=Muhasibat
+│   │   └── OU=IT
+│   ├── OU=Computers
+│   │   ├── OU=Laptops
+│   │   └── OU=Workstations
+│   └── OU=Servers
+└── OU=Groups</code></pre>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:users}}<p class="text-neutral-700"><strong>AGDLP qaydası:</strong> Accounts → Global qrup → Domain Local qrup → Permission. İstifadəçiyə birbaşa icazə verməyin, qrupa verin.</p></div>
+                <div class="feature-item">{{i:shield-check}}<p class="text-neutral-700"><strong>Minimal icazə:</strong> helpdesk-ə yalnız öz OU-sunda parol sıfırlamaq hüququnu (Delegation) verin, Domain Admin yox.</p></div>
+                <div class="feature-item">{{i:user-check}}<p class="text-neutral-700"><strong>Ayrı admin hesabı:</strong> gündəlik iş üçün <code>aysel</code>, admin işi üçün <code>adm-aysel</code>.</p></div>
+            </div>
+        </section>
+
+        <section id="gpo" class="section-card">
+            <h2 class="section-title">{{i:list-checks}} 4. Group Policy (GPO)</h2>
+            <p class="lead">GPO — OU-ya, domenə və ya site-a bağlanan parametrlər toplusudur. Tətbiq sırası: <strong>Local → Site → Domain → OU</strong> (LSDOU); sonra tətbiq olunan qalib gəlir.</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Nümunə siyasət</th><th>Harada</th></tr></thead>
+                    <tbody>
+                        <tr><td>Parol uzunluğu, hesab kilidlənməsi</td><td>Default Domain Policy (Computer Configuration)</td></tr>
+                        <tr><td>Şəbəkə diskini (mapped drive) qoşmaq</td><td>User Configuration → Preferences → Drive Maps</td></tr>
+                        <tr><td>Proqram quraşdırmaq (.msi)</td><td>Computer Configuration → Software Installation</td></tr>
+                        <tr><td>USB yaddaşları qadağan etmək</td><td>Computer Configuration → Administrative Templates → System → Removable Storage</td></tr>
+                        <tr><td>Ekran kilidi 10 dəqiqə</td><td>User Configuration → Administrative Templates → Control Panel → Personalization</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>gpupdate /force          # siyasəti dərhal yenilə
+gpresult /r              # hansı GPO-lar tətbiq olunub
+gpresult /h report.html  # ətraflı HTML hesabat</code></pre>
+            </div>
+        </section>
+
+        <section id="ps" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 5. PowerShell ilə AD</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Rolu quraşdırmaq və yeni forest yaratmaq
+Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
+Install-ADDSForest -DomainName "corp.example.az"
+
+# İstifadəçi yaratmaq
+New-ADUser -Name "Aysel Mammadova" -SamAccountName aysel `
+  -Path "OU=Muhasibat,OU=Users,OU=Baku,DC=corp,DC=example,DC=az" `
+  -AccountPassword (Read-Host -AsSecureString "Parol") -Enabled $true
+
+Add-ADGroupMember -Identity "GG-Muhasibat" -Members aysel
+Get-ADUser aysel -Properties LastLogonDate, LockedOut
+Unlock-ADAccount -Identity aysel
+
+# 90 gündür daxil olmayan hesablar
+Search-ADAccount -AccountInactive -TimeSpan 90.00:00:00 -UsersOnly
+
+# DC sağlamlığı və replikasiya
+dcdiag
+repadmin /replsummary
+netdom query fsmo</code></pre>
+                <p class="code-note"><code>dcdiag</code> DC testlərini, <code>repadmin /replsummary</code> replikasiya xətalarını, <code>netdom query fsmo</code> isə FSMO rollarının hansı DC-də olduğunu göstərir.</p>
+            </div>
+        </section>
+<!--END-->

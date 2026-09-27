@@ -1,0 +1,76 @@
+<!--PAGE title="Troubleshooting Metodologiyası" icon="search-check" badge="Helpdesk · Proses" nav="intro:Giriş|steps:7 addım|questions:Suallar|approaches:Yanaşmalar|example:Nümunə|mistakes:Səhvlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:search-check}} Giriş: Təsadüfi Düymə Basmaq Metod Deyil</h2>
+            <p class="lead">
+                Təcrübəsiz texnik ağlına gələn hər şeyi sınayır: restart, driver, reinstall. Bəzən alınır, amma
+                <em>niyə</em> alındığını bilmir və problem geri qayıdır. Təcrübəli mütəxəssis <strong>sistemli</strong> işləyir:
+                məlumat toplayır, fərziyyə qurur, yoxlayır və sənədləşdirir. CompTIA A+ və Network+ imtahanlarında bu
+                metodologiya ayrıca sual mövzusudur.
+            </p>
+        </section>
+
+        <section id="steps" class="section-card">
+            <h2 class="section-title">{{i:list-ordered}} 1. CompTIA-nın 7 Addımı</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700"><strong>Problemi müəyyən et:</strong> istifadəçini dinlə, suallar ver, xəta mesajını gör, <em>son nə dəyişib?</em> — ehtiyat nüsxə al.</p></li>
+                <li><p class="text-neutral-700"><strong>Ehtimal olunan səbəb barədə fərziyyə qur</strong> — ən sadə və ən çox rast gəlinəndən başla (kabel, qida, parol).</p></li>
+                <li><p class="text-neutral-700"><strong>Fərziyyəni test et.</strong> Təsdiq olunmasa — yeni fərziyyə qur və ya eskalasiya et.</p></li>
+                <li><p class="text-neutral-700"><strong>Fəaliyyət planı qur və mümkün təsirləri müəyyən et</strong> — kimə təsir edəcək, geri dönüş yolu varmı, təsdiq (change) lazımdırmı.</p></li>
+                <li><p class="text-neutral-700"><strong>Həlli tətbiq et</strong> və ya səlahiyyətin çatmırsa, eskalasiya et.</p></li>
+                <li><p class="text-neutral-700"><strong>Sistemin tam işlədiyini yoxla</strong> — istifadəçi ilə birlikdə; lazım olsa profilaktik tədbir gör.</p></li>
+                <li><p class="text-neutral-700"><strong>Sənədləşdir:</strong> nəticələr, görülən işlər və nəticə — ticket-də və knowledge base-də.</p></li>
+            </ol>
+        </section>
+
+        <section id="questions" class="section-card">
+            <h2 class="section-title">{{i:message-circle}} 2. Doğru Suallar</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:clock}}<p class="text-neutral-700"><strong>Nə vaxtdan?</strong> Bu gündən, yoxsa həmişə belə idi?</p></div>
+                <div class="feature-item">{{i:refresh-cw}}<p class="text-neutral-700"><strong>Nə dəyişib?</strong> Yeniləmə, yeni proqram, parol dəyişikliyi, kabinet dəyişikliyi?</p></div>
+                <div class="feature-item">{{i:users}}<p class="text-neutral-700"><strong>Yalnız sizdə, yoxsa başqalarında da?</strong> Bir nəfər → lokal problem; hamı → server/şəbəkə.</p></div>
+                <div class="feature-item">{{i:repeat}}<p class="text-neutral-700"><strong>Təkrarlana bilirmi?</strong> Hansı addımlardan sonra baş verir?</p></div>
+                <div class="feature-item">{{i:triangle-alert}}<p class="text-neutral-700"><strong>Dəqiq xəta mesajı nədir?</strong> Ekran görüntüsü istəyin — "xəta verir" məlumat deyil.</p></div>
+                <div class="feature-item">{{i:monitor}}<p class="text-neutral-700"><strong>Başqa cihazdan / brauzerdən işləyirmi?</strong> Problemi daraldır.</p></div>
+            </div>
+        </section>
+
+        <section id="approaches" class="section-card">
+            <h2 class="section-title">{{i:layers}} 3. Axtarış Yanaşmaları</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Yanaşma</th><th>Necə</th><th>Nə vaxt</th></tr></thead>
+                    <tbody>
+                        <tr><td>Bottom-up (OSI 1 → 7)</td><td>Kabel, link LED, IP, DNS, tətbiq</td><td>Şəbəkə problemi, fiziki şübhə</td></tr>
+                        <tr><td>Top-down (7 → 1)</td><td>Tətbiqdən başla, aşağı en</td><td>Bir proqram işləmir, digərləri işləyir</td></tr>
+                        <tr><td>Divide and conquer</td><td>Ortadan başla (məs. <code>ping</code> gateway) — nəticəyə görə yuxarı/aşağı</td><td>Təcrübəli texnik üçün ən sürətli</td></tr>
+                        <tr><td>Swap / Replace</td><td>Şübhəli hissəni işlək ilə dəyiş (kabel, monitor, RAM)</td><td>Hardware problemi</td></tr>
+                        <tr><td>Compare</td><td>İşləyən cihazla konfiqurasiyanı müqayisə et</td><td>"Kollegada işləyir, məndə yox"</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="example" class="section-card">
+            <h2 class="section-title">{{i:clipboard-list}} 4. Nümunə: "İnternet İşləmir"</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>ipconfig                    # 1. IP varmı? 169.254.x.x = DHCP-dən ünvan alınmayıb
+ping 127.0.0.1              # 2. TCP/IP stack işləyirmi
+ping 192.168.1.1            # 3. Default gateway-ə çatırmı (lokal şəbəkə)
+ping 8.8.8.8                # 4. İnternetə IP ilə çatırmı
+nslookup google.com         # 5. DNS işləyirmi
+tracert 8.8.8.8             # 6. Harada kəsilir</code></pre>
+                <p class="code-note">8.8.8.8-ə ping gedir, amma saytlar açılmırsa — problem DNS-dədir. Gateway-ə ping getmirsə — kabel, Wi-Fi, VLAN və ya IP konfiqurasiyası. Bu ardıcıllıq problemi 2–3 dəqiqəyə lokallaşdırır.</p>
+            </div>
+        </section>
+
+        <section id="mistakes" class="section-card">
+            <h2 class="section-title">{{i:ban}} 5. Tipik Səhvlər</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:shuffle}} Eyni anda çox dəyişiklik</h3><p class="text-neutral-700">Beş şeyi birdən dəyişsəniz, hansının kömək etdiyini bilməyəcəksiniz. Bir dəyişiklik — bir test.</p></div>
+                <div class="info-card accent"><h3>{{i:save}} Backup-sız müdaxilə</h3><p class="text-neutral-700">Registry, konfiqurasiya, profil — dəyişməzdən əvvəl surət alın.</p></div>
+                <div class="info-card"><h3>{{i:eye-off}} Fərziyyəyə aşiq olmaq</h3><p class="text-neutral-700">Test fərziyyəni təkzib edirsə, onu buraxın — faktlar əsasdır.</p></div>
+                <div class="info-card dark"><h3>{{i:file-x}} Sənədləşdirməmək</h3><p>Növbəti dəfə eyni problemə yenidən saatlar sərf olunacaq.</p></div>
+            </div>
+        </section>
+<!--END-->

@@ -1,0 +1,127 @@
+<!--PAGE title="Wireless LAN" icon="wifi" badge="CCNA · Network Access" nav="intro:Giriş|standards:802.11 Standartları|channels:Kanallar|architecture:Arxitektura|security:Təhlükəsizlik|commands:Konfiqurasiya"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:wifi}} Giriş: Simsiz Şəbəkələr</h2>
+            <p class="lead">
+                Wireless LAN (WLAN) IEEE 802.11 standartlarına əsaslanır və məlumatı radio dalğaları ilə ötürür.
+                Simsiz mühit <strong>paylaşılan</strong> və <strong>half-duplex</strong>dir: eyni kanalda eyni anda
+                yalnız bir cihaz ötürə bilər, toqquşmaların qarşısı CSMA/CA ilə alınır.
+            </p>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:tag}} SSID</h3><p class="text-neutral-700">Şəbəkənin adı (məs. "Kollec-WiFi"). Bir AP bir neçə SSID yayımlaya bilər.</p></div>
+                <div class="info-card"><h3>{{i:hash}} BSSID</h3><p class="text-neutral-700">AP-nin radio interfeysinin MAC ünvanı — hər BSS-in unikal identifikatoru.</p></div>
+                <div class="info-card"><h3>{{i:radio-tower}} BSS / ESS</h3><p class="text-neutral-700">BSS — bir AP və onun müştəriləri. ESS — eyni SSID-li bir neçə AP; müştəri AP-lər arasında roaming edir.</p></div>
+            </div>
+        </section>
+
+        <section id="standards" class="section-card">
+            <h2 class="section-title">{{i:signal}} 1. 802.11 Standartları</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Standart</th><th>Ad</th><th>Tezlik</th><th>Maks. nəzəri sürət</th></tr></thead>
+                    <tbody>
+                        <tr><td>802.11b</td><td>—</td><td>2.4 GHz</td><td>11 Mbps</td></tr>
+                        <tr><td>802.11a</td><td>—</td><td>5 GHz</td><td>54 Mbps</td></tr>
+                        <tr><td>802.11g</td><td>—</td><td>2.4 GHz</td><td>54 Mbps</td></tr>
+                        <tr><td>802.11n</td><td>Wi-Fi 4</td><td>2.4 / 5 GHz</td><td>600 Mbps</td></tr>
+                        <tr><td>802.11ac</td><td>Wi-Fi 5</td><td>5 GHz</td><td>~6.9 Gbps</td></tr>
+                        <tr><td>802.11ax</td><td>Wi-Fi 6 / 6E</td><td>2.4 / 5 / 6 GHz</td><td>~9.6 Gbps</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="channels" class="section-card">
+            <h2 class="section-title">{{i:radio}} 2. Tezliklər və Kanallar</h2>
+            <div class="card-grid">
+                <div class="info-card accent">
+                    <h3>{{i:signal}} 2.4 GHz</h3>
+                    <p class="text-neutral-700">Daha uzağa çatır və divarlardan yaxşı keçir, amma yalnız <strong>3 üst-üstə düşməyən kanal</strong> var: <strong>1, 6, 11</strong>. Qonşu AP-lər bu kanallara paylanmalıdır.</p>
+                </div>
+                <div class="info-card">
+                    <h3>{{i:gauge}} 5 GHz</h3>
+                    <p class="text-neutral-700">Daha çox üst-üstə düşməyən kanal və daha yüksək sürət, amma daha qısa əhatə dairəsi.</p>
+                </div>
+                <div class="info-card dark">
+                    <h3>{{i:zap}} 6 GHz (Wi-Fi 6E)</h3>
+                    <p>Yeni, sıxlığı az diapazon; yalnız 6E dəstəkləyən cihazlar istifadə edə bilər. WPA3 tələb olunur.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="architecture" class="section-card">
+            <h2 class="section-title">{{i:server}} 3. AP Arxitekturaları</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>İdarəetmə</th><th>Harada istifadə olunur</th></tr></thead>
+                    <tbody>
+                        <tr><td>Autonomous AP</td><td>Hər AP ayrıca konfiqurasiya olunur</td><td>Ev, kiçik ofis</td></tr>
+                        <tr><td>Lightweight AP + WLC</td><td>Mərkəzi Wireless LAN Controller; AP ilə WLC arasında CAPWAP tuneli</td><td>Kampus, müəssisə</td></tr>
+                        <tr><td>Cloud-managed</td><td>Bulud paneli (məs. Cisco Meraki)</td><td>Çoxfilial şirkətlər</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:info}}
+                <p class="text-neutral-800"><strong>CAPWAP</strong> UDP 5246 (idarəetmə, şifrəli) və UDP 5247 (data) portlarından istifadə edir. Local rejimdə lightweight AP switch-in <strong>access</strong> portuna qoşulur; FlexConnect rejimində isə adətən trunk lazımdır.</p>
+            </div>
+        </section>
+
+        <section id="security" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 4. Simsiz Təhlükəsizlik</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Protokol</th><th>Şifrələmə</th><th>Qiymətləndirmə</th></tr></thead>
+                    <tbody>
+                        <tr><td>WEP</td><td>RC4</td><td class="no">Sındırılıb — istifadə etməyin</td></tr>
+                        <tr><td>WPA</td><td>TKIP</td><td class="no">Köhnəlib</td></tr>
+                        <tr><td>WPA2</td><td>AES-CCMP</td><td class="yes">Hələ geniş yayılıb</td></tr>
+                        <tr><td>WPA3</td><td>AES (GCMP-256 Enterprise-192-də), SAE</td><td class="yes">Tövsiyə olunur</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:key-round}} Personal (PSK / SAE)</h3><p class="text-neutral-700">Hamı üçün ortaq parol. WPA3-Personal SAE istifadə edir və parolu offline lüğət hücumlarına qarşı qoruyur.</p></div>
+                <div class="info-card accent"><h3>{{i:user-check}} Enterprise (802.1X)</h3><p class="text-neutral-700">Hər istifadəçi öz hesabı ilə RADIUS server vasitəsilə autentifikasiya olunur. Müəssisələr üçün doğru seçimdir.</p></div>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 5. Konfiqurasiya</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="wlan-gui">WLC (GUI addımları)</button>
+                <button class="tab-btn inactive-tab" data-pane="wlan-switch">AP üçün switch portu</button>
+                <button class="tab-btn inactive-tab" data-pane="wlan-verify">Doğrulama (WLC CLI)</button>
+            </div>
+            <div id="wlan-gui">
+                <ol class="steps max-w-3xl">
+                    <li><p class="text-neutral-700"><strong>WLANs → Create New:</strong> profil adı və SSID daxil edin (məs. "Kollec-WiFi"), WLAN ID seçin.</p></li>
+                    <li><p class="text-neutral-700"><strong>General:</strong> Status = Enabled; Interface = müştəri VLAN-ına bağlı dinamik interfeys.</p></li>
+                    <li><p class="text-neutral-700"><strong>Security → Layer 2:</strong> WPA2/WPA3 seçin; Personal üçün PSK/SAE parolu, Enterprise üçün 802.1X.</p></li>
+                    <li><p class="text-neutral-700"><strong>Security → AAA Servers:</strong> Enterprise rejimində RADIUS serveri seçin.</p></li>
+                    <li><p class="text-neutral-700"><strong>Apply</strong> düyməsini basın və müştəri qoşulmasını yoxlayın.</p></li>
+                </ol>
+            </div>
+            <div id="wlan-switch" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Switch(config)# interface GigabitEthernet0/5
+Switch(config-if)# description Lightweight-AP-01
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport access vlan 99
+Switch(config-if)# spanning-tree portfast
+Switch(config-if)# power inline auto</code></pre>
+                    <p class="code-note">Local rejimli lightweight AP idarəetmə VLAN-ında access porta qoşulur; müştəri trafiki CAPWAP tunelində WLC-yə gedir. PoE ilə AP-yə enerji verilir.</p>
+                </div>
+            </div>
+            <div id="wlan-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show wlan summary
+show ap summary
+show client summary
+show interface summary</code></pre>
+                    <p class="code-note">WLAN-ların siyahısı və statusu, WLC-yə qoşulmuş AP-lər, qoşulmuş müştərilər və WLC interfeysləri.</p>
+                </div>
+            </div>
+        </section>
+<!--END-->

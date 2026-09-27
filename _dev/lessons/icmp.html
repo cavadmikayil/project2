@@ -1,0 +1,101 @@
+<!--PAGE title="ICMP: Ping və Traceroute" icon="radar" badge="CCNA · Network Fundamentals" nav="intro:Giriş|types:Mesaj növləri|ping:Ping|traceroute:Traceroute|commands:Əmrlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:radar}} Giriş: Şəbəkənin Diaqnostika Dili</h2>
+            <p class="lead">
+                ICMP (Internet Control Message Protocol) IP-nin "xidməti" protokoludur: məlumat daşımır, əvəzinə
+                xətaları və vəziyyəti bildirir. Port nömrəsi yoxdur — birbaşa IP paketinin içində (protokol nömrəsi
+                <strong>1</strong>) daşınır. <code>ping</code> və <code>traceroute</code> alətləri ICMP üzərində qurulub.
+            </p>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title">{{i:list-ordered}} 1. Əsas ICMP Mesajları</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Type</th><th>Ad</th><th>Nə vaxt göndərilir</th></tr></thead>
+                    <tbody>
+                        <tr><td>8</td><td>Echo Request</td><td>ping sorğusu</td></tr>
+                        <tr><td>0</td><td>Echo Reply</td><td>ping cavabı</td></tr>
+                        <tr><td>3</td><td>Destination Unreachable</td><td>Şəbəkə/host/port əlçatmazdır və ya ACL bloklayıb (code 13)</td></tr>
+                        <tr><td>11</td><td>Time Exceeded</td><td>TTL 0-a çatıb — traceroute məhz bundan istifadə edir</td></tr>
+                        <tr><td>5</td><td>Redirect</td><td>Router hosta daha yaxşı gateway göstərir</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="ping" class="section-card">
+            <h2 class="section-title">{{i:activity}} 2. Ping Nəticələrini Oxumaq (Cisco IOS)</h2>
+            <div class="code-block">
+                <pre><code>R1# ping 10.2.2.50
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 10.2.2.50, timeout is 2 seconds:
+.!!!!
+Success rate is 80 percent (4/5), round-trip min/avg/max = 1/2/4 ms</code></pre>
+            </div>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Simvol</th><th>Mənası</th></tr></thead>
+                    <tbody>
+                        <tr><td>!</td><td>Echo Reply alındı — uğurlu</td></tr>
+                        <tr><td>.</td><td>Timeout — cavab gəlmədi</td></tr>
+                        <tr><td>U</td><td>Destination Unreachable alındı</td></tr>
+                        <tr><td>Q</td><td>Source quench (təyinat məşğuldur)</td></tr>
+                        <tr><td>M</td><td>Fragmentasiya lazımdır, amma DF biti qoyulub</td></tr>
+                        <tr><td>?</td><td>Naməlum paket növü</td></tr>
+                        <tr><td>&amp;</td><td>Paketin ömrü bitib (TTL)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Birinci paketin itməsi (<code>.!!!!</code>) adətən normaldır: router həmin anda ARP ilə növbəti hop-un MAC ünvanını öyrənir və ilk paket gözləmə müddətində atılır.</p>
+            </div>
+        </section>
+
+        <section id="traceroute" class="section-card">
+            <h2 class="section-title">{{i:route}} 3. Traceroute Necə İşləyir?</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Birinci paket <strong>TTL = 1</strong> ilə göndərilir. Birinci router TTL-i 0-a endirir, paketi atır və <strong>ICMP Time Exceeded</strong> qaytarır — beləcə onun ünvanı məlum olur.</p></li>
+                <li><p class="text-neutral-700">Növbəti paket <strong>TTL = 2</strong> ilə gedir və ikinci router cavab verir.</p></li>
+                <li><p class="text-neutral-700">Təyinata çatana qədər TTL hər dəfə 1 artırılır. Təyinat "Port Unreachable" (Cisco/Linux, UDP) və ya "Echo Reply" (Windows <code>tracert</code>, ICMP) ilə cavab verir.</p></li>
+            </ol>
+            <div class="code-block">
+                <pre><code>R1# traceroute 10.2.2.50
+  1 10.0.0.2   1 msec  1 msec  1 msec
+  2 10.0.1.2   2 msec  2 msec  1 msec
+  3 10.2.2.50  3 msec  *       2 msec</code></pre>
+            </div>
+            <p class="text-neutral-700"><code>*</code> — həmin probe üçün cavab gəlmədi. Bir neçə sətir boyunca yalnız <code>* * *</code> görünürsə, paketlər adətən məhz o hop-dan sonra itir (marşrut yoxdur, ACL və ya firewall bloklayır).</p>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 4. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="icmp-ios">Cisco IOS</button>
+                <button class="tab-btn inactive-tab" data-pane="icmp-pc">Kompüter</button>
+            </div>
+            <div id="icmp-ios">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>ping 10.2.2.50 repeat 100 size 1500
+ping 10.2.2.50 source Loopback0
+ping
+traceroute 10.2.2.50 numeric
+R1(config-if)# no ip unreachables</code></pre>
+                    <p class="code-note">100 ədəd 1500 baytlıq paket, müəyyən mənbə interfeysindən ping (qayıdış marşrutunu yoxlamaq üçün), parametrləri tək-tək soruşan genişləndirilmiş ping, DNS sorğusuz traceroute. Sonuncu əmr interfeysdə Unreachable mesajlarını söndürür (təhlükəsizlik üçün).</p>
+                </div>
+            </div>
+            <div id="icmp-pc" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>ping -n 10 8.8.8.8
+ping -t 192.168.1.1
+tracert 8.8.8.8
+pathping 8.8.8.8
+traceroute -I 8.8.8.8</code></pre>
+                    <p class="code-note">Windows-da 10 ədəd ping, dayanmadan ping (Ctrl+C ilə dayanır), yolun izlənməsi və hər hop-da itki statistikası. Sonuncu Linux əmridir (<code>-I</code> ilə ICMP istifadə edir).</p>
+                </div>
+            </div>
+        </section>
+<!--END-->

@@ -1,0 +1,96 @@
+<!--PAGE title="Router Əsasları və IP Marşrutlaşdırma" icon="router" badge="CCNA · IP Connectivity" nav="intro:Giriş|gateway:Defolt gateway|process:Paketin yolu|table:Marşrut mənbələri|commands:Əsas konfiqurasiya"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:router}} Giriş: Router Nə Edir?</h2>
+            <p class="lead">
+                Router müxtəlif IP şəbəkələrini birləşdirir və hər paket üçün <strong>marşrut cədvəlinə</strong> baxaraq
+                növbəti hop-u seçir. Switch-dən fərqli olaraq broadcast-ları ötürmür və hər interfeysi ayrıca şəbəkədədir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:cable}} İnterfeyslər</h3><p class="text-neutral-700">Defolt olaraq <strong>shutdown</strong> vəziyyətindədir — <code>no shutdown</code> lazımdır (switch portlarının əksinə).</p></div>
+                <div class="info-card accent"><h3>{{i:map}} Marşrut cədvəli</h3><p class="text-neutral-700">Connected, local, statik və dinamik marşrutlar.</p></div>
+                <div class="info-card dark"><h3>{{i:cpu}} Yaddaş</h3><p>ROM (bootstrap), Flash (IOS), NVRAM (startup-config), RAM (running-config, cədvəllər).</p></div>
+            </div>
+        </section>
+
+        <section id="gateway" class="section-card">
+            <h2 class="section-title">{{i:door-open}} 1. Defolt Gateway</h2>
+            <p class="lead">
+                Host paketi göndərməzdən əvvəl öz IP-si ilə maskasını təyinat IP-si ilə müqayisə edir:
+            </p>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:check}}<p class="text-neutral-700"><strong>Eyni şəbəkədədir:</strong> təyinatın MAC-ını ARP ilə tapır və birbaşa göndərir.</p></div>
+                <div class="feature-item">{{i:arrow-right}}<p class="text-neutral-700"><strong>Fərqli şəbəkədədir:</strong> paketi <strong>defolt gateway</strong>-ə (router interfeysinə) göndərir; ARP gateway-in MAC-ı üçün edilir.</p></div>
+                <div class="feature-item">{{i:circle-alert}}<p class="text-neutral-700">Gateway yoxdur və ya səhvdir: host öz şəbəkəsinə ping ata bilir, başqa şəbəkələrə isə yox — ən çox rast gəlinən problemlərdən biridir.</p></div>
+            </div>
+        </section>
+
+        <section id="process" class="section-card">
+            <h2 class="section-title">{{i:workflow}} 2. Paket Router-dən Necə Keçir?</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">Çərçivə gəlir; FCS yoxlanılır, təyinat MAC routerin interfeysidirsə qəbul olunur.</p></li>
+                <li><p class="text-neutral-700">Layer 2 başlığı atılır (de-enkapsulyasiya), IP paketi qalır.</p></li>
+                <li><p class="text-neutral-700">Təyinat IP üçün marşrut cədvəlində <strong>ən uzun prefiks uyğunluğu</strong> axtarılır. Uyğunluq yoxdursa və defolt marşrut da yoxdursa paket atılır (ICMP Unreachable).</p></li>
+                <li><p class="text-neutral-700"><strong>TTL 1 azaldılır</strong>; 0 olarsa paket atılır və ICMP Time Exceeded göndərilir. IP başlığının checksum-u yenidən hesablanır.</p></li>
+                <li><p class="text-neutral-700">Çıxış interfeysi üçün yeni Layer 2 başlığı qurulur: mənbə MAC — routerin çıxış interfeysi, təyinat MAC — növbəti hop (ARP ilə).</p></li>
+            </ol>
+        </section>
+
+        <section id="table" class="section-card">
+            <h2 class="section-title">{{i:list-ordered}} 3. Marşrut Mənbələri və İnzibati Məsafə</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Kod</th><th>Mənbə</th><th>AD</th></tr></thead>
+                    <tbody>
+                        <tr><td>C</td><td>Connected</td><td>0</td></tr>
+                        <tr><td>L</td><td>Local (interfeysin öz /32 ünvanı)</td><td>0</td></tr>
+                        <tr><td>S</td><td>Static</td><td>1</td></tr>
+                        <tr><td>D</td><td>EIGRP (daxili)</td><td>90</td></tr>
+                        <tr><td>O</td><td>OSPF</td><td>110</td></tr>
+                        <tr><td>R</td><td>RIP</td><td>120</td></tr>
+                        <tr><td>D EX</td><td>EIGRP (xarici)</td><td>170</td></tr>
+                        <tr><td>—</td><td>eBGP / iBGP</td><td>20 / 200</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:target}}
+                <p class="text-neutral-800">Seçim ardıcıllığı: 1) <strong>ən uzun prefiks</strong>; 2) eyni prefiks bir neçə protokoldan gəlirsə — <strong>ən aşağı AD</strong>; 3) eyni protokol daxilində — <strong>ən aşağı metrika</strong>. Metrikalar bərabərdirsə, trafik yollar arasında bölünür (ECMP).</p>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 4. Router-in Əsas Konfiqurasiyası</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="rb-config">Konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="rb-verify">Doğrulama</button>
+            </div>
+            <div id="rb-config">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Router(config)# hostname R1
+R1(config)# interface GigabitEthernet0/0
+R1(config-if)# description LAN
+R1(config-if)# ip address 192.168.1.1 255.255.255.0
+R1(config-if)# no shutdown
+R1(config)# interface GigabitEthernet0/1
+R1(config-if)# description WAN-to-R2
+R1(config-if)# ip address 10.0.0.1 255.255.255.252
+R1(config-if)# no shutdown
+R1(config)# ip route 0.0.0.0 0.0.0.0 10.0.0.2
+R1# copy running-config startup-config</code></pre>
+                    <p class="code-note">İnterfeyslərə ünvan verir, onları aktivləşdirir və defolt marşrut yazır. Hər aktiv interfeys cədvəldə bir "C" və bir "L" marşrutu yaradır.</p>
+                </div>
+            </div>
+            <div id="rb-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ip interface brief
+show ip route
+show ip route 10.2.2.50
+show interfaces GigabitEthernet0/0
+show protocols</code></pre>
+                    <p class="code-note">İnterfeys statusu (up/up, administratively down), marşrut cədvəli, konkret ünvan üçün seçilən marşrut, interfeys statistikası və IP ünvanlar.</p>
+                </div>
+            </div>
+        </section>
+<!--END-->

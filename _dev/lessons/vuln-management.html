@@ -1,0 +1,98 @@
+<!--PAGE title="Zəiflik İdarəetməsi" icon="scan-search" badge="Təhlükəsizlik · VM" nav="intro:Giriş|terms:CVE və CVSS|cycle:Dövr|scan:Skan|prioritize:Prioritet|report:Hesabat"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:scan-search}} Giriş: Yamanmamış Zəiflik — Açıq Qapıdır</h2>
+            <p class="lead">
+                Hər gün yeni zəifliklər dərc olunur. Hücumçular açıq zəiflikləri avtomatlaşdırılmış alətlərlə
+                internetdə axtarır — bəzən dərcdən bir neçə gün sonra. <strong>Vulnerability management</strong> —
+                zəiflikləri davamlı tapmaq, qiymətləndirmək, aradan qaldırmaq və bunu ölçmək prosesidir.
+            </p>
+        </section>
+
+        <section id="terms" class="section-card">
+            <h2 class="section-title">{{i:book-open}} 1. CVE, CVSS, EPSS, KEV</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Termin</th><th>Mənası</th></tr></thead>
+                    <tbody>
+                        <tr><td>CVE</td><td>Hər ictimai zəifliyin unikal ID-si: <code>CVE-2024-3400</code></td></tr>
+                        <tr><td>CVSS</td><td>0–10 texniki ciddilik balı: 9.0+ Critical, 7.0–8.9 High, 4.0–6.9 Medium</td></tr>
+                        <tr><td>EPSS</td><td>Yaxın 30 gündə istismar olunma <strong>ehtimalı</strong> (0–100%)</td></tr>
+                        <tr><td>CISA KEV</td><td>Real hücumlarda <strong>artıq istismar olunduğu</strong> təsdiqlənmiş zəifliklər siyahısı</td></tr>
+                        <tr><td>Zero-day</td><td>Yaması hələ olmayan və ya ictimai məlum olmayan zəiflik</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">CVSS 9.8 olan, amma daxili, izolə edilmiş sistemdəki zəiflik ilə CVSS 7.5 olan, internetə açıq və KEV-də olan zəiflikdən hansı daha təcilidir? Çox vaxt ikincisi. Yalnız CVSS-ə baxmaq kifayət deyil.</p>
+            </div>
+        </section>
+
+        <section id="cycle" class="section-card">
+            <h2 class="section-title">{{i:repeat}} 2. Zəiflik İdarəetmə Dövrü</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700"><strong>Asset inventory:</strong> bilmədiyiniz cihazı qoruya bilməzsiniz — serverlər, şəbəkə cihazları, bulud resursları, proqramlar.</p></li>
+                <li><p class="text-neutral-700"><strong>Kəşf:</strong> müntəzəm skan (həftəlik/aylıq), agent əsaslı yoxlama, vendor bildirişləri.</p></li>
+                <li><p class="text-neutral-700"><strong>Qiymətləndirmə:</strong> ciddilik + istismar ehtimalı + aktivin əhəmiyyəti.</p></li>
+                <li><p class="text-neutral-700"><strong>Aradan qaldırma:</strong> yama, konfiqurasiya dəyişikliyi və ya müvəqqəti kompensasiya tədbiri (WAF qaydası, portu bağlamaq).</p></li>
+                <li><p class="text-neutral-700"><strong>Yoxlama:</strong> yenidən skan — həqiqətən düzəldilib?</p></li>
+                <li><p class="text-neutral-700"><strong>Hesabat və metrikalar.</strong></p></li>
+            </ol>
+        </section>
+
+        <section id="scan" class="section-card">
+            <h2 class="section-title">{{i:radar}} 3. Skan Alətləri (Öz Şəbəkənizdə)</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Alət</th><th>Növ</th></tr></thead>
+                    <tbody>
+                        <tr><td>Nmap</td><td>Aktiv host və açıq port kəşfi, xidmət versiyaları</td></tr>
+                        <tr><td>OpenVAS / Greenbone</td><td>Açıq mənbə zəiflik skaneri</td></tr>
+                        <tr><td>Nessus, Qualys, Rapid7</td><td>Kommersiya zəiflik idarəetmə platformaları</td></tr>
+                        <tr><td>Microsoft Defender Vulnerability Management</td><td>Agent əsaslı — Windows proqram zəiflikləri</td></tr>
+                        <tr><td>Trivy</td><td>Konteyner image-ları və IaC faylları</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Öz serverlərinizin açıq portları və xidmət versiyaları
+nmap -sV -p- 10.0.0.10
+nmap -sV --top-ports 1000 10.0.0.0/24 -oN inventory-scan.txt
+
+# Konteyner image-ında məlum zəifliklər
+trivy image nginx:1.27</code></pre>
+                <p class="code-note">Skanı <strong>yalnız sizə aid və ya yazılı icazə verilmiş</strong> şəbəkələrdə aparın; istehsalat sistemlərində skan vaxtını komandalarla razılaşdırın. <strong>Authenticated</strong> (credential ilə) skan quraşdırılmış proqram versiyalarını görür və daha dəqiqdir.</p>
+            </div>
+        </section>
+
+        <section id="prioritize" class="section-card">
+            <h2 class="section-title">{{i:list-ordered}} 4. Prioritetləşdirmə və SLA</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Kateqoriya</th><th>Nümunə meyar</th><th>Həll müddəti (nümunə)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Təcili</td><td>KEV-də + internetə açıq</td><td>48–72 saat</td></tr>
+                        <tr><td>Critical</td><td>CVSS 9+, kritik aktiv</td><td>7–15 gün</td></tr>
+                        <tr><td>High</td><td>CVSS 7–8.9</td><td>30 gün</td></tr>
+                        <tr><td>Medium / Low</td><td>Qalanları</td><td>90 gün / planlı</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:shield}} Kompensasiya tədbiri</h3><p class="text-neutral-700">Yama dərhal mümkün deyilsə: portu bağlamaq, funksiyanı söndürmək, WAF qaydası, seqmentasiya.</p></div>
+                <div class="info-card accent"><h3>{{i:file-check}} Risk qəbulu</h3><p class="text-neutral-700">Düzəldilmirsə — yazılı, sahibi və bitmə tarixi olan istisna (exception).</p></div>
+            </div>
+        </section>
+
+        <section id="report" class="section-card">
+            <h2 class="section-title">{{i:chart-column}} 5. Metrikalar və Hesabat</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:timer}}<p class="text-neutral-700"><strong>MTTR:</strong> zəifliyin aşkarlanmasından düzəldilməsinə qədər orta müddət.</p></div>
+                <div class="feature-item">{{i:percent}}<p class="text-neutral-700"><strong>SLA-ya uyğunluq faizi</strong> kateqoriyalar üzrə.</p></div>
+                <div class="feature-item">{{i:server}}<p class="text-neutral-700"><strong>Əhatə:</strong> aktivlərin neçə faizi skan olunur?</p></div>
+                <div class="feature-item">{{i:trending-down}}<p class="text-neutral-700"><strong>Trend:</strong> kritik zəifliklərin sayı azalırmı?</p></div>
+            </div>
+            <p class="text-neutral-700 mt-6">Rəhbərlik üçün hesabat texniki siyahı deyil: <em>risk</em>, <em>trend</em> və <em>qərar tələb edən məsələlər</em> (resurs, köhnə sistemlərin dəyişdirilməsi).</p>
+        </section>
+<!--END-->

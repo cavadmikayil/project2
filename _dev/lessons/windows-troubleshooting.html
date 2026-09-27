@@ -1,0 +1,109 @@
+<!--PAGE title="Windows Problemlərinin Həlli" icon="monitor-cog" badge="Helpdesk · Windows" nav="intro:Giriş|tools:Alətlər|slow:Yavaşlıq|repair:Sistem bərpası|boot:Açılmır|events:Event ID-lər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:monitor-cog}} Giriş: Ən Çox Gələn Şikayətlər</h2>
+            <p class="lead">
+                "Kompüter yavaşdır", "proqram açılmır", "mavi ekran çıxdı", "yeniləmədən sonra açılmır" — helpdesk
+                müraciətlərinin böyük hissəsi Windows ilə bağlıdır. Hər birinin üçün sübut olunmuş alət və ardıcıllıq var.
+            </p>
+        </section>
+
+        <section id="tools" class="section-card">
+            <h2 class="section-title">{{i:wrench}} 1. Əsas Diaqnostika Alətləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Alət</th><th>Açmaq</th><th>Nə üçün</th></tr></thead>
+                    <tbody>
+                        <tr><td>Task Manager</td><td><code>Ctrl+Shift+Esc</code></td><td>CPU/RAM/disk yükü, donmuş proses, Startup proqramları</td></tr>
+                        <tr><td>Resource Monitor</td><td><code>resmon</code></td><td>Hansı proses diski/şəbəkəni yükləyir — ətraflı</td></tr>
+                        <tr><td>Event Viewer</td><td><code>eventvwr.msc</code></td><td>Sistem və tətbiq xətaları, çökmə səbəbləri</td></tr>
+                        <tr><td>Reliability Monitor</td><td><code>perfmon /rel</code></td><td>Günlər üzrə çökmələr və yeniləmələr — "nə vaxtdan başladı?"</td></tr>
+                        <tr><td>Device Manager</td><td><code>devmgmt.msc</code></td><td>Driver problemləri (sarı üçbucaq)</td></tr>
+                        <tr><td>Services</td><td><code>services.msc</code></td><td>Xidmətləri başlatmaq/dayandırmaq</td></tr>
+                        <tr><td>System Configuration</td><td><code>msconfig</code></td><td>Clean boot, safe mode</td></tr>
+                        <tr><td>Disk Management</td><td><code>diskmgmt.msc</code></td><td>Bölmələr, disk hərfləri</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="slow" class="section-card">
+            <h2 class="section-title">{{i:gauge}} 2. "Kompüter Yavaşdır"</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Task Manager → Performance: hansı resurs 100%-dədir? Disk 100% və HDD-dirsə — SSD-yə keçid ən effektiv həlldir.</p></li>
+                <li><p class="text-neutral-700">Startup tabında lazımsız proqramları söndürün.</p></li>
+                <li><p class="text-neutral-700">Boş disk yeri: C: 10–15%-dən az olmasın — <code>cleanmgr</code>, Storage Sense.</p></li>
+                <li><p class="text-neutral-700">Antivirus tam skanı; brauzerdə şübhəli extension-lar.</p></li>
+                <li><p class="text-neutral-700">Uptime-a baxın — kompüter 40 gündür yenidən başladılmayıbsa, restart çox şeyi həll edir.</p></li>
+            </ol>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>systeminfo | findstr /i "Boot Time Memory"
+wmic diskdrive get model,status
+Get-PhysicalDisk | Select FriendlyName, MediaType, HealthStatus
+Get-Process | Sort-Object CPU -Descending | Select -First 10</code></pre>
+            </div>
+        </section>
+
+        <section id="repair" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 3. Sistem Fayllarının Bərpası</h2>
+            <p class="lead">Qəribə xətalar, açılmayan Windows komponentləri və yeniləmə xətalarında sistem faylları zədələnmiş ola bilər. Əmrlər <strong>administrator</strong> terminalında və bu ardıcıllıqla icra olunur:</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>DISM /Online /Cleanup-Image /CheckHealth
+DISM /Online /Cleanup-Image /ScanHealth
+DISM /Online /Cleanup-Image /RestoreHealth   # komponent anbarını Windows Update-dən bərpa edir
+sfc /scannow                                 # sistem fayllarını anbardan bərpa edir
+
+chkdsk C: /scan                              # fayl sistemi xətaları (onlayn yoxlama)
+
+# Windows Update keşini sıfırlamaq
+net stop wuauserv &amp; net stop bits
+ren C:\Windows\SoftwareDistribution SoftwareDistribution.old
+net start wuauserv &amp; net start bits</code></pre>
+                <p class="code-note">Əvvəl DISM, sonra SFC: SFC faylları komponent anbarından götürür — anbar zədəlidirsə, SFC bərpa edə bilmir.</p>
+            </div>
+        </section>
+
+        <section id="boot" class="section-card">
+            <h2 class="section-title">{{i:power}} 4. Windows Açılmır / Mavi Ekran (BSOD)</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Vəziyyət</th><th>Addım</th></tr></thead>
+                    <tbody>
+                        <tr><td>Yeniləmədən sonra açılmır</td><td>WinRE → Troubleshoot → Uninstall Updates / System Restore</td></tr>
+                        <tr><td>Yeni driver-dən sonra BSOD</td><td>Safe Mode → Device Manager → Roll Back Driver</td></tr>
+                        <tr><td>Təsadüfi BSOD-lar</td><td>Stop code-u yazın (məs. <code>MEMORY_MANAGEMENT</code> → RAM testi: <code>mdsched</code>)</td></tr>
+                        <tr><td>"No bootable device"</td><td>BIOS-da boot ardıcıllığı, disk görünürmü, SATA/NVMe rejimi</td></tr>
+                        <tr><td>BitLocker recovery key soruşur</td><td>Açarı AD/Entra ID və ya Microsoft hesabından tapın — heç vaxt diski formatlamayın</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><strong>WinRE-yə girmək:</strong> açılış zamanı üç dəfə ardıcıl kəsilmə və ya <code>Shift</code> + Restart. Oradan Safe Mode, Command Prompt, Startup Repair və System Restore əlçatandır.</p>
+            </div>
+        </section>
+
+        <section id="events" class="section-card">
+            <h2 class="section-title">{{i:scroll-text}} 5. Faydalı Event ID-lər</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Event ID</th><th>Log</th><th>Mənası</th></tr></thead>
+                    <tbody>
+                        <tr><td>41</td><td>System (Kernel-Power)</td><td>Sistem düzgün söndürülmədən yenidən başladı — qida, donma</td></tr>
+                        <tr><td>6008</td><td>System</td><td>Gözlənilməz söndürülmə</td></tr>
+                        <tr><td>1001</td><td>Application / System</td><td>Tətbiq çökməsi (Windows Error Reporting) və ya BugCheck</td></tr>
+                        <tr><td>1000</td><td>Application</td><td>Tətbiq xətası — hansı .exe və modul çökdü</td></tr>
+                        <tr><td>7000 / 7034</td><td>System</td><td>Xidmət başlamadı / gözlənilmədən dayandı</td></tr>
+                        <tr><td>4625</td><td>Security</td><td>Uğursuz giriş cəhdi (səhv parol, kilidli hesab)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Son 24 saatın sistem xətaları
+Get-WinEvent -FilterHashtable @{LogName='System'; Level=2; StartTime=(Get-Date).AddDays(-1)} |
+  Select TimeCreated, Id, ProviderName, Message -First 20</code></pre>
+            </div>
+        </section>
+<!--END-->

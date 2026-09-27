@@ -1,0 +1,138 @@
+<!--PAGE title="Rapid PVST+ və STP Qoruma" icon="shield-check" badge="CCNA · Network Access" nav="intro:Giriş|root:Root seçimi|cost:Cost|rstp:Rapid PVST+|guards:Qoruma|commands:Əmrlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} Giriş: STP-ni İdarə Etmək</h2>
+            <p class="lead">
+                STP-nin əsaslarını (port rolları və vəziyyətləri) "Spanning Tree Protocol" dərsində gördük. Bu dərsdə
+                STP-ni <strong>idarə etməyi</strong> öyrənəcəyik: root bridge-i özümüz seçmək, cost-u hesablamaq,
+                sürətli <strong>Rapid PVST+</strong>-a keçmək və topologiyanı qoruyan Guard mexanizmlərini qurmaq.
+            </p>
+        </section>
+
+        <section id="root" class="section-card">
+            <h2 class="section-title">{{i:crown}} 1. Root Bridge Seçimi və Konfiqurasiyası</h2>
+            <p class="lead">
+                Bridge ID = <strong>prioritet (4 bit) + Extended System ID (VLAN, 12 bit) + MAC</strong>. Defolt prioritet 32768-dir,
+                ona görə VLAN 10-da switch-in görünən prioriteti 32768 + 10 = <strong>32778</strong> olur. Ən kiçik Bridge ID qalib gəlir.
+            </p>
+            <div class="note-box mb-6">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800">Heç nə konfiqurasiya olunmasa, root ən kiçik MAC-lı — çox vaxt ən köhnə və ən zəif — switch olur. Root bridge-i həmişə əl ilə, güclü core/distribution switch-də təyin edin.</p>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>DSW1(config)# spanning-tree vlan 10,20 root primary
+DSW2(config)# spanning-tree vlan 10,20 root secondary
+
+DSW1(config)# spanning-tree vlan 30 priority 4096</code></pre>
+                <p class="code-note"><code>root primary</code> prioriteti 24576-ya (və ya mövcud root-dan aşağı dəyərə), <code>secondary</code> 28672-yə endirir. Prioriteti birbaşa da (4096-nın misli ilə) təyin etmək olar.</p>
+            </div>
+        </section>
+
+        <section id="cost" class="section-card">
+            <h2 class="section-title">{{i:calculator}} 2. Port Cost və Root Port Seçimi</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Sürət</th><th>Qısa cost (802.1D-1998)</th><th>Uzun cost (802.1D-2004)</th></tr></thead>
+                    <tbody>
+                        <tr><td>10 Mbps</td><td>100</td><td>2 000 000</td></tr>
+                        <tr><td>100 Mbps</td><td>19</td><td>200 000</td></tr>
+                        <tr><td>1 Gbps</td><td>4</td><td>20 000</td></tr>
+                        <tr><td>10 Gbps</td><td>2</td><td>2 000</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Root port seçimi (bərabərlik olduqda növbəti meyar):</h3>
+            <ol class="steps max-w-3xl">
+                <li><p class="text-neutral-700">Root-a qədər ən aşağı ümumi cost (<strong>root path cost</strong>).</p></li>
+                <li><p class="text-neutral-700">Ən aşağı qonşu (göndərən) <strong>Bridge ID</strong>.</p></li>
+                <li><p class="text-neutral-700">Ən aşağı qonşu <strong>port prioriteti</strong> (defolt 128).</p></li>
+                <li><p class="text-neutral-700">Ən aşağı qonşu <strong>port nömrəsi</strong>.</p></li>
+            </ol>
+        </section>
+
+        <section id="rstp" class="section-card">
+            <h2 class="section-title">{{i:zap}} 3. Rapid PVST+ (802.1w)</h2>
+            <p class="lead">
+                Klassik STP-də port forwarding-ə 30–50 saniyəyə keçir. RSTP isə qonşu ilə birbaşa razılaşaraq
+                (proposal/agreement) bir neçə saniyəyə, çox vaxt daha tez konvergensiya edir. Rapid PVST+ hər VLAN
+                üçün ayrıca RSTP instansıdır.
+            </p>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>RSTP port rolu</th><th>İzah</th></tr></thead>
+                    <tbody>
+                        <tr><td>Root port</td><td>Root-a ən yaxşı yol</td></tr>
+                        <tr><td>Designated port</td><td>Seqmentdə trafiki ötürən port</td></tr>
+                        <tr><td>Alternate port</td><td>Root-a ehtiyat yol — root port itəndə dərhal onu əvəz edir</td></tr>
+                        <tr><td>Backup port</td><td>Eyni seqmentə (hub vasitəsilə) ikinci port — nadir hal</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4"><strong>Link tipləri:</strong> point-to-point (full-duplex — sürətli keçid), shared (half-duplex) və edge (PortFast — son istifadəçi portu).</p>
+        </section>
+
+        <section id="guards" class="section-card">
+            <h2 class="section-title">{{i:shield}} 4. STP Qoruma Mexanizmləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Mexanizm</th><th>Harada</th><th>Nə edir</th></tr></thead>
+                    <tbody>
+                        <tr><td>PortFast</td><td>Son istifadəçi portları</td><td>Listening/Learning mərhələlərini ötürərək portu dərhal forwarding edir</td></tr>
+                        <tr><td>BPDU Guard</td><td>PortFast portları</td><td>BPDU alınarsa portu err-disabled edir — icazəsiz switch qoşulmasının qarşısını alır</td></tr>
+                        <tr><td>BPDU Filter</td><td>Diqqətlə!</td><td>BPDU göndərmir və qəbul etmir. Qlobal rejimdə BPDU gələndə port PortFast-dan çıxır; interfeysdə isə STP-ni tamamilə söndürür — loop riski</td></tr>
+                        <tr><td>Root Guard</td><td>Distribution-un access-ə baxan portları</td><td>Daha üstün BPDU gələrsə portu <em>root-inconsistent</em> (bloklanmış) edir — root bridge-in ələ keçirilməsinin qarşısını alır</td></tr>
+                        <tr><td>Loop Guard</td><td>Root və alternate portlar</td><td>BPDU gəlməsi dayanarsa portu forwarding-ə keçirmir, <em>loop-inconsistent</em> edir — birtərəfli link loop-larının qarşısını alır</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 5. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="stpa-rstp">Rapid PVST+</button>
+                <button class="tab-btn inactive-tab" data-pane="stpa-guards">Guard-lar</button>
+                <button class="tab-btn inactive-tab" data-pane="stpa-verify">Doğrulama</button>
+            </div>
+            <div id="stpa-rstp">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>SW1(config)# spanning-tree mode rapid-pvst
+SW1(config)# spanning-tree pathcost method long
+SW1(config)# interface GigabitEthernet0/1
+SW1(config-if)# spanning-tree vlan 10 cost 10000
+SW1(config-if)# spanning-tree vlan 10 port-priority 64
+SW1(config-if)# spanning-tree link-type point-to-point</code></pre>
+                    <p class="code-note">Rapid PVST+ rejimi, uzun cost metodu, müəyyən VLAN üçün portun cost və prioritetinin dəyişdirilməsi, linkin point-to-point kimi göstərilməsi.</p>
+                </div>
+            </div>
+            <div id="stpa-guards" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>SW1(config)# spanning-tree portfast default
+SW1(config)# spanning-tree portfast bpduguard default
+
+SW1(config)# interface GigabitEthernet0/10
+SW1(config-if)# spanning-tree guard root
+
+SW1(config)# interface GigabitEthernet0/2
+SW1(config-if)# spanning-tree guard loop
+
+SW1(config)# errdisable recovery cause bpduguard
+SW1(config)# errdisable recovery interval 300</code></pre>
+                    <p class="code-note">Bütün access portlarında PortFast və BPDU Guard, access switch-ə baxan portda Root Guard, alternate portda Loop Guard, BPDU Guard-a görə söndürülən portların 5 dəqiqə sonra bərpası.</p>
+                </div>
+            </div>
+            <div id="stpa-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show spanning-tree vlan 10
+show spanning-tree root
+show spanning-tree summary
+show spanning-tree inconsistentports
+show spanning-tree interface GigabitEthernet0/1 detail</code></pre>
+                    <p class="code-note">Root bridge və port rolları, bütün VLAN-lar üzrə root, aktiv funksiyalar (PortFast/BPDU Guard default), root/loop-inconsistent portlar və portun ətraflı STP statusu.</p>
+                </div>
+            </div>
+        </section>
+<!--END-->

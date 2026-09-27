@@ -1,0 +1,116 @@
+<!--PAGE title="DHCP Server və Relay" icon="server" badge="CCNA · IP Services" nav="intro:Giriş|dora:DORA|relay:Relay|commands:Əmrlər|troubleshoot:Problemlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:server}} Giriş: DHCP Nə Edir?</h2>
+            <p class="lead">
+                DHCP (Dynamic Host Configuration Protocol) hostlara IP ünvanını, subnet maskasını, defolt
+                gateway-i və DNS serverini avtomatik verir. Ünvan müəyyən müddətə — <strong>lease</strong> — icarəyə
+                verilir. Server <strong>UDP 67</strong>, müştəri <strong>UDP 68</strong> portundan istifadə edir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:router}} Cisco router</h3><p class="text-neutral-700">Kiçik şəbəkələrdə router özü DHCP server ola bilər.</p></div>
+                <div class="info-card"><h3>{{i:hard-drive}} Mərkəzi server</h3><p class="text-neutral-700">Böyük şəbəkələrdə Windows/Linux DHCP server; router-lər isə relay kimi işləyir.</p></div>
+                <div class="info-card dark"><h3>{{i:shield}} Təhlükəsizlik</h3><p>Saxta DHCP serverlərindən qorunmaq üçün switch-lərdə DHCP Snooping aktivləşdirin.</p></div>
+            </div>
+        </section>
+
+        <section id="dora" class="section-card">
+            <h2 class="section-title">{{i:repeat}} 1. DORA Prosesi</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Addım</th><th>Mesaj</th><th>İstiqamət</th><th>Göndərilmə</th></tr></thead>
+                    <tbody>
+                        <tr><td>1</td><td>DHCP <strong>D</strong>iscover</td><td>Müştəri → hamı</td><td>Broadcast (müştərinin hələ IP-si yoxdur)</td></tr>
+                        <tr><td>2</td><td>DHCP <strong>O</strong>ffer</td><td>Server → müştəri</td><td>Ünvan təklifi</td></tr>
+                        <tr><td>3</td><td>DHCP <strong>R</strong>equest</td><td>Müştəri → hamı</td><td>Broadcast (digər serverlərə "təklifinizi qəbul etmədim")</td></tr>
+                        <tr><td>4</td><td>DHCP <strong>A</strong>cknowledge</td><td>Server → müştəri</td><td>Təsdiq; müştəri ünvanı istifadə etməyə başlayır</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box mt-6">
+                {{i:clock}}
+                <p class="text-neutral-800">Lease müddətinin 50%-i keçəndə müştəri eyni serverdən yeniləmə (renew) istəyir. Server cavab vermirsə 87.5%-də istənilən serverdən istəyir (rebind).</p>
+            </div>
+        </section>
+
+        <section id="relay" class="section-card">
+            <h2 class="section-title">{{i:arrow-left-right}} 2. DHCP Relay</h2>
+            <p class="lead">
+                Router broadcast-ları ötürmür, ona görə başqa alt şəbəkədəki server Discover mesajını görmür.
+                Müştərilərin qoşulduğu router interfeysində <code>ip helper-address</code> yazılır: router broadcast-ı
+                qəbul edib serverə <strong>unicast</strong> kimi göndərir.
+            </p>
+            <div class="code-block">
+                <pre><code>PC (VLAN 10) ──Discover (broadcast)──► R1 Gi0/1 ──unicast──► DHCP server 10.0.0.5
+                                     ip helper-address 10.0.0.5</code></pre>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 3. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="dhcp-server">DHCP Server</button>
+                <button class="tab-btn inactive-tab" data-pane="dhcp-relay">Relay</button>
+                <button class="tab-btn inactive-tab" data-pane="dhcp-client">Müştəri</button>
+                <button class="tab-btn inactive-tab" data-pane="dhcp-verify">Doğrulama</button>
+            </div>
+            <div id="dhcp-server">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# ip dhcp excluded-address 192.168.10.1 192.168.10.10
+R1(config)# ip dhcp pool LAN10
+R1(dhcp-config)# network 192.168.10.0 255.255.255.0
+R1(dhcp-config)# default-router 192.168.10.1
+R1(dhcp-config)# dns-server 8.8.8.8 1.1.1.1
+R1(dhcp-config)# domain-name kollec.local
+R1(dhcp-config)# lease 7</code></pre>
+                    <p class="code-note">İlk 10 ünvanı (gateway, serverlər, printerlər üçün) istisna edir və 7 günlük lease ilə LAN10 pool-unu yaradır. excluded-address pool-dan <strong>əvvəl</strong> yazılmalıdır.</p>
+                </div>
+            </div>
+            <div id="dhcp-relay" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# interface GigabitEthernet0/1
+R1(config-if)# ip helper-address 10.0.0.5
+
+Switch(config)# interface vlan 20
+Switch(config-if)# ip helper-address 10.0.0.5</code></pre>
+                    <p class="code-note">Helper-address müştərilərə <strong>baxan</strong> interfeysdə (və ya L3 switch-də SVI-də) yazılır, serverə baxan interfeysdə yox.</p>
+                </div>
+            </div>
+            <div id="dhcp-client" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R2(config)# interface GigabitEthernet0/0
+R2(config-if)# ip address dhcp
+R2(config-if)# no shutdown
+
+C:\&gt; ipconfig /release
+C:\&gt; ipconfig /renew
+C:\&gt; ipconfig /all</code></pre>
+                    <p class="code-note">Router interfeysinin ünvanı DHCP ilə alması (məs. ISP-dən) və Windows-da ünvanın buraxılıb yenidən alınması.</p>
+                </div>
+            </div>
+            <div id="dhcp-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ip dhcp binding
+show ip dhcp pool
+show ip dhcp conflict
+show ip dhcp server statistics
+debug ip dhcp server events</code></pre>
+                    <p class="code-note">Verilmiş ünvanlar (IP–MAC), pool-un doluluğu, konflikt olan ünvanlar, statistika və canlı hadisələr.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="troubleshoot" class="section-card">
+            <h2 class="section-title">{{i:wrench}} 4. Tez-tez Rast Gəlinən Problemlər</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:circle-alert}}<p class="text-neutral-700"><strong>Host 169.254.x.x alır:</strong> DHCP cavabı gəlmir — server, relay və ya VLAN yolunu yoxlayın.</p></div>
+                <div class="feature-item">{{i:circle-alert}}<p class="text-neutral-700"><strong>helper-address yoxdur:</strong> server başqa subnetdədirsə Discover heç vaxt ona çatmır.</p></div>
+                <div class="feature-item">{{i:circle-alert}}<p class="text-neutral-700"><strong>Pool dolub:</strong> <code>show ip dhcp pool</code> ilə istifadə olunan ünvan sayını yoxlayın.</p></div>
+                <div class="feature-item">{{i:circle-alert}}<p class="text-neutral-700"><strong>Ünvan konflikti:</strong> statik IP pool daxilindədir — onu excluded-address-ə əlavə edin.</p></div>
+                <div class="feature-item">{{i:circle-alert}}<p class="text-neutral-700"><strong>DHCP Snooping bloklayır:</strong> uplink port <code>trust</code> edilməyib.</p></div>
+            </div>
+        </section>
+<!--END-->

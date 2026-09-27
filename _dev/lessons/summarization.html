@@ -1,0 +1,93 @@
+<!--PAGE title="CIDR və Route Summarization" icon="boxes" badge="CCNA · IP Connectivity" nav="intro:Giriş|cidr:CIDR|method:Summary tapmaq|pitfalls:Diqqət|commands:Əmrlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:boxes}} Giriş: Daha Az Marşrut, Daha Sabit Şəbəkə</h2>
+            <p class="lead">
+                Böyük şəbəkədə yüzlərlə alt şəbəkə ola bilər. Hər birini ayrıca elan etmək marşrut cədvəllərini
+                böyüdür və bir linkin qalxıb-enməsi bütün şəbəkədə yenidən hesablamaya səbəb olur. <strong>Summarization</strong>
+                (aggregation) ardıcıl şəbəkələri tək, daha qısa prefiksli marşrutla təqdim edir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:list-filter}} Kiçik cədvəl</h3><p class="text-neutral-700">Daha az yaddaş və CPU, daha sürətli axtarış.</p></div>
+                <div class="info-card"><h3>{{i:shield-check}} Sabitlik</h3><p class="text-neutral-700">Summary daxilindəki bir alt şəbəkənin itməsi summary-ni dəyişmir — dəyişiklik lokal qalır.</p></div>
+                <div class="info-card dark"><h3>{{i:settings}} Sadə idarəetmə</h3><p>ACL və filtrlərdə bir sətir çoxlu şəbəkəni əhatə edir.</p></div>
+            </div>
+        </section>
+
+        <section id="cidr" class="section-card">
+            <h2 class="section-title">{{i:globe}} 1. CIDR (Classless Inter-Domain Routing)</h2>
+            <p class="lead">
+                1993-dən əvvəl ünvanlar sinifli (A/B/C) paylanırdı: 300 host lazım olan şirkət B sinfi (65 534 host)
+                alırdı. CIDR sinifləri ləğv etdi və istənilən uzunluqlu prefiksə (<code>/x</code> yazılışı) icazə verdi.
+            </p>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:split}}<p class="text-neutral-700"><strong>Subnetting:</strong> prefiksi uzadıb şəbəkəni kiçik hissələrə bölmək (/24 → dörd /26).</p></div>
+                <div class="feature-item">{{i:git-merge}}<p class="text-neutral-700"><strong>Supernetting (summarization):</strong> prefiksi qısaldıb ardıcıl şəbəkələri birləşdirmək (dörd /24 → bir /22).</p></div>
+            </div>
+        </section>
+
+        <section id="method" class="section-card">
+            <h2 class="section-title">{{i:calculator}} 2. Summary Marşrutu Tapmaq</h2>
+            <p class="lead"><strong>Tapşırıq:</strong> 172.16.8.0/24, 172.16.9.0/24, 172.16.10.0/24, 172.16.11.0/24 şəbəkələrini birləşdirin.</p>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Fərqlənən okteti (3-cü) binara çevirin.</p></li>
+                <li><p class="text-neutral-700">Soldan başlayaraq <strong>bütün şəbəkələrdə eyni olan</strong> bitləri sayın.</p></li>
+                <li><p class="text-neutral-700">Ortaq bitlərin sayı yeni prefiksdir; qalan bitləri sıfırlayın — bu, summary ünvanıdır.</p></li>
+            </ol>
+            <div class="code-block">
+                <pre><code> 8 = 000010 00
+ 9 = 000010 01
+10 = 000010 10
+11 = 000010 11
+     └─ortaq─┘   → 16 (ilk iki oktet) + 6 = 22 ortaq bit
+
+Summary:  172.16.8.0/22   (maska 255.255.252.0)
+Əhatə:    172.16.8.0 – 172.16.11.255</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><strong>Sürətli yoxlama:</strong> şəbəkə sayı 2-nin qüvvəti olmalı (2, 4, 8…) və birinci şəbəkə blok ölçüsünə bölünməlidir. 8, 9, 10, 11 — 4 şəbəkə, 8 ədədi 4-ə bölünür — uyğundur. 9–12 birləşdirilə bilməz: 9 dördə bölünmür.</p>
+            </div>
+        </section>
+
+        <section id="pitfalls" class="section-card">
+            <h2 class="section-title">{{i:triangle-alert}} 3. Diqqət Edilməli Məqamlar</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:circle-alert}}<p class="text-neutral-700"><strong>Həddən artıq geniş summary:</strong> 172.16.0.0/16 yazmaq başqa yerdə olan şəbəkələri də "udar" və trafik səhv istiqamətə gedə bilər.</p></div>
+                <div class="feature-item">{{i:circle-alert}}<p class="text-neutral-700"><strong>Qara dəlik (black hole):</strong> summary daxilində mövcud olmayan şəbəkəyə gələn trafik summary-ni elan edən routerə çatır və orada atılır — bu, gözlənilən davranışdır, amma nəzərə alınmalıdır.</p></div>
+                <div class="feature-item">{{i:circle-alert}}<p class="text-neutral-700"><strong>Ardıcıl olmayan ünvanlama:</strong> summarization yalnız ünvanlar ardıcıl bloklarda planlaşdırıldıqda işləyir — IP planını əvvəlcədən düşünün.</p></div>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 4. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="sum-static">Statik summary</button>
+                <button class="tab-btn inactive-tab" data-pane="sum-ospf">OSPF (ABR-də)</button>
+                <button class="tab-btn inactive-tab" data-pane="sum-verify">Doğrulama</button>
+            </div>
+            <div id="sum-static">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>HQ(config)# ip route 172.16.8.0 255.255.252.0 10.0.0.2</code></pre>
+                    <p class="code-note">Dörd ayrı statik marşrut əvəzinə filialdakı 172.16.8.0 – 172.16.11.0 şəbəkələrinə bir sətir.</p>
+                </div>
+            </div>
+            <div id="sum-ospf" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>ABR1(config)# router ospf 1
+ABR1(config-router)# area 1 range 172.16.8.0 255.255.252.0</code></pre>
+                    <p class="code-note">Area 1-dəki dörd /24 şəbəkə Area 0-a tək /22 marşrutu kimi elan olunur. OSPF-də summarization yalnız ABR (və ASBR) üzərində edilir.</p>
+                </div>
+            </div>
+            <div id="sum-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ip route 172.16.8.0 255.255.252.0 longer-prefixes
+show ip route ospf
+show ip ospf border-routers</code></pre>
+                    <p class="code-note">Summary daxilindəki bütün daha spesifik marşrutlar, OSPF marşrutları (summary "O IA" kimi görünür) və ABR-lər.</p>
+                </div>
+            </div>
+        </section>
+<!--END-->

@@ -1,0 +1,122 @@
+<!--PAGE title="Binar və Hexadecimal" icon="binary" badge="CCNA · Network Fundamentals" nav="intro:Giriş|binary:Binar|hex:Hexadecimal|masks:Maska dəyərləri|converter:Çevirici"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:binary}} Giriş: Niyə Başqa Say Sistemləri?</h2>
+            <p class="lead">
+                Kompüter üçün hər şey 0 və 1-dir. IPv4 ünvanı və maska <strong>binar</strong> (2-lik), MAC və IPv6 ünvanı
+                isə <strong>hexadecimal</strong> (16-lıq) sistemlə daha rahat oxunur. Subnetting-i sürətli etmək üçün
+                bu çevirmələri əzbər bilmək lazımdır.
+            </p>
+        </section>
+
+        <section id="binary" class="section-card">
+            <h2 class="section-title">{{i:hash}} 1. Binar Sistem</h2>
+            <p class="lead">Bir oktet 8 bitdir; hər bitin öz dəyəri var. Dəyəri "1" olan bitlərin cəmi onluq ədədi verir.</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Bit dəyəri</th><th>128</th><th>64</th><th>32</th><th>16</th><th>8</th><th>4</th><th>2</th><th>1</th><th>Cəm</th></tr></thead>
+                    <tbody>
+                        <tr><td>192</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>128+64</td></tr>
+                        <tr><td>168</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>128+32+8</td></tr>
+                        <tr><td>77</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>64+8+4+1</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Onluqdan binara: çıxma üsulu</h3>
+            <div class="code-block">
+                <pre><code>200 → 128 çıxılır? bəli → 1   qalıq 72
+ 72 →  64 çıxılır? bəli → 1   qalıq 8
+  8 →  32? xeyr → 0,  16? xeyr → 0
+  8 →   8 çıxılır? bəli → 1   qalıq 0
+  0 →   4, 2, 1 → 0 0 0
+200 = 11001000</code></pre>
+            </div>
+        </section>
+
+        <section id="hex" class="section-card">
+            <h2 class="section-title">{{i:hash}} 2. Hexadecimal Sistem</h2>
+            <p class="lead">16 simvol: 0–9 və A–F (A=10 … F=15). Bir hex rəqəmi düz <strong>4 bitə</strong> (nibble) bərabərdir — çevirmə buna görə çox asandır.</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Hex</th><th>Onluq</th><th>Binar</th><th>Hex</th><th>Onluq</th><th>Binar</th></tr></thead>
+                    <tbody>
+                        <tr><td>0</td><td>0</td><td>0000</td><td>8</td><td>8</td><td>1000</td></tr>
+                        <tr><td>1</td><td>1</td><td>0001</td><td>9</td><td>9</td><td>1001</td></tr>
+                        <tr><td>2</td><td>2</td><td>0010</td><td>A</td><td>10</td><td>1010</td></tr>
+                        <tr><td>3</td><td>3</td><td>0011</td><td>B</td><td>11</td><td>1011</td></tr>
+                        <tr><td>4</td><td>4</td><td>0100</td><td>C</td><td>12</td><td>1100</td></tr>
+                        <tr><td>5</td><td>5</td><td>0101</td><td>D</td><td>13</td><td>1101</td></tr>
+                        <tr><td>6</td><td>6</td><td>0110</td><td>E</td><td>14</td><td>1110</td></tr>
+                        <tr><td>7</td><td>7</td><td>0111</td><td>F</td><td>15</td><td>1111</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <pre><code>Hex → binar:    3C = 0011 1100 = 60
+Binar → hex:    1010 1111 = AF = 175
+Hex → onluq:    AF = 10×16 + 15 = 175
+IPv6 hextet:    2001 = 0010 0000 0000 0001</code></pre>
+            </div>
+        </section>
+
+        <section id="masks" class="section-card">
+            <h2 class="section-title">{{i:list-checks}} 3. Əzbər Bilinməli Maska Dəyərləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Binar</th><th>Onluq</th><th>Oktetdə şəbəkə biti</th><th>Blok ölçüsü</th></tr></thead>
+                    <tbody>
+                        <tr><td>10000000</td><td>128</td><td>1</td><td>128</td></tr>
+                        <tr><td>11000000</td><td>192</td><td>2</td><td>64</td></tr>
+                        <tr><td>11100000</td><td>224</td><td>3</td><td>32</td></tr>
+                        <tr><td>11110000</td><td>240</td><td>4</td><td>16</td></tr>
+                        <tr><td>11111000</td><td>248</td><td>5</td><td>8</td></tr>
+                        <tr><td>11111100</td><td>252</td><td>6</td><td>4</td></tr>
+                        <tr><td>11111110</td><td>254</td><td>7</td><td>2</td></tr>
+                        <tr><td>11111111</td><td>255</td><td>8</td><td>1</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="converter" class="section-card">
+            <h2 class="section-title">{{i:calculator}} 4. İnteraktiv Çevirici</h2>
+            <p class="lead">İstənilən sahəyə yazın — digər ikisi avtomatik hesablanacaq (0 – 65535).</p>
+            <div class="card-grid">
+                <label class="info-card"><h3>{{i:hash}} Onluq</h3><input id="conv-dec" class="conv-field" inputmode="numeric" value="200" autocomplete="off"></label>
+                <label class="info-card"><h3>{{i:binary}} Binar</h3><input id="conv-bin" class="conv-field" inputmode="numeric" autocomplete="off"></label>
+                <label class="info-card"><h3>{{i:hash}} Hexadecimal</h3><input id="conv-hex" class="conv-field" autocomplete="off"></label>
+            </div>
+            <p id="conv-error" class="text-neutral-900 font-semibold mt-4 hidden"></p>
+            <style>
+                .conv-field { width: 100%; padding: 0.6rem 0.8rem; border: 1px solid #d4d4d4; border-radius: 0.5rem; font-family: ui-monospace, monospace; font-size: 1.1rem; background: #ffffff; color: #0a0a0a; }
+                .conv-field:focus { outline: none; border-color: #f59e0b; box-shadow: 0 0 0 3px rgb(245 158 11 / 0.3); }
+                body.dark-mode .conv-field { background: #0a0a0a; color: #e5e5e5; border-color: #404040; }
+            </style>
+            <script>
+                (function () {
+                    var fields = { dec: document.getElementById('conv-dec'), bin: document.getElementById('conv-bin'), hex: document.getElementById('conv-hex') };
+                    var error = document.getElementById('conv-error');
+                    var rules = { dec: [/^\d+$/, 10], bin: [/^[01]+$/, 2], hex: [/^[0-9a-f]+$/i, 16] };
+                    function update(source) {
+                        var raw = fields[source].value.replace(/\s+/g, '');
+                        if (raw === '') { error.classList.add('hidden'); return; }
+                        var n = rules[source][0].test(raw) ? parseInt(raw, rules[source][1]) : NaN;
+                        if (isNaN(n) || n > 65535) {
+                            error.textContent = 'Düzgün dəyər daxil edin (0 – 65535).';
+                            error.classList.remove('hidden');
+                            return;
+                        }
+                        error.classList.add('hidden');
+                        var bits = n.toString(2);
+                        var width = bits.length <= 8 ? 8 : 16;
+                        if (source !== 'dec') fields.dec.value = String(n);
+                        if (source !== 'bin') fields.bin.value = bits.padStart(width, '0').replace(/(.{4})(?=.)/g, '$1 ');
+                        if (source !== 'hex') fields.hex.value = n.toString(16).toUpperCase();
+                    }
+                    Object.keys(fields).forEach(function (key) {
+                        fields[key].addEventListener('input', function () { update(key); });
+                    });
+                    update('dec');
+                })();
+            </script>
+        </section>
+<!--END-->

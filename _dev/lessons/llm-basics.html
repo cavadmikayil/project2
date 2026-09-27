@@ -1,0 +1,91 @@
+<!--PAGE title="Large Language Model-lər Necə İşləyir" icon="message-square-text" badge="AI · LLM" nav="intro:Giriş|tokens:Token-lər|transformer:Transformer|training:Öyrədilmə|params:Parametrlər|context:Kontekst|limits:Məhdudiyyətlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:message-square-text}} Giriş: "Növbəti Sözü Təxmin Et"</h2>
+            <p class="lead">
+                ChatGPT, Claude, Gemini kimi <strong>Large Language Model</strong>-lərin (LLM) əsasında sadə görünən
+                tapşırıq durur: verilmiş mətndən sonra <strong>növbəti token-i</strong> təxmin etmək. Bunu internet
+                həcmində mətn üzərində milyardlarla parametrlə öyrənəndə model qrammatika, faktlar, kod yazmaq və
+                mühakimə kimi qabiliyyətlər qazanır. Amma mahiyyətcə o, ehtimallar üzərində işləyən modeldir — verilənlər bazası deyil.
+            </p>
+        </section>
+
+        <section id="tokens" class="section-card">
+            <h2 class="section-title">{{i:scissors}} 1. Token-lər</h2>
+            <p class="lead">Model mətni söz-söz yox, <strong>token</strong>-lərlə görür — söz hissələri, simvollar, boşluqlar.</p>
+            <div class="code-block mb-6">
+                <pre><code>"Switch portu err-disabled oldu"
+→ ["Switch", " port", "u", " err", "-", "disabled", " oldu"]   (təxmini bölgü)</code></pre>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:languages}}<p class="text-neutral-700"><strong>Dil fərqi:</strong> ingilis dilində bir söz çox vaxt 1 token-dir, Azərbaycan dilində isə söz daha çox token-ə bölünə bilər — eyni mətn daha "baha" və kontekstdə daha çox yer tutur.</p></div>
+                <div class="feature-item">{{i:banknote}}<p class="text-neutral-700"><strong>Qiymət və limit</strong> token ilə ölçülür: giriş (input) və çıxış (output) token-ləri ayrıca hesablanır.</p></div>
+                <div class="feature-item">{{i:calculator}}<p class="text-neutral-700"><strong>Hesablama:</strong> model rəqəmləri də token kimi görür — buna görə uzun hesablamalarda səhv edə bilər; dəqiq hesab üçün kod/alət istifadə etmək daha etibarlıdır.</p></div>
+            </div>
+        </section>
+
+        <section id="transformer" class="section-card">
+            <h2 class="section-title">{{i:git-merge}} 2. Transformer və Attention</h2>
+            <p class="lead">
+                <strong>Attention</strong> mexanizmi hər token-in digər bütün token-lərə nə qədər "diqqət" etməli olduğunu
+                hesablayır. "Server çökdü, çünki <em>o</em> yaddaşsız qaldı" cümləsində "o" sözünü emal edərkən model
+                "server"ə yüksək diqqət verir.
+            </p>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">Token-lər <strong>embedding</strong> vektorlarına (ədəd siyahısına) çevrilir, mövqe məlumatı əlavə olunur.</p></li>
+                <li><p class="text-neutral-700">Onlarla transformer bloku: attention + neural network qatları — məna tədricən zənginləşir.</p></li>
+                <li><p class="text-neutral-700">Sonda softmax bütün lüğət üzrə növbəti token-in <strong>ehtimallarını</strong> verir.</p></li>
+                <li><p class="text-neutral-700">Bir token seçilir, mətnə əlavə olunur və proses təkrarlanır — cavab token-token yaranır (streaming).</p></li>
+            </ol>
+        </section>
+
+        <section id="training" class="section-card">
+            <h2 class="section-title">{{i:graduation-cap}} 3. LLM Necə Öyrədilir?</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Mərhələ</th><th>Nə edilir</th><th>Nəticə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Pre-training</td><td>Nəhəng mətn korpusunda növbəti token-i təxmin etmək</td><td>Dili və dünyanı "bilən", amma assistent kimi davranmayan base model</td></tr>
+                        <tr><td>Instruction tuning (SFT)</td><td>Sual–yaxşı cavab nümunələri ilə öyrətmək</td><td>Təlimatlara əməl edən model</td></tr>
+                        <tr><td>Preference tuning (RLHF və s.)</td><td>İnsanların (və ya qaydaların) üstün tutduğu cavablara yönəltmək</td><td>Daha faydalı, dürüst və təhlükəsiz cavablar</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box mt-6">
+                {{i:calendar}}
+                <p class="text-neutral-800"><strong>Knowledge cutoff:</strong> model yalnız öyrədildiyi tarixə qədərki məlumatı "bilir". Yeni IOS versiyası, son CVE və ya dünənki xəbər haqqında — axtarış və ya sizin verdiyiniz sənəd olmadan — köhnə və ya uydurma cavab verə bilər.</p>
+            </div>
+        </section>
+
+        <section id="params" class="section-card">
+            <h2 class="section-title">{{i:sliders-horizontal}} 4. Generasiya Parametrləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Parametr</th><th>Nə edir</th><th>Tövsiyə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Temperature</td><td>Təsadüfilik: aşağı — sabit, proqnozlaşdırılan; yüksək — yaradıcı, müxtəlif</td><td>Kod, konfiqurasiya, fakt: aşağı; ideya, mətn: orta</td></tr>
+                        <tr><td>Top-p</td><td>Yalnız ən ehtimallı token-lərin cəmi p olan hissəsindən seç</td><td>Adətən ya temperature, ya top-p tənzimlənir</td></tr>
+                        <tr><td>Max tokens</td><td>Cavabın maksimum uzunluğu</td><td>Cavab yarımçıq kəsilirsə — artırın</td></tr>
+                        <tr><td>System prompt</td><td>Modelin rolu və qaydaları (istifadəçi mesajından əvvəl)</td><td>"Sən Cisco şəbəkə mühəndisisən, qısa cavab ver"</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="context" class="section-card">
+            <h2 class="section-title">{{i:panel-left-open}} 5. Kontekst Pəncərəsi</h2>
+            <p class="lead"><strong>Context window</strong> — modelin bir anda "gördüyü" token sayı: system prompt + söhbət tarixçəsi + əlavə etdiyiniz sənədlər + cavab.</p>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:brain}}<p class="text-neutral-700"><strong>Yaddaş deyil:</strong> model söhbətləri "xatırlamır" — hər sorğuda bütün tarixçə yenidən göndərilir.</p></div>
+                <div class="feature-item">{{i:scissors}}<p class="text-neutral-700"><strong>Limit dolanda</strong> köhnə mesajlar kəsilir və ya xülasələnir — erkən verilən təlimatlar "unudula" bilər.</p></div>
+                <div class="feature-item">{{i:file-text}}<p class="text-neutral-700"><strong>Uzun sənədlər:</strong> ən vacib məlumatı aydın başlıqlarla verin; lazımsız log-ları əvvəlcə filtrləyin.</p></div>
+            </div>
+        </section>
+
+        <section id="limits" class="section-card">
+            <h2 class="section-title">{{i:triangle-alert}} 6. Güclü və Zəif Tərəflər</h2>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:circle-check}} Güclüdür</h3><p class="text-neutral-700">Mətn yazmaq və xülasə, tərcümə, kod və skript qaralaması, xəta mesajını izah etmək, konfiqurasiya nümunələri, beyin fırtınası.</p></div>
+                <div class="info-card dark"><h3>{{i:circle-x}} Ehtiyatlı olun</h3><p>Dəqiq faktlar, rəqəmlər, versiyaya xas əmrlər, hüquqi/tibbi məsələlər, son xəbərlər. Model əmin görünür, amma səhv ola bilər (hallucination) — həmişə mənbə ilə yoxlayın.</p></div>
+            </div>
+        </section>
+<!--END-->

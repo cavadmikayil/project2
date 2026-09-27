@@ -1,0 +1,93 @@
+<!--PAGE title="Power over Ethernet (PoE)" icon="plug-zap" badge="CCNA · Network Access" nav="intro:Giriş|standards:Standartlar|process:Necə işləyir|budget:Güc büdcəsi|commands:Əmrlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:plug-zap}} Giriş: Bir Kabeldə Həm Məlumat, Həm Enerji</h2>
+            <p class="lead">
+                PoE switch-in Ethernet kabeli üzərindən qoşulan cihaza <strong>elektrik enerjisi</strong> verməsidir.
+                IP telefonlar, access point-lər və IP kameralar üçün ayrıca rozetka və adapter lazım olmur;
+                switch UPS-ə qoşulubsa, bu cihazlar elektrik kəsilməsində də işləməyə davam edir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:zap}} PSE</h3><p class="text-neutral-700">Power Sourcing Equipment — enerji verən tərəf (PoE switch və ya injector).</p></div>
+                <div class="info-card dark"><h3>{{i:radio}} PD</h3><p>Powered Device — enerji alan cihaz (IP telefon, AP, kamera).</p></div>
+            </div>
+        </section>
+
+        <section id="standards" class="section-card">
+            <h2 class="section-title">{{i:list-ordered}} 1. PoE Standartları</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Ad</th><th>IEEE</th><th>PSE portunda maks.</th><th>PD-yə çatan</th><th>İstifadə olunan cütlər</th></tr></thead>
+                    <tbody>
+                        <tr><td>PoE (Type 1)</td><td>802.3af</td><td>15.4 W</td><td>12.95 W</td><td>2 cüt</td></tr>
+                        <tr><td>PoE+ (Type 2)</td><td>802.3at</td><td>30 W</td><td>25.5 W</td><td>2 cüt</td></tr>
+                        <tr><td>UPOE (Cisco)</td><td>—</td><td>60 W</td><td>51 W</td><td>4 cüt</td></tr>
+                        <tr><td>PoE++ (Type 3)</td><td>802.3bt</td><td>60 W</td><td>51 W</td><td>4 cüt</td></tr>
+                        <tr><td>PoE++ (Type 4)</td><td>802.3bt</td><td>90–100 W</td><td>71.3 W</td><td>4 cüt</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="process" class="section-card">
+            <h2 class="section-title">{{i:workflow}} 2. Enerji Necə Verilir?</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Detection:</strong> switch porta aşağı gərginlik verib müqaviməti ölçür — qarşıda PoE cihazı olub-olmadığını anlayır. Adi PC-yə enerji verilmir.</p></li>
+                <li><p class="text-neutral-700"><strong>Classification:</strong> cihazın nə qədər güc tələb etdiyi (class 0–8) müəyyən olunur. CDP/LLDP ilə daha dəqiq razılaşma da mümkündür.</p></li>
+                <li><p class="text-neutral-700"><strong>Power-up:</strong> tam gərginlik (~48 V DC) verilir və porta güc büdcədən ayrılır.</p></li>
+                <li><p class="text-neutral-700"><strong>Monitoring:</strong> cihaz ayrılanda və ya qısa qapanma olanda enerji dərhal kəsilir.</p></li>
+            </ol>
+        </section>
+
+        <section id="budget" class="section-card">
+            <h2 class="section-title">{{i:battery}} 3. Güc Büdcəsi</h2>
+            <p class="lead">
+                Switch-in ümumi PoE büdcəsi məhduddur (məs. 370 W). Bütün portlara maksimum güc verə bilməyəcəyi üçün
+                planlama vacibdir. Büdcə tükənəndə yeni qoşulan cihaz enerji ala bilmir.
+            </p>
+            <div class="code-block">
+                <pre><code>Nümunə: 24 portlu PoE+ switch, büdcə 370 W
+  16 IP telefon × 7 W   = 112 W
+   6 access point × 25 W = 150 W
+   2 kamera × 13 W      =  26 W
+  ─────────────────────────────
+  Cəmi                   = 288 W   → 82 W ehtiyat qalır</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800"><strong>Power policing</strong> cihazın ayrılmış gücdən çox çəkib-çəkmədiyini izləyir; limit aşıldıqda port söndürülə (err-disable) və ya yalnız log yazıla bilər.</p>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 4. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="poe-config">Konfiqurasiya</button>
+                <button class="tab-btn inactive-tab" data-pane="poe-verify">Doğrulama</button>
+            </div>
+            <div id="poe-config">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>SW1(config)# interface GigabitEthernet1/0/5
+SW1(config-if)# power inline auto max 15400
+SW1(config-if)# power inline police action err-disable
+
+SW1(config)# interface GigabitEthernet1/0/10
+SW1(config-if)# power inline never
+
+SW1(config)# interface GigabitEthernet1/0/12
+SW1(config-if)# power inline static max 30000</code></pre>
+                    <p class="code-note">Portda avtomatik PoE (maks. 15.4 W) və limiti aşan cihazda portun söndürülməsi; PoE tələb etməyən portda enerjinin tamamilə söndürülməsi; kritik cihaz üçün gücün əvvəlcədən rezerv edilməsi (static). Dəyərlər milliwatt-la yazılır.</p>
+                </div>
+            </div>
+            <div id="poe-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show power inline
+show power inline GigabitEthernet1/0/5 detail
+show power inline police
+show cdp neighbors detail</code></pre>
+                    <p class="code-note">Ümumi və qalan büdcə, hər portun statusu və cihaz sinfi, policing vəziyyəti, CDP ilə razılaşdırılmış güc.</p>
+                </div>
+            </div>
+        </section>
+<!--END-->

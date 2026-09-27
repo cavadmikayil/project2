@@ -1,6 +1,6 @@
 (function () {
     var STORAGE_KEY = 'edu-portal-theme';
-    var ICONS = new URL('icons.svg?v=4cc9723d', document.currentScript.src).href;
+    var ICONS = new URL('icons.svg?v=ba45056e', document.currentScript.src).href;
 
     function getStored() {
         try {

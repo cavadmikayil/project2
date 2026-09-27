@@ -1,0 +1,119 @@
+<!--PAGE title="TCP və UDP" icon="arrow-left-right" badge="CCNA · Network Fundamentals" nav="intro:Giriş|ports:Portlar|tcp:TCP|udp:UDP|compare:Müqayisə|commands:Əmrlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:arrow-left-right}} Giriş: Transport Qatı</h2>
+            <p class="lead">
+                IP paketi bir hostdan digərinə çatdırır, amma həmin hostda <strong>hansı proqrama</strong> çatacağını
+                bilmir. Bunu Layer 4 — Transport qatı — həll edir. İki əsas protokol var: etibarlı, bağlantı yönümlü
+                <strong>TCP</strong> və sürətli, bağlantısız <strong>UDP</strong>. Hər ikisi proqramları
+                <strong>port nömrələri</strong> ilə ayırd edir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:layers}} Seqmentləşdirmə</h3><p class="text-neutral-700">Böyük məlumat kiçik hissələrə bölünür (TCP-də segment, UDP-də datagram).</p></div>
+                <div class="info-card accent"><h3>{{i:hash}} Multiplexing</h3><p class="text-neutral-700">Port nömrələri sayəsində eyni hostda çoxlu proqram eyni anda şəbəkədən istifadə edir.</p></div>
+                <div class="info-card dark"><h3>{{i:shield-check}} Etibarlılıq (yalnız TCP)</h3><p>Təsdiq (ACK), yenidən göndərmə, sıralama və axın nəzarəti.</p></div>
+            </div>
+        </section>
+
+        <section id="ports" class="section-card">
+            <h2 class="section-title">{{i:hash}} 1. Port Nömrələri</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3>{{i:star}} Well-known</h3><p class="text-neutral-700">0 – 1023: standart serverlər (HTTP 80, SSH 22).</p></div>
+                <div class="info-card"><h3>{{i:tag}} Registered</h3><p class="text-neutral-700">1024 – 49151: tətbiqlər üçün qeydiyyatdan keçmiş portlar.</p></div>
+                <div class="info-card"><h3>{{i:shuffle}} Ephemeral (dinamik)</h3><p class="text-neutral-700">49152 – 65535: müştəri tərəfində təsadüfi seçilən mənbə portları.</p></div>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Protokol</th><th>Port</th><th>Transport</th></tr></thead>
+                    <tbody>
+                        <tr><td>FTP (data / control)</td><td>20 / 21</td><td>TCP</td></tr>
+                        <tr><td>SSH</td><td>22</td><td>TCP</td></tr>
+                        <tr><td>Telnet</td><td>23</td><td>TCP</td></tr>
+                        <tr><td>SMTP</td><td>25</td><td>TCP</td></tr>
+                        <tr><td>DNS</td><td>53</td><td>UDP (sorğular), TCP (zone transfer, böyük cavablar)</td></tr>
+                        <tr><td>DHCP (server / client)</td><td>67 / 68</td><td>UDP</td></tr>
+                        <tr><td>TFTP</td><td>69</td><td>UDP</td></tr>
+                        <tr><td>HTTP / HTTPS</td><td>80 / 443</td><td>TCP (HTTP/3 — UDP 443)</td></tr>
+                        <tr><td>NTP</td><td>123</td><td>UDP</td></tr>
+                        <tr><td>SNMP (sorğu / trap)</td><td>161 / 162</td><td>UDP</td></tr>
+                        <tr><td>Syslog</td><td>514</td><td>UDP</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="tcp" class="section-card">
+            <h2 class="section-title">{{i:link}} 2. TCP: Bağlantı Yönümlü Protokol</h2>
+            <h3 class="text-xl font-bold mb-3">Bağlantının qurulması — 3-way handshake</h3>
+            <div class="code-block">
+                <pre><code>Müştəri                                   Server
+   |  ── SYN        (seq=100) ──────────────►  |
+   |  ◄── SYN-ACK   (seq=300, ack=101) ──────  |
+   |  ── ACK        (ack=301) ──────────────►  |
+   |        bağlantı qurulub, məlumat gedir    |</code></pre>
+            </div>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:list-ordered}}<p class="text-neutral-700"><strong>Sıra nömrələri (sequence):</strong> seqmentlər qarışıq gəlsə də düzgün ardıcıllıqla yığılır.</p></div>
+                <div class="feature-item">{{i:circle-check}}<p class="text-neutral-700"><strong>Təsdiq (ACK):</strong> qəbul edən tərəf növbəti gözlədiyi baytın nömrəsini göndərir.</p></div>
+                <div class="feature-item">{{i:refresh-cw}}<p class="text-neutral-700"><strong>Yenidən göndərmə:</strong> ACK gəlməsə, seqment təkrar göndərilir.</p></div>
+                <div class="feature-item">{{i:gauge}}<p class="text-neutral-700"><strong>Windowing (axın nəzarəti):</strong> qəbul edən tərəf bir anda nə qədər məlumat qəbul edə biləcəyini bildirir; itki olmadıqca pəncərə böyüyür.</p></div>
+            </div>
+            <h3 class="text-xl font-bold mb-3">Bağlantının bağlanması — 4-way</h3>
+            <p class="text-neutral-700">Hər tərəf öz istiqamətini ayrıca bağlayır: <code>FIN → ACK</code>, sonra <code>FIN → ACK</code>. Qəfil kəsilmə üçün <code>RST</code> bayrağı istifadə olunur.</p>
+        </section>
+
+        <section id="udp" class="section-card">
+            <h2 class="section-title">{{i:zap}} 3. UDP: Sadə və Sürətli</h2>
+            <p class="lead">
+                UDP bağlantı qurmur, təsdiq gözləmir və itən məlumatı yenidən göndərmir. Başlığı cəmi
+                <strong>8 bayt</strong>dır (TCP-də minimum 20 bayt). Gecikmənin itkidən daha zərərli olduğu yerlərdə istifadə olunur.
+            </p>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:radio}} Səs və video</h3><p class="text-neutral-700">VoIP (RTP), video zənglər — gecikmiş paketi yenidən göndərməyin mənası yoxdur.</p></div>
+                <div class="info-card"><h3>{{i:search}} Qısa sorğular</h3><p class="text-neutral-700">DNS, DHCP, NTP, SNMP — bir sorğu, bir cavab.</p></div>
+                <div class="info-card accent"><h3>{{i:settings}} Etibarlılıq tətbiqdə</h3><p class="text-neutral-700">Lazım olduqda etibarlılığı proqramın özü təmin edir (məs. TFTP, QUIC).</p></div>
+            </div>
+        </section>
+
+        <section id="compare" class="section-card">
+            <h2 class="section-title">{{i:scale}} 4. Müqayisə</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Xüsusiyyət</th><th>TCP</th><th>UDP</th></tr></thead>
+                    <tbody>
+                        <tr><td>Bağlantı</td><td class="yes">Qurulur (handshake)</td><td class="no">Yoxdur</td></tr>
+                        <tr><td>Çatdırılma zəmanəti</td><td class="yes">Var (ACK, retransmission)</td><td class="no">Yoxdur</td></tr>
+                        <tr><td>Sıralama</td><td class="yes">Var</td><td class="no">Yoxdur</td></tr>
+                        <tr><td>Axın nəzarəti</td><td class="yes">Windowing</td><td class="no">Yoxdur</td></tr>
+                        <tr><td>Başlıq ölçüsü</td><td>20–60 bayt</td><td>8 bayt</td></tr>
+                        <tr><td>Nümunələr</td><td>HTTP(S), SSH, FTP, SMTP</td><td>DNS, DHCP, VoIP, TFTP, SNMP</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 5. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="tu-cisco">Cisco</button>
+                <button class="tab-btn inactive-tab" data-pane="tu-pc">Kompüter</button>
+            </div>
+            <div id="tu-cisco">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show control-plane host open-ports
+show tcp brief
+telnet 192.168.1.10 443</code></pre>
+                    <p class="code-note">Cihazın özündə açıq portlar, aktiv TCP sessiyaları və uzaq hostun müəyyən TCP portunun açıq olub-olmadığının yoxlanması (bağlantı qurulursa port açıqdır).</p>
+                </div>
+            </div>
+            <div id="tu-pc" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>netstat -an
+ss -tuln
+Test-NetConnection 192.168.1.10 -Port 443</code></pre>
+                    <p class="code-note">Windows/Linux-da açıq və qurulmuş bağlantılar (LISTEN, ESTABLISHED), Linux-da dinləyən TCP/UDP portları və PowerShell ilə TCP port testi.</p>
+                </div>
+            </div>
+        </section>
+<!--END-->
