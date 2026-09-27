@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Hardware və Diaqnostika — Dərs Vəsaiti</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#cpu"></use></svg> PC Hardware və Diaqnostika</h1>
+                <span class="lesson-badge">Helpdesk · Hardware</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#parts" class="nav-link">Komponentlər</a>
+                <a href="#post" class="nav-link">POST və BIOS</a>
+                <a href="#storage" class="nav-link">Disklər</a>
+                <a href="#symptoms" class="nav-link">Simptomlar</a>
+                <a href="#safety" class="nav-link">Təhlükəsizlik</a>
+                <a href="../index.html#helpdesk" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#cpu"></use></svg> Giriş: Qutunun İçində Nə Var?</h2>
+            <p class="lead">
+                Hardware problemini düzgün təyin etmək — kompüteri boş yerə dəyişməyin və ya lazımsız hissə almağın
+                qarşısını alır. Helpdesk mütəxəssisi hər komponentin nə etdiyini, necə xarab olduğunu və bunu hansı
+                simptomlarla göstərdiyini bilməlidir.
+            </p>
+        </section>
+
+        <section id="parts" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#layout-grid"></use></svg> 1. Əsas Komponentlər</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Komponent</th><th>Vəzifəsi</th><th>Bilinməli detal</th></tr></thead>
+                    <tbody>
+                        <tr><td>Motherboard</td><td>Bütün hissələri birləşdirir</td><td>Form faktor (ATX, mATX), socket, chipset, RAM yuvaları</td></tr>
+                        <tr><td>CPU</td><td>Hesablamalar</td><td>Socket uyğunluğu, soyutma (thermal paste)</td></tr>
+                        <tr><td>RAM</td><td>İşləyən proqramların müvəqqəti yaddaşı</td><td>DDR4 və DDR5 bir-birinə uyğun deyil; dual channel üçün cüt modul</td></tr>
+                        <tr><td>Storage</td><td>Daimi yaddaş</td><td>HDD, SATA SSD, NVMe M.2 (ən sürətli)</td></tr>
+                        <tr><td>PSU</td><td>AC-ni DC-yə çevirir (12V, 5V, 3.3V)</td><td>Güc (W), 80 PLUS səmərəliliyi</td></tr>
+                        <tr><td>GPU</td><td>Görüntü</td><td>İnteqrasiya olunmuş və ya ayrıca kart; əlavə qida kabeli</td></tr>
+                        <tr><td>CMOS batareyası</td><td>BIOS parametrlərini və saatı saxlayır</td><td>CR2032; bitəndə saat hər açılışda sıfırlanır</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="post" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#power"></use></svg> 2. POST, BIOS/UEFI</h2>
+            <p class="lead">Kompüter yandırılanda <strong>POST</strong> (Power-On Self-Test) hardware-i yoxlayır. Problem olarsa, ekran açılmadan <strong>səs siqnalları (beep)</strong> və ya anakart LED-ləri ilə xəbər verir — kodlar istehsalçıya görə fərqlidir, anakartın kitabçasına baxın.</p>
+            <div class="feature-grid">
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#settings"></use></svg><p class="text-neutral-700"><strong>UEFI:</strong> BIOS-un müasir əvəzi — GPT diskləri, Secure Boot, qrafik interfeys. Giriş: <code>F2</code>, <code>Del</code>, <code>F10</code>, <code>F12</code> (boot menyu).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#shield-check"></use></svg><p class="text-neutral-700"><strong>Secure Boot və TPM 2.0:</strong> Windows 11 üçün tələbdir; BitLocker açarını TPM saxlayır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#list-ordered"></use></svg><p class="text-neutral-700"><strong>Boot order:</strong> "No bootable device" xətasında ilk baxılan yer.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#refresh-cw"></use></svg><p class="text-neutral-700"><strong>Firmware yeniləməsi:</strong> yalnız istehsalçının rəsmi alətilə və qidası kəsilməyən mühitdə.</p></div>
+            </div>
+        </section>
+
+        <section id="storage" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#hard-drive"></use></svg> 3. Disklər və SMART</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th></th><th>HDD</th><th>SATA SSD</th><th>NVMe SSD</th></tr></thead>
+                    <tbody>
+                        <tr><td>Sürət (təxmini)</td><td>100–200 MB/s</td><td>~550 MB/s</td><td>2000–7000+ MB/s</td></tr>
+                        <tr><td>Xarab olma əlaməti</td><td>Tıqqıltı səsi, yavaşlama, bad sector</td><td colspan="2">Birdən yox olma, yalnız oxuma rejimi, SMART xəbərdarlığı</td></tr>
+                        <tr><td>Zərbəyə həssaslıq</td><td class="no">Yüksək</td><td colspan="2" class="yes">Aşağı</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>Get-PhysicalDisk | Select FriendlyName, MediaType, HealthStatus, OperationalStatus
+Get-PhysicalDisk | Get-StorageReliabilityCounter | Select Temperature, Wear, ReadErrorsTotal
+wmic diskdrive get model,status</code></pre>
+                <p class="code-note"><strong>SMART</strong> — diskin öz sağlamlıq göstəriciləri. "Warning" və ya artan reallocated sector sayı — məlumatı dərhal köçürüb diski dəyişmək siqnalıdır. Pulsuz alət: CrystalDiskInfo.</p>
+            </div>
+        </section>
+
+        <section id="symptoms" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#stethoscope"></use></svg> 4. Simptomdan Səbəbə</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Simptom</th><th>Ehtimal olunan səbəb</th><th>Yoxlama</th></tr></thead>
+                    <tbody>
+                        <tr><td>Heç bir reaksiya yoxdur</td><td>Qida kabeli, PSU, düymə</td><td>Başqa kabel/rozetka; PSU testeri</td></tr>
+                        <tr><td>Fanlar fırlanır, ekran qaradır</td><td>RAM, GPU, monitor kabeli</td><td>RAM-ı çıxarıb-taxmaq (reseat), bir modul ilə yoxlamaq</td></tr>
+                        <tr><td>Təsadüfi söndürülmə</td><td>Qızma, PSU</td><td>Temperatur (HWMonitor), toz, thermal paste</td></tr>
+                        <tr><td>Təsadüfi BSOD, fayllar zədələnir</td><td>RAM</td><td><code>mdsched</code> və ya MemTest86</td></tr>
+                        <tr><td>Saat hər dəfə sıfırlanır</td><td>CMOS batareyası</td><td>CR2032 dəyişmək</td></tr>
+                        <tr><td>Yüksək fan səsi, yavaşlama</td><td>Termal throttling</td><td>Radiatoru təmizləmək</td></tr>
+                        <tr><td>Noutbuk batareyası şişib</td><td>Li-ion deqradasiyası</td><td><strong>Dərhal istifadəni dayandırın</strong> — yanğın riski</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="safety" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#shield-alert"></use></svg> 5. Təhlükəsizlik və ESD</h2>
+            <div class="card-grid">
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#zap"></use></svg> ESD</h3><p class="text-neutral-700">Statik elektrik komponentləri görünməz şəkildə zədələyə bilər. Antistatik bilərzik, antistatik xalça; hissələri kənarlarından tutun.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#plug"></use></svg> Qidanı ayırın</h3><p class="text-neutral-700">Açmazdan əvvəl kabeli çıxarın, noutbukda batareyanı ayırın; güc düyməsini basıb qalıq enerjini boşaldın.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#ban"></use></svg> PSU-nu açmayın</h3><p>İçindəki kondensatorlar söndürüldükdən sonra da təhlükəli gərginlik saxlayır — PSU bütöv dəyişdirilir.</p></div>
+            </div>
+            <div class="note-box mt-6">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#lightbulb"></use></svg>
+                <p class="text-neutral-800">Hissəni dəyişməzdən əvvəl <strong>zəmanəti</strong> yoxlayın (seriya nömrəsi ilə istehsalçı saytında) — korporativ cihazlarda çox vaxt istehsalçı növbəti iş günü pulsuz dəyişir.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="brand-footer">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">Şəbəkə, CCNA, Server, Helpdesk, Təhlükəsizlik və AI üzrə pulsuz təlim materialları</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+                    <a href="../index.html">Ana Səhifə</a>
+                    <a href="../index.html#ccna">CCNA</a>
+                    <a href="../links.html">Faydalı Linklər</a>
+                    <a href="../about.html">Haqqında</a>
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
+            </div>
+            <div class="brand-footer-social-wrap">
+                <p class="brand-footer-social-title">Sosial şəbəkələrdə izləyin</p>
+                <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+                    <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" data-social="instagram"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                    <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı" data-social="youtube"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></a>
+                    <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn" data-social="linkedin"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg></a>
+                    <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt" data-social="blog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></a>
+                    <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram" data-social="telegram"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg></a>
+                    <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" data-social="tiktok"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M448.5 209.9c-44 .1-87-13.6-122.8-39.2l0 178.7c0 33.1-10.1 65.4-29 92.6s-45.6 48-76.6 59.6-64.8 13.5-96.9 5.3-60.9-25.9-82.7-50.8-35.3-56-39-88.9 2.9-66.1 18.6-95.2 40-52.7 69.6-67.7 62.9-20.5 95.7-16l0 89.9c-15-4.7-31.1-4.6-46 .4s-27.9 14.6-37 27.3-14 28.1-13.9 43.9 5.2 31 14.5 43.7 22.4 22.1 37.4 26.9 31.1 4.8 46-.1 28-14.4 37.2-27.1 14.2-28.1 14.2-43.8l0-349.4 88 0c-.1 7.4 .6 14.9 1.9 22.2 3.1 16.3 9.4 31.9 18.7 45.7s21.3 25.6 35.2 34.6c19.9 13.1 43.2 20.1 67 20.1l0 87.4z"/></svg></a>
+                    <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email" data-social="email"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></a>
+                </div>
+            </div>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,93 @@
+<!--PAGE title="WAN və Metro Ethernet" icon="globe" badge="CCNA · IP Connectivity" nav="intro:Giriş|leased:Leased line|metro:Metro Ethernet|mpls:MPLS|internet:İnternet çıxışı|compare:Müqayisə"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:globe}} Giriş: Filialları Birləşdirmək</h2>
+            <p class="lead">
+                WAN (Wide Area Network) coğrafi olaraq uzaq yerləri — baş ofisi, filialları, data mərkəzini — birləşdirir.
+                Şirkət bu xətləri özü çəkmir; <strong>provayderdən</strong> (ISP) xidmət kimi alır. Seçim sürət, qiymət,
+                etibarlılıq və təhlükəsizlik tələblərindən asılıdır.
+            </p>
+        </section>
+
+        <section id="leased" class="section-card">
+            <h2 class="section-title">{{i:cable}} 1. Leased Line (Ayrılmış Xətt)</h2>
+            <p class="lead">
+                İki nöqtə arasında provayderin ayırdığı daimi, özəl point-to-point xətt. Köhnə serial (T1/E1) xətlərdə
+                HDLC və ya PPP enkapsulyasiyası istifadə olunur; bu gün isə daha çox Ethernet interfeysi ilə verilir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:circle-check}} Üstünlüklər</h3><p class="text-neutral-700">Zəmanətli bant genişliyi, sabit gecikmə, trafik başqaları ilə paylaşılmır.</p></div>
+                <div class="info-card"><h3>{{i:circle-x}} Çatışmazlıqlar</h3><p class="text-neutral-700">Baha başa gəlir, qurulması uzun çəkir; hər cüt nöqtə üçün ayrıca xətt lazımdır (full mesh çətindir).</p></div>
+            </div>
+        </section>
+
+        <section id="metro" class="section-card">
+            <h2 class="section-title">{{i:network}} 2. Metro Ethernet</h2>
+            <p class="lead">
+                Provayder şəhər daxilində və ya şəhərlərarası Layer 2 Ethernet xidməti verir. Müştəri tərəfində adi Ethernet
+                portu olur (CE — Customer Edge), provayder şəbəkəsi isə müştəri üçün böyük bir switch kimi görünür.
+            </p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>MEF xidməti</th><th>Topologiya</th><th>İzah</th></tr></thead>
+                    <tbody>
+                        <tr><td>E-Line</td><td>Point-to-point</td><td>İki nöqtə arasında virtual xətt (leased line əvəzi)</td></tr>
+                        <tr><td>E-LAN</td><td>Full mesh</td><td>Bütün nöqtələr eyni Layer 2 şəbəkəsində, hər biri hər biri ilə danışır</td></tr>
+                        <tr><td>E-Tree</td><td>Hub and spoke</td><td>Filiallar (leaf) yalnız mərkəzlə (root) danışır, bir-biri ilə yox</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:info}}
+                <p class="text-neutral-800">Müştəri routerləri E-LAN üzərindən eyni subnetdə olur və birbaşa OSPF qonşuluğu qura bilir. E-Tree-də isə filial routerləri yalnız mərkəzi routerlə qonşu olur.</p>
+            </div>
+        </section>
+
+        <section id="mpls" class="section-card">
+            <h2 class="section-title">{{i:tag}} 3. MPLS VPN</h2>
+            <p class="lead">
+                MPLS provayder şəbəkəsində paketləri IP ünvanına görə deyil, <strong>label</strong>lərə görə ötürür.
+                Müştəri üçün ən çox yayılmış xidmət <strong>Layer 3 MPLS VPN</strong>-dir: hər müştəri öz virtual
+                marşrut cədvəlində (VRF) təcrid olunur.
+            </p>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Termin</th><th>Mənası</th></tr></thead>
+                    <tbody>
+                        <tr><td>CE</td><td>Customer Edge — müştərinin routeri</td></tr>
+                        <tr><td>PE</td><td>Provider Edge — provayderin müştəriyə baxan routeri; CE ilə marşrut mübadiləsi edir (statik, OSPF, BGP)</td></tr>
+                        <tr><td>P</td><td>Provider — provayderin daxili (core) routeri; yalnız label-lərə baxır</td></tr>
+                        <tr><td>Layer 2 MPLS VPN (VPLS)</td><td>Provayder müştəriyə Layer 2 xidmət verir — Metro Ethernet E-LAN kimi</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="internet" class="section-card">
+            <h2 class="section-title">{{i:wifi}} 4. İnternetə Çıxış Texnologiyaları</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:cable}} DSL</h3><p class="text-neutral-700">Telefon xətti ilə; ev tərəfində DSL modem, provayderdə DSLAM. Asimmetrik sürət.</p></div>
+                <div class="info-card"><h3>{{i:tv}} Kabel (DOCSIS)</h3><p class="text-neutral-700">Kabel TV xətti ilə; müştəridə kabel modem, provayderdə CMTS.</p></div>
+                <div class="info-card accent"><h3>{{i:zap}} Fiber (FTTH)</h3><p class="text-neutral-700">Optik xətt evə qədər; müştəridə ONT. Ən yüksək sürət.</p></div>
+                <div class="info-card"><h3>{{i:signal}} 4G / 5G</h3><p class="text-neutral-700">Mobil şəbəkə — ehtiyat xətt və ya kabel çəkilə bilməyən yerlər üçün.</p></div>
+            </div>
+            <div class="note-box mt-6">
+                {{i:shield}}
+                <p class="text-neutral-800">İnternet ortaq və etibarsız mühit olduğu üçün filialları onun üzərindən birləşdirəndə trafik <strong>VPN</strong> (IPsec) ilə şifrələnir. Single-homed (bir ISP, bir link), dual-homed (bir ISP, iki link), multihomed (iki ISP) və dual multihomed variantları etibarlılıq səviyyəsini müəyyən edir.</p>
+            </div>
+        </section>
+
+        <section id="compare" class="section-card">
+            <h2 class="section-title">{{i:scale}} 5. Müqayisə</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Texnologiya</th><th>Qat</th><th>Qiymət</th><th>Keyfiyyət zəmanəti</th></tr></thead>
+                    <tbody>
+                        <tr><td>Leased line</td><td>1 / 2</td><td class="no">Yüksək</td><td class="yes">Var</td></tr>
+                        <tr><td>Metro Ethernet</td><td>2</td><td>Orta</td><td class="yes">SLA ilə</td></tr>
+                        <tr><td>MPLS L3 VPN</td><td>3</td><td>Orta–yüksək</td><td class="yes">SLA + QoS</td></tr>
+                        <tr><td>İnternet + IPsec VPN</td><td>3</td><td class="yes">Aşağı</td><td class="no">Yoxdur (best effort)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+<!--END-->

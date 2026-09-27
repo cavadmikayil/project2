@@ -1,0 +1,129 @@
+<!--PAGE title="Web Server: Nginx və HTTPS" icon="app-window" badge="Server · Web" nav="intro:Giriş|http:HTTP|nginx:Nginx|proxy:Reverse proxy|tls:HTTPS|trouble:Problemlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:app-window}} Giriş: Veb Server Nə Edir?</h2>
+            <p class="lead">
+                Veb server brauzerdən gələn <strong>HTTP sorğularını</strong> qəbul edir və fayl (HTML, şəkil) və ya
+                arxadakı tətbiqin cavabını qaytarır. Ən çox istifadə olunanlar: <strong>Nginx</strong>, <strong>Apache</strong>
+                və Windows-da <strong>IIS</strong>. Nginx yüksək yük altında az yaddaşla çox bağlantı saxlaya bilir və
+                tez-tez <strong>reverse proxy</strong> kimi istifadə olunur.
+            </p>
+        </section>
+
+        <section id="http" class="section-card">
+            <h2 class="section-title">{{i:arrow-left-right}} 1. HTTP Əsasları</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>{{i:send}} Metodlar</h3><p class="text-neutral-700"><code>GET</code> — oxu, <code>POST</code> — göndər, <code>PUT/PATCH</code> — yenilə, <code>DELETE</code> — sil.</p></div>
+                <div class="info-card accent"><h3>{{i:hash}} Status kodları</h3><p class="text-neutral-700">2xx uğur, 3xx yönləndirmə, 4xx klient xətası, 5xx server xətası.</p></div>
+                <div class="info-card dark"><h3>{{i:lock}} Portlar</h3><p>HTTP — TCP 80, HTTPS — TCP 443.</p></div>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Kod</th><th>Mənası</th><th>Tipik səbəb</th></tr></thead>
+                    <tbody>
+                        <tr><td>200 OK</td><td>Uğurlu</td><td>—</td></tr>
+                        <tr><td>301 / 302</td><td>Daimi / müvəqqəti yönləndirmə</td><td>HTTP → HTTPS</td></tr>
+                        <tr><td>403 Forbidden</td><td>Giriş qadağandır</td><td>Fayl icazələri, IP məhdudiyyəti</td></tr>
+                        <tr><td>404 Not Found</td><td>Belə resurs yoxdur</td><td>Səhv yol, <code>root</code> səhvdir</td></tr>
+                        <tr><td>502 Bad Gateway</td><td>Proxy arxadakı tətbiqdən cavab ala bilmədi</td><td>Tətbiq çöküb, səhv port</td></tr>
+                        <tr><td>504 Gateway Timeout</td><td>Arxadakı tətbiq vaxtında cavab vermədi</td><td>Yavaş sorğu, timeout az</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="nginx" class="section-card">
+            <h2 class="section-title">{{i:server}} 2. Nginx: Statik Sayt (Server Block)</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>sudo apt install nginx
+
+# /etc/nginx/sites-available/example.az
+server {
+    listen 80;
+    server_name example.az www.example.az;
+    root /var/www/example.az;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    access_log /var/log/nginx/example.access.log;
+    error_log  /var/log/nginx/example.error.log;
+}
+
+sudo ln -s /etc/nginx/sites-available/example.az /etc/nginx/sites-enabled/
+sudo nginx -t && sudo systemctl reload nginx</code></pre>
+                <p class="code-note">Bir serverdə bir neçə sayt <code>server_name</code> ilə ayrılır (virtual host). <code>nginx -t</code> — dəyişikliyi tətbiq etməzdən əvvəl sintaksis yoxlaması; xətalı konfiqurasiya ilə reload saytı dayandırmasın.</p>
+            </div>
+        </section>
+
+        <section id="proxy" class="section-card">
+            <h2 class="section-title">{{i:shuffle}} 3. Reverse Proxy və Load Balancing</h2>
+            <p class="lead">Tətbiq (Node.js, Python, Java) lokal portda işləyir, Nginx isə internetdən gələn sorğunu ona ötürür — HTTPS, keş, sıxılma və limitləri öz üzərinə götürür.</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>upstream app_backend {
+    server 127.0.0.1:3000;
+    server 10.0.0.12:3000;      # ikinci tətbiq serveri — yük bölgüsü
+}
+
+server {
+    listen 80;
+    server_name app.example.az;
+
+    location / {
+        proxy_pass http://app_backend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 60s;
+    }
+}</code></pre>
+                <p class="code-note"><code>X-Forwarded-For</code> olmadan tətbiq bütün istifadəçiləri 127.0.0.1 kimi görər. <code>upstream</code>-də bir neçə server varsa, Nginx sorğuları növbə ilə (round-robin) paylayır.</p>
+            </div>
+        </section>
+
+        <section id="tls" class="section-card">
+            <h2 class="section-title">{{i:lock}} 4. HTTPS: TLS Sertifikatı</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Domenin A qeydi serverin IP-sinə yönəlməli, 80 və 443 portları açıq olmalıdır.</p></li>
+                <li><p class="text-neutral-700"><strong>Let's Encrypt</strong> pulsuz sertifikat verir; <code>certbot</code> onu alır və Nginx konfiqurasiyasını yeniləyir.</p></li>
+                <li><p class="text-neutral-700">Sertifikat 90 gün etibarlıdır — certbot avtomatik yeniləmə taymerini quraşdırır.</p></li>
+            </ol>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx -d example.az -d www.example.az
+sudo certbot renew --dry-run          # avtomatik yeniləməni yoxla
+systemctl list-timers | grep certbot
+
+# Sertifikatı yoxlamaq
+openssl s_client -connect example.az:443 -servername example.az &lt;/dev/null 2&gt;/dev/null | openssl x509 -noout -dates -subject</code></pre>
+                <p class="code-note">Sonuncu əmr sertifikatın kimə verildiyini və bitmə tarixini göstərir. Vaxtı keçmiş sertifikat istifadəçilərdə "Your connection is not private" xətası yaradır.</p>
+            </div>
+        </section>
+
+        <section id="trouble" class="section-card">
+            <h2 class="section-title">{{i:wrench}} 5. Troubleshooting</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>curl -I https://example.az             # yalnız başlıqlar və status kodu
+curl -v http://127.0.0.1:3000/health   # arxadakı tətbiqi birbaşa yoxla
+sudo ss -tlpn | grep -E ':80|:443|:3000'
+sudo tail -f /var/log/nginx/error.log</code></pre>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Problem</th><th>Yoxla</th></tr></thead>
+                    <tbody>
+                        <tr><td>502 Bad Gateway</td><td>Tətbiq işləyir? Port düzgündür? <code>curl</code> ilə birbaşa yoxla</td></tr>
+                        <tr><td>Default "Welcome to nginx" səhifəsi</td><td><code>server_name</code> uyğun gəlmir və ya sayt <code>sites-enabled</code>-də deyil</td></tr>
+                        <tr><td>403</td><td><code>root</code> qovluğunun icazələri, <code>www-data</code> oxuya bilir?</td></tr>
+                        <tr><td>Kənardan açılmır, lokal açılır</td><td>Firewall (ufw, bulud security group), DNS</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+<!--END-->

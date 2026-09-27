@@ -1,0 +1,100 @@
+<!--PAGE title="Endpoint Təhlükəsizliyi" icon="laptop-minimal-check" badge="Təhlükəsizlik · Endpoint" nav="intro:Giriş|layers:Qatlar|edr:AV və EDR|patch:Patch|hardening:Hardening|encrypt:Şifrələmə|check:Yoxlama"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:laptop-minimal-check}} Giriş: Hər Noutbuk Bir Qapıdır</h2>
+            <p class="lead">
+                <strong>Endpoint</strong> — noutbuk, iş stansiyası, server, telefon. İstifadəçi burada email açır,
+                fayl yükləyir və internetə çıxır. Endpoint ələ keçirilərsə, hücumçu oradan bütün şəbəkəyə yayılmağa
+                çalışır. Buna görə hər cihaz bir neçə qatla qorunur.
+            </p>
+        </section>
+
+        <section id="layers" class="section-card">
+            <h2 class="section-title">{{i:layers}} 1. Müdafiə Qatları</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:refresh-cw}}<p class="text-neutral-700"><strong>Yeniləmələr</strong> — OS, brauzer, Office, PDF oxuyucu, driver-lər.</p></div>
+                <div class="feature-item">{{i:radar}}<p class="text-neutral-700"><strong>Antivirus / EDR</strong> — zərərli proqramları aşkarlamaq və bloklamaq.</p></div>
+                <div class="feature-item">{{i:user-minus}}<p class="text-neutral-700"><strong>Admin hüququ yoxdur</strong> — istifadəçi gündəlik işdə lokal admin deyil.</p></div>
+                <div class="feature-item">{{i:brick-wall}}<p class="text-neutral-700"><strong>Host firewall</strong> — lazımsız gələn bağlantılar bağlıdır.</p></div>
+                <div class="feature-item">{{i:hard-drive}}<p class="text-neutral-700"><strong>Disk şifrələməsi</strong> — itirilmiş noutbukdan məlumat oxunmur.</p></div>
+                <div class="feature-item">{{i:list-checks}}<p class="text-neutral-700"><strong>Application control</strong> — yalnız icazəli proqramlar işləyir.</p></div>
+            </div>
+        </section>
+
+        <section id="edr" class="section-card">
+            <h2 class="section-title">{{i:radar}} 2. Antivirus, EDR və XDR</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Klassik antivirus</th><th>EDR</th></tr></thead>
+                    <tbody>
+                        <tr><td>Aşkarlama</td><td>İmzalar — məlum zərərli faylların "barmaq izləri"</td><td>Davranış: proseslər, registry, şəbəkə bağlantıları, PowerShell əmrləri</td></tr>
+                        <tr><td>Fayl-sız hücumlar</td><td class="no">Çox vaxt görmür</td><td class="yes">Görür (şübhəli davranış zənciri)</td></tr>
+                        <tr><td>Cavab</td><td>Faylı karantinə</td><td>Cihazı şəbəkədən təcrid etmək, prosesi dayandırmaq, araşdırma üçün tam tarixçə</td></tr>
+                        <tr><td>Nümunələr</td><td>Windows Defender Antivirus</td><td>Microsoft Defender for Endpoint, CrowdStrike, SentinelOne</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4"><strong>XDR</strong> — endpoint, email, identity və cloud siqnallarını birləşdirən daha geniş platforma.</p>
+        </section>
+
+        <section id="patch" class="section-card">
+            <h2 class="section-title">{{i:refresh-cw}} 3. Patch Management</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>İnventar:</strong> hansı cihazlarda hansı OS və proqram versiyaları var?</p></li>
+                <li><p class="text-neutral-700"><strong>Prioritet:</strong> aktiv istismar olunan (CISA KEV siyahısında) və internetə açıq sistemlər birinci.</p></li>
+                <li><p class="text-neutral-700"><strong>Test qrupu (pilot ring):</strong> IT və könüllülər — sonra hamı.</p></li>
+                <li><p class="text-neutral-700"><strong>Yerləşdirmə:</strong> Windows Update for Business / Intune / WSUS; Linux-da unattended-upgrades.</p></li>
+                <li><p class="text-neutral-700"><strong>Hesabat:</strong> patch almayan cihazları tapmaq — adətən ən riskli olanlar bunlardır.</p></li>
+            </ol>
+        </section>
+
+        <section id="hardening" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 4. Windows Hardening</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Tədbir</th><th>Niyə</th></tr></thead>
+                    <tbody>
+                        <tr><td>İnternetdən gələn fayllarda Office makrolarını bloklamaq</td><td>Makrolu sənədlər klassik malware yoludur</td></tr>
+                        <tr><td>Attack Surface Reduction (ASR) qaydaları</td><td>Office-in uşaq proses yaratmasını, şübhəli skriptləri bloklayır</td></tr>
+                        <tr><td>Windows LAPS</td><td>Hər kompüterdə unikal lokal admin parolu — biri sızsa, digərləri açılmır</td></tr>
+                        <tr><td>SMBv1, köhnə protokolları söndürmək</td><td>WannaCry kimi qurdlar SMBv1-dən istifadə etdi</td></tr>
+                        <tr><td>Credential Guard</td><td>Parol hash-larının yaddaşdan oğurlanmasını çətinləşdirir</td></tr>
+                        <tr><td>CIS Benchmark / Microsoft Security Baseline</td><td>Hazır, sınaqdan keçmiş parametrlər toplusu (GPO/Intune)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>Get-MpComputerStatus | Select AMRunningMode, RealTimeProtectionEnabled, AntivirusSignatureLastUpdated
+Get-MpPreference | Select -ExpandProperty AttackSurfaceReductionRules_Ids
+Get-WindowsOptionalFeature -Online -FeatureName SMB1Protocol
+Get-NetFirewallProfile | Select Name, Enabled, DefaultInboundAction</code></pre>
+            </div>
+        </section>
+
+        <section id="encrypt" class="section-card">
+            <h2 class="section-title">{{i:lock}} 5. Disk Şifrələməsi</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3>{{i:hard-drive}} BitLocker</h3><p class="text-neutral-700">Windows — açar TPM-də; recovery key AD / Entra ID-də saxlanılmalıdır.</p></div>
+                <div class="info-card"><h3>{{i:laptop}} FileVault</h3><p class="text-neutral-700">macOS — recovery key MDM-də.</p></div>
+                <div class="info-card dark"><h3>{{i:terminal}} LUKS</h3><p>Linux — quraşdırma zamanı aktivləşdirilir.</p></div>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>manage-bde -status C:
+Get-BitLockerVolume | Select MountPoint, VolumeStatus, EncryptionPercentage, ProtectionStatus
+(Get-BitLockerVolume -MountPoint C:).KeyProtector    # recovery key ID-ləri</code></pre>
+            </div>
+        </section>
+
+        <section id="check" class="section-card">
+            <h2 class="section-title">{{i:list-checks}} 6. Yeni Cihaz Üçün Yoxlama Siyahısı</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">OS və bütün proqramlar son versiyadadır; avtomatik yeniləmə aktivdir.</p></li>
+                <li><p class="text-neutral-700">EDR agenti quraşdırılıb və konsolda "healthy" görünür.</p></li>
+                <li><p class="text-neutral-700">Disk şifrələnib, recovery key mərkəzdə saxlanılıb.</p></li>
+                <li><p class="text-neutral-700">İstifadəçi lokal admin deyil; LAPS aktivdir.</p></li>
+                <li><p class="text-neutral-700">Firewall açıqdır, lazımsız proqramlar (bloatware) silinib.</p></li>
+                <li><p class="text-neutral-700">Cihaz inventara (MDM/Intune) əlavə olunub — itəndə uzaqdan kilidləmək/silmək mümkündür.</p></li>
+            </ol>
+        </section>
+<!--END-->

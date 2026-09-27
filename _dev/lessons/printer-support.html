@@ -1,0 +1,90 @@
+<!--PAGE title="Printer Dəstəyi" icon="printer" badge="Helpdesk · Periferiya" nav="intro:Giriş|types:Növlər|connect:Qoşulma|spooler:Print spooler|server:Print server|cases:Problemlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:printer}} Giriş: Ən Çox Zəng Gələn Cihaz</h2>
+            <p class="lead">
+                Printer — helpdesk-in "klassik" düşmənidir: kağız sıxışır, növbə donur, driver uyğun gəlmir, IP dəyişir.
+                Amma problemlərin çoxu bir neçə tipik səbəbdən qaynaqlanır və sistemli yanaşma ilə tez həll olunur.
+            </p>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title">{{i:layers}} 1. Printer Növləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Necə çap edir</th><th>Tipik problem</th></tr></thead>
+                    <tbody>
+                        <tr><td>Laser</td><td>Toner, fotobaraban (drum), fuser (qızdırıcı ilə bərkitmə)</td><td>Solğun çap (toner), təkrarlanan ləkə (drum), toner silinir (fuser)</td></tr>
+                        <tr><td>Inkjet</td><td>Maye mürəkkəb, başlıq (printhead)</td><td>Başlıq qurumuş — cleaning funksiyası</td></tr>
+                        <tr><td>Thermal</td><td>İstiliklə xüsusi kağıza</td><td>Kassa/etiket printerlərində solğun çap — başlıq təmizliyi</td></tr>
+                        <tr><td>MFP (çoxfunksiyalı)</td><td>Çap + skan + surət + faks</td><td>Scan-to-email / scan-to-folder parametrləri</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="connect" class="section-card">
+            <h2 class="section-title">{{i:network}} 2. Şəbəkə Printerinin Qoşulması</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Printerə <strong>statik IP</strong> və ya DHCP rezervasiyası verin — IP dəyişəndə bütün kompüterlərdə çap dayanır.</p></li>
+                <li><p class="text-neutral-700">Printerin konfiqurasiya səhifəsini çap edin (IP, MAC, firmware).</p></li>
+                <li><p class="text-neutral-700">Kompüterdə <strong>Standard TCP/IP port</strong> ilə əlavə edin və istehsalçının driver-ini (və ya universal driver) seçin.</p></li>
+                <li><p class="text-neutral-700">Test səhifəsi çap edin.</p></li>
+            </ol>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>ping 192.168.20.50
+Test-NetConnection 192.168.20.50 -Port 9100     # RAW/JetDirect portu
+
+Add-PrinterPort -Name "IP_192.168.20.50" -PrinterHostAddress "192.168.20.50"
+Add-Printer -Name "Muhasibat-HP" -DriverName "HP Universal Printing PCL 6" -PortName "IP_192.168.20.50"
+Get-Printer | Select Name, PortName, DriverName, PrinterStatus</code></pre>
+                <p class="code-note">Printer portları: <strong>9100</strong> (RAW/JetDirect), <strong>631</strong> (IPP), <strong>515</strong> (LPD). Veb interfeys adətən HTTP/HTTPS ilə açılır.</p>
+            </div>
+        </section>
+
+        <section id="spooler" class="section-card">
+            <h2 class="section-title">{{i:list-restart}} 3. Print Spooler: Donmuş Növbə</h2>
+            <p class="lead">Sənəd növbədə "Printing" vəziyyətində qalıb və silinmir — ən çox rast gəlinən haldır. Həll: spooler xidmətini dayandırıb növbə fayllarını silmək.</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>net stop spooler
+del /Q /F %systemroot%\System32\spool\PRINTERS\*
+net start spooler
+
+# PowerShell
+Stop-Service Spooler -Force
+Remove-Item "$env:SystemRoot\System32\spool\PRINTERS\*" -Force
+Start-Service Spooler</code></pre>
+                <p class="code-note">Bu əmrlər bu kompüterdəki <strong>bütün</strong> çap növbəsini silir. Print server-də icra edilərsə, bütün istifadəçilərin sənədləri silinir — əvvəl xəbərdar edin.</p>
+            </div>
+        </section>
+
+        <section id="server" class="section-card">
+            <h2 class="section-title">{{i:server}} 4. Print Server və GPO ilə Paylama</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3>{{i:server}} Mərkəzi idarəetmə</h3><p class="text-neutral-700">Windows Server-də Print Management: driver-lər bir yerdə, növbələr bir yerdə, çap statistikası.</p></div>
+                <div class="info-card"><h3>{{i:users}} GPO ilə yerləşdirmə</h3><p class="text-neutral-700">Printerlər OU-ya görə avtomatik qoşulur — istifadəçi kabinetə gələndə öz şöbəsinin printerini görür.</p></div>
+            </div>
+            <div class="note-box">
+                {{i:shield-alert}}
+                <p class="text-neutral-800"><strong>Təhlükəsizlik:</strong> 2021-ci ildə "PrintNightmare" zəifliyi Print Spooler vasitəsilə sistemi ələ keçirməyə imkan verdi. Domain Controller-lərdə və çap etməyən serverlərdə Spooler xidmətini söndürün, Windows yeniləmələrini gecikdirməyin.</p>
+            </div>
+        </section>
+
+        <section id="cases" class="section-card">
+            <h2 class="section-title">{{i:wrench}} 5. Tipik Problemlər</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Problem</th><th>Səbəb / həll</th></tr></thead>
+                    <tbody>
+                        <tr><td>"Offline" görünür</td><td>IP dəyişib, printer yuxu rejimində, port səhvdir — ping, port parametrləri</td></tr>
+                        <tr><td>Anlaşılmaz simvollar çap edir</td><td>Səhv driver (PCL/PostScript qarışıb) — düzgün driver</td></tr>
+                        <tr><td>Kağız sıxışması təkrarlanır</td><td>Nəm/səhv qramajlı kağız, köhnəlmiş roller-lər</td></tr>
+                        <tr><td>Toner ələ yapışır</td><td>Fuser qızmır — servis</td></tr>
+                        <tr><td>Hər səhifədə eyni yerdə ləkə</td><td>Drum zədəsi — drum/kartric dəyişmək</td></tr>
+                        <tr><td>Scan-to-email işləmir</td><td>SMTP parolu dəyişib, TLS/port uyğunsuzluğu, MFA səbəbindən köhnə autentifikasiya bloklanıb</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+<!--END-->

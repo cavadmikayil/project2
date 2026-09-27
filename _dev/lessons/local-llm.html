@@ -1,0 +1,124 @@
+<!--PAGE title="Local LLM-lər: Ollama" icon="hard-drive-download" badge="AI · Praktika" nav="intro:Giriş|why:Niyə lokal|hardware:Hardware|ollama:Ollama|api:REST API|python:Python|webui:Veb interfeys"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:hard-drive-download}} Giriş: Model Öz Kompüterinizdə</h2>
+            <p class="lead">
+                Açıq çəkili (open-weight) modelləri — Llama, Mistral, Gemma, Qwen, Phi və s. — öz noutbukunuzda və ya
+                serverinizdə işlətmək olar. <strong>Ollama</strong> bunu sadələşdirən alətdir: bir əmrlə modeli yükləyir,
+                işə salır və <code>localhost:11434</code> ünvanında API təqdim edir.
+            </p>
+        </section>
+
+        <section id="why" class="section-card">
+            <h2 class="section-title">{{i:scale}} 1. Lokal və Bulud Modelləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Lokal (Ollama)</th><th>Bulud API</th></tr></thead>
+                    <tbody>
+                        <tr><td>Məxfilik</td><td class="yes">Məlumat kompüterdən çıxmır</td><td>Provayderin şərtlərindən asılıdır</td></tr>
+                        <tr><td>Keyfiyyət</td><td>Kiçik modellər — sadə tapşırıqlar üçün yaxşı</td><td class="yes">Ən güclü modellər</td></tr>
+                        <tr><td>Xərc</td><td>Hardware + elektrik; token pulu yoxdur</td><td>İstifadəyə görə ödəniş</td></tr>
+                        <tr><td>İnternet</td><td>Model yükləndikdən sonra lazım deyil</td><td>Lazımdır</td></tr>
+                        <tr><td>Uyğun iş</td><td>Həssas log-ların xülasəsi, təsnifat, öyrənmə, offline mühit</td><td>Mürəkkəb mühakimə, uzun kontekst, kod</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="hardware" class="section-card">
+            <h2 class="section-title">{{i:cpu}} 2. Hansı Hardware Lazımdır?</h2>
+            <p class="lead">Əsas məhdudiyyət <strong>yaddaşdır</strong>: model tam olaraq RAM-a (və ya GPU VRAM-ına) sığmalıdır. Kvantlaşdırılmış (4-bit) modellər üçün təxmini tələb:</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Model ölçüsü</th><th>Təxmini yaddaş (4-bit)</th><th>Harada işləyir</th></tr></thead>
+                    <tbody>
+                        <tr><td>1–4B parametr</td><td>2–4 GB</td><td>Adi noutbuk (CPU ilə də)</td></tr>
+                        <tr><td>7–9B</td><td>5–8 GB</td><td>16 GB RAM-lı noutbuk, 8 GB VRAM-lı GPU</td></tr>
+                        <tr><td>13–14B</td><td>9–12 GB</td><td>12–16 GB VRAM</td></tr>
+                        <tr><td>30B+</td><td>20+ GB</td><td>Güclü GPU və ya çox yaddaşlı iş stansiyası</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">GPU olmadan da işləyir, sadəcə yavaş olur. Apple Silicon (M-seriya) Mac-larda ortaq yaddaş sayəsində lokal modellər yaxşı işləyir.</p>
+            </div>
+        </section>
+
+        <section id="ollama" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 3. Ollama: Quraşdırma və Əmrlər</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Linux (macOS və Windows üçün ollama.com-dan installer)
+curl -fsSL https://ollama.com/install.sh | sh
+
+ollama pull llama3.2          # modeli yüklə
+ollama run llama3.2           # interaktiv çat (çıxış: /bye)
+ollama list                   # yüklənmiş modellər
+ollama ps                     # hazırda yaddaşda olan modellər
+ollama rm llama3.2            # modeli sil
+
+# Birdəfəlik sorğu
+ollama run llama3.2 "OSPF-in DR/BDR seçimini 3 cümlədə izah et"</code></pre>
+                <p class="code-note">Mövcud modellərin siyahısı və ölçüləri ollama.com/library səhifəsindədir. Model adları və versiyaları zamanla dəyişir — ən son siyahıya ordan baxın.</p>
+            </div>
+        </section>
+
+        <section id="api" class="section-card">
+            <h2 class="section-title">{{i:plug}} 4. REST API</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>curl http://localhost:11434/api/chat -d '{
+  "model": "llama3.2",
+  "messages": [
+    {"role": "system", "content": "Sən helpdesk assistentisən. Qısa cavab ver."},
+    {"role": "user", "content": "Outlook hər dəfə parol soruşur. İlk 3 addım?"}
+  ],
+  "stream": false
+}'</code></pre>
+                <p class="code-note">API standart olaraq yalnız <code>localhost</code>-da dinləyir. Onu şəbəkəyə açsanız (<code>OLLAMA_HOST=0.0.0.0</code>), autentifikasiyası olmadığını unutmayın — firewall və ya reverse proxy + autentifikasiya ilə qoruyun.</p>
+            </div>
+        </section>
+
+        <section id="python" class="section-card">
+            <h2 class="section-title">{{i:code}} 5. Python ilə: Ticket Təsnifatı</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>import json
+import requests
+
+def classify(ticket_text: str) -> dict:
+    prompt = (
+        "Helpdesk müraciətini təsnif et. YALNIZ JSON qaytar: "
+        '{"kateqoriya": "şəbəkə|hardware|hesab|proqram|digər", "prioritet": "P1|P2|P3|P4"}\n'
+        f"Müraciət: {ticket_text}"
+    )
+    r = requests.post(
+        "http://localhost:11434/api/generate",
+        json={"model": "llama3.2", "prompt": prompt, "format": "json", "stream": False},
+        timeout=120,
+    )
+    r.raise_for_status()
+    return json.loads(r.json()["response"])
+
+print(classify("Bütün 3-cü mərtəbədə Wi-Fi yoxdur, kabel ilə işləyir"))</code></pre>
+                <p class="code-note"><code>"format": "json"</code> modeli etibarlı JSON qaytarmağa məcbur edir. Kiçik modellərin nəticəsini bir neçə onlarla real ticket üzərində yoxlayın — səhv təsnifat faizini bilmək vacibdir.</p>
+            </div>
+        </section>
+
+        <section id="webui" class="section-card">
+            <h2 class="section-title">{{i:app-window}} 6. Brauzerdə ChatGPT-yə Bənzər İnterfeys</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>docker run -d -p 3000:8080 \
+  --add-host=host.docker.internal:host-gateway \
+  -v open-webui:/app/backend/data \
+  --name open-webui --restart always \
+  ghcr.io/open-webui/open-webui:main
+# Sonra: http://localhost:3000</code></pre>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:users}}<p class="text-neutral-700"><strong>Open WebUI</strong> — çoxlu istifadəçi, söhbət tarixçəsi, sənəd yükləmə (sadə RAG).</p></div>
+                <div class="feature-item">{{i:shield-check}}<p class="text-neutral-700"><strong>Daxili şəbəkədə</strong> saxlayın, admin hesabını dərhal yaradın, qeydiyyatı bağlayın.</p></div>
+            </div>
+        </section>
+<!--END-->

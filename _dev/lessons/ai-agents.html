@@ -1,0 +1,89 @@
+<!--PAGE title="AI Agentləri və Avtomatlaşdırma" icon="workflow" badge="AI · Avtomatlaşdırma" nav="intro:Giriş|loop:Agent dövrü|tools:Alətlər|mcp:MCP|workflows:Workflow-lar|guard:Nəzarət"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:workflow}} Giriş: Cavab Verməkdən Hərəkət Etməyə</h2>
+            <p class="lead">
+                Adi chatbot mətn qaytarır. <strong>AI agent</strong> isə məqsədə çatmaq üçün addımları özü planlaşdırır və
+                <strong>alətlərdən</strong> istifadə edir: fayl oxuyur, əmr işlədir, API çağırır, nəticəyə baxıb növbəti
+                addımı seçir. Bu, IT avtomatlaşdırmasında böyük imkan və eyni zamanda yeni risk deməkdir.
+            </p>
+        </section>
+
+        <section id="loop" class="section-card">
+            <h2 class="section-title">{{i:repeat}} 1. Agent Dövrü</h2>
+            <div class="code-block mb-6">
+                <pre><code>Məqsəd: "web01-də disk niyə dolub, yoxla və hesabat yaz"
+   │
+   ▼
+┌──────────────┐    ┌──────────────────┐    ┌──────────────────┐
+│ 1. Düşün /   │ ─► │ 2. Alət çağır     │ ─► │ 3. Nəticəni gör   │
+│    planla    │    │  (df -h, du ...)  │    │  (müşahidə)       │
+└──────────────┘    └──────────────────┘    └────────┬─────────┘
+        ▲                                             │
+        └────────── məqsədə çatılmayıbsa ◄────────────┘
+   │
+   ▼  məqsədə çatıldı → yekun hesabat</code></pre>
+            </div>
+            <p class="text-neutral-700">Agent hər addımda LLM-dən "növbəti hərəkət nədir?" soruşur, alətin nəticəsini kontekstə əlavə edir və dövr tapşırıq bitənə və ya limitə çatana qədər davam edir.</p>
+        </section>
+
+        <section id="tools" class="section-card">
+            <h2 class="section-title">{{i:wrench}} 2. Alətlər (Tool / Function Calling)</h2>
+            <p class="lead">Model aləti özü icra etmir: o, "bu aləti bu parametrlərlə çağırmaq istəyirəm" deyə strukturlaşdırılmış sorğu qaytarır, sizin proqramınız aləti icra edib nəticəni geri göndərir.</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>{
+  "name": "get_disk_usage",
+  "description": "Serverdə disk bölmələrinin istifadəsini qaytarır (yalnız oxuma).",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "hostname": {"type": "string", "description": "Serverin adı, məs. web01"}
+    },
+    "required": ["hostname"]
+  }
+}</code></pre>
+                <p class="code-note">Alətin təsviri modelin onu nə vaxt və necə istifadə edəcəyini müəyyən edir — aydın ad, izah və parametr sxemi vacibdir. Oxuyan (read-only) alətləri dəyişən (write) alətlərdən ayırın.</p>
+            </div>
+        </section>
+
+        <section id="mcp" class="section-card">
+            <h2 class="section-title">{{i:plug-zap}} 3. Model Context Protocol (MCP)</h2>
+            <p class="lead"><strong>MCP</strong> — AI tətbiqlərinin xarici alət və məlumat mənbələrinə standart üsulla qoşulması üçün açıq protokoldur. Bir dəfə yazılmış MCP server (məs. ticket sistemi, monitorinq, Git) MCP-ni dəstəkləyən müxtəlif AI klientlərində istifadə oluna bilər.</p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:app-window}} MCP klient</h3><p class="text-neutral-700">AI tətbiqi (desktop assistent, IDE, agent).</p></div>
+                <div class="info-card"><h3>{{i:server}} MCP server</h3><p class="text-neutral-700">Alətləri və resursları təqdim edir: "ticket-ləri axtar", "Grafana panelini oxu".</p></div>
+                <div class="info-card dark"><h3>{{i:shield-alert}} Təhlükəsizlik</h3><p>Hər MCP server agentə yeni imkan verir — yalnız etibarlı mənbələrdən, minimal icazə ilə qoşun.</p></div>
+            </div>
+        </section>
+
+        <section id="workflows" class="section-card">
+            <h2 class="section-title">{{i:git-fork}} 4. Agent və ya Workflow?</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Workflow (sabit addımlar)</th><th>Agent (dinamik)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Nəzarət</td><td class="yes">Addımlar əvvəlcədən məlumdur</td><td>Model addımları özü seçir</td></tr>
+                        <tr><td>Etibarlılıq</td><td class="yes">Proqnozlaşdırılan</td><td>Dəyişkən — test və limit tələb edir</td></tr>
+                        <tr><td>Uyğun iş</td><td>Ticket gələndə təsnif et → uyğun komandaya yönəlt → istifadəçiyə cavab qaralaması</td><td>Açıq uclu araşdırma: "bu alert-in səbəbini tap"</td></tr>
+                        <tr><td>Alətlər</td><td>n8n, Power Automate, Zapier, skriptlər</td><td>Agent framework-ləri, kod assistentləri</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><strong>Qayda:</strong> ən sadə işləyən həldən başlayın. Çox vaxt bir-iki LLM addımı olan sabit workflow kifayətdir; tam agent yalnız addımları əvvəlcədən bilmək mümkün olmayanda lazımdır.</p>
+            </div>
+        </section>
+
+        <section id="guard" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 5. Agentlərə Nəzarət</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:user-check}}<p class="text-neutral-700"><strong>Human-in-the-loop:</strong> dəyişiklik edən hərəkətlər (restart, silmə, firewall qaydası) insan təsdiqi ilə.</p></div>
+                <div class="feature-item">{{i:lock-keyhole}}<p class="text-neutral-700"><strong>Minimal icazə:</strong> agentin hesabı yalnız lazım olan sistemlərə və əmrlərə çıxış əldə edir.</p></div>
+                <div class="feature-item">{{i:flask-conical}}<p class="text-neutral-700"><strong>Sandbox:</strong> əvvəlcə test mühitində; istehsalata tədricən.</p></div>
+                <div class="feature-item">{{i:timer}}<p class="text-neutral-700"><strong>Limitlər:</strong> maksimum addım sayı, vaxt və xərc limiti — sonsuz dövrün qarşısını alır.</p></div>
+                <div class="feature-item">{{i:scroll-text}}<p class="text-neutral-700"><strong>Audit log:</strong> agentin hər düşüncəsi, alət çağırışı və nəticəsi qeyd olunur.</p></div>
+                <div class="feature-item">{{i:shield-alert}}<p class="text-neutral-700"><strong>Prompt injection:</strong> agentin oxuduğu email, veb səhifə və ya ticket içindəki "təlimatlar" onu yoldan çıxara bilər — xarici məzmun əmr deyil, məlumatdır.</p></div>
+            </div>
+        </section>
+<!--END-->

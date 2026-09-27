@@ -269,6 +269,12 @@
             transition: all .15s;
         }
         .cat-btn:hover { border-color: #f59e0b; }
+        .cat-btn { white-space: nowrap; flex-shrink: 0; }
+        @media (max-width: 767px) {
+            .cat-bar { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 0.25rem; }
+            .cat-bar::-webkit-scrollbar { display: none; }
+            .cat-btn { padding: 0.55rem 0.9rem; font-size: 0.9rem; }
+        }
         .cat-btn.active { background: #0a0a0a; color: #ffffff; border-color: #0a0a0a; }
         .cat-btn.active .icon { color: #fbbf24; }
         .cat-count { font-size: 0.75rem; font-weight: 800; padding: 0.1rem 0.5rem; border-radius: 9999px; background: #fef3c7; color: #78350f; }
@@ -359,11 +365,11 @@
             <div class="login-card">
                 <div class="flex justify-between items-start mb-6">
                     <div>
-                        <span class="icon-badge lg mb-3"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#graduation-cap"></use></svg></span>
+                        <span class="icon-badge lg mb-3"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#graduation-cap"></use></svg></span>
                         <h1 class="text-2xl font-extrabold text-neutral-900">Cavad Mikayil Təlim Portalı</h1>
                         <p id="login-stats" class="text-sm text-neutral-600 mt-1"></p>
                     </div>
-                    <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#moon"></use></svg></button>
+                    <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#moon"></use></svg></button>
                 </div>
 
                 <form id="login-form" novalidate>
@@ -376,7 +382,7 @@
                         <input id="login-group" class="field mt-1" type="text" maxlength="20" placeholder="məs. Şəbəkə-101">
                     </label>
                     <div id="login-error" class="text-sm text-neutral-900 font-semibold mb-3" hidden></div>
-                    <button type="submit" class="btn-primary w-full">Daxil ol <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#arrow-right"></use></svg></button>
+                    <button type="submit" class="btn-primary w-full">Daxil ol <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#arrow-right"></use></svg></button>
                 </form>
 
                 <div id="existing-profiles" class="mt-6" hidden>
@@ -385,7 +391,7 @@
                 </div>
 
                 <p class="text-xs text-neutral-500 mt-6 flex gap-2">
-                    <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#info"></use></svg>
+                    <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#info"></use></svg>
                     <span>Parol tələb olunmur. İrəliləyişiniz və test nəticələriniz yalnız bu brauzerdə, sizin profilinizdə saxlanılır.</span>
                 </p>
             </div>
@@ -397,34 +403,34 @@
         <header class="hero">
             <div class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
                 <a href="index.html" class="flex items-center gap-3">
-                    <span class="icon-badge sm" style="background:#f59e0b;color:#0a0a0a"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#graduation-cap"></use></svg></span>
+                    <span class="icon-badge sm" style="background:#f59e0b;color:#0a0a0a"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#graduation-cap"></use></svg></span>
                     <span class="text-lg md:text-xl font-bold">Cavad Mikayil Təlim Portalı</span>
                 </a>
                 <nav class="site-nav on-dark order-last xl:order-none w-full xl:w-auto" aria-label="Sayt menyusu">
-                    <a href="index.html" data-nav="home" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#house"></use></svg> Ana Səhifə</a>
-                    <a href="index.html#ccna" data-nav="ccna"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#graduation-cap"></use></svg> CCNA</a>
-                    <a href="links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#library"></use></svg> Faydalı Linklər</a>
-                    <a href="about.html" data-nav="about"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#user-round"></use></svg> Haqqında</a>
+                    <a href="index.html" data-nav="home" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#house"></use></svg> Ana Səhifə</a>
+                    <a href="index.html#ccna" data-nav="ccna"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#graduation-cap"></use></svg> CCNA</a>
+                    <a href="links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#library"></use></svg> Faydalı Linklər</a>
+                    <a href="about.html" data-nav="about"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#user-round"></use></svg> Haqqında</a>
                 </nav>
                 <div class="flex items-center gap-3">
-                    <button id="search-toggle" class="search-toggle-btn" aria-label="Axtarış" title="Axtarış ( / )" aria-expanded="false" aria-controls="search-panel"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#search"></use></svg></button>
-                    <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#moon"></use></svg></button>
+                    <button id="search-toggle" class="search-toggle-btn" aria-label="Axtarış" title="Axtarış ( / )" aria-expanded="false" aria-controls="search-panel"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#search"></use></svg></button>
+                    <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#moon"></use></svg></button>
                     <div class="user-chip">
                         <span id="user-avatar" class="avatar"></span>
                         <span class="hidden sm:block leading-tight">
                             <span id="user-name" class="block text-sm font-semibold"></span>
                             <span id="user-group" class="block text-xs text-neutral-400"></span>
                         </span>
-                        <button id="logout-btn" class="logout-btn"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#log-out"></use></svg> Çıxış</button>
+                        <button id="logout-btn" class="logout-btn"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#log-out"></use></svg> Çıxış</button>
                     </div>
                 </div>
             </div>
             <div id="search-panel" class="container mx-auto px-6 pb-2" hidden>
                 <div class="max-w-xl search-box">
-                    <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#search"></use></svg>
+                    <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#search"></use></svg>
                     <input type="search" id="search-input" placeholder="Mövzu axtar... (məs: VLAN, OSPF, SSH)" aria-label="Dərslərdə axtar"
                         class="field w-full p-4 rounded-xl border-0 shadow-lg">
-                    <button id="search-close" class="search-close" type="button" aria-label="Axtarışı bağla"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#x"></use></svg></button>
+                    <button id="search-close" class="search-close" type="button" aria-label="Axtarışı bağla"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#x"></use></svg></button>
                 </div>
                 <p id="search-hint" class="search-hint" aria-live="polite"></p>
             </div>
@@ -438,7 +444,7 @@
 
             <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 -mt-16 mb-8 relative">
                 <div class="stat-tile">
-                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#book-open"></use></svg></span>
+                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#book-open"></use></svg></span>
                     <div class="flex-1">
                         <p class="stat-label">Oxunmuş dərslər</p>
                         <p class="stat-value text-neutral-900" id="stat-done"></p>
@@ -446,15 +452,15 @@
                     </div>
                 </div>
                 <div class="stat-tile">
-                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#list-checks"></use></svg></span>
+                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#list-checks"></use></svg></span>
                     <div><p class="stat-label">Test verilmiş mövzular</p><p class="stat-value text-neutral-900" id="stat-tests"></p></div>
                 </div>
                 <div class="stat-tile">
-                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#target"></use></svg></span>
+                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#target"></use></svg></span>
                     <div><p class="stat-label">Orta test nəticəsi</p><p class="stat-value text-neutral-900" id="stat-avg"></p></div>
                 </div>
                 <div class="stat-tile">
-                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#trophy"></use></svg></span>
+                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#trophy"></use></svg></span>
                     <div><p class="stat-label">Ən güclü mövzu</p><p class="font-bold text-neutral-900 leading-snug" id="stat-best"></p></div>
                 </div>
             </section>
@@ -465,13 +471,13 @@
             </section>
 
             <section id="tools-section" class="mb-12">
-                <h2 class="section-heading mb-6 text-neutral-900"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#wrench"></use></svg> İnteraktiv Alətlər</h2>
+                <h2 class="section-heading mb-6 text-neutral-900"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#wrench"></use></svg> İnteraktiv Alətlər</h2>
                 <div id="tool-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </section>
 
             <section id="lessons-section">
                 <div class="mb-4">
-                    <h2 class="section-heading text-neutral-900"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#book-open"></use></svg> Dərslər</h2>
+                    <h2 class="section-heading text-neutral-900"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#book-open"></use></svg> Dərslər</h2>
                     <p id="lessons-sub" class="text-sm text-neutral-600 mt-1">Tövsiyə olunan öyrənmə ardıcıllığı ilə nömrələnib.</p>
                 </div>
                 <div id="cat-bar" class="cat-bar" role="tablist" aria-label="Dərs kateqoriyaları"></div>
@@ -480,7 +486,7 @@
             </section>
 
             <section id="resources-section" class="mt-12" hidden>
-                <h2 class="section-heading text-neutral-900 mb-2"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#library"></use></svg> Faydalı Mənbələr</h2>
+                <h2 class="section-heading text-neutral-900 mb-2"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#library"></use></svg> Faydalı Mənbələr</h2>
                 <p class="text-sm text-neutral-600 mb-6">CCNA hazırlığı üçün xarici (ingiliscə) mənbələr və laboratoriyalar. Keçidlər yeni pəncərədə açılır. Daha çox mənbə üçün: <a href="links.html" class="font-semibold text-amber-700 hover:underline">Faydalı Linklər</a>.</p>
                 <div id="res-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
             </section>
@@ -492,8 +498,8 @@
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
-                    <p class="brand-footer-tagline">Şəbəkə, CCNA və IT üzrə pulsuz təlim materialları</p>
+                    <a href="index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">Şəbəkə, CCNA, Server, Helpdesk, Təhlükəsizlik və AI üzrə pulsuz təlim materialları</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="index.html">Ana Səhifə</a>
@@ -506,13 +512,13 @@
             <div class="brand-footer-social-wrap">
                 <p class="brand-footer-social-title">Sosial şəbəkələrdə izləyin</p>
                 <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
-                <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" data-social="instagram"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
-                <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı" data-social="youtube"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></a>
-                <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn" data-social="linkedin"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg></a>
-                <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt" data-social="blog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></a>
-                <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram" data-social="telegram"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg></a>
-                <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" data-social="tiktok"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M448.5 209.9c-44 .1-87-13.6-122.8-39.2l0 178.7c0 33.1-10.1 65.4-29 92.6s-45.6 48-76.6 59.6-64.8 13.5-96.9 5.3-60.9-25.9-82.7-50.8-35.3-56-39-88.9 2.9-66.1 18.6-95.2 40-52.7 69.6-67.7 62.9-20.5 95.7-16l0 89.9c-15-4.7-31.1-4.6-46 .4s-27.9 14.6-37 27.3-14 28.1-13.9 43.9 5.2 31 14.5 43.7 22.4 22.1 37.4 26.9 31.1 4.8 46-.1 28-14.4 37.2-27.1 14.2-28.1 14.2-43.8l0-349.4 88 0c-.1 7.4 .6 14.9 1.9 22.2 3.1 16.3 9.4 31.9 18.7 45.7s21.3 25.6 35.2 34.6c19.9 13.1 43.2 20.1 67 20.1l0 87.4z"/></svg></a>
-                <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email" data-social="email"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></a>
+                    <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" data-social="instagram"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                    <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı" data-social="youtube"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></a>
+                    <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn" data-social="linkedin"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg></a>
+                    <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt" data-social="blog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></a>
+                    <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram" data-social="telegram"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg></a>
+                    <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" data-social="tiktok"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M448.5 209.9c-44 .1-87-13.6-122.8-39.2l0 178.7c0 33.1-10.1 65.4-29 92.6s-45.6 48-76.6 59.6-64.8 13.5-96.9 5.3-60.9-25.9-82.7-50.8-35.3-56-39-88.9 2.9-66.1 18.6-95.2 40-52.7 69.6-67.7 62.9-20.5 95.7-16l0 89.9c-15-4.7-31.1-4.6-46 .4s-27.9 14.6-37 27.3-14 28.1-13.9 43.9 5.2 31 14.5 43.7 22.4 22.1 37.4 26.9 31.1 4.8 46-.1 28-14.4 37.2-27.1 14.2-28.1 14.2-43.8l0-349.4 88 0c-.1 7.4 .6 14.9 1.9 22.2 3.1 16.3 9.4 31.9 18.7 45.7s21.3 25.6 35.2 34.6c19.9 13.1 43.2 20.1 67 20.1l0 87.4z"/></svg></a>
+                    <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email" data-social="email"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></a>
                 </div>
             </div>
             <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
@@ -521,9 +527,10 @@
     </div>
 
     <script src="assets/student.js"></script>
+    <script src="assets/catalog.js"></script>
     <script>
         const icon = (name, cls = '') =>
-            `<svg class="icon ${cls}" aria-hidden="true"><use href="assets/icons.svg?v=4cc9723d#${name}"></use></svg>`;
+            `<svg class="icon ${cls}" aria-hidden="true"><use href="assets/icons.svg?v=ba45056e#${name}"></use></svg>`;
 
         const tools = [
             {
@@ -549,70 +556,14 @@
             }
         ];
 
-        // Tövsiyə olunan öyrənmə ardıcıllığı; quiz — tools/quiz.html?topic=... açarı
-        const lessons = [
-            { title: 'OSI və TCP/IP Modeli', desc: '7 qat, TCP/UDP, enkapsulyasiya və qat-qat troubleshooting.', icon: 'layers', tag: 'Fundamentals', href: 'lessons/osi-model.html', quiz: 'osi' },
-            { title: 'Ethernet və Kabelləmə', desc: 'UTP və fiber, straight/crossover, Ethernet standartları, speed/duplex və interfeys xətaları.', icon: 'cable', tag: 'Fundamentals', href: 'lessons/ethernet-cabling.html', quiz: 'eth' },
-            { title: 'IPv4 Ünvanlama və VLSM', desc: 'Ünvan sinifləri, subnetting addım-addım və VLSM ilə şəbəkə planlama.', icon: 'binary', tag: 'Fundamentals', href: 'lessons/ipv4-subnetting.html', quiz: 'subnet' },
-            { title: 'CDP və LLDP', desc: 'Şəbəkə kəşf protokolları: qonşu cihazların avtomatik tanınması və konfiqurasiyası.', icon: 'radar', tag: 'Switching', href: 'lessons/cdp-lldp.html', quiz: 'cdp' },
-            { title: 'VLAN, Trunking və DTP', desc: 'Access portlar, VLAN trunking, 802.1Q və Dynamic Trunking Protocol modları.', icon: 'split', tag: 'Switching', href: 'lessons/dtp.html', quiz: 'vlan' },
-            { title: 'VTP', desc: 'Server/Client/Transparent modları, pruning və təhlükəli revision nömrəsi tələsi.', icon: 'radio-tower', tag: 'Switching', href: 'lessons/vtp.html', quiz: 'vtp' },
-            { title: 'Inter-VLAN Routing', desc: 'Router-on-a-stick, Layer 3 switch və SVI, tez-tez rast gəlinən problemlər.', icon: 'route', tag: 'Switching', href: 'lessons/inter-vlan-routing.html', quiz: 'intervlan' },
-            { title: 'Spanning Tree Protocol (STP)', desc: 'Port rolları, port vəziyyətləri, PVST+/Rapid-PVST+/MSTP və PortFast/BPDU Guard.', icon: 'network', tag: 'Switching', href: 'lessons/stp.html', quiz: 'stp' },
-            { title: 'EtherChannel', desc: 'LACP və PAgP, rejim kombinasiyaları, L2/L3 port-channel və yük bölgüsü.', icon: 'git-merge', tag: 'Switching', href: 'lessons/etherchannel.html', quiz: 'ec' },
-            { title: 'Wireless LAN', desc: '802.11 standartları, kanallar, WLC və AP arxitekturası, WPA2/WPA3.', icon: 'wifi', tag: 'Wireless', href: 'lessons/wireless.html', quiz: 'wlan' },
-            { title: 'Statik Marşrutlaşdırma', desc: 'Statik, defolt, floating və host marşrutları, longest prefix match.', icon: 'signpost', tag: 'Routing', href: 'lessons/static-routing.html', quiz: 'static' },
-            { title: 'Marşrutlaşdırma Protokolları', desc: 'RIP, OSPF və EIGRP-nin inzibati məsafə, metrika və konvergensiya müqayisəsi.', icon: 'map', tag: 'Routing', href: 'lessons/dynamic-routing.html', quiz: 'routing' },
-            { title: 'OSPF (Single-Area)', desc: 'Router ID, qonşuluq vəziyyətləri, DR/BDR seçimi, cost və konfiqurasiya.', icon: 'waypoints', tag: 'Routing', href: 'lessons/ospf.html', quiz: 'ospf' },
-            { title: 'DHCP Server və Relay', desc: 'DORA prosesi, Cisco router-də DHCP pool, ip helper-address və problemlər.', icon: 'server', tag: 'Services', href: 'lessons/dhcp.html', quiz: 'dhcpsrv' },
-            { title: 'NAT / PAT', desc: 'Static NAT, Dynamic NAT və PAT (Overload) — konfiqurasiya və doğrulama.', icon: 'arrow-left-right', tag: 'Routing', href: 'lessons/nat.html', quiz: 'nat' },
-            { title: 'HSRP və VRRP (FHRP)', desc: 'Defolt qapı ehtiyatlaşdırması: Active/Standby, Master/Backup, preempt və prioritet.', icon: 'life-buoy', tag: 'Routing', href: 'lessons/fhrp.html', quiz: 'fhrp' },
-            { title: 'IPv6', desc: 'Ünvan qısaldılması, ünvan növləri, SLAAC/EUI-64, statik marşrut və OSPFv3.', icon: 'globe', tag: 'Routing', href: 'lessons/ipv6.html', quiz: 'ipv6' },
-            { title: 'SSH və Cihazın Qorunması', desc: 'SSH konfiqurasiyası, parol tipləri, VTY-nin qorunması və AAA əsasları.', icon: 'terminal', tag: 'Security', href: 'lessons/ssh-security.html', quiz: 'ssh' },
-            { title: 'Port Security', desc: 'Violation rejimləri (Protect/Restrict/Shutdown), sticky MAC və errdisable bərpası.', icon: 'lock-keyhole', tag: 'Security', href: 'lessons/port-security.html', quiz: 'portsec' },
-            { title: 'DHCP Snooping', desc: 'DHCP spoofing hücumlarından qorunma, trusted/untrusted portlar və errdisable bərpası.', icon: 'shield', tag: 'Security', href: 'lessons/dhcp-snooping.html', quiz: 'dhcp' },
-            { title: 'DAI, IP Source Guard və 802.1X', desc: 'ARP spoofing və IP spoofing-dən müdafiə, port əsaslı autentifikasiya.', icon: 'shield-alert', tag: 'Security', href: 'lessons/l2-security.html', quiz: 'l2sec' },
-            { title: 'Access Control Lists (ACL)', desc: 'Standart/genişləndirilmiş/named ACL-lər, wildcard mask və trafik filterləmə.', icon: 'list-filter', tag: 'Security', href: 'lessons/acl.html', quiz: 'acl' },
-            { title: 'NTP, Syslog və SNMP', desc: 'Vaxt sinxronizasiyası, log səviyyələri və SNMPv2c/v3 ilə monitorinq.', icon: 'activity', tag: 'Services', href: 'lessons/network-services.html', quiz: 'services' },
-            { title: 'Cisco IOS Əmrləri', desc: 'Kateqoriyalara bölünmüş, axtarıla bilən və kopyalana bilən əmrlər toplusu.', icon: 'square-terminal', tag: 'Reference', href: 'lessons/cisco-commands.html', quiz: 'ios' },
-            { title: 'Power Supply', desc: 'Volt, Amper, Watt əsasları, generator, UPS və stabilizator seçimi.', icon: 'plug-zap', tag: 'Hardware', href: 'lessons/power-supply.html', quiz: 'power' }
-        ];
-
-
-        // CCNA 200-301 kateqoriyası — kurikulum bölmələri üzrə ardıcıllıq
-        const ccnaLessons = [
-            { title: 'TCP və UDP', desc: 'Port nömrələri, 3-way handshake, sequence/ACK, windowing və UDP-nin nə vaxt seçildiyi.', icon: 'arrow-left-right', tag: 'Network Fundamentals', href: 'lessons/tcp-udp.html', quiz: 'tcpudp' },
-            { title: 'MAC Ünvanı və ARP', desc: 'OUI, unicast/broadcast MAC, ARP sorğu-cavabı və uzaq şəbəkəyə göndərəndə nə dəyişir.', icon: 'fingerprint', tag: 'Network Fundamentals', href: 'lessons/mac-arp.html', quiz: 'arp' },
-            { title: 'ICMP: Ping və Traceroute', desc: 'ICMP mesaj növləri, Cisco ping simvolları və traceroute-un TTL ilə işləmə prinsipi.', icon: 'radar', tag: 'Network Fundamentals', href: 'lessons/icmp.html', quiz: 'icmp' },
-            { title: 'Cisco IOS CLI və Rejimlər', desc: 'Konsol qoşulması, CLI rejimləri, kömək və qısayollar, running/startup-config.', icon: 'square-terminal', tag: 'Network Fundamentals', href: 'lessons/ios-cli.html', quiz: 'cli' },
-            { title: 'Switch Necə İşləyir', desc: 'Collision və broadcast domenləri, MAC öyrənmə, flood/forward/filter qərarları.', icon: 'network', tag: 'Network Access', href: 'lessons/switching-basics.html', quiz: 'swbasics' },
-            { title: 'Şəbəkə Topologiyaları', desc: 'Star, mesh, ring; LAN/WAN/MAN növləri və SOHO şəbəkəsinin quruluşu.', icon: 'waypoints', tag: 'Network Access', href: 'lessons/topologies.html', quiz: 'topo' },
-            { title: 'VLAN Növləri və Voice VLAN', desc: 'Data, native, management və voice VLAN, VLAN hopping hücumu və müdafiəsi.', icon: 'tag', tag: 'Network Access', href: 'lessons/vlan-types.html', quiz: 'vlantypes' },
-            { title: 'Rapid PVST+ və STP Qoruma', desc: 'Root bridge seçimi, port cost, 802.1w və BPDU Guard/Root Guard/Loop Guard.', icon: 'shield-check', tag: 'Network Access', href: 'lessons/stp-advanced.html', quiz: 'stpadv' },
-            { title: 'Power over Ethernet (PoE)', desc: '802.3af/at/bt standartları, güc sinifləri və switch-in güc büdcəsi.', icon: 'plug-zap', tag: 'Network Access', href: 'lessons/poe.html', quiz: 'poe' },
-            { title: 'Wireless Təhlükəsizlik', desc: 'Open, PSK, SAE və 802.1X/EAP; TKIP, CCMP, GCMP; WPA-dan WPA3-ə qədər.', icon: 'lock-keyhole', tag: 'Network Access', href: 'lessons/wireless-security.html', quiz: 'wsec' },
-            { title: 'Binar və Hexadecimal', desc: 'Onluq, binar və 16-lıq çevirmələr, maska dəyərləri və interaktiv çevirici.', icon: 'binary', tag: 'IP Connectivity', href: 'lessons/binary-hex.html', quiz: 'binhex' },
-            { title: 'Router Əsasları və IP Marşrutlaşdırma', desc: 'Defolt gateway, paketin router-dən keçməsi, marşrut mənbələri və inzibati məsafə.', icon: 'router', tag: 'IP Connectivity', href: 'lessons/router-basics.html', quiz: 'rtbasics' },
-            { title: 'CIDR və Route Summarization', desc: 'Prefiks uzunluğu, summary marşrutunu tapmaq və ümumiləşdirmənin tələləri.', icon: 'boxes', tag: 'IP Connectivity', href: 'lessons/summarization.html', quiz: 'summ' },
-            { title: 'OSPF Multi-Area və Troubleshooting', desc: 'ABR/ASBR, LSA növləri, multi-area konfiqurasiyası və qonşuluq problemləri.', icon: 'layers', tag: 'IP Connectivity', href: 'lessons/ospf-multiarea.html', quiz: 'ospfma' },
-            { title: 'WAN və Metro Ethernet', desc: 'Leased line, Metro Ethernet, MPLS VPN, DSL/kabel/fiber/4G və seçim meyarları.', icon: 'globe', tag: 'IP Connectivity', href: 'lessons/wan.html', quiz: 'wan' },
-            { title: 'QoS: Klassifikasiya və Marking', desc: 'Gecikmə, jitter, itki; CoS və DSCP, EF/AF dəyərləri, trust boundary və MQC.', icon: 'gauge', tag: 'IP Services', href: 'lessons/qos-marking.html', quiz: 'qosmark' },
-            { title: 'QoS: Queuing, Shaping, Policing', desc: 'CBWFQ və LLQ, shaping ilə policing fərqi, tail drop və WRED.', icon: 'list-filter', tag: 'IP Services', href: 'lessons/qos-queuing.html', quiz: 'qosq' },
-            { title: 'Şəbəkə Təhlükələri və Müdafiə', desc: 'CIA üçlüyü, DoS, spoofing, MitM, malware, social engineering və parol siyasəti.', icon: 'siren', tag: 'Security Fundamentals', href: 'lessons/security-threats.html', quiz: 'threats' },
-            { title: 'AAA: RADIUS və TACACS+', desc: 'Authentication/Authorization/Accounting, protokol fərqləri və metod siyahıları.', icon: 'users', tag: 'Security Fundamentals', href: 'lessons/aaa.html', quiz: 'aaa' },
-            { title: 'Time-based ACL', desc: 'time-range ilə dərs saatlarına görə qaydalar, ACL yerləşdirmə və troubleshooting.', icon: 'alarm-clock', tag: 'Security Fundamentals', href: 'lessons/time-acl.html', quiz: 'timeacl' },
-            { title: 'Firewall və IPS', desc: 'Stateful filtrləmə, təhlükəsizlik zonaları, NGFW, IDS/IPS və Zone-Based Firewall.', icon: 'brick-wall', tag: 'Security Fundamentals', href: 'lessons/firewall.html', quiz: 'fw' },
-            { title: 'VPN Texnologiyaları', desc: 'Site-to-site və remote access, IPsec (IKE, ESP), GRE, DMVPN və VTI laboratoriyası.', icon: 'globe-lock', tag: 'Security Fundamentals', href: 'lessons/vpn.html', quiz: 'vpn' },
-            { title: 'Cisco IOS Fayl Sistemi və Yeniləmə', desc: 'Yaddaş növləri, flash/nvram, image adı, konfiqurasiya ehtiyatı və IOS yenilənməsi.', icon: 'hard-drive', tag: 'Network Management', href: 'lessons/ios-filesystem.html', quiz: 'iosfs' },
-            { title: 'Config Register və Parol Bərpası', desc: 'Yüklənmə ardıcıllığı, 0x2102/0x2142, router və switch-də parol bərpası.', icon: 'key-square', tag: 'Network Management', href: 'lessons/password-recovery.html', quiz: 'pwrec' },
-            { title: 'Kampus və Spine-Leaf Dizaynı', desc: '3-tier və collapsed core, data mərkəzində spine-leaf, east-west trafik və bulud modelləri.', icon: 'building-2', tag: 'Network Design', href: 'lessons/campus-design.html', quiz: 'campus' }
-        ].map(l => ({ ...l, cat: 'ccna' }));
-
-        const CATEGORIES = [
-            { id: 'network', label: 'Network Dərsləri', icon: 'network' },
-            { id: 'ccna', label: 'CCNA Dərsləri', icon: 'graduation-cap' }
-        ];
-        const allLessons = [...lessons.map(l => ({ ...l, cat: 'network' })), ...ccnaLessons];
+        // Kateqoriyalar və dərslər assets/catalog.js faylındadır (yeni dərs orada əlavə olunur)
+        const CATEGORIES = window.CATALOG.categories;
+        const allLessons = window.CATALOG.lessons;
+        const DEFAULT_CAT = CATEGORIES[0].id;
+        const catFromHash = () => {
+            const h = location.hash.slice(1);
+            return CATEGORIES.some(c => c.id === h) ? h : DEFAULT_CAT;
+        };
         // Kateqoriya daxilində tövsiyə olunan sıra nömrəsi
         const stepOf = new Map();
         CATEGORIES.forEach(c => allLessons.filter(l => l.cat === c.id).forEach((l, i) => stepOf.set(l.href, i + 1)));
@@ -631,8 +582,9 @@
 
         const $ = id => document.getElementById(id);
         let activeTag = 'Hamısı';
-        let activeCat = location.hash === '#ccna' ? 'ccna' : 'network';
-        const catLabel = id => CATEGORIES.find(c => c.id === id).label;
+        let activeCat = catFromHash();
+        const catOf = id => CATEGORIES.find(c => c.id === id);
+        const catLabel = id => catOf(id).label;
         let done = new Set();
         let quizBest = {};
         let lastOpened = null;
@@ -808,8 +760,8 @@
             $('cat-bar').innerHTML = CATEGORIES.map(c => {
                 const list = allLessons.filter(l => l.cat === c.id);
                 const n = list.filter(l => done.has(l.href)).length;
-                return `<button class="cat-btn ${c.id === activeCat ? 'active' : ''}" data-cat="${c.id}" role="tab" aria-selected="${c.id === activeCat}">
-                    ${icon(c.icon)} ${c.label} <span class="cat-count" title="Oxunmuş / cəmi">${n} / ${list.length}</span></button>`;
+                return `<button class="cat-btn ${c.id === activeCat ? 'active' : ''}" data-cat="${c.id}" role="tab" aria-selected="${c.id === activeCat}" title="${c.label}">
+                    ${icon(c.icon)} ${c.short} <span class="cat-count" title="Oxunmuş / cəmi">${n} / ${list.length}</span></button>`;
             }).join('');
             const tags = ['Hamısı', ...new Set(allLessons.filter(l => l.cat === activeCat).map(l => l.tag))];
             $('chip-bar').innerHTML = tags.map(t =>
@@ -833,7 +785,7 @@
             `).join('');
             $('tools-section').hidden = visibleTools.length === 0;
 
-            // Axtarış hər iki kateqoriyada aparılır
+            // Axtarış bütün kateqoriyalarda aparılır
             const visibleLessons = allLessons
                 .map(l => ({ ...l, step: stepOf.get(l.href) }))
                 .filter(l => term
@@ -841,10 +793,8 @@
                     : l.cat === activeCat && (activeTag === 'Hamısı' || l.tag === activeTag));
             $('cat-bar').hidden = $('chip-bar').hidden = term !== '';
             $('lessons-sub').textContent = term
-                ? `Axtarış nəticələri — hər iki kateqoriya (${visibleLessons.length})`
-                : activeCat === 'ccna'
-                    ? 'Cisco CCNA 200-301 kurikulumunun bölmələri üzrə, tövsiyə olunan ardıcıllıqla.'
-                    : 'Tövsiyə olunan öyrənmə ardıcıllığı ilə nömrələnib.';
+                ? `Axtarış nəticələri — bütün kateqoriyalar (${visibleLessons.length})`
+                : catOf(activeCat).desc;
             $('resources-section').hidden = term !== '' || activeCat !== 'ccna';
             $('card-grid').innerHTML = visibleLessons.map(l => {
                 const isDone = done.has(l.href);
@@ -856,7 +806,7 @@
                     <div class="flex items-center justify-between mb-4">
                         <span class="icon-badge md">${icon(l.icon)}</span>
                         <div class="flex items-center gap-2">
-                            <span class="step-num">${term && l.cat === 'ccna' ? 'CCNA ' : ''}#${l.step}</span>
+                            <span class="step-num">${term ? catOf(l.cat).short + ' ' : ''}#${l.step}</span>
                             <span class="portal-tag">${l.tag}</span>
                         </div>
                     </div>
@@ -893,18 +843,19 @@
         }
 
         function markNav() {
+            // "CCNA" yalnız #ccna açıq olanda, qalan hallarda "Ana Səhifə" aktivdir
+            const current = activeCat === 'ccna' && location.hash === '#ccna' ? 'ccna' : 'home';
             document.querySelectorAll('.hero .site-nav a').forEach(a => {
-                const on = a.dataset.nav === (activeCat === 'ccna' ? 'ccna' : 'home');
+                const on = a.dataset.nav === current;
                 a.classList.toggle('active', on);
                 if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
             });
         }
 
-        function setCategory(cat) {
-            if (cat === activeCat) return;
+        function setCategory(cat, hash = '#' + cat) {
+            if (cat !== activeCat) activeTag = 'Hamısı';
             activeCat = cat;
-            activeTag = 'Hamısı';
-            history.replaceState(null, '', cat === 'ccna' ? '#ccna' : location.pathname + location.search);
+            if (hash !== null) history.replaceState(null, '', hash || location.pathname + location.search);
             renderChips();
             render();
             markNav();
@@ -920,13 +871,17 @@
             const link = e.target.closest('a[data-nav]');
             if (!link || !['home', 'ccna'].includes(link.dataset.nav)) return;
             e.preventDefault();
-            setCategory(link.dataset.nav === 'ccna' ? 'ccna' : 'network');
-            if (link.dataset.nav === 'ccna') $('lessons-section').scrollIntoView({ behavior: 'smooth' });
-            else window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (link.dataset.nav === 'ccna') {
+                setCategory('ccna');
+                $('lessons-section').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                setCategory(DEFAULT_CAT, '');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         });
 
         window.addEventListener('hashchange', () => {
-            setCategory(location.hash === '#ccna' ? 'ccna' : 'network');
+            setCategory(catFromHash(), null);
             $('lessons-section').scrollIntoView({ behavior: 'smooth' });
         });
 

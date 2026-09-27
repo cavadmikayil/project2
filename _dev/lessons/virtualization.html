@@ -1,0 +1,87 @@
+<!--PAGE title="Virtualizasiya" icon="layers" badge="Server · Infrastruktur" nav="intro:Giriş|hyper:Hypervisor|platforms:Platformalar|resources:Resurslar|features:Snapshot və HA|net:Virtual şəbəkə"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:layers}} Giriş: Bir Fiziki Server — Çox Virtual Maşın</h2>
+            <p class="lead">
+                Əvvəllər hər xidmət üçün ayrıca fiziki server alınırdı və onların çoxu 10–15% yüklə işləyirdi.
+                <strong>Virtualizasiya</strong> bir fiziki serveri bir neçə izolə olunmuş <strong>virtual maşına (VM)</strong>
+                bölür: hər VM-in öz OS-i, CPU, RAM və diski var. Resurslar səmərəli istifadə olunur, yeni server dəqiqələr ərzində yaradılır.
+            </p>
+        </section>
+
+        <section id="hyper" class="section-card">
+            <h2 class="section-title">{{i:cpu}} 1. Hypervisor Növləri</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3>{{i:server}} Type 1 (bare-metal)</h3><p class="text-neutral-700">Birbaşa hardware üzərində işləyir: VMware ESXi, Microsoft Hyper-V, Proxmox VE (KVM), XCP-ng. Data mərkəzinin standartı.</p></div>
+                <div class="info-card"><h3>{{i:laptop}} Type 2 (hosted)</h3><p class="text-neutral-700">Adi OS-in üzərində proqram kimi: VirtualBox, VMware Workstation. Laboratoriya və öyrənmə üçün ideal.</p></div>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">VM yaratmaq üçün CPU-da hardware virtualizasiya dəstəyi (Intel VT-x / AMD-V) BIOS-da aktiv olmalıdır. Linux-da yoxlamaq: <code>egrep -c '(vmx|svm)' /proc/cpuinfo</code> — nəticə 0-dan böyük olmalıdır.</p>
+            </div>
+        </section>
+
+        <section id="platforms" class="section-card">
+            <h2 class="section-title">{{i:scale}} 2. Platformaların Müqayisəsi</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Platforma</th><th>Lisenziya</th><th>İdarəetmə</th><th>Güclü tərəfi</th></tr></thead>
+                    <tbody>
+                        <tr><td>VMware vSphere (ESXi + vCenter)</td><td>Kommersiya</td><td>vSphere Client, vCenter</td><td>Korporativ standart, zəngin funksiyalar (vMotion, DRS)</td></tr>
+                        <tr><td>Microsoft Hyper-V</td><td>Windows Server ilə</td><td>Hyper-V Manager, Failover Cluster, SCVMM</td><td>Windows/AD mühiti ilə inteqrasiya</td></tr>
+                        <tr><td>Proxmox VE</td><td>Açıq mənbə (pullu dəstək)</td><td>Veb interfeys</td><td>KVM VM + LXC konteyner, klaster, Ceph — pulsuz</td></tr>
+                        <tr><td>VirtualBox</td><td>Pulsuz</td><td>Desktop tətbiqi</td><td>Öyrənmə, test, laboratoriya</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="resources" class="section-card">
+            <h2 class="section-title">{{i:gauge}} 3. Resursların Planlanması</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:cpu}}<p class="text-neutral-700"><strong>vCPU:</strong> fiziki nüvələrdən çox vCPU vermək olar (overcommit), amma 3–4:1-dən yuxarı nisbət CPU gözləmə vaxtını (CPU ready) artırır.</p></div>
+                <div class="feature-item">{{i:memory-stick}}<p class="text-neutral-700"><strong>RAM:</strong> RAM overcommit təhlükəlidir — host yaddaşı tükənsə, VM-lər swap-a düşür və çox yavaşlayır.</p></div>
+                <div class="feature-item">{{i:hard-drive}}<p class="text-neutral-700"><strong>Disk:</strong> Thin provisioning yeri tədricən tutur (qənaət, amma datastore dolma riski); thick — yer əvvəlcədən ayrılır.</p></div>
+                <div class="feature-item">{{i:package}}<p class="text-neutral-700"><strong>Guest tools:</strong> VMware Tools / qemu-guest-agent — sürücülər, düzgün söndürmə və performans üçün mütləq quraşdırın.</p></div>
+            </div>
+        </section>
+
+        <section id="features" class="section-card">
+            <h2 class="section-title">{{i:camera}} 4. Snapshot, Migration və HA</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Funksiya</th><th>Nə edir</th></tr></thead>
+                    <tbody>
+                        <tr><td>Snapshot</td><td>VM-in müəyyən anındakı vəziyyəti — yeniləmədən əvvəl geri dönüş nöqtəsi</td></tr>
+                        <tr><td>Clone / Template</td><td>Hazır qurulmuş VM-dən yeni VM-lər yaratmaq</td></tr>
+                        <tr><td>Live migration (vMotion)</td><td>İşləyən VM-i dayanmadan başqa host-a köçürmək</td></tr>
+                        <tr><td>High Availability (HA)</td><td>Host sıradan çıxanda VM-lər digər host-larda avtomatik yenidən başlayır</td></tr>
+                        <tr><td>Ortaq storage</td><td>Migration və HA üçün VM diskləri bütün host-ların gördüyü storage-da olmalıdır (SAN, NFS, Ceph)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800"><strong>Snapshot backup deyil!</strong> O, orijinal diskə bağlıdır — disk itərsə snapshot da itir. Snapshot-u həftələrlə saxlamayın: delta faylı böyüyür, performans düşür və datastore dola bilər. Yeniləməni yoxladıqdan sonra snapshot-u silin (consolidate).</p>
+            </div>
+        </section>
+
+        <section id="net" class="section-card">
+            <h2 class="section-title">{{i:network}} 5. Virtual Şəbəkə</h2>
+            <p class="lead">Host-un içində <strong>virtual switch</strong> var: VM-lərin virtual NIC-ləri ona, o isə host-un fiziki portlarına (uplink) qoşulur.</p>
+            <div class="code-block mb-6">
+                <pre><code>  VM1 (VLAN 10)   VM2 (VLAN 20)   VM3 (VLAN 20)
+      │               │               │
+  ┌───┴───────────────┴───────────────┴───┐
+  │   Virtual switch (vSwitch / Linux bridge) │
+  └───────────┬───────────────┬───────────┘
+          uplink 1         uplink 2      ← NIC teaming
+              │               │
+        [ Fiziki switch — trunk port (VLAN 10,20) ]</code></pre>
+            </div>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:tag}} VLAN teqləmə</h3><p class="text-neutral-700">Port group-a VLAN ID verilir; fiziki switch portu <strong>trunk</strong> olmalıdır — CCNA-dakı 802.1Q biliyi burada lazımdır.</p></div>
+                <div class="info-card accent"><h3>{{i:git-merge}} Uplink ehtiyatı</h3><p class="text-neutral-700">İki fiziki NIC fərqli switch-lərə — biri düşəndə VM-lər şəbəkəsiz qalmır.</p></div>
+                <div class="info-card dark"><h3>{{i:shield}} Management ayrı</h3><p>Hypervisor-un idarəetmə interfeysi ayrıca management VLAN-da olmalıdır.</p></div>
+            </div>
+        </section>
+<!--END-->

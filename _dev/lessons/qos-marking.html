@@ -1,0 +1,106 @@
+<!--PAGE title="QoS: Klassifikasiya və Marking" icon="gauge" badge="CCNA · IP Services" nav="intro:Giriş|problems:Problemlər|marking:Marking sahələri|dscp:DSCP dəyərləri|trust:Trust boundary|commands:Əmrlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:gauge}} Giriş: Bütün Trafik Bərabər Deyil</h2>
+            <p class="lead">
+                Link doluduqda bütün paketlər eyni növbədə gözləyir. Faylın yüklənməsi bir az gecikə bilər, amma
+                səs zəngində 200 ms gecikmə söhbəti pozur. <strong>QoS (Quality of Service)</strong> trafiki növlərə
+                ayırır (klassifikasiya), onları işarələyir (marking) və vacib trafikə üstünlük verir.
+            </p>
+        </section>
+
+        <section id="problems" class="section-card">
+            <h2 class="section-title">{{i:activity}} 1. QoS-un Həll Etdiyi Dörd Problem</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Göstərici</th><th>Mənası</th><th>Səs (VoIP) üçün tövsiyə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Bant genişliyi</td><td>Linkin tutumu</td><td>Zəng başına ~30–130 kbps (kodekdən asılı)</td></tr>
+                        <tr><td>Gecikmə (delay)</td><td>Paketin mənbədən təyinata çatma müddəti</td><td>Bir istiqamətdə ≤ 150 ms</td></tr>
+                        <tr><td>Jitter</td><td>Gecikmənin dəyişkənliyi</td><td>≤ 30 ms</td></tr>
+                        <tr><td>İtki (loss)</td><td>Atılan paketlərin faizi</td><td>≤ 1%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:search}} Klassifikasiya</h3><p class="text-neutral-700">Paketin hansı sinfə aid olduğunu müəyyən etmək: ACL, port, protokol, NBAR (tətbiq tanıma) və ya mövcud işarəyə görə.</p></div>
+                <div class="info-card accent"><h3>{{i:tag}} Marking</h3><p class="text-neutral-700">Sinfi başlıqdakı sahəyə yazmaq — sonrakı cihazlar yenidən analiz etmədən işarəyə baxır.</p></div>
+            </div>
+        </section>
+
+        <section id="marking" class="section-card">
+            <h2 class="section-title">{{i:tag}} 2. Marking Sahələri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Sahə</th><th>Qat</th><th>Harada</th><th>Bit</th><th>Dəyərlər</th></tr></thead>
+                    <tbody>
+                        <tr><td>CoS (PCP)</td><td>2</td><td>802.1Q teqi</td><td>3</td><td>0–7 — yalnız trunk-da (teq olan yerdə) mövcuddur</td></tr>
+                        <tr><td>IP Precedence</td><td>3</td><td>IPv4 ToS baytının ilk 3 biti</td><td>3</td><td>0–7 (köhnə)</td></tr>
+                        <tr><td>DSCP</td><td>3</td><td>IPv4 ToS / IPv6 Traffic Class-ın ilk 6 biti</td><td>6</td><td>0–63 — bugünkü standart</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4">DSCP IP başlığında olduğu üçün router-lərdən keçəndə itmir, CoS isə hər Layer 2 hop-da yenidən yaranmalıdır.</p>
+        </section>
+
+        <section id="dscp" class="section-card">
+            <h2 class="section-title">{{i:list-ordered}} 3. Əsas DSCP Dəyərləri (PHB)</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Ad</th><th>DSCP</th><th>Tipik trafik</th></tr></thead>
+                    <tbody>
+                        <tr><td>EF (Expedited Forwarding)</td><td>46</td><td>Səs — ən aşağı gecikmə</td></tr>
+                        <tr><td>AF41 / AF42 / AF43</td><td>34 / 36 / 38</td><td>İnteraktiv video</td></tr>
+                        <tr><td>AF31</td><td>26</td><td>Kritik biznes tətbiqləri</td></tr>
+                        <tr><td>AF21</td><td>18</td><td>Tranzaksiya məlumatları</td></tr>
+                        <tr><td>CS6</td><td>48</td><td>Marşrutlaşdırma protokolları (OSPF və s.)</td></tr>
+                        <tr><td>CS3 / CS0 (Default)</td><td>24 / 0</td><td>Səs siqnalizasiyası / best effort</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:calculator}}
+                <p class="text-neutral-800"><strong>AFxy formulu:</strong> DSCP = 8x + 2y. x — sinif (1–4, böyük olan daha vacib), y — atılma prioriteti (1–3, böyük olan tıxac zamanı <strong>daha əvvəl</strong> atılır). Məs. AF31 = 8×3 + 2×1 = 26. CS dəyərləri = sinif × 8.</p>
+            </div>
+        </section>
+
+        <section id="trust" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 4. Trust Boundary</h2>
+            <p class="lead">
+                İstifadəçi öz kompüterində paketlərini EF ilə işarələyib şəbəkədə "VIP" ola bilər. Buna görə işarələrə yalnız
+                müəyyən nöqtədən — <strong>trust boundary</strong>-dən — etibar edilir. Onun xaricindən gələn işarələr silinir
+                və ya yenidən yazılır.
+            </p>
+            <div class="code-block">
+                <pre><code>PC ──── IP telefon ──── Access switch ──── Distribution ──── Router
+[etibar yox]  [trust boundary burada — telefonun CoS 5 işarəsinə etibar edilir]
+               PC-nin işarələri telefon tərəfindən 0-a yazılır</code></pre>
+            </div>
+            <p class="text-neutral-700">Ən yaxşı təcrübə: klassifikasiya və marking-i mənbəyə mümkün qədər <strong>yaxın</strong> — access switch-də və ya IP telefonda etmək.</p>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 5. MQC ilə Klassifikasiya və Marking</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>R1(config)# class-map match-any VOICE
+R1(config-cmap)# match protocol rtp audio
+R1(config)# class-map match-any WEB
+R1(config-cmap)# match protocol http
+R1(config-cmap)# match protocol ssl
+
+R1(config)# policy-map MARKING-IN
+R1(config-pmap)# class VOICE
+R1(config-pmap-c)# set dscp ef
+R1(config-pmap)# class WEB
+R1(config-pmap-c)# set dscp af21
+R1(config-pmap)# class class-default
+R1(config-pmap-c)# set dscp default
+
+R1(config)# interface GigabitEthernet0/0
+R1(config-if)# service-policy input MARKING-IN
+
+R1# show policy-map interface GigabitEthernet0/0</code></pre>
+                <p class="code-note">MQC (Modular QoS CLI) üç addımdan ibarətdir: <strong>class-map</strong> (nəyi tanıyırıq — burada NBAR ilə), <strong>policy-map</strong> (hər sinfə nə edirik), <strong>service-policy</strong> (interfeysə tətbiq). Sonuncu əmr hər sinfə düşən paket sayını göstərir.</p>
+            </div>
+        </section>
+<!--END-->

@@ -1,0 +1,95 @@
+<!--PAGE title="Microsoft 365 və Outlook Dəstəyi" icon="mail" badge="Helpdesk · Microsoft 365" nav="intro:Giriş|services:Xidmətlər|outlook:Outlook|mailbox:Mailbox|teams:Teams və OneDrive|admin:Admin alətləri"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:mail}} Giriş: Ofisin Gündəlik Aləti</h2>
+            <p class="lead">
+                Şirkətlərin çoxu email, sənəd və görüşlər üçün <strong>Microsoft 365</strong> istifadə edir. Helpdesk-ə
+                gələn müraciətlərin böyük hissəsi Outlook, Teams və OneDrive ilə bağlıdır. Bir çox problem istifadəçinin
+                kompüterində (profil, keş), bəziləri isə bulud tərəfində (lisenziya, icazə, qayda) olur — fərqi tez görmək vacibdir.
+            </p>
+        </section>
+
+        <section id="services" class="section-card">
+            <h2 class="section-title">{{i:boxes}} 1. Xidmətlər və Lisenziyalar</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Xidmət</th><th>Vəzifə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Exchange Online</td><td>Email, təqvim, ortaq mailbox-lar</td></tr>
+                        <tr><td>SharePoint Online</td><td>Komanda saytları, sənəd kitabxanaları</td></tr>
+                        <tr><td>OneDrive</td><td>İstifadəçinin şəxsi bulud qovluğu</td></tr>
+                        <tr><td>Teams</td><td>Çat, görüş, zəng; fayllar SharePoint/OneDrive-da saxlanılır</td></tr>
+                        <tr><td>Entra ID (Azure AD)</td><td>Hesablar, MFA, şərti giriş (Conditional Access)</td></tr>
+                        <tr><td>Intune</td><td>Cihaz idarəetməsi, proqram və siyasət yerləşdirmə</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box mt-6">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">"Proqram aktivləşmir" və ya "mailbox yoxdur" müraciətində əvvəl istifadəçinin <strong>lisenziyasını</strong> yoxlayın. Hər şeyin əvvəlində isə <strong>Service Health</strong>-ə baxın — bəlkə problem Microsoft tərəfindədir və hamıya təsir edir.</p>
+            </div>
+        </section>
+
+        <section id="outlook" class="section-card">
+            <h2 class="section-title">{{i:inbox}} 2. Outlook Problemləri</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Simptom</th><th>Addım</th></tr></thead>
+                    <tbody>
+                        <tr><td>Outlook açılmır / donur</td><td><code>outlook.exe /safe</code> — add-in problemi? Add-in-ləri söndürün</td></tr>
+                        <tr><td>Parolu təkrar-təkrar soruşur</td><td>Credential Manager-də köhnə parollar; Office hesabından çıxıb yenidən daxil olmaq</td></tr>
+                        <tr><td>Məktublar gecikir / sinxronlaşmır</td><td>Outlook Web-də (OWA) varsa — problem lokaldır: OST faylını yenidən yaratmaq</td></tr>
+                        <tr><td>Axtarış nəticə vermir</td><td>Windows Search indekslənməsini yenidən qurmaq</td></tr>
+                        <tr><td>Profil zədələnib</td><td>Control Panel → Mail → Show Profiles → yeni profil yaratmaq</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:file}} OST</h3><p class="text-neutral-700">Exchange mailbox-un lokal keşidir. Silinsə, serverdən yenidən yüklənir — məlumat itmir.</p></div>
+                <div class="info-card accent"><h3>{{i:file-archive}} PST</h3><p class="text-neutral-700">Lokal arxiv faylı — serverdə surəti <strong>yoxdur</strong>. Silinməsi məlumat itkisidir; zədələnəndə <code>SCANPST.EXE</code>.</p></div>
+            </div>
+        </section>
+
+        <section id="mailbox" class="section-card">
+            <h2 class="section-title">{{i:users}} 3. Mailbox Tapşırıqları</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Tələb</th><th>Həll</th></tr></thead>
+                    <tbody>
+                        <tr><td>Şöbə üçün ortaq ünvan (info@)</td><td><strong>Shared mailbox</strong> — lisenziya tələb etmir, üzvlərə Full Access və Send As</td></tr>
+                        <tr><td>Bir neçə nəfərə paylanan ünvan</td><td>Distribution list və ya Microsoft 365 Group</td></tr>
+                        <tr><td>Məzuniyyət cavabı</td><td>Automatic Replies (Out of Office)</td></tr>
+                        <tr><td>İşdən çıxan işçinin məktubları</td><td>Mailbox-u shared-ə çevirmək və rəhbərə giriş vermək</td></tr>
+                        <tr><td>"Məktub çatmadı"</td><td>Admin mərkəzində <strong>Message trace</strong> — göndərildi? spam-a düşdü? bloklandı?</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="teams" class="section-card">
+            <h2 class="section-title">{{i:video}} 4. Teams və OneDrive</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:refresh-cw}}<p class="text-neutral-700"><strong>Teams qəribə davranır:</strong> tam çıxış və keşi təmizləmək — yeni Teams-də Settings → Apps → Microsoft Teams → Reset.</p></div>
+                <div class="feature-item">{{i:mic}}<p class="text-neutral-700"><strong>Səs/kamera yoxdur:</strong> Teams → Settings → Devices; Windows Privacy parametrlərində kamera/mikrofon icazəsi.</p></div>
+                <div class="feature-item">{{i:cloud}}<p class="text-neutral-700"><strong>OneDrive sinxronlaşmır:</strong> tray ikonundakı xəta; fayl adında icazəsiz simvollar, çox uzun yol, dolu kvota.</p></div>
+                <div class="feature-item">{{i:history}}<p class="text-neutral-700"><strong>Silinmiş fayl:</strong> OneDrive/SharePoint Recycle Bin (standart 93 gün) və Version History.</p></div>
+            </div>
+        </section>
+
+        <section id="admin" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 5. Admin Alətləri</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>Install-Module ExchangeOnlineManagement
+Connect-ExchangeOnline -UserPrincipalName admin@example.az
+
+Get-Mailbox aysel | Select DisplayName, RecipientTypeDetails, ProhibitSendQuota
+Get-MailboxStatistics aysel | Select TotalItemSize, ItemCount
+Add-MailboxPermission -Identity info@example.az -User aysel -AccessRights FullAccess
+Get-MessageTraceV2 -SenderAddress partner@firma.az -StartDate (Get-Date).AddDays(-2) -EndDate (Get-Date)</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:shield-check}}
+                <p class="text-neutral-800">Admin hesablarında həmişə MFA olsun və gündəlik iş hesabından ayrı saxlanılsın. Helpdesk-ə Global Admin yox, <strong>Helpdesk Administrator</strong> və ya <strong>User Administrator</strong> kimi məhdud rollar verin.</p>
+            </div>
+        </section>
+<!--END-->

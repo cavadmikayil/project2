@@ -1,0 +1,153 @@
+<!--PAGE title="Linux Server Əsasları" icon="terminal" badge="Server · Linux" nav="intro:Giriş|fs:Fayl sistemi|cmds:Əmrlər|users:İstifadəçilər|perms:İcazələr|pkg:Paketlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:terminal}} Giriş: Niyə Linux?</h2>
+            <p class="lead">
+                İnternetdəki serverlərin böyük əksəriyyəti Linux üzərində işləyir: veb serverlər, verilənlər bazaları,
+                konteynerlər, bulud. Serverdə adətən qrafik interfeys olmur — hər şey <strong>terminal</strong> və
+                <strong>SSH</strong> ilə idarə olunur.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:box}} Debian / Ubuntu</h3><p class="text-neutral-700">Paket meneceri <code>apt</code>. Ubuntu Server ən çox yayılan server distributivlərindəndir.</p></div>
+                <div class="info-card"><h3>{{i:box}} RHEL / Rocky / Alma</h3><p class="text-neutral-700">Paket meneceri <code>dnf</code>. Korporativ mühitdə geniş istifadə olunur.</p></div>
+                <div class="info-card dark"><h3>{{i:clock}} LTS versiyalar</h3><p>Serverdə uzunmüddətli dəstək (LTS) versiyası seçin — 5+ il təhlükəsizlik yeniləmələri.</p></div>
+            </div>
+        </section>
+
+        <section id="fs" class="section-card">
+            <h2 class="section-title">{{i:folder-tree}} 1. Fayl Sistemi İerarxiyası</h2>
+            <p class="lead">Linux-da disk hərfləri (C:, D:) yoxdur — hər şey <code>/</code> (root) qovluğundan başlayır.</p>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Qovluq</th><th>Nə saxlanılır</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>/etc</code></td><td>Konfiqurasiya faylları (<code>/etc/ssh/sshd_config</code>, <code>/etc/hosts</code>)</td></tr>
+                        <tr><td><code>/var/log</code></td><td>Log faylları</td></tr>
+                        <tr><td><code>/home</code></td><td>İstifadəçilərin şəxsi qovluqları</td></tr>
+                        <tr><td><code>/root</code></td><td>root istifadəçisinin qovluğu</td></tr>
+                        <tr><td><code>/usr/bin</code>, <code>/usr/sbin</code></td><td>Proqramlar və admin əmrləri</td></tr>
+                        <tr><td><code>/tmp</code></td><td>Müvəqqəti fayllar (yenidən yüklənmədə silinə bilər)</td></tr>
+                        <tr><td><code>/dev</code>, <code>/proc</code></td><td>Cihazlar və kernel/proses məlumatı (virtual fayllar)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="cmds" class="section-card">
+            <h2 class="section-title">{{i:square-terminal}} 2. Gündəlik Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="lx-files">Fayllar</button>
+                <button class="tab-btn inactive-tab" data-pane="lx-text">Mətn və axtarış</button>
+                <button class="tab-btn inactive-tab" data-pane="lx-sys">Sistem</button>
+            </div>
+            <div id="lx-files">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>pwd                      # hazırkı qovluq
+ls -lah                  # gizli fayllar daxil, ətraflı siyahı
+cd /var/log              # qovluğa keç
+mkdir -p /srv/app/data   # iç-içə qovluq yarat
+cp -r src/ backup/       # qovluğu kopyala
+mv old.txt new.txt       # yerini/adını dəyiş
+rm -r tmpdir/            # sil (geri qaytarmaq olmur!)
+du -sh /var/*            # qovluqların həcmi
+df -h                    # disk bölmələrində boş yer</code></pre>
+                </div>
+            </div>
+            <div id="lx-text" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>cat /etc/os-release           # faylı göstər
+less /var/log/syslog          # səhifə-səhifə oxu (q — çıxış)
+tail -f /var/log/nginx/error.log   # faylın sonunu canlı izlə
+grep -i "error" app.log       # sətirlərdə axtar
+grep -r "listen" /etc/nginx/  # qovluqda rekursiv axtar
+find / -name "*.conf" -mtime -1 2>/dev/null   # son 1 gündə dəyişən .conf fayllar
+nano /etc/hosts               # sadə redaktor</code></pre>
+                </div>
+            </div>
+            <div id="lx-sys" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>uname -a        # kernel versiyası
+uptime          # nə qədər işləyir və yük ortalaması
+free -h         # RAM istifadəsi
+top             # və ya htop — canlı proses siyahısı
+ps aux | grep nginx   # prosesi tap
+kill -15 1234   # prosesə düzgün bağlanma siqnalı (SIGTERM)
+ip a            # IP ünvanlar
+ss -tulpn       # dinlənilən portlar və proseslər</code></pre>
+                    <p class="code-note"><code>ss -tulpn</code> — hansı xidmətin hansı portu dinlədiyini göstərir; "server işləyir, amma qoşulmaq olmur" problemlərində ilk baxılan əmrlərdəndir.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="users" class="section-card">
+            <h2 class="section-title">{{i:users}} 3. İstifadəçilər və sudo</h2>
+            <p class="lead">Birbaşa <code>root</code> kimi işləmək təhlükəlidir. Adi istifadəçi yaradılır və admin əmrləri <code>sudo</code> ilə icra olunur — hər sudo əmri log-a yazılır.</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>sudo adduser aysel              # istifadəçi yarat (Debian/Ubuntu)
+sudo usermod -aG sudo aysel     # sudo qrupuna əlavə et (RHEL-də: wheel)
+sudo passwd aysel               # parolu dəyiş
+id aysel                        # UID, GID və qruplar
+sudo deluser aysel              # istifadəçini sil
+getent passwd | tail -5         # son istifadəçilər (/etc/passwd)</code></pre>
+            </div>
+        </section>
+
+        <section id="perms" class="section-card">
+            <h2 class="section-title">{{i:lock-keyhole}} 4. Fayl İcazələri</h2>
+            <p class="lead"><code>ls -l</code> nəticəsində <code>-rwxr-x---</code> üç qrup icazəni göstərir: <strong>sahib</strong> (user), <strong>qrup</strong> (group), <strong>digərləri</strong> (others).</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Hərf</th><th>Rəqəm</th><th>Faylda</th><th>Qovluqda</th></tr></thead>
+                    <tbody>
+                        <tr><td>r</td><td>4</td><td>Oxumaq</td><td>Siyahını görmək</td></tr>
+                        <tr><td>w</td><td>2</td><td>Dəyişmək</td><td>Fayl yaratmaq/silmək</td></tr>
+                        <tr><td>x</td><td>1</td><td>İcra etmək</td><td>Qovluğa daxil olmaq</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>chmod 640 config.env        # rw- r-- --- : sahib oxuyur/yazır, qrup oxuyur
+chmod 750 deploy.sh         # rwx r-x --- : sahib icra edir, qrup oxuyur/icra edir
+chmod u+x script.sh         # sahibə icra icazəsi əlavə et
+chown www-data:www-data /var/www/site -R   # sahibi və qrupu dəyiş</code></pre>
+                <p class="code-note">Heç vaxt problem "həll etmək" üçün <code>chmod 777</code> yazmayın — bu hər kəsə yazma icazəsi verir. Düzgün sahib və minimal icazə təyin edin.</p>
+            </div>
+        </section>
+
+        <section id="pkg" class="section-card">
+            <h2 class="section-title">{{i:package}} 5. Paket İdarəetməsi və Yeniləmələr</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="pk-apt">Debian/Ubuntu (apt)</button>
+                <button class="tab-btn inactive-tab" data-pane="pk-dnf">RHEL/Rocky (dnf)</button>
+            </div>
+            <div id="pk-apt">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>sudo apt update                 # paket siyahısını yenilə
+sudo apt upgrade                # quraşdırılmış paketləri yenilə
+sudo apt install nginx htop     # paket quraşdır
+sudo apt remove nginx           # paketi sil
+apt list --upgradable           # yenilənə bilən paketlər
+sudo apt install unattended-upgrades   # avtomatik təhlükəsizlik yeniləmələri</code></pre>
+                </div>
+            </div>
+            <div id="pk-dnf" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>sudo dnf check-update
+sudo dnf upgrade
+sudo dnf install nginx
+sudo dnf remove nginx
+sudo dnf install dnf-automatic   # avtomatik yeniləmələr</code></pre>
+                </div>
+            </div>
+            <div class="note-box mt-6">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Yeniləmələri əvvəl test serverində yoxlayın, kernel yeniləməsindən sonra planlı vaxtda <code>sudo reboot</code> edin. <code>/var/run/reboot-required</code> faylı varsa, Ubuntu yenidən yükləmə tələb edir.</p>
+            </div>
+        </section>
+<!--END-->

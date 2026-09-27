@@ -1,0 +1,121 @@
+<!--PAGE title="Linux: systemd, Loglar və SSH" icon="settings" badge="Server · Linux" nav="intro:Giriş|systemd:systemd|logs:Loglar|cron:Planlaşdırma|ssh:SSH açarları|harden:Qoruma"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:settings}} Giriş: Xidmətlər Necə İşləyir?</h2>
+            <p class="lead">
+                Nginx, MySQL, SSH kimi proqramlar arxa planda <strong>xidmət</strong> (service/daemon) kimi işləyir.
+                Müasir Linux-da onları <strong>systemd</strong> idarə edir: yükləmədə başladır, çökəndə yenidən qaldırır
+                və log-larını toplayır.
+            </p>
+        </section>
+
+        <section id="systemd" class="section-card">
+            <h2 class="section-title">{{i:power}} 1. systemctl ilə Xidmət İdarəetməsi</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>systemctl status nginx          # vəziyyət, PID, son log sətirləri
+sudo systemctl start nginx      # başlat
+sudo systemctl stop nginx       # dayandır
+sudo systemctl restart nginx    # yenidən başlat
+sudo systemctl reload nginx     # konfiqurasiyanı bağlantıları kəsmədən yenilə
+sudo systemctl enable --now nginx   # yükləmədə avtomatik başlasın + indi başlat
+systemctl list-units --type=service --state=failed   # çökmüş xidmətlər</code></pre>
+            </div>
+            <p class="lead">Öz proqramınızı xidmətə çevirmək üçün unit faylı yazılır:</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># /etc/systemd/system/myapp.service
+[Unit]
+Description=My Python App
+After=network-online.target
+
+[Service]
+User=myapp
+WorkingDirectory=/srv/myapp
+ExecStart=/srv/myapp/venv/bin/python app.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+                <p class="code-note">Faylı yaratdıqdan sonra: <code>sudo systemctl daemon-reload</code> və <code>sudo systemctl enable --now myapp</code>. <code>Restart=on-failure</code> proqram çökəndə 5 saniyə sonra onu yenidən başladır; xidmət root deyil, ayrıca <code>myapp</code> istifadəçisi ilə işləyir.</p>
+            </div>
+        </section>
+
+        <section id="logs" class="section-card">
+            <h2 class="section-title">{{i:scroll-text}} 2. Loglar: journalctl və /var/log</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>journalctl -u nginx               # nginx xidmətinin log-ları
+journalctl -u nginx -f            # canlı izlə
+journalctl -u nginx --since "1 hour ago"
+journalctl -p err -b              # bu yükləmədən bəri yalnız xətalar
+journalctl --disk-usage           # jurnalın tutduğu yer
+sudo tail -f /var/log/auth.log    # giriş cəhdləri (RHEL-də: /var/log/secure)</code></pre>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><strong>Troubleshooting qaydası:</strong> xidmət başlamırsa, əvvəl <code>systemctl status</code>, sonra <code>journalctl -u xidmət -n 50</code>. Xətanın 90%-i orada yazılır: səhv konfiqurasiya sətri, məşğul port, icazə problemi.</p>
+            </div>
+        </section>
+
+        <section id="cron" class="section-card">
+            <h2 class="section-title">{{i:alarm-clock}} 3. Planlaşdırılmış Tapşırıqlar: cron</h2>
+            <div class="code-block mb-6">
+                <pre><code>┌──────── dəqiqə (0-59)
+│ ┌────── saat (0-23)
+│ │ ┌──── ayın günü (1-31)
+│ │ │ ┌── ay (1-12)
+│ │ │ │ ┌ həftənin günü (0-7, 0 və 7 = Bazar)
+│ │ │ │ │
+* * * * *  əmr</code></pre>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>crontab -e      # öz cron cədvəlini redaktə et
+crontab -l      # siyahı
+
+# Hər gecə 02:30-da backup skripti
+30 2 * * * /usr/local/bin/backup.sh >> /var/log/backup.log 2>&1
+
+# İş günləri hər 15 dəqiqədən bir
+*/15 * * * 1-5 /usr/local/bin/check-disk.sh</code></pre>
+                <p class="code-note">Çıxışı log faylına yönləndirin (<code>&gt;&gt; ... 2&gt;&amp;1</code>) — əks halda cron xətası izsiz itir. Cron-da <code>PATH</code> qısadır, əmrlərdə tam yol yazın.</p>
+            </div>
+        </section>
+
+        <section id="ssh" class="section-card">
+            <h2 class="section-title">{{i:key-round}} 4. SSH Açarı ilə Giriş</h2>
+            <p class="lead">Parol əvəzinə <strong>açar cütü</strong>: gizli açar (private key) sizin kompüterdə qalır, açıq açar (public key) serverə qoyulur. Parol təxmin etmək hücumları mənasız olur.</p>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Öz kompüterinizdə açar yaradın: <code>ssh-keygen -t ed25519 -C "aysel@laptop"</code> — açarı passphrase ilə qoruyun.</p></li>
+                <li><p class="text-neutral-700">Açıq açarı serverə köçürün: <code>ssh-copy-id aysel@10.0.0.10</code> (o, <code>~/.ssh/authorized_keys</code>-ə əlavə olunur).</p></li>
+                <li><p class="text-neutral-700">Yoxlayın: <code>ssh aysel@10.0.0.10</code> parolsuz (yalnız passphrase ilə) açılmalıdır.</p></li>
+                <li><p class="text-neutral-700">Yalnız bundan sonra serverdə parol girişini söndürün (aşağıda).</p></li>
+            </ol>
+        </section>
+
+        <section id="harden" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 5. SSH və Serverin Qorunması</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># /etc/ssh/sshd_config
+PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
+MaxAuthTries 3
+AllowUsers aysel deploy
+
+sudo sshd -t && sudo systemctl reload ssh   # sintaksisi yoxla, sonra tətbiq et
+
+# Firewall (Ubuntu - ufw)
+sudo ufw allow OpenSSH
+sudo ufw allow 443/tcp
+sudo ufw enable
+sudo ufw status verbose
+
+# Brute-force qoruması
+sudo apt install fail2ban</code></pre>
+                <p class="code-note"><code>sshd -t</code> konfiqurasiyada xəta varsa onu göstərir. Dəyişikliyi tətbiq edərkən mövcud SSH sessiyasını bağlamayın — ikinci terminaldan yeni giriş yoxlayın, yoxsa özünüzü serverdən kənarda qoya bilərsiniz.</p>
+            </div>
+        </section>
+<!--END-->

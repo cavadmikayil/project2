@@ -1,0 +1,87 @@
+<!--PAGE title="Identity və Parol Təhlükəsizliyi" icon="user-lock" badge="Təhlükəsizlik · Identity" nav="intro:Giriş|passwords:Parollar|mfa:MFA|sso:SSO|pam:Privileged access|zt:Zero Trust"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:user-lock}} Giriş: Hücumçular Artıq "Sındırmır" — Daxil Olurlar</h2>
+            <p class="lead">
+                İnsidentlərin çox böyük hissəsi oğurlanmış və ya zəif parolla başlayır: phishing, sızmış parol
+                bazaları, eyni parolun hər yerdə istifadəsi. Buna görə müasir təhlükəsizlikdə <strong>identity yeni
+                perimetrdir</strong> — şəbəkə sərhədi yox, "kim daxil olur və ona nə icazə verilir" əsas sualdır.
+            </p>
+        </section>
+
+        <section id="passwords" class="section-card">
+            <h2 class="section-title">{{i:key-round}} 1. Müasir Parol Siyasəti (NIST SP 800-63B)</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Köhnə yanaşma</th><th>Müasir tövsiyə</th></tr></thead>
+                    <tbody>
+                        <tr><td>8 simvol, mütləq simvol/rəqəm/böyük hərf</td><td>Uzunluq vacibdir: ən azı 12–15 simvol, parol ifadəsi (passphrase)</td></tr>
+                        <tr><td>Hər 90 gündən bir məcburi dəyişmə</td><td>Yalnız sızma şübhəsi olanda dəyişmək</td></tr>
+                        <tr><td>Təhlükəsizlik sualları ("ananızın qızlıq soyadı")</td><td>İstifadə etməmək — cavablar sosial şəbəkədə tapılır</td></tr>
+                        <tr><td>Heç bir yoxlama</td><td>Sızmış parollar siyahısı ilə yoxlama (məs. "Qwerty123!" qadağan)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:vault}} Parol meneceri</h3><p class="text-neutral-700">Hər sayt üçün unikal, uzun parol — insan bunu yadda saxlaya bilməz, menecer saxlayır (Bitwarden, 1Password, KeePassXC).</p></div>
+                <div class="info-card"><h3>{{i:repeat}} Credential stuffing</h3><p class="text-neutral-700">Bir saytdan sızan email+parol cütləri avtomatik olaraq yüzlərlə başqa saytda sınanır. Unikal parol bu hücumu dayandırır.</p></div>
+                <div class="info-card dark"><h3>{{i:search}} Sızma yoxlaması</h3><p>haveibeenpwned.com — email-in hansı sızmalarda olduğunu göstərir.</p></div>
+            </div>
+        </section>
+
+        <section id="mfa" class="section-card">
+            <h2 class="section-title">{{i:smartphone}} 2. MFA Növləri — Güclüdən Zəifə</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Metod</th><th>Phishing-ə davamlılıq</th><th>Qeyd</th></tr></thead>
+                    <tbody>
+                        <tr><td>FIDO2 / Passkey / təhlükəsizlik açarı</td><td class="yes">Yüksək</td><td>Açar saytın domeninə bağlıdır — saxta saytda işləmir</td></tr>
+                        <tr><td>Authenticator push + number matching</td><td>Orta–yüksək</td><td>Ekrandakı rəqəmi yazmaq tələb olunur — "MFA fatigue"-ni azaldır</td></tr>
+                        <tr><td>TOTP (6 rəqəmli kod)</td><td>Orta</td><td>Kod saxta saytda da daxil edilə bilər (real-time phishing)</td></tr>
+                        <tr><td>SMS / zəng</td><td class="no">Aşağı</td><td>SIM swap, SMS tutulması — yenə də MFA-sızlıqdan yaxşıdır</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="sso" class="section-card">
+            <h2 class="section-title">{{i:log-in}} 3. SSO: SAML, OAuth 2.0, OpenID Connect</h2>
+            <p class="lead"><strong>Single Sign-On</strong> — istifadəçi bir dəfə mərkəzi Identity Provider-də (IdP: Entra ID, Okta, Keycloak) daxil olur və digər tətbiqlərə avtomatik girir.</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Protokol</th><th>Nə üçün</th><th>Format</th></tr></thead>
+                    <tbody>
+                        <tr><td>SAML 2.0</td><td>Korporativ veb tətbiqlərə SSO</td><td>XML assertion</td></tr>
+                        <tr><td>OAuth 2.0</td><td><strong>Avtorizasiya</strong> — tətbiqə sizin adınızdan məhdud giriş (access token)</td><td>Token</td></tr>
+                        <tr><td>OpenID Connect</td><td>OAuth üzərində <strong>autentifikasiya</strong> — "bu kimdir?" (ID token)</td><td>JWT</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:circle-check}}<p class="text-neutral-700"><strong>Üstünlük:</strong> bir yerdə MFA, bir yerdə hesabı söndürmək — işdən çıxan işçi bütün tətbiqlərə girişi itirir.</p></div>
+                <div class="feature-item">{{i:triangle-alert}}<p class="text-neutral-700"><strong>Risk:</strong> IdP hesabı ələ keçirilərsə, hər şey açılır — ona görə IdP-də ən güclü MFA və şərti giriş.</p></div>
+            </div>
+        </section>
+
+        <section id="pam" class="section-card">
+            <h2 class="section-title">{{i:crown}} 4. Privileged Access Management</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:user-check}}<p class="text-neutral-700"><strong>Least privilege:</strong> hər kəsə yalnız işi üçün lazım olan minimum icazə.</p></div>
+                <div class="feature-item">{{i:users}}<p class="text-neutral-700"><strong>Ayrı admin hesabları:</strong> email və internet üçün adi hesab, admin işi üçün ayrıca hesab.</p></div>
+                <div class="feature-item">{{i:timer}}<p class="text-neutral-700"><strong>Just-in-Time:</strong> admin hüququ daimi yox, sorğu ilə 1–2 saatlıq verilir (Entra PIM).</p></div>
+                <div class="feature-item">{{i:vault}}<p class="text-neutral-700"><strong>Vault:</strong> xidmət və server parolları mərkəzi seyfdə, avtomatik dəyişdirilir; lokal admin parolları Windows LAPS ilə unikal.</p></div>
+                <div class="feature-item">{{i:scroll-text}}<p class="text-neutral-700"><strong>Audit:</strong> Domain Admins kimi qruplara əlavə olunma dərhal xəbərdarlıq yaratmalıdır.</p></div>
+                <div class="feature-item">{{i:shield-check}}<p class="text-neutral-700"><strong>Tiering:</strong> Domain Admin hesabı ilə adi iş stansiyasına daxil olmayın — orada parol hash-ı oğurlana bilər.</p></div>
+            </div>
+        </section>
+
+        <section id="zt" class="section-card">
+            <h2 class="section-title">{{i:shield}} 5. Zero Trust</h2>
+            <p class="lead">"Şəbəkənin içindədirsə, etibarlıdır" fikri köhnəlib. <strong>Zero Trust</strong>: <em>heç vaxt etibar etmə, həmişə yoxla</em>.</p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:user-check}} Açıq yoxlama</h3><p class="text-neutral-700">Hər girişdə: istifadəçi, cihazın vəziyyəti (yenilənib? şifrələnib?), yer, risk səviyyəsi.</p></div>
+                <div class="info-card"><h3>{{i:lock-keyhole}} Minimal giriş</h3><p class="text-neutral-700">Bütün şəbəkəyə VPN yox — yalnız lazım olan tətbiqə (ZTNA), mikroseqmentasiya.</p></div>
+                <div class="info-card dark"><h3>{{i:siren}} Pozuntunu fərz et</h3><p>Hücumçu artıq içəridədir kimi dizayn et: seqmentasiya, şifrələmə, monitorinq.</p></div>
+            </div>
+            <p class="text-neutral-700 mt-6"><strong>Conditional Access nümunəsi:</strong> "Mühasibat tətbiqinə yalnız şirkətin idarə etdiyi, yenilənmiş cihazdan və MFA ilə; xaricdən gələn riskli girişlər bloklansın."</p>
+        </section>
+<!--END-->

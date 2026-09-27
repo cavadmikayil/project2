@@ -1,0 +1,116 @@
+<!--PAGE title="Server Monitorinqi" icon="activity" badge="Server · Əməliyyat" nav="intro:Giriş|metrics:Metrikalar|stack:Alətlər|prom:Prometheus|alerts:Xəbərdarlıqlar|dash:Dashboard"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:activity}} Giriş: Problemi İstifadəçidən Əvvəl Görmək</h2>
+            <p class="lead">
+                Disk gecə saat 3-də 100% dolur, sayt səhər açılmır və ilk xəbər müştəri zəngindən gəlir. <strong>Monitorinq</strong>
+                bunun əksidir: disk 85%-ə çatanda admin xəbərdarlıq alır və problemi heç kim hiss etmədən həll edir.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:chart-column}} Metrics</h3><p class="text-neutral-700">Rəqəmlər zamanla: CPU %, RAM, disk, sorğu sayı, cavab müddəti.</p></div>
+                <div class="info-card"><h3>{{i:scroll-text}} Logs</h3><p class="text-neutral-700">Hadisələrin mətn qeydləri: xətalar, girişlər, sorğular.</p></div>
+                <div class="info-card dark"><h3>{{i:route}} Traces</h3><p>Bir sorğunun mikroservislər arasında keçdiyi yol — harada ləngidiyini göstərir.</p></div>
+            </div>
+        </section>
+
+        <section id="metrics" class="section-card">
+            <h2 class="section-title">{{i:gauge}} 1. Nəyi İzləmək Lazımdır?</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Metrika</th><th>Xəbərdarlıq həddi (nümunə)</th><th>Niyə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Disk doluluğu</td><td>&gt; 85% (warning), &gt; 95% (critical)</td><td>Dolu disk verilənlər bazasını və log-ları dayandırır</td></tr>
+                        <tr><td>CPU</td><td>&gt; 90% 10 dəqiqə ərzində</td><td>Qısa sıçrayışlar normaldır, davamlı yük yox</td></tr>
+                        <tr><td>RAM və swap</td><td>Swap istifadəsi artır</td><td>Swap = kəskin yavaşlama</td></tr>
+                        <tr><td>Load average</td><td>&gt; nüvə sayı</td><td>Proseslər CPU/disk üçün növbədədir</td></tr>
+                        <tr><td>Xidmət əlçatanlığı</td><td>HTTP 200 deyil / port bağlıdır</td><td>İstifadəçinin gördüyü əsas göstərici</td></tr>
+                        <tr><td>Sertifikat müddəti</td><td>&lt; 14 gün</td><td>Vaxtı keçmiş sertifikat = sayt açılmır</td></tr>
+                        <tr><td>Backup job</td><td>Son uğurlu backup &gt; 26 saat</td><td>Səssiz uğursuz backup</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><strong>USE metodu</strong> (resurslar üçün): Utilization (istifadə), Saturation (növbə/doyma), Errors. <strong>RED metodu</strong> (xidmətlər üçün): Rate (sorğu sayı), Errors (xəta faizi), Duration (cavab müddəti).</p>
+            </div>
+        </section>
+
+        <section id="stack" class="section-card">
+            <h2 class="section-title">{{i:boxes}} 2. Populyar Alətlər</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Alət</th><th>Model</th><th>Güclü tərəfi</th></tr></thead>
+                    <tbody>
+                        <tr><td>Zabbix</td><td>Agent + server, SNMP</td><td>Klassik infrastruktur, şəbəkə cihazları, hazır şablonlar</td></tr>
+                        <tr><td>Prometheus</td><td>Pull — metrikaları özü toplayır</td><td>Konteynerlər, Kubernetes, güclü sorğu dili (PromQL)</td></tr>
+                        <tr><td>Grafana</td><td>Vizuallaşdırma</td><td>İstənilən mənbədən dashboard (Prometheus, Zabbix, Loki)</td></tr>
+                        <tr><td>Uptime Kuma</td><td>Sadə əlçatanlıq yoxlaması</td><td>Kiçik mühit üçün 5 dəqiqədə quraşdırma</td></tr>
+                        <tr><td>ELK / Loki</td><td>Log toplama</td><td>Log-larda axtarış və analiz</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="prom" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 3. Prometheus + Node Exporter + Grafana</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># compose.yaml — monitorinq stack-i
+services:
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports: ["9090:9090"]
+  node-exporter:
+    image: prom/node-exporter:v1.8.2
+    pid: host
+    volumes:
+      - /:/host:ro,rslave
+    command: ["--path.rootfs=/host"]
+  grafana:
+    image: grafana/grafana:11.2.0
+    ports: ["3000:3000"]
+
+# prometheus.yml
+scrape_configs:
+  - job_name: node
+    scrape_interval: 15s
+    static_configs:
+      - targets: ["node-exporter:9100", "10.0.0.11:9100", "10.0.0.12:9100"]</code></pre>
+                <p class="code-note">Node Exporter hər serverdə 9100 portunda CPU, RAM, disk, şəbəkə metrikalarını verir; Prometheus onları hər 15 saniyədən bir toplayır; Grafana (3000 portu) qrafikləri çəkir.</p>
+            </div>
+        </section>
+
+        <section id="alerts" class="section-card">
+            <h2 class="section-title">{{i:bell}} 4. Xəbərdarlıq Qaydaları</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># alerts.yml — disk 85%-dən çox, 10 dəqiqə davam edirsə
+groups:
+  - name: server
+    rules:
+      - alert: DiskAlmostFull
+        expr: (1 - node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes) * 100 &gt; 85
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "{{ $labels.instance }}: disk {{ $value | humanize }}% doludur"</code></pre>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:bell}}<p class="text-neutral-700"><strong>Hərəkət tələb edən xəbərdarlıq:</strong> hər alert-ə "nə etməli" (runbook) əlavə edin.</p></div>
+                <div class="feature-item">{{i:volume-x}}<p class="text-neutral-700"><strong>Alert fatigue:</strong> çox səs-küylü xəbərdarlıqlar ignor olunmağa başlayır — hədləri tənzimləyin, <code>for:</code> müddəti qoyun.</p></div>
+                <div class="feature-item">{{i:send}}<p class="text-neutral-700"><strong>Kanallar:</strong> email, Telegram, Slack/Teams; kritik olanlar üçün növbətçi (on-call) sistemi.</p></div>
+            </div>
+        </section>
+
+        <section id="dash" class="section-card">
+            <h2 class="section-title">{{i:layout-grid}} 5. Yaxşı Dashboard</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">Yuxarıda ümumi vəziyyət: hansı xidmətlər işləyir, hansılar yox (yaşıl/qırmızı əvəzinə aydın mətn və ikon).</p></li>
+                <li><p class="text-neutral-700">Sonra istifadəçi təsiri: sorğu sayı, xəta faizi, cavab müddəti (p95).</p></li>
+                <li><p class="text-neutral-700">Aşağıda resurslar: CPU, RAM, disk, şəbəkə — problemin səbəbini axtarmaq üçün.</p></li>
+                <li><p class="text-neutral-700">Deploy və dəyişiklik anlarını qrafikdə işarələyin — "nə vaxtdan başladı?" sualına cavab.</p></li>
+            </ol>
+        </section>
+<!--END-->

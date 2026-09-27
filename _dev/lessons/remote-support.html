@@ -1,0 +1,91 @@
+<!--PAGE title="Uzaqdan Dəstək Alətləri" icon="screen-share" badge="Helpdesk · Alətlər" nav="intro:Giriş|tools:Alətlər|rdp:RDP|security:Təhlükəsizlik|etiquette:Etika|scripts:Uzaqdan əmrlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:screen-share}} Giriş: Yerindən Tərpənmədən Kömək</h2>
+            <p class="lead">
+                Müasir helpdesk müraciətlərin çoxunu uzaqdan həll edir: istifadəçinin ekranını görmək, idarə etmək,
+                əmr icra etmək. Bu sürətlidir, amma eyni zamanda <strong>böyük təhlükəsizlik riskidir</strong> —
+                saxtakarlar da "Microsoft dəstəyi" adı ilə uzaqdan giriş istəyirlər.
+            </p>
+        </section>
+
+        <section id="tools" class="section-card">
+            <h2 class="section-title">{{i:wrench}} 1. Alətlərin Müqayisəsi</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Alət</th><th>Növ</th><th>Harada uyğundur</th></tr></thead>
+                    <tbody>
+                        <tr><td>Quick Assist</td><td>Windows-a daxildir, istifadəçi kodu təsdiqləyir</td><td>Tez, quraşdırmasız kömək (Microsoft hesabı ilə)</td></tr>
+                        <tr><td>Remote Desktop (RDP)</td><td>Ayrıca sessiya — istifadəçi ekranı bağlanır</td><td>Serverlər, admin işləri</td></tr>
+                        <tr><td>Intune Remote Help</td><td>Entra ID ilə inteqrasiya, rol əsaslı</td><td>Microsoft 365 mühitində korporativ dəstək</td></tr>
+                        <tr><td>TeamViewer / AnyDesk</td><td>Kommersiya, NAT arxasından işləyir</td><td>Şirkət şəbəkəsindən kənar istifadəçilər</td></tr>
+                        <tr><td>RMM (NinjaOne, Datto və s.)</td><td>Agent əsaslı, yüzlərlə cihaz</td><td>MSP-lər, geniş park idarəetməsi</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="rdp" class="section-card">
+            <h2 class="section-title">{{i:monitor}} 2. RDP ilə İşləmək</h2>
+            <div class="code-block mb-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>mstsc /v:srv-app01.corp.example.az          # qoşulmaq
+mstsc /v:srv-app01 /admin                     # admin sessiyası
+query user /server:srv-app01                  # serverdəki sessiyalar
+logoff 3 /server:srv-app01                    # asılı qalmış sessiyanı bağlamaq
+
+Test-NetConnection srv-app01 -Port 3389       # port açıqdırmı</code></pre>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Xəta</th><th>Səbəb</th></tr></thead>
+                    <tbody>
+                        <tr><td>"Remote Desktop can't connect"</td><td>RDP söndürülüb, firewall, port 3389 bağlıdır, kompüter yuxu rejimindədir</td></tr>
+                        <tr><td>"The connection was denied because the user account is not authorized"</td><td>İstifadəçi <strong>Remote Desktop Users</strong> qrupunda deyil</td></tr>
+                        <tr><td>CredSSP / NLA xətası</td><td>Klient və ya serverdə yeniləmələr uyğunsuzdur — hər ikisini yeniləyin</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="security" class="section-card">
+            <h2 class="section-title">{{i:shield-alert}} 3. Təhlükəsizlik Qaydaları</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:ban}}<p class="text-neutral-700"><strong>RDP-ni internetə açmayın.</strong> 3389 portu daima brute-force və ransomware hücumlarına məruz qalır — VPN, RD Gateway və ya ZTNA arxasında saxlayın.</p></div>
+                <div class="feature-item">{{i:list-checks}}<p class="text-neutral-700"><strong>Təsdiqlənmiş alətlər siyahısı:</strong> şirkət yalnız bir-iki aləti icazəli edir; digərləri bloklanır.</p></div>
+                <div class="feature-item">{{i:user-check}}<p class="text-neutral-700"><strong>İstifadəçi razılığı:</strong> sessiya yalnız istifadəçinin təsdiqi ilə açılır.</p></div>
+                <div class="feature-item">{{i:scroll-text}}<p class="text-neutral-700"><strong>Audit:</strong> kim, nə vaxt, hansı kompüterə qoşuldu — log saxlanılır, mümkünsə sessiya yazılır.</p></div>
+            </div>
+            <div class="note-box">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800">İstifadəçilərə öyrədin: <strong>real IT heç vaxt gözlənilmədən zəng edib AnyDesk quraşdırmağı istəmir.</strong> "Bankdan", "Microsoft-dan" zəng edib uzaqdan giriş istəyənlər — tech support scam-dır.</p>
+            </div>
+        </section>
+
+        <section id="etiquette" class="section-card">
+            <h2 class="section-title">{{i:handshake}} 4. Uzaqdan Sessiyanın Etikası</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">Qoşulmazdan əvvəl icazə alın və açıq şəxsi sənədləri/çatları bağlamağı xahiş edin.</p></li>
+                <li><p class="text-neutral-700">Nə etdiyinizi səsli izah edin — istifadəçi həm öyrənir, həm də rahat olur.</p></li>
+                <li><p class="text-neutral-700">Yalnız problemlə bağlı fayl və proqramlara toxunun.</p></li>
+                <li><p class="text-neutral-700">Bitəndə istifadəçi ilə birlikdə yoxlayın, sessiyanı bağlayın və ticket-ə qeyd edin.</p></li>
+            </ol>
+        </section>
+
+        <section id="scripts" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 5. Ekran Paylaşmadan Uzaqdan Əmrlər</h2>
+            <p class="lead">Bir çox iş üçün istifadəçinin ekranına ehtiyac yoxdur — PowerShell Remoting ilə diaqnostika onun işinə mane olmur.</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>Enter-PSSession -ComputerName PC-MUH-014        # interaktiv sessiya
+
+Invoke-Command -ComputerName PC-MUH-014 -ScriptBlock {
+    Get-CimInstance Win32_OperatingSystem | Select Caption, LastBootUpTime
+    Get-PSDrive C | Select Used, Free
+    Get-Service Spooler | Restart-Service -PassThru
+}
+
+Get-CimInstance -ComputerName PC-MUH-014 Win32_ComputerSystem | Select UserName, Model</code></pre>
+                <p class="code-note">WinRM domen kompüterlərində GPO ilə aktivləşdirilir. Əmrlər sizin admin hesabınızla icra olunur — hər hərəkət audit log-da görünür.</p>
+            </div>
+        </section>
+<!--END-->

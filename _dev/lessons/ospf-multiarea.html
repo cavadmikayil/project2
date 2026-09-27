@@ -1,0 +1,122 @@
+<!--PAGE title="OSPF Multi-Area və Troubleshooting" icon="layers" badge="CCNA · IP Connectivity" nav="intro:Giriş|roles:Router rolları|lsa:LSA növləri|config:Konfiqurasiya|troubleshoot:Troubleshooting"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:layers}} Giriş: Niyə Bir Neçə Area?</h2>
+            <p class="lead">
+                Single-area OSPF-də hər router bütün şəbəkənin tam xəritəsini saxlayır. Şəbəkə böyüdükcə LSDB böyüyür,
+                hər dəyişiklik bütün routerlərdə SPF hesablamasına səbəb olur. <strong>Multi-area</strong> dizayn şəbəkəni
+                sahələrə bölür: ətraflı məlumat area daxilində qalır, area-lar arasında isə yalnız xülasə gedir.
+            </p>
+            <div class="note-box">
+                {{i:info}}
+                <p class="text-neutral-800"><strong>Qızıl qayda:</strong> bütün area-lar <strong>Area 0 (backbone)</strong>-a birləşməlidir. Area-lar arası trafik həmişə backbone-dan keçir.</p>
+            </div>
+        </section>
+
+        <section id="roles" class="section-card">
+            <h2 class="section-title">{{i:router}} 1. Router Rolları</h2>
+            <div class="code-block">
+                <pre><code>   Area 1              Area 0 (backbone)             Area 2
+ [R1]──[R2 ABR]──────[R3 backbone]──────[R4 ABR]──[R5]
+                            │
+                       [R6 ASBR] ── İnternet (statik / BGP)</code></pre>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Rol</th><th>İzah</th></tr></thead>
+                    <tbody>
+                        <tr><td>Internal router</td><td>Bütün interfeysləri bir area-dadır (R1, R5)</td></tr>
+                        <tr><td>Backbone router</td><td>Ən azı bir interfeysi Area 0-dadır (R2, R3, R4, R6)</td></tr>
+                        <tr><td>ABR (Area Border Router)</td><td>Area 0 ilə başqa area arasında; hər area üçün ayrıca LSDB saxlayır (R2, R4)</td></tr>
+                        <tr><td>ASBR (AS Boundary Router)</td><td>Xarici marşrutları (statik, digər protokollar) OSPF-ə daxil edir (R6)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="lsa" class="section-card">
+            <h2 class="section-title">{{i:scroll-text}} 2. Əsas LSA Növləri və Marşrut Kodları</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>LSA</th><th>Kim yaradır</th><th>Yayılma</th><th>Cədvəldə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Type 1 — Router</td><td>Hər router</td><td>Öz area-sı daxilində</td><td><code>O</code></td></tr>
+                        <tr><td>Type 2 — Network</td><td>DR</td><td>Öz area-sı daxilində</td><td><code>O</code></td></tr>
+                        <tr><td>Type 3 — Summary</td><td>ABR</td><td>Digər area-lara</td><td><code>O IA</code> (inter-area)</td></tr>
+                        <tr><td>Type 5 — External</td><td>ASBR</td><td>Bütün OSPF domeni</td><td><code>O E2</code> / <code>O E1</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-neutral-700 mt-4"><code>O E2</code>-də metrika ASBR-in verdiyi dəyər olaraq qalır (defolt 20), <code>O E1</code>-də isə daxili yolun cost-u da əlavə olunur.</p>
+        </section>
+
+        <section id="config" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 3. Multi-Area Konfiqurasiyası</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="ma-abr">ABR (R2)</button>
+                <button class="tab-btn inactive-tab" data-pane="ma-internal">Internal (R1)</button>
+                <button class="tab-btn inactive-tab" data-pane="ma-verify">Doğrulama</button>
+            </div>
+            <div id="ma-abr">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R2(config)# router ospf 1
+R2(config-router)# router-id 2.2.2.2
+R2(config)# interface GigabitEthernet0/0
+R2(config-if)# ip ospf 1 area 1
+R2(config)# interface GigabitEthernet0/1
+R2(config-if)# ip ospf 1 area 0
+R2(config)# router ospf 1
+R2(config-router)# area 1 range 172.16.8.0 255.255.252.0</code></pre>
+                    <p class="code-note">Bir interfeys Area 1-də, digəri Area 0-dadır — R2 avtomatik ABR olur. Sonuncu sətir Area 1-in şəbəkələrini backbone-a xülasə kimi elan edir.</p>
+                </div>
+            </div>
+            <div id="ma-internal" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# router ospf 1
+R1(config-router)# router-id 1.1.1.1
+R1(config-router)# network 172.16.8.0 0.0.3.255 area 1
+R1(config-router)# network 10.1.12.0 0.0.0.3 area 1
+R1(config-router)# passive-interface GigabitEthernet0/2</code></pre>
+                    <p class="code-note">Bütün interfeysləri Area 1-dədir. Qonşu interfeysləri (R1–R2 linki) mütləq eyni area-da olmalıdır.</p>
+                </div>
+            </div>
+            <div id="ma-verify" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>show ip ospf
+show ip ospf interface brief
+show ip ospf border-routers
+show ip ospf database summary
+show ip route ospf</code></pre>
+                    <p class="code-note">Routerin ABR/ASBR olub-olmadığı və hansı area-larda olduğu, interfeys–area uyğunluğu, ABR/ASBR siyahısı, Type 3 LSA-lar və <code>O IA</code> marşrutları.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="troubleshoot" class="section-card">
+            <h2 class="section-title">{{i:wrench}} 4. Qonşuluq Qurulmur: Yoxlama Siyahısı</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Simptom</th><th>Ehtimal olunan səbəb</th><th>Yoxlamaq üçün</th></tr></thead>
+                    <tbody>
+                        <tr><td>Qonşu ümumiyyətlə görünmür</td><td>Interfeys down, passive-interface, ACL OSPF-i (IP protokol 89) bloklayır, fərqli subnet</td><td><code>show ip ospf interface</code></td></tr>
+                        <tr><td>Qonşu görünür, sonra itir</td><td>Hello/Dead timerləri uyğun deyil</td><td><code>show ip ospf interface g0/0</code></td></tr>
+                        <tr><td>Heç vaxt qurulmur</td><td>Area ID, autentifikasiya və ya area tipi (stub bayrağı) fərqlidir</td><td><code>debug ip ospf adj</code></td></tr>
+                        <tr><td>EXSTART/EXCHANGE-də ilişib</td><td>MTU uyğunsuzluğu</td><td><code>show interfaces g0/0</code> (MTU)</td></tr>
+                        <tr><td>2-WAY-də qalır</td><td>Hər ikisi DROTHER-dir — bu <strong>normaldır</strong>; və ya hər iki tərəfdə prioritet 0-dır</td><td><code>show ip ospf neighbor</code></td></tr>
+                        <tr><td>"Duplicate router-id" mesajı</td><td>Eyni RID iki routerdə</td><td><code>show ip protocols</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show ip ospf neighbor
+show ip ospf interface GigabitEthernet0/0
+debug ip ospf adj
+debug ip ospf hello
+undebug all</code></pre>
+                <p class="code-note"><code>debug ip ospf hello</code> "Mismatched hello parameters" kimi səbəbləri birbaşa göstərir. İşiniz bitəndə debug-u mütləq söndürün.</p>
+            </div>
+        </section>
+<!--END-->

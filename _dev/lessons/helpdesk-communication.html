@@ -1,0 +1,89 @@
+<!--PAGE title="Ünsiyyət, Sənədləşdirmə və Eskalasiya" icon="message-square" badge="Helpdesk · Soft skills" nav="intro:Giriş|listen:Dinləmək|difficult:Çətin hallar|tickets:Yaxşı ticket|kb:Knowledge base|escalate:Eskalasiya"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:message-square}} Giriş: Texniki Bilik Yarısıdır</h2>
+            <p class="lead">
+                İstifadəçi problemin necə həll olunduğunu çox vaxt başa düşmür, amma <strong>ona necə yanaşıldığını</strong>
+                həmişə yadda saxlayır. Əsəbi, təcili işi olan, texniki terminləri bilməyən insanla sakit və aydın
+                danışmaq — helpdesk-də ən qiymətli bacarıqlardandır.
+            </p>
+        </section>
+
+        <section id="listen" class="section-card">
+            <h2 class="section-title">{{i:ear}} 1. Aktiv Dinləmə və Aydın Danışıq</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:ear}}<p class="text-neutral-700"><strong>Sözünü kəsməyin</strong> — istifadəçi problemi sonuna qədər izah etsin, qeyd aparın.</p></div>
+                <div class="feature-item">{{i:repeat}}<p class="text-neutral-700"><strong>Təkrarlayın:</strong> "Düzgün başa düşdümsə, səhərdən bəri paylaşılan qovluq açılmır, amma internet işləyir?"</p></div>
+                <div class="feature-item">{{i:message-circle}}<p class="text-neutral-700"><strong>Jarqonsuz:</strong> "DNS resolve olmur" yox — "kompüter saytın ünvanını tapa bilmir".</p></div>
+                <div class="feature-item">{{i:clock}}<p class="text-neutral-700"><strong>Gözləntini idarə edin:</strong> real müddət deyin və sözünüzü tutun; gecikəcəksə, özünüz xəbər verin.</p></div>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Deməyin</th><th>Deyin</th></tr></thead>
+                    <tbody>
+                        <tr><td>"Bu mənim işim deyil"</td><td>"Bunu şəbəkə komandası həll edir, ticket-i onlara ötürürəm və sizi xəbərdar edəcəyəm"</td></tr>
+                        <tr><td>"Siz nəyisə səhv basmısınız"</td><td>"Gəlin birlikdə yoxlayaq, nə baş verdiyini görək"</td></tr>
+                        <tr><td>"Bilmirəm"</td><td>"Dəqiqləşdirib 30 dəqiqəyə sizə geri dönəcəyəm"</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="difficult" class="section-card">
+            <h2 class="section-title">{{i:flame}} 2. Əsəbi İstifadəçi</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700"><strong>Emosiyanı qəbul edin:</strong> "Başa düşürəm, hesabat bu gün təhvil verilməlidir və bu çox narahatedicidir."</p></li>
+                <li><p class="text-neutral-700"><strong>Şəxsi qəbul etməyin</strong> — əsəb sizə yox, vəziyyətə yönəlib.</p></li>
+                <li><p class="text-neutral-700"><strong>Diqqəti həllə yönəldin:</strong> "İndi etdiyim ilk şey budur..."</p></li>
+                <li><p class="text-neutral-700"><strong>Müvəqqəti həll təklif edin:</strong> printer işləmirsə — digər mərtəbədəki printer; iş dayanmasın.</p></li>
+                <li><p class="text-neutral-700">Təhqir və hədə varsa — sakitcə söhbəti bitirib rəhbərə eskalasiya edin.</p></li>
+            </ol>
+        </section>
+
+        <section id="tickets" class="section-card">
+            <h2 class="section-title">{{i:ticket}} 3. Yaxşı Ticket Necə Yazılır?</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>{{i:circle-x}} Pis</h3><p class="text-neutral-700">"İnternet işləmir. Düzəldildi."</p></div>
+                <div class="info-card accent"><h3>{{i:circle-check}} Yaxşı</h3><p class="text-neutral-700">Aşağıdakı nümunədə olduğu kimi: simptom, təsir, addımlar, səbəb, həll.</p></div>
+            </div>
+            <div class="code-block">
+                <pre><code>Başlıq:   PC-MUH-014 — kabel ilə şəbəkə yoxdur (169.254.x.x)
+İstifadəçi: Aysel Məmmədova, Mühasibat, 2-ci mərtəbə, daxili 214
+Təsir:    1 istifadəçi, maaş hesabatı gecikir — P3
+
+Simptom:  09:10-dan etibarən internet və paylaşılan qovluqlar yoxdur.
+Addımlar: ipconfig — 169.254.12.7 (APIPA). Kabel və NIC dəyişildi — nəticə eyni.
+          Qonşu port ilə IP alındı → port problemi.
+Səbəb:    SW-F2 Gi1/0/14 err-disabled (port security, istifadəçi yeni USB-dock qoşub).
+Həll:     Şəbəkə komandası (ticket #4512) portu açdı, dock MAC-ı qeyd olundu.
+Yoxlama:  İstifadəçi ilə birlikdə: IP 192.168.20.57, qovluqlar açılır. 10:05</code></pre>
+                <p class="code-note">Belə ticket-i 6 ay sonra oxuyan istənilən kollega nə baş verdiyini və nə edildiyini dərhal başa düşür.</p>
+            </div>
+        </section>
+
+        <section id="kb" class="section-card">
+            <h2 class="section-title">{{i:book-open}} 4. Knowledge Base</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:file-text}}<p class="text-neutral-700"><strong>Şablon:</strong> Problem → Mühit (OS, proqram versiyası) → Səbəb → Həll addımları → Əlaqəli ticket-lər.</p></div>
+                <div class="feature-item">{{i:users}}<p class="text-neutral-700"><strong>İki auditoriya:</strong> daxili (texniki, əmrlərlə) və istifadəçi üçün (ekran görüntüləri ilə, sadə dil).</p></div>
+                <div class="feature-item">{{i:refresh-cw}}<p class="text-neutral-700"><strong>Aktual saxlayın:</strong> hər məqalədə son yoxlanma tarixi və sahibi olsun.</p></div>
+                <div class="feature-item">{{i:chart-column}}<p class="text-neutral-700"><strong>Ölçün:</strong> ən çox gələn 10 müraciət üçün self-service məqaləsi yazmaq — müraciət sayını nəzərəçarpacaq azaldır.</p></div>
+            </div>
+        </section>
+
+        <section id="escalate" class="section-card">
+            <h2 class="section-title">{{i:arrow-up-circle}} 5. Nə Vaxt və Necə Eskalasiya Etmək?</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Nə vaxt</th></tr></thead>
+                    <tbody>
+                        <tr><td>Funksional (horizontal)</td><td>Problem başqa komandanın sahəsindədir və ya sizin icazəniz çatmır (şəbəkə, server, tətbiq)</td></tr>
+                        <tr><td>İerarxik (vertikal)</td><td>SLA pozulmaq üzrədir, böyük biznes təsiri, VIP, təhlükəsizlik insidenti — rəhbərliyə</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><strong>Yaxşı eskalasiya</strong> — növbəti komandanın sıfırdan başlamamasıdır: nə yoxlanılıb, nə nəticə verib, log/ekran görüntüləri, istifadəçi ilə əlaqə vaxtı. Eskalasiya "problemdən qurtulmaq" deyil — ticket bağlanana qədər istifadəçini məlumatlandırmağa davam edin.</p>
+            </div>
+        </section>
+<!--END-->

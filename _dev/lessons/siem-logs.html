@@ -1,0 +1,125 @@
+<!--PAGE title="SIEM və Log Analizi" icon="scroll-text" badge="Təhlükəsizlik · SOC" nav="intro:Giriş|soc:SOC|sources:Log mənbələri|events:Event ID-lər|detect:Aşkarlama|query:Sorğular|triage:Triage"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:scroll-text}} Giriş: Log Olmayan Yerdə Sübut Yoxdur</h2>
+            <p class="lead">
+                Firewall, server, AD, EDR, bulud — hər biri gündə milyonlarla qeyd yaradır. <strong>SIEM</strong>
+                (Security Information and Event Management) onları bir yerə toplayır, normallaşdırır, əlaqələndirir
+                (correlation) və şübhəli ardıcıllıqlarda xəbərdarlıq yaradır. Nümunələr: Microsoft Sentinel, Splunk,
+                Elastic Security, Wazuh (açıq mənbə).
+            </p>
+        </section>
+
+        <section id="soc" class="section-card">
+            <h2 class="section-title">{{i:users}} 1. SOC və Rollar</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Rol</th><th>Vəzifə</th></tr></thead>
+                    <tbody>
+                        <tr><td>SOC Analyst L1</td><td>Alert-ləri ilkin yoxlamaq (triage): real hadisədir, yoxsa false positive?</td></tr>
+                        <tr><td>SOC Analyst L2</td><td>Dərin araşdırma, əhatəni müəyyən etmək, cavab tədbirləri</td></tr>
+                        <tr><td>L3 / Threat Hunter</td><td>Alert olmadan gizli təhdidləri axtarmaq, yeni aşkarlama qaydaları</td></tr>
+                        <tr><td>Detection Engineer</td><td>Qaydalar yazmaq və tənzimləmək, false positive-ləri azaltmaq</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="sources" class="section-card">
+            <h2 class="section-title">{{i:database}} 2. Hansı Log-lar Toplanmalıdır?</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:building}}<p class="text-neutral-700"><strong>Identity:</strong> Domain Controller Security log, Entra ID sign-in log-ları.</p></div>
+                <div class="feature-item">{{i:laptop}}<p class="text-neutral-700"><strong>Endpoint:</strong> EDR telemetriyası, Sysmon, PowerShell Script Block logging.</p></div>
+                <div class="feature-item">{{i:brick-wall}}<p class="text-neutral-700"><strong>Şəbəkə:</strong> firewall, VPN, proxy/DNS log-ları.</p></div>
+                <div class="feature-item">{{i:mail}}<p class="text-neutral-700"><strong>Email:</strong> phishing aşkarlamaları, klik hadisələri.</p></div>
+                <div class="feature-item">{{i:cloud}}<p class="text-neutral-700"><strong>Cloud:</strong> Azure Activity, AWS CloudTrail — kim nə resursu dəyişdi.</p></div>
+                <div class="feature-item">{{i:app-window}}<p class="text-neutral-700"><strong>Tətbiqlər:</strong> veb server, WAF, kritik biznes tətbiqləri.</p></div>
+            </div>
+            <div class="note-box">
+                {{i:clock}}
+                <p class="text-neutral-800">Bütün mənbələrdə <strong>vaxt sinxron</strong> olmalıdır (NTP) — əks halda hadisələrin ardıcıllığını qurmaq mümkün olmur. Log-ların saxlanma müddəti (retention) qanun və siyasətə uyğun olmalıdır (tez-tez 90 gün "isti", 1 il arxiv).</p>
+            </div>
+        </section>
+
+        <section id="events" class="section-card">
+            <h2 class="section-title">{{i:hash}} 3. Bilinməli Windows Event ID-lər</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>ID</th><th>Hadisə</th><th>Nəyə diqqət</th></tr></thead>
+                    <tbody>
+                        <tr><td>4624</td><td>Uğurlu giriş</td><td>Logon Type: 2 interaktiv, 3 şəbəkə, 10 RDP; qeyri-adi vaxt/mənbə</td></tr>
+                        <tr><td>4625</td><td>Uğursuz giriş</td><td>Qısa müddətdə çox — brute force / password spraying</td></tr>
+                        <tr><td>4720</td><td>İstifadəçi hesabı yaradıldı</td><td>Gözlənilməz hesab — persistence</td></tr>
+                        <tr><td>4728 / 4732 / 4756</td><td>Qrupa üzv əlavə olundu</td><td>Domain Admins-ə əlavə — kritik alert</td></tr>
+                        <tr><td>4740</td><td>Hesab kilidləndi</td><td>Kütləvi kilidlənmə — hücum əlaməti</td></tr>
+                        <tr><td>4688</td><td>Yeni proses yaradıldı</td><td>Komanda sətri ilə birlikdə — şübhəli PowerShell</td></tr>
+                        <tr><td>1102</td><td>Security log təmizləndi</td><td>İzləri silmək cəhdi — həmişə araşdırılır</td></tr>
+                        <tr><td>7045</td><td>Yeni xidmət quraşdırıldı</td><td>Remote icra alətləri, persistence</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="detect" class="section-card">
+            <h2 class="section-title">{{i:target}} 4. Aşkarlama Məntiqi və MITRE ATT&amp;CK</h2>
+            <p class="lead">Tək hadisə çox vaxt heç nə demir; <strong>ardıcıllıq</strong> danışır. MITRE ATT&amp;CK hücumçuların taktika və texnikalarını kataloqlaşdırır — aşkarlama qaydaları çox vaxt ona bağlanır.</p>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Ssenari</th><th>Korrelyasiya qaydası</th></tr></thead>
+                    <tbody>
+                        <tr><td>Password spraying</td><td>Bir IP-dən 15 dəqiqədə 20+ fərqli hesaba 4625</td></tr>
+                        <tr><td>Uğurlu brute force</td><td>Eyni hesaba çoxlu 4625, ardınca 4624</td></tr>
+                        <tr><td>Impossible travel</td><td>Bir hesab 30 dəqiqə fərqlə Bakı və başqa qitədən daxil olur</td></tr>
+                        <tr><td>Privilege escalation</td><td>İş saatından kənar Domain Admins-ə üzv əlavəsi</td></tr>
+                        <tr><td>Şübhəli PowerShell</td><td>Office prosesindən yaranan <code>powershell.exe -enc ...</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="query" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 5. Sorğu Nümunələri</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="q-kql">KQL (Sentinel)</button>
+                <button class="tab-btn inactive-tab" data-pane="q-spl">SPL (Splunk)</button>
+                <button class="tab-btn inactive-tab" data-pane="q-ps">PowerShell</button>
+            </div>
+            <div id="q-kql">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>SecurityEvent
+| where EventID == 4625 and TimeGenerated &gt; ago(1h)
+| summarize Failures = count(), Accounts = dcount(TargetAccount) by IpAddress
+| where Accounts &gt; 20
+| order by Failures desc</code></pre>
+                </div>
+            </div>
+            <div id="q-spl" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>index=wineventlog EventCode=4625 earliest=-1h
+| stats count AS failures dc(TargetUserName) AS accounts BY IpAddress
+| where accounts &gt; 20
+| sort - failures</code></pre>
+                </div>
+            </div>
+            <div id="q-ps" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>Get-WinEvent -FilterHashtable @{LogName='Security'; Id=4625; StartTime=(Get-Date).AddHours(-1)} |
+  ForEach-Object { $_.Properties[19].Value } |
+  Group-Object | Sort-Object Count -Descending | Select -First 10 Count, Name</code></pre>
+                    <p class="code-note">4625 hadisəsinin 19-cu xassəsi mənbə IP ünvanıdır. SIEM-siz kiçik mühitdə ilkin baxış üçün faydalıdır.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="triage" class="section-card">
+            <h2 class="section-title">{{i:list-checks}} 6. Alert Triage Addımları</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700"><strong>Kontekst:</strong> hansı istifadəçi, cihaz, IP? Bu istifadəçi üçün normal davranış nədir?</p></li>
+                <li><p class="text-neutral-700"><strong>Zənginləşdirmə:</strong> IP reputasiyası, geolokasiya, hash-ın VirusTotal nəticəsi.</p></li>
+                <li><p class="text-neutral-700"><strong>Əhatə:</strong> eyni göstərici (IOC) başqa cihazlarda da varmı?</p></li>
+                <li><p class="text-neutral-700"><strong>Qərar:</strong> true positive → incident response; false positive → qaydanı tənzimlə və səbəbini qeyd et.</p></li>
+            </ol>
+        </section>
+<!--END-->

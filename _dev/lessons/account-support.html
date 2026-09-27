@@ -1,0 +1,105 @@
+<!--PAGE title="Hesab və Parol Dəstəyi" icon="key-round" badge="Helpdesk · Identity" nav="intro:Giriş|verify:Kimlik yoxlaması|reset:Parol reset|lockout:Kilidlənmə|mfa:MFA|lifecycle:Hesab həyatı"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:key-round}} Giriş: Ən Çox Müraciət — Ən Böyük Risk</h2>
+            <p class="lead">
+                "Parolumu unutmuşam" və "hesabım kilidlənib" helpdesk müraciətlərinin əhəmiyyətli hissəsini təşkil edir.
+                Eyni zamanda bu, hücumçuların sevimli yoludur: özünü işçi kimi təqdim edib parolu sıfırlatmaq
+                (<strong>social engineering</strong>). Buna görə sürət qədər <strong>düzgün kimlik yoxlaması</strong> da vacibdir.
+            </p>
+        </section>
+
+        <section id="verify" class="section-card">
+            <h2 class="section-title">{{i:user-check}} 1. Zəng Edən Həqiqətən Odurmu?</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:phone}}<p class="text-neutral-700"><strong>Geri zəng:</strong> istifadəçinin sistemdə qeydiyyatda olan nömrəsinə zəng edin — zəng gələn nömrəyə yox.</p></div>
+                <div class="feature-item">{{i:users}}<p class="text-neutral-700"><strong>Rəhbər təsdiqi:</strong> həssas hesablar üçün birbaşa rəhbərin ticket-də təsdiqi.</p></div>
+                <div class="feature-item">{{i:id-card}}<p class="text-neutral-700"><strong>Şəxsən:</strong> vəsiqə ilə helpdesk-ə gəlmək.</p></div>
+                <div class="feature-item">{{i:smartphone}}<p class="text-neutral-700"><strong>Self-service (SSPR):</strong> istifadəçi MFA ilə parolunu özü sıfırlayır — ən yaxşısı.</p></div>
+            </div>
+            <div class="note-box">
+                {{i:shield-alert}}
+                <p class="text-neutral-800"><strong>Qırmızı bayraqlar:</strong> təcili təzyiq ("direktor gözləyir!"), rəhbər adından zəng, yeni parolun başqa nömrəyə/email-ə göndərilməsi xahişi, MFA-nın "müvəqqəti" söndürülməsi istəyi. Belə hallarda proseduru sürətləndirməyin — əksinə, yavaşladın.</p>
+            </div>
+        </section>
+
+        <section id="reset" class="section-card">
+            <h2 class="section-title">{{i:refresh-cw}} 2. Parol Sıfırlama</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="pw-gui">ADUC (qrafik)</button>
+                <button class="tab-btn inactive-tab" data-pane="pw-ps">PowerShell</button>
+                <button class="tab-btn inactive-tab" data-pane="pw-entra">Microsoft Entra ID</button>
+            </div>
+            <div id="pw-gui">
+                <ol class="steps max-w-3xl mx-auto">
+                    <li><p class="text-neutral-700"><code>dsa.msc</code> → istifadəçini tapın → sağ klik → <strong>Reset Password</strong>.</p></li>
+                    <li><p class="text-neutral-700"><strong>User must change password at next logon</strong> — işarələyin: müvəqqəti parolu yalnız istifadəçi bilsin.</p></li>
+                    <li><p class="text-neutral-700">Hesab kilidlidirsə, <strong>Unlock the user's account</strong>.</p></li>
+                    <li><p class="text-neutral-700">Müvəqqəti parolu təhlükəsiz kanalla verin — email-lə yox (hesab onsuz da açılmır).</p></li>
+                </ol>
+            </div>
+            <div id="pw-ps" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>$tmp = Read-Host -AsSecureString "Muveqqeti parol"
+Set-ADAccountPassword -Identity aysel -Reset -NewPassword $tmp
+Set-ADUser -Identity aysel -ChangePasswordAtLogon $true
+Unlock-ADAccount -Identity aysel
+
+Get-ADUser aysel -Properties LockedOut, PasswordLastSet, PasswordExpired, BadLogonCount, Enabled</code></pre>
+                </div>
+            </div>
+            <div id="pw-entra" class="hidden">
+                <p class="text-neutral-700">Microsoft 365 / Entra ID admin mərkəzi → Users → istifadəçi → <strong>Reset password</strong>. Hibrid mühitdə (AD Connect) parol AD-də dəyişdirilir və sinxronlaşır; SSPR aktivdirsə istifadəçi bunu <code>aka.ms/sspr</code> ünvanında özü edir.</p>
+            </div>
+        </section>
+
+        <section id="lockout" class="section-card">
+            <h2 class="section-title">{{i:lock}} 3. Hesab Təkrar-Təkrar Kilidlənir</h2>
+            <p class="lead">Kilidi açırsınız, 10 dəqiqə sonra yenidən kilidlənir. Səbəb demək olar ki, həmişə <strong>köhnə parolu saxlayan bir cihaz və ya xidmətdir</strong>.</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Mənbə</th><th>Harada yoxlamaq</th></tr></thead>
+                    <tbody>
+                        <tr><td>Telefondakı köhnə email/Wi-Fi profili</td><td>Mobil cihazda parolu yeniləmək</td></tr>
+                        <tr><td>Windows Credential Manager</td><td><code>control keymgr.dll</code> — köhnə parolları silmək</td></tr>
+                        <tr><td>Xəritələnmiş şəbəkə diski</td><td>Başqa parolla qoşulmuş disk</td></tr>
+                        <tr><td>Planlı tapşırıq və ya xidmət</td><td>İstifadəçi hesabı ilə işləyən task/service</td></tr>
+                        <tr><td>Açıq qalmış RDP sessiyası</td><td>Başqa serverdə köhnə sessiya</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># PDC Emulator-da 4740 hadisəsi: hesabın hansı kompüterdən kilidləndiyi
+$pdc = (Get-ADDomain).PDCEmulator
+Get-WinEvent -ComputerName $pdc -FilterHashtable @{LogName='Security'; Id=4740} |
+  Where-Object { $_.Properties[0].Value -eq 'aysel' } |
+  Select TimeCreated, @{n='Computer';e={$_.Properties[1].Value}}</code></pre>
+                <p class="code-note">Event <strong>4740</strong> "hesab kilidləndi" hadisəsidir və "Caller Computer Name" sahəsi səhv parol göndərən cihazı göstərir. Microsoft-un pulsuz <em>Account Lockout Status</em> aləti də bunu edir.</p>
+            </div>
+        </section>
+
+        <section id="mfa" class="section-card">
+            <h2 class="section-title">{{i:smartphone}} 4. MFA Problemləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Hal</th><th>Düzgün addım</th></tr></thead>
+                    <tbody>
+                        <tr><td>Yeni telefon, köhnəsi yoxdur</td><td>Kimlik yoxlamasından sonra MFA metodlarını sıfırlamaq; istifadəçi yenidən qeydiyyatdan keçir</td></tr>
+                        <tr><td>Kod qəbul olunmur</td><td>Telefonun saatı avtomatik deyil (TOTP vaxta bağlıdır)</td></tr>
+                        <tr><td>İstifadəçi istəmədiyi push bildirişləri alır</td><td class="no">Parolu artıq kimdəsə var — "MFA fatigue" hücumu. Parolu dərhal dəyişin, təhlükəsizlik komandasına bildirin</td></tr>
+                        <tr><td>"MFA-nı söndürün, çox narahat edir"</td><td>Söndürülmür; number matching / passkey kimi rahat üsullar təklif edilir</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="lifecycle" class="section-card">
+            <h2 class="section-title">{{i:repeat}} 5. Joiner – Mover – Leaver</h2>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:user-plus}} Joiner (yeni işçi)</h3><p class="text-neutral-700">HR müraciəti ilə hesab, şablon qruplar, lisenziya, email, avadanlıq — ilk iş günündən əvvəl hazır.</p></div>
+                <div class="info-card"><h3>{{i:arrow-left-right}} Mover (vəzifə dəyişikliyi)</h3><p class="text-neutral-700">Yeni icazələr əlavə olunur, <strong>köhnələri çıxarılır</strong> — yoxsa icazələr illərlə yığılır (privilege creep).</p></div>
+                <div class="info-card dark"><h3>{{i:user-minus}} Leaver (işdən çıxma)</h3><p>Son gün hesab söndürülür (silinmir), sessiyalar ləğv edilir, mailbox rəhbərə ötürülür, avadanlıq qaytarılır.</p></div>
+            </div>
+        </section>
+<!--END-->

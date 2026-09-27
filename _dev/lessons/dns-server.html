@@ -1,0 +1,114 @@
+<!--PAGE title="DNS Server" icon="globe" badge="Server · Şəbəkə xidmətləri" nav="intro:Giriş|resolve:Həll prosesi|records:Qeydlər|zones:Zonalar|tools:Alətlər|trouble:Problemlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:globe}} Giriş: İnternetin Telefon Kitabçası</h2>
+            <p class="lead">
+                İnsanlar <code>cavadmikayil.com</code> yadda saxlayır, kompüterlər isə IP ünvanla işləyir.
+                <strong>DNS</strong> adı IP-yə (və əksinə) çevirir. DNS işləməsə, internet "işləmir" kimi görünür —
+                halbuki bağlantı var. Sorğular adətən <strong>UDP 53</strong>, böyük cavablar və zona transferi TCP 53 ilə gedir.
+            </p>
+        </section>
+
+        <section id="resolve" class="section-card">
+            <h2 class="section-title">{{i:route}} 1. Ad Necə Həll Olunur?</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Brauzer və OS öz <strong>keşinə</strong> və <code>hosts</code> faylına baxır.</p></li>
+                <li><p class="text-neutral-700">Tapılmasa, sorğu <strong>recursive resolver</strong>-ə gedir (şirkət DNS serveri, provayder və ya 1.1.1.1/8.8.8.8).</p></li>
+                <li><p class="text-neutral-700">Resolver <strong>root server</strong>-dən soruşur: ".com-u kim bilir?" — cavab: .com TLD serverləri.</p></li>
+                <li><p class="text-neutral-700"><strong>TLD server</strong>: "cavadmikayil.com-u kim bilir?" — cavab: domenin <strong>authoritative</strong> serverləri (NS).</p></li>
+                <li><p class="text-neutral-700">Authoritative server A qeydini qaytarır. Resolver cavabı <strong>TTL</strong> müddəti qədər keşləyir və klientə verir.</p></li>
+            </ol>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:repeat}} Recursive</h3><p class="text-neutral-700">Klient adından bütün yolu gedib son cavabı gətirir və keşləyir.</p></div>
+                <div class="info-card accent"><h3>{{i:badge-check}} Authoritative</h3><p class="text-neutral-700">Zonanın "sahibi" — qeydlər onda saxlanılır, cavabı qəti verir.</p></div>
+            </div>
+        </section>
+
+        <section id="records" class="section-card">
+            <h2 class="section-title">{{i:list-ordered}} 2. Qeyd (Record) Növləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Vəzifəsi</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td>A</td><td>Ad → IPv4</td><td><code>www → 203.0.113.10</code></td></tr>
+                        <tr><td>AAAA</td><td>Ad → IPv6</td><td><code>www → 2001:db8::10</code></td></tr>
+                        <tr><td>CNAME</td><td>Ad → başqa ad (alias)</td><td><code>blog → www.example.az</code></td></tr>
+                        <tr><td>MX</td><td>Domenin e-poçt serveri (prioritet ilə)</td><td><code>10 mail.example.az</code></td></tr>
+                        <tr><td>TXT</td><td>Mətn — SPF, DKIM, DMARC, domen təsdiqi</td><td><code>v=spf1 include:_spf.google.com ~all</code></td></tr>
+                        <tr><td>NS</td><td>Zonanın authoritative serverləri</td><td><code>ns1.example.az</code></td></tr>
+                        <tr><td>PTR</td><td>IP → ad (reverse DNS)</td><td><code>10.113.0.203.in-addr.arpa → www</code></td></tr>
+                        <tr><td>SRV</td><td>Xidmətin host və portu</td><td><code>_ldap._tcp.corp.example.az</code> (AD)</td></tr>
+                        <tr><td>SOA</td><td>Zonanın əsas parametrləri: serial, refresh, TTL</td><td>Hər zonada bir dənə</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="zones" class="section-card">
+            <h2 class="section-title">{{i:file-text}} 3. Zona Faylı Nümunəsi (BIND)</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>$TTL 3600
+@   IN SOA ns1.example.az. admin.example.az. (
+        2026092701 ; serial (YYYYMMDDnn) — hər dəyişiklikdə artır!
+        3600       ; refresh
+        900        ; retry
+        1209600    ; expire
+        300 )      ; negative cache TTL
+    IN NS   ns1.example.az.
+    IN NS   ns2.example.az.
+    IN MX 10 mail.example.az.
+ns1 IN A    203.0.113.2
+ns2 IN A    198.51.100.2
+@   IN A    203.0.113.10
+www IN CNAME example.az.
+mail IN A   203.0.113.20</code></pre>
+                <p class="code-note">Secondary serverlər dəyişikliyi <strong>serial</strong> nömrəsi artanda götürür. Serial-ı artırmağı unutmaq — "qeydi dəyişdim, amma ikinci serverdə köhnədir" probleminin ən çox rast gəlinən səbəbidir. Zonanı yoxlamaq: <code>named-checkzone example.az db.example.az</code>.</p>
+            </div>
+        </section>
+
+        <section id="tools" class="section-card">
+            <h2 class="section-title">{{i:search}} 4. Diaqnostika Alətləri</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="dns-dig">Linux (dig)</button>
+                <button class="tab-btn inactive-tab" data-pane="dns-win">Windows</button>
+            </div>
+            <div id="dns-dig">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>dig example.az                 # A qeydi
+dig example.az MX +short       # yalnız cavab
+dig @8.8.8.8 example.az        # konkret serverdən soruş
+dig +trace example.az          # root-dan başlayaraq bütün yol
+dig -x 203.0.113.10            # reverse (PTR)
+dig example.az SOA +short      # serial nömrəsini yoxla</code></pre>
+                </div>
+            </div>
+            <div id="dns-win" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>nslookup example.az
+nslookup -type=mx example.az 8.8.8.8
+Resolve-DnsName example.az -Type TXT
+ipconfig /displaydns      # klient keşi
+ipconfig /flushdns        # keşi təmizlə
+Get-DnsClientServerAddress   # hansı DNS serverlər istifadə olunur</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="trouble" class="section-card">
+            <h2 class="section-title">{{i:wrench}} 5. Tipik Problemlər</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Simptom</th><th>Səbəb / həll</th></tr></thead>
+                    <tbody>
+                        <tr><td>IP ilə açılır, adla açılmır</td><td>Klientin DNS serveri səhvdir və ya əlçatmazdır — <code>ipconfig /all</code>, <code>nslookup</code></td></tr>
+                        <tr><td>Qeyd dəyişdi, bəzilərində köhnə IP</td><td>TTL bitməyib — keşlər hələ köhnə cavabı saxlayır. Köçürmədən əvvəl TTL-i azaldın (məs. 300)</td></tr>
+                        <tr><td>Domenə qoşulmaq olmur</td><td>Klient DNS olaraq DC-ni yox, 8.8.8.8-i istifadə edir — SRV qeydləri tapılmır</td></tr>
+                        <tr><td>E-poçt spam-a düşür</td><td>SPF/DKIM/DMARC TXT qeydləri və PTR yoxdur və ya səhvdir</td></tr>
+                        <tr><td>NXDOMAIN</td><td>Belə ad yoxdur — yazı səhvi və ya qeyd yaradılmayıb</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+<!--END-->

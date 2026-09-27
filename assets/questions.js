@@ -1,0 +1,369 @@
+// Quiz sualları — tools/quiz.html buradan oxuyur.
+// Format: { t: "<kataloqdakı quiz açarı>", q: "sual", a: ["DÜZGÜN cavab", "səhv", "səhv", "səhv"], e: "izah" }
+// "a" massivinin İLK elementi düzgün cavabdır; quiz göstərərkən cavabları qarışdırır.
+window.QUESTIONS = [
+    { t: 'cdp', q: 'CDP defolt olaraq neçə saniyədən bir elan göndərir?', a: ['60', '30', '90', '180'], e: 'CDP timer 60 saniyə, holdtime isə 180 saniyədir.' },
+    { t: 'cdp', q: 'LLDP hansı standarta əsaslanır?', a: ['IEEE 802.1AB', 'IEEE 802.1Q', 'IEEE 802.1D', 'IEEE 802.3ad'], e: 'LLDP vendor-neytral IEEE 802.1AB standartıdır; 802.1Q — trunking, 802.1D — STP, 802.3ad — LACP.' },
+    { t: 'cdp', q: 'Cisco cihazında LLDP-ni qlobal aktivləşdirən əmr hansıdır?', a: ['lldp run', 'lldp enable', 'cdp run', 'lldp start'], e: 'Qlobal olaraq "lldp run"; interfeysdə isə "lldp transmit" və "lldp receive".' },
+
+    { t: 'vlan', q: 'Hər iki tərəfdə port "dynamic auto" rejimindədir. Link necə işləyəcək?', a: ['Access', 'Trunk', 'err-disabled', 'Link qalxmayacaq'], e: 'Auto passivdir — heç bir tərəf danışığa başlamadığı üçün trunk yaranmır, port access kimi işləyir.' },
+    { t: 'vlan', q: '802.1Q trunk-da native VLAN trafiki necə ötürülür?', a: ['Teqsiz (untagged)', '802.1Q teqi ilə', 'ISL başlığı ilə', 'Ümumiyyətlə ötürülmür'], e: 'Native VLAN çərçivələri teqsiz göndərilir, ona görə hər iki tərəfdə native VLAN eyni olmalıdır.' },
+    { t: 'vlan', q: 'Portda DTP danışıqlarını söndürən əmr hansıdır?', a: ['switchport nonegotiate', 'no dtp enable', 'switchport mode dynamic off', 'spanning-tree dtp disable'], e: '"switchport nonegotiate" DTP çərçivələrinin göndərilməsini dayandırır.' },
+
+    { t: 'dhcp', q: 'DHCP serverə qoşulan switch portu necə konfiqurasiya olunmalıdır?', a: ['ip dhcp snooping trust', 'ip dhcp snooping untrusted', 'ip dhcp snooping limit rate 0', 'shutdown'], e: 'Qanuni server portu trusted olmalıdır; defolt olaraq bütün portlar untrusted-dir.' },
+    { t: 'dhcp', q: 'Untrusted portdan gələn hansı DHCP mesajı bloklanır?', a: ['DHCP Offer', 'DHCP Discover', 'DHCP Request', 'DHCP Release'], e: 'Offer və ACK server mesajlarıdır — untrusted portdan gəlirsə saxta server kimi bloklanır.' },
+    { t: 'dhcp', q: 'DHCP snooping binding cədvəli hansı funksiyalar üçün əsasdır?', a: ['Dynamic ARP Inspection və IP Source Guard', 'STP və RSTP', 'VTP pruning', 'HSRP preempt'], e: 'DAI və IP Source Guard qanuni IP–MAC–port bağlamalarını bu cədvəldən götürür.' },
+
+    { t: 'routing', q: 'OSPF-in defolt inzibati məsafəsi (AD) nə qədərdir?', a: ['110', '90', '120', '100'], e: 'Connected 0, Static 1, EIGRP (daxili) 90, OSPF 110, RIP 120.' },
+    { t: 'routing', q: 'RIP-də marşrut neçə hop olduqda əlçatmaz sayılır?', a: ['16', '15', '255', '100'], e: 'Maksimum etibarlı hop sayı 15-dir; 16 "sonsuz" (unreachable) deməkdir.' },
+    { t: 'routing', q: 'EIGRP ən yaxşı və ehtiyat yolları hansı alqoritmlə hesablayır?', a: ['DUAL', 'SPF (Dijkstra)', 'Bellman-Ford', 'Spanning Tree'], e: 'EIGRP Diffusing Update Algorithm (DUAL) ilə successor və feasible successor-ları tapır.' },
+
+    { t: 'power', q: '220V gərginlikdə 2A cərəyan çəkən cihazın gücü nə qədərdir?', a: ['440W', '110W', '222W', '880W'], e: 'W = V × A = 220 × 2 = 440W.' },
+    { t: 'power', q: 'Elektrik kəsiləndə dərhal, fasiləsiz enerji verən cihaz hansıdır?', a: ['UPS', 'Generator', 'Stabilizator', 'Relay'], e: 'UPS batareyaya anında keçir; generatorun işə düşməsi üçün isə vaxt lazımdır.' },
+
+    { t: 'ios', q: 'Cari konfiqurasiyanı yenidən yükləmədən sonra qalması üçün yadda saxlayan əmr hansıdır?', a: ['copy running-config startup-config', 'write erase', 'copy startup-config running-config', 'reload'], e: '"copy run start" (və ya "write memory") running-config-i NVRAM-dakı startup-config-ə yazır.' },
+    { t: 'ios', q: 'Konfiqurasiyadakı bütün açıq mətnli parolları şifrələyən əmr hansıdır?', a: ['service password-encryption', 'enable secret', 'crypto key generate rsa', 'password encrypt all'], e: '"service password-encryption" zəif (type 7) şifrələmə tətbiq edir; enable parolu üçün "enable secret" daha güclüdür.' },
+
+    { t: 'stp', q: 'STP-də Root Bridge necə seçilir?', a: ['Ən aşağı Bridge ID', 'Ən yüksək Bridge ID', 'Ən çox portu olan switch', 'Ən yüksək IP ünvanı'], e: 'Bridge ID = prioritet + MAC. Ən aşağı prioritet qalib gəlir; bərabər olduqda ən aşağı MAC.' },
+    { t: 'stp', q: 'BPDU Guard aktiv olan portda BPDU alınarsa nə baş verir?', a: ['Port err-disabled olur', 'Port blocking-ə keçir', 'Port root port olur', 'BPDU nəzərə alınmır'], e: 'BPDU Guard PortFast portlarını qoruyur: BPDU gəldikdə portu dərhal err-disabled edir.' },
+    { t: 'stp', q: 'Bridge prioriteti hansı addımlarla təyin oluna bilər?', a: ['4096', '1024', '1', '256'], e: 'Extended System ID səbəbindən prioritet 4096-nın misli olmalıdır (defolt 32768).' },
+
+    { t: 'acl', q: 'Standart ACL trafiki nəyə görə filtrləyir?', a: ['Yalnız mənbə IP ünvanı', 'Yalnız təyinat IP ünvanı', 'Port nömrəsi', 'Protokol növü'], e: 'Standart ACL yalnız mənbə IP-yə baxır; digər meyarlar üçün genişləndirilmiş ACL lazımdır.' },
+    { t: 'acl', q: '192.168.10.0/24 şəbəkəsi üçün wildcard maska hansıdır?', a: ['0.0.0.255', '255.255.255.0', '0.0.255.255', '0.0.0.0'], e: 'Wildcard = 255.255.255.255 − 255.255.255.0 = 0.0.0.255.' },
+    { t: 'acl', q: 'Hər ACL-in sonunda gizli olaraq hansı qayda var?', a: ['deny any (implicit deny)', 'permit any', 'deny icmp any any', 'Heç bir qayda yoxdur'], e: 'Heç bir sətirə uyğun gəlməyən paket gizli "deny any" ilə atılır — ona görə ən azı bir permit olmalıdır.' },
+
+    { t: 'nat', q: 'PAT konfiqurasiyasında hansı açar söz istifadə olunur?', a: ['overload', 'pat', 'extendable', 'multiplex'], e: '"ip nat inside source list 1 interface Gi0/1 overload" — port nömrələri ilə çoxlu hostu bir IP-yə çevirir.' },
+    { t: 'nat', q: 'Aşağıdakılardan hansı RFC 1918 private diapazonu DEYİL?', a: ['172.32.0.0/16', '10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16'], e: '172.16.0.0/12 diapazonu 172.16.0.0 – 172.31.255.255-dir; 172.32.x.x public-dir.' },
+    { t: 'nat', q: '"Inside Global" ünvanı nədir?', a: ['Daxili hostun internetdə göründüyü public IP', 'Daxili hostun private IP-si', 'Xarici serverin real IP-si', 'Router-in loopback ünvanı'], e: 'Inside Local — private IP, Inside Global — NAT-dan sonra xaricdə görünən IP.' },
+
+    { t: 'portsec', q: 'Port Security-nin defolt violation rejimi hansıdır?', a: ['shutdown', 'protect', 'restrict', 'drop'], e: 'Defolt "shutdown" — pozuntu olduqda port err-disabled olur.' },
+    { t: 'portsec', q: 'Hansı rejim naməlum trafiki atır, xəbərdarlıq edir, amma portu aktiv saxlayır?', a: ['restrict', 'protect', 'shutdown', 'sticky'], e: 'Protect səssizcə atır, restrict atır və xəbərdarlıq edir, shutdown isə portu bağlayır.' },
+
+    { t: 'vtp', q: 'VLAN yarada bilən və dəyişiklikləri domenə yayan VTP rejimi hansıdır?', a: ['Server', 'Client', 'Transparent', 'Off'], e: 'Client VLAN yarada bilmir; Transparent yalnız lokal VLAN yaradır və öz bazasını yaymır.' },
+    { t: 'vtp', q: 'Yeni switch qoşarkən mövcud VLAN-ların silinməsi riski nə ilə bağlıdır?', a: ['Daha yüksək revision nömrəsi', 'VTP parolunun uzunluğu', 'VTP pruning', 'Native VLAN uyğunsuzluğu'], e: 'Daha yüksək revision nömrəsinə malik switch öz VLAN bazasını hamıya yayaraq mövcudları əvəz edir.' },
+
+    { t: 'fhrp', q: 'HSRP-də defolt prioritet nə qədərdir?', a: ['100', '110', '255', '0'], e: 'Defolt 100; daha yüksək prioritetli router Active olur.' },
+    { t: 'fhrp', q: 'Hansı FHRP açıq (vendor-neytral) standartdır?', a: ['VRRP', 'HSRP', 'GLBP', 'CDP'], e: 'VRRP RFC 5798 standartıdır; HSRP və GLBP Cisco-ya məxsusdur.' },
+    { t: 'fhrp', q: 'HSRP-də bərpa olunan yüksək prioritetli router-in Active rolunu geri alması üçün nə lazımdır?', a: ['preempt', 'track', 'timers', 'authentication'], e: 'HSRP-də preempt defolt olaraq sönülüdür; "standby 1 preempt" ilə aktivləşdirilir.' },
+
+    { t: 'osi', q: 'Router hansı OSI qatında işləyir?', a: ['3 — Network', '2 — Data Link', '4 — Transport', '1 — Physical'], e: 'Router IP ünvanlarına əsasən marşrutlaşdırır — Layer 3.' },
+    { t: 'osi', q: 'Data Link qatında məlumat vahidi (PDU) necə adlanır?', a: ['Frame', 'Packet', 'Segment', 'Bit'], e: 'L4 — Segment, L3 — Packet, L2 — Frame, L1 — Bit.' },
+    { t: 'osi', q: 'Hansı protokol bağlantı yönümlüdür və 3-way handshake istifadə edir?', a: ['TCP', 'UDP', 'ICMP', 'ARP'], e: 'TCP SYN → SYN-ACK → ACK ilə bağlantı qurur; UDP bağlantısızdır.' },
+
+    { t: 'ipv6', q: 'IPv6 ünvanı neçə bitdir?', a: ['128', '64', '32', '256'], e: 'IPv4 — 32 bit, IPv6 — 128 bit.' },
+    { t: 'ipv6', q: 'Link-local IPv6 ünvanları hansı prefiksə aiddir?', a: ['FE80::/10', 'FF00::/8', '2000::/3', 'FC00::/7'], e: 'FF00::/8 — multicast, 2000::/3 — global unicast, FC00::/7 — unique local.' },
+    { t: 'ipv6', q: '2001:0db8:0000:0000:0000:0000:0000:0001 ünvanının düzgün qısa forması hansıdır?', a: ['2001:db8::1', '2001:db8:::1', '2001::db8::1', '2001:db8::1::'], e: 'Öndəki sıfırlar atılır, ardıcıl sıfır qruplar yalnız bir dəfə "::" ilə əvəzlənir.' },
+    { t: 'ipv6', q: 'Cisco router-də IPv6 paketlərinin marşrutlaşdırılmasını aktivləşdirən əmr hansıdır?', a: ['ipv6 unicast-routing', 'ipv6 enable', 'ipv6 routing on', 'ip routing ipv6'], e: '"ipv6 enable" yalnız interfeysdə link-local yaradır; marşrutlaşdırma üçün "ipv6 unicast-routing" lazımdır.' },
+
+    { t: 'ec', q: 'Hansı LACP rejim kombinasiyası EtherChannel qurmur?', a: ['passive – passive', 'active – active', 'active – passive', 'Hamısı qurur'], e: 'Passive yalnız cavab verir; hər iki tərəf passive olduqda danışığı heç kim başlatmır.' },
+    { t: 'ec', q: 'LACP hansı standarta əsaslanır?', a: ['IEEE 802.3ad', 'IEEE 802.1AB', 'IEEE 802.1w', 'IEEE 802.1X'], e: '802.3ad (indi 802.1AX); 802.1w — RSTP, 802.1X — port autentifikasiyası.' },
+    { t: 'ec', q: 'Bir EtherChannel-də maksimum neçə aktiv fiziki link ola bilər?', a: ['8', '4', '16', '2'], e: '8 aktiv link; LACP əlavə 8 portu hot-standby kimi saxlaya bilər.' },
+
+    { t: 'subnet', q: '/27 şəbəkəsində neçə istifadə oluna bilən host var?', a: ['30', '32', '62', '14'], e: '2^(32−27) − 2 = 32 − 2 = 30.' },
+    { t: 'subnet', q: '192.168.1.100/26 ünvanının şəbəkə ünvanı hansıdır?', a: ['192.168.1.64', '192.168.1.0', '192.168.1.96', '192.168.1.128'], e: '/26 → blok ölçüsü 64: 0, 64, 128, 192. 100 ədədi 64–127 blokuna düşür.' },
+    { t: 'subnet', q: '255.255.255.240 maskası hansı prefiksə uyğundur?', a: ['/28', '/27', '/29', '/26'], e: '240 = 11110000 → 24 + 4 = /28.' },
+    { t: 'subnet', q: '50 host üçün ən qənaətli prefiks hansıdır?', a: ['/26', '/25', '/27', '/24'], e: '/26 → 62 host (50-yə kifayət edir); /27 cəmi 30 host verir.' },
+    { t: 'subnet', q: 'Host hansı ünvanı aldıqda DHCP serverdən cavab gəlmədiyini anlayırıq?', a: ['169.254.12.5', '172.16.0.5', '127.0.0.1', '192.0.2.1'], e: '169.254.0.0/16 (APIPA) — host DHCP cavabı almadıqda özünə bu diapazondan ünvan verir.' },
+
+    { t: 'eth', q: 'Auto-MDIX olmadan iki switch-i birləşdirmək üçün hansı kabel lazımdır?', a: ['Crossover', 'Straight-through', 'Rollover (konsol)', 'Koaksial'], e: 'Eyni tip cihazlar (switch–switch, PC–PC, router–router) crossover ilə birləşir; auto-MDIX bunu avtomatik həll edir.' },
+    { t: 'eth', q: 'UTP (Cat5e/Cat6) kabelinin standart maksimum seqment uzunluğu nə qədərdir?', a: ['100 metr', '55 metr', '185 metr', '500 metr'], e: 'Mis Ethernet üçün seqment limiti 100 metrdir.' },
+    { t: 'eth', q: 'Duplex uyğunsuzluğunda half-duplex tərəfdə hansı sayğac artır?', a: ['Late collisions', 'Giants', 'Output drops', 'Ignored'], e: 'Half-duplex tərəf late collision, full-duplex tərəf isə CRC/runt xətaları görür.' },
+
+    { t: 'intervlan', q: 'Router-on-a-stick-də subinterfeysə VLAN 10-u təyin edən əmr hansıdır?', a: ['encapsulation dot1Q 10', 'switchport access vlan 10', 'vlan 10', 'ip vlan 10'], e: 'Subinterfeysdə "encapsulation dot1Q 10" çərçivələrin VLAN 10 teqi ilə göndərilməsini təmin edir.' },
+    { t: 'intervlan', q: 'Layer 3 switch-də SVI-lər arasında marşrutlaşdırmanı aktivləşdirən əmr hansıdır?', a: ['ip routing', 'ip unicast-routing', 'router svi', 'switchport routing'], e: '"ip routing" olmadan L3 switch SVI-lər arasında paket ötürmür.' },
+    { t: 'intervlan', q: '"interface vlan 10" SVI-nin up/up olması üçün nə lazımdır?', a: ['VLAN 10 mövcud olmalı və orada ən azı bir aktiv port olmalıdır', 'ip routing əmri', 'SVI-yə MAC ünvanı yazılmalıdır', 'VTP server rejimi'], e: 'SVI yalnız VLAN mövcud olduqda və həmin VLAN-da up/forwarding port (və ya trunk) olduqda qalxır.' },
+
+    { t: 'wlan', q: '2.4 GHz diapazonunda üst-üstə düşməyən kanallar hansılardır?', a: ['1, 6, 11', '1, 5, 9', '2, 7, 12', '36, 40, 44'], e: '2.4 GHz-də yalnız 1, 6 və 11 kanalları bir-biri ilə üst-üstə düşmür.' },
+    { t: 'wlan', q: 'WPA3-Personal hansı autentifikasiya metodundan istifadə edir?', a: ['SAE', 'TKIP', 'WEP açarı', 'LEAP'], e: 'SAE offline lüğət hücumlarına davamlıdır; WPA2-Personal isə PSK istifadə edir.' },
+    { t: 'wlan', q: 'Lightweight AP ilə WLC arasında hansı protokol istifadə olunur?', a: ['CAPWAP', 'SNMP', 'RADIUS', 'LLDP'], e: 'CAPWAP (UDP 5246 idarəetmə, 5247 data) AP ilə WLC arasında tunel qurur.' },
+
+    { t: 'static', q: 'Floating static route necə yaradılır?', a: ['Daha yüksək inzibati məsafə (AD) verməklə', 'Daha aşağı metrika verməklə', '/32 prefiks ilə', '"permanent" açar sözü ilə'], e: 'Məs. "ip route 0.0.0.0 0.0.0.0 198.51.100.1 5" — AD 5 olduğu üçün yalnız əsas marşrut itəndə aktivləşir.' },
+    { t: 'static', q: 'Marşrut cədvəlində "S*" nəyi bildirir?', a: ['Statik defolt marşrut', 'Summary marşrut', 'Standby marşrut', 'Subinterfeys marşrutu'], e: 'S — statik, * — defolt marşrut namizədi (gateway of last resort).' },
+    { t: 'static', q: 'Paket üçün bir neçə uyğun marşrut olduqda router hansını seçir?', a: ['Ən uzun prefiksli (longest match)', 'Ən aşağı AD olanı', 'Cədvəldə birinci olanı', 'Ən qısa prefiksli'], e: 'Əvvəlcə ən uzun prefiks seçilir; AD yalnız eyni prefiks müxtəlif mənbələrdən öyrənildikdə müqayisə olunur.' },
+
+    { t: 'ospf', q: 'OSPF router ID seçimində birinci prioritet hansıdır?', a: ['router-id əmri ilə əl ilə təyin', 'Ən yüksək loopback IP', 'Ən yüksək fiziki interfeys IP', 'Ən aşağı MAC ünvanı'], e: 'Ardıcıllıq: router-id əmri → ən yüksək loopback IP → ən yüksək aktiv fiziki IP.' },
+    { t: 'ospf', q: 'Broadcast şəbəkədə DR necə seçilir?', a: ['Ən yüksək interfeys prioriteti, bərabərdirsə ən yüksək router ID', 'Ən aşağı router ID', 'Ən aşağı prioritet', 'Ən çox qonşusu olan router'], e: 'Defolt prioritet 1-dir; prioritet 0 olan router heç vaxt DR/BDR olmur.' },
+    { t: 'ospf', q: 'OSPF qonşuluğu üçün hansı parametr mütləq uyğun olmalıdır?', a: ['Hello/Dead timerləri', 'Router ID', 'Interfeys prioriteti', 'Process ID'], e: 'Timerlər, area, subnet, autentifikasiya və MTU uyğun olmalıdır; process ID lokal xarakter daşıyır.' },
+    { t: 'ospf', q: 'Tam qonşuluq qurulduqda OSPF vəziyyəti necə adlanır?', a: ['FULL', '2-WAY', 'EXSTART', 'LOADING'], e: 'FULL — LSDB-lər tam sinxrondur. DROTHER-lər bir-biri ilə 2-WAY-də qalır.' },
+
+    { t: 'dhcpsrv', q: 'DHCP prosesinin (DORA) düzgün mesaj ardıcıllığı hansıdır?', a: ['Discover → Offer → Request → Acknowledge', 'Request → Offer → Discover → Acknowledge', 'Discover → Request → Offer → Acknowledge', 'Offer → Discover → Acknowledge → Request'], e: 'Müştəri axtarır (Discover), server təklif edir (Offer), müştəri istəyir (Request), server təsdiqləyir (Ack).' },
+    { t: 'dhcpsrv', q: 'DHCP server başqa subnetdədirsə, müştərilərə baxan router interfeysində hansı əmr lazımdır?', a: ['ip helper-address', 'ip dhcp relay enable', 'ip forward-protocol dhcp', 'dhcp server remote'], e: '"ip helper-address" broadcast Discover-i serverə unicast kimi ötürür.' },
+    { t: 'dhcpsrv', q: 'DHCP server hansı UDP portunu dinləyir?', a: ['67', '68', '53', '69'], e: 'Server UDP 67, müştəri UDP 68.' },
+
+    { t: 'ssh', q: 'RSA açarı yaratmazdan əvvəl nə konfiqurasiya olunmalıdır?', a: ['Defolt olmayan hostname və ip domain-name', 'Yalnız enable secret', 'transport input telnet', 'ip http server'], e: 'RSA açarının adı hostname və domain adından formalaşır.' },
+    { t: 'ssh', q: 'VTY xətlərində yalnız SSH-a icazə verən əmr hansıdır?', a: ['transport input ssh', 'login ssh', 'ip ssh only', 'transport output ssh'], e: '"transport input ssh" Telnet-i bağlayır.' },
+    { t: 'ssh', q: 'Hansı AAA protokolu TCP 49 istifadə edir və bütün paketi şifrələyir?', a: ['TACACS+', 'RADIUS', 'LDAP', 'Kerberos'], e: 'RADIUS UDP 1812/1813 istifadə edir və yalnız parolu şifrələyir.' },
+
+    { t: 'l2sec', q: 'Dynamic ARP Inspection ARP paketlərini nəyə əsasən yoxlayır?', a: ['DHCP snooping binding cədvəli', 'MAC ünvan cədvəli', 'Marşrut cədvəli', 'CDP qonşu cədvəli'], e: 'IP–MAC uyğunluğu binding cədvəlində yoxdursa, ARP paketi atılır.' },
+    { t: 'l2sec', q: '802.1X-də switch hansı rolu oynayır?', a: ['Authenticator', 'Supplicant', 'Authentication server', 'Relay agent'], e: 'Supplicant — müştəri cihazı, Authenticator — switch/AP, Authentication server — RADIUS.' },
+    { t: 'l2sec', q: 'IP Source Guard-ı interfeysdə aktivləşdirən əmr hansıdır?', a: ['ip verify source', 'ip source guard enable', 'ip arp inspection trust', 'switchport port-security'], e: '"ip verify source" yalnız binding cədvəlindəki IP-dən trafikə icazə verir.' },
+
+    { t: 'services', q: 'Syslog-da 4-cü səviyyənin adı nədir?', a: ['Warning', 'Error', 'Notification', 'Critical'], e: '0 Emergency, 1 Alert, 2 Critical, 3 Error, 4 Warning, 5 Notification, 6 Informational, 7 Debugging.' },
+    { t: 'services', q: '"logging trap warnings" hansı mesajları syslog serverə göndərir?', a: ['0–4 səviyyələri (Warning və daha ciddi)', 'Yalnız 4-cü səviyyə', '4–7 səviyyələri', 'Bütün səviyyələr'], e: 'Seçilmiş səviyyə və ondan daha ciddi (kiçik nömrəli) mesajlar göndərilir.' },
+    { t: 'services', q: 'Hansı SNMP versiyası autentifikasiya və şifrələmə təmin edir?', a: ['SNMPv3', 'SNMPv2c', 'SNMPv1', 'Heç biri'], e: 'v1/v2c açıq mətnli community string istifadə edir; v3 authPriv rejimində həm autentifikasiya, həm şifrələmə var.' },
+    { t: 'services', q: 'NTP hansı UDP portundan istifadə edir?', a: ['123', '161', '514', '69'], e: 'NTP — 123, SNMP — 161/162, Syslog — 514, TFTP — 69.' },
+    // ---------- CCNA Dərsləri ----------
+    { t: 'tcpudp', q: 'TCP bağlantısı qurulanda 3-way handshake-in ardıcıllığı hansıdır?', a: ['SYN → SYN-ACK → ACK', 'SYN → ACK → FIN', 'ACK → SYN → SYN-ACK', 'SYN → SYN → ACK'], e: 'Klient SYN göndərir, server SYN-ACK ilə cavab verir, klient ACK ilə təsdiqləyir.' },
+    { t: 'tcpudp', q: 'Aşağıdakılardan hansı UDP üzərində işləyir?', a: ['DNS sorğusu (53) və DHCP (67/68)', 'HTTPS (443)', 'SSH (22)', 'FTP (21)'], e: 'Adi DNS sorğuları və DHCP UDP istifadə edir; HTTPS, SSH və FTP TCP üzərindədir.' },
+    { t: 'tcpudp', q: 'TCP-də windowing nəyə xidmət edir?', a: ['Təsdiq gözləmədən göndərilə bilən məlumat həcmini idarə edir (flow control)', 'Paketləri şifrələyir', 'Port nömrəsini seçir', 'IP ünvanını müəyyən edir'], e: 'Window ölçüsü qəbuledicinin ACK göndərmədən qəbul edə biləcəyi bayt sayını göstərir — axın nəzarəti.' },
+
+    { t: 'arp', q: 'MAC ünvanının ilk 24 biti (OUI) nəyi göstərir?', a: ['İstehsalçını', 'VLAN nömrəsini', 'Şəbəkə prefiksini', 'Port nömrəsini'], e: 'OUI (Organizationally Unique Identifier) IEEE tərəfindən istehsalçıya verilir; qalan 24 bit cihaza məxsusdur.' },
+    { t: 'arp', q: 'PC başqa şəbəkədəki serverə paket göndərir. Çərçivənin təyinat MAC ünvanı hansıdır?', a: ['Defolt gateway-in MAC ünvanı', 'Serverin MAC ünvanı', 'FFFF.FFFF.FFFF', 'PC-nin öz MAC ünvanı'], e: 'Təyinat IP başqa şəbəkədədirsə, PC gateway-in MAC-ını ARP ilə tapır; IP ünvanlar dəyişmir, MAC isə hər hop-da dəyişir.' },
+    { t: 'arp', q: 'ARP Request çərçivəsi hansı təyinat MAC ünvanına göndərilir?', a: ['FFFF.FFFF.FFFF (broadcast)', 'Gateway-in MAC ünvanı', '0100.5E00.0001', '0000.0000.0000'], e: 'ARP sorğusu broadcast-dır; cavab (ARP Reply) isə unicast olaraq sorğu göndərənə qayıdır.' },
+
+    { t: 'icmp', q: 'Cisco ping nəticəsində "." simvolu nə deməkdir?', a: ['Zaman aşımı — cavab gəlmədi', 'Uğurlu cavab', 'Təyinat əlçatmazdır (unreachable)', 'Paket çox böyükdür'], e: '"!" — uğurlu cavab, "." — timeout, "U" — destination unreachable.' },
+    { t: 'icmp', q: 'Traceroute yol üzərindəki router-ləri hansı mexanizmlə aşkarlayır?', a: ['TTL-i 1-dən başlayıb artırır və ICMP Time Exceeded cavablarını toplayır', 'Hər router-ə ARP sorğusu göndərir', 'Router-lərin CDP elanlarını oxuyur', 'OSPF LSA-larını analiz edir'], e: 'TTL 0-a düşəndə router paketi atır və ICMP Time Exceeded göndərir — beləcə hər hop-un ünvanı üzə çıxır.' },
+    { t: 'icmp', q: 'Ping hansı ICMP mesaj cütündən istifadə edir?', a: ['Echo Request və Echo Reply', 'Time Exceeded və Redirect', 'Router Solicitation və Advertisement', 'Source Quench və Parameter Problem'], e: 'Ping ICMP Echo Request (tip 8) göndərir və Echo Reply (tip 0) gözləyir.' },
+
+    { t: 'cli', q: 'Hansı CLI istəyi privileged EXEC rejimini göstərir?', a: ['R1#', 'R1>', 'R1(config)#', 'R1(config-if)#'], e: '">" — user EXEC, "#" — privileged EXEC, "(config)#" — qlobal konfiqurasiya rejimi.' },
+    { t: 'cli', q: 'Konfiqurasiyanı yenidən yüklənmədən sonra qorumaq üçün hansı əmr lazımdır?', a: ['copy running-config startup-config', 'copy startup-config running-config', 'show running-config', 'erase startup-config'], e: 'running-config RAM-dadır; NVRAM-dakı startup-config-ə köçürülməsə, reload zamanı itir.' },
+    { t: 'cli', q: 'Hansı parol konfiqurasiyada ən güclü hash ilə saxlanılır?', a: ['enable algorithm-type scrypt secret', 'enable password', 'service password-encryption ilə enable password', 'line con 0 altında password'], e: 'scrypt (type 9) ən güclüdür; service password-encryption yalnız zəif, geri açıla bilən type 7 verir.' },
+
+    { t: 'swbasics', q: 'Switch təyinat MAC ünvanını MAC cədvəlində tapmayanda nə edir?', a: ['Çərçivəni gəldiyi port xaric həmin VLAN-ın bütün portlarına göndərir (flood)', 'Çərçivəni atır', 'Mənbəyə ICMP xətası qaytarır', 'ARP sorğusu göndərir'], e: 'Naməlum unicast flood olunur; cavab gələndə switch həmin MAC-ı da öyrənir.' },
+    { t: 'swbasics', q: 'Switch MAC ünvanlarını çərçivənin hansı sahəsindən öyrənir?', a: ['Mənbə (source) MAC', 'Təyinat MAC', 'Mənbə IP', 'EtherType'], e: 'Switch gələn çərçivənin mənbə MAC ünvanını daxil olduğu port ilə birlikdə cədvələ yazır.' },
+    { t: 'swbasics', q: '24 portlu switch-də (hamısı VLAN 1-də) neçə collision və neçə broadcast domeni var?', a: ['24 collision, 1 broadcast', '1 collision, 24 broadcast', '1 collision, 1 broadcast', '24 collision, 24 broadcast'], e: 'Hər switch portu ayrıca collision domenidir; bir VLAN isə bir broadcast domenidir.' },
+
+    { t: 'topo', q: 'Hər cihazın digər bütün cihazlarla birbaşa əlaqəsi olan topologiya hansıdır?', a: ['Full mesh', 'Star', 'Bus', 'Ring'], e: 'Full mesh ən yüksək ehtiyat verir, amma n(n−1)/2 əlaqə tələb etdiyi üçün bahalıdır.' },
+    { t: 'topo', q: 'Müasir Ethernet LAN-larında ən çox istifadə olunan fiziki topologiya hansıdır?', a: ['Star (ulduz) — cihazlar mərkəzi switch-ə qoşulur', 'Bus', 'Ring', 'Full mesh'], e: 'Hər cihaz ayrıca kabel ilə switch-ə qoşulur; bir kabelin qırılması yalnız həmin cihaza təsir edir.' },
+    { t: 'topo', q: 'SOHO router adətən hansı funksiyaları bir cihazda birləşdirir?', a: ['Router, switch, simsiz AP, firewall və DHCP server', 'Yalnız marşrutlaşdırma', 'Yalnız simsiz giriş', 'Core və distribution qatlarını'], e: 'Kiçik ofis/ev üçün bütün əsas funksiyalar bir qutudadır.' },
+
+    { t: 'vlantypes', q: 'Voice VLAN konfiqurasiya olunmuş access portunda IP telefonun səs trafiki necə göndərilir?', a: ['Voice VLAN-ın 802.1Q teqi ilə', 'Teqsiz, data VLAN-da', 'Native VLAN-da', 'Ayrıca fiziki portdan'], e: 'Telefon səsi voice VLAN teqi ilə, arxasındakı PC-nin trafikini isə teqsiz (data VLAN) göndərir.' },
+    { t: 'vlantypes', q: 'Double tagging VLAN hopping hücumunun qarşısını hansı tədbir alır?', a: ['Native VLAN-ı istifadə olunmayan VLAN-a dəyişmək və ya native VLAN-ı teqləmək', 'Portfast aktivləşdirmək', 'VTP-ni server rejiminə keçirmək', 'CDP-ni söndürmək'], e: 'Hücum hücumçunun VLAN-ı trunk-ın native VLAN-ı ilə üst-üstə düşəndə işləyir.' },
+    { t: 'vlantypes', q: 'Switch-in idarə edilməsi üçün IP ünvanı adətən harada konfiqurasiya olunur?', a: ['Management VLAN-ın SVI interfeysində', 'Fiziki access portunda', 'Trunk portunda', 'Konsol xəttində'], e: 'Layer 2 switch-də idarəetmə IP-si SVI-yə (məs. interface vlan 99) verilir və ip default-gateway təyin edilir.' },
+
+    { t: 'stpadv', q: 'Root bridge seçimində hansı dəyər qalib gəlir?', a: ['Ən aşağı Bridge ID (prioritet + MAC)', 'Ən yüksək Bridge ID', 'Ən çox portu olan switch', 'Ən yüksək IP ünvanı'], e: 'Əvvəl prioritet, bərabər olduqda ən aşağı MAC ünvanı müqayisə olunur.' },
+    { t: 'stpadv', q: 'BPDU Guard aktiv olan porta BPDU gələndə nə baş verir?', a: ['Port err-disabled vəziyyətinə keçir', 'Port root port olur', 'BPDU sadəcə nəzərə alınmır', 'Port trunk olur'], e: 'BPDU Guard PortFast portlarına icazəsiz switch qoşulmasının qarşısını alır.' },
+    { t: 'stpadv', q: 'Rapid PVST+-da blocking vəziyyətinin əvəzinə hansı vəziyyət istifadə olunur?', a: ['Discarding', 'Listening', 'Disabled', 'Learning'], e: 'RSTP-də üç vəziyyət var: discarding, learning, forwarding.' },
+
+    { t: 'poe', q: 'PSE ilə PD nədir?', a: ['PSE enerji verən (switch), PD enerji alan cihazdır (telefon, AP)', 'PSE telefon, PD switch-dir', 'Hər ikisi kabel növüdür', 'PSE — Ethernet standartı, PD — VLAN'], e: 'Power Sourcing Equipment enerji verir, Powered Device onu qəbul edir.' },
+    { t: 'poe', q: '802.3at (PoE+) portunda PSE-nin verdiyi maksimum güc nə qədərdir?', a: ['30 W', '15.4 W', '60 W', '90 W'], e: '802.3af — 15.4 W, 802.3at (PoE+) — 30 W, 802.3bt — 60 W (Type 3) və 90 W (Type 4).' },
+    { t: 'poe', q: 'Switch-in PoE güc büdcəsi tükənəndə yeni qoşulan PD ilə nə baş verir?', a: ['Enerji ala bilmir — büdcə kifayət etmir', 'Büdcə avtomatik artır', 'Digər portların məlumat trafiki dayanır', 'Switch yenidən yüklənir'], e: 'Switch-in enerji bloku məhduddur; show power inline ilə istifadə olunan və qalan güc yoxlanılır.' },
+
+    { t: 'wsec', q: 'WPA3-Personal hansı autentifikasiya metodundan istifadə edir?', a: ['SAE', 'Klassik PSK (WPA2-Personal)', 'WEP açarı', 'Open'], e: 'SAE (Simultaneous Authentication of Equals) oflayn lüğət hücumlarına qarşı daha davamlıdır.' },
+    { t: 'wsec', q: 'WPA2 hansı şifrələmə protokolunu tələb edir?', a: ['CCMP (AES)', 'TKIP', 'RC4 (WEP)', 'DES'], e: 'WPA2 AES əsaslı CCMP istifadə edir; TKIP köhnə WPA-dan qalıb, WPA3 isə GCMP də dəstəkləyir.' },
+    { t: 'wsec', q: 'Enterprise simsiz şəbəkədə istifadəçilər harada yoxlanılır?', a: ['802.1X/EAP ilə RADIUS serverində', 'AP-də saxlanılan ümumi parolla', 'DHCP serverində', 'Heç yerdə — şəbəkə açıqdır'], e: 'WPA2/3-Enterprise hər istifadəçini ayrıca RADIUS (AAA) serveri ilə autentifikasiya edir.' },
+
+    { t: 'binhex', q: '11000000 binar ədədi onluq sistemdə neçədir?', a: ['192', '128', '224', '160'], e: '128 + 64 = 192.' },
+    { t: 'binhex', q: '0xAF onluq sistemdə neçədir?', a: ['175', '160', '171', '255'], e: 'A = 10, F = 15; 10 × 16 + 15 = 175.' },
+    { t: 'binhex', q: '/27 maskası onluq formada hansıdır?', a: ['255.255.255.224', '255.255.255.240', '255.255.255.192', '255.255.255.248'], e: 'Son oktetdə 3 bit: 128 + 64 + 32 = 224.' },
+
+    { t: 'rtbasics', q: 'Eyni prefiks həm OSPF (110), həm də statik marşrutla (1) öyrənilib. Hansı cədvələ düşür?', a: ['Statik marşrut — inzibati məsafəsi daha aşağıdır', 'OSPF — metrikası daha yaxşıdır', 'Hər ikisi — yük bölgüsü', 'Heç biri'], e: 'Fərqli mənbələr arasında ən aşağı AD qalib gəlir.' },
+    { t: 'rtbasics', q: 'Router paketi göndərərkən IP başlığında nəyi dəyişir?', a: ['TTL-i 1 azaldır və checksum-u yenidən hesablayır', 'Mənbə IP ünvanını', 'Təyinat IP ünvanını', 'Heç nəyi'], e: 'NAT olmadıqda IP ünvanlar dəyişmir; Layer 2 başlığı isə tamamilə yenidən qurulur.' },
+    { t: 'rtbasics', q: 'Marşrut cədvəlində "C" və "L" kodları nəyi bildirir?', a: ['Connected şəbəkə və interfeysin öz /32 local ünvanı', 'Cisco və Link-state', 'Candidate default və Loopback', 'CDP və LLDP'], e: 'Interfeysə IP verilib qalxdıqda router həm şəbəkəni (C), həm də öz ünvanını /32 kimi (L) əlavə edir.' },
+
+    { t: 'summ', q: '10.1.0.0/24, 10.1.1.0/24, 10.1.2.0/24, 10.1.3.0/24 şəbəkələrinin ən dəqiq summary marşrutu hansıdır?', a: ['10.1.0.0/22', '10.1.0.0/16', '10.1.0.0/23', '10.0.0.0/8'], e: 'Dörd ardıcıl /24 blok 0–3 aralığında ortaq 22 bitə malikdir: 10.1.0.0/22.' },
+    { t: 'summ', q: 'Route summarization-ın əsas faydası nədir?', a: ['Marşrut cədvəlini kiçildir və topologiya dəyişikliklərinin yayılmasını məhdudlaşdırır', 'Bant genişliyini artırır', 'Paketləri şifrələyir', 'ARP cədvəlini sıfırlayır'], e: 'Daha az marşrut — daha az yaddaş və CPU, bir subnetin düşməsi isə digər router-lərdə yenidən hesablama yaratmır.' },
+    { t: 'summ', q: 'Paketin təyinatına həm /16, həm də /24 marşrutu uyğun gəlir. Router hansını seçir?', a: ['/24 — longest prefix match', '/16 — daha əhatəlidir', 'AD-si aşağı olanı', 'Təsadüfi birini'], e: 'Ən uzun prefiks (ən spesifik marşrut) həmişə üstündür.' },
+
+    { t: 'ospfma', q: 'Area 0 ilə başqa area arasında yerləşən router necə adlanır?', a: ['ABR (Area Border Router)', 'ASBR', 'DR', 'Backbone switch'], e: 'ABR bir neçə area-ya qoşulub və Type 3 Summary LSA-ları yaradır; ASBR isə xarici marşrutları OSPF-ə daxil edir.' },
+    { t: 'ospfma', q: 'Başqa area-dan gələn OSPF marşrutu cədvəldə hansı kodla göstərilir?', a: ['O IA', 'O', 'O E2', 'D'], e: '"O" — area daxili, "O IA" — area-lararası, "O E2/E1" — xarici marşrut.' },
+    { t: 'ospfma', q: 'Hansı uyğunsuzluq OSPF qonşuluğunun qurulmasına mane olur?', a: ['Hello/Dead taymerləri fərqlidir', 'Router ID-lər fərqlidir', 'Interfeys cost-ları fərqlidir', 'Prioritetlər fərqlidir'], e: 'Area, subnet/maska, hello/dead taymerləri, autentifikasiya və stub flag uyğun olmalıdır; router ID isə unikal olmalıdır.' },
+
+    { t: 'wan', q: 'MPLS VPN-də müştəri tərəfindəki router necə adlanır?', a: ['CE (Customer Edge)', 'PE (Provider Edge)', 'P (Provider)', 'ABR'], e: 'CE router provayderin PE router-i ilə əlaqə qurur; P router-lər provayderin nüvəsindədir.' },
+    { t: 'wan', q: 'Metro Ethernet-in E-LAN xidməti nə təqdim edir?', a: ['Bir neçə sayt arasında çoxnöqtəli (multipoint) Layer 2 əlaqə', 'Yalnız iki sayt arasında point-to-point əlaqə', 'İnternetə DSL çıxışı', 'Layer 3 marşrutlaşdırma'], e: 'E-Line — nöqtədən-nöqtəyə, E-LAN — hamı hamı ilə, E-Tree — mərkəz və budaqlar.' },
+    { t: 'wan', q: 'Leased line (ayrılmış xətt) üzərində hansı Layer 2 protokolları istifadə olunur?', a: ['HDLC və PPP', 'Ethernet və 802.11', 'OSPF və EIGRP', 'TCP və UDP'], e: 'Serial leased line-larda Cisco defolt olaraq HDLC, çox vaxt isə PPP istifadə edir.' },
+
+    { t: 'qosmark', q: 'Səs (VoIP) trafiki üçün tövsiyə olunan DSCP dəyəri hansıdır?', a: ['EF (46)', 'AF41 (34)', 'CS6 (48)', 'Default (0)'], e: 'Expedited Forwarding — ən aşağı gecikmə və itki.' },
+    { t: 'qosmark', q: 'AF31 hansı DSCP ədədinə bərabərdir?', a: ['26', '24', '28', '31'], e: 'AFxy = 8x + 2y: 8×3 + 2×1 = 26.' },
+    { t: 'qosmark', q: 'Trust boundary nədir?', a: ['QoS işarələrinə etibar edilməyə başlanan nöqtə', 'Firewall-un xarici interfeysi', 'VLAN-lar arası sərhəd', 'OSPF area sərhədi'], e: 'Trust boundary-dən kənardan gələn işarələr silinir və ya yenidən yazılır — adətən IP telefon və ya access switch.' },
+
+    { t: 'qosq', q: 'Səs trafiki üçün ciddi prioritetli növbə verən queuing üsulu hansıdır?', a: ['LLQ', 'FIFO', 'CBWFQ', 'WRED'], e: 'LLQ = CBWFQ + priority queue; priority sinfi limitlə policing olunur ki, digər siniflər ac qalmasın.' },
+    { t: 'qosq', q: 'Shaping və policing arasında əsas fərq nədir?', a: ['Shaping artıq trafiki buferdə saxlayır, policing atır və ya yenidən işarələyir', 'Policing buferdə saxlayır, shaping atır', 'Hər ikisi trafiki atır', 'Shaping yalnız girişdə işləyir'], e: 'Shaping gecikmə əlavə edir, amma itkini azaldır; policing gecikmə əlavə etmir.' },
+    { t: 'qosq', q: 'WRED hansı problemi azaltmağa yönəlib?', a: ['TCP global synchronization', 'Broadcast storm', 'MAC flooding', 'ARP spoofing'], e: 'Növbə dolmamış paketləri təsadüfi atmaqla bütün TCP axınlarının eyni anda yavaşlamasının qarşısını alır.' },
+
+    { t: 'threats', q: 'Botnet-dəki minlərlə cihazın bir serverə hücumu necə adlanır?', a: ['DDoS', 'Phishing', 'Man-in-the-Middle', 'Reconnaissance'], e: 'Distributed Denial of Service — paylanmış xidmətdən imtina hücumu.' },
+    { t: 'threats', q: 'Hücumçunun ARP spoofing ilə özünü gateway kimi göstərib trafiki tutması hansı hücum növüdür?', a: ['Man-in-the-Middle', 'DoS', 'Brute force', 'Tailgating'], e: 'Trafik iki tərəf arasında hücumçudan keçir; DAI bu hücumun qarşısını alır.' },
+    { t: 'threats', q: 'MFA nədir?', a: ['İki və ya daha çox fərqli faktorla autentifikasiya (parol + telefon və s.)', 'Uzun parol istifadəsi', 'Parolun hər ay dəyişdirilməsi', 'Bir parolun bir neçə sistemdə istifadəsi'], e: 'Bildiyin, sahib olduğun və olduğun şey — fərqli kateqoriyalardan ən azı iki faktor.' },
+
+    { t: 'aaa', q: 'TACACS+ hansı nəqliyyat protokolu və portdan istifadə edir?', a: ['TCP 49', 'UDP 1812', 'UDP 49', 'TCP 1813'], e: 'TACACS+ — TCP 49; RADIUS — UDP 1812/1813.' },
+    { t: 'aaa', q: 'RADIUS ilə müqayisədə TACACS+-ın üstünlüyü hansıdır?', a: ['Bütün paketi şifrələyir və əmr səviyyəsində avtorizasiya dəstəkləyir', 'Açıq standartdır', 'UDP istifadə etdiyi üçün daha sürətlidir', '802.1X üçün əsas protokoldur'], e: 'Buna görə cihaz idarəetməsində TACACS+, şəbəkəyə girişdə (802.1X, VPN) RADIUS seçilir.' },
+    { t: 'aaa', q: '"aaa authentication login default group tacacs+ local" — TACACS+ serveri parolu səhv hesab etsə nə olur?', a: ['Giriş rədd edilir — local yalnız server cavab vermədikdə yoxlanılır', 'Lokal hesab yoxlanılır', 'Giriş icazə verilir', 'Router yenidən yüklənir'], e: 'Növbəti metoda yalnız əvvəlki metod xəta verəndə (server əlçatmazdırsa) keçilir.' },
+
+    { t: 'timeacl', q: 'Time-based ACL sətrinin vaxtı hansı saata görə yoxlanılır?', a: ['Cihazın öz sistem saatına', 'Klientin saatına', 'Serverin saatına', 'GPS saatına'], e: 'Buna görə NTP və düzgün saat qurşağı vacibdir.' },
+    { t: 'timeacl', q: '"periodic weekdays 09:00 to 17:00" hansı günləri əhatə edir?', a: ['Bazar ertəsi — Cümə', 'Şənbə — Bazar', 'Hər gün', 'Yalnız Bazar ertəsi'], e: 'weekdays — iş günləri, weekend — Şənbə və Bazar, daily — hər gün.' },
+    { t: 'timeacl', q: 'Genişləndirilmiş ACL harada yerləşdirilməlidir?', a: ['Mənbəyə mümkün qədər yaxın', 'Təyinata mümkün qədər yaxın', 'Yalnız core switch-də', 'Yalnız internet interfeysində'], e: 'Mənbə, təyinat və port yoxlandığı üçün lazımsız trafik şəbəkəyə daxil olmadan dayandırılır.' },
+
+    { t: 'fw', q: 'Stateful firewall-u stateless ACL-dən fərqləndirən əsas xüsusiyyət nədir?', a: ['Bağlantıları izləyir və icazəli sessiyanın cavab trafikini avtomatik buraxır', 'Yalnız MAC ünvanlarına baxır', 'Paketləri şifrələyir', 'Marşrutlaşdırma protokolu işlədir'], e: 'Firewall state table saxlayır; cədvəldə olmayan "cavab" paketləri atılır.' },
+    { t: 'fw', q: 'İnternetdən əlçatan veb serverlər adətən hansı zonada yerləşdirilir?', a: ['DMZ', 'Inside', 'Management', 'Native VLAN'], e: 'DMZ-dəki server sındırılsa belə, daxili şəbəkəyə birbaşa yol açılmamalıdır.' },
+    { t: 'fw', q: 'IDS ilə IPS arasındakı əsas fərq nədir?', a: ['IPS trafik yolunun üstündədir (inline) və hücumu bloklaya bilir, IDS isə yalnız xəbərdarlıq edir', 'IDS daha sürətlidir', 'IPS yalnız imza istifadə etmir', 'Fərq yoxdur'], e: 'IDS trafikin surətini (SPAN) analiz edir, IPS isə paketi dərhal ata bilir.' },
+
+    { t: 'vpn', q: 'IPsec-də həm şifrələmə, həm də bütövlük təmin edən protokol hansıdır?', a: ['ESP', 'AH', 'GRE', 'IKE'], e: 'ESP (IP protokol 50) şifrələyir; AH (51) yalnız bütövlük və autentifikasiya verir; IKE açarları razılaşdırır.' },
+    { t: 'vpn', q: 'GRE tunelinin əsas çatışmazlığı nədir?', a: ['Trafiki şifrələmir', 'Multicast daşıya bilmir', 'OSPF ilə işləmir', 'Yalnız IPv6 daşıyır'], e: 'GRE multicast və marşrutlaşdırma protokollarını daşıyır, amma təhlükəsizlik üçün IPsec ilə birlikdə istifadə olunur.' },
+    { t: 'vpn', q: 'Uzaqdan işləyən istifadəçinin noutbukundan şirkət şəbəkəsinə qoşulması hansı VPN növüdür?', a: ['Remote access VPN', 'Site-to-site VPN', 'DMVPN', 'MPLS VPN'], e: 'Remote access VPN-i istifadəçinin cihazındakı klient (və ya brauzer) qurur; site-to-site-ı isə router/firewall-lar.' },
+
+    { t: 'iosfs', q: 'startup-config hansı yaddaşda saxlanılır?', a: ['NVRAM', 'RAM', 'ROM', 'Yalnız TFTP serverində'], e: 'running-config RAM-da, startup-config NVRAM-da, IOS image isə flash-da saxlanılır.' },
+    { t: 'iosfs', q: 'Image adında "universalk9" hissəsi nəyi göstərir?', a: ['Funksiya dəstini — universal image və şifrələmə (k9) dəstəyi', 'Platforma modelini', 'IOS versiyasını', 'Faylın ölçüsünü'], e: 'Məs. c2900-universalk9-mz.SPA.157-3.M8.bin: c2900 — platforma, universalk9 — funksiya dəsti, 15.7(3)M8 — versiya.' },
+    { t: 'iosfs', q: 'Yeni IOS faylının flash-a düzgün köçürüldüyünü yoxlayan əmr hansıdır?', a: ['verify /md5 flash:fayl', 'show running-config', 'dir nvram:', 'copy flash: tftp:'], e: 'Hesablanan hash Cisco saytındakı dəyərlə müqayisə olunur.' },
+
+    { t: 'pwrec', q: 'Standart konfiqurasiya registri dəyəri hansıdır?', a: ['0x2102', '0x2142', '0x2100', '0x0000'], e: '0x2102 — IOS flash-dan yüklənir və startup-config oxunur.' },
+    { t: 'pwrec', q: 'Parol bərpası zamanı hansı register dəyəri startup-config-i nəzərə almadan yükləyir?', a: ['0x2142', '0x2102', '0x2101', '0x2100'], e: '6-cı bit (0x0040) NVRAM-dakı konfiqurasiyanın oxunmasını ötürür.' },
+    { t: 'pwrec', q: 'Konfiqurasiyasız açılmış router-də köhnə konfiqurasiyanı yükləmək üçün düzgün əmr hansıdır?', a: ['copy startup-config running-config', 'copy running-config startup-config', 'erase startup-config', 'write memory'], e: 'Tərs istiqamətdə köçürmək boş konfiqurasiyanı əsl konfiqurasiyanın üstünə yazar.' },
+
+    { t: 'campus', q: 'Üç qatlı kampus dizaynında VLAN-lararası marşrutlaşdırma və siyasət adətən hansı qatda olur?', a: ['Distribution', 'Access', 'Core', 'WAN'], e: 'Distribution qatı access switch-ləri toplayır və adətən Layer 2/Layer 3 sərhədidir.' },
+    { t: 'campus', q: 'Spine-leaf arxitekturasında hansı qayda doğrudur?', a: ['Hər leaf hər spine-a qoşulur, leaf-lər bir-birinə qoşulmur', 'Hər spine yalnız bir leaf-ə qoşulur', 'Leaf-lər zəncir şəklində birləşir', 'Serverlər spine-lara qoşulur'], e: 'İstənilən iki server arasında yol leaf → spine → leaf olur və bütün yollar ECMP ilə aktivdir.' },
+    { t: 'campus', q: 'Collapsed core (2-tier) dizaynı nədir?', a: ['Core və distribution qatlarının bir cüt cihazda birləşdirilməsi', 'Access qatının ləğv edilməsi', 'Yalnız simsiz şəbəkə', 'Data mərkəzi dizaynı'], e: 'Kiçik kampuslar üçün daha az cihaz və daha sadə idarəetmə deməkdir.' },
+    // ---------- Server Dərsləri ----------
+    { t: 'srvhw', q: '6 ədəd 4 TB disklə RAID 6 massivinin istifadə olunan həcmi nə qədərdir?', a: ['16 TB', '20 TB', '12 TB', '24 TB'], e: 'RAID 6 iki diskin həcmini paritetə ayırır: (6−2) × 4 TB = 16 TB. RAID 5 — 20 TB, RAID 10 — 12 TB.' },
+    { t: 'srvhw', q: 'NAS ilə SAN arasındakı əsas fərq nədir?', a: ['NAS fayl səviyyəsində (SMB/NFS), SAN blok səviyyəsində (iSCSI/FC) giriş verir', 'NAS yalnız Windows ilə işləyir', 'SAN yalnız bir serverə birbaşa qoşulur', 'Heç bir fərq yoxdur'], e: 'NAS şəbəkə qovluğu kimi görünür; SAN-dakı LUN server tərəfindən lokal disk kimi görünür.' },
+    { t: 'srvhw', q: 'iDRAC, iLO və IPMI nə üçündür?', a: ['OS işləməsə belə serveri şəbəkədən idarə etmək (out-of-band)', 'RAID massivi yaratmaq', 'Serverin antivirusu', 'Virtual maşın yaratmaq'], e: 'BMC ayrıca şəbəkə portu ilə uzaqdan konsol, qida idarəetməsi, virtual media və sensorlar verir.' },
+
+    { t: 'linux', q: 'Linux-da konfiqurasiya faylları adətən hansı qovluqda saxlanılır?', a: ['/etc', '/var/log', '/home', '/tmp'], e: '/etc — konfiqurasiya, /var/log — log-lar, /home — istifadəçi qovluqları.' },
+    { t: 'linux', q: 'chmod 640 config.env əmrindən sonra icazələr necə olur?', a: ['Sahib oxuyur/yazır, qrup oxuyur, digərləri heç nə', 'Hamı oxuyur və yazır', 'Sahib icra edir, qrup yazır', 'Yalnız root oxuyur'], e: '6 = r+w, 4 = r, 0 = heç nə: rw- r-- ---.' },
+    { t: 'linux', q: 'Hansı xidmətin hansı portu dinlədiyini göstərən əmr hansıdır?', a: ['ss -tulpn', 'df -h', 'chmod -R', 'apt update'], e: 'ss -tulpn TCP/UDP dinlənilən portları və onları açan prosesləri göstərir.' },
+
+    { t: 'systemd', q: 'Xidmətin yükləmədə avtomatik başlamasını və indi işə düşməsini təmin edən əmr hansıdır?', a: ['systemctl enable --now nginx', 'systemctl reload nginx', 'journalctl -u nginx', 'systemctl mask nginx'], e: 'enable — yükləmədə başlat, --now — dərhal da başlat.' },
+    { t: 'systemd', q: 'Cron ifadəsi "30 2 * * *" nə vaxt işləyir?', a: ['Hər gün 02:30-da', 'Hər 30 dəqiqədən bir', 'Ayın 2-si saat 30-da', 'Hər bazar 02:30-da'], e: 'Sıra: dəqiqə saat ayın-günü ay həftənin-günü.' },
+    { t: 'systemd', q: 'SSH-da parol girişini söndürməzdən əvvəl nə etmək lazımdır?', a: ['Açar ilə girişin işlədiyini ayrıca sessiyada yoxlamaq', 'Firewall-u söndürmək', 'root girişini açmaq', 'Serveri yenidən yükləmək'], e: 'Əks halda özünüzü serverdən kənarda qoya bilərsiniz. sshd -t ilə sintaksisi də yoxlayın.' },
+
+    { t: 'ad', q: 'Parol dəyişikliyinin tez yayılması, vaxt mənbəyi və hesab kilidlənməsi hansı FSMO rolundadır?', a: ['PDC Emulator', 'Schema Master', 'RID Master', 'Infrastructure Master'], e: 'PDC Emulator domen səviyyəli roldur və bu funksiyalara cavabdehdir.' },
+    { t: 'ad', q: 'Group Policy-nin tətbiq sırası hansıdır?', a: ['Local → Site → Domain → OU', 'OU → Domain → Site → Local', 'Domain → OU → Local → Site', 'Site → Local → OU → Domain'], e: 'LSDOU: sonra tətbiq olunan (OU) parametri qalib gəlir.' },
+    { t: 'ad', q: 'Klientlər Active Directory Domain Controller-i necə tapır?', a: ['DNS-dəki SRV qeydləri ilə', 'DHCP option 66 ilə', 'Broadcast ARP ilə', 'hosts faylı ilə'], e: 'Buna görə domen kompüterlərinin DNS serveri DC olmalıdır, 8.8.8.8 yox.' },
+
+    { t: 'dnssrv', q: 'Domenin e-poçt serverini göstərən DNS qeydi hansıdır?', a: ['MX', 'CNAME', 'PTR', 'AAAA'], e: 'MX (Mail Exchanger) prioritet ilə poçt serverlərini göstərir.' },
+    { t: 'dnssrv', q: 'DNS qeydini dəyişdiniz, amma bəzi istifadəçilər hələ köhnə IP-yə gedir. Ən ehtimallı səbəb?', a: ['Köhnə cavab TTL bitənə qədər keşdə qalır', 'DNS UDP istifadə etmir', 'MX qeydi səhvdir', 'Klientdə IPv6 yoxdur'], e: 'Köçürmədən əvvəl TTL-i azaltmaq keçidi sürətləndirir.' },
+    { t: 'dnssrv', q: 'Secondary DNS server zonanın dəyişdiyini nəyə görə bilir?', a: ['SOA qeydindəki serial nömrəsi artanda', 'TTL sıfırlananda', 'NS qeydi silinəndə', 'Hər sorğuda avtomatik'], e: 'Serial artırılmasa, secondary köhnə zonanı saxlamağa davam edir.' },
+
+    { t: 'websrv', q: 'Nginx reverse proxy "502 Bad Gateway" qaytarır. İlk nəyi yoxlamaq lazımdır?', a: ['Arxadakı tətbiq işləyirmi və düzgün portdadırmı', 'DNS-in MX qeydini', 'Brauzer keşini', 'Disk RAID səviyyəsini'], e: '502 proxy-nin arxadakı tətbiqdən cavab ala bilmədiyini bildirir — curl ilə tətbiqi birbaşa yoxlayın.' },
+    { t: 'websrv', q: 'Nginx konfiqurasiyasını tətbiq etməzdən əvvəl sintaksisi yoxlayan əmr hansıdır?', a: ['nginx -t', 'nginx -s stop', 'systemctl enable nginx', 'certbot renew'], e: 'nginx -t xətanı göstərir və xətalı konfiqurasiya ilə reload-un qarşısını alır.' },
+    { t: 'websrv', q: "Let's Encrypt sertifikatı nə qədər müddətə etibarlıdır?", a: ['90 gün', '1 il', '5 il', 'Limitsiz'], e: 'Buna görə certbot avtomatik yeniləmə taymerini quraşdırır.' },
+
+    { t: 'virt', q: 'Hansı hypervisor Type 1 (bare-metal) növündəndir?', a: ['VMware ESXi', 'VirtualBox', 'VMware Workstation', 'Parallels Desktop'], e: 'ESXi, Hyper-V, Proxmox birbaşa hardware üzərində işləyir; VirtualBox adi OS üzərində proqramdır.' },
+    { t: 'virt', q: 'Snapshot haqqında hansı ifadə doğrudur?', a: ['Snapshot backup deyil — orijinal diskə bağlıdır', 'Snapshot ayrıca şəhərdə saxlanılır', 'Snapshot-u illərlə saxlamaq tövsiyə olunur', 'Snapshot VM-i sürətləndirir'], e: 'Disk itərsə snapshot da itir; uzun saxlanılan snapshot performansı düşürür.' },
+    { t: 'virt', q: 'VM-lər müxtəlif VLAN-lardadırsa, host-un fiziki switch portu necə konfiqurasiya olunmalıdır?', a: ['Trunk', 'Access VLAN 1', 'Shutdown', 'Routed port'], e: 'Virtual switch VLAN teqli trafiki uplink ilə fiziki switch-in trunk portuna ötürür.' },
+
+    { t: 'docker', q: 'docker run -p 8080:80 nginx əmrində 8080 nədir?', a: ['Host portu', 'Konteyner portu', 'Image versiyası', 'Volume ölçüsü'], e: 'Format host:konteyner — host-un 8080 portu konteynerin 80 portuna yönləndirilir.' },
+    { t: 'docker', q: 'Verilənlər bazası konteyneri silinəndə məlumatın qalması üçün nə lazımdır?', a: ['Volume istifadə etmək', 'latest teqi', 'EXPOSE əmri', '--rm parametri'], e: 'Konteynerin öz fayl sistemi onunla birlikdə silinir; məlumat volume-da saxlanılmalıdır.' },
+    { t: 'docker', q: 'Konteyner və virtual maşın arasında əsas fərq nədir?', a: ['Konteynerlər host kernel-ini paylaşır, VM-lərin öz kernel-i var', 'Konteynerlər daha çox yaddaş tutur', 'VM-lər saniyələr içində başlayır', 'Konteynerlər hardware-i virtuallaşdırır'], e: 'Buna görə konteynerlər yüngül və sürətlidir, amma izolyasiyası VM qədər güclü deyil.' },
+
+    { t: 'backup', q: '3-2-1 qaydasında "1" nəyi bildirir?', a: ['Bir nüsxə kənarda (offsite) saxlanılır', 'Gündə bir backup', 'Bir disk kifayətdir', 'Bir administrator'], e: '3 nüsxə, 2 fərqli daşıyıcı, 1 nüsxə başqa yerdə.' },
+    { t: 'backup', q: 'RPO nəyi ifadə edir?', a: ['Qəza zamanı itirilməsinə dözülən məlumat həcmi (vaxt ilə)', 'Xidmətin bərpa müddəti', 'Backup-ın disk həcmi', 'Backup serverinin IP-si'], e: 'RPO — itirilə bilən məlumat; RTO — dayanma müddəti.' },
+    { t: 'backup', q: 'Differential backup nəyi kopyalayır?', a: ['Son FULL backup-dan bəri dəyişənləri', 'Son istənilən backup-dan bəri dəyişənləri', 'Yalnız sistem fayllarını', 'Hər dəfə hər şeyi'], e: 'Incremental son istənilən backup-dan, differential isə son full-dan bəri dəyişənləri götürür.' },
+
+    { t: 'monitoring', q: 'Prometheus metrikaları necə toplayır?', a: ['Hədəflərdən özü çəkir (pull)', 'Yalnız SNMP trap-lərlə', 'Email ilə', 'Serverlər ona FTP ilə göndərir'], e: 'Prometheus exporter-lərin /metrics endpoint-lərini müəyyən intervalla sorğulayır.' },
+    { t: 'monitoring', q: '"Alert fatigue" nədir?', a: ['Çoxlu səs-küylü xəbərdarlıqlar səbəbindən vacib alert-lərin ignor olunması', 'Serverin qızması', 'Disk dolması', 'Monitorinq serverinin çökməsi'], e: 'Hədləri tənzimləmək və "for:" müddəti qoymaq bunun qarşısını alır.' },
+    { t: 'monitoring', q: 'Xidmətlər üçün RED metodu hansı göstəriciləri izləyir?', a: ['Rate, Errors, Duration', 'RAM, Ethernet, Disk', 'Read, Execute, Delete', 'Redundancy, Encryption, DNS'], e: 'Sorğu sayı, xəta faizi və cavab müddəti — istifadəçi təcrübəsini əks etdirir.' },
+
+    // ---------- Helpdesk Dərsləri ----------
+    { t: 'itil', q: 'ITIL-ə görə "Yeni işçi üçün hesab yaratmaq" hansı növ müraciətdir?', a: ['Service Request', 'Incident', 'Problem', 'Change'], e: 'Heç nə xarab deyil — standart xidmət istəyidir.' },
+    { t: 'itil', q: 'Prioritet hansı iki amilə görə təyin olunur?', a: ['Təsir (Impact) və təcililik (Urgency)', 'İstifadəçinin vəzifəsi və səs tonu', 'Ticket-in uzunluğu və vaxtı', 'Kateqoriya və rəng'], e: 'Prioritet matrisi Impact × Urgency əsasında qurulur.' },
+    { t: 'itil', q: 'Problem management-in məqsədi nədir?', a: ['Təkrarlanan incident-lərin kök səbəbini tapıb aradan qaldırmaq', 'Xidməti mümkün qədər tez bərpa etmək', 'Yeni proqram quraşdırmaq', 'SLA müqaviləsi yazmaq'], e: 'Incident — tez bərpa (workaround); problem — "niyə?" sualına cavab.' },
+
+    { t: 'tshoot', q: 'CompTIA troubleshooting metodologiyasının birinci addımı hansıdır?', a: ['Problemi müəyyən etmək', 'Fərziyyəni test etmək', 'Sənədləşdirmək', 'Həlli tətbiq etmək'], e: 'Əvvəl məlumat toplanır: simptomlar, xəta mesajı, son dəyişikliklər.' },
+    { t: 'tshoot', q: 'CompTIA metodologiyasının son addımı hansıdır?', a: ['Nəticələri, görülən işləri və nəticəni sənədləşdirmək', 'Kompüteri yenidən yükləmək', 'Problemi eskalasiya etmək', 'İstifadəçiyə zəng etmək'], e: 'Sənədləşdirmə növbəti oxşar problemi xeyli sürətləndirir.' },
+    { t: 'tshoot', q: 'Troubleshooting zamanı niyə eyni anda bir dəyişiklik edilməlidir?', a: ['Hansı dəyişikliyin problemi həll etdiyini bilmək üçün', 'Sistem çox dəyişikliyə icazə vermir', 'SLA bunu tələb edir', 'Log-lar dolmasın deyə'], e: 'Çox dəyişiklik birdən edilərsə, səbəb-nəticə əlaqəsi itir.' },
+
+    { t: 'wintshoot', q: 'Zədələnmiş Windows sistem fayllarını bərpa edərkən düzgün ardıcıllıq hansıdır?', a: ['Əvvəl DISM /RestoreHealth, sonra sfc /scannow', 'Əvvəl sfc, sonra format', 'Yalnız chkdsk', 'Əvvəl Windows-u yenidən quraşdırmaq'], e: 'SFC faylları komponent anbarından götürür; anbarı DISM bərpa edir.' },
+    { t: 'wintshoot', q: 'Event ID 41 (Kernel-Power) nəyi göstərir?', a: ['Sistem düzgün söndürülmədən yenidən başlayıb', 'Uğurlu istifadəçi girişi', 'Yeni xidmət quraşdırılıb', 'Printer qoşulub'], e: 'Qida problemi, donma və ya məcburi söndürmə əlamətidir.' },
+    { t: 'wintshoot', q: 'Günlər üzrə çökmələri və yeniləmələri zaman xəttində göstərən alət hansıdır?', a: ['Reliability Monitor (perfmon /rel)', 'Disk Management', 'Services', 'Paint'], e: '"Nə vaxtdan başladı?" sualına cavab tapmaq üçün ən rahat alətdir.' },
+
+    { t: 'usernet', q: 'Kompüterin IP ünvanı 169.254.10.5-dir. Bu nə deməkdir?', a: ['DHCP serverindən ünvan alına bilməyib (APIPA)', 'Statik IP düzgün qurulub', 'İnternet sürətlidir', 'DNS işləyir'], e: 'APIPA ünvanı ilə heç bir yerə çıxmaq olmur — kabel, VLAN və ya DHCP problemi.' },
+    { t: 'usernet', q: '8.8.8.8-ə ping gedir, amma saytlar adla açılmır. Problem haradadır?', a: ['DNS', 'Kabel', 'Default gateway', 'NIC driver-i'], e: 'IP səviyyəsində bağlantı var — adın IP-yə çevrilməsi işləmir.' },
+    { t: 'usernet', q: 'Wi-Fi siqnal gücünü və kanalı Windows-da göstərən əmr hansıdır?', a: ['netsh wlan show interfaces', 'ipconfig /flushdns', 'arp -a', 'tracert'], e: 'SSID, siqnal (%), kanal və bağlantı sürətini göstərir.' },
+
+    { t: 'pchw', q: 'Kompüterin saatı hər açılışda sıfırlanır. Ən ehtimallı səbəb?', a: ['CMOS batareyası bitib', 'RAM xarabdır', 'Disk doludur', 'Monitor kabeli'], e: 'CR2032 batareyası BIOS parametrlərini və saatı saxlayır.' },
+    { t: 'pchw', q: 'Təsadüfi BSOD-lar və zədələnən fayllar əsasən hansı komponentə işarədir?', a: ['RAM', 'Klaviatura', 'Monitor', 'Siçan'], e: 'Windows Memory Diagnostic (mdsched) və ya MemTest86 ilə yoxlanılır.' },
+    { t: 'pchw', q: 'Noutbukun batareyası şişibsə nə etmək lazımdır?', a: ['İstifadəni dərhal dayandırıb təhlükəsiz dəyişmək', 'Şarj edib istifadəyə davam etmək', 'Batareyanı deşmək', 'Soyuducuda saxlamaq'], e: 'Şişmiş Li-ion batareya yanğın riski yaradır.' },
+
+    { t: 'printer', q: 'Çap növbəsi ilişib və silinmir. Standart həll hansıdır?', a: ['Spooler xidmətini dayandırıb növbə fayllarını silmək və yenidən başlatmaq', 'Printeri formatlamaq', 'Windows-u yenidən quraşdırmaq', 'DNS keşini təmizləmək'], e: 'net stop spooler → spool\\PRINTERS qovluğunu təmizləmək → net start spooler.' },
+    { t: 'printer', q: 'Şəbəkə printerləri üçün RAW/JetDirect çap portu hansıdır?', a: ['9100', '443', '3389', '53'], e: '9100 — RAW, 631 — IPP, 515 — LPD.' },
+    { t: 'printer', q: 'Şəbəkə printerinin IP ünvanı üçün ən yaxşı təcrübə nədir?', a: ['Statik IP və ya DHCP rezervasiyası', 'Hər gün yeni IP', 'APIPA ünvanı', 'IP-siz işləmək'], e: 'IP dəyişəndə bütün kompüterlərdə printer "offline" olur.' },
+
+    { t: 'accounts', q: 'Hesab təkrar-təkrar kilidlənir. Ən çox rast gəlinən səbəb nədir?', a: ['Köhnə parolu saxlayan cihaz və ya xidmət (telefon, saxlanmış credential)', 'Monitorun parlaqlığı', 'Printer driver-i', 'Disk fraqmentasiyası'], e: 'Event 4740 hesabın hansı kompüterdən kilidləndiyini göstərir.' },
+    { t: 'accounts', q: 'Telefonla zəng edən "istifadəçinin" parolunu sıfırlamazdan əvvəl ən düzgün addım hansıdır?', a: ['Sistemdə qeydiyyatlı nömrəyə geri zəng edib kimliyi təsdiqləmək', 'Parolu dərhal zəng gələn nömrəyə SMS etmək', 'MFA-nı söndürmək', 'Parolu email-lə göndərmək'], e: 'Helpdesk social engineering hücumlarının əsas hədəflərindəndir.' },
+    { t: 'accounts', q: 'İşdən çıxan işçinin hesabı ilə son gün nə edilir?', a: ['Söndürülür, sessiyaları ləğv edilir, mailbox rəhbərə ötürülür', 'Dərhal silinir, məlumat da silinir', 'Heç nə — aktiv qalır', 'Parolu "123" edilir'], e: 'Leaver prosesi: giriş dərhal bağlanır, məlumat isə siyasətə uyğun saxlanılır.' },
+
+    { t: 'm365', q: 'Outlook-da OST faylı silinsə nə baş verir?', a: ['Serverdən yenidən yüklənir, məlumat itmir', 'Bütün məktublar birdəfəlik itir', 'Mailbox silinir', 'Lisenziya ləğv olunur'], e: 'OST Exchange mailbox-un lokal keşidir; PST isə serverdə surəti olmayan arxivdir.' },
+    { t: 'm365', q: 'info@ kimi şöbə ünvanı üçün lisenziya tələb etməyən həll hansıdır?', a: ['Shared mailbox', 'Hər işçiyə ayrıca lisenziya', 'Distribution list-i silmək', 'PST faylı'], e: 'Shared mailbox-a üzvlər Full Access və Send As icazəsi ilə daxil olur.' },
+    { t: 'm365', q: '"Partnyorun göndərdiyi məktub çatmadı" müraciətində admin hansı alətdən istifadə edir?', a: ['Message trace', 'Disk Cleanup', 'Device Manager', 'ipconfig'], e: 'Message trace məktubun çatıb-çatmadığını, spam-a düşüb-düşmədiyini göstərir.' },
+
+    { t: 'remote', q: 'RDP haqqında hansı tövsiyə doğrudur?', a: ['3389 portunu internetə açmamaq — VPN və ya gateway arxasında saxlamaq', 'Standart parolla internetə açmaq', 'NLA-nı söndürmək', 'Bütün istifadəçiləri Administrators qrupuna əlavə etmək'], e: 'Açıq RDP brute-force və ransomware hücumlarının əsas hədəflərindəndir.' },
+    { t: 'remote', q: 'İstifadəçi "Remote Desktop Users" qrupunda deyilsə nə baş verir?', a: ['Bağlantı "not authorized" xətası ilə rədd edilir', 'Qoşulur, amma ekran qara olur', 'Printer işləmir', 'Heç nə — fərq yoxdur'], e: 'RDP girişi üçün istifadəçinin həmin qrupda (və ya admin) olması lazımdır.' },
+    { t: 'remote', q: 'İstifadəçinin ekranına qoşulmadan uzaq kompüterdə əmr icra etmək üçün nə istifadə olunur?', a: ['PowerShell Remoting (Invoke-Command)', 'Paint', 'Quick Assist ekran paylaşımı', 'Notepad'], e: 'WinRM üzərindən diaqnostika istifadəçinin işinə mane olmur.' },
+
+    { t: 'softskills', q: 'Əsəbi istifadəçi ilə danışarkən ilk addım nədir?', a: ['Emosiyanı qəbul etmək və sakitcə həllə yönəlmək', 'Onun səhv etdiyini sübut etmək', 'Zəngi dərhal bitirmək', 'Texniki terminlərlə izah etmək'], e: 'Empatiya gərginliyi azaldır və söhbəti həllə yönəldir.' },
+    { t: 'softskills', q: 'Yaxşı ticket-də hansı məlumat olmalıdır?', a: ['Simptom, təsir, görülən addımlar, səbəb, həll və yoxlama', 'Yalnız "düzəldildi"', 'Yalnız istifadəçinin adı', 'Texnikin şəxsi fikri'], e: 'Belə ticket-i aylar sonra oxuyan kollega nə edildiyini dərhal başa düşür.' },
+    { t: 'softskills', q: 'SLA pozulmaq üzrədirsə və böyük biznes təsiri varsa, hansı eskalasiya lazımdır?', a: ['İerarxik (vertikal) — rəhbərliyə', 'Heç bir eskalasiya', 'İstifadəçiyə geri ötürmək', 'Ticket-i bağlamaq'], e: 'Funksional eskalasiya başqa komandaya, ierarxik isə rəhbərliyə yönəlir.' },
+
+    // ---------- Təhlükəsizlik Dərsləri ----------
+    { t: 'crypto', q: 'TLS-də böyük həcmli trafik hansı şifrələmə ilə qorunur?', a: ['Simmetrik (məs. AES-GCM) — sessiya açarı ilə', 'Yalnız RSA ilə', 'MD5 ilə', 'Heç biri — TLS yalnız autentifikasiya edir'], e: 'Asimmetrik kriptoqrafiya açar razılaşması üçün, məlumatın özü isə sürətli simmetrik alqoritmlə şifrələnir.' },
+    { t: 'crypto', q: 'Parolları verilənlər bazasında saxlamaq üçün hansı yanaşma düzgündür?', a: ['bcrypt/scrypt/Argon2 kimi salt-lı, yavaş hash', 'MD5 hash', 'AES ilə şifrələyib açarı yanında saxlamaq', 'Açıq mətn'], e: 'Parol hash-ları qəsdən yavaş və hər parol üçün unikal salt ilə olmalıdır.' },
+    { t: 'crypto', q: 'Rəqəmsal imza yaradılarkən hansı açar istifadə olunur?', a: ['Göndərənin private açarı', 'Alanın public açarı', 'Ortaq simmetrik açar', 'CA-nın private açarı'], e: 'İmza private açarla yaradılır, göndərənin public açarı ilə yoxlanılır.' },
+
+    { t: 'owasp', q: 'SQL injection-a qarşı əsas müdafiə hansıdır?', a: ['Parametrləşdirilmiş sorğular (prepared statements)', 'Sayta CAPTCHA qoymaq', 'HTTPS istifadə etmək', 'Parolu uzatmaq'], e: 'Parametr sorğudan ayrı ötürülür və heç vaxt SQL kodu kimi icra olunmur.' },
+    { t: 'owasp', q: 'URL-də /invoices/1045-i 1046 edəndə başqasının fakturası açılır. Bu hansı zəiflikdir?', a: ['IDOR / Broken Access Control', 'XSS', 'SSRF', 'Cryptographic Failures'], e: 'Server obyektin bu istifadəçiyə aid olduğunu yoxlamır.' },
+    { t: 'owasp', q: 'XSS-in təsirini azaldan HTTP başlığı hansıdır?', a: ['Content-Security-Policy', 'Server: nginx', 'Content-Length', 'Accept-Language'], e: 'CSP hansı mənbələrdən skript yüklənə biləcəyini məhdudlaşdırır; əsas müdafiə isə output encoding-dir.' },
+
+    { t: 'identity', q: 'Phishing-ə ən davamlı MFA metodu hansıdır?', a: ['FIDO2 / passkey (təhlükəsizlik açarı)', 'SMS kodu', 'Email kodu', 'Təhlükəsizlik sualı'], e: 'Passkey saytın domeninə bağlıdır və saxta saytda işləmir.' },
+    { t: 'identity', q: 'NIST-in müasir parol tövsiyəsi hansıdır?', a: ['Uzun parol ifadələri və sızmış parollar siyahısı ilə yoxlama', 'Hər 30 gündən bir məcburi dəyişmə', 'Maksimum 8 simvol', 'Təhlükəsizlik sualları'], e: 'Məcburi tez-tez dəyişmə zəif, proqnozlaşdırılan parollara səbəb olur.' },
+    { t: 'identity', q: 'OAuth 2.0 əsasən nə üçündür?', a: ['Avtorizasiya — tətbiqə istifadəçi adından məhdud giriş (access token)', 'Disk şifrələməsi', 'Email imzası', 'Şəbəkə marşrutlaşdırması'], e: 'Autentifikasiya ("bu kimdir?") üçün OAuth üzərində OpenID Connect istifadə olunur.' },
+
+    { t: 'phishing', q: 'Domeninizin adından saxta göndərişlərə nə etmək lazım olduğunu (reject/quarantine) bildirən qeyd hansıdır?', a: ['DMARC', 'MX', 'PTR', 'CNAME'], e: 'DMARC SPF/DKIM nəticəsinə görə siyasəti və hesabat ünvanını müəyyən edir.' },
+    { t: 'phishing', q: 'BEC (Business Email Compromise) hücumuna qarşı ən effektiv proses tədbiri hansıdır?', a: ['Rekvizit dəyişikliyini başqa kanalla (məlum nömrəyə zəng) təsdiqləmək', 'Bütün əlavələri bloklamaq', 'Antivirusu yeniləmək', 'Email-i HTML formatında göndərmək'], e: 'BEC məktublarında çox vaxt link və əlavə olmur — texniki filtrlər onu tuta bilmir.' },
+    { t: 'phishing', q: 'Email başlığında hansı hal BEC əlaməti ola bilər?', a: ['Reply-To ünvanı From ünvanından fərqlidir', 'Mövzu qısadır', 'Məktub səhər göndərilib', 'Məktubda imza var'], e: 'Cavab hücumçunun ünvanına getsin deyə Reply-To dəyişdirilir.' },
+
+    { t: 'endpoint', q: 'EDR-i klassik antivirusdan fərqləndirən əsas xüsusiyyət hansıdır?', a: ['Davranış analizi və cihazı şəbəkədən təcrid etmək imkanı', 'Yalnız imza bazası', 'Pulsuz olması', 'Yalnız Linux-da işləməsi'], e: 'EDR fayl-sız hücumları və şübhəli proses zəncirlərini görür.' },
+    { t: 'endpoint', q: 'Windows LAPS nə edir?', a: ['Hər kompüterə unikal lokal admin parolu təyin edir və mərkəzdə saxlayır', 'Diski şifrələyir', 'Printerləri idarə edir', 'VPN qurur'], e: 'Bir kompüterin lokal admin parolu sızsa, digərləri açılmır.' },
+    { t: 'endpoint', q: 'BitLocker recovery key harada saxlanılmalıdır?', a: ['AD / Entra ID-də (mərkəzdə)', 'Yalnız istifadəçinin masaüstündə', 'Şifrələnmiş diskin özündə', 'Heç yerdə'], e: 'Əks halda recovery ekranında məlumat əlçatmaz olur.' },
+
+    { t: 'siem', q: 'Windows-da uğursuz giriş cəhdi hansı Event ID ilə qeyd olunur?', a: ['4625', '4624', '4720', '7045'], e: '4624 — uğurlu giriş, 4720 — hesab yaradılması, 7045 — xidmət quraşdırılması.' },
+    { t: 'siem', q: 'Security log-un təmizlənməsi (Event 1102) niyə həmişə araşdırılır?', a: ['İzləri silmək cəhdi ola bilər', 'Disk dolub', 'Normal gündəlik hadisədir', 'Printer xətasıdır'], e: 'Hücumçular fəaliyyətlərini gizlətmək üçün log-ları silə bilər.' },
+    { t: 'siem', q: 'Bir IP-dən qısa müddətdə çoxlu FƏRQLİ hesaba uğursuz girişlər hansı hücuma işarədir?', a: ['Password spraying', 'SQL injection', 'Phishing', 'DDoS'], e: 'Az sayda məşhur parol çoxlu hesabda sınanır — hesab kilidlənməsindən qaçmaq üçün.' },
+
+    { t: 'ir', q: 'NIST SP 800-61 IR həyat dövrünün birinci mərhələsi hansıdır?', a: ['Preparation (Hazırlıq)', 'Containment', 'Eradication', 'Lessons learned'], e: 'Plan, rollar, alətlər və təlimlər insidentdən əvvəl hazır olmalıdır.' },
+    { t: 'ir', q: 'Yoluxmuş noutbuk üçün ilk təcrid addımı hansı daha düzgündür?', a: ['EDR ilə şəbəkədən təcrid etmək (söndürmədən)', 'Dərhal formatlamaq', 'Diski silmək', 'Heç nə etmədən gözləmək'], e: 'Söndürmə RAM-dakı sübutları məhv edə bilər; təcrid isə yayılmanı dayandırır.' },
+    { t: 'ir', q: '"Chain of custody" nədir?', a: ['Sübutu kimin, nə vaxt götürdüyü və harada saxladığının qeydi', 'Şəbəkə kabel zənciri', 'Parol siyasəti', 'Backup cədvəli'], e: 'Hüquqi proses üçün sübutun bütövlüyü sənədləşdirilməlidir.' },
+
+    { t: 'vulnmgmt', q: 'CISA KEV siyahısı nəyi göstərir?', a: ['Real hücumlarda artıq istismar olunan zəiflikləri', 'Bütün CVSS 10 zəiflikləri', 'Yalnız Linux zəifliklərini', 'Yamalanmış zəiflikləri'], e: 'KEV-dəki və internetə açıq sistemlərdəki zəifliklər ən birinci düzəldilir.' },
+    { t: 'vulnmgmt', q: 'CVSS balı 9.0 və yuxarı hansı ciddilik səviyyəsidir?', a: ['Critical', 'High', 'Medium', 'Low'], e: '7.0–8.9 High, 4.0–6.9 Medium.' },
+    { t: 'vulnmgmt', q: 'Yama dərhal mümkün deyilsə nə edilir?', a: ['Kompensasiya tədbiri (portu bağlamaq, WAF qaydası, seqmentasiya)', 'Zəifliyi ignor etmək', 'Skaneri söndürmək', 'Hesabatdan silmək'], e: 'Risk müvəqqəti azaldılır; qəbul olunursa — yazılı istisna ilə.' },
+
+    { t: 'cloudsec', q: 'Paylaşılan məsuliyyət modelində hər növ xidmətdə (IaaS, PaaS, SaaS) müştərinin məsuliyyəti nədir?', a: ['Məlumat, hesablar və icazələr', 'Fiziki data mərkəzi', 'Hypervisor', 'Soyutma sistemi'], e: 'Microsoft 365-də belə məlumat və identity müştərinin məsuliyyətidir.' },
+    { t: 'cloudsec', q: 'Bulud VM-lərinin başqa xidmətlərə girişi üçün tövsiyə olunan üsul hansıdır?', a: ['Role / managed identity', 'Kodda yazılmış uzunmüddətli access key', 'Root hesabının açarı', 'Paylaşılan parol'], e: 'Müvəqqəti, avtomatik dəyişən kimlik bilgiləri sızma riskini azaldır.' },
+    { t: 'cloudsec', q: 'AWS-də "kim hansı API əməliyyatını etdi" sualına hansı xidmət cavab verir?', a: ['CloudTrail', 'S3', 'Route 53', 'EC2'], e: 'Azure-da analoqu Activity Log-dur.' },
+
+    { t: 'grc', q: 'Kiber sığorta almaq hansı risk strategiyasıdır?', a: ['Transfer (ötürmək)', 'Avoid (qaçmaq)', 'Accept (qəbul etmək)', 'Mitigate (azaltmaq)'], e: 'Maliyyə təsiri üçüncü tərəfə ötürülür.' },
+    { t: 'grc', q: 'SIEM hansı növ nəzarətdir (control)?', a: ['Detective (aşkarlayan) texniki nəzarət', 'Preventive fiziki nəzarət', 'Corrective administrativ nəzarət', 'Heç biri'], e: 'SIEM hadisələri aşkarlayır, qarşısını birbaşa almır.' },
+    { t: 'grc', q: 'NIST CSF 2.0-a hansı yeni funksiya əlavə olunub?', a: ['Govern', 'Detect', 'Recover', 'Protect'], e: 'CSF 2.0-ın 6 funksiyası: Govern, Identify, Protect, Detect, Respond, Recover.' },
+
+    // ---------- AI Dərsləri ----------
+    { t: 'aiintro', q: 'Hansı ifadə doğrudur?', a: ['Deep Learning Machine Learning-in, ML isə AI-ın alt sahəsidir', 'AI Deep Learning-in alt sahəsidir', 'ML və AI tamamilə əlaqəsizdir', 'LLM-lər ML deyil'], e: 'AI ⊃ ML ⊃ Deep Learning ⊃ LLM / Generative AI.' },
+    { t: 'aiintro', q: 'Etiketli nümunələrdən (giriş → düzgün cavab) öyrənmə necə adlanır?', a: ['Supervised learning', 'Unsupervised learning', 'Reinforcement learning', 'Quantization'], e: 'Nümunə: spam/normal etiketli məktublar ilə spam filtri.' },
+    { t: 'aiintro', q: 'Transformer arxitekturası hansı məqalə ilə təqdim olunub?', a: ['Attention Is All You Need (2017)', 'Computing Machinery and Intelligence (1950)', 'ImageNet (2009)', 'Deep Blue (1997)'], e: 'Transformer müasir LLM-lərin əsasını təşkil edir.' },
+
+    { t: 'ml', q: 'Model train dəstində 99%, test dəstində 70% nəticə göstərir. Bu nədir?', a: ['Overfitting', 'Underfitting', 'Normal vəziyyət', 'Data drift'], e: 'Model nümunələri əzbərləyib, yeni məlumata ümumiləşdirə bilmir.' },
+    { t: 'ml', q: 'Recall nəyi ölçür?', a: ['Real müsbət halların neçəsinin tapıldığını', 'Proqnozların sürətini', '"Müsbət" proqnozların neçəsinin doğru olduğunu', 'Modelin ölçüsünü'], e: 'Recall = TP / (TP + FN). Precision isə TP / (TP + FP).' },
+    { t: 'ml', q: 'Balanssız məlumatda (99.8% normal) accuracy niyə aldadıcıdır?', a: ['"Hamısı normaldır" deyən model də çox yüksək accuracy alır', 'Accuracy həmişə 50% olur', 'Accuracy yalnız şəkillər üçündür', 'Accuracy hesablanmır'], e: 'Belə hallarda precision, recall və F1-ə baxmaq lazımdır.' },
+
+    { t: 'nn', q: 'Neural network-də çəkilər hansı üsulla yenilənir?', a: ['Backpropagation ilə hesablanan gradient əsasında (gradient descent)', 'Təsadüfi, hər epoch-da', 'Əl ilə', 'DNS sorğusu ilə'], e: 'Xətanın hər çəkiyə görə gradient-i hesablanır və çəki xətanı azaldan istiqamətdə dəyişdirilir.' },
+    { t: 'nn', q: 'Şəkil tanımada ənənəvi olaraq ən uğurlu arxitektura hansıdır?', a: ['CNN (Convolutional Neural Network)', 'RAID', 'Autoencoder DNS', 'Decision tree'], e: 'CNN məkan strukturunu (piksellər arası əlaqə) effektiv öyrənir.' },
+    { t: 'nn', q: 'Deep learning üçün niyə GPU istifadə olunur?', a: ['Matris əməliyyatlarını minlərlə nüvə ilə paralel edir', 'GPU daha az elektrik sərf edir', 'CPU neural network işlədə bilmir', 'GPU-da internet daha sürətlidir'], e: 'Neural network hesablamaları əsasən matris vurmasıdır.' },
+
+    { t: 'llm', q: 'LLM-in "context window" nədir?', a: ['Modelin bir sorğuda gördüyü maksimum token sayı', 'Modelin öyrədilmə tarixi', 'GPU yaddaşı', 'Brauzer pəncərəsinin ölçüsü'], e: 'System prompt, tarixçə, sənədlər və cavab bu limitə sığmalıdır.' },
+    { t: 'llm', q: 'Konfiqurasiya və kod yazdırarkən temperature necə olmalıdır?', a: ['Aşağı — sabit və proqnozlaşdırılan cavab üçün', 'Maksimum yüksək', 'Mənfi', 'Fərqi yoxdur'], e: 'Yüksək temperature yaradıcılığı və təsadüfiliyi artırır.' },
+    { t: 'llm', q: '"Hallucination" nədir?', a: ['Modelin inamla uydurma və ya səhv məlumat yaratması', 'Modelin çox yavaş cavab verməsi', 'Token limitinin dolması', 'GPU-nun qızması'], e: 'Buna görə vacib faktlar və əmrlər rəsmi mənbə ilə yoxlanılmalıdır.' },
+
+    { t: 'prompt', q: 'Few-shot prompting nədir?', a: ['Prompt-da bir neçə nümunə göstərmək', 'Çox qısa prompt yazmaq', 'Modeli yenidən öyrətmək', 'Temperature-u sıfırlamaq'], e: 'Model formatı və üslubu nümunələrdən götürür.' },
+    { t: 'prompt', q: 'Log və ya sənədi prompt-da təlimatdan ayırmaq üçün nə tövsiyə olunur?', a: ['Ayırıcılar: <log>...</log> və ya """ blokları', 'Hər şeyi bir paraqrafda yazmaq', 'Böyük hərflərlə yazmaq', 'Log-u şəkil kimi göndərmək'], e: 'Ayırıcılar modelə məlumatı təlimatdan fərqləndirməyə kömək edir.' },
+    { t: 'prompt', q: 'Prompt-a hansı məlumat heç vaxt əlavə olunmamalıdır?', a: ['Parollar, açarlar və həssas müştəri məlumatları', 'IOS versiyası', 'Xəta mesajının mətni', 'Tələb olunan çıxış formatı'], e: 'Sirləri əvəzedicilərlə (<PAROL>) dəyişin.' },
+
+    { t: 'aiit', q: 'AI-ın yazdığı admin skriptini ilk dəfə necə işlətmək lazımdır?', a: ['Oxuyub başa düşdükdən sonra test mühitində, mümkünsə yalnız oxuma və ya -WhatIf rejimində', 'Birbaşa istehsalat serverində', 'Oxumadan, tez', 'Heç vaxt işlətməmək'], e: 'Skriptə görə məsuliyyət onu işlədən şəxsdədir.' },
+    { t: 'aiit', q: 'Böyük log faylını AI-a verməzdən əvvəl nə etmək lazımdır?', a: ['Əlaqəli hissəni filtrləmək və həssas məlumatı anonimləşdirmək', 'Bütün faylı olduğu kimi yapışdırmaq', 'Faylı şifrələmək', 'Log-u silmək'], e: 'Kiçik, təmiz kontekst daha dəqiq cavab verir və məlumat sızmasının qarşısını alır.' },
+    { t: 'aiit', q: 'Şirkətdə AI istifadəsi üçün ən düzgün yanaşma hansıdır?', a: ['Təsdiqlənmiş xidmətlərdən, məlumat qaydalarına uyğun istifadə', 'İstənilən pulsuz çatbota hər şeyi yapışdırmaq', 'AI-ı tam qadağan edib heç bir alternativ verməmək', 'Nəticələri yoxlamadan istifadə etmək'], e: 'Məlumatın harada saxlandığı və necə istifadə olunduğu xidmətin müqaviləsindən asılıdır.' },
+
+    { t: 'rag', q: 'RAG-ın əsas ideyası nədir?', a: ['Sualla əlaqəli sənəd parçalarını tapıb modelə kontekst kimi vermək', 'Modeli hər gün yenidən öyrətmək', 'Modelin parametr sayını artırmaq', 'Temperature-u artırmaq'], e: 'Model cavabı həmin mənbələrə əsasən və istinadlarla yazır.' },
+    { t: 'rag', q: 'Embedding nədir?', a: ['Mətnin mənasını ifadə edən ədədlər vektoru', 'Şifrələnmiş parol', 'Şəkil faylı', 'SQL cədvəli'], e: 'Mənaca yaxın mətnlərin vektorları bir-birinə yaxın olur.' },
+    { t: 'rag', q: 'RAG düzgün cavab vermir və düzgün sənəd axtarış nəticələrində də yoxdur. Problem haradadır?', a: ['Retrieval (axtarış / chunking) mərhələsində', 'LLM-in temperature-unda', 'İstifadəçinin brauzerində', 'GPU-da'], e: 'Əvvəl axtarışın keyfiyyəti yoxlanılır: düzgün parça ilk nəticələrdə varmı?' },
+
+    { t: 'ollama', q: 'Ollama API standart olaraq hansı ünvanda işləyir?', a: ['localhost:11434', '0.0.0.0:80', 'localhost:3389', 'localhost:53'], e: 'API standart olaraq yalnız lokal kompüterdən əlçatandır.' },
+    { t: 'ollama', q: 'Lokal LLM üçün əsas hardware məhdudiyyəti nədir?', a: ['Yaddaş — model RAM-a və ya GPU VRAM-ına sığmalıdır', 'Monitorun ölçüsü', 'Klaviatura növü', 'İnternet sürəti'], e: '4-bit kvantlaşdırılmış 7–8B model təxminən 5–8 GB yaddaş tələb edir.' },
+    { t: 'ollama', q: 'Lokal modelin əsas üstünlüyü nədir?', a: ['Məlumat kompüterdən çıxmır (məxfilik)', 'Həmişə ən güclü modeldir', 'Hardware tələb etmir', 'Avtomatik internetdə axtarış edir'], e: 'Həssas log-ların emalı və offline mühit üçün uyğundur.' },
+
+    { t: 'agents', q: 'AI agentini adi chatbot-dan fərqləndirən nədir?', a: ['Alətlərdən istifadə edib addımları özü planlaşdırması və icra etməsi', 'Daha uzun cavab yazması', 'Yalnız şəkil yaratması', 'İnternetsiz işləməsi'], e: 'Agent dövrü: düşün → alət çağır → nəticəni gör → təkrarla.' },
+    { t: 'agents', q: 'MCP (Model Context Protocol) nədir?', a: ['AI tətbiqlərinin alət və məlumat mənbələrinə standart qoşulma protokolu', 'Yeni şəbəkə marşrutlaşdırma protokolu', 'Parol hash alqoritmi', 'Printer protokolu'], e: 'Bir MCP server müxtəlif AI klientlərində istifadə oluna bilər.' },
+    { t: 'agents', q: 'Agentin istehsalat serverini restart etmək kimi hərəkətləri üçün nə tövsiyə olunur?', a: ['İnsan təsdiqi (human-in-the-loop)', 'Tam avtomatik icra, log-suz', 'Agentə Domain Admin hüququ vermək', 'Limitləri söndürmək'], e: 'Dəyişiklik edən hərəkətlər təsdiq, minimal icazə və audit log tələb edir.' },
+
+    { t: 'aisafety', q: 'Indirect prompt injection nədir?', a: ['Modelin oxuduğu kənar məzmunda (veb, email, sənəd) gizlədilmiş zərərli təlimatlar', 'İstifadəçinin parolunu unutması', 'GPU-nun həddən artıq yüklənməsi', 'Modelin yavaş işləməsi'], e: 'Agentlər üçün ən təhlükəli növdür — xarici məzmun əmr deyil, məlumatdır.' },
+    { t: 'aisafety', q: '"Shadow AI" nədir?', a: ['İşçilərin təsdiqlənməmiş AI alətlərinə iş məlumatı yapışdırması', 'Qaranlıq rejimdə AI', 'Gizli GPU', 'AI-ın özünü söndürməsi'], e: 'Təhlükəsiz alternativ və təlim yalnız qadağadan daha effektivdir.' },
+    { t: 'aisafety', q: 'Prompt injection-un təsirini məhdudlaşdırmağın əsas arxitektura prinsipi hansıdır?', a: ['Minimal icazə və həssas hərəkətlər üçün insan təsdiqi', 'Daha uzun system prompt', 'Temperature-u artırmaq', 'Modeli daha böyük etmək'], e: 'Universal həll yoxdur — model aldadılsa belə zərər məhdud olmalıdır.' }
+
+];

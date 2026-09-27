@@ -1,0 +1,98 @@
+<!--PAGE title="İstifadəçi Şəbəkə Problemləri" icon="wifi-off" badge="Helpdesk · Şəbəkə" nav="intro:Giriş|ipconfig:ipconfig|apipa:169.254|wifi:Wi-Fi|reset:Sıfırlama|cases:Hallar"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:wifi-off}} Giriş: "İnternet Yoxdur"</h2>
+            <p class="lead">
+                Bu cümlə onlarla fərqli problemi ifadə edə bilər: Wi-Fi qoşulmayıb, IP alınmayıb, DNS işləmir,
+                yalnız bir sayt açılmır və ya VPN bağlantısı qırılıb. Helpdesk mütəxəssisi bir neçə əmrlə problemin
+                harada olduğunu tez tapmalıdır. Bu dərs CCNA biliklərinin istifadəçi tərəfdə tətbiqidir.
+            </p>
+        </section>
+
+        <section id="ipconfig" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 1. ipconfig /all Nəticəsini Oxumaq</h2>
+            <div class="code-block">
+                <pre><code>Wireless LAN adapter Wi-Fi:
+   Connection-specific DNS Suffix  . : corp.example.az
+   Physical Address. . . . . . . . . : 3C-A9-F4-12-34-56
+   DHCP Enabled. . . . . . . . . . . : Yes
+   IPv4 Address. . . . . . . . . . . : 192.168.20.57(Preferred)
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Lease Obtained. . . . . . . . . . : 27 Sentyabr 2026 08:55
+   Default Gateway . . . . . . . . . : 192.168.20.1
+   DHCP Server . . . . . . . . . . . : 192.168.1.10
+   DNS Servers . . . . . . . . . . . : 192.168.1.10</code></pre>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:circle-check}}<p class="text-neutral-700"><strong>IP düzgün şəbəkədədirmi?</strong> Ofis VLAN-ı 192.168.20.0/24-dürsə, IP də oradan olmalıdır.</p></div>
+                <div class="feature-item">{{i:route}}<p class="text-neutral-700"><strong>Default Gateway</strong> boşdursa — başqa şəbəkələrə çıxış olmayacaq.</p></div>
+                <div class="feature-item">{{i:globe}}<p class="text-neutral-700"><strong>DNS Servers:</strong> domen şəbəkəsində daxili DNS (DC) olmalıdır, 8.8.8.8 yox.</p></div>
+                <div class="feature-item">{{i:fingerprint}}<p class="text-neutral-700"><strong>Physical Address:</strong> MAC — switch-də və ya DHCP-də cihazı tapmaq üçün.</p></div>
+            </div>
+        </section>
+
+        <section id="apipa" class="section-card">
+            <h2 class="section-title">{{i:triangle-alert}} 2. 169.254.x.x — APIPA</h2>
+            <p class="lead">Windows DHCP serverindən cavab ala bilmədikdə özünə <strong>169.254.0.0/16</strong> aralığından ünvan verir (APIPA). Bu ünvanla heç bir yerə çıxmaq olmur. Deməli, problem kompüter ilə DHCP server arasındadır.</p>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">Kabel / Wi-Fi qoşuludurmu? Port LED-i yanırmı?</p></li>
+                <li><p class="text-neutral-700"><code>ipconfig /release</code> və <code>ipconfig /renew</code> — yenidən sorğu.</p></li>
+                <li><p class="text-neutral-700">Eyni otaqda başqalarında da belədirsə — switch portu, VLAN və ya DHCP server/scope dolub (şəbəkə komandasına eskalasiya).</p></li>
+                <li><p class="text-neutral-700">Yalnız bir kompüterdədirsə — port security, 802.1X, NIC driver-i və ya port err-disabled ola bilər.</p></li>
+            </ol>
+        </section>
+
+        <section id="wifi" class="section-card">
+            <h2 class="section-title">{{i:wifi}} 3. Wi-Fi Problemləri</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Simptom</th><th>Ehtimal olunan səbəb</th></tr></thead>
+                    <tbody>
+                        <tr><td>Şəbəkə siyahıda görünmür</td><td>5 GHz dəstəklənmir, SSID gizlidir, AP-dən uzaqdır</td></tr>
+                        <tr><td>"Can't connect to this network"</td><td>Parol dəyişib — köhnə profili unudun (<em>Forget</em>) və yenidən qoşulun</td></tr>
+                        <tr><td>Qoşulur, amma tez-tez qırılır</td><td>Zəif siqnal, kanal sıxlığı, güc qənaəti rejimi (NIC power management)</td></tr>
+                        <tr><td>Qonaq Wi-Fi-da internet yoxdur</td><td>Captive portal açılmayıb — brauzerdə <code>http://neverssl.com</code> açın</td></tr>
+                        <tr><td>Enterprise Wi-Fi-a qoşulmur</td><td>Sertifikat/parol vaxtı keçib, hesab kilidlənib (802.1X)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>netsh wlan show interfaces        # SSID, siqnal gücü (%), kanal, sürət
+netsh wlan show profiles          # yadda saxlanan şəbəkələr
+netsh wlan delete profile name="Ofis-WiFi"
+netsh wlan show wlanreport        # ətraflı HTML hesabat (bağlantı qırılmaları)</code></pre>
+            </div>
+        </section>
+
+        <section id="reset" class="section-card">
+            <h2 class="section-title">{{i:refresh-cw}} 4. Şəbəkə Stack-ini Sıfırlamaq</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>ipconfig /flushdns          # DNS keşi
+ipconfig /release
+ipconfig /renew
+arp -d *                    # ARP keşi (admin)
+netsh winsock reset         # Winsock kataloqu (admin, restart tələb edir)
+netsh int ip reset          # TCP/IP parametrləri (admin, restart tələb edir)
+
+Test-NetConnection intranet.corp.example.az -Port 443   # konkret porta qoşulma testi</code></pre>
+                <p class="code-note"><code>winsock reset</code> və <code>int ip reset</code> "son çarə"dir: statik IP parametrlərini və bəzi VPN/proxy parametrlərini silə bilər. Əvvəl ipconfig/ping ilə problemin yerini tapın.</p>
+            </div>
+        </section>
+
+        <section id="cases" class="section-card">
+            <h2 class="section-title">{{i:clipboard-list}} 5. Real Hallar</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Şikayət</th><th>Tapıntı</th><th>Həll</th></tr></thead>
+                    <tbody>
+                        <tr><td>Hər sayt açılır, daxili portal açılmır</td><td>DNS 8.8.8.8 əl ilə yazılıb</td><td>DNS-i avtomatik (DHCP) et</td></tr>
+                        <tr><td>Bütün saytlar "proxy error"</td><td>Brauzerdə köhnə proxy qalıb</td><td>Settings → Network → Proxy söndür</td></tr>
+                        <tr><td>Evdən VPN ilə daxili serverə çatmır</td><td>Ev şəbəkəsi də 192.168.1.0/24-dür — ofis ilə eyni</td><td>Şəbəkə komandasına bildir; split-tunnel/ünvan planı</td></tr>
+                        <tr><td>Yalnız bir kompüter, kabel ilə internet yoxdur</td><td>Port err-disabled (port security)</td><td>Şəbəkə komandası portu açır, səbəbi araşdırır</td></tr>
+                        <tr><td>"IP address conflict"</td><td>Kimsə eyni IP-ni statik yazıb</td><td>DHCP rezervasiyası; statik IP-ləri qeydiyyata almaq</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+<!--END-->

@@ -1,0 +1,97 @@
+<!--PAGE title="Phishing və Email Təhlükəsizliyi" icon="mail-warning" badge="Təhlükəsizlik · Email" nav="intro:Giriş|signs:Əlamətlər|types:Növlər|auth:SPF/DKIM/DMARC|headers:Başlıq analizi|response:Nə etməli"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:mail-warning}} Giriş: Hücumların Əsas Qapısı</h2>
+            <p class="lead">
+                Ransomware və məlumat sızmalarının çox hissəsi bir email ilə başlayır: saxta giriş səhifəsi, zərərli
+                əlavə və ya "direktordan" təcili ödəniş tapşırığı. Texniki filtrlər çoxunu tutur, amma hamısını yox —
+                son müdafiə xətti <strong>diqqətli istifadəçidir</strong>.
+            </p>
+        </section>
+
+        <section id="signs" class="section-card">
+            <h2 class="section-title">{{i:scan-search}} 1. Phishing Əlamətləri</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:at-sign}}<p class="text-neutral-700"><strong>Göndərən ünvan:</strong> görünən ad "Bank ASC", ünvan isə <code>support@bank-az-secure.com</code>; <code>rn</code> ilə <code>m</code> kimi hərf oyunları.</p></div>
+                <div class="feature-item">{{i:timer}}<p class="text-neutral-700"><strong>Təcililik və qorxu:</strong> "24 saat ərzində təsdiqləməsəniz hesab bloklanacaq".</p></div>
+                <div class="feature-item">{{i:link}}<p class="text-neutral-700"><strong>Link:</strong> üzərinə gətirəndə (klikləmədən) göstərilən ünvan mətnlə uyğun gəlmir.</p></div>
+                <div class="feature-item">{{i:paperclip}}<p class="text-neutral-700"><strong>Əlavələr:</strong> gözlənilməz .zip, .iso, .html, makrolu Office faylı, "faktura.pdf.exe".</p></div>
+                <div class="feature-item">{{i:banknote}}<p class="text-neutral-700"><strong>Pul və ya məlumat istəyi:</strong> bank rekvizitlərinin dəyişməsi, hədiyyə kartı, parol.</p></div>
+                <div class="feature-item">{{i:qr-code}}<p class="text-neutral-700"><strong>QR kod (quishing):</strong> email filtrindən yan keçmək üçün linki QR-a gizlədirlər.</p></div>
+            </div>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title">{{i:layers}} 2. Phishing Növləri</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Növ</th><th>Təsvir</th></tr></thead>
+                    <tbody>
+                        <tr><td>Mass phishing</td><td>Minlərlə ünvana eyni məktub (saxta "Microsoft 365 parolunuzun vaxtı bitir")</td></tr>
+                        <tr><td>Spear phishing</td><td>Konkret şəxsə, onun haqqında toplanmış məlumatla hazırlanmış məktub</td></tr>
+                        <tr><td>Whaling</td><td>Rəhbər şəxslərə yönəlmiş spear phishing</td></tr>
+                        <tr><td>BEC (Business Email Compromise)</td><td>Rəhbər və ya tərəfdaş adından ödəniş/rekvizit dəyişikliyi — çox vaxt linksiz və əlavəsiz</td></tr>
+                        <tr><td>AiTM phishing</td><td>Saxta səhifə real sayta proxy olur və parolla birlikdə MFA sessiyasını da oğurlayır</td></tr>
+                        <tr><td>Vishing / Smishing</td><td>Telefon zəngi / SMS ilə</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="auth" class="section-card">
+            <h2 class="section-title">{{i:badge-check}} 3. SPF, DKIM və DMARC</h2>
+            <p class="lead">SMTP protokolu göndərəni yoxlamır — istənilən server "From: ceo@example.az" yaza bilər. Bu üç DNS qeydi domeninizin adından saxta məktubların qarşısını alır.</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Mexanizm</th><th>Nəyi yoxlayır</th><th>DNS qeydi nümunəsi</th></tr></thead>
+                    <tbody>
+                        <tr><td>SPF</td><td>Bu IP domen adından məktub göndərməyə icazəlidirmi?</td><td><code>v=spf1 include:spf.protection.outlook.com -all</code></td></tr>
+                        <tr><td>DKIM</td><td>Məktub domenin private açarı ilə imzalanıb və yolda dəyişməyibmi?</td><td><code>selector1._domainkey</code> TXT/CNAME — public açar</td></tr>
+                        <tr><td>DMARC</td><td>SPF/DKIM uyğun gəlməzsə nə etməli + hesabatlar</td><td><code>_dmarc</code> TXT: <code>v=DMARC1; p=reject; rua=mailto:dmarc@example.az</code></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">SPF və DKIM-i bütün göndərən xidmətlər üçün qurun (email, CRM, marketinq platforması).</p></li>
+                <li><p class="text-neutral-700">DMARC-ı <code>p=none</code> ilə başladın və hesabatları izləyin — kim sizin adınızdan göndərir?</p></li>
+                <li><p class="text-neutral-700">Tədricən <code>p=quarantine</code>, sonra <code>p=reject</code>.</p></li>
+            </ol>
+            <div class="code-block mt-6">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>dig example.az TXT +short                 # SPF
+dig _dmarc.example.az TXT +short          # DMARC
+dig selector1._domainkey.example.az TXT +short</code></pre>
+            </div>
+        </section>
+
+        <section id="headers" class="section-card">
+            <h2 class="section-title">{{i:file-search}} 4. Başlıq (Header) Analizi</h2>
+            <p class="lead">Outlook-da "View message source / Message details", Gmail-də "Show original". Əsas sahələr:</p>
+            <div class="code-block mb-6">
+                <pre><code>From: "Direktor" &lt;ceo@example.az&gt;
+Reply-To: ceo.example.az@gmail.com           ← cavab başqa yerə gedir!
+Return-Path: &lt;bounce@mailer-xyz.top&gt;
+Authentication-Results: mx.example.az;
+   spf=fail (sender IP is 185.x.x.x) smtp.mailfrom=example.az;
+   dkim=none;
+   dmarc=fail action=quarantine header.from=example.az
+Received: from unknown (185.x.x.x) ...</code></pre>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:circle-x}}<p class="text-neutral-700"><strong>spf/dkim/dmarc=fail</strong> — domen adından saxta göndəriş.</p></div>
+                <div class="feature-item">{{i:reply}}<p class="text-neutral-700"><strong>Reply-To fərqlidir</strong> — BEC hücumlarının klassik əlaməti.</p></div>
+                <div class="feature-item">{{i:route}}<p class="text-neutral-700"><strong>Received</strong> zənciri aşağıdan yuxarı oxunur — məktubun real mənşəyi.</p></div>
+            </div>
+        </section>
+
+        <section id="response" class="section-card">
+            <h2 class="section-title">{{i:siren}} 5. Şübhəli Məktub — Nə Etməli?</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card accent"><h3>{{i:flag}} İstifadəçi</h3><p class="text-neutral-700">Klikləməyin, cavab verməyin, "Report phishing" düyməsi ilə bildirin. Kliklədinizsə və ya parol yazdınızsa — <strong>dərhal</strong> IT-yə deyin; utanmaq itirilən vaxtdan ucuzdur.</p></div>
+                <div class="info-card dark"><h3>{{i:shield-check}} IT / SOC</h3><p>Eyni məktubu bütün mailbox-lardan silmək, göndərəni və domeni bloklamaq, klikləyənlərin parolunu dəyişib sessiyalarını ləğv etmək, log-larda giriş cəhdlərini yoxlamaq.</p></div>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><strong>BEC-ə qarşı proses:</strong> bank rekvizitlərinin dəyişməsi və təcili ödəniş tələbi <em>həmişə</em> başqa kanalla (məlum telefon nömrəsinə zəng) təsdiqlənməlidir. Bu sadə qayda milyonlarla manat itkinin qarşısını alır.</p>
+            </div>
+        </section>
+<!--END-->

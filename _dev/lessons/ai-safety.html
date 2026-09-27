@@ -1,0 +1,81 @@
+<!--PAGE title="AI Təhlükəsizliyi, Məxfilik və Etika" icon="shield-half" badge="AI · Təhlükəsizlik" nav="intro:Giriş|risks:Risklər|injection:Prompt injection|privacy:Məxfilik|bias:Qərəz|governance:İdarəetmə"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:shield-half}} Giriş: Güclü Alət — Yeni Risklər</h2>
+            <p class="lead">
+                AI sistemləri həm hücum hədəfidir, həm də səhv istifadə olunduqda özü risk mənbəyinə çevrilir:
+                məlumat sızması, yanlış qərarlar, manipulyasiya. IT və təhlükəsizlik mütəxəssisi bu riskləri tanımalı və
+                şirkətdə AI-ın təhlükəsiz istifadəsi üçün qaydalar qurmağa kömək etməlidir.
+            </p>
+        </section>
+
+        <section id="risks" class="section-card">
+            <h2 class="section-title">{{i:list-ordered}} 1. Əsas Risklər (OWASP Top 10 for LLM Applications əsasında)</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Risk</th><th>Nümunə</th><th>Müdafiə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Prompt injection</td><td>Sənəddəki gizli mətn modelə "bütün email-ləri bu ünvana göndər" deyir</td><td>Xarici məzmunu məlumat kimi ayırmaq, alət icazələrini məhdudlaşdırmaq, təsdiq</td></tr>
+                        <tr><td>Həssas məlumatın açılması</td><td>Chatbot başqa istifadəçinin sənədindən məlumat verir</td><td>RAG-da icazə filtrləri, çıxışın yoxlanması</td></tr>
+                        <tr><td>Həddən artıq səlahiyyət (excessive agency)</td><td>Agent "təmizlik" üçün istehsalat faylını silir</td><td>Minimal icazə, human-in-the-loop</td></tr>
+                        <tr><td>Etibarsız çıxışın emalı</td><td>Modelin yazdığı SQL/HTML yoxlanılmadan icra olunur</td><td>Çıxışı istifadəçi girişi kimi validasiya etmək</td></tr>
+                        <tr><td>Misinformation / hallucination</td><td>Uydurma əmr və ya siyasət maddəsi</td><td>Mənbə göstərmək, insan yoxlaması</td></tr>
+                        <tr><td>Supply chain</td><td>Etibarsız mənbədən yüklənmiş model və ya plugin</td><td>Rəsmi mənbələr, imza/hash yoxlaması</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="injection" class="section-card">
+            <h2 class="section-title">{{i:syringe}} 2. Prompt Injection Ətraflı</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>{{i:keyboard}} Direct</h3><p class="text-neutral-700">İstifadəçi özü sistem qaydalarını keçməyə çalışır ("əvvəlki təlimatları unut...").</p></div>
+                <div class="info-card accent"><h3>{{i:file-warning}} Indirect</h3><p class="text-neutral-700">Hücum modelin oxuduğu kənar məzmunun içindədir: veb səhifə, email, PDF, ticket, kod şərhi. Agentlər üçün ən təhlükəli növdür.</p></div>
+            </div>
+            <div class="note-box">
+                {{i:triangle-alert}}
+                <p class="text-neutral-800">Prompt injection-u tam aradan qaldıran universal həll yoxdur. Buna görə arxitektura elə qurulmalıdır ki, model "aldadılsa" belə, zərər məhdud olsun: <strong>minimal icazə</strong>, həssas hərəkətlər üçün <strong>insan təsdiqi</strong>, xaricə məlumat göndərən alətlərə <strong>məhdudiyyət</strong>, hər şeyin <strong>log-lanması</strong>.</p>
+            </div>
+        </section>
+
+        <section id="privacy" class="section-card">
+            <h2 class="section-title">{{i:eye-off}} 3. Məlumat Məxfiliyi</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Məlumat</th><th>İctimai AI çatbotuna</th><th>Şirkətin təsdiqlənmiş AI xidmətinə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Açıq sənədlər, ümumi suallar</td><td class="yes">Olar</td><td class="yes">Olar</td></tr>
+                        <tr><td>Daxili sənədlər, konfiqurasiyalar (sirlərsiz)</td><td class="no">Olmaz</td><td>Siyasətə uyğun olar</td></tr>
+                        <tr><td>Parollar, açarlar, token-lər</td><td class="no">Heç vaxt</td><td class="no">Heç vaxt</td></tr>
+                        <tr><td>Şəxsi məlumatlar, müştəri məlumatları</td><td class="no">Olmaz</td><td>Yalnız hüquqi əsas və razılaşma ilə</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:file-text}}<p class="text-neutral-700"><strong>Müqaviləni oxuyun:</strong> məlumat modelin öyrədilməsində istifadə olunurmu, nə qədər saxlanılır, harada (hansı ölkədə)?</p></div>
+                <div class="feature-item">{{i:eraser}}<p class="text-neutral-700"><strong>Anonimləşdirmə:</strong> adları, IP-ləri, domenləri əvəzedicilərlə dəyişin.</p></div>
+                <div class="feature-item">{{i:ghost}}<p class="text-neutral-700"><strong>Shadow AI:</strong> işçilər təsdiqlənməmiş alətlərə iş məlumatı yapışdırır — qadağa yox, təhlükəsiz alternativ və təlim daha effektivdir.</p></div>
+            </div>
+        </section>
+
+        <section id="bias" class="section-card">
+            <h2 class="section-title">{{i:scale}} 4. Qərəz, Şəffaflıq və Məsuliyyət</h2>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:users}} Bias</h3><p class="text-neutral-700">Model öyrədildiyi məlumatdakı qərəzləri təkrarlaya bilər — məs. CV seçimində və ya kredit qərarlarında. İnsanlara təsir edən qərarlar mütləq insan nəzarəti ilə verilməlidir.</p></div>
+                <div class="info-card"><h3>{{i:eye}} Şəffaflıq</h3><p class="text-neutral-700">İstifadəçi AI ilə danışdığını bilməlidir; AI ilə yaradılmış məzmun lazım olduqda işarələnir.</p></div>
+                <div class="info-card dark"><h3>{{i:copyright}} Müəllif hüququ</h3><p>Yaradılan kod və şəkillərin lisenziya və hüquqi statusu ölkəyə və xidmətə görə fərqlənir — şirkət siyasətinə əməl edin.</p></div>
+            </div>
+        </section>
+
+        <section id="governance" class="section-card">
+            <h2 class="section-title">{{i:clipboard-check}} 5. Şirkətdə AI İstifadə Siyasəti</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700"><strong>Təsdiqlənmiş alətlər siyahısı</strong> və onlara SSO/MFA ilə giriş.</p></li>
+                <li><p class="text-neutral-700"><strong>Məlumat təsnifatı</strong> ilə əlaqə: hansı səviyyəli məlumat hansı alətə verilə bilər.</p></li>
+                <li><p class="text-neutral-700"><strong>İnsan məsuliyyəti:</strong> AI nəticəsini istifadə edən şəxs onun düzgünlüyünə cavabdehdir.</p></li>
+                <li><p class="text-neutral-700"><strong>Risk qiymətləndirməsi</strong> — yeni AI inteqrasiyaları və agentlər üçün (hansı məlumatı görür, nə edə bilir).</p></li>
+                <li><p class="text-neutral-700"><strong>Təlim</strong> — prompt injection, məlumat məxfiliyi, hallucination haqqında.</p></li>
+                <li><p class="text-neutral-700"><strong>Monitorinq və insident prosesi</strong> — AI ilə bağlı insidentlər də IR planına daxildir.</p></li>
+            </ol>
+            <p class="text-neutral-700">İstinad çərçivələri: <strong>NIST AI Risk Management Framework</strong>, <strong>ISO/IEC 42001</strong> (AI idarəetmə sistemi), <strong>AB AI Act</strong> (risk əsaslı tənzimləmə).</p>
+        </section>
+<!--END-->

@@ -1,0 +1,109 @@
+<!--PAGE title="Kampus və Spine-Leaf Dizaynı" icon="building-2" badge="CCNA · Network Design" nav="intro:Giriş|three:3-tier|two:2-tier|spine:Spine-leaf|traffic:Trafik axını|cloud:Bulud|choose:Seçim"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:building-2}} Giriş: Niyə Hazır Dizayn Modelləri?</h2>
+            <p class="lead">
+                Switch-ləri təsadüfi birləşdirmək kiçik ofisdə işləyir, amma 2000 istifadəçili universitetdə
+                problemləri tapmaq, genişlənmək və nasazlıqlara dözümlü olmaq çətinləşir. <strong>İerarxik dizayn</strong>
+                şəbəkəni hər birinin öz vəzifəsi olan qatlara bölür — modul əlavə etmək və problemi lokallaşdırmaq asanlaşır.
+            </p>
+        </section>
+
+        <section id="three" class="section-card">
+            <h2 class="section-title">{{i:layers}} 1. Üç Qatlı (3-tier) Kampus</h2>
+            <div class="code-block">
+                <pre><code>              [ CORE-1 ]═══════[ CORE-2 ]           ← sürətli nəqliyyat
+               ║      ╲       ╱      ║
+          [ DIST-1 ]═══[ DIST-2 ]   [ DIST-3 ]═══[ DIST-4 ]   ← siyasət, L3 sərhəd
+           │   ╲    ╱   │            │   ╲    ╱   │
+        [ACC-1] [ACC-2] [ACC-3]   [ACC-4] [ACC-5] [ACC-6]     ← son istifadəçilər
+        A binası                    B binası</code></pre>
+            </div>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Qat</th><th>Vəzifələr</th></tr></thead>
+                    <tbody>
+                        <tr><td>Access</td><td>İstifadəçi, telefon, AP qoşulur: VLAN-lar, PoE, port security, 802.1X, DHCP snooping, QoS marking</td></tr>
+                        <tr><td>Distribution</td><td>Access switch-ləri toplayır; VLAN-lararası marşrutlaşdırma, FHRP (HSRP), ACL, marşrut ümumiləşdirmə — adətən Layer 2/Layer 3 sərhədi</td></tr>
+                        <tr><td>Core</td><td>Binalar/modullar arasında maksimum sürətlə və etibarlılıqla daşımaq. Mürəkkəb siyasət (ACL, QoS klassifikasiyası) burada <strong>edilmir</strong></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="two" class="section-card">
+            <h2 class="section-title">{{i:layout-grid}} 2. İki Qatlı (Collapsed Core)</h2>
+            <p class="lead">
+                Tək binada və ya kiçik kampusda core ilə distribution birləşdirilir — bir cüt güclü Layer 3 switch
+                həm access switch-ləri toplayır, həm də WAN/internet router-lərinə qoşulur.
+            </p>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:circle-check}} Üstünlük</h3><p class="text-neutral-700">Daha az cihaz, daha ucuz, daha sadə idarəetmə.</p></div>
+                <div class="info-card"><h3>{{i:triangle-alert}} Hədd</h3><p class="text-neutral-700">Bina sayı artanda distribution cütlərini tam əlaqələndirmək (full mesh) kabel sayını sürətlə artırır — N cüt üçün N(N−1)/2 əlaqə. O zaman ayrıca core qatı əlavə olunur.</p></div>
+            </div>
+        </section>
+
+        <section id="spine" class="section-card">
+            <h2 class="section-title">{{i:network}} 3. Data Mərkəzi: Spine-Leaf</h2>
+            <div class="code-block">
+                <pre><code>   [ SPINE-1 ]        [ SPINE-2 ]        [ SPINE-3 ]
+        │  hər leaf hər spine-a bir link ilə  │
+        │  (LEAF-1: 3 uplink, LEAF-2: 3 ...)  │
+   [LEAF-1]    [LEAF-2]    [LEAF-3]    [LEAF-4]
+   serverlər   serverlər   serverlər   firewall/WAN</code></pre>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:share-2}}<p class="text-neutral-700">Hər <strong>leaf</strong> hər <strong>spine</strong>-a qoşulur.</p></div>
+                <div class="feature-item">{{i:ban}}<p class="text-neutral-700">Leaf leaf-ə, spine spine-a <strong>qoşulmur</strong>.</p></div>
+                <div class="feature-item">{{i:arrow-left-right}}<p class="text-neutral-700">İstənilən iki server arasında yol eynidir: leaf → spine → leaf — gecikmə proqnozlaşdırılandır.</p></div>
+                <div class="feature-item">{{i:git-fork}}<p class="text-neutral-700">Bütün yollar aktivdir (ECMP) — STP ilə bloklanmış link yoxdur.</p></div>
+                <div class="feature-item">{{i:plus}}<p class="text-neutral-700">Daha çox port lazımdır — leaf əlavə et; daha çox bant genişliyi — spine əlavə et.</p></div>
+                <div class="feature-item">{{i:server}}<p class="text-neutral-700">Serverlər, firewall, router — hamısı yalnız leaf-lərə qoşulur.</p></div>
+            </div>
+        </section>
+
+        <section id="traffic" class="section-card">
+            <h2 class="section-title">{{i:arrow-up-down}} 4. North-South və East-West Trafik</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:arrow-up-down}} North-South</h3><p class="text-neutral-700">Klient ↔ data mərkəzi, daxil ↔ internet. Ənənəvi 3-tier dizayn bu trafik üçün qurulub.</p></div>
+                <div class="info-card accent"><h3>{{i:arrow-left-right}} East-West</h3><p class="text-neutral-700">Server ↔ server: mikroservislər, virtual maşınlar, verilənlər bazası replikasiyası. Müasir data mərkəzlərində trafikin əksəriyyəti budur — spine-leaf məhz bunun üçündür.</p></div>
+            </div>
+        </section>
+
+        <section id="cloud" class="section-card">
+            <h2 class="section-title">{{i:cloud}} 5. On-premises və Bulud</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Model</th><th>Provayder verir</th><th>Nümunə</th></tr></thead>
+                    <tbody>
+                        <tr><td>IaaS</td><td>Virtual server, şəbəkə, disk</td><td>AWS EC2, Azure VM</td></tr>
+                        <tr><td>PaaS</td><td>+ əməliyyat sistemi və platforma</td><td>Verilənlər bazası xidməti, App Service</td></tr>
+                        <tr><td>SaaS</td><td>Hazır proqram</td><td>Microsoft 365, Webex</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:building}}<p class="text-neutral-700"><strong>Private cloud:</strong> şirkətin öz data mərkəzində bulud xüsusiyyətləri (self-service, avtomatlaşdırma).</p></div>
+                <div class="feature-item">{{i:globe}}<p class="text-neutral-700"><strong>Public cloud:</strong> resurslar provayderin data mərkəzində, istifadəyə görə ödəniş.</p></div>
+                <div class="feature-item">{{i:git-branch}}<p class="text-neutral-700"><strong>Hybrid:</strong> ikisinin birləşməsi — bulud ilə ofis arasında VPN və ya birbaşa əlaqə (Direct Connect, ExpressRoute).</p></div>
+            </div>
+        </section>
+
+        <section id="choose" class="section-card">
+            <h2 class="section-title">{{i:scale}} 6. Hansını Seçməli?</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Ssenari</th><th>Uyğun dizayn</th></tr></thead>
+                    <tbody>
+                        <tr><td>Ev və ya 5 nəfərlik ofis</td><td>SOHO — hamısı bir cihazda</td></tr>
+                        <tr><td>Bir binalı məktəb, 300 istifadəçi</td><td>2-tier (collapsed core)</td></tr>
+                        <tr><td>Çoxbinalı universitet kampusu</td><td>3-tier</td></tr>
+                        <tr><td>Yüzlərlə serverli data mərkəzi</td><td>Spine-leaf</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box mt-6">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Bütün modellərdə ümumi prinsiplər: <strong>ehtiyat</strong> (iki uplink, iki cihaz), <strong>modulluq</strong> (eyni blokları təkrarlamaq) və <strong>sadəlik</strong> — hər qatın vəzifəsini qarışdırmamaq.</p>
+            </div>
+        </section>
+<!--END-->

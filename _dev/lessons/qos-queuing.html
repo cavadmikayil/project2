@@ -1,0 +1,121 @@
+<!--PAGE title="QoS: Queuing, Shaping, Policing, WRED" icon="list-filter" badge="CCNA · IP Services" nav="intro:Giriş|queuing:Queuing|llq:LLQ|shaping:Shaping və Policing|wred:WRED|commands:Əmrlər"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:list-filter}} Giriş: Tıxac Zamanı Nə Baş Verir?</h2>
+            <p class="lead">
+                İşarələnmiş (marking) trafik özü-özlüyündə heç nəyi sürətləndirmir. Fayda çıxış interfeysində gəlir:
+                link dolanda paketlər <strong>növbələrə</strong> (queue) düşür və <strong>scheduler</strong> hansı növbədən
+                nə qədər göndəriləcəyinə qərar verir. Tıxac yoxdursa, queuing mexanizmləri demək olar ki, işə düşmür.
+            </p>
+        </section>
+
+        <section id="queuing" class="section-card">
+            <h2 class="section-title">{{i:list-ordered}} 1. Queuing Üsulları</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Üsul</th><th>Necə işləyir</th><th>Problem</th></tr></thead>
+                    <tbody>
+                        <tr><td>FIFO</td><td>Tək növbə, ilk gələn ilk gedir</td><td>Səs böyük faylın arxasında gözləyir</td></tr>
+                        <tr><td>Priority Queuing</td><td>Yüksək prioritetli növbə həmişə əvvəl</td><td>Aşağı növbələr "ac qala" bilər (starvation)</td></tr>
+                        <tr><td>CBWFQ</td><td>Hər sinfə zəmanətli bant genişliyi payı (round-robin)</td><td>Səs üçün gecikmə zəmanəti yoxdur</td></tr>
+                        <tr><td>LLQ = CBWFQ + priority</td><td>Səs üçün ciddi prioritetli növbə + limit, qalanlar CBWFQ ilə</td><td class="yes">Səs/video üçün tövsiyə olunan</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="llq" class="section-card">
+            <h2 class="section-title">{{i:zap}} 2. LLQ (Low Latency Queuing)</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:play}}<p class="text-neutral-700"><strong>Priority növbə:</strong> səs paketləri dərhal göndərilir — gecikmə və jitter minimal olur.</p></div>
+                <div class="feature-item">{{i:ban}}<p class="text-neutral-700"><strong>Daxili policer:</strong> priority sinfi ayrılmış limiti keçərsə artıq hissə atılır — digər siniflər ac qalmır.</p></div>
+                <div class="feature-item">{{i:gauge}}<p class="text-neutral-700"><strong>Qalan siniflər:</strong> <code>bandwidth</code> və ya <code>bandwidth percent</code> ilə minimum pay alır.</p></div>
+            </div>
+        </section>
+
+        <section id="shaping" class="section-card">
+            <h2 class="section-title">{{i:scale}} 3. Shaping və Policing</h2>
+            <p class="lead">Hər ikisi trafiki müəyyən sürətlə (CIR) məhdudlaşdırır, amma fərqli üsulla:</p>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th></th><th>Shaping</th><th>Policing</th></tr></thead>
+                    <tbody>
+                        <tr><td>Limiti keçən trafik</td><td>Buferdə saxlanılır, sonra göndərilir</td><td>Atılır və ya yenidən işarələnir (re-mark)</td></tr>
+                        <tr><td>Gecikmə</td><td>Artırır</td><td>Artırmır</td></tr>
+                        <tr><td>İstiqamət</td><td>Yalnız çıxış (outbound)</td><td>Giriş və çıxış</td></tr>
+                        <tr><td>Tipik yer</td><td>Müştəri: provayderin limitinə uyğunlaşmaq</td><td>Provayder: müştərinin ödədiyi sürəti tətbiq etmək</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><strong>Nümunə:</strong> ofisin 1 Gbps portu var, amma provayder yalnız 200 Mbps satıb və artığını policing ilə atır. Routerdə 200 Mbps-ə <strong>shaping</strong> qurulmasa, TCP paketləri provayderdə itəcək; shaping ilə isə itki routerin öz növbələrində, QoS qaydalarına uyğun idarə olunur.</p>
+            </div>
+        </section>
+
+        <section id="wred" class="section-card">
+            <h2 class="section-title">{{i:triangle-alert}} 4. Tail Drop və WRED</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:circle-x}} Tail drop</h3><p class="text-neutral-700">Növbə dolanda gələn bütün paketlər atılır. Bütün TCP axınları eyni anda sürəti azaldıb eyni anda artırır — <strong>TCP global synchronization</strong> — link növbə ilə boş və tıxanmış olur.</p></div>
+                <div class="info-card accent"><h3>{{i:circle-check}} RED / WRED</h3><p class="text-neutral-700">Növbə dolmağa başlayanda paketləri <strong>təsadüfi</strong> və tədricən atır: yalnız bəzi TCP axınları yavaşlayır. WRED (Weighted) DSCP-yə baxır — atılma prioriteti yüksək olan (məs. AF13) daha əvvəl atılır.</p></div>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 5. Praktiki Əmrlər</h2>
+            <div class="tab-bar" data-tabs>
+                <button class="tab-btn active-tab" data-pane="qq-llq">LLQ + WRED</button>
+                <button class="tab-btn inactive-tab" data-pane="qq-shape">Shaping (iç-içə)</button>
+                <button class="tab-btn inactive-tab" data-pane="qq-police">Policing</button>
+            </div>
+            <div id="qq-llq">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# class-map match-any VOICE
+R1(config-cmap)# match dscp ef
+R1(config)# class-map match-any BUSINESS
+R1(config-cmap)# match dscp af31 af21
+
+R1(config)# policy-map WAN-OUT
+R1(config-pmap)# class VOICE
+R1(config-pmap-c)# priority percent 20
+R1(config-pmap)# class BUSINESS
+R1(config-pmap-c)# bandwidth percent 40
+R1(config-pmap-c)# random-detect dscp-based
+R1(config-pmap)# class class-default
+R1(config-pmap-c)# fair-queue
+
+R1(config)# interface GigabitEthernet0/1
+R1(config-if)# service-policy output WAN-OUT</code></pre>
+                    <p class="code-note">Səsə linkin 20%-i qədər ciddi prioritet, biznes tətbiqlərinə minimum 40% və DSCP əsaslı WRED, qalan trafik ədalətli növbələmə ilə.</p>
+                </div>
+            </div>
+            <div id="qq-shape" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# policy-map SHAPE-200M
+R1(config-pmap)# class class-default
+R1(config-pmap-c)# shape average 200000000
+R1(config-pmap-c)# service-policy WAN-OUT
+
+R1(config)# interface GigabitEthernet0/1
+R1(config-if)# no service-policy output WAN-OUT
+R1(config-if)# service-policy output SHAPE-200M</code></pre>
+                    <p class="code-note">Bütün trafik 200 Mbps-ə shaping edilir və yaranan növbə daxilində WAN-OUT (LLQ) siyasəti tətbiq olunur — iç-içə (hierarchical) policy.</p>
+                </div>
+            </div>
+            <div id="qq-police" class="hidden">
+                <div class="code-block">
+                    <button class="copy-btn">Kopyala</button>
+                    <pre><code>R1(config)# policy-map LIMIT-GUEST
+R1(config-pmap)# class class-default
+R1(config-pmap-c)# police cir 10000000 conform-action transmit exceed-action drop
+
+R1(config)# interface GigabitEthernet0/2
+R1(config-if)# service-policy input LIMIT-GUEST
+
+R1# show policy-map interface GigabitEthernet0/2</code></pre>
+                    <p class="code-note">Qonaq şəbəkəsinin gələn trafikini 10 Mbps-lə məhdudlaşdırır: limit daxilində olan ötürülür, artığı atılır. Sonuncu əmr conformed/exceeded sayğaclarını göstərir.</p>
+                </div>
+            </div>
+        </section>
+<!--END-->

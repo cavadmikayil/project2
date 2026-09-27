@@ -1,0 +1,76 @@
+<!--PAGE title="Wireless Təhlükəsizlik" icon="lock-keyhole" badge="CCNA · Network Access" nav="intro:Giriş|pillars:Üç sütun|auth:Autentifikasiya|encryption:Şifrələmə|wpa:WPA versiyaları"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:lock-keyhole}} Giriş: Havada Hər Kəs Eşidir</h2>
+            <p class="lead">
+                Simli şəbəkəyə qoşulmaq üçün fiziki porta çıxış lazımdır, simsiz siqnal isə binanın hüdudlarından
+                kənara da yayılır. Radio diapazonunda olan hər kəs çərçivələri tuta bilər. Ona görə simsiz şəbəkədə
+                təhlükəsizlik üç məsələni birlikdə həll etməlidir.
+            </p>
+        </section>
+
+        <section id="pillars" class="section-card">
+            <h2 class="section-title">{{i:shield}} 1. Simsiz Təhlükəsizliyin Üç Sütunu</h2>
+            <div class="card-grid">
+                <div class="info-card accent"><h3>{{i:user-check}} Autentifikasiya</h3><p class="text-neutral-700">Yalnız icazəli istifadəçilər qoşulsun, müştəri də saxta (rogue) AP-yə deyil, həqiqi AP-yə qoşulduğuna əmin olsun.</p></div>
+                <div class="info-card"><h3>{{i:lock}} Məxfilik (şifrələmə)</h3><p class="text-neutral-700">Tutulmuş çərçivələr oxuna bilməsin.</p></div>
+                <div class="info-card dark"><h3>{{i:fingerprint}} Bütövlük (integrity)</h3><p>Çərçivə yolda dəyişdirilməsin. Hər çərçivəyə MIC (Message Integrity Check) əlavə olunur.</p></div>
+            </div>
+        </section>
+
+        <section id="auth" class="section-card">
+            <h2 class="section-title">{{i:key-round}} 2. Autentifikasiya Metodları</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Metod</th><th>Necə işləyir</th><th>Qiymətləndirmə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Open</td><td>Heç bir yoxlama yoxdur (çox vaxt veb-portal ilə — hotel, kafe)</td><td class="no">Zəif</td></tr>
+                        <tr><td>WEP</td><td>Statik ortaq açar (RC4)</td><td class="no">Sındırılıb</td></tr>
+                        <tr><td>PSK (Personal)</td><td>Hamı üçün ortaq parol; 4-way handshake ilə sessiya açarları yaranır</td><td>Kiçik şəbəkələr üçün</td></tr>
+                        <tr><td>SAE (WPA3-Personal)</td><td>Parol birbaşa ötürülmür; offline lüğət hücumlarına davamlıdır</td><td class="yes">Güclü</td></tr>
+                        <tr><td>802.1X / EAP (Enterprise)</td><td>Hər istifadəçi öz hesabı ilə RADIUS server vasitəsilə yoxlanılır</td><td class="yes">Müəssisə standartı</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <h3 class="text-xl font-bold mb-3">EAP növləri</h3>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>EAP</th><th>Server sertifikatı</th><th>Müştəri sertifikatı</th><th>Qeyd</th></tr></thead>
+                    <tbody>
+                        <tr><td>LEAP</td><td>Yox</td><td>Yox</td><td>Köhnə Cisco metodu — zəifdir</td></tr>
+                        <tr><td>EAP-FAST</td><td>İstəyə bağlı</td><td>Yox</td><td>Cisco; PAC (Protected Access Credential) ilə tunel</td></tr>
+                        <tr><td>PEAP</td><td>Bəli</td><td>Yox</td><td>TLS tunel içində istifadəçi adı/parol (MSCHAPv2)</td></tr>
+                        <tr><td>EAP-TLS</td><td>Bəli</td><td>Bəli</td><td>Ən güclü — hər cihazda sertifikat lazımdır</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="encryption" class="section-card">
+            <h2 class="section-title">{{i:lock}} 3. Şifrələmə və Bütövlük</h2>
+            <div class="card-grid">
+                <div class="info-card"><h3>{{i:circle-x}} TKIP</h3><p class="text-neutral-700">WEP avadanlığında işləmək üçün müvəqqəti həll (WPA). Hər çərçivəyə ayrı açar və MIC əlavə etdi, amma artıq köhnəlib.</p></div>
+                <div class="info-card accent"><h3>{{i:circle-check}} CCMP</h3><p class="text-neutral-700">AES əsaslı şifrələmə (AES-CTR) və CBC-MAC ilə bütövlük. WPA2-nin əsasıdır.</p></div>
+                <div class="info-card dark"><h3>{{i:shield-check}} GCMP</h3><p>AES-GCM — daha sürətli və güclü. WPA3-də, xüsusilə 192-bitlik Enterprise rejimində (GCMP-256) istifadə olunur.</p></div>
+            </div>
+        </section>
+
+        <section id="wpa" class="section-card">
+            <h2 class="section-title">{{i:wifi}} 4. WPA, WPA2, WPA3</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th></th><th>WPA</th><th>WPA2</th><th>WPA3</th></tr></thead>
+                    <tbody>
+                        <tr><td>İl</td><td>2003</td><td>2004</td><td>2018</td></tr>
+                        <tr><td>Şifrələmə</td><td>TKIP</td><td>CCMP (AES)</td><td>GCMP / CCMP (AES)</td></tr>
+                        <tr><td>Personal</td><td>PSK</td><td>PSK</td><td>SAE</td></tr>
+                        <tr><td>Enterprise</td><td>802.1X</td><td>802.1X</td><td>802.1X, 192-bit rejim</td></tr>
+                        <tr><td>Əlavə</td><td>—</td><td>—</td><td>PMF (idarəetmə çərçivələrinin qorunması) məcburidir, forward secrecy</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800"><strong>Tövsiyə:</strong> müəssisədə WPA2/WPA3-Enterprise + EAP-TLS və ya PEAP; kiçik ofisdə WPA3-Personal (köhnə cihazlar üçün WPA2/WPA3 transition rejimi). Qonaqlar üçün ayrıca SSID və VLAN.</p>
+            </div>
+        </section>
+<!--END-->

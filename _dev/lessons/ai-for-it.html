@@ -1,0 +1,91 @@
+<!--PAGE title="IT İşində AI Assistentləri" icon="bot" badge="AI · Praktika" nav="intro:Giriş|usecases:İstifadə halları|scripts:Skriptlər|logs:Log analizi|docs:Sənədləşdirmə|policy:Təhlükəsiz istifadə"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:bot}} Giriş: AI Kollega, Amma Stajyer Kimi</h2>
+            <p class="lead">
+                AI assistenti gündəlik IT işini ciddi sürətləndirə bilər: skript qaralaması, xəta mesajının izahı,
+                log-un xülasəsi, sənəd yazmaq. Onu <strong>çox sürətli, çox oxumuş, amma sizin mühitinizi tanımayan və
+                bəzən inamla səhv edən stajyer</strong> kimi düşünün: işi ona verin, nəticəni isə siz yoxlayın.
+            </p>
+        </section>
+
+        <section id="usecases" class="section-card">
+            <h2 class="section-title">{{i:briefcase}} 1. Harada Ən Çox Fayda Verir?</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>İş</th><th>AI nə edir</th><th>Siz nə edirsiniz</th></tr></thead>
+                    <tbody>
+                        <tr><td>Xəta mesajı</td><td>Mənasını və ehtimal olunan səbəbləri izah edir</td><td>Səbəbləri öz mühitinizdə yoxlayırsınız</td></tr>
+                        <tr><td>PowerShell / Bash / Python skripti</td><td>Qaralama yazır, şərh əlavə edir</td><td>Oxuyursunuz, test mühitində işlədirsiniz</td></tr>
+                        <tr><td>Konfiqurasiya</td><td>Nümunə ACL, VLAN, Nginx konfiqurasiyası</td><td>Versiya və sintaksisi yoxlayırsınız, lab-da test</td></tr>
+                        <tr><td>Log / çıxış analizi</td><td>Anomaliyaları və qanunauyğunluqları qeyd edir</td><td>Nəticəni orijinal log-la təsdiqləyirsiniz</td></tr>
+                        <tr><td>Sənəd, KB, email</td><td>Struktur və mətn qaralaması</td><td>Faktları və tonu düzəldirsiniz</td></tr>
+                        <tr><td>Öyrənmə</td><td>Mövzunu fərqli səviyyələrdə izah edir, test sualları yaradır</td><td>Rəsmi sənədlə müqayisə edirsiniz</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="scripts" class="section-card">
+            <h2 class="section-title">{{i:terminal}} 2. Nümunə: Skript Yazdırmaq</h2>
+            <div class="code-block mb-6">
+                <pre><code>Prompt:
+"Windows Server 2022, PowerShell 5.1. AD-də 60 gündən çox daxil olmayan
+aktiv istifadəçi hesablarını tap, CSV-yə yaz (Name, SamAccountName,
+LastLogonDate, OU). Heç nəyi dəyişmə və ya söndürmə — yalnız hesabat.
+Hər hissəyə qısa şərh əlavə et."</code></pre>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code># Nəticə (yoxlanıldıqdan sonra):
+Import-Module ActiveDirectory
+$limit = (Get-Date).AddDays(-60)
+
+Get-ADUser -Filter {Enabled -eq $true -and LastLogonDate -lt $limit} `
+    -Properties LastLogonDate |
+  Select-Object Name, SamAccountName, LastLogonDate,
+    @{n='OU'; e={ ($_.DistinguishedName -split ',', 2)[1] }} |
+  Export-Csv -Path .\inactive-users.csv -NoTypeInformation -Encoding UTF8</code></pre>
+                <p class="code-note">Prompt-da "heç nəyi dəyişmə" məhdudiyyəti qoyulub — AI-ın yazdığı skripti ilk dəfə həmişə <strong>yalnız oxuyan</strong> rejimdə və ya <code>-WhatIf</code> ilə işlədin. <code>LastLogonDate</code> replikasiya səbəbindən 9–14 gün gecikə bilər — bunu da yoxlamaq sizin işinizdir.</p>
+            </div>
+        </section>
+
+        <section id="logs" class="section-card">
+            <h2 class="section-title">{{i:scroll-text}} 3. Nümunə: Log Analizi</h2>
+            <ol class="steps max-w-3xl mx-auto mb-6">
+                <li><p class="text-neutral-700">Log-u əvvəlcə filtrləyin (<code>grep</code>, <code>Get-WinEvent</code>) — 50 MB log-u yox, əlaqəli 200 sətri verin.</p></li>
+                <li><p class="text-neutral-700">IP, istifadəçi adı, domen kimi həssas məlumatları anonimləşdirin (məs. <code>USER1</code>, <code>10.x.x.1</code>).</p></li>
+                <li><p class="text-neutral-700">Konkret sual verin: "Bu nginx error log-unda 502 xətalarının zaman qanunauyğunluğu və ehtimal olunan səbəb nədir?"</p></li>
+                <li><p class="text-neutral-700">Cavabdakı hər iddianı log-da tapın — model mövcud olmayan sətirdən "sitat" gətirə bilər.</p></li>
+            </ol>
+        </section>
+
+        <section id="docs" class="section-card">
+            <h2 class="section-title">{{i:file-text}} 4. Sənədləşdirmə və Kommunikasiya</h2>
+            <div class="feature-grid">
+                <div class="feature-item">{{i:book-open}}<p class="text-neutral-700"><strong>Runbook:</strong> qeydlərinizdən addım-addım prosedur qaralaması.</p></div>
+                <div class="feature-item">{{i:mail}}<p class="text-neutral-700"><strong>İstifadəçiyə bildiriş:</strong> texniki insident xülasəsini sadə dilə çevirmək.</p></div>
+                <div class="feature-item">{{i:presentation}}<p class="text-neutral-700"><strong>Rəhbərlik üçün:</strong> texniki hesabatdan qısa icmal (risk, təsir, qərar).</p></div>
+                <div class="feature-item">{{i:languages}}<p class="text-neutral-700"><strong>Tərcümə:</strong> vendor sənədlərini anlamaq — terminləri orijinalda saxlayın.</p></div>
+            </div>
+        </section>
+
+        <section id="policy" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 5. Təhlükəsiz İstifadə Qaydaları</h2>
+            <div class="table-wrap mb-6">
+                <table class="data-table">
+                    <thead><tr><th>Qayda</th><th>Niyə</th></tr></thead>
+                    <tbody>
+                        <tr><td>Şirkətin təsdiq etdiyi AI xidmətlərindən istifadə edin</td><td>Məlumatın harada saxlandığı və öyrədilmədə istifadə olunub-olunmadığı müqavilədən asılıdır</td></tr>
+                        <tr><td>Parol, açar, şəxsi məlumat, müştəri məlumatı yapışdırmayın</td><td>Məlumat sızması və qanun pozuntusu riski</td></tr>
+                        <tr><td>Kodu/əmri başa düşmədən icra etməyin</td><td>Səhv əmr istehsalatı dayandıra bilər; zərərli təkliflər də mümkündür</td></tr>
+                        <tr><td>Faktları rəsmi sənədlə yoxlayın</td><td>Hallucination — mövcud olmayan əmr, parametr, KB məqaləsi</td></tr>
+                        <tr><td>AI ilə hazırlanan işi qeyd edin (lazım olduqda)</td><td>Şəffaflıq və məsuliyyət</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="note-box">
+                {{i:lightbulb}}
+                <p class="text-neutral-800">Ən yaxşı nəticə — <strong>AI + ekspert</strong> birləşməsidir. Nə qədər çox bilirsinizsə, AI-dan bir o qədər çox fayda alırsınız: düzgün sual verir və səhv cavabı tez tanıyırsınız. Buna görə əsasları (CCNA, Linux, Windows) öyrənmək AI dövründə daha da vacibdir.</p>
+            </div>
+        </section>
+<!--END-->

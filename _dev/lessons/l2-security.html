@@ -1,0 +1,113 @@
+<!--PAGE title="DAI, IP Source Guard və 802.1X" icon="shield-alert" badge="CCNA · Security Fundamentals" nav="intro:Giriş|attacks:Hücumlar|dai:DAI|ipsg:IP Source Guard|dot1x:802.1X|commands:Doğrulama"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:shield-alert}} Giriş: Layer 2 Təhlükəsizliyi</h2>
+            <p class="lead">
+                Firewall-lar adətən şəbəkənin kənarını qoruyur, amma daxili switch portuna qoşulan hücumçu
+                Layer 2-də ciddi ziyan vura bilər. Bu dərsdə DHCP Snooping üzərində qurulan iki əlavə müdafiəni —
+                <strong>Dynamic ARP Inspection</strong> və <strong>IP Source Guard</strong> — və porta qoşulmağı
+                istifadəçi autentifikasiyasına bağlayan <strong>802.1X</strong>-i öyrənəcəksiniz.
+            </p>
+        </section>
+
+        <section id="attacks" class="section-card">
+            <h2 class="section-title">{{i:siren}} 1. Hücumlar və Müdafiələr</h2>
+            <div class="table-wrap">
+                <table class="data-table">
+                    <thead><tr><th>Hücum</th><th>Nə edir</th><th>Müdafiə</th></tr></thead>
+                    <tbody>
+                        <tr><td>MAC flooding</td><td>MAC cədvəlini doldurur, switch hub kimi hər yerə göndərir</td><td>Port Security</td></tr>
+                        <tr><td>DHCP spoofing / starvation</td><td>Saxta DHCP server və ya pool-un tükədilməsi</td><td>DHCP Snooping</td></tr>
+                        <tr><td>ARP spoofing (MITM)</td><td>Saxta ARP cavabı ilə gateway kimi özünü təqdim edir</td><td>Dynamic ARP Inspection</td></tr>
+                        <tr><td>IP spoofing</td><td>Başqasının IP ünvanı ilə trafik göndərir</td><td>IP Source Guard</td></tr>
+                        <tr><td>VLAN hopping</td><td>DTP ilə trunk qurur və ya ikiqat teq istifadə edir</td><td><code>switchport nonegotiate</code>, istifadə olunmayan native VLAN</td></tr>
+                        <tr><td>İcazəsiz cihaz</td><td>Boş porta qoşulub şəbəkəyə daxil olur</td><td>802.1X</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="dai" class="section-card">
+            <h2 class="section-title">{{i:eye}} 2. Dynamic ARP Inspection (DAI)</h2>
+            <div class="feature-grid mb-6">
+                <div class="feature-item">{{i:clipboard-list}}<p class="text-neutral-700">Untrusted portlardan gələn ARP paketlərini <strong>DHCP snooping binding cədvəli</strong> ilə müqayisə edir; IP–MAC uyğun gəlmirsə paket atılır.</p></div>
+                <div class="feature-item">{{i:shield-check}}<p class="text-neutral-700">Uplink/trunk portlar <strong>trusted</strong> edilir — onlardan gələn ARP yoxlanmır.</p></div>
+                <div class="feature-item">{{i:gauge}}<p class="text-neutral-700">Untrusted portlarda defolt limit <strong>15 ARP paketi/saniyə</strong>; aşıldıqda port err-disabled olur.</p></div>
+                <div class="feature-item">{{i:list-filter}}<p class="text-neutral-700">Statik IP-li cihazlar üçün <strong>ARP ACL</strong> yaradılmalıdır, əks halda onların ARP-ı bloklanır.</p></div>
+            </div>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>Switch(config)# ip dhcp snooping
+Switch(config)# ip dhcp snooping vlan 10
+Switch(config)# ip arp inspection vlan 10
+Switch(config)# ip arp inspection validate src-mac dst-mac ip
+
+Switch(config)# interface GigabitEthernet0/1
+Switch(config-if)# ip dhcp snooping trust
+Switch(config-if)# ip arp inspection trust
+
+Switch(config)# interface range FastEthernet0/1 - 24
+Switch(config-if-range)# ip arp inspection limit rate 20</code></pre>
+                <p class="code-note">DAI DHCP snooping-ə əsaslanır, ona görə əvvəlcə snooping aktivləşdirilir. Uplink həm snooping, həm DAI üçün trusted edilir; istifadəçi portlarında ARP limiti 20 pps-ə qaldırılır.</p>
+            </div>
+        </section>
+
+        <section id="ipsg" class="section-card">
+            <h2 class="section-title">{{i:fingerprint}} 3. IP Source Guard (IPSG)</h2>
+            <p class="lead">
+                IPSG untrusted portda yalnız binding cədvəlində həmin porta yazılmış IP (və istəyə görə MAC)
+                ünvanından gələn trafikə icazə verir. Başqasının IP-sini "götürən" host dərhal bloklanır.
+            </p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>Switch(config)# interface FastEthernet0/5
+Switch(config-if)# ip verify source
+
+Switch(config)# interface FastEthernet0/6
+Switch(config-if)# switchport port-security
+Switch(config-if)# ip verify source port-security
+
+Switch(config)# ip source binding 0011.2233.4455 vlan 10 192.168.10.50 interface FastEthernet0/7</code></pre>
+                <p class="code-note">Birinci port yalnız IP-ni, ikincisi IP + MAC-ı yoxlayır (port security tələb olunur). Statik IP-li cihaz üçün binding əl ilə əlavə edilir.</p>
+            </div>
+        </section>
+
+        <section id="dot1x" class="section-card">
+            <h2 class="section-title">{{i:user-check}} 4. 802.1X: Port Əsaslı Autentifikasiya</h2>
+            <div class="card-grid mb-6">
+                <div class="info-card"><h3>{{i:laptop}} Supplicant</h3><p class="text-neutral-700">Qoşulmaq istəyən cihaz (PC-dəki 802.1X klient).</p></div>
+                <div class="info-card accent"><h3>{{i:network}} Authenticator</h3><p class="text-neutral-700">Switch və ya AP — EAPOL mesajlarını RADIUS-a ötürür, nəticəyə görə portu açır.</p></div>
+                <div class="info-card dark"><h3>{{i:server}} Authentication server</h3><p>RADIUS server (məs. Cisco ISE) — istifadəçini yoxlayır.</p></div>
+            </div>
+            <p class="text-neutral-700 mb-4">Autentifikasiya uğurlu olana qədər portdan yalnız EAPOL (802.1X) trafiki keçir.</p>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>Switch(config)# aaa new-model
+Switch(config)# radius server ISE
+Switch(config-radius-server)# address ipv4 10.0.0.100 auth-port 1812 acct-port 1813
+Switch(config-radius-server)# key RadiusKey2026
+Switch(config)# aaa authentication dot1x default group radius
+Switch(config)# dot1x system-auth-control
+
+Switch(config)# interface FastEthernet0/10
+Switch(config-if)# switchport mode access
+Switch(config-if)# authentication port-control auto
+Switch(config-if)# dot1x pae authenticator</code></pre>
+                <p class="code-note">RADIUS serveri təyin edir, 802.1X-i qlobal aktivləşdirir və Fa0/10 portunu autentifikasiyadan keçməyən cihazlar üçün bağlı saxlayır.</p>
+            </div>
+        </section>
+
+        <section id="commands" class="section-card">
+            <h2 class="section-title">{{i:search}} 5. Doğrulama</h2>
+            <div class="code-block">
+                <button class="copy-btn">Kopyala</button>
+                <pre><code>show ip arp inspection
+show ip arp inspection vlan 10
+show ip arp inspection statistics
+show ip verify source
+show ip source binding
+show dot1x all
+show authentication sessions</code></pre>
+                <p class="code-note">DAI statusu və atılan paketlər, IPSG filtrləri və binding-lər, 802.1X portları və autentifikasiya sessiyaları.</p>
+            </div>
+        </section>
+<!--END-->
