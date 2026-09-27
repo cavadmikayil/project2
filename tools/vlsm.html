@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VLSM Planlayıcı — Cavad Mikayil Təlim Portalı</title>
+    <meta name="description" content="Əsas şəbəkəni və hər subnet üçün lazım olan host sayını daxil edin — alət subnet-ləri böyükdən kiçiyə ayırır və tam ünvan planı hazırlayır.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+    <link rel="stylesheet" href="../assets/tools.css">
+    <style>
+.vlsm-row { display: grid; grid-template-columns: 1fr 9rem 2.5rem; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem; }
+        .icon-btn { width: 2.5rem; height: 2.5rem; display: inline-flex; align-items: center; justify-content: center; border-radius: 0.5rem; border: 1px solid #d4d4d4; color: #525252; }
+        .icon-btn:hover { border-color: #f59e0b; color: #0a0a0a; }
+        body.dark-mode .icon-btn { border-color: #404040; color: #d4d4d4; }
+        .usage-bar { height: 0.6rem; background: #e5e5e5; border-radius: 9999px; overflow: hidden; }
+        .usage-fill { height: 100%; background: #f59e0b; }
+        body.dark-mode .usage-bar { background: #262626; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50" data-site-header>
+        <div class="container mx-auto px-6 py-3 flex flex-wrap gap-x-3 gap-y-2 justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-2 text-lg font-extrabold text-neutral-900">
+                <span class="site-logo"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg></span> Cavad Mikayil Təlim Portalı
+            </a>
+            <nav class="site-nav order-last md:order-none md:ml-auto" aria-label="Sayt menyusu">
+                    <a href="../index.html" data-nav="home"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#house"></use></svg> Ana Səhifə</a>
+                    <a href="../index.html#ccna" data-nav="ccna"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> CCNA</a>
+                    <a href="../tools.html" data-nav="tools" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#toolbox"></use></svg> Tools</a>
+                    <a href="../links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#library"></use></svg> Faydalı Linklər</a>
+                    <a href="../about.html" data-nav="about"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#user-round"></use></svg> Haqqında</a>
+                </nav>
+            <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#moon"></use></svg></button>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-5xl">
+        <section class="tool-hero">
+            <a href="../tools.html" class="tool-back"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-left"></use></svg> Bütün alətlər</a>
+            <h1><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#list-tree"></use></svg> VLSM Planlayıcı</h1>
+            <p>Əsas şəbəkəni və hər subnet üçün lazım olan host sayını daxil edin — alət subnet-ləri böyükdən kiçiyə ayırır və tam ünvan planı hazırlayır.</p>
+        </section>
+
+        <section class="section-card">
+            <div class="grid md:grid-cols-3 gap-4 mb-6">
+                <div class="md:col-span-2">
+                    <label class="field-label" for="base">Əsas şəbəkə (CIDR)</label>
+                    <input id="base" class="field mono" value="192.168.10.0/24" autocomplete="off" spellcheck="false">
+                </div>
+                <div class="flex items-end gap-2">
+                    <button id="example" class="btn btn-ghost w-full" type="button">Nümunə</button>
+                </div>
+            </div>
+            <p class="field-label">Subnet-lər (ad və lazım olan host sayı)</p>
+            <div id="rows"></div>
+            <div class="flex flex-wrap gap-2 mt-3">
+                <button id="add" class="btn btn-ghost" type="button"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#plus"></use></svg> Subnet əlavə et</button>
+                <button id="calc" class="btn btn-amber" type="button"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#calculator"></use></svg> Planı hesabla</button>
+            </div>
+            <p id="error" class="msg-error mt-4" hidden></p>
+        </section>
+
+        <section id="result" class="section-card" hidden>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#table"></use></svg> Ünvan Planı</h2>
+            <div class="tool-table-wrap mb-4">
+                <table class="tool-table">
+                    <thead><tr><th>Ad</th><th>Lazım</th><th>Ayrılan</th><th>Şəbəkə</th><th>Maska</th><th>İstifadə olunan aralıq</th><th>Broadcast</th></tr></thead>
+                    <tbody id="plan"></tbody>
+                </table>
+            </div>
+            <p class="field-label">Əsas şəbəkənin istifadəsi</p>
+            <div class="usage-bar mb-2"><div id="usage" class="usage-fill" style="width:0%"></div></div>
+            <p id="summary" class="text-sm text-neutral-600"></p>
+            <div class="note-box mt-6">
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#lightbulb"></use></svg>
+                <p class="text-neutral-800"><strong>VLSM qaydası:</strong> subnet-lər həmişə <strong>ən böyükdən kiçiyə</strong> doğru ayrılır — belə olanda bloklar sərhədlərə düzgün düşür və boşluq qalmır. Hər subnet-də 2 ünvan (şəbəkə və broadcast) istifadə olunmur; /31 point-to-point linklər və /32 host marşrutları istisnadır.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="brand-footer">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+                    <a href="../index.html">Ana Səhifə</a>
+                    <a href="../index.html#ccna">CCNA</a>
+                    <a href="../tools.html">Tools</a>
+                    <a href="../links.html">Faydalı Linklər</a>
+                    <a href="../about.html">Haqqında</a>
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
+            </div>
+            <div class="brand-footer-social-wrap">
+                <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+                    <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" data-social="instagram"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                    <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı" data-social="youtube"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></a>
+                    <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn" data-social="linkedin"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg></a>
+                    <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt" data-social="blog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></a>
+                    <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram" data-social="telegram"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg></a>
+                    <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" data-social="tiktok"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M448.5 209.9c-44 .1-87-13.6-122.8-39.2l0 178.7c0 33.1-10.1 65.4-29 92.6s-45.6 48-76.6 59.6-64.8 13.5-96.9 5.3-60.9-25.9-82.7-50.8-35.3-56-39-88.9 2.9-66.1 18.6-95.2 40-52.7 69.6-67.7 62.9-20.5 95.7-16l0 89.9c-15-4.7-31.1-4.6-46 .4s-27.9 14.6-37 27.3-14 28.1-13.9 43.9 5.2 31 14.5 43.7 22.4 22.1 37.4 26.9 31.1 4.8 46-.1 28-14.4 37.2-27.1 14.2-28.1 14.2-43.8l0-349.4 88 0c-.1 7.4 .6 14.9 1.9 22.2 3.1 16.3 9.4 31.9 18.7 45.7s21.3 25.6 35.2 34.6c19.9 13.1 43.2 20.1 67 20.1l0 87.4z"/></svg></a>
+                    <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email" data-social="email"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></a>
+                </div>
+            </div>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/student.js"></script>
+    <script>
+const $ = id => document.getElementById(id);
+        const ipToInt = s => {
+            const p = s.trim().split('.');
+            if (p.length !== 4 || p.some(x => !/^\d{1,3}$/.test(x) || +x > 255)) return null;
+            return ((+p[0] << 24) >>> 0) + (+p[1] << 16) + (+p[2] << 8) + (+p[3]);
+        };
+        const intToIp = n => [24, 16, 8, 0].map(s => (n >>> s) & 255).join('.');
+        const maskOf = p => p === 0 ? 0 : (0xFFFFFFFF << (32 - p)) >>> 0;
+        const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+        function addRow(name = '', hosts = '') {
+            const row = document.createElement('div');
+            row.className = 'vlsm-row';
+            row.innerHTML = `<input class="field" placeholder="məs. Mühasibat" value="${esc(name)}" aria-label="Subnet adı">
+                <input class="field mono" type="number" min="1" placeholder="host" value="${esc(hosts)}" aria-label="Host sayı">
+                <button class="icon-btn" type="button" aria-label="Sil"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#x"></use></svg></button>`;
+            row.querySelector('button').addEventListener('click', () => row.remove());
+            $('rows').appendChild(row);
+        }
+
+        function loadExample() {
+            $('base').value = '192.168.10.0/24';
+            $('rows').innerHTML = '';
+            [['Tələbələr', 100], ['Müəllimlər', 50], ['Serverlər', 20], ['Printerlər', 10], ['R1–R2 link', 2], ['R1–R3 link', 2]].forEach(r => addRow(...r));
+        }
+
+        function calculate() {
+            $('error').hidden = true;
+            const m = $('base').value.trim().match(/^([\d.]+)\/(\d{1,2})$/);
+            const ip = m && ipToInt(m[1]);
+            const basePrefix = m ? +m[2] : NaN;
+            if (ip === null || !m || basePrefix > 30) return fail('Əsas şəbəkəni CIDR formatında yazın, məs. 192.168.10.0/24 (prefiks 0–30).');
+            const baseNet = (ip & maskOf(basePrefix)) >>> 0;
+            const baseSize = 2 ** (32 - basePrefix);
+            const items = [...$('rows').children].map((r, i) => {
+                const [n, h] = r.querySelectorAll('input');
+                return { name: n.value.trim() || `Subnet ${i + 1}`, hosts: parseInt(h.value, 10) };
+            }).filter(x => x.hosts > 0);
+            if (!items.length) return fail('Ən azı bir subnet üçün host sayı daxil edin.');
+            items.forEach(x => {
+                // 2 host point-to-point üçün /30 (klassik CCNA yanaşması)
+                let p = 32;
+                while (p > 0 && 2 ** (32 - p) - 2 < x.hosts) p--;
+                x.prefix = p; x.size = 2 ** (32 - p);
+            });
+            const sorted = [...items].sort((a, b) => b.size - a.size);
+            let cursor = baseNet, used = 0;
+            for (const x of sorted) {
+                if (cursor + x.size > baseNet + baseSize) return fail(`"${x.name}" (${x.hosts} host) əsas şəbəkəyə sığmır. Daha böyük əsas şəbəkə seçin və ya host sayını azaldın.`);
+                x.net = cursor; x.bc = cursor + x.size - 1; cursor += x.size; used += x.size;
+            }
+            $('plan').innerHTML = sorted.map(x => `<tr>
+                <td>${esc(x.name)}</td><td>${x.hosts}</td><td>${x.size - 2}</td>
+                <td class="mono">${intToIp(x.net)}/${x.prefix}</td><td class="mono">${intToIp(maskOf(x.prefix))}</td>
+                <td class="mono">${intToIp(x.net + 1)} – ${intToIp(x.bc - 1)}</td><td class="mono">${intToIp(x.bc)}</td></tr>`).join('');
+            const pct = Math.round(used / baseSize * 100);
+            $('usage').style.width = pct + '%';
+            $('summary').textContent = `${intToIp(baseNet)}/${basePrefix}: ${baseSize} ünvandan ${used} ünvan ayrıldı (${pct}%). Növbəti boş ünvan: ${cursor < baseNet + baseSize ? intToIp(cursor) : 'yoxdur'}.`;
+            $('result').hidden = false;
+            $('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        function fail(msg) { $('error').textContent = msg; $('error').hidden = false; $('result').hidden = true; }
+
+        $('add').addEventListener('click', () => addRow());
+        $('example').addEventListener('click', loadExample);
+        $('calc').addEventListener('click', calculate);
+        $('base').addEventListener('keydown', e => { if (e.key === 'Enter') calculate(); });
+        loadExample();
+    </script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>

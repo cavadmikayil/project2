@@ -47,9 +47,14 @@ SOCIALS = [
 NAV = [
     ('home', 'Ana Səhifə', 'index.html', 'house'),
     ('ccna', 'CCNA', 'index.html#ccna', 'graduation-cap'),
+    ('tools', 'Tools', 'tools.html', 'toolbox'),
     ('links', 'Faydalı Linklər', 'links.html', 'library'),
     ('about', 'Haqqında', 'about.html', 'user-round'),
 ]
+
+# Hansı səhifədə menyunun hansı bəndi aktivdir (fayl adı → NAV id)
+NAV_ACTIVE = {'index.html': 'home', 'tools.html': 'tools', 'videos.html': 'videos',
+              'links.html': 'links', 'about.html': 'about'}
 
 # Dərsin badge-i ilə başlayan söz → dashboard-da açılacaq kateqoriya (Portal düyməsi)
 BADGE_TO_CATEGORY = {
@@ -137,6 +142,44 @@ def nav(prefix, active='', on_dark=False, extra_cls=''):
         for i, label, href, ic in NAV)
     cls = 'site-nav' + (' on-dark' if on_dark else '') + (' ' + extra_cls if extra_cls else '')
     return f'<nav class="{cls}" aria-label="Sayt menyusu">\n{items}\n                </nav>'
+
+
+def site_header(prefix, active):
+    """Portalın ümumi səhifələri (Tools, Video Dərslər, Linklər, Haqqında) üçün yuxarı başlıq."""
+    return f'''<header class="bg-white shadow-md sticky top-0 z-50" data-site-header>
+        <div class="container mx-auto px-6 py-3 flex flex-wrap gap-x-3 gap-y-2 justify-between items-center">
+            <a href="{prefix}index.html" class="flex items-center gap-2 text-lg font-extrabold text-neutral-900">
+                <span class="site-logo">{icon(prefix, 'graduation-cap')}</span> Cavad Mikayil Təlim Portalı
+            </a>
+            {nav(prefix, active, extra_cls='order-last md:order-none md:ml-auto')}
+            <button class="theme-toggle-btn" aria-label="Tema dəyiş">{icon(prefix, 'moon')}</button>
+        </div>
+    </header>'''
+
+
+def page_active(page):
+    if page.parent.name == 'tools':
+        return 'tools'
+    return NAV_ACTIVE.get(page.name, '')
+
+
+def refresh_navs():
+    """Bütün səhifələrdə menyunu (site header və dashboard menyusu) NAV siyahısından yenidən qurur."""
+    head_pat = re.compile(r'<header class="bg-white shadow-md sticky top-0 z-50" data-site-header>[\s\S]*?</header>')
+    nav_pat = re.compile(r'<nav class="(site-nav[^"]*)" aria-label="Sayt menyusu">[\s\S]*?</nav>')
+    for page in all_pages():
+        prefix = '' if page.parent == ROOT else '../'
+        text = page.read_text()
+        new = head_pat.sub(lambda m: site_header(prefix, page_active(page)), text)
+        if 'data-site-header' not in new:
+            def repl(m):
+                classes = m.group(1).split()
+                on_dark = 'on-dark' in classes
+                extra = ' '.join(c for c in classes if c not in ('site-nav', 'on-dark'))
+                return nav(prefix, page_active(page), on_dark, extra)
+            new = nav_pat.sub(repl, new)
+        if new != text:
+            page.write_text(new)
 
 
 def footer(prefix, cls='brand-footer'):
@@ -444,6 +487,7 @@ def main(argv):
         print(__doc__)
         return 2
     build_lessons()
+    refresh_navs()
     refresh_footers()
     refresh_about()
     version_sprite_refs()

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard-lar — Cavad Mikayil Təlim Portalı</title>
+    <meta name="description" content="Port nömrələri, OSI, inzibati məsafələr, Cisco əmrləri və IT terminləri üçün kartlar. Bilmədiyiniz kartlar daha tez-tez qayıdır (Leitner sistemi).">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+    <link rel="stylesheet" href="../assets/tools.css">
+    <style>
+.deck-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; }
+        .deck-btn { text-align: left; padding: 0.9rem 1rem; border: 1px solid #e5e5e5; border-radius: 0.8rem; background: #ffffff; transition: border-color .15s; }
+        .deck-btn:hover, .deck-btn.active { border-color: #f59e0b; }
+        .deck-btn.active { box-shadow: 0 0 0 2px #f59e0b inset; }
+        .deck-btn h3 { font-weight: 700; color: #0a0a0a; display: flex; align-items: center; gap: 0.4rem; }
+        .deck-btn h3 .icon { color: #d97706; }
+        .deck-meta { font-size: 0.8rem; color: #737373; }
+        .mini-bar { height: 0.35rem; background: #e5e5e5; border-radius: 9999px; overflow: hidden; margin-top: 0.4rem; }
+        .mini-bar > div { height: 100%; background: #f59e0b; }
+        .card-stage { perspective: 1200px; }
+        .flash { position: relative; width: 100%; min-height: 15rem; cursor: pointer; transform-style: preserve-3d; transition: transform .45s; border: 0; background: transparent; padding: 0; }
+        .flash.flipped { transform: rotateY(180deg); }
+        .face { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.6rem; padding: 1.5rem; border-radius: 1rem; backface-visibility: hidden; -webkit-backface-visibility: hidden; text-align: center; }
+        .face.front { background: #0a0a0a; color: #ffffff; }
+        .face.back { background: #fffbeb; color: #0a0a0a; border: 2px solid #f59e0b; transform: rotateY(180deg); }
+        .face .q { font-size: 1.5rem; font-weight: 800; line-height: 1.3; }
+        .face .a { font-size: 1.35rem; font-weight: 800; }
+        .face .hint { font-size: 0.8rem; color: #a3a3a3; }
+        .face.back .hint { color: #92400e; }
+        .face .note { font-size: 0.95rem; color: #404040; max-width: 36rem; }
+        .box-dots { display: flex; gap: 0.3rem; }
+        .box-dots span { width: 0.6rem; height: 0.6rem; border-radius: 9999px; background: #404040; }
+        .box-dots span.on { background: #fbbf24; }
+        body.dark-mode .deck-btn { background: #171717; border-color: #262626; }
+        body.dark-mode .deck-btn h3 { color: #ffffff; }
+        body.dark-mode .deck-btn h3 .icon { color: #fbbf24; }
+        body.dark-mode .mini-bar { background: #262626; }
+        body.dark-mode .face.back { background: #2a2113; color: #ffffff; }
+        body.dark-mode .face .note { color: #d4d4d4; }
+        body.dark-mode .face.back .hint { color: #fcd34d; }
+        @media (max-width: 767px) { .face .q { font-size: 1.2rem; } .face .a { font-size: 1.1rem; } .flash { min-height: 13rem; } }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50" data-site-header>
+        <div class="container mx-auto px-6 py-3 flex flex-wrap gap-x-3 gap-y-2 justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-2 text-lg font-extrabold text-neutral-900">
+                <span class="site-logo"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg></span> Cavad Mikayil Təlim Portalı
+            </a>
+            <nav class="site-nav order-last md:order-none md:ml-auto" aria-label="Sayt menyusu">
+                    <a href="../index.html" data-nav="home"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#house"></use></svg> Ana Səhifə</a>
+                    <a href="../index.html#ccna" data-nav="ccna"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> CCNA</a>
+                    <a href="../tools.html" data-nav="tools" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#toolbox"></use></svg> Tools</a>
+                    <a href="../links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#library"></use></svg> Faydalı Linklər</a>
+                    <a href="../about.html" data-nav="about"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#user-round"></use></svg> Haqqında</a>
+                </nav>
+            <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#moon"></use></svg></button>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-5xl">
+        <section class="tool-hero">
+            <a href="../tools.html" class="tool-back"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-left"></use></svg> Bütün alətlər</a>
+            <h1><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#layers-2"></use></svg> Flashcard-lar</h1>
+            <p>Port nömrələri, OSI, inzibati məsafələr, Cisco əmrləri və IT terminləri üçün kartlar. Bilmədiyiniz kartlar daha tez-tez qayıdır (Leitner sistemi).</p>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#layers-2"></use></svg> Dəstə seçin</h2>
+            <div id="decks" class="deck-grid"></div>
+        </section>
+
+        <section class="section-card">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                <p id="progress" class="text-sm text-neutral-600"></p>
+                <div class="flex gap-2">
+                    <button id="shuffle" class="btn btn-ghost" type="button"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#shuffle"></use></svg> Qarışdır</button>
+                    <button id="reset" class="btn btn-ghost" type="button"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#rotate-ccw"></use></svg> Sıfırla</button>
+                </div>
+            </div>
+            <div class="card-stage">
+                <button id="flash" class="flash" type="button" aria-label="Kartı çevir">
+                    <div class="face front"><p class="hint" id="f-deck"></p><p class="q" id="f-q"></p><p class="hint">Cavabı görmək üçün klikləyin və ya Boşluq (Space)</p></div>
+                    <div class="face back"><p class="hint">Cavab</p><p class="a" id="f-a"></p><p class="note" id="f-note"></p></div>
+                </button>
+            </div>
+            <div class="flex flex-wrap items-center justify-between gap-3 mt-4">
+                <div class="flex items-center gap-2 text-sm text-neutral-600"><span>Qutu:</span><div id="dots" class="box-dots"></div></div>
+                <div class="flex gap-2">
+                    <button id="no" class="btn btn-ghost" type="button" disabled><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#circle-x"></use></svg> Bilmirdim (1)</button>
+                    <button id="yes" class="btn btn-amber" type="button" disabled><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#circle-check"></use></svg> Bilirdim (2)</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#info"></use></svg> Leitner Sistemi Necə İşləyir?</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">Hər kart 1-ci qutudan başlayır. "Bilirdim" — kart növbəti qutuya keçir; "Bilmirdim" — 1-ci qutuya qayıdır.</p></li>
+                <li><p class="text-neutral-700">Aşağı qutulardakı kartlar daha tez-tez göstərilir — zəif bildiyiniz faktlar üzərində daha çox işləyirsiniz.</p></li>
+                <li><p class="text-neutral-700">4-cü və 5-ci qutudakı kartlar "öyrənilmiş" sayılır. Nəticələr profilinizdə saxlanılır.</p></li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="brand-footer">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+                    <a href="../index.html">Ana Səhifə</a>
+                    <a href="../index.html#ccna">CCNA</a>
+                    <a href="../tools.html">Tools</a>
+                    <a href="../links.html">Faydalı Linklər</a>
+                    <a href="../about.html">Haqqında</a>
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
+            </div>
+            <div class="brand-footer-social-wrap">
+                <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+                    <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" data-social="instagram"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                    <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı" data-social="youtube"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></a>
+                    <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn" data-social="linkedin"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg></a>
+                    <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt" data-social="blog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></a>
+                    <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram" data-social="telegram"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg></a>
+                    <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" data-social="tiktok"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M448.5 209.9c-44 .1-87-13.6-122.8-39.2l0 178.7c0 33.1-10.1 65.4-29 92.6s-45.6 48-76.6 59.6-64.8 13.5-96.9 5.3-60.9-25.9-82.7-50.8-35.3-56-39-88.9 2.9-66.1 18.6-95.2 40-52.7 69.6-67.7 62.9-20.5 95.7-16l0 89.9c-15-4.7-31.1-4.6-46 .4s-27.9 14.6-37 27.3-14 28.1-13.9 43.9 5.2 31 14.5 43.7 22.4 22.1 37.4 26.9 31.1 4.8 46-.1 28-14.4 37.2-27.1 14.2-28.1 14.2-43.8l0-349.4 88 0c-.1 7.4 .6 14.9 1.9 22.2 3.1 16.3 9.4 31.9 18.7 45.7s21.3 25.6 35.2 34.6c19.9 13.1 43.2 20.1 67 20.1l0 87.4z"/></svg></a>
+                    <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email" data-social="email"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></a>
+                </div>
+            </div>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/student.js"></script>
+    <script>
+const DECKS = [
+            { id: 'ports', name: 'Port nömrələri', icon: 'plug', cards: [
+                ['FTP (data / control)', 'TCP 20 / 21'], ['SSH', 'TCP 22'], ['Telnet', 'TCP 23'], ['SMTP', 'TCP 25', 'Submission üçün 587, SMTPS 465'],
+                ['DNS', 'UDP/TCP 53', 'Sorğular UDP, zona transferi TCP'], ['DHCP (server / klient)', 'UDP 67 / 68'], ['TFTP', 'UDP 69'], ['HTTP', 'TCP 80'],
+                ['POP3', 'TCP 110', 'POP3S — 995'], ['NTP', 'UDP 123'], ['IMAP', 'TCP 143', 'IMAPS — 993'], ['SNMP (agent / trap)', 'UDP 161 / 162'],
+                ['LDAP / LDAPS', 'TCP 389 / 636'], ['HTTPS', 'TCP 443'], ['SMB', 'TCP 445'], ['Syslog', 'UDP 514'],
+                ['RADIUS (auth / acct)', 'UDP 1812 / 1813'], ['TACACS+', 'TCP 49'], ['RDP', 'TCP 3389'], ['MySQL / PostgreSQL', 'TCP 3306 / 5432'],
+                ['Kerberos', 'TCP/UDP 88'], ['IPsec IKE / NAT-T', 'UDP 500 / 4500']
+            ] },
+            { id: 'osi', name: 'OSI modeli', icon: 'layers', cards: [
+                ['OSI 1-ci qat', 'Physical', 'Kabel, siqnal, hub'], ['OSI 2-ci qat', 'Data Link', 'MAC ünvanı, switch, frame'], ['OSI 3-cü qat', 'Network', 'IP, router, packet'],
+                ['OSI 4-cü qat', 'Transport', 'TCP/UDP, port, segment'], ['OSI 5-ci qat', 'Session', 'Sessiyaların idarəsi'], ['OSI 6-cı qat', 'Presentation', 'Şifrələmə, kodlaşdırma, sıxılma'],
+                ['OSI 7-ci qat', 'Application', 'HTTP, DNS, SMTP'], ['Switch hansı qatda işləyir?', 'Layer 2', 'L3 switch həm də marşrutlaşdırır'],
+                ['Router hansı qatda işləyir?', 'Layer 3'], ['Transport qatının PDU-su', 'Segment (TCP) / Datagram (UDP)'], ['Data Link qatının PDU-su', 'Frame']
+            ] },
+            { id: 'ad', name: 'Administrative distance', icon: 'map', cards: [
+                ['Connected', '0'], ['Static', '1'], ['eBGP', '20'], ['EIGRP (daxili)', '90'], ['OSPF', '110'], ['IS-IS', '115'], ['RIP', '120'],
+                ['EIGRP (xarici)', '170'], ['iBGP', '200'], ['Etibarsız (cədvələ düşmür)', '255']
+            ] },
+            { id: 'ios', name: 'Cisco IOS əmrləri', icon: 'square-terminal', cards: [
+                ['İnterfeyslərin qısa vəziyyəti', 'show ip interface brief'], ['Marşrut cədvəli', 'show ip route'], ['Konfiqurasiyanı yadda saxla', 'copy running-config startup-config'],
+                ['VLAN-ların siyahısı', 'show vlan brief'], ['Trunk portlar', 'show interfaces trunk'], ['MAC ünvan cədvəli', 'show mac address-table'],
+                ['CDP qonşuları (ətraflı)', 'show cdp neighbors detail'], ['OSPF qonşuları', 'show ip ospf neighbor'], ['STP vəziyyəti', 'show spanning-tree'],
+                ['NAT tərcümələri', 'show ip nat translations'], ['ACL-lər və sayğaclar', 'show access-lists'], ['Portu access VLAN 10 et', 'switchport mode access\nswitchport access vlan 10'],
+                ['Interfeysi aktivləşdir', 'no shutdown'], ['Açıq parolları şifrələ (type 7)', 'service password-encryption'], ['SSH üçün RSA açarı', 'crypto key generate rsa modulus 2048'],
+                ['Err-disabled portu bərpa et', 'shutdown\nno shutdown']
+            ] },
+            { id: 'terms', name: 'IT terminləri', icon: 'book-open', cards: [
+                ['RPO', 'Recovery Point Objective', 'Qəzada itirilməsinə dözülən məlumat (vaxt ilə)'], ['RTO', 'Recovery Time Objective', 'Xidmətin bərpa olunmalı olduğu müddət'],
+                ['MFA', 'Multi-Factor Authentication', 'Ən azı iki fərqli faktor'], ['EDR', 'Endpoint Detection and Response'], ['SIEM', 'Security Information and Event Management'],
+                ['SOC', 'Security Operations Center'], ['CVE', 'Common Vulnerabilities and Exposures', 'Zəifliyin unikal ID-si'], ['CVSS', 'Common Vulnerability Scoring System', '0–10 ciddilik balı'],
+                ['SLA', 'Service Level Agreement'], ['IaaS / PaaS / SaaS', 'Infrastructure / Platform / Software as a Service'], ['VLAN', 'Virtual LAN', 'Bir switch-də ayrı broadcast domenləri'],
+                ['NAT', 'Network Address Translation'], ['DHCP', 'Dynamic Host Configuration Protocol', 'DORA: Discover, Offer, Request, Ack'], ['LLM', 'Large Language Model'],
+                ['RAG', 'Retrieval-Augmented Generation', 'Sənədlərdən axtarıb modelə kontekst vermək'], ['Zero Trust', '"Heç vaxt etibar etmə, həmişə yoxla"'],
+                ['APIPA', '169.254.0.0/16', 'DHCP cavab vermədikdə Windows-un özünə verdiyi ünvan'], ['FHRP', 'First Hop Redundancy Protocol', 'HSRP, VRRP, GLBP']
+            ] }
+        ];
+
+        const $ = id => document.getElementById(id);
+        const icon = n => `<svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#${n}"></use></svg>`;
+        const KEY = Student.key('edu-portal-flash');
+        let state = Student.read(KEY, {});      // { "deck:index": box }
+        let deck = DECKS[0], queue = [], current = null, flipped = false;
+
+        const boxOf = (d, i) => state[`${d.id}:${i}`] || 1;
+        const mastered = d => d.cards.filter((_, i) => boxOf(d, i) >= 4).length;
+        const save = () => Student.write(KEY, state);
+
+        function renderDecks() {
+            $('decks').innerHTML = DECKS.map(d => {
+                const pct = Math.round(mastered(d) / d.cards.length * 100);
+                return `<button class="deck-btn ${d === deck ? 'active' : ''}" data-id="${d.id}" type="button">
+                    <h3>${icon(d.icon)} ${d.name}</h3>
+                    <p class="deck-meta">${d.cards.length} kart · ${mastered(d)} öyrənilib</p>
+                    <div class="mini-bar"><div style="width:${pct}%"></div></div></button>`;
+            }).join('');
+        }
+
+        // Aşağı qutulardakı kartlar növbəyə daha çox düşür
+        function buildQueue(shuffle = true) {
+            const weighted = [];
+            deck.cards.forEach((_, i) => { const w = 6 - boxOf(deck, i); for (let k = 0; k < w; k++) weighted.push(i); });
+            if (shuffle) weighted.sort(() => Math.random() - 0.5);
+            const seen = new Set();
+            queue = weighted.filter(i => !seen.has(i) && seen.add(i));
+            queue.sort((a, b) => boxOf(deck, a) - boxOf(deck, b) || (shuffle ? Math.random() - 0.5 : a - b));
+        }
+
+        function show() {
+            if (!queue.length) buildQueue();
+            current = queue.shift();
+            const [q, a, note] = deck.cards[current];
+            flipped = false;
+            $('flash').classList.remove('flipped');
+            $('f-deck').textContent = deck.name;
+            $('f-q').textContent = q;
+            $('f-a').textContent = a;
+            $('f-a').style.whiteSpace = 'pre-line';
+            $('f-note').textContent = note || '';
+            $('no').disabled = $('yes').disabled = true;
+            const box = boxOf(deck, current);
+            $('dots').innerHTML = [1, 2, 3, 4, 5].map(b => `<span class="${b <= box ? 'on' : ''}"></span>`).join('');
+            $('progress').textContent = `${deck.name}: ${mastered(deck)} / ${deck.cards.length} kart öyrənilib`;
+        }
+
+        function flip() {
+            flipped = !flipped;
+            $('flash').classList.toggle('flipped', flipped);
+            if (flipped) $('no').disabled = $('yes').disabled = false;
+        }
+
+        function answer(knew) {
+            if (!flipped) return;
+            const k = `${deck.id}:${current}`;
+            state[k] = knew ? Math.min(5, boxOf(deck, current) + 1) : 1;
+            if (!knew) queue.splice(Math.min(3, queue.length), 0, current); // tezliklə yenidən
+            save(); renderDecks(); show();
+        }
+
+        $('decks').addEventListener('click', e => {
+            const b = e.target.closest('.deck-btn'); if (!b) return;
+            deck = DECKS.find(d => d.id === b.dataset.id); queue = []; renderDecks(); show();
+        });
+        $('flash').addEventListener('click', flip);
+        $('yes').addEventListener('click', () => answer(true));
+        $('no').addEventListener('click', () => answer(false));
+        $('shuffle').addEventListener('click', () => { buildQueue(); show(); });
+        $('reset').addEventListener('click', () => {
+            if (!confirm(`"${deck.name}" dəstəsinin nəticələri sıfırlansın?`)) return;
+            deck.cards.forEach((_, i) => delete state[`${deck.id}:${i}`]); save(); queue = []; renderDecks(); show();
+        });
+        document.addEventListener('keydown', e => {
+            if (/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) return;
+            if (e.code === 'Space' && document.activeElement.tagName !== 'BUTTON') { e.preventDefault(); flip(); }
+            if (e.key === '1') answer(false);
+            if (e.key === '2') answer(true);
+        });
+        renderDecks(); show();
+    </script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>

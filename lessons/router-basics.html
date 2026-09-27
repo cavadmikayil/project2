@@ -16,7 +16,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#router"></use></svg> Router Əsasları və IP Marşrutlaşdırma</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#router"></use></svg> Router Əsasları və IP Marşrutlaşdırma</h1>
                 <span class="lesson-badge">CCNA · IP Connectivity</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -25,40 +25,40 @@
                 <a href="#process" class="nav-link">Paketin yolu</a>
                 <a href="#table" class="nav-link">Marşrut mənbələri</a>
                 <a href="#commands" class="nav-link">Əsas konfiqurasiya</a>
-                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#moon"></use></svg></button>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#router"></use></svg> Giriş: Router Nə Edir?</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#router"></use></svg> Giriş: Router Nə Edir?</h2>
             <p class="lead">
                 Router müxtəlif IP şəbəkələrini birləşdirir və hər paket üçün <strong>marşrut cədvəlinə</strong> baxaraq
                 növbəti hop-u seçir. Switch-dən fərqli olaraq broadcast-ları ötürmür və hər interfeysi ayrıca şəbəkədədir.
             </p>
             <div class="card-grid">
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#cable"></use></svg> İnterfeyslər</h3><p class="text-neutral-700">Defolt olaraq <strong>shutdown</strong> vəziyyətindədir — <code>no shutdown</code> lazımdır (switch portlarının əksinə).</p></div>
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#map"></use></svg> Marşrut cədvəli</h3><p class="text-neutral-700">Connected, local, statik və dinamik marşrutlar.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#cpu"></use></svg> Yaddaş</h3><p>ROM (bootstrap), Flash (IOS), NVRAM (startup-config), RAM (running-config, cədvəllər).</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#cable"></use></svg> İnterfeyslər</h3><p class="text-neutral-700">Defolt olaraq <strong>shutdown</strong> vəziyyətindədir — <code>no shutdown</code> lazımdır (switch portlarının əksinə).</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#map"></use></svg> Marşrut cədvəli</h3><p class="text-neutral-700">Connected, local, statik və dinamik marşrutlar.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#cpu"></use></svg> Yaddaş</h3><p>ROM (bootstrap), Flash (IOS), NVRAM (startup-config), RAM (running-config, cədvəllər).</p></div>
             </div>
         </section>
 
         <section id="gateway" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#door-open"></use></svg> 1. Defolt Gateway</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#door-open"></use></svg> 1. Defolt Gateway</h2>
             <p class="lead">
                 Host paketi göndərməzdən əvvəl öz IP-si ilə maskasını təyinat IP-si ilə müqayisə edir:
             </p>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#check"></use></svg><p class="text-neutral-700"><strong>Eyni şəbəkədədir:</strong> təyinatın MAC-ını ARP ilə tapır və birbaşa göndərir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#arrow-right"></use></svg><p class="text-neutral-700"><strong>Fərqli şəbəkədədir:</strong> paketi <strong>defolt gateway</strong>-ə (router interfeysinə) göndərir; ARP gateway-in MAC-ı üçün edilir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#circle-alert"></use></svg><p class="text-neutral-700">Gateway yoxdur və ya səhvdir: host öz şəbəkəsinə ping ata bilir, başqa şəbəkələrə isə yox — ən çox rast gəlinən problemlərdən biridir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#check"></use></svg><p class="text-neutral-700"><strong>Eyni şəbəkədədir:</strong> təyinatın MAC-ını ARP ilə tapır və birbaşa göndərir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-right"></use></svg><p class="text-neutral-700"><strong>Fərqli şəbəkədədir:</strong> paketi <strong>defolt gateway</strong>-ə (router interfeysinə) göndərir; ARP gateway-in MAC-ı üçün edilir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#circle-alert"></use></svg><p class="text-neutral-700">Gateway yoxdur və ya səhvdir: host öz şəbəkəsinə ping ata bilir, başqa şəbəkələrə isə yox — ən çox rast gəlinən problemlərdən biridir.</p></div>
             </div>
         </section>
 
         <section id="process" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#workflow"></use></svg> 2. Paket Router-dən Necə Keçir?</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#workflow"></use></svg> 2. Paket Router-dən Necə Keçir?</h2>
             <ol class="steps max-w-3xl mx-auto">
                 <li><p class="text-neutral-700">Çərçivə gəlir; FCS yoxlanılır, təyinat MAC routerin interfeysidirsə qəbul olunur.</p></li>
                 <li><p class="text-neutral-700">Layer 2 başlığı atılır (de-enkapsulyasiya), IP paketi qalır.</p></li>
@@ -69,7 +69,7 @@
         </section>
 
         <section id="table" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#list-ordered"></use></svg> 3. Marşrut Mənbələri və İnzibati Məsafə</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#list-ordered"></use></svg> 3. Marşrut Mənbələri və İnzibati Məsafə</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>Kod</th><th>Mənbə</th><th>AD</th></tr></thead>
@@ -86,13 +86,13 @@
                 </table>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#target"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#target"></use></svg>
                 <p class="text-neutral-800">Seçim ardıcıllığı: 1) <strong>ən uzun prefiks</strong>; 2) eyni prefiks bir neçə protokoldan gəlirsə — <strong>ən aşağı AD</strong>; 3) eyni protokol daxilində — <strong>ən aşağı metrika</strong>. Metrikalar bərabərdirsə, trafik yollar arasında bölünür (ECMP).</p>
             </div>
         </section>
 
         <section id="commands" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#terminal"></use></svg> 4. Router-in Əsas Konfiqurasiyası</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#terminal"></use></svg> 4. Router-in Əsas Konfiqurasiyası</h2>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="rb-config">Konfiqurasiya</button>
                 <button class="tab-btn inactive-tab" data-pane="rb-verify">Doğrulama</button>
@@ -132,12 +132,13 @@ show protocols</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=ba45056e#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
                     <a href="../index.html#ccna">CCNA</a>
+                    <a href="../tools.html">Tools</a>
                     <a href="../links.html">Faydalı Linklər</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>

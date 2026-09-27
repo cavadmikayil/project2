@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cisco CLI Simulyatoru — Cavad Mikayil Təlim Portalı</title>
+    <meta name="description" content="Brauzerdə Cisco IOS əmrlərini məşq edin: rejimlər, qısaltmalar (sh ip int br), ? köməyi, Tab ilə tamamlama və tapşırıqların avtomatik yoxlanması.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+    <link rel="stylesheet" href="../assets/tools.css">
+    <style>
+.term { background: #0a0a0a; color: #e5e5e5; border-radius: 0.8rem; padding: 1rem; height: 26rem; overflow-y: auto; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.88rem; line-height: 1.45; border: 1px solid #262626; }
+        .term pre { margin: 0; white-space: pre-wrap; word-break: break-word; font: inherit; }
+        .term .cmd { color: #fbbf24; }
+        .term .err { color: #fb923c; }
+        .term-input { display: flex; align-items: center; gap: 0.4rem; }
+        .term-input span { color: #fbbf24; white-space: nowrap; }
+        .term-input input { flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: #ffffff; font: inherit; caret-color: #fbbf24; }
+        .dev-btn { padding: 0.55rem 1rem; border-radius: 0.6rem; border: 1px solid #d4d4d4; font-weight: 700; display: inline-flex; gap: 0.4rem; align-items: center; background: #ffffff; }
+        .dev-btn.active { background: #0a0a0a; color: #fbbf24; border-color: #0a0a0a; }
+        .task-list li { display: flex; gap: 0.5rem; align-items: flex-start; padding: 0.35rem 0; color: #404040; }
+        .task-list li .icon { flex-shrink: 0; margin-top: 0.15rem; color: #a3a3a3; }
+        .task-list li.done { color: #92400e; }
+        .task-list li.done .icon { color: #f59e0b; }
+        .ex-btn { text-align: left; width: 100%; padding: 0.6rem 0.8rem; border-radius: 0.6rem; border: 1px solid #e5e5e5; background: #ffffff; font-weight: 600; display: flex; justify-content: space-between; gap: 0.5rem; align-items: center; }
+        .ex-btn.active { border-color: #f59e0b; box-shadow: 0 0 0 2px #f59e0b inset; }
+        .kbd { font-family: ui-monospace, monospace; font-size: 0.75rem; padding: 0.05rem 0.35rem; border: 1px solid #d4d4d4; border-radius: 0.25rem; }
+        body.dark-mode .dev-btn, body.dark-mode .ex-btn { background: #171717; border-color: #333333; color: #e5e5e5; }
+        body.dark-mode .dev-btn.active { background: #f59e0b; color: #0a0a0a; border-color: #f59e0b; }
+        body.dark-mode .task-list li { color: #d4d4d4; }
+        body.dark-mode .task-list li.done { color: #fcd34d; }
+        body.dark-mode .kbd { border-color: #404040; }
+        @media (max-width: 767px) { .term { height: 20rem; font-size: 0.8rem; } }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50" data-site-header>
+        <div class="container mx-auto px-6 py-3 flex flex-wrap gap-x-3 gap-y-2 justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-2 text-lg font-extrabold text-neutral-900">
+                <span class="site-logo"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg></span> Cavad Mikayil Təlim Portalı
+            </a>
+            <nav class="site-nav order-last md:order-none md:ml-auto" aria-label="Sayt menyusu">
+                    <a href="../index.html" data-nav="home"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#house"></use></svg> Ana Səhifə</a>
+                    <a href="../index.html#ccna" data-nav="ccna"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> CCNA</a>
+                    <a href="../tools.html" data-nav="tools" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#toolbox"></use></svg> Tools</a>
+                    <a href="../links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#library"></use></svg> Faydalı Linklər</a>
+                    <a href="../about.html" data-nav="about"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#user-round"></use></svg> Haqqında</a>
+                </nav>
+            <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#moon"></use></svg></button>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-5xl">
+        <section class="tool-hero">
+            <a href="../tools.html" class="tool-back"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-left"></use></svg> Bütün alətlər</a>
+            <h1><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#square-terminal"></use></svg> Cisco CLI Simulyatoru</h1>
+            <p>Brauzerdə Cisco IOS əmrlərini məşq edin: rejimlər, qısaltmalar (sh ip int br), ? köməyi, Tab ilə tamamlama və tapşırıqların avtomatik yoxlanması.</p>
+        </section>
+
+        <div class="grid lg:grid-cols-3 gap-6">
+            <section class="section-card lg:col-span-2" style="margin-bottom:0">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <div class="flex gap-2">
+                        <button class="dev-btn active" data-dev="router" type="button"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#router"></use></svg> Router</button>
+                        <button class="dev-btn" data-dev="switch" type="button"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#network"></use></svg> Switch</button>
+                    </div>
+                    <button id="reset" class="btn btn-ghost" type="button"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#rotate-ccw"></use></svg> Cihazı sıfırla</button>
+                </div>
+                <div id="term" class="term" aria-live="polite">
+                    <div id="out"></div>
+                    <label class="term-input"><span id="prompt">Router&gt;</span><input id="cmd" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Əmr"></label>
+                </div>
+                <p class="text-xs text-neutral-500 mt-2"><span class="kbd">?</span> kömək · <span class="kbd">Tab</span> tamamla · <span class="kbd">↑</span>/<span class="kbd">↓</span> tarixçə · qısaltmalar işləyir: <code>en</code>, <code>conf t</code>, <code>int g0/0</code>, <code>sh ip int br</code></p>
+            </section>
+
+            <section class="section-card" style="margin-bottom:0">
+                <h2 class="text-lg font-bold mb-3 flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#list-checks"></use></svg> Tapşırıqlar</h2>
+                <div id="exercises" class="space-y-2 mb-4"></div>
+                <h3 id="ex-title" class="font-bold mb-1"></h3>
+                <p id="ex-desc" class="text-sm text-neutral-600 mb-2"></p>
+                <ul id="ex-tasks" class="task-list text-sm"></ul>
+                <p id="ex-done" class="msg-ok mt-3" hidden></p>
+            </section>
+        </div>
+
+        <section class="section-card mt-6">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#info"></use></svg> Simulyator Haqqında</h2>
+            <p class="text-neutral-700">Bu, öyrənmə üçün sadələşdirilmiş simulyatordur: ən çox istifadə olunan əmrləri və rejimləri dəstəkləyir, amma real IOS-un bütün imkanlarını təkrarlamır (məs. OSPF qonşuluğu və real trafik yoxdur). Tam laboratoriya üçün Cisco Packet Tracer, GNS3 və ya EVE-NG istifadə edin.</p>
+        </section>
+    </main>
+
+    <footer class="brand-footer">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+                    <a href="../index.html">Ana Səhifə</a>
+                    <a href="../index.html#ccna">CCNA</a>
+                    <a href="../tools.html">Tools</a>
+                    <a href="../links.html">Faydalı Linklər</a>
+                    <a href="../about.html">Haqqında</a>
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
+            </div>
+            <div class="brand-footer-social-wrap">
+                <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+                    <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" data-social="instagram"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                    <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı" data-social="youtube"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></a>
+                    <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn" data-social="linkedin"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg></a>
+                    <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt" data-social="blog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></a>
+                    <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram" data-social="telegram"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg></a>
+                    <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" data-social="tiktok"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M448.5 209.9c-44 .1-87-13.6-122.8-39.2l0 178.7c0 33.1-10.1 65.4-29 92.6s-45.6 48-76.6 59.6-64.8 13.5-96.9 5.3-60.9-25.9-82.7-50.8-35.3-56-39-88.9 2.9-66.1 18.6-95.2 40-52.7 69.6-67.7 62.9-20.5 95.7-16l0 89.9c-15-4.7-31.1-4.6-46 .4s-27.9 14.6-37 27.3-14 28.1-13.9 43.9 5.2 31 14.5 43.7 22.4 22.1 37.4 26.9 31.1 4.8 46-.1 28-14.4 37.2-27.1 14.2-28.1 14.2-43.8l0-349.4 88 0c-.1 7.4 .6 14.9 1.9 22.2 3.1 16.3 9.4 31.9 18.7 45.7s21.3 25.6 35.2 34.6c19.9 13.1 43.2 20.1 67 20.1l0 87.4z"/></svg></a>
+                    <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email" data-social="email"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></a>
+                </div>
+            </div>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/student.js"></script>
+    <script>
+const $ = id => document.getElementById(id);
+        const ic = n => `<svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#${n}"></use></svg>`;
+        const DONE_KEY = Student.key('edu-portal-cli-done');
+        let doneEx = Student.read(DONE_KEY, []);
+
+        // ---------------- Cihaz vəziyyəti ----------------
+        function newDevice(type) {
+            const d = { type, hostname: type === 'router' ? 'Router' : 'Switch', mode: 'user', ctx: null,
+                secret: null, domain: null, users: {}, crypto: false, pwEnc: false, saved: false, savedSnapshot: null, savedText: null,
+                routes: [], ospf: null, gateway: null, vlans: { 1: 'default' }, lines: { con: {}, vty: {} }, ifs: {} };
+            if (type === 'router') ['GigabitEthernet0/0', 'GigabitEthernet0/1', 'GigabitEthernet0/2'].forEach((n, i) =>
+                d.ifs[n] = { ip: null, mask: null, shut: true, desc: '', cable: i < 2 });
+            else {
+                for (let i = 1; i <= 8; i++) d.ifs['FastEthernet0/' + i] = { sw: true, mode: 'access', vlan: 1, shut: false, desc: '', cable: i <= 4 };
+                d.ifs['GigabitEthernet0/1'] = { sw: true, mode: 'access', vlan: 1, shut: false, desc: '', cable: true };
+                d.ifs['Vlan1'] = { ip: null, mask: null, shut: true, desc: '', svi: true };
+            }
+            return d;
+        }
+        let dev = newDevice('router');
+        const history = []; let hIdx = 0;
+
+        // ---------------- Köməkçilər ----------------
+        const isIp = s => /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/.test(s) && s.split('.').every(x => +x <= 255);
+        const ipToInt = s => s.split('.').reduce((a, x) => (a << 8) + +x, 0) >>> 0;
+        const intToIp = n => [24, 16, 8, 0].map(s => (n >>> s) & 255).join('.');
+        const prefixOf = m => ipToInt(m).toString(2).replace(/0+$/, '').length;
+        function ifName(s) {
+            s = s.toLowerCase().replace(/\s+/g, '');
+            let m;
+            if ((m = s.match(/^g(?:i(?:g(?:a(?:b(?:i(?:t(?:e(?:t(?:h(?:e(?:r(?:n(?:e(?:t)?)?)?)?)?)?)?)?)?)?)?)?)?)?(\d+\/\d+)$/))) return 'GigabitEthernet' + m[1];
+            if ((m = s.match(/^f(?:a(?:s(?:t(?:e(?:t(?:h(?:e(?:r(?:n(?:e(?:t)?)?)?)?)?)?)?)?)?)?)?(\d+\/\d+)$/))) return 'FastEthernet' + m[1];
+            if ((m = s.match(/^v(?:l(?:a(?:n)?)?)?(\d+)$/))) return 'Vlan' + m[1];
+            return null;
+        }
+        const prompt = () => {
+            const suffix = { user: '>', priv: '#', config: '(config)#', if: '(config-if)#', line: '(config-line)#', vlan: '(config-vlan)#', ospf: '(config-router)#' }[dev.mode];
+            return dev.hostname + suffix;
+        };
+        function print(text, cls = '') {
+            const pre = document.createElement('pre');
+            if (cls) pre.className = cls;
+            pre.textContent = text;
+            $('out').appendChild(pre);
+        }
+        const INVALID = '% Invalid input detected at \'^\' marker.';
+
+        // ---------------- Əmrlər ----------------
+        // spec: sözlər — açar söz (qısaldıla bilər) və ya <ip>, <mask>, <num>, <word>, <if>, <rest>
+        const CMDS = {
+            user: [
+                ['enable', () => dev.mode = 'priv', 'Privileged EXEC rejiminə keç'],
+                ['show version', showVersion], ['show ip interface brief', showIpIntBrief],
+                ['ping <ip>', a => ping(a[0])], ['exit', () => { dev.mode = 'user'; print('\n' + dev.hostname + ' con0 is now available\n\nPress RETURN to get started.'); }, 'Sessiyadan çıx'],
+            ],
+            priv: [
+                ['configure terminal', () => { dev.mode = 'config'; print('Enter configuration commands, one per line.  End with CNTL/Z.'); }, 'Qlobal konfiqurasiya rejimi'],
+                ['disable', () => dev.mode = 'user'], ['exit', () => dev.mode = 'user'],
+                ['show running-config', showRun, 'Hazırkı konfiqurasiya'], ['show startup-config', showStartup],
+                ['show ip interface brief', showIpIntBrief, 'İnterfeyslərin qısa vəziyyəti'], ['show ip route', showRoute, 'Marşrut cədvəli'],
+                ['show vlan brief', showVlan, 'VLAN-lar (switch)'], ['show interfaces trunk', showTrunk, 'Trunk portlar (switch)'],
+                ['show version', showVersion], ['show history', () => print(history.slice(-20).map(h => '  ' + h).join('\n'))],
+                ['copy running-config startup-config', saveCfg, 'Konfiqurasiyanı yadda saxla'], ['write memory', saveCfg], ['write', saveCfg],
+                ['ping <ip>', a => ping(a[0])], ['reload', reload, 'Yenidən yüklə'],
+            ],
+            config: [
+                ['hostname <word>', a => dev.hostname = a[0], 'Cihazın adı'],
+                ['interface <if>', a => enterIf(a[0]), 'İnterfeys rejiminə keç'],
+                ['enable secret <word>', a => dev.secret = a[0], 'Privileged rejim üçün şifrələnmiş parol'],
+                ['service password-encryption', () => dev.pwEnc = true],
+                ['ip domain-name <word>', a => dev.domain = a[0]],
+                ['ip domain name <word>', a => dev.domain = a[0]],
+                ['username <word> secret <word>', a => dev.users[a[0]] = a[1], 'Lokal istifadəçi'],
+                ['username <word> privilege <num> secret <word>', a => dev.users[a[0]] = a[2]],
+                ['crypto key generate rsa', rsa, 'SSH üçün RSA açarı'], ['crypto key generate rsa modulus <num>', rsa],
+                ['line console 0', () => { dev.mode = 'line'; dev.ctx = 'con'; }], ['line vty 0 4', () => { dev.mode = 'line'; dev.ctx = 'vty'; }],
+                ['line vty 0 15', () => { dev.mode = 'line'; dev.ctx = 'vty'; }],
+                ['ip route <ip> <mask> <ip>', a => addRoute(a), 'Statik marşrut', 'router'],
+                ['no ip route <ip> <mask> <ip>', a => dev.routes = dev.routes.filter(r => !(r.net === a[0] && r.mask === a[1] && r.nh === a[2])), '', 'router'],
+                ['router ospf <num>', a => { dev.ospf = dev.ospf || { pid: a[0], nets: [], rid: null }; dev.mode = 'ospf'; }, 'OSPF prosesi', 'router'],
+                ['vlan <num>', a => enterVlan(a[0]), 'VLAN yarat və ya redaktə et', 'switch'],
+                ['no vlan <num>', a => { if (a[0] !== '1') delete dev.vlans[a[0]]; }, '', 'switch'],
+                ['ip default-gateway <ip>', a => dev.gateway = a[0], 'Switch-in idarəetmə gateway-i', 'switch'],
+                ['end', () => dev.mode = 'priv'], ['exit', () => dev.mode = 'priv'],
+            ],
+            if: [
+                ['ip address <ip> <mask>', a => setIp(a[0], a[1]), 'IP ünvanı'], ['no ip address', () => { const i = dev.ifs[dev.ctx]; i.ip = i.mask = null; }],
+                ['shutdown', () => setShut(true)], ['no shutdown', () => setShut(false), 'İnterfeysi aktivləşdir'],
+                ['description <rest>', a => dev.ifs[dev.ctx].desc = a[0]],
+                ['switchport mode access', () => swMode('access'), '', 'switch'], ['switchport mode trunk', () => swMode('trunk'), '', 'switch'],
+                ['switchport access vlan <num>', a => accessVlan(a[0]), '', 'switch'],
+                ['exit', () => { dev.mode = 'config'; dev.ctx = null; }], ['end', () => { dev.mode = 'priv'; dev.ctx = null; }],
+            ],
+            line: [
+                ['password <word>', a => dev.lines[dev.ctx].password = a[0]], ['login', () => dev.lines[dev.ctx].login = 'line'],
+                ['login local', () => dev.lines[dev.ctx].login = 'local'], ['transport input ssh', () => dev.lines[dev.ctx].transport = 'ssh'],
+                ['transport input telnet ssh', () => dev.lines[dev.ctx].transport = 'telnet ssh'], ['exec-timeout <num> <num>', a => dev.lines[dev.ctx].timeout = a.join(' ')],
+                ['exit', () => { dev.mode = 'config'; dev.ctx = null; }], ['end', () => { dev.mode = 'priv'; dev.ctx = null; }],
+            ],
+            vlan: [
+                ['name <word>', a => dev.vlans[dev.ctx] = a[0]],
+                ['exit', () => { dev.mode = 'config'; dev.ctx = null; }], ['end', () => { dev.mode = 'priv'; dev.ctx = null; }],
+            ],
+            ospf: [
+                ['network <ip> <ip> area <num>', a => dev.ospf.nets.push({ net: a[0], wc: a[1], area: a[2] })],
+                ['router-id <ip>', a => dev.ospf.rid = a[0]], ['passive-interface <if>', a => (dev.ospf.passive = dev.ospf.passive || []).push(a[0])],
+                ['exit', () => dev.mode = 'config'], ['end', () => dev.mode = 'priv'],
+            ],
+        };
+
+        const specsFor = mode => CMDS[mode].filter(c => !c[3] || c[3] === dev.type);
+
+        function matchSpec(spec, words) {
+            const toks = spec.split(' ');
+            const args = [];
+            let i = 0;
+            for (let t = 0; t < toks.length; t++) {
+                const tok = toks[t];
+                if (tok === '<rest>') { if (i >= words.length) return null; args.push(words.slice(i).join(' ')); i = words.length; continue; }
+                const w = words[i];
+                if (w === undefined) return null;
+                if (tok === '<ip>' || tok === '<mask>') { if (!isIp(w)) return null; args.push(w); }
+                else if (tok === '<num>') { if (!/^\d+$/.test(w)) return null; args.push(w); }
+                else if (tok === '<word>') { args.push(w); }
+                else if (tok === '<if>') {
+                    // "interface vlan 1" və "interface g0/0" hər ikisi
+                    let name = ifName(w);
+                    if (!name && words[i + 1] !== undefined) { name = ifName(w + words[i + 1]); if (name) i++; }
+                    if (!name) return null; args.push(name);
+                }
+                else if (!tok.startsWith(w.toLowerCase())) return null;
+                i++;
+            }
+            return i === words.length ? args : null;
+        }
+
+        function run(line) {
+            const raw = line.trim();
+            print(prompt() + ' ' + line, 'cmd');
+            if (!raw) return;
+            history.push(raw); hIdx = history.length;
+            if (raw.endsWith('?')) return help(raw.slice(0, -1).trim());
+            let words = raw.split(/\s+/);
+            let mode = dev.mode;
+            if (words[0].toLowerCase() === 'do' && !['user', 'priv'].includes(mode)) { words = words.slice(1); mode = 'priv'; }
+            let matches = specsFor(mode).map(c => ({ c, args: matchSpec(c[0], words) })).filter(m => m.args);
+            // Real IOS kimi: alt rejimdə tanınmayan qlobal əmr (məs. "interface", "vlan") qlobal rejimdə icra olunur
+            if (!matches.length && ['if', 'line', 'vlan', 'ospf'].includes(mode)) {
+                const global = specsFor('config').map(c => ({ c, args: matchSpec(c[0], words) })).filter(m => m.args && !['end', 'exit'].includes(m.c[0]));
+                if (global.length) { dev.mode = mode = 'config'; dev.ctx = null; matches = global; }
+            }
+            if (!matches.length) {
+                const first = specsFor(mode).filter(c => c[0].split(' ')[0].startsWith(words[0].toLowerCase()));
+                print(first.length ? '% Incomplete or invalid command.' : INVALID, 'err');
+                return;
+            }
+            // ən uzun (ən spesifik) uyğunluq
+            matches.sort((a, b) => b.c[0].split(' ').length - a.c[0].split(' ').length);
+            const saveMode = dev.mode;
+            if (mode === 'priv' && saveMode !== 'priv' && saveMode !== 'user') {
+                matches[0].c[1](matches[0].args); dev.mode = saveMode;   // "do" əmri rejimi dəyişmir
+            } else matches[0].c[1](matches[0].args);
+            // konfiqurasiya rejimində icra olunan hər əmr saxlanmamış dəyişiklik sayılır
+            if (!['user', 'priv'].includes(mode)) dev.saved = false;
+            checkExercise();
+        }
+
+        function help(prefix) {
+            const words = prefix ? prefix.split(/\s+/) : [];
+            const list = specsFor(dev.mode).filter(c => {
+                const toks = c[0].split(' ');
+                return words.every((w, i) => toks[i] && (toks[i].startsWith('<') || toks[i].startsWith(w.toLowerCase())));
+            });
+            if (!list.length) return print(INVALID, 'err');
+            const seen = new Set();
+            print(list.map(c => {
+                const k = c[0];
+                if (seen.has(k)) return null;
+                seen.add(k);
+                return '  ' + k.padEnd(44) + (c[2] || '');
+            }).filter(Boolean).join('\n'));
+        }
+
+        function complete() {
+            const val = $('cmd').value;
+            const words = val.split(/\s+/);
+            const last = words.pop().toLowerCase();
+            const opts = new Set();
+            specsFor(dev.mode).forEach(c => {
+                const toks = c[0].split(' ');
+                if (words.every((w, i) => toks[i] && (toks[i].startsWith('<') || toks[i].startsWith(w.toLowerCase())))) {
+                    const t = toks[words.length];
+                    if (t && !t.startsWith('<') && t.startsWith(last)) opts.add(t);
+                }
+            });
+            if (opts.size === 1) $('cmd').value = [...words, [...opts][0]].join(' ') + ' ';
+        }
+
+        // ---------------- Əmrlərin icrası ----------------
+        function enterIf(name) {
+            if (!dev.ifs[name]) {
+                if (dev.type === 'switch' && /^Vlan\d+$/.test(name)) dev.ifs[name] = { ip: null, mask: null, shut: true, desc: '', svi: true };
+                else return print(INVALID, 'err');
+            }
+            dev.mode = 'if'; dev.ctx = name;
+        }
+        function setIp(ip, mask) {
+            const i = dev.ifs[dev.ctx];
+            if (i.sw) return print(INVALID, 'err');
+            const m = ipToInt(mask);
+            if ((((~m) >>> 0) + 1 & (~m >>> 0)) !== 0 || m === 0) return print('% Bad mask ' + mask + ' for address ' + ip, 'err');
+            const net = (ipToInt(ip) & m) >>> 0, bc = (net | (~m >>> 0)) >>> 0;
+            if (ipToInt(ip) === net || ipToInt(ip) === bc) return print('% Bad mask /' + prefixOf(mask) + ' for address ' + ip, 'err');
+            for (const [n, o] of Object.entries(dev.ifs)) if (n !== dev.ctx && o.ip && ((ipToInt(o.ip) & ipToInt(o.mask)) >>> 0) === net)
+                return print(`% ${intToIp(net)} overlaps with ${n}`, 'err');
+            i.ip = ip; i.mask = mask;
+        }
+        function linkUp(n, i) { return !i.shut && (i.svi ? Object.values(dev.ifs).some(p => p.sw && !p.shut && p.cable) : i.cable); }
+        function setShut(v) {
+            const i = dev.ifs[dev.ctx]; const was = i.shut; i.shut = v;
+            const t = new Date().toTimeString().slice(0, 8);
+            if (was && !v) {
+                print(`%LINK-5-CHANGED: Interface ${dev.ctx}, changed state to ${linkUp(dev.ctx, i) ? 'up' : 'down'}`);
+                if (linkUp(dev.ctx, i)) print(`%LINEPROTO-5-UPDOWN: Line protocol on Interface ${dev.ctx}, changed state to up`);
+            } else if (!was && v) print(`%LINK-5-CHANGED: Interface ${dev.ctx}, changed state to administratively down`);
+        }
+        function swMode(m) { const i = dev.ifs[dev.ctx]; if (!i.sw) return print(INVALID, 'err'); i.mode = m; }
+        function accessVlan(v) {
+            const i = dev.ifs[dev.ctx]; if (!i.sw) return print(INVALID, 'err');
+            if (!dev.vlans[v]) { dev.vlans[v] = 'VLAN' + String(v).padStart(4, '0'); print(`% Access VLAN does not exist. Creating vlan ${v}`); }
+            i.vlan = +v;
+        }
+        function enterVlan(v) {
+            if (+v < 1 || +v > 4094) return print('% Invalid VLAN', 'err');
+            if (!dev.vlans[v]) dev.vlans[v] = 'VLAN' + String(v).padStart(4, '0');
+            dev.mode = 'vlan'; dev.ctx = v;
+        }
+        function addRoute(a) { if (!dev.routes.some(r => r.net === a[0] && r.mask === a[1])) dev.routes.push({ net: a[0], mask: a[1], nh: a[2] }); }
+        function rsa() {
+            if (!dev.domain) return print('% Please define a domain-name first.', 'err');
+            dev.crypto = true;
+            print(`The name for the keys will be: ${dev.hostname}.${dev.domain}\n% The key modulus size is 2048 bits\n% Generating 2048 bit RSA keys, keys will be non-exportable...[OK]\n%SSH-5-ENABLED: SSH 2.0 has been enabled`);
+        }
+        // Yadda saxlama: cihazın vəziyyətinin surəti (startup-config); reload onu geri yükləyir
+        function saveCfg() {
+            const copy = JSON.parse(JSON.stringify({ ...dev, savedSnapshot: null, savedText: null }));
+            dev.savedSnapshot = copy; dev.savedText = runningConfig(); dev.saved = true;
+            print('Building configuration...\n[OK]');
+        }
+        function reload() {
+            print('Proceed with reload? [confirm]\n\nSystem Bootstrap ... reloading');
+            const snap = dev.savedSnapshot, text = dev.savedText, type = dev.type;
+            if (snap) {
+                dev = { ...JSON.parse(JSON.stringify(snap)), savedSnapshot: snap, savedText: text, saved: true, mode: 'user', ctx: null };
+                print('startup-config yükləndi.\n\nPress RETURN to get started.');
+            } else {
+                dev = newDevice(type);
+                print('startup-config yoxdur — bütün dəyişikliklər itdi. Əvvəlcə "copy running-config startup-config" etmək lazım idi.', 'err');
+            }
+        }
+
+        function ping(ip) {
+            const target = ipToInt(ip);
+            const conn = Object.values(dev.ifs).some(i => i.ip && linkUp('', i) && ((ipToInt(i.ip) & ipToInt(i.mask)) >>> 0) === ((target & ipToInt(i.mask)) >>> 0));
+            const viaRoute = dev.routes.some(r => ((target & ipToInt(r.mask)) >>> 0) === ipToInt(r.net)) || (dev.type === 'switch' && dev.gateway);
+            const ok = conn || viaRoute;
+            print(`Type escape sequence to abort.\nSending 5, 100-byte ICMP Echos to ${ip}, timeout is 2 seconds:\n${ok ? '.!!!!' : '.....'}\nSuccess rate is ${ok ? '80 percent (4/5)' : '0 percent (0/5)'}${ok ? ', round-trip min/avg/max = 1/2/4 ms' : ''}`);
+        }
+
+        // ---------------- show əmrləri ----------------
+        function showIpIntBrief() {
+            const rows = Object.entries(dev.ifs).map(([n, i]) => {
+                const status = i.shut ? 'administratively down' : (linkUp(n, i) ? 'up' : 'down');
+                const proto = !i.shut && linkUp(n, i) ? 'up' : 'down';
+                return `${n.padEnd(23)}${(i.ip || 'unassigned').padEnd(16)}YES ${(i.ip ? 'manual' : 'unset').padEnd(7)}${status.padEnd(22)}${proto}`;
+            });
+            print('Interface              IP-Address      OK? Method Status                Protocol\n' + rows.join('\n'));
+        }
+        function showRoute() {
+            if (dev.type === 'switch') return print(dev.gateway ? `Default gateway is ${dev.gateway}` : 'Default gateway is not set');
+            const lines = [];
+            Object.entries(dev.ifs).forEach(([n, i]) => {
+                if (!i.ip || !linkUp(n, i)) return;
+                const p = prefixOf(i.mask), net = intToIp((ipToInt(i.ip) & ipToInt(i.mask)) >>> 0);
+                lines.push(`C        ${net}/${p} is directly connected, ${n}`, `L        ${i.ip}/32 is directly connected, ${n}`);
+            });
+            dev.routes.forEach(r => lines.push(`S        ${r.net}/${prefixOf(r.mask)} [1/0] via ${r.nh}`));
+            print('Codes: L - local, C - connected, S - static, O - OSPF\n\nGateway of last resort is ' +
+                (dev.routes.find(r => r.net === '0.0.0.0') ? 'set' : 'not set') + '\n\n' + (lines.join('\n') || '(marşrut yoxdur — interfeyslərə IP verib no shutdown edin)'));
+        }
+        function showVlan() {
+            if (dev.type !== 'switch') return print(INVALID, 'err');
+            const rows = Object.entries(dev.vlans).sort((a, b) => a[0] - b[0]).map(([id, name]) => {
+                const ports = Object.entries(dev.ifs).filter(([, i]) => i.sw && i.mode === 'access' && i.vlan === +id).map(([n]) => n.replace('FastEthernet', 'Fa').replace('GigabitEthernet', 'Gi'));
+                return `${String(id).padEnd(5)}${name.padEnd(33)}active    ${ports.join(', ')}`;
+            });
+            print('VLAN Name                             Status    Ports\n---- -------------------------------- --------- -------------------------------\n' + rows.join('\n'));
+        }
+        function showTrunk() {
+            if (dev.type !== 'switch') return print(INVALID, 'err');
+            const t = Object.entries(dev.ifs).filter(([, i]) => i.sw && i.mode === 'trunk');
+            if (!t.length) return print('');
+            print('Port        Mode         Encapsulation  Status        Native vlan\n' + t.map(([n]) => `${n.replace('GigabitEthernet', 'Gi').replace('FastEthernet', 'Fa').padEnd(12)}on           802.1q         trunking      1`).join('\n') +
+                '\n\nPort        Vlans allowed and active in management domain\n' + t.map(([n]) => `${n.replace('GigabitEthernet', 'Gi').replace('FastEthernet', 'Fa').padEnd(12)}${Object.keys(dev.vlans).join(',')}`).join('\n'));
+        }
+        function showVersion() {
+            print(dev.type === 'router'
+                ? `Cisco IOS Software, ISR Software (X86_64_LINUX_IOSD-UNIVERSALK9-M), Version 15.9(3)M, RELEASE SOFTWARE\n${dev.hostname} uptime is 12 minutes\nSystem image file is "flash:c2900-universalk9-mz.SPA.159-3.M.bin"\ncisco ISR4331/K9 processor with 1795999K/6147K bytes of memory.\n3 Gigabit Ethernet interfaces\nConfiguration register is 0x2102`
+                : `Cisco IOS Software, C2960 Software (C2960-LANBASEK9-M), Version 15.0(2)SE11, RELEASE SOFTWARE\n${dev.hostname} uptime is 12 minutes\nSystem image file is "flash:c2960-lanbasek9-mz.150-2.SE11.bin"\n8 FastEthernet interfaces\n1 Gigabit Ethernet interface\nConfiguration register is 0xF`);
+        }
+        function runningConfig() {
+            const L = ['!', `hostname ${dev.hostname}`, '!'];
+            if (dev.pwEnc) L.splice(1, 0, 'service password-encryption');
+            if (dev.secret) L.push('enable secret 9 $9$' + btoa(dev.secret).slice(0, 14));
+            Object.entries(dev.users).forEach(([u]) => L.push(`username ${u} secret 9 $9$hashed`));
+            if (dev.domain) L.push(`ip domain name ${dev.domain}`);
+            if (dev.type === 'switch') Object.entries(dev.vlans).filter(([id]) => id !== '1').forEach(([id, n]) => L.push(`vlan ${id}`, ` name ${n}`, '!'));
+            Object.entries(dev.ifs).forEach(([n, i]) => {
+                L.push(`interface ${n}`);
+                if (i.desc) L.push(` description ${i.desc}`);
+                if (i.sw) { if (i.mode === 'trunk') L.push(' switchport mode trunk'); else { if (i.vlan !== 1) L.push(` switchport access vlan ${i.vlan}`); L.push(' switchport mode access'); } }
+                if (!i.sw) L.push(i.ip ? ` ip address ${i.ip} ${i.mask}` : ' no ip address');
+                if (i.shut) L.push(' shutdown');
+                L.push('!');
+            });
+            if (dev.ospf) { L.push(`router ospf ${dev.ospf.pid}`); if (dev.ospf.rid) L.push(` router-id ${dev.ospf.rid}`); dev.ospf.nets.forEach(x => L.push(` network ${x.net} ${x.wc} area ${x.area}`)); L.push('!'); }
+            dev.routes.forEach(r => L.push(`ip route ${r.net} ${r.mask} ${r.nh}`));
+            if (dev.gateway) L.push(`ip default-gateway ${dev.gateway}`);
+            ['con', 'vty'].forEach(k => {
+                const l = dev.lines[k];
+                L.push(k === 'con' ? 'line con 0' : 'line vty 0 4');
+                if (l.password) L.push(dev.pwEnc ? ' password 7 0822455D0A16' : ` password ${l.password}`);
+                if (l.timeout) L.push(` exec-timeout ${l.timeout}`);
+                if (l.login) L.push(l.login === 'local' ? ' login local' : ' login');
+                if (l.transport) L.push(` transport input ${l.transport}`);
+            });
+            L.push('!', 'end');
+            return L.join('\n');
+        }
+        function showRun() { print('Building configuration...\n\nCurrent configuration:\n' + runningConfig()); }
+        function showStartup() { print(dev.savedText ? 'Using startup-config:\n' + dev.savedText : 'startup-config is not present'); }
+
+        // ---------------- Tapşırıqlar ----------------
+        const ifUp = (n, ip, mask) => { const i = dev.ifs[n]; return i && i.ip === ip && i.mask === mask && !i.shut; };
+        const EXERCISES = [
+            { id: 'r-basic', dev: 'router', title: '1. Router-in əsas konfiqurasiyası', desc: 'Yeni router-i LAN-a qoşmağa hazırlayın.', tasks: [
+                ['Privileged EXEC rejiminə keçin (enable)', () => history.some(h => /^en(a(b(le?)?)?)?$/i.test(h))],
+                ['Hostname: R1', () => dev.hostname === 'R1'],
+                ['enable secret təyin edin', () => !!dev.secret],
+                ['Gi0/0: 192.168.1.1 255.255.255.0 və no shutdown', () => ifUp('GigabitEthernet0/0', '192.168.1.1', '255.255.255.0')],
+                ['Gi0/0-a description yazın', () => !!dev.ifs['GigabitEthernet0/0'].desc],
+                ['Konfiqurasiyanı yadda saxlayın', () => dev.saved && dev.hostname === 'R1'] ] },
+            { id: 'r-static', dev: 'router', title: '2. İki şəbəkə və statik marşrut', desc: 'LAN və provayder linkini qurun, uzaq şəbəkəyə və internetə marşrut əlavə edin.', tasks: [
+                ['Gi0/0: 192.168.10.1/24, aktiv', () => ifUp('GigabitEthernet0/0', '192.168.10.1', '255.255.255.0')],
+                ['Gi0/1: 203.0.113.2/30, aktiv', () => ifUp('GigabitEthernet0/1', '203.0.113.2', '255.255.255.252')],
+                ['10.20.0.0/16 şəbəkəsinə 192.168.10.254 vasitəsilə marşrut', () => dev.routes.some(r => r.net === '10.20.0.0' && r.mask === '255.255.0.0' && r.nh === '192.168.10.254')],
+                ['Defolt marşrut 203.0.113.1-ə', () => dev.routes.some(r => r.net === '0.0.0.0' && r.mask === '0.0.0.0' && r.nh === '203.0.113.1')],
+                ['show ip route ilə yoxlayın', () => history.some(h => /^(do\s+)?sh(o(w)?)?\s+ip\s+ro/i.test(h))] ] },
+            { id: 'r-ssh', dev: 'router', title: '3. SSH ilə təhlükəsiz idarəetmə', desc: 'Telnet-i bağlayıb yalnız SSH ilə, lokal istifadəçi ilə girişi qurun.', tasks: [
+                ['ip domain-name təyin edin', () => !!dev.domain],
+                ['Lokal istifadəçi yaradın (username ... secret ...)', () => Object.keys(dev.users).length > 0],
+                ['RSA açarı yaradın (crypto key generate rsa)', () => dev.crypto],
+                ['VTY: login local', () => dev.lines.vty.login === 'local'],
+                ['VTY: transport input ssh', () => dev.lines.vty.transport === 'ssh'],
+                ['service password-encryption', () => dev.pwEnc] ] },
+            { id: 'r-ospf', dev: 'router', title: '4. OSPF konfiqurasiyası', desc: 'İki interfeysi OSPF area 0-a daxil edin.', tasks: [
+                ['Gi0/0: 10.0.12.1/30, aktiv', () => ifUp('GigabitEthernet0/0', '10.0.12.1', '255.255.255.252')],
+                ['Gi0/1: 192.168.50.1/24, aktiv', () => ifUp('GigabitEthernet0/1', '192.168.50.1', '255.255.255.0')],
+                ['router ospf 1', () => dev.ospf && dev.ospf.pid === '1'],
+                ['router-id 1.1.1.1', () => dev.ospf && dev.ospf.rid === '1.1.1.1'],
+                ['network 10.0.12.0 0.0.0.3 area 0', () => dev.ospf && dev.ospf.nets.some(n => n.net === '10.0.12.0' && n.wc === '0.0.0.3' && n.area === '0')],
+                ['network 192.168.50.0 0.0.0.255 area 0', () => dev.ospf && dev.ospf.nets.some(n => n.net === '192.168.50.0' && n.wc === '0.0.0.255' && n.area === '0')] ] },
+            { id: 's-vlan', dev: 'switch', title: '5. VLAN və access portlar', desc: 'İki şöbə üçün VLAN yaradın və portları təyin edin.', tasks: [
+                ['VLAN 10, adı MUHASIBAT', () => dev.vlans[10] === 'MUHASIBAT'],
+                ['VLAN 20, adı IT', () => dev.vlans[20] === 'IT'],
+                ['Fa0/1 → access VLAN 10', () => dev.ifs['FastEthernet0/1'].mode === 'access' && dev.ifs['FastEthernet0/1'].vlan === 10],
+                ['Fa0/2 → access VLAN 20', () => dev.ifs['FastEthernet0/2'].mode === 'access' && dev.ifs['FastEthernet0/2'].vlan === 20],
+                ['show vlan brief ilə yoxlayın', () => history.some(h => /^(do\s+)?sh(o(w)?)?\s+vl/i.test(h))],
+                ['Yadda saxlayın', () => dev.saved && dev.vlans[20] === 'IT'] ] },
+            { id: 's-mgmt', dev: 'switch', title: '6. Trunk və idarəetmə IP-si', desc: 'Uplink-i trunk edin və switch-ə uzaqdan idarəetmə üçün IP verin.', tasks: [
+                ['Gi0/1 → switchport mode trunk', () => dev.ifs['GigabitEthernet0/1'].mode === 'trunk'],
+                ['interface vlan 1: 192.168.1.2 255.255.255.0', () => dev.ifs.Vlan1.ip === '192.168.1.2' && dev.ifs.Vlan1.mask === '255.255.255.0'],
+                ['Vlan1 interfeysini aktivləşdirin', () => !dev.ifs.Vlan1.shut],
+                ['ip default-gateway 192.168.1.1', () => dev.gateway === '192.168.1.1'],
+                ['show interfaces trunk ilə yoxlayın', () => history.some(h => /^(do\s+)?sh(o(w)?)?\s+int\S*\s+tr/i.test(h))] ] },
+        ];
+        let exercise = EXERCISES[0];
+
+        function renderExercises() {
+            $('exercises').innerHTML = EXERCISES.map(e => `<button class="ex-btn ${e === exercise ? 'active' : ''}" data-id="${e.id}" type="button">
+                <span>${e.title}</span>${doneEx.includes(e.id) ? `<span class="pill">${ic('circle-check')} Bitib</span>` : `<span class="pill dark">${e.dev === 'router' ? 'Router' : 'Switch'}</span>`}</button>`).join('');
+        }
+        function checkExercise() {
+            $('ex-title').textContent = exercise.title;
+            $('ex-desc').textContent = exercise.desc;
+            const res = exercise.tasks.map(([t, f]) => [t, dev.type === exercise.dev && !!f()]);
+            $('ex-tasks').innerHTML = res.map(([t, ok]) => `<li class="${ok ? 'done' : ''}">${ic(ok ? 'circle-check' : 'circle-dot')}<span>${t}</span></li>`).join('');
+            const all = res.every(r => r[1]);
+            $('ex-done').hidden = !all;
+            if (all) {
+                $('ex-done').textContent = 'Təbriklər! Tapşırıq tamamlandı.';
+                if (!doneEx.includes(exercise.id)) { doneEx.push(exercise.id); Student.write(DONE_KEY, doneEx); renderExercises(); }
+            }
+        }
+        function switchDevice(type, fresh = true) {
+            document.querySelectorAll('.dev-btn').forEach(b => b.classList.toggle('active', b.dataset.dev === type));
+            if (fresh || dev.type !== type) { dev = newDevice(type); $('out').innerHTML = ''; print(`${type === 'router' ? 'Router (ISR4331)' : 'Switch (Catalyst 2960)'} hazırdır. "?" yazaraq əmrləri görün.\n`); }
+            $('prompt').textContent = prompt();
+            checkExercise();
+        }
+
+        $('exercises').addEventListener('click', e => {
+            const b = e.target.closest('.ex-btn'); if (!b) return;
+            exercise = EXERCISES.find(x => x.id === b.dataset.id);
+            renderExercises();
+            switchDevice(exercise.dev, true);
+            $('cmd').focus();
+        });
+        document.querySelectorAll('.dev-btn').forEach(b => b.addEventListener('click', () => switchDevice(b.dataset.dev, true)));
+        $('reset').addEventListener('click', () => switchDevice(dev.type, true));
+        $('cmd').addEventListener('keydown', e => {
+            if (e.key === 'Enter') { run($('cmd').value); $('cmd').value = ''; $('prompt').textContent = prompt(); $('term').scrollTop = $('term').scrollHeight; }
+            else if (e.key === 'Tab') { e.preventDefault(); complete(); }
+            else if (e.key === 'ArrowUp') { e.preventDefault(); if (hIdx > 0) $('cmd').value = history[--hIdx]; }
+            else if (e.key === 'ArrowDown') { e.preventDefault(); hIdx = Math.min(history.length, hIdx + 1); $('cmd').value = history[hIdx] || ''; }
+        });
+        $('term').addEventListener('click', () => { if (!window.getSelection().toString()) $('cmd').focus(); });
+        renderExercises();
+        switchDevice('router', true);
+    </script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>

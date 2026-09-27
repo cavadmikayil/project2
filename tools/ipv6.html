@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPv6 Kalkulyatoru — Cavad Mikayil Təlim Portalı</title>
+    <meta name="description" content="IPv6 ünvanını qısaldın və genişləndirin, prefiks, aralıq və ünvan növünü tapın, MAC ünvanından EUI-64 interfeys ID-si yaradın.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+    <link rel="stylesheet" href="../assets/tools.css">
+    <style>
+.bits { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.85rem; overflow-wrap: anywhere; line-height: 1.7; }
+        .bits .net { color: #b45309; font-weight: 700; }
+        .bits .host { color: #737373; }
+        body.dark-mode .bits .net { color: #fbbf24; }
+        body.dark-mode .bits .host { color: #a3a3a3; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50" data-site-header>
+        <div class="container mx-auto px-6 py-3 flex flex-wrap gap-x-3 gap-y-2 justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-2 text-lg font-extrabold text-neutral-900">
+                <span class="site-logo"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg></span> Cavad Mikayil Təlim Portalı
+            </a>
+            <nav class="site-nav order-last md:order-none md:ml-auto" aria-label="Sayt menyusu">
+                    <a href="../index.html" data-nav="home"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#house"></use></svg> Ana Səhifə</a>
+                    <a href="../index.html#ccna" data-nav="ccna"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> CCNA</a>
+                    <a href="../tools.html" data-nav="tools" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#toolbox"></use></svg> Tools</a>
+                    <a href="../links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#library"></use></svg> Faydalı Linklər</a>
+                    <a href="../about.html" data-nav="about"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#user-round"></use></svg> Haqqında</a>
+                </nav>
+            <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#moon"></use></svg></button>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-5xl">
+        <section class="tool-hero">
+            <a href="../tools.html" class="tool-back"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#arrow-left"></use></svg> Bütün alətlər</a>
+            <h1><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#globe"></use></svg> IPv6 Kalkulyatoru</h1>
+            <p>IPv6 ünvanını qısaldın və genişləndirin, prefiks, aralıq və ünvan növünü tapın, MAC ünvanından EUI-64 interfeys ID-si yaradın.</p>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#calculator"></use></svg> Ünvan və Prefiks</h2>
+            <div class="grid md:grid-cols-4 gap-3 mb-3">
+                <div class="md:col-span-3">
+                    <label class="field-label" for="addr">IPv6 ünvanı (prefikslə və ya prefikssiz)</label>
+                    <input id="addr" class="field mono" value="2001:db8:acad:10::25/64" autocomplete="off" spellcheck="false">
+                </div>
+                <div class="flex items-end"><button id="go" class="btn btn-amber w-full" type="button">Hesabla</button></div>
+            </div>
+            <div class="flex flex-wrap gap-2 mb-4 text-sm">
+                <span class="field-label mb-0 mr-1">Nümunələr:</span>
+                <button class="pill ex" type="button">fe80::1ff:fe23:4567:890a/64</button>
+                <button class="pill ex" type="button">fd12:3456:789a:1::/64</button>
+                <button class="pill ex" type="button">ff02::1</button>
+                <button class="pill ex" type="button">::1</button>
+            </div>
+            <p id="err" class="msg-error" hidden></p>
+            <div id="out" class="tool-grid-2" hidden>
+                <div class="result-tile"><p class="result-label">Qısaldılmış</p><p id="o-short" class="result-value"></p></div>
+                <div class="result-tile"><p class="result-label">Tam yazılış</p><p id="o-full" class="result-value"></p></div>
+                <div class="result-tile"><p class="result-label">Ünvan növü</p><p id="o-type" class="result-value"></p></div>
+                <div class="result-tile"><p class="result-label">Şəbəkə prefiksi</p><p id="o-net" class="result-value"></p></div>
+                <div class="result-tile"><p class="result-label">Aralığın əvvəli</p><p id="o-first" class="result-value"></p></div>
+                <div class="result-tile"><p class="result-label">Aralığın sonu</p><p id="o-last" class="result-value"></p></div>
+                <div class="result-tile"><p class="result-label">Ünvan sayı</p><p id="o-count" class="result-value"></p></div>
+                <div class="result-tile"><p class="result-label">Bu prefiksdə /64 subnet sayı</p><p id="o-64" class="result-value"></p></div>
+            </div>
+            <div id="bitsbox" class="result-tile mt-4" hidden>
+                <p class="result-label">Bitlər: <span class="net">şəbəkə</span> / <span class="host">interfeys</span> hissəsi (hex)</p>
+                <p id="o-bits" class="bits"></p>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#fingerprint"></use></svg> EUI-64 Generatoru</h2>
+            <p class="text-neutral-700 mb-4">MAC ünvanını ortadan bölüb <code>FFFE</code> əlavə edir və 7-ci biti (U/L) çevirir — SLAAC ilə yaranan interfeys ID-si.</p>
+            <div class="grid md:grid-cols-4 gap-3">
+                <div class="md:col-span-2"><label class="field-label" for="mac">MAC ünvanı</label><input id="mac" class="field mono" value="00:1A:2B:3C:4D:5E" spellcheck="false"></div>
+                <div><label class="field-label" for="pfx">/64 prefiks</label><input id="pfx" class="field mono" value="2001:db8:acad:10::" spellcheck="false"></div>
+                <div class="flex items-end"><button id="eui" class="btn btn-dark w-full" type="button">Yarat</button></div>
+            </div>
+            <p id="eui-err" class="msg-error mt-3" hidden></p>
+            <div id="eui-out" class="tool-grid-2 mt-4" hidden>
+                <div class="result-tile"><p class="result-label">Interface ID</p><p id="e-id" class="result-value"></p></div>
+                <div class="result-tile"><p class="result-label">Global ünvan</p><p id="e-global" class="result-value"></p></div>
+                <div class="result-tile"><p class="result-label">Link-local ünvan</p><p id="e-ll" class="result-value"></p></div>
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#book-open"></use></svg> Qısaltma Qaydaları</h2>
+            <ol class="steps max-w-3xl mx-auto">
+                <li><p class="text-neutral-700">Hər 16 bitlik qrupun əvvəlindəki sıfırlar atılır: <code>0db8</code> → <code>db8</code>.</p></li>
+                <li><p class="text-neutral-700">Ardıcıl sıfır qruplarının <strong>ən uzun</strong> ardıcıllığı bir dəfə <code>::</code> ilə əvəz olunur (bərabərdirsə — birincisi).</p></li>
+                <li><p class="text-neutral-700">Tək sıfır qrupu <code>::</code> ilə yox, <code>0</code> ilə yazılır; hərflər kiçik yazılır (RFC 5952).</p></li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="brand-footer">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=afa2e4d1#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+                    <a href="../index.html">Ana Səhifə</a>
+                    <a href="../index.html#ccna">CCNA</a>
+                    <a href="../tools.html">Tools</a>
+                    <a href="../links.html">Faydalı Linklər</a>
+                    <a href="../about.html">Haqqında</a>
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
+            </div>
+            <div class="brand-footer-social-wrap">
+                <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+                    <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" data-social="instagram"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                    <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı" data-social="youtube"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></a>
+                    <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn" data-social="linkedin"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg></a>
+                    <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt" data-social="blog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></a>
+                    <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram" data-social="telegram"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg></a>
+                    <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" data-social="tiktok"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M448.5 209.9c-44 .1-87-13.6-122.8-39.2l0 178.7c0 33.1-10.1 65.4-29 92.6s-45.6 48-76.6 59.6-64.8 13.5-96.9 5.3-60.9-25.9-82.7-50.8-35.3-56-39-88.9 2.9-66.1 18.6-95.2 40-52.7 69.6-67.7 62.9-20.5 95.7-16l0 89.9c-15-4.7-31.1-4.6-46 .4s-27.9 14.6-37 27.3-14 28.1-13.9 43.9 5.2 31 14.5 43.7 22.4 22.1 37.4 26.9 31.1 4.8 46-.1 28-14.4 37.2-27.1 14.2-28.1 14.2-43.8l0-349.4 88 0c-.1 7.4 .6 14.9 1.9 22.2 3.1 16.3 9.4 31.9 18.7 45.7s21.3 25.6 35.2 34.6c19.9 13.1 43.2 20.1 67 20.1l0 87.4z"/></svg></a>
+                    <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email" data-social="email"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></a>
+                </div>
+            </div>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/student.js"></script>
+    <script>
+const $ = id => document.getElementById(id);
+
+        // IPv6 → 8 ədədlik massiv (hər biri 0..65535) və ya null
+        function parse(addr) {
+            addr = addr.trim().toLowerCase();
+            // Sonda IPv4 yazılışı (::ffff:192.0.2.1) — iki hex qrupa çevrilir
+            const v4 = addr.match(/^(.*:)(\d+)\.(\d+)\.(\d+)\.(\d+)$/);
+            if (v4) {
+                const o = v4.slice(2).map(Number);
+                if (o.some(x => x > 255)) return null;
+                addr = v4[1] + ((o[0] << 8) | o[1]).toString(16) + ':' + ((o[2] << 8) | o[3]).toString(16);
+            }
+            if (!/^[0-9a-f:]+$/.test(addr) || (addr.match(/::/g) || []).length > 1 || addr.includes(':::')) return null;
+            const parts = addr.split('::');
+            const left = parts[0] ? parts[0].split(':') : [];
+            const right = parts.length > 1 && parts[1] ? parts[1].split(':') : [];
+            if ([...left, ...right].some(g => !/^[0-9a-f]{1,4}$/.test(g))) return null;
+            let groups;
+            if (parts.length > 1) {
+                const zeros = 8 - left.length - right.length;
+                if (zeros < 1) return null;
+                groups = [...left, ...Array(zeros).fill('0'), ...right];
+            } else {
+                if (left.length !== 8) return null;
+                groups = left;
+            }
+            return groups.map(g => parseInt(g, 16));
+        }
+
+        const full = g => g.map(x => x.toString(16).padStart(4, '0')).join(':');
+        function short(g) {
+            let best = -1, len = 0;
+            for (let i = 0; i < 8;) {
+                if (g[i] !== 0) { i++; continue; }
+                let j = i; while (j < 8 && g[j] === 0) j++;
+                if (j - i > len && j - i > 1) { best = i; len = j - i; }
+                i = j;
+            }
+            const hex = g.map(x => x.toString(16));
+            if (best < 0) return hex.join(':');
+            return hex.slice(0, best).join(':') + '::' + hex.slice(best + len).join(':');
+        }
+        const toBig = g => g.reduce((a, x) => (a << 16n) + BigInt(x), 0n);
+        const fromBig = n => Array.from({ length: 8 }, (_, i) => Number((n >> BigInt(16 * (7 - i))) & 0xffffn));
+
+        function kind(g) {
+            const f = g[0];
+            if (g.every(x => x === 0)) return 'Unspecified (::)';
+            if (g.slice(0, 7).every(x => x === 0) && g[7] === 1) return 'Loopback (::1)';
+            if ((f & 0xff00) === 0xff00) return 'Multicast (ff00::/8)';
+            if ((f & 0xffc0) === 0xfe80) return 'Link-local (fe80::/10)';
+            if ((f & 0xfe00) === 0xfc00) return 'Unique Local — ULA (fc00::/7)';
+            if (f === 0x2001 && g[1] === 0x0db8) return 'Documentation (2001:db8::/32)';
+            if ((f & 0xe000) === 0x2000) return 'Global Unicast (2000::/3)';
+            if (g.slice(0, 5).every(x => x === 0) && g[5] === 0xffff) return 'IPv4-mapped (::ffff:0:0/96)';
+            return 'Reserved / digər';
+        }
+
+        function calc() {
+            $('err').hidden = true;
+            const [a, p] = $('addr').value.split('/');
+            const g = parse(a || '');
+            const prefix = p === undefined ? 64 : Number(p);
+            if (!g || !Number.isInteger(prefix) || prefix < 0 || prefix > 128) {
+                $('err').textContent = 'Düzgün IPv6 ünvanı yazın, məs. 2001:db8::10/64 (prefiks 0–128).';
+                $('err').hidden = false; $('out').hidden = $('bitsbox').hidden = true; return;
+            }
+            const n = toBig(g);
+            const hostBits = BigInt(128 - prefix);
+            const mask = ((1n << 128n) - 1n) ^ ((1n << hostBits) - 1n);
+            const net = n & mask, last = net | ((1n << hostBits) - 1n);
+            $('o-short').textContent = short(g) + (p === undefined ? '' : '/' + prefix);
+            $('o-full').textContent = full(g);
+            $('o-type').textContent = kind(g);
+            $('o-net').textContent = short(fromBig(net)) + '/' + prefix;
+            $('o-first').textContent = short(fromBig(net));
+            $('o-last').textContent = short(fromBig(last));
+            const count = 1n << hostBits;
+            $('o-count').textContent = hostBits <= 20n ? count.toLocaleString('az') : `2^${hostBits}`;
+            $('o-64').textContent = prefix > 64 ? 'prefiks /64-dən kiçikdir' : (64 - prefix <= 20 ? (1n << BigInt(64 - prefix)).toLocaleString('az') : `2^${64 - prefix}`);
+            const hex = full(g).replace(/:/g, '');
+            const netChars = Math.floor(prefix / 4);
+            $('o-bits').innerHTML = `<span class="net">${hex.slice(0, netChars)}</span><span class="host">${hex.slice(netChars)}</span>` + (prefix % 4 ? ` <span class="pill">prefiks ${prefix} hex simvolun ortasından keçir</span>` : '');
+            $('out').hidden = $('bitsbox').hidden = false;
+        }
+
+        function eui() {
+            $('eui-err').hidden = true;
+            const hex = $('mac').value.toLowerCase().replace(/[^0-9a-f]/g, '');
+            const pg = parse($('pfx').value.replace(/\/\d+$/, ''));
+            if (hex.length !== 12 || !pg) {
+                $('eui-err').textContent = 'MAC ünvanı 12 hex simvol, prefiks isə düzgün IPv6 olmalıdır.';
+                $('eui-err').hidden = false; $('eui-out').hidden = true; return;
+            }
+            const b = hex.match(/../g).map(x => parseInt(x, 16));
+            b[0] ^= 0x02; // U/L bitini çevir
+            const id = [(b[0] << 8) | b[1], (b[2] << 8) | 0xff, (0xfe << 8) | b[3], (b[4] << 8) | b[5]];
+            $('e-id').textContent = id.map(x => x.toString(16).padStart(4, '0')).join(':');
+            $('e-global').textContent = short([...pg.slice(0, 4), ...id]) + '/64';
+            $('e-ll').textContent = short([0xfe80, 0, 0, 0, ...id]) + '/64';
+            $('eui-out').hidden = false;
+        }
+
+        document.querySelectorAll('.ex').forEach(b => b.addEventListener('click', () => { $('addr').value = b.textContent; calc(); }));
+        $('go').addEventListener('click', calc);
+        $('addr').addEventListener('keydown', e => { if (e.key === 'Enter') calc(); });
+        $('eui').addEventListener('click', eui);
+        calc(); eui();
+    </script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
