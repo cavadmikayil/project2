@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#braces"></use></svg> YAML və JSON: Konfiqurasiya Dilləri</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#braces"></use></svg> YAML və JSON: Konfiqurasiya Dilləri</h1>
                 <span class="lesson-badge">DevOps · Formatlar</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -51,29 +51,29 @@
                 <a href="#compare" class="nav-link">Müqayisə</a>
                 <a href="#tools" class="nav-link">Alətlər</a>
                 <a href="#mistakes" class="nav-link">Tipik səhvlər</a>
-                <a href="../index.html#devops" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
+                <a href="../index.html#devops" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#braces"></use></svg> Giriş: Maşınların və İnsanların Ortaq Dili</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#braces"></use></svg> Giriş: Maşınların və İnsanların Ortaq Dili</h2>
             <p class="lead">
                 Ansible playbook, Kubernetes manifest, GitHub Actions workflow, Docker Compose — hamısı <strong>YAML</strong>-dır.
                 REST API cavabları, Terraform state, AWS policy — <strong>JSON</strong>. DevOps və network automation-da ilk öyrənilməli
                 "dil" proqramlaşdırma dili yox, bu iki məlumat formatıdır.
             </p>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#text"></use></svg> Scalar</h3><p class="text-neutral-700">Tək dəyər: sətir, rəqəm, boolean, null.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#list"></use></svg> List / array</h3><p class="text-neutral-700">Sıralı dəyərlər: VLAN-ların siyahısı.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#book-key"></use></svg> Dictionary / object</h3><p>Açar-dəyər cütləri: <code>hostname: R1</code>.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#text"></use></svg> Scalar</h3><p class="text-neutral-700">Tək dəyər: sətir, rəqəm, boolean, null.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#list"></use></svg> List / array</h3><p class="text-neutral-700">Sıralı dəyərlər: VLAN-ların siyahısı.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#book-key"></use></svg> Dictionary / object</h3><p>Açar-dəyər cütləri: <code>hostname: R1</code>.</p></div>
             </div>
         </section>
 
         <section id="json" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#file-json"></use></svg> 1. JSON</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#file-json"></use></svg> 1. JSON</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>{
@@ -88,14 +88,14 @@
 }</code></pre>
             </div>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#quote"></use></svg><p class="text-neutral-700">Açarlar və sətirlər yalnız <strong>qoşa dırnaqda</strong>: <code>"name"</code>.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#ban"></use></svg><p class="text-neutral-700">Şərh (comment) yoxdur, sonuncu elementdən sonra vergül olmaz.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#binary"></use></svg><p class="text-neutral-700">Tiplər: string, number, <code>true/false</code>, <code>null</code>, array <code>[]</code>, object <code>{}</code>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#quote"></use></svg><p class="text-neutral-700">Açarlar və sətirlər yalnız <strong>qoşa dırnaqda</strong>: <code>"name"</code>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#ban"></use></svg><p class="text-neutral-700">Şərh (comment) yoxdur, sonuncu elementdən sonra vergül olmaz.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#binary"></use></svg><p class="text-neutral-700">Tiplər: string, number, <code>true/false</code>, <code>null</code>, array <code>[]</code>, object <code>{}</code>.</p></div>
             </div>
         </section>
 
         <section id="yaml" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#file-code"></use></svg> 2. YAML — Eyni Məlumat</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#file-code"></use></svg> 2. YAML — Eyni Məlumat</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>---
@@ -115,15 +115,15 @@ ntp_servers: [10.0.0.10, 10.0.0.11]   # qısa (flow) yazılış</code></pre>
                 <p class="code-note"><code>|</code> — çoxsətirli mətn sətir sonlarını saxlayır; <code>&gt;</code> isə sətirləri bir sətirə birləşdirir.</p>
             </div>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#indent-increase"></use></svg><p class="text-neutral-700"><strong>Boşluqlarla girinti</strong> strukturu müəyyən edir — tab qadağandır. Adətən 2 boşluq.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#minus"></use></svg><p class="text-neutral-700"><code>- </code> siyahı elementi deməkdir, <code>açar: dəyər</code> — dictionary.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#hash"></use></svg><p class="text-neutral-700"><code>#</code> ilə şərh yazmaq olar — konfiqurasiya üçün böyük üstünlük.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#braces"></use></svg><p class="text-neutral-700">YAML JSON-un üst çoxluğudur: hər düzgün JSON həm də düzgün YAML-dır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#indent-increase"></use></svg><p class="text-neutral-700"><strong>Boşluqlarla girinti</strong> strukturu müəyyən edir — tab qadağandır. Adətən 2 boşluq.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#minus"></use></svg><p class="text-neutral-700"><code>- </code> siyahı elementi deməkdir, <code>açar: dəyər</code> — dictionary.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#hash"></use></svg><p class="text-neutral-700"><code>#</code> ilə şərh yazmaq olar — konfiqurasiya üçün böyük üstünlük.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#braces"></use></svg><p class="text-neutral-700">YAML JSON-un üst çoxluğudur: hər düzgün JSON həm də düzgün YAML-dır.</p></div>
             </div>
         </section>
 
         <section id="compare" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#scale"></use></svg> 3. Müqayisə</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#scale"></use></svg> 3. Müqayisə</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th></th><th>JSON</th><th>YAML</th><th>XML</th></tr></thead>
@@ -138,7 +138,7 @@ ntp_servers: [10.0.0.10, 10.0.0.11]   # qısa (flow) yazılış</code></pre>
         </section>
 
         <section id="tools" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#wrench"></use></svg> 4. Alətlər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#wrench"></use></svg> 4. Alətlər</h2>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="cf-cli">Terminal</button>
                 <button class="tab-btn inactive-tab" data-pane="cf-py">Python</button>
@@ -177,7 +177,7 @@ with open("sw1.json", "w") as f:
         </section>
 
         <section id="mistakes" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#bug"></use></svg> 5. Tipik YAML Tələləri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#bug"></use></svg> 5. Tipik YAML Tələləri</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>Yazılış</th><th>Gözlənilən</th><th>Faktiki (YAML 1.1)</th><th>Düzəliş</th></tr></thead>
@@ -191,7 +191,7 @@ with open("sw1.json", "w") as f:
                 </table>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#lightbulb"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#lightbulb"></use></svg>
                 <p class="text-neutral-800">Qayda: şübhəli hər dəyəri dırnağa alın, redaktorda "görünməz simvolları göstər" rejimini açın və CI-da <code>yamllint</code> işlədin.</p>
             </div>
         </section>
@@ -201,15 +201,15 @@ with open("sw1.json", "w") as f:
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
-                    <a href="../index.html#ccna">CCNA</a>
+                    <a href="../lessons.html">Dərslər</a>
                     <a href="../tools.html">Tools</a>
                     <a href="../videos.html">Video Dərslər</a>
-                    <a href="../links.html">Faydalı Linklər</a>
+                    <a href="../links.html">Faydalı</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
                 </nav>

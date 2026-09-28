@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#shield-check"></use></svg> Rapid PVST+ və STP Qoruma</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#shield-check"></use></svg> Rapid PVST+ və STP Qoruma</h1>
                 <span class="lesson-badge">CCNA · Network Access</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -52,15 +52,15 @@
                 <a href="#guards" class="nav-link">Qoruma</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
                 <a href="#lab" class="nav-link">Lab</a>
-                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#shield-check"></use></svg> Giriş: STP-ni İdarə Etmək</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#shield-check"></use></svg> Giriş: STP-ni İdarə Etmək</h2>
             <p class="lead">
                 STP-nin əsaslarını (port rolları və vəziyyətləri) "Spanning Tree Protocol" dərsində gördük. Bu dərsdə
                 STP-ni <strong>idarə etməyi</strong> öyrənəcəyik: root bridge-i özümüz seçmək, cost-u hesablamaq,
@@ -69,13 +69,13 @@
         </section>
 
         <section id="root" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#crown"></use></svg> 1. Root Bridge Seçimi və Konfiqurasiyası</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#crown"></use></svg> 1. Root Bridge Seçimi və Konfiqurasiyası</h2>
             <p class="lead">
                 Bridge ID = <strong>prioritet (4 bit) + Extended System ID (VLAN, 12 bit) + MAC</strong>. Defolt prioritet 32768-dir,
                 ona görə VLAN 10-da switch-in görünən prioriteti 32768 + 10 = <strong>32778</strong> olur. Ən kiçik Bridge ID qalib gəlir.
             </p>
             <div class="note-box mb-6">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#triangle-alert"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#triangle-alert"></use></svg>
                 <p class="text-neutral-800">Heç nə konfiqurasiya olunmasa, root ən kiçik MAC-lı — çox vaxt ən köhnə və ən zəif — switch olur. Root bridge-i həmişə əl ilə, güclü core/distribution switch-də təyin edin.</p>
             </div>
             <div class="code-block">
@@ -89,7 +89,7 @@ DSW1(config)# spanning-tree vlan 30 priority 4096</code></pre>
         </section>
 
         <section id="cost" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#calculator"></use></svg> 2. Port Cost və Root Port Seçimi</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#calculator"></use></svg> 2. Port Cost və Root Port Seçimi</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>Sürət</th><th>Qısa cost (802.1D-1998)</th><th>Uzun cost (802.1D-2004)</th></tr></thead>
@@ -111,7 +111,7 @@ DSW1(config)# spanning-tree vlan 30 priority 4096</code></pre>
         </section>
 
         <section id="rstp" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#zap"></use></svg> 3. Rapid PVST+ (802.1w)</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#zap"></use></svg> 3. Rapid PVST+ (802.1w)</h2>
             <p class="lead">
                 Klassik STP-də port forwarding-ə 30–50 saniyəyə keçir. RSTP isə qonşu ilə birbaşa razılaşaraq
                 (proposal/agreement) bir neçə saniyəyə, çox vaxt daha tez konvergensiya edir. Rapid PVST+ hər VLAN
@@ -132,7 +132,7 @@ DSW1(config)# spanning-tree vlan 30 priority 4096</code></pre>
         </section>
 
         <section id="guards" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#shield"></use></svg> 4. STP Qoruma Mexanizmləri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#shield"></use></svg> 4. STP Qoruma Mexanizmləri</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Mexanizm</th><th>Harada</th><th>Nə edir</th></tr></thead>
@@ -148,7 +148,7 @@ DSW1(config)# spanning-tree vlan 30 priority 4096</code></pre>
         </section>
 
         <section id="commands" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#terminal"></use></svg> 5. Praktiki Əmrlər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#terminal"></use></svg> 5. Praktiki Əmrlər</h2>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="stpa-rstp">Rapid PVST+</button>
                 <button class="tab-btn inactive-tab" data-pane="stpa-guards">Guard-lar</button>
@@ -196,11 +196,11 @@ show spanning-tree interface GigabitEthernet0/1 detail</code></pre>
             </div>
         </section>
         <section id="lab" class="section-card lab-section" data-lab="stp-advanced">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#flask-conical"></use></svg> Lab: PortFast, BPDU Guard və Root Guard</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#flask-conical"></use></svg> Lab: PortFast, BPDU Guard və Root Guard</h2>
             <div class="card-grid mb-6">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Access portlarını sürətləndirmək və icazəsiz switch-in STP topologiyasını pozmasının qarşısını almaq.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#timer"></use></svg> Müddət</h3><p>35 dəq · Orta</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Access portlarını sürətləndirmək və icazəsiz switch-in STP topologiyasını pozmasının qarşısını almaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#timer"></use></svg> Müddət</h3><p>35 dəq · Orta</p></div>
             </div>
             <h3 class="text-xl font-bold mb-3">Topologiya</h3>
             <div class="code-block lab-topology mb-6">
@@ -226,12 +226,12 @@ show logging | include BPDU</code></pre>
             </div>
             <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
             <div class="feature-grid mb-6">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg><p class="text-neutral-700">PortFast portu dərhal forwarding olur.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg><p class="text-neutral-700">BPDU gələn access portu err-disabled olur, root dəyişmir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg><p class="text-neutral-700">Root Guard ilə root bridge SW1 olaraq qalır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#circle-check"></use></svg><p class="text-neutral-700">PortFast portu dərhal forwarding olur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#circle-check"></use></svg><p class="text-neutral-700">BPDU gələn access portu err-disabled olur, root dəyişmir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#circle-check"></use></svg><p class="text-neutral-700">Root Guard ilə root bridge SW1 olaraq qalır.</p></div>
             </div>
             <details class="lab-solution mb-6">
-                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
                 <div class="code-block mt-3">
                     <button class="copy-btn">Kopyala</button>
                     <pre><code>SW2(config)# interface range fa0/1 - 2
@@ -248,7 +248,7 @@ SW2(config-if)# spanning-tree guard root</code></pre>
             </details>
             <div class="lab-footer">
                 <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
-                <button type="button" class="lab-done-btn" data-lab="stp-advanced" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-dot"></use></svg> Labı bitirdim</button>
+                <button type="button" class="lab-done-btn" data-lab="stp-advanced" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#circle-dot"></use></svg> Labı bitirdim</button>
             </div>
         </section>
     </main>
@@ -257,15 +257,15 @@ SW2(config-if)# spanning-tree guard root</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
-                    <a href="../index.html#ccna">CCNA</a>
+                    <a href="../lessons.html">Dərslər</a>
                     <a href="../tools.html">Tools</a>
                     <a href="../videos.html">Video Dərslər</a>
-                    <a href="../links.html">Faydalı Linklər</a>
+                    <a href="../links.html">Faydalı</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
                 </nav>

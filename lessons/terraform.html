@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#file-code-2"></use></svg> Terraform: Infrastructure as Code</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#file-code-2"></use></svg> Terraform: Infrastructure as Code</h1>
                 <span class="lesson-badge">DevOps · Terraform</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -51,29 +51,29 @@
                 <a href="#state" class="nav-link">State</a>
                 <a href="#modules" class="nav-link">Modullar</a>
                 <a href="#practice" class="nav-link">Yaxşı təcrübə</a>
-                <a href="../index.html#devops" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
+                <a href="../index.html#devops" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#file-code-2"></use></svg> Giriş: İnfrastruktur Kod Kimi</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#file-code-2"></use></svg> Giriş: İnfrastruktur Kod Kimi</h2>
             <p class="lead">
                 Portalda 40 klik ilə yaradılan VPC-ni başqa regionda eyni cür təkrarlamaq, kimin nəyi dəyişdiyini bilmək və ya
                 silinəndə bərpa etmək demək olar ki, mümkün deyil. <strong>Terraform</strong> infrastrukturu mətn fayllarında təsvir edir:
                 kod git-də saxlanılır, review olunur və istənilən vaxt eyni nəticə ilə tətbiq edilir.
             </p>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#target"></use></svg> Declarative</h3><p class="text-neutral-700">"Nə olmalıdır" yazırsınız, "necə etməli" yox. Terraform fərqi özü hesablayır.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#plug"></use></svg> Provider-lər</h3><p class="text-neutral-700">AWS, Azure, Google, Kubernetes, Cloudflare, GitHub, hətta Cisco və Fortinet — 4000-dən çox.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#git-fork"></use></svg> OpenTofu</h3><p>Terraform-un Linux Foundation altında açıq mənbəli fork-u; əmrlər eynidir (<code>tofu</code>).</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#target"></use></svg> Declarative</h3><p class="text-neutral-700">"Nə olmalıdır" yazırsınız, "necə etməli" yox. Terraform fərqi özü hesablayır.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#plug"></use></svg> Provider-lər</h3><p class="text-neutral-700">AWS, Azure, Google, Kubernetes, Cloudflare, GitHub, hətta Cisco və Fortinet — 4000-dən çox.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#git-fork"></use></svg> OpenTofu</h3><p>Terraform-un Linux Foundation altında açıq mənbəli fork-u; əmrlər eynidir (<code>tofu</code>).</p></div>
             </div>
         </section>
 
         <section id="workflow" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#workflow"></use></svg> 1. Əsas İş Axını</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#workflow"></use></svg> 1. Əsas İş Axını</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>terraform init        # provider-ləri yüklə, backend-i qur
@@ -84,13 +84,13 @@ terraform apply       # planı təsdiqlə və tətbiq et
 terraform destroy     # hamısını sil (lab bitəndə)</code></pre>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#triangle-alert"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#triangle-alert"></use></svg>
                 <p class="text-neutral-800"><code>plan</code>-ı həmişə diqqətlə oxuyun. <code>-/+ destroy and then create replacement</code> — resurs silinib yenidən yaranacaq; bu, verilənlər bazası üçün məlumat itkisi deməkdir.</p>
             </div>
         </section>
 
         <section id="hcl" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#braces"></use></svg> 2. HCL: VPC və Server</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#braces"></use></svg> 2. HCL: VPC və Server</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code># main.tf
@@ -145,13 +145,13 @@ output "web_ips" {
         </section>
 
         <section id="state" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#database"></use></svg> 3. State: Terraform-un Yaddaşı</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#database"></use></svg> 3. State: Terraform-un Yaddaşı</h2>
             <p class="lead"><code>terraform.tfstate</code> — koddakı resursların real cloud ID-ləri ilə əlaqəsini saxlayır. State olmadan Terraform nəyi idarə etdiyini bilmir.</p>
             <div class="feature-grid mb-6">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#cloud"></use></svg><p class="text-neutral-700"><strong>Remote backend:</strong> komandada state S3 + DynamoDB lock, Azure Storage və ya Terraform Cloud-da saxlanılır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#lock"></use></svg><p class="text-neutral-700"><strong>Locking:</strong> iki nəfər eyni anda <code>apply</code> edib state-i pozmasın.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#eye-off"></use></svg><p class="text-neutral-700"><strong>Həssasdır:</strong> state-də parollar açıq mətnlə ola bilər — git-ə yazmayın, backend-i şifrələyin.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#git-compare"></use></svg><p class="text-neutral-700"><strong>Drift:</strong> kimsə portalda əl ilə dəyişiklik edəndə <code>plan</code> fərqi göstərir və geri qaytarmağı təklif edir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#cloud"></use></svg><p class="text-neutral-700"><strong>Remote backend:</strong> komandada state S3 + DynamoDB lock, Azure Storage və ya Terraform Cloud-da saxlanılır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#lock"></use></svg><p class="text-neutral-700"><strong>Locking:</strong> iki nəfər eyni anda <code>apply</code> edib state-i pozmasın.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#eye-off"></use></svg><p class="text-neutral-700"><strong>Həssasdır:</strong> state-də parollar açıq mətnlə ola bilər — git-ə yazmayın, backend-i şifrələyin.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#git-compare"></use></svg><p class="text-neutral-700"><strong>Drift:</strong> kimsə portalda əl ilə dəyişiklik edəndə <code>plan</code> fərqi göstərir və geri qaytarmağı təklif edir.</p></div>
             </div>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
@@ -171,7 +171,7 @@ terraform import aws_vpc.main vpc-0abc123 # əl ilə yaradılmış resursu idar�
         </section>
 
         <section id="modules" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#boxes"></use></svg> 4. Modullar və Mühitlər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#boxes"></use></svg> 4. Modullar və Mühitlər</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code># envs/prod/main.tf
@@ -193,14 +193,14 @@ module "web" {
         </section>
 
         <section id="practice" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#shield-check"></use></svg> 5. Yaxşı Təcrübə</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#shield-check"></use></svg> 5. Yaxşı Təcrübə</h2>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#git-pull-request"></use></svg><p class="text-neutral-700"><strong>PR-da plan:</strong> CI hər PR-da <code>terraform plan</code> çıxışını şərh kimi yazır, merge-dən sonra <code>apply</code>.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#pin"></use></svg><p class="text-neutral-700"><strong>Versiyaları sabitləyin:</strong> provider və modul versiyaları, <code>.terraform.lock.hcl</code> git-də.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#shield-alert"></use></svg><p class="text-neutral-700"><strong><code>prevent_destroy</code></strong> lifecycle qaydası kritik DB və bucket-lar üçün.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#scan-search"></use></svg><p class="text-neutral-700"><strong>Skan:</strong> <code>tflint</code>, <code>checkov</code>, <code>trivy config</code> — açıq security group, şifrələnməmiş disk.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#hand"></use></svg><p class="text-neutral-700"><strong>Portalda əl ilə dəyişiklik yoxdur</strong> — "ClickOps" drift yaradır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#key-round"></use></svg><p class="text-neutral-700"><strong>Secret-lər koda yazılmır:</strong> Vault, Secrets Manager və ya <code>TF_VAR_</code> environment dəyişənləri.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#git-pull-request"></use></svg><p class="text-neutral-700"><strong>PR-da plan:</strong> CI hər PR-da <code>terraform plan</code> çıxışını şərh kimi yazır, merge-dən sonra <code>apply</code>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#pin"></use></svg><p class="text-neutral-700"><strong>Versiyaları sabitləyin:</strong> provider və modul versiyaları, <code>.terraform.lock.hcl</code> git-də.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#shield-alert"></use></svg><p class="text-neutral-700"><strong><code>prevent_destroy</code></strong> lifecycle qaydası kritik DB və bucket-lar üçün.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#scan-search"></use></svg><p class="text-neutral-700"><strong>Skan:</strong> <code>tflint</code>, <code>checkov</code>, <code>trivy config</code> — açıq security group, şifrələnməmiş disk.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#hand"></use></svg><p class="text-neutral-700"><strong>Portalda əl ilə dəyişiklik yoxdur</strong> — "ClickOps" drift yaradır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#key-round"></use></svg><p class="text-neutral-700"><strong>Secret-lər koda yazılmır:</strong> Vault, Secrets Manager və ya <code>TF_VAR_</code> environment dəyişənləri.</p></div>
             </div>
         </section>
     </main>
@@ -209,15 +209,15 @@ module "web" {
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
-                    <a href="../index.html#ccna">CCNA</a>
+                    <a href="../lessons.html">Dərslər</a>
                     <a href="../tools.html">Tools</a>
                     <a href="../videos.html">Video Dərslər</a>
-                    <a href="../links.html">Faydalı Linklər</a>
+                    <a href="../links.html">Faydalı</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
                 </nav>

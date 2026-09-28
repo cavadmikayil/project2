@@ -56,15 +56,15 @@ GOOGLE_SITE_VERIFICATION = ''
 
 NAV = [
     ('home', 'Ana Səhifə', 'index.html', 'house'),
-    ('ccna', 'CCNA', 'index.html#ccna', 'graduation-cap'),
+    ('lessons', 'Dərslər', 'lessons.html', 'book-open'),
     ('tools', 'Tools', 'tools.html', 'toolbox'),
     ('videos', 'Video Dərslər', 'videos.html', 'circle-play'),
-    ('links', 'Faydalı Linklər', 'links.html', 'library'),
+    ('links', 'Faydalı', 'links.html', 'library'),
     ('about', 'Haqqında', 'about.html', 'user-round'),
 ]
 
 # Hansı səhifədə menyunun hansı bəndi aktivdir (fayl adı → NAV id)
-NAV_ACTIVE = {'index.html': 'home', 'tools.html': 'tools', 'videos.html': 'videos',
+NAV_ACTIVE = {'index.html': 'home', 'lessons.html': 'lessons', 'tools.html': 'tools', 'videos.html': 'videos',
               'links.html': 'links', 'about.html': 'about'}
 
 # Dərsin badge-i ilə başlayan söz → dashboard-da açılacaq kateqoriya (Portal düyməsi)
@@ -373,6 +373,7 @@ def render_lab(lab):
 
 def build_lessons():
     count = 0
+    sections = {}
     labs = load_labs()
     catalog, _ = load_catalog()
     cat_label = {}
@@ -402,6 +403,7 @@ def build_lessons():
             used.add(src.stem)
             attrs['nav'] += '|lab:Lab'
             text = text.replace('<!--END-->', render_lab(lab) + '<!--END-->', 1)
+        sections[src.stem] = [item.split(':', 1) for item in attrs['nav'].split('|')]
         m = re.search(r'<!--PAGE (.*?)-->\n?', text, re.S)
         text = text[:m.start()] + lesson_head(attrs, blocks['HEAD'], cat_label.get(src.name, '')) + text[m.end():]
         if '<!--END-->' not in text:
@@ -412,6 +414,9 @@ def build_lessons():
             raise SystemExit(f'{src.name}: açılmamış {{{{i:...}}}} markeri')
         (OUT / src.name).write_text(text)
         count += 1
+    _write_if_changed(ROOT / 'assets' / 'lesson-sections.js',
+        '// Hər dərsin bölmələri (lessons.html "materiallar" siyahısı üçün) — build.py avtomatik yaradır, əl ilə dəyişməyin.\n'
+        'window.LESSON_SECTIONS = ' + json.dumps(sections, ensure_ascii=False, sort_keys=True, separators=(',', ':')) + ';\n')
     unknown = set(labs) - used
     if unknown:
         raise SystemExit(f'lab-ın dərsi yoxdur: {", ".join(sorted(unknown))}')
@@ -622,7 +627,7 @@ def version_sprite_refs():
 # Link yoxlaması
 # ---------------------------------------------------------------------------
 # Dashboard-da JavaScript ilə açılan tab keçidləri (#ccna və s.) id deyil — yoxlanılmır
-JS_ROUTE_PAGES = {'index.html'}
+JS_ROUTE_PAGES = {'index.html', 'lessons.html', 'videos.html'}
 SKIP_SCHEMES = ('http://', 'https://', 'mailto:', 'tel:', 'javascript:', 'data:', '//')
 
 

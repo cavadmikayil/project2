@@ -195,6 +195,8 @@
             gap: 0.9rem;
             align-items: flex-start;
         }
+        a.stat-tile { color: inherit; transition: border-color .15s; }
+        a.stat-tile:hover { border-color: #f59e0b; }
         .stat-label { font-size: 0.8rem; font-weight: 600; color: #525252; }
         @media (max-width: 639px) {
             /* Mobil: statistika 2 × 2 */
@@ -430,11 +432,11 @@
             <div class="login-card">
                 <div class="flex justify-between items-start mb-6">
                     <div>
-                        <span class="icon-badge lg mb-3"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#graduation-cap"></use></svg></span>
+                        <span class="icon-badge lg mb-3"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#graduation-cap"></use></svg></span>
                         <h1 class="text-2xl font-extrabold text-neutral-900">Cavad Mikayil Təlim Portalı</h1>
                         <p id="login-stats" class="text-sm text-neutral-600 mt-1"></p>
                     </div>
-                    <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#moon"></use></svg></button>
+                    <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#moon"></use></svg></button>
                 </div>
 
                 <form id="login-form" novalidate>
@@ -447,7 +449,7 @@
                         <input id="login-group" class="field mt-1" type="text" maxlength="20" placeholder="məs. Şəbəkə-101">
                     </label>
                     <div id="login-error" class="text-sm text-neutral-900 font-semibold mb-3" hidden></div>
-                    <button type="submit" class="btn-primary w-full">Daxil ol <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#arrow-right"></use></svg></button>
+                    <button type="submit" class="btn-primary w-full">Daxil ol <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#arrow-right"></use></svg></button>
                 </form>
 
                 <div id="existing-profiles" class="mt-6" hidden>
@@ -456,7 +458,7 @@
                 </div>
 
                 <p class="text-xs text-neutral-500 mt-6 flex gap-2">
-                    <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#info"></use></svg>
+                    <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#info"></use></svg>
                     <span>Parol tələb olunmur. İrəliləyişiniz və test nəticələriniz yalnız bu brauzerdə, sizin profilinizdə saxlanılır.</span>
                 </p>
             </div>
@@ -468,36 +470,36 @@
         <header class="hero">
             <div class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
                 <a href="index.html" class="flex items-center gap-3">
-                    <span class="icon-badge sm" style="background:#f59e0b;color:#0a0a0a"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#graduation-cap"></use></svg></span>
+                    <span class="icon-badge sm" style="background:#f59e0b;color:#0a0a0a"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#graduation-cap"></use></svg></span>
                     <span class="text-lg md:text-xl font-bold">Cavad Mikayil Təlim Portalı</span>
                 </a>
                 <nav class="site-nav on-dark order-last xl:order-none w-full xl:w-auto" aria-label="Sayt menyusu">
-                    <a href="index.html" data-nav="home" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#house"></use></svg> Ana Səhifə</a>
-                    <a href="index.html#ccna" data-nav="ccna"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> CCNA</a>
-                    <a href="tools.html" data-nav="tools"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#toolbox"></use></svg> Tools</a>
-                    <a href="videos.html" data-nav="videos"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#circle-play"></use></svg> Video Dərslər</a>
-                    <a href="links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#library"></use></svg> Faydalı Linklər</a>
-                    <a href="about.html" data-nav="about"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#user-round"></use></svg> Haqqında</a>
+                    <a href="index.html" data-nav="home" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#house"></use></svg> Ana Səhifə</a>
+                    <a href="lessons.html" data-nav="lessons"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#book-open"></use></svg> Dərslər</a>
+                    <a href="tools.html" data-nav="tools"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#toolbox"></use></svg> Tools</a>
+                    <a href="videos.html" data-nav="videos"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#circle-play"></use></svg> Video Dərslər</a>
+                    <a href="links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#library"></use></svg> Faydalı</a>
+                    <a href="about.html" data-nav="about"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#user-round"></use></svg> Haqqında</a>
                 </nav>
                 <div class="flex items-center gap-3">
-                    <button id="search-toggle" class="search-toggle-btn" aria-label="Axtarış" title="Axtarış ( / )" aria-expanded="false" aria-controls="search-panel"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#search"></use></svg></button>
-                    <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#moon"></use></svg></button>
+                    <button id="search-toggle" class="search-toggle-btn" aria-label="Axtarış" title="Axtarış ( / )" aria-expanded="false" aria-controls="search-panel"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#search"></use></svg></button>
+                    <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#moon"></use></svg></button>
                     <div class="user-chip">
                         <span id="user-avatar" class="avatar"></span>
                         <span class="hidden sm:block leading-tight">
                             <span id="user-name" class="block text-sm font-semibold"></span>
                             <span id="user-group" class="block text-xs text-neutral-400"></span>
                         </span>
-                        <button id="logout-btn" class="logout-btn"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#log-out"></use></svg> Çıxış</button>
+                        <button id="logout-btn" class="logout-btn"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#log-out"></use></svg> Çıxış</button>
                     </div>
                 </div>
             </div>
             <div id="search-panel" class="container mx-auto px-6 pb-2" hidden>
                 <div class="max-w-xl search-box">
-                    <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#search"></use></svg>
+                    <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#search"></use></svg>
                     <input type="search" id="search-input" placeholder="Mövzu axtar... (məs: VLAN, OSPF, SSH)" aria-label="Dərslərdə axtar"
                         class="field w-full p-4 rounded-xl border-0 shadow-lg">
-                    <button id="search-close" class="search-close" type="button" aria-label="Axtarışı bağla"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#x"></use></svg></button>
+                    <button id="search-close" class="search-close" type="button" aria-label="Axtarışı bağla"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#x"></use></svg></button>
                 </div>
                 <p id="search-hint" class="search-hint" aria-live="polite"></p>
             </div>
@@ -511,7 +513,7 @@
 
             <section id="stats-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 -mt-16 mb-8 relative">
                 <div class="stat-tile">
-                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#book-open"></use></svg></span>
+                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#book-open"></use></svg></span>
                     <div class="flex-1">
                         <p class="stat-label">Oxunmuş dərslər</p>
                         <p class="stat-value text-neutral-900" id="stat-done"></p>
@@ -519,15 +521,19 @@
                     </div>
                 </div>
                 <div class="stat-tile">
-                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#list-checks"></use></svg></span>
+                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#list-checks"></use></svg></span>
                     <div><p class="stat-label">Test verilmiş mövzular</p><p class="stat-value text-neutral-900" id="stat-tests"></p></div>
                 </div>
+                <a class="stat-tile" href="videos.html" id="stat-videos-tile">
+                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#circle-play"></use></svg></span>
+                    <div class="flex-1">
+                        <p class="stat-label">Baxılan video dərslər</p>
+                        <p class="stat-value text-neutral-900" id="stat-videos"></p>
+                        <div class="progress-track mt-2"><div id="videos-fill" class="progress-fill" style="width:0%"></div></div>
+                    </div>
+                </a>
                 <div class="stat-tile">
-                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#target"></use></svg></span>
-                    <div><p class="stat-label">Orta test nəticəsi</p><p class="stat-value text-neutral-900" id="stat-avg"></p></div>
-                </div>
-                <div class="stat-tile">
-                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#trophy"></use></svg></span>
+                    <span class="icon-badge md"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#trophy"></use></svg></span>
                     <div><p class="stat-label">Ən güclü mövzu</p><p class="font-bold text-neutral-900 leading-snug" id="stat-best"></p></div>
                 </div>
             </section>
@@ -539,8 +545,8 @@
 
             <section id="tools-section" class="mb-12">
                 <div class="flex flex-wrap items-end justify-between gap-2 mb-6">
-                    <h2 class="section-heading text-neutral-900"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#wrench"></use></svg> İnteraktiv Alətlər</h2>
-                    <a href="tools.html" class="link-strong">Bütün alətlər (<span id="tool-count"></span>) <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#arrow-right"></use></svg></a>
+                    <h2 class="section-heading text-neutral-900"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#wrench"></use></svg> İnteraktiv Alətlər</h2>
+                    <a href="tools.html" class="link-strong">Bütün alətlər (<span id="tool-count"></span>) <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#arrow-right"></use></svg></a>
                 </div>
                 <div id="tool-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
             </section>
@@ -548,12 +554,12 @@
             <section id="lessons-section">
                 <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
                     <div>
-                        <h2 class="section-heading text-neutral-900"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#book-open"></use></svg> Dərslər</h2>
+                        <h2 class="section-heading text-neutral-900"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#book-open"></use></svg> Dərslər</h2>
                         <p id="lessons-sub" class="text-sm text-neutral-600 mt-1">Tövsiyə olunan öyrənmə ardıcıllığı ilə nömrələnib.</p>
                     </div>
                     <div class="view-toggle" role="group" aria-label="Görünüş">
-                        <button type="button" class="view-btn" data-view="grid" aria-pressed="true" title="Qutular"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#layout-grid"></use></svg><span>Qutular</span></button>
-                        <button type="button" class="view-btn" data-view="list" aria-pressed="false" title="Siyahı"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#list"></use></svg><span>Siyahı</span></button>
+                        <button type="button" class="view-btn" data-view="grid" aria-pressed="true" title="Qutular"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#layout-grid"></use></svg><span>Qutular</span></button>
+                        <button type="button" class="view-btn" data-view="list" aria-pressed="false" title="Siyahı"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#list"></use></svg><span>Siyahı</span></button>
                     </div>
                 </div>
                 <div id="cat-bar" class="cat-bar" role="tablist" aria-label="Dərs kateqoriyaları"></div>
@@ -562,8 +568,8 @@
             </section>
 
             <section id="resources-section" class="mt-12" hidden>
-                <h2 class="section-heading text-neutral-900 mb-2"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#library"></use></svg> Faydalı Mənbələr</h2>
-                <p class="text-sm text-neutral-600 mb-6">CCNA hazırlığı üçün xarici (ingiliscə) mənbələr və laboratoriyalar. Keçidlər yeni pəncərədə açılır. Daha çox mənbə üçün: <a href="links.html" class="font-semibold text-amber-700 hover:underline">Faydalı Linklər</a>.</p>
+                <h2 class="section-heading text-neutral-900 mb-2"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#library"></use></svg> Faydalı Mənbələr</h2>
+                <p class="text-sm text-neutral-600 mb-6">CCNA hazırlığı üçün xarici (ingiliscə) mənbələr və laboratoriyalar. Keçidlər yeni pəncərədə açılır. Daha çox mənbə üçün: <a href="links.html" class="font-semibold text-amber-700 hover:underline">Faydalı</a> bölməsi.</p>
                 <div id="res-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
             </section>
 
@@ -574,15 +580,15 @@
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="index.html">Ana Səhifə</a>
-                    <a href="index.html#ccna">CCNA</a>
+                    <a href="lessons.html">Dərslər</a>
                     <a href="tools.html">Tools</a>
                     <a href="videos.html">Video Dərslər</a>
-                    <a href="links.html">Faydalı Linklər</a>
+                    <a href="links.html">Faydalı</a>
                     <a href="about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
                 </nav>
@@ -607,9 +613,10 @@
     <script src="assets/catalog.js"></script>
     <script src="assets/tools-catalog.js"></script>
     <script src="assets/careers.js"></script>
+    <script src="assets/videos.js"></script>
     <script>
         const icon = (name, cls = '') =>
-            `<svg class="icon ${cls}" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#${name}"></use></svg>`;
+            `<svg class="icon ${cls}" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#${name}"></use></svg>`;
 
         // Alətlər assets/tools-catalog.js faylındadır; ana səhifədə yalnız axtarış nəticələrində göstərilir
         const tools = window.TOOLS.map((t, i) => ({ ...t, cls: '' }));
@@ -749,12 +756,14 @@
 
             const scores = Object.entries(quizBest).filter(([t]) => t in quizTopicNames);
             $('stat-tests').textContent = `${scores.length} / ${QUIZ_TOPIC_COUNT}`;
+            // Baxılan video dərslər (videos.html-də "Baxdım" və ya sona qədər baxılan videolar)
+            const videoIds = new Set((window.VIDEO_COURSES || []).flatMap(c => (c.videos || []).map(v => typeof v === 'string' ? v : v.id)));
+            const watchedVideos = Object.keys(Student.read(Student.key('edu-portal-videos'), {})).filter(v => videoIds.has(v)).length;
+            $('stat-videos').textContent = `${watchedVideos} / ${videoIds.size}`;
+            $('videos-fill').style.width = `${videoIds.size ? (watchedVideos / videoIds.size) * 100 : 0}%`;
             if (scores.length === 0) {
-                $('stat-avg').textContent = '—';
                 $('stat-best').textContent = 'Hələ test yoxdur';
             } else {
-                const avg = Math.round(scores.reduce((s, [, p]) => s + p, 0) / scores.length);
-                $('stat-avg').textContent = `${avg}%`;
                 const [bestTopic, bestScore] = scores.reduce((a, b) => (b[1] > a[1] ? b : a));
                 $('stat-best').textContent = `${quizTopicNames[bestTopic]} · ${bestScore}%`;
             }

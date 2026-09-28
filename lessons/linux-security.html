@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#shield-check"></use></svg> Linux Hardening və Təhlükəsizlik</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#shield-check"></use></svg> Linux Hardening və Təhlükəsizlik</h1>
                 <span class="lesson-badge">Linux · Təhlükəsizlik</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -51,29 +51,29 @@
                 <a href="#fail2ban" class="nav-link">fail2ban</a>
                 <a href="#mac" class="nav-link">SELinux və AppArmor</a>
                 <a href="#audit" class="nav-link">Audit</a>
-                <a href="../index.html#linux" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
+                <a href="../index.html#linux" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#shield-check"></use></svg> Giriş: İnternetə Açıq Server 5 Dəqiqədə Skan Olunur</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#shield-check"></use></svg> Giriş: İnternetə Açıq Server 5 Dəqiqədə Skan Olunur</h2>
             <p class="lead">
                 Yeni cloud VM-in public IP-si bir neçə dəqiqə ərzində botlar tərəfindən skan edilir və SSH-a brute force başlayır.
                 <strong>Hardening</strong> — hücum səthini minimuma endirmək: lazımsız hər şeyi söndürmək, qalanı sərtləşdirmək və
                 baş verənləri qeydə almaq. İstinad standartları: <strong>CIS Benchmarks</strong> və <strong>DISA STIG</strong>.
             </p>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#minimize-2"></use></svg> Minimal quraşdırma</h3><p class="text-neutral-700">Olmayan paketin zəifliyi olmur. Server üçün qrafik interfeys lazım deyil.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#layers"></use></svg> Defense in depth</h3><p class="text-neutral-700">Firewall + SSH açarları + fail2ban + SELinux + audit — biri keçilsə, digəri qoruyur.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#scan-search"></use></svg> Yoxlama</h3><p><code>lynis audit system</code> — pulsuz audit aləti, tövsiyələr və bal verir.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#minimize-2"></use></svg> Minimal quraşdırma</h3><p class="text-neutral-700">Olmayan paketin zəifliyi olmur. Server üçün qrafik interfeys lazım deyil.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#layers"></use></svg> Defense in depth</h3><p class="text-neutral-700">Firewall + SSH açarları + fail2ban + SELinux + audit — biri keçilsə, digəri qoruyur.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#scan-search"></use></svg> Yoxlama</h3><p><code>lynis audit system</code> — pulsuz audit aləti, tövsiyələr və bal verir.</p></div>
             </div>
         </section>
 
         <section id="updates" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#refresh-cw"></use></svg> 1. Yeniləmələr və Servislər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#refresh-cw"></use></svg> 1. Yeniləmələr və Servislər</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code># Avtomatik təhlükəsizlik yeniləmələri
@@ -90,7 +90,7 @@ ss -tulpn                                 # hər dinləyən portun səbəbi bili
         </section>
 
         <section id="ssh" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#key-round"></use></svg> 2. SSH Hardening</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#key-round"></use></svg> 2. SSH Hardening</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code># /etc/ssh/sshd_config.d/10-hardening.conf
@@ -109,13 +109,13 @@ AllowTcpForwarding no
 sshd -t &amp;&amp; systemctl reload ssh          # əvvəl yoxla, sonra tətbiq et</code></pre>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#triangle-alert"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#triangle-alert"></use></svg>
                 <p class="text-neutral-800">Parol girişini söndürməzdən əvvəl açarla girişi <strong>yeni pəncərədə</strong> test edin və köhnə sessiyanı bağlamayın. MFA üçün <code>libpam-google-authenticator</code> və ya FIDO2 açarları (<code>ed25519-sk</code>) istifadə oluna bilər.</p>
             </div>
         </section>
 
         <section id="fail2ban" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#ban"></use></svg> 3. fail2ban</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#ban"></use></svg> 3. fail2ban</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>apt install fail2ban
@@ -141,7 +141,7 @@ fail2ban-client set sshd unbanip 203.0.113.7</code></pre>
         </section>
 
         <section id="mac" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#lock-keyhole"></use></svg> 4. SELinux və AppArmor</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#lock-keyhole"></use></svg> 4. SELinux və AppArmor</h2>
             <p class="lead">Adi icazələr (DAC) sahibə hər şeyi etməyə imkan verir. <strong>MAC</strong> (Mandatory Access Control) isə hətta root prosesini də siyasətlə məhdudlaşdırır: sındırılmış nginx <code>/etc/shadow</code>-u oxuya bilmir.</p>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="mac-se">SELinux (RHEL)</button>
@@ -176,7 +176,7 @@ journalctl -k | grep -i apparmor           # bloklamalar</code></pre>
         </section>
 
         <section id="audit" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#scroll-text"></use></svg> 5. Audit və Bütövlük Nəzarəti</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#scroll-text"></use></svg> 5. Audit və Bütövlük Nəzarəti</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code># auditd: kritik faylların dəyişməsi və sudo istifadəsi
@@ -193,7 +193,7 @@ aide --check                               # baseline-dan fərqlər
 last -a | head; lastb | head               # uğurlu və uğursuz girişlər</code></pre>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#send"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#send"></use></svg>
                 <p class="text-neutral-800">Log-ları mərkəzi serverə (rsyslog, SIEM) göndərin: hücumçu root olsa belə, lokal log-ları silməsi izləri tam yox etməz.</p>
             </div>
         </section>
@@ -203,15 +203,15 @@ last -a | head; lastb | head               # uğurlu və uğursuz girişlər</co
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
-                    <a href="../index.html#ccna">CCNA</a>
+                    <a href="../lessons.html">Dərslər</a>
                     <a href="../tools.html">Tools</a>
                     <a href="../videos.html">Video Dərslər</a>
-                    <a href="../links.html">Faydalı Linklər</a>
+                    <a href="../links.html">Faydalı</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
                 </nav>
