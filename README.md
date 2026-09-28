@@ -91,7 +91,7 @@ python3 -m http.server 8000
    {"cat": "server", "title": "Linux Şəbəkə Konfiqurasiyası", "desc": "Qısa izah...", "icon": "network", "tag": "Linux", "href": "lessons/linux-networking.html", "quiz": "linuxnet"},
    ```
    `quiz` açarı unikal olmalıdır; `tag` dashboard-dakı bölmə çipinin adıdır.
-4. **Quiz sualları** (ən azı 2, tövsiyə 3) — `assets/questions.js`-in sonuna:
+4. **Quiz sualları** (ən azı 6) — `assets/questions.js`-in sonuna:
    ```js
    { t: 'linuxnet', q: 'Sual mətni?', a: ['DÜZGÜN cavab', 'səhv 1', 'səhv 2', 'səhv 3'], e: 'İzah.' },
    ```

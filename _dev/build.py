@@ -962,8 +962,8 @@ def check():
             if len(q['a']) != 4 or len(set(q['a'])) != 4:
                 problems.append(f'sualda 4 fərqli cavab olmalıdır: {q["q"][:50]}')
         for k in keys:
-            if counts.get(k, 0) < 2:
-                problems.append(f'mövzuda 2-dən az sual var: {k}')
+            if counts.get(k, 0) < 6:
+                problems.append(f'mövzuda 6-dan az sual var: {k}')
         listed = {l['href'] for l in catalog['lessons']}
         for f in (ROOT / 'lessons').glob('*.html'):
             if f'lessons/{f.name}' not in listed:
