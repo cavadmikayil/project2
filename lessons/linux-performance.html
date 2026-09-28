@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--CSP-->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <!--/CSP-->
     <title>Linux Performans Troubleshooting — Linux Dərsləri | Cavad Mikayil Təlim Portalı</title>
     <!--SEO-->
     <meta name="description" content="USE metodu, ilk 60 saniyənin əmrləri, load average, yaddaş, iostat, strace, perf və eBPF. Linux Dərsləri: Azərbaycan dilində pulsuz dərs vəsaiti, quiz sualları.">
@@ -29,12 +33,10 @@
     <meta name="twitter:image" content="https://portal.cavadmikayil.com/assets/og/lessons/linux-performance.jpg">
     <script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Linux Performans Troubleshooting", "description": "USE metodu, ilk 60 saniyənin əmrləri, load average, yaddaş, iostat, strace, perf və eBPF. Linux Dərsləri: Azərbaycan dilində pulsuz dərs vəsaiti, quiz sualları.", "url": "https://portal.cavadmikayil.com/lessons/linux-performance.html", "image": "https://portal.cavadmikayil.com/assets/og/lessons/linux-performance.jpg", "inLanguage": "az", "learningResourceType": "Dərs vəsaiti", "isAccessibleForFree": true, "author": {"@type": "Person", "name": "Cavad Mikayil", "url": "https://portal.cavadmikayil.com/about.html", "jobTitle": "İT təlimçisi, şəbəkə təhlükəsizliyi mühəndisi", "sameAs": ["https://instagram.com/cavadmikayil.com_", "https://youtube.com/@cavadmikayil", "https://az.linkedin.com/in/cavad-mikayil-0a8153212", "https://cavadmikayil.com", "https://t.me/cavadmikayil", "https://tiktok.com/@cavadmikayil"]}, "isPartOf": {"@type": "WebSite", "name": "Cavad Mikayil Təlim Portalı", "url": "https://portal.cavadmikayil.com/"}}</script>
     <!--/SEO-->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/fonts.css">
     <link rel="stylesheet" href="../assets/lesson.css">
     <link rel="stylesheet" href="../assets/theme.css">
+    <link rel="stylesheet" href="../assets/tailwind.css">
 </head>
 <body class="antialiased">
 

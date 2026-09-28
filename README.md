@@ -223,6 +223,21 @@ node _dev/og.js --force                  # hamısı (dizaynı dəyişəndə)
 
 **Google Search Console:** https://search.google.com/search-console → *Add property* → *URL prefix* → `SITE_URL` → *HTML tag* üsulu → verilən `content` dəyərini `GOOGLE_SITE_VERIFICATION`-a yazıb build və publish edin → *Verify* → *Sitemaps* bölməsində `sitemap.xml` göndərin. Öz domen qoşulandan sonra *Domain* property-ni DNS TXT qeydi ilə təsdiqləmək daha yaxşıdır.
 
+## 8b. Təhlükəsizlik
+
+Sayt statikdir (server, baza, parol yoxdur), amma brauzer tərəfində bunlar tətbiq olunur:
+
+- **Üçüncü tərəf skripti yoxdur.** Tailwind CSS build zamanı `assets/tailwind.css`-ə yığılır (əvvəl `cdn.tailwindcss.com` skripti hər ziyarətçidə işləyirdi), Inter şrifti `assets/fonts/`-dan, Chart.js `assets/vendor/`-dan (4.5.1, npm-in sha512 hash-i ilə yoxlanılıb) yüklənir. Yalnız Video Dərslər səhifəsi YouTube pleyerini yükləyir.
+- **Content-Security-Policy** hər səhifədə `<!--CSP-->` blokunda: skriptlər yalnız saytın özündən və səhifədəki daxili skriptlərin **sha256 hash-i** ilə icazəlidir; `object-src 'none'`, `base-uri 'self'`, `form-action 'self'`, iframe yalnız videos.html-də YouTube üçün. Blok `build.py` tərəfindən yaradılır — daxili skripti dəyişəndə **mütləq** `python3 _dev/build.py` işlədin, yoxsa brauzer skripti bloklayır (CI bunu yoxlayır).
+- **Referrer-Policy** `strict-origin-when-cross-origin` (YouTube embed-i üçün də lazımdır).
+- İstifadəçinin daxil etdiyi mətn (ad, axtarış, CLI əmrləri) HTML kimi yox, mətn kimi göstərilir; yedəkdən bərpa yalnız `edu-portal-*` açarlarını qəbul edir.
+- `.well-known/security.txt` — zəiflik bildirmək üçün əlaqə.
+- GitHub Actions: action-lar commit SHA-sı ilə bağlanıb, `persist-credentials: false`, minimal icazələr; build alətləri `package-lock.json` ilə (`npm ci`) quraşdırılır; Dependabot həftəlik yeniləmə PR-ları açır.
+
+GitHub Pages HTTP başlıqlarını (HSTS, X-Frame-Options və s.) dəyişməyə imkan vermir — bunlar yalnız `<meta>` ilə mümkün olanlarla məhdudlaşır. Settings → Pages → **Enforce HTTPS** açıq olmalıdır.
+
+Build alətləri (bir dəfə): `cd _dev && npm ci && cd ..` — bundan sonra `python3 _dev/build.py` Tailwind CSS-i də yenidən qurur.
+
 ## 9. Publish (dərc etmək)
 
 ```bash

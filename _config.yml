@@ -1,0 +1,7 @@
+# GitHub Pages (Jekyll) — sayt statikdir, Jekyll heç bir faylı emal etmir, yalnız köçürür.
+# .well-known/security.txt dərc olunsun (nöqtə ilə başlayan qovluqlar standart olaraq buraxılır).
+include:
+  - .well-known
+exclude:
+  - README.md
+  - _dev

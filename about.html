@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--CSP-->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-TGaA/qTUpmZv9koIJqhVaFADShi5SPd5r4fWUuzgWuE='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <!--/CSP-->
     <title>Haqqında — Cavad Mikayil Təlim Portalı</title>
     <!--SEO-->
     <meta name="description" content="Cavad Mikayil — İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi. Portal haqqında, YouTube, Instagram, LinkedIn və əlaqə.">
@@ -28,10 +32,7 @@
     <meta name="twitter:description" content="Cavad Mikayil — İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi. Portal haqqında, YouTube, Instagram, LinkedIn və əlaqə.">
     <meta name="twitter:image" content="https://portal.cavadmikayil.com/assets/og/about.jpg">
     <!--/SEO-->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/fonts.css">
     <link rel="stylesheet" href="assets/lesson.css">
     <link rel="stylesheet" href="assets/theme.css">
     <link rel="stylesheet" href="assets/tools.css">
@@ -169,6 +170,7 @@
         body.dark-mode .link-strong { color: #fbbf24; }
         body.dark-mode .data-msg { color: #fcd34d; }
     </style>
+    <link rel="stylesheet" href="assets/tailwind.css">
 </head>
 <body class="antialiased">
 
@@ -461,8 +463,9 @@
                 <div class="guide-body">
                     <ul class="guide-list">
                         <li>Qeydiyyat, parol, cookie-banner və reklam yoxdur. Adınız və nəticələriniz <strong>heç bir serverə göndərilmir</strong>.</li>
-                        <li>Portalda analytics və izləmə (tracking) skripti yoxdur.</li>
-                        <li>Sayt yalnız <strong>HTTPS</strong> ilə açılır və GitHub Pages-də yerləşir.</li>
+                        <li>Portalda analytics və izləmə (tracking) skripti yoxdur. Dizayn, şrift və skriptlər <strong>saytın öz serverindən</strong> yüklənir — səhifəni açanda IP ünvanınız heç bir üçüncü tərəfə (Google Fonts, CDN və s.) getmir.</li>
+                        <li>Hər səhifədə <strong>Content-Security-Policy</strong> var: brauzer yalnız saytın öz skriptlərini icra edir, kənar kod yeridilə bilməz.</li>
+                        <li>Sayt yalnız <strong>HTTPS</strong> ilə açılır və GitHub Pages-də yerləşir. Zəiflik tapsanız: <a class="link-strong" href=".well-known/security.txt">security.txt</a>.</li>
                         <li>Video izləyəndə pleyer YouTube-dan yüklənir — bu zaman YouTube-un öz məxfilik qaydaları tətbiq olunur.</li>
                         <li>Başqaları ilə paylaşılan kompüterdə işi bitirəndə "Çıxış" edin; lazım olsa, yuxarıdakı düymə ilə məlumatları silin.</li>
                     </ul>

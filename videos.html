@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--CSP-->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-jti0++lFnMukcJAQp3At6D4z3Pjlmt8n4md3fLKZYzI=' https://www.youtube.com https://s.ytimg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://i.ytimg.com; font-src 'self'; connect-src 'self' https://www.youtube.com; frame-src https://www.youtube.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
     <meta name="referrer" content="strict-origin-when-cross-origin">
+    <!--/CSP-->
     <title>Video Dərslər — Cavad Mikayil Təlim Portalı</title>
     <!--SEO-->
     <meta name="description" content="Cavad Mikayilin YouTube kursları portalda: videolar düzgün ardıcıllıqla, Növbəti və Baxdım düymələri, hər kurs üzrə irəliləyiş və uyğun dərs vəsaitləri.">
@@ -29,10 +32,7 @@
     <meta name="twitter:description" content="Cavad Mikayilin YouTube kursları portalda: videolar düzgün ardıcıllıqla, Növbəti və Baxdım düymələri, hər kurs üzrə irəliləyiş və uyğun dərs vəsaitləri.">
     <meta name="twitter:image" content="https://portal.cavadmikayil.com/assets/og/videos.jpg">
     <!--/SEO-->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/fonts.css">
     <link rel="stylesheet" href="assets/lesson.css">
     <link rel="stylesheet" href="assets/theme.css">
     <link rel="stylesheet" href="assets/tools.css">
@@ -121,6 +121,7 @@
         body.dark-mode .fav-btn { color: #525252; }
         body.dark-mode .fav-btn.on { color: #fbbf24; }
     </style>
+    <link rel="stylesheet" href="assets/tailwind.css">
 </head>
 <body class="antialiased">
 
@@ -403,10 +404,10 @@
             else if (player.playVideoAt) player.playVideoAt(i);
         }
 
-        // ---- Video adları (YouTube oEmbed; alınmasa noembed.com) ---------------------------
+        // ---- Video adları (YouTube oEmbed — yalnız videos.js-də adı olmayan videolar üçün) ----
         async function fetchTitle(v) {
             const watch = encodeURIComponent('https://www.youtube.com/watch?v=' + v);
-            for (const u of ['https://www.youtube.com/oembed?format=json&url=' + watch, 'https://noembed.com/embed?url=' + watch]) {
+            for (const u of ['https://www.youtube.com/oembed?format=json&url=' + watch]) {
                 try {
                     const r = await fetch(u);
                     if (!r.ok) continue;

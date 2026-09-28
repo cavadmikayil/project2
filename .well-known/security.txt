@@ -1,0 +1,7 @@
+# Cavad Mikayil Təlim Portalı — təhlükəsizlik əlaqəsi (RFC 9116)
+# Zəiflik tapsanız, zəhmət olmasa əvvəlcə bu ünvana yazın; açıq paylaşmadan öncə düzəliş üçün vaxt verin.
+Contact: mailto:info@cavadmikayil.com
+Expires: 2027-09-27T00:00:00.000Z
+Preferred-Languages: az, en, tr
+Canonical: https://portal.cavadmikayil.com/.well-known/security.txt
+Policy: https://portal.cavadmikayil.com/about.html#g-privacy
