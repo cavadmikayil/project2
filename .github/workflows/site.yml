@@ -21,10 +21,15 @@ jobs:
     name: Yoxlama (ikonlar, kataloq, quiz, linklər)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
       - name: Dərslər, ikonlar, kataloq, suallar və daxili linklər
         run: python3 _dev/build.py check
+
+      - name: Build alətləri (Tailwind CLI — package-lock.json ilə, dəqiq versiyalar)
+        run: npm ci --prefix _dev --no-audit --no-fund --ignore-scripts
 
       - name: Qurulmuş səhifələr mənbələrlə eynidirmi
         run: |
@@ -42,7 +47,7 @@ jobs:
           touch _site/.nojekyll
           ls _site
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         with:
           path: _site
@@ -74,4 +79,4 @@ jobs:
       - name: Dərc et
         id: deployment
         if: steps.mode.outputs.enabled == 'true'
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5

@@ -18,6 +18,7 @@ Nə edir:
   5. Yoxlayır: istifadə olunan ikonlar sprite-da var, kataloqdakı dərs faylları mövcuddur,
      hər dərsin quiz sualı var.
 """
+import base64
 import hashlib
 import json
 import pathlib
@@ -242,12 +243,10 @@ def lesson_head(attrs, extra_head='', category=''):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{attrs["title"]} — {category or 'Dərs Vəsaiti'} | {SITE_NAME}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/fonts.css">
     <link rel="stylesheet" href="../assets/lesson.css">
     <link rel="stylesheet" href="../assets/theme.css">{extra_head}
+    <link rel="stylesheet" href="../assets/tailwind.css">
 </head>
 <body class="antialiased">
 
@@ -610,6 +609,118 @@ def check_seo():
     return problems
 
 
+# ---------------------------------------------------------------------------
+# Təhlükəsizlik: Tailwind CSS build-də, xarici skript/şrift yoxdur, Content-Security-Policy
+# ---------------------------------------------------------------------------
+TAILWIND = NODE / '.bin' / 'tailwindcss'
+CSP_BLOCK = re.compile(r'\n[ \t]*<!--CSP-->[\s\S]*?<!--/CSP-->')
+INLINE_SCRIPT = re.compile(r'<script(\s[^>]*)?>([\s\S]*?)</script>')
+# Səhifəyə görə əlavə icazələr (yalnız lazım olan səhifədə)
+CSP_EXTRA = {
+    'videos.html': {
+        'script-src': ['https://www.youtube.com', 'https://s.ytimg.com'],   # YouTube IFrame Player API
+        'frame-src': ['https://www.youtube.com'],                          # pleyer iframe-i
+        'connect-src': ['https://www.youtube.com'],                        # oEmbed (video adı, playlist rejimi)
+        'img-src': ['https://i.ytimg.com'],
+    },
+}
+
+
+def build_tailwind():
+    """Səhifələrdə istifadə olunan Tailwind class-larını assets/tailwind.css-ə yığır (minify)."""
+    if not TAILWIND.exists():
+        print('Qeyd: Tailwind CLI yoxdur (cd _dev && npm ci) — assets/tailwind.css yenilənmədi')
+        return
+    out = ROOT / 'assets' / 'tailwind.css'
+    subprocess.run([str(TAILWIND), '-c', str(DEV / 'tailwind.config.js'), '-i', str(DEV / 'tailwind.input.css'),
+                    '-o', str(out), '--minify'], check=True, capture_output=True)
+    print(f'tailwind.css: {out.stat().st_size // 1024} KB')
+
+
+def refresh_head_assets():
+    """Tailwind CDN və Google Fonts sətirlərini silir; yerli fonts.css və tailwind.css qoşur (tailwind — sonuncu)."""
+    for page in all_pages():
+        prefix = '' if page.parent == ROOT else '../'
+        text = page.read_text()
+        new = re.sub(r'\n[ \t]*<script src="https://cdn\.tailwindcss\.com"></script>', '', text)
+        new = re.sub(r'\n[ \t]*<link rel="preconnect" href="https://fonts\.(?:googleapis|gstatic)\.com"[^>]*>', '', new)
+        new = re.sub(r'\n[ \t]*<link href="https://fonts\.googleapis\.com/[^"]*" rel="stylesheet">', '', new)
+        new = re.sub(r'\n[ \t]*<link rel="stylesheet" href="(?:\.\./)?assets/tailwind\.css">', '', new)
+        if 'assets/fonts.css"' not in new:
+            new = re.sub(r'(\n[ \t]*)(<link rel="stylesheet" href="(?:\.\./)?assets/)', rf'\1<link rel="stylesheet" href="{prefix}assets/fonts.css">\1\2', new, count=1)
+        new = new.replace('\n</head>', f'\n    <link rel="stylesheet" href="{prefix}assets/tailwind.css">\n</head>', 1)
+        if new != text:
+            page.write_text(new)
+
+
+def _inline_hashes(text):
+    hashes = []
+    for m in INLINE_SCRIPT.finditer(text):
+        attrs = m.group(1) or ''
+        if 'src=' in attrs or 'application/ld+json' in attrs:
+            continue
+        digest = base64.b64encode(hashlib.sha256(m.group(2).encode('utf-8')).digest()).decode()
+        hashes.append(f"'sha256-{digest}'")
+    return sorted(set(hashes))
+
+
+def csp_policy(rel, text):
+    extra = CSP_EXTRA.get(rel, {})
+    d = {
+        'default-src': ["'self'"],
+        'script-src': ["'self'"] + _inline_hashes(text) + extra.get('script-src', []),
+        # style="" atributları və səhifə daxili <style> blokları üçün 'unsafe-inline' (skript deyil — risk aşağıdır)
+        'style-src': ["'self'", "'unsafe-inline'"],
+        'img-src': ["'self'", 'data:'] + extra.get('img-src', []),
+        'font-src': ["'self'"],
+        'connect-src': ["'self'"] + extra.get('connect-src', []),
+        'frame-src': extra.get('frame-src', ["'none'"]),
+        'object-src': ["'none'"],
+        'base-uri': ["'self'"],
+        'form-action': ["'self'"],
+    }
+    return '; '.join(f'{k} {" ".join(v)}' for k, v in d.items()) + '; upgrade-insecure-requests'
+
+
+def refresh_csp():
+    """Hər səhifəyə Content-Security-Policy (daxili skriptlərin sha256 hash-ləri ilə) və Referrer-Policy yazır.
+    Ən sonda işləyir: səhifədəki skript dəyişsə, hash yenidən hesablanır."""
+    for page in all_pages():
+        rel = page.relative_to(ROOT).as_posix()
+        text = page.read_text()
+        base = CSP_BLOCK.sub('', text)
+        base = re.sub(r'\n[ \t]*<meta name="referrer" content="[^"]*">', '', base)
+        block = ('\n    <!--CSP-->'
+                 f'\n    <meta http-equiv="Content-Security-Policy" content="{csp_policy(rel, base)}">'
+                 '\n    <meta name="referrer" content="strict-origin-when-cross-origin">'
+                 '\n    <!--/CSP-->')
+        m = re.search(r'<meta name="viewport"[^>]*>', base)
+        new = base[:m.end()] + block + base[m.end():]
+        if new != text:
+            page.write_text(new)
+
+
+def check_security():
+    problems = []
+    for page in all_pages():
+        rel = page.relative_to(ROOT).as_posix()
+        text = page.read_text()
+        for url in re.findall(r'<script[^>]+src="(https?:[^"]+)"', text):
+            problems.append(f'{rel}: xarici skript ({url}) — skriptlər saytın özündən yüklənməlidir')
+        for url in re.findall(r'<link[^>]+href="(https?:[^"]+)"[^>]*rel="stylesheet"|<link rel="stylesheet" href="(https?:[^"]+)"', text):
+            problems.append(f'{rel}: xarici stylesheet ({"".join(url)})')
+        blocks = CSP_BLOCK.findall(text)
+        if len(blocks) != 1:
+            problems.append(f'{rel}: CSP bloku yoxdur — python3 _dev/build.py')
+            continue
+        m = re.search(r'content="([^"]+)"', blocks[0])
+        if not m or m.group(1) != csp_policy(rel, CSP_BLOCK.sub('', text)):
+            problems.append(f'{rel}: CSP köhnədir (daxili skript dəyişib) — python3 _dev/build.py')
+    if not (ROOT / 'assets' / 'tailwind.css').exists():
+        problems.append('assets/tailwind.css yoxdur — cd _dev && npm ci && cd .. && python3 _dev/build.py')
+    return problems
+
+
 def version_sprite_refs():
     h = hashlib.md5(SPRITE.read_bytes()).hexdigest()[:8]
     pat = re.compile(r"icons\.svg(?:\?v=[0-9a-f]+)?(?=[#'\"])")
@@ -766,6 +877,7 @@ def check():
         print(f'kataloq: {len(catalog["categories"])} kateqoriya, {len(catalog["lessons"])} dərs, {len(questions)} sual')
     problems += check_internal_links()
     problems += check_seo()
+    problems += check_security()
     for name, where in sorted(used.items()):
         if name not in symbols:
             problems.append(f'ikon sprite-da yoxdur: {name} ({where}) → python3 _dev/build.py icons add {name}')
@@ -796,6 +908,9 @@ def main(argv):
     refresh_about()
     version_sprite_refs()
     refresh_seo()
+    refresh_head_assets()
+    build_tailwind()
+    refresh_csp()
     return 0 if check() else 1
 
 

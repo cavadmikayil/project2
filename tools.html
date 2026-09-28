@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--CSP-->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-GN9QZHzCNXar9E6DzVv45GM37Izm5Xs6bhOiPALHgpg='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <!--/CSP-->
     <title>Tools — Cavad Mikayil Təlim Portalı</title>
     <!--SEO-->
     <meta name="description" content="Şəbəkə və IT üçün pulsuz interaktiv alətlər: Cisco CLI simulyatoru, subnet, VLSM, IPv6 və wildcard kalkulyatorları, flashcard-lar, quiz və port arayışı.">
@@ -28,10 +32,7 @@
     <meta name="twitter:description" content="Şəbəkə və IT üçün pulsuz interaktiv alətlər: Cisco CLI simulyatoru, subnet, VLSM, IPv6 və wildcard kalkulyatorları, flashcard-lar, quiz və port arayışı.">
     <meta name="twitter:image" content="https://portal.cavadmikayil.com/assets/og/tools.jpg">
     <!--/SEO-->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/fonts.css">
     <link rel="stylesheet" href="assets/lesson.css">
     <link rel="stylesheet" href="assets/theme.css">
     <link rel="stylesheet" href="assets/tools.css">
@@ -58,6 +59,7 @@
         body.dark-mode .tool-card .open, body.dark-mode .group-title .icon { color: #fbbf24; }
         @media (max-width: 767px) { .hub-hero { padding: 1.4rem; } .hub-hero h1 { font-size: 1.45rem; } }
     </style>
+    <link rel="stylesheet" href="assets/tailwind.css">
 </head>
 <body class="antialiased">
 

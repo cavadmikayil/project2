@@ -294,3 +294,11 @@ body.dark-mode .lab-footer { border-color: #333333; }
 body.dark-mode .lab-done-btn { background: #f59e0b; color: #0a0a0a; }
 body.dark-mode .lab-done-btn .icon { color: #0a0a0a; }
 body.dark-mode .lab-done-btn.is-done { background: #fbbf24; }
+
+/* Çox dar ekranlar (320px): loqo, ad və tema düyməsi bir sətirdə qalsın */
+@media (max-width: 359px) {
+    header[data-site-header] > div { padding-left: 1rem; padding-right: 1rem; column-gap: 0.5rem; }
+    header.sticky[data-site-header] > div.container > a:first-child { font-size: 0.9rem; gap: 0.4rem; }
+    header[data-site-header] .theme-toggle-btn { width: 2.25rem; height: 2.25rem; }
+    header.sticky > nav.container h1 { font-size: 0.98rem !important; line-height: 1.3; }
+}

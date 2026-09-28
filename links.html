@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--CSP-->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-HJVKk1zbb8unOn6XHKNKBSRPRBWLmnoLGPhCUKsRiHg='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <!--/CSP-->
     <title>Faydalı — Cavad Mikayil Təlim Portalı</title>
     <!--SEO-->
     <meta name="description" content="IT öyrənmək üçün seçilmiş mənbələr: rəsmi sənədlər, pulsuz kurslar, lab platformaları, simulyatorlar və CCNA, CompTIA, cloud sertifikatlarına hazırlıq.">
@@ -28,10 +32,7 @@
     <meta name="twitter:description" content="IT öyrənmək üçün seçilmiş mənbələr: rəsmi sənədlər, pulsuz kurslar, lab platformaları, simulyatorlar və CCNA, CompTIA, cloud sertifikatlarına hazırlıq.">
     <meta name="twitter:image" content="https://portal.cavadmikayil.com/assets/og/links.jpg">
     <!--/SEO-->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/fonts.css">
     <link rel="stylesheet" href="assets/lesson.css">
     <link rel="stylesheet" href="assets/theme.css">
     <style>
@@ -118,6 +119,7 @@
         body.dark-mode .host { color: #a3a3a3; }
         body.dark-mode details.idea[open] summary { border-color: #262626; }
     </style>
+    <link rel="stylesheet" href="assets/tailwind.css">
 </head>
 <body class="antialiased">
 
