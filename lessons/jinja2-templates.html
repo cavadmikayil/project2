@@ -43,7 +43,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#file-code"></use></svg> Jinja2 ilə Konfiqurasiya Şablonları</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#file-code"></use></svg> Jinja2 ilə Konfiqurasiya Şablonları</h1>
                 <span class="lesson-badge">Automation · Jinja2</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -53,29 +53,29 @@
                 <a href="#render" class="nav-link">Python ilə render</a>
                 <a href="#filters" class="nav-link">Filtr və makrolar</a>
                 <a href="#sot" class="nav-link">Source of truth</a>
-                <a href="../index.html#automation" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#moon"></use></svg></button>
+                <a href="../index.html#automation" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#file-code"></use></svg> Giriş: Məlumat + Şablon = Konfiqurasiya</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#file-code"></use></svg> Giriş: Məlumat + Şablon = Konfiqurasiya</h2>
             <p class="lead">
                 100 access switch-in konfiqurasiyası 95% eynidir; fərq hostname, IP, VLAN-lar və port təsvirlərindədir.
                 <strong>Jinja2</strong> şablon mühərriki bu 95%-i bir dəfə yazmağa, fərqləri isə YAML/CSV məlumatından doldurmağa imkan verir.
                 Ansible, Nornir, NetBox və Salt da məhz Jinja2 istifadə edir.
             </p>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#database"></use></svg> Məlumat</h3><p class="text-neutral-700">Nə fərqlidir: <code>hostname: ACC-SW1</code>, <code>mgmt_ip: 10.10.0.11</code>.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#file-code"></use></svg> Şablon</h3><p class="text-neutral-700">Necə görünməlidir: <code>hostname {{ hostname }}</code>.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#file-check"></use></svg> Nəticə</h3><p>Hər cihaz üçün hazır, standart konfiqurasiya faylı.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#database"></use></svg> Məlumat</h3><p class="text-neutral-700">Nə fərqlidir: <code>hostname: ACC-SW1</code>, <code>mgmt_ip: 10.10.0.11</code>.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#file-code"></use></svg> Şablon</h3><p class="text-neutral-700">Necə görünməlidir: <code>hostname {{ hostname }}</code>.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#file-check"></use></svg> Nəticə</h3><p>Hər cihaz üçün hazır, standart konfiqurasiya faylı.</p></div>
             </div>
         </section>
 
         <section id="syntax" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#braces"></use></svg> 1. Sintaksis</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#braces"></use></svg> 1. Sintaksis</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Yazılış</th><th>Mənası</th><th>Nümunə</th></tr></thead>
@@ -91,7 +91,7 @@
         </section>
 
         <section id="switch" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#network"></use></svg> 2. Access Switch Şablonu</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#network"></use></svg> 2. Access Switch Şablonu</h2>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="j2-data">acc-sw1.yaml</button>
                 <button class="tab-btn inactive-tab" data-pane="j2-tpl">access.j2</button>
@@ -148,7 +148,7 @@ ip default-gateway {{ gateway }}</code></pre>
         </section>
 
         <section id="render" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#play"></use></svg> 3. Python ilə Render</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#play"></use></svg> 3. Python ilə Render</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>import yaml
@@ -173,7 +173,7 @@ for f in Path("data").glob("*.yaml"):
         </section>
 
         <section id="filters" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#filter"></use></svg> 4. Filtrlər, Makrolar, Miras</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#filter"></use></svg> 4. Filtrlər, Makrolar, Miras</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>{{ hostname | upper }}                     {# ACC-SW1 #}
@@ -199,7 +199,7 @@ interface {{ port }}
         </section>
 
         <section id="sot" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#database"></use></svg> 5. Source of Truth Yanaşması</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#database"></use></svg> 5. Source of Truth Yanaşması</h2>
             <ol class="steps max-w-3xl mx-auto mb-6">
                 <li><p class="text-neutral-700"><strong>Məlumat mərkəzdə:</strong> NetBox və ya git-dəki YAML — cihazlar, IP-lər, VLAN-lar, portlar.</p></li>
                 <li><p class="text-neutral-700"><strong>Şablonlar git-də</strong> review olunur.</p></li>
@@ -208,7 +208,7 @@ interface {{ port }}
                 <li><p class="text-neutral-700"><strong>Təsdiqdən sonra push</strong> — Netmiko, NAPALM və ya Ansible.</p></li>
             </ol>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#lightbulb"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#lightbulb"></use></svg>
                 <p class="text-neutral-800">Hədəf: heç kim cihaza birbaşa konfiqurasiya yazmır. Dəyişiklik = məlumatda dəyişiklik + PR. Cihaz konfiqurasiyası həmişə source of truth-un nəticəsidir.</p>
             </div>
         </section>
@@ -218,7 +218,7 @@ interface {{ port }}
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

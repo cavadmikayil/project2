@@ -43,7 +43,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#waypoints"></use></svg> OSPF (Single-Area)</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#waypoints"></use></svg> OSPF (Single-Area)</h1>
                 <span class="lesson-badge">CCNA · IP Connectivity</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -54,15 +54,15 @@
                 <a href="#cost" class="nav-link">Cost</a>
                 <a href="#commands" class="nav-link">Əmrlər</a>
                 <a href="#lab" class="nav-link">Lab</a>
-                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#moon"></use></svg></button>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#waypoints"></use></svg> Giriş: Link-State Protokol</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#waypoints"></use></svg> Giriş: Link-State Protokol</h2>
             <p class="lead">
                 OSPF (Open Shortest Path First) açıq standart link-state protokoludur. Hər router şəbəkənin tam
                 xəritəsini (LSDB) toplayır və Dijkstra-nın SPF alqoritmi ilə ən qısa yolları özü hesablayır.
@@ -70,14 +70,14 @@
                 adətən bir sahədə — <strong>Area 0 (backbone)</strong> — olur.
             </p>
             <div class="card-grid">
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#bell"></use></svg> Hello paketləri</h3><p class="text-neutral-700">Qonşuları tapır və saxlayır. Broadcast şəbəkədə Hello 10 s, Dead 40 s.</p></div>
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#scroll-text"></use></svg> LSA / LSDB</h3><p class="text-neutral-700">Routerlər link-state reklamlarını (LSA) mübadilə edir; eyni sahədəki hamının LSDB-si eynidir.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#radio"></use></svg> Multicast</h3><p>224.0.0.5 — bütün OSPF routerləri, 224.0.0.6 — DR və BDR.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#bell"></use></svg> Hello paketləri</h3><p class="text-neutral-700">Qonşuları tapır və saxlayır. Broadcast şəbəkədə Hello 10 s, Dead 40 s.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#scroll-text"></use></svg> LSA / LSDB</h3><p class="text-neutral-700">Routerlər link-state reklamlarını (LSA) mübadilə edir; eyni sahədəki hamının LSDB-si eynidir.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#radio"></use></svg> Multicast</h3><p>224.0.0.5 — bütün OSPF routerləri, 224.0.0.6 — DR və BDR.</p></div>
             </div>
         </section>
 
         <section id="rid" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#fingerprint"></use></svg> 1. Router ID Seçimi</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#fingerprint"></use></svg> 1. Router ID Seçimi</h2>
             <p class="lead">Router ID (RID) 32 bitlik unikal identifikatordur və IP formatında yazılır. Seçim ardıcıllığı:</p>
             <ol class="steps max-w-3xl mx-auto">
                 <li><p class="text-neutral-700"><code>router-id</code> əmri ilə əl ilə təyin edilmiş dəyər.</p></li>
@@ -85,13 +85,13 @@
                 <li><p class="text-neutral-700">Aktiv fiziki interfeyslərdən ən yüksək IP.</p></li>
             </ol>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#info"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#info"></use></svg>
                 <p class="text-neutral-800">RID dəyişdirildikdən sonra yalnız OSPF prosesi yenidən başladıqda qüvvəyə minir: <code>clear ip ospf process</code>.</p>
             </div>
         </section>
 
         <section id="states" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#workflow"></use></svg> 2. Qonşuluq Vəziyyətləri və Şərtləri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#workflow"></use></svg> 2. Qonşuluq Vəziyyətləri və Şərtləri</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>Vəziyyət</th><th>Nə baş verir</th></tr></thead>
@@ -108,32 +108,32 @@
             </div>
             <h3 class="text-xl font-bold mb-3">Qonşuluq üçün uyğun olmalıdır:</h3>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#check"></use></svg><p class="text-neutral-700">Eyni <strong>area</strong> nömrəsi və area tipi</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#check"></use></svg><p class="text-neutral-700">Eyni <strong>Hello/Dead</strong> timerləri</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#check"></use></svg><p class="text-neutral-700">Eyni <strong>subnet və maska</strong></p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#check"></use></svg><p class="text-neutral-700">Eyni <strong>autentifikasiya</strong> və <strong>MTU</strong></p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#check"></use></svg><p class="text-neutral-700"><strong>Unikal</strong> Router ID</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#x"></use></svg><p class="text-neutral-700">Process ID uyğun olmaq <strong>məcburiyyətində deyil</strong> — lokal xarakter daşıyır</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#check"></use></svg><p class="text-neutral-700">Eyni <strong>area</strong> nömrəsi və area tipi</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#check"></use></svg><p class="text-neutral-700">Eyni <strong>Hello/Dead</strong> timerləri</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#check"></use></svg><p class="text-neutral-700">Eyni <strong>subnet və maska</strong></p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#check"></use></svg><p class="text-neutral-700">Eyni <strong>autentifikasiya</strong> və <strong>MTU</strong></p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#check"></use></svg><p class="text-neutral-700"><strong>Unikal</strong> Router ID</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#x"></use></svg><p class="text-neutral-700">Process ID uyğun olmaq <strong>məcburiyyətində deyil</strong> — lokal xarakter daşıyır</p></div>
             </div>
         </section>
 
         <section id="drbdr" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#crown"></use></svg> 3. DR və BDR Seçimi</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#crown"></use></svg> 3. DR və BDR Seçimi</h2>
             <p class="lead">
                 Broadcast multiaccess şəbəkələrdə (Ethernet) hər routerin hamı ilə Full qonşuluğu olmasın deyə
                 <strong>Designated Router (DR)</strong> və ehtiyat <strong>BDR</strong> seçilir. Digər routerlər (DROTHER)
                 yalnız DR və BDR ilə Full olur.
             </p>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#trophy"></use></svg><p class="text-neutral-700">Ən yüksək <strong>interfeys prioriteti</strong> qalib gəlir (defolt 1, maks. 255).</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#fingerprint"></use></svg><p class="text-neutral-700">Prioritetlər bərabərdirsə — ən yüksək <strong>Router ID</strong>.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#ban"></use></svg><p class="text-neutral-700">Prioritet <strong>0</strong> olan router heç vaxt DR/BDR olmur.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#lock"></use></svg><p class="text-neutral-700">Seçim <strong>preemptive deyil</strong>: yeni, daha güclü router qoşulsa da DR dəyişmir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#trophy"></use></svg><p class="text-neutral-700">Ən yüksək <strong>interfeys prioriteti</strong> qalib gəlir (defolt 1, maks. 255).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#fingerprint"></use></svg><p class="text-neutral-700">Prioritetlər bərabərdirsə — ən yüksək <strong>Router ID</strong>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#ban"></use></svg><p class="text-neutral-700">Prioritet <strong>0</strong> olan router heç vaxt DR/BDR olmur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#lock"></use></svg><p class="text-neutral-700">Seçim <strong>preemptive deyil</strong>: yeni, daha güclü router qoşulsa da DR dəyişmir.</p></div>
             </div>
         </section>
 
         <section id="cost" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#calculator"></use></svg> 4. Cost Hesablanması</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#calculator"></use></svg> 4. Cost Hesablanması</h2>
             <p class="lead">
                 <strong>Cost = Reference bandwidth ÷ interfeys bant genişliyi.</strong> Defolt reference 100 Mbps-dir,
                 ona görə FastEthernet, Gigabit və 10 Gigabit linkin hamısı cost = 1 alır. Bunu düzəltmək üçün bütün
@@ -153,7 +153,7 @@
         </section>
 
         <section id="commands" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#terminal"></use></svg> 5. Praktiki Əmrlər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#terminal"></use></svg> 5. Praktiki Əmrlər</h2>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="ospf-network">network əmri ilə</button>
                 <button class="tab-btn inactive-tab" data-pane="ospf-interface">İnterfeys səviyyəsində</button>
@@ -211,11 +211,11 @@ clear ip ospf process</code></pre>
             </div>
         </section>
         <section id="lab" class="section-card lab-section" data-lab="ospf">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#flask-conical"></use></svg> Lab: Single-Area OSPF, DR/BDR və Default Route</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#flask-conical"></use></svg> Lab: Single-Area OSPF, DR/BDR və Default Route</h2>
             <div class="card-grid mb-6">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Üç router arasında OSPF area 0 qurmaq, DR/BDR seçkisinə təsir etmək və default route-u OSPF ilə yaymaq.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer və ya portalın CLI Simulyatoru (4-cü tapşırıq)</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#timer"></use></svg> Müddət</h3><p>50 dəq · Orta</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Üç router arasında OSPF area 0 qurmaq, DR/BDR seçkisinə təsir etmək və default route-u OSPF ilə yaymaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer və ya portalın CLI Simulyatoru (4-cü tapşırıq)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#timer"></use></svg> Müddət</h3><p>50 dəq · Orta</p></div>
             </div>
             <h3 class="text-xl font-bold mb-3">Topologiya</h3>
             <div class="code-block lab-topology mb-6">
@@ -256,12 +256,12 @@ show ip ospf database</code></pre>
             </div>
             <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
             <div class="feature-grid mb-6">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#circle-check"></use></svg><p class="text-neutral-700">Qonşuluqlar FULL/DR, FULL/BDR, 2WAY/DROTHER vəziyyətindədir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#circle-check"></use></svg><p class="text-neutral-700">Priority dəyişikliyindən sonra R3 DR-dir, R1 heç vaxt DR olmur.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#circle-check"></use></svg><p class="text-neutral-700">R2 və R3-də <code>O*E2 0.0.0.0/0</code> görünür.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#circle-check"></use></svg><p class="text-neutral-700">Qonşuluqlar FULL/DR, FULL/BDR, 2WAY/DROTHER vəziyyətindədir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#circle-check"></use></svg><p class="text-neutral-700">Priority dəyişikliyindən sonra R3 DR-dir, R1 heç vaxt DR olmur.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#circle-check"></use></svg><p class="text-neutral-700">R2 və R3-də <code>O*E2 0.0.0.0/0</code> görünür.</p></div>
             </div>
             <details class="lab-solution mb-6">
-                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
                 <div class="code-block mt-3">
                     <button class="copy-btn">Kopyala</button>
                     <pre><code>R1(config)# router ospf 1
@@ -280,7 +280,7 @@ R1# clear ip ospf process</code></pre>
             </details>
             <div class="lab-footer">
                 <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
-                <button type="button" class="lab-done-btn" data-lab="ospf" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#circle-dot"></use></svg> Labı bitirdim</button>
+                <button type="button" class="lab-done-btn" data-lab="ospf" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#circle-dot"></use></svg> Labı bitirdim</button>
             </div>
         </section>
     </main>
@@ -289,7 +289,7 @@ R1# clear ip ospf process</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

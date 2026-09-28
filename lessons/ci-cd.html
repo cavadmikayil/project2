@@ -43,7 +43,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#repeat"></use></svg> CI/CD Əsasları</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#repeat"></use></svg> CI/CD Əsasları</h1>
                 <span class="lesson-badge">DevOps · CI/CD</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -53,45 +53,45 @@
                 <a href="#pipeline" class="nav-link">Pipeline</a>
                 <a href="#strategies" class="nav-link">Deploy strategiyaları</a>
                 <a href="#tools" class="nav-link">Alətlər</a>
-                <a href="../index.html#devops" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#moon"></use></svg></button>
+                <a href="../index.html#devops" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#repeat"></use></svg> Giriş: Hər Commit — Potensial Release</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#repeat"></use></svg> Giriş: Hər Commit — Potensial Release</h2>
             <p class="lead">
                 Əl ilə deploy belə görünür: serverə SSH, <code>git pull</code>, "test etdimmi?", servisi restart, dua.
                 <strong>CI/CD</strong> bu prosesi hər dəfə eyni cür işləyən avtomatik konveyerə (pipeline) çevirir:
                 kod push olunur → yoxlanır → paketlənir → mühitlərə çıxarılır.
             </p>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#git-merge"></use></svg> Continuous Integration</h3><p class="text-neutral-700">Developer-lər gündə dəfələrlə main-ə birləşdirir, hər birləşmə avtomatik build və test olunur.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#package-check"></use></svg> Continuous Delivery</h3><p class="text-neutral-700">Hər yaşıl build production-a çıxmağa hazırdır; son düymə insandadır.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#rocket"></use></svg> Continuous Deployment</h3><p>Testdən keçən hər dəyişiklik insan müdaxiləsi olmadan production-a gedir.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#git-merge"></use></svg> Continuous Integration</h3><p class="text-neutral-700">Developer-lər gündə dəfələrlə main-ə birləşdirir, hər birləşmə avtomatik build və test olunur.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#package-check"></use></svg> Continuous Delivery</h3><p class="text-neutral-700">Hər yaşıl build production-a çıxmağa hazırdır; son düymə insandadır.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#rocket"></use></svg> Continuous Deployment</h3><p>Testdən keçən hər dəyişiklik insan müdaxiləsi olmadan production-a gedir.</p></div>
             </div>
         </section>
 
         <section id="ci" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#circle-check"></use></svg> 1. CI Nə Yoxlayır</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#circle-check"></use></svg> 1. CI Nə Yoxlayır</h2>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#spell-check"></use></svg><p class="text-neutral-700"><strong>Lint və format:</strong> <code>flake8</code>, <code>eslint</code>, <code>yamllint</code>, <code>terraform fmt</code>.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#test-tube"></use></svg><p class="text-neutral-700"><strong>Unit testlər:</strong> ayrı funksiyalar saniyələr içində.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#puzzle"></use></svg><p class="text-neutral-700"><strong>İnteqrasiya testləri:</strong> tətbiq + DB + API birlikdə.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#shield-check"></use></svg><p class="text-neutral-700"><strong>Təhlükəsizlik:</strong> SAST, asılılıq zəiflikləri, secret scanning.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#package"></use></svg><p class="text-neutral-700"><strong>Build:</strong> artefakt (konteyner image, zip, binary) bir dəfə qurulur və bütün mühitlərə eyni artefakt gedir.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#timer"></use></svg><p class="text-neutral-700"><strong>Sürətli olmalıdır:</strong> 10 dəqiqədən uzun CI-ı insanlar gözləmir və yan keçir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#spell-check"></use></svg><p class="text-neutral-700"><strong>Lint və format:</strong> <code>flake8</code>, <code>eslint</code>, <code>yamllint</code>, <code>terraform fmt</code>.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#test-tube"></use></svg><p class="text-neutral-700"><strong>Unit testlər:</strong> ayrı funksiyalar saniyələr içində.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#puzzle"></use></svg><p class="text-neutral-700"><strong>İnteqrasiya testləri:</strong> tətbiq + DB + API birlikdə.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#shield-check"></use></svg><p class="text-neutral-700"><strong>Təhlükəsizlik:</strong> SAST, asılılıq zəiflikləri, secret scanning.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#package"></use></svg><p class="text-neutral-700"><strong>Build:</strong> artefakt (konteyner image, zip, binary) bir dəfə qurulur və bütün mühitlərə eyni artefakt gedir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#timer"></use></svg><p class="text-neutral-700"><strong>Sürətli olmalıdır:</strong> 10 dəqiqədən uzun CI-ı insanlar gözləmir və yan keçir.</p></div>
             </div>
             <div class="note-box mt-6">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#lightbulb"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#lightbulb"></use></svg>
                 <p class="text-neutral-800">Bu portalın özü də CI istifadə edir: hər push-da <code>build.py check</code> ikonları, dərs kataloqunu, quiz suallarını və qırıq linkləri yoxlayır. Səhvli dəyişiklik sayta çıxmır.</p>
             </div>
         </section>
 
         <section id="cd" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#rocket"></use></svg> 2. Mühitlər və Təqdimat</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#rocket"></use></svg> 2. Mühitlər və Təqdimat</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>Mühit</th><th>Məqsəd</th><th>Deploy</th></tr></thead>
@@ -103,14 +103,14 @@
                 </table>
             </div>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#copy-check"></use></svg><p class="text-neutral-700"><strong>Environment parity:</strong> mühitlər mümkün qədər eyni olmalıdır — fərqlər "staging-də işləyirdi" problemi yaradır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#key-round"></use></svg><p class="text-neutral-700"><strong>Konfiqurasiya ayrı:</strong> eyni image, fərqli environment variable və secret-lər.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#user-check"></use></svg><p class="text-neutral-700"><strong>Approval gate:</strong> production-dan əvvəl məsul şəxsin təsdiqi (change management).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#copy-check"></use></svg><p class="text-neutral-700"><strong>Environment parity:</strong> mühitlər mümkün qədər eyni olmalıdır — fərqlər "staging-də işləyirdi" problemi yaradır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#key-round"></use></svg><p class="text-neutral-700"><strong>Konfiqurasiya ayrı:</strong> eyni image, fərqli environment variable və secret-lər.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#user-check"></use></svg><p class="text-neutral-700"><strong>Approval gate:</strong> production-dan əvvəl məsul şəxsin təsdiqi (change management).</p></div>
             </div>
         </section>
 
         <section id="pipeline" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#workflow"></use></svg> 3. Tipik Pipeline</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#workflow"></use></svg> 3. Tipik Pipeline</h2>
             <ol class="steps max-w-3xl mx-auto mb-6">
                 <li><p class="text-neutral-700"><strong>Trigger:</strong> push, pull request, tag və ya cədvəl.</p></li>
                 <li><p class="text-neutral-700"><strong>Checkout</strong> və asılılıqların quraşdırılması (cache ilə).</p></li>
@@ -121,13 +121,13 @@
                 <li><p class="text-neutral-700"><strong>Approval</strong> → <strong>deploy production</strong> → monitorinq; problem varsa avtomatik rollback.</p></li>
             </ol>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#tag"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#tag"></use></svg>
                 <p class="text-neutral-800">Artefakta <strong>commit SHA</strong> ilə ad verin — production-da hansı kodun işlədiyi həmişə dəqiq bilinir, rollback isə köhnə teqi yenidən deploy etməkdir.</p>
             </div>
         </section>
 
         <section id="strategies" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#git-compare-arrows"></use></svg> 4. Deploy Strategiyaları</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#git-compare-arrows"></use></svg> 4. Deploy Strategiyaları</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Strategiya</th><th>Necə</th><th>Üstünlük</th><th>Çatışmazlıq</th></tr></thead>
@@ -142,12 +142,12 @@
         </section>
 
         <section id="tools" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#wrench"></use></svg> 5. Alətlər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#wrench"></use></svg> 5. Alətlər</h2>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#brand-github"></use></svg> GitHub Actions</h3><p class="text-neutral-700">GitHub-a daxildir, YAML workflow-lar, minlərlə hazır action. Növbəti dərsin mövzusu.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#brand-gitlab"></use></svg> GitLab CI/CD</h3><p class="text-neutral-700"><code>.gitlab-ci.yml</code>, öz runner-lər, on-prem quraşdırma üçün populyar.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#hammer"></use></svg> Jenkins</h3><p class="text-neutral-700">Ən köhnə və çevik açıq mənbəli server; Groovy <code>Jenkinsfile</code>, çoxlu plugin.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#git-pull-request-arrow"></use></svg> GitOps (Argo CD, Flux)</h3><p>Git repo — istənilən vəziyyətin mənbəyi; klaster özü repo-dakı dəyişikliyi çəkib tətbiq edir.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#brand-github"></use></svg> GitHub Actions</h3><p class="text-neutral-700">GitHub-a daxildir, YAML workflow-lar, minlərlə hazır action. Növbəti dərsin mövzusu.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#brand-gitlab"></use></svg> GitLab CI/CD</h3><p class="text-neutral-700"><code>.gitlab-ci.yml</code>, öz runner-lər, on-prem quraşdırma üçün populyar.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#hammer"></use></svg> Jenkins</h3><p class="text-neutral-700">Ən köhnə və çevik açıq mənbəli server; Groovy <code>Jenkinsfile</code>, çoxlu plugin.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#git-pull-request-arrow"></use></svg> GitOps (Argo CD, Flux)</h3><p>Git repo — istənilən vəziyyətin mənbəyi; klaster özü repo-dakı dəyişikliyi çəkib tətbiq edir.</p></div>
             </div>
         </section>
     </main>
@@ -156,7 +156,7 @@
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

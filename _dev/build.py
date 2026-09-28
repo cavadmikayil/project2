@@ -721,6 +721,100 @@ def check_security():
     return problems
 
 
+# ---------------------------------------------------------------------------
+# IT terminləri lüğəti: hər terminin hansı dərslərdə keçdiyi (assets/glossary-index.js)
+# ---------------------------------------------------------------------------
+AZ_LETTERS = 'A-Za-z0-9ƏəÖöÜüĞğŞşÇçİı'
+# Terminə birbaşa bitişən Azərbaycan şəkilçiləri: routerlər, switch-ə, VLAN-ların (tire ilə olanlar onsuz da tapılır)
+AZ_SUFFIXES = sorted(['lar', 'lər', 'ları', 'ləri', 'ların', 'lərin', 'larda', 'lərdə', 'lara', 'lərə', 'lardan', 'lərdən',
+                      'ın', 'in', 'un', 'ün', 'ı', 'i', 'u', 'ü', 'a', 'ə', 'da', 'də', 'dan', 'dən', 'la', 'lə',
+                      'dır', 'dir', 'dur', 'dür', 'lı', 'li', 'lu', 'lü', 'sız', 'siz', 'ya', 'yə', 'nı', 'ni', 'nın',
+                      'nin', 'na', 'nə', 'nda', 'ndə', 'ndan', 'ndən'], key=len, reverse=True)
+
+
+def _lesson_texts():
+    texts = {}
+    for f in sorted((ROOT / 'lessons').glob('*.html')):
+        html = f.read_text()
+        m = re.search(r'<main[\s\S]*?</main>', html)
+        body = m.group(0) if m else html
+        body = re.sub(r'<(script|style)[\s\S]*?</\1>', ' ', body)
+        body = re.sub(r'<[^>]+>', ' ', body)
+        import html as _h
+        texts[f.stem] = _h.unescape(body)
+    return texts
+
+
+def load_glossary():
+    script = ("global.window={};require(process.argv[1]);"
+              "console.log(JSON.stringify({g:window.GLOSSARY,c:window.GLOSSARY_CATEGORIES}))")
+    try:
+        out = subprocess.run(['node', '-e', script, str(ROOT / 'assets/glossary.js')],
+                             capture_output=True, text=True, check=True).stdout
+    except (OSError, subprocess.CalledProcessError):
+        return None, None
+    data = json.loads(out)
+    return data['g'], data['c']
+
+
+def glossary_pattern(item):
+    words = [item['t']] + list(item.get('m', []))
+    alt = '|'.join(re.escape(w) for w in sorted(set(words), key=len, reverse=True))
+    suffix = '|'.join(AZ_SUFFIXES)
+    # İki və daha çox böyük hərfli terminlər (VLAN, IPv6, Wi-Fi) böyük-kiçik hərfə həssasdır, qalanları yox
+    flags = 0 if sum(ch.isupper() for ch in item['t']) >= 2 else re.IGNORECASE
+    return re.compile(rf'(?<![{AZ_LETTERS}])(?:{alt})(?:{suffix})?(?![{AZ_LETTERS}])', flags)
+
+
+def build_glossary_index():
+    terms, _ = load_glossary()
+    if terms is None:
+        print('Qeyd: node tapılmadı — glossary-index.js yenilənmədi')
+        return
+    texts = _lesson_texts()
+    catalog, _ = load_catalog()
+    titles = {l['href'][8:-5]: l['title'] for l in catalog['lessons']} if catalog else {}
+    index = {}
+    for item in terms:
+        pat = glossary_pattern(item)
+        skip = set(item.get('x', []))   # termin başqa mənada işlənən dərslər (məs. SAN = Subject Alternative Name)
+        # Sıra: termin dərsin adında keçirsə — əvvəl, sonra mətndə neçə dəfə işləndiyinə görə
+        scored = []
+        for slug, txt in texts.items():
+            n = len(pat.findall(txt))
+            if n and slug not in skip:
+                scored.append((1 if pat.search(titles.get(slug, '')) else 0, n, slug))
+        hits = [slug for _, _, slug in sorted(scored, key=lambda x: (-x[0], -x[1], x[2]))]
+        index[item['t']] = [len(hits), hits[:10]]
+    _write_if_changed(ROOT / 'assets' / 'glossary-index.js',
+        '// Hər terminin keçdiyi dərslər (ən çox işlənəndən) — build.py avtomatik yaradır, əl ilə dəyişməyin.\n'
+        '// Format: "termin": [dərs sayı, [ilk 10 dərs]]\n'
+        'window.GLOSSARY_INDEX = ' + json.dumps(index, ensure_ascii=False, separators=(',', ':')) + ';\n')
+    print(f'lüğət: {len(terms)} termin')
+
+
+def check_glossary():
+    problems = []
+    terms, cats = load_glossary()
+    if terms is None:
+        return problems
+    idx_file = ROOT / 'assets' / 'glossary-index.js'
+    index = json.loads(re.search(r'= (\{.*\});', idx_file.read_text()).group(1)) if idx_file.exists() else {}
+    seen = set()
+    cat_ids = {c['id'] for c in cats}
+    for item in terms:
+        key = item['t'].lower()
+        if key in seen:
+            problems.append(f'lüğətdə təkrarlanan termin: {item["t"]}')
+        seen.add(key)
+        if item.get('c') not in cat_ids:
+            problems.append(f'lüğət: naməlum kateqoriya "{item.get("c")}" ({item["t"]})')
+        if not item.get('d') or not item.get('f'):
+            problems.append(f'lüğət: izah və ya tam ad yoxdur ({item["t"]})')
+        if not index.get(item['t'], [0])[0]:
+            problems.append(f'lüğət: "{item["t"]}" heç bir dərsdə keçmir — m: [...] ilə yazılışı əlavə edin və ya termini çıxarın')
+    return problems
+
 def version_sprite_refs():
     h = hashlib.md5(SPRITE.read_bytes()).hexdigest()[:8]
     pat = re.compile(r"icons\.svg(?:\?v=[0-9a-f]+)?(?=[#'\"])")
@@ -878,6 +972,7 @@ def check():
     problems += check_internal_links()
     problems += check_seo()
     problems += check_security()
+    problems += check_glossary()
     for name, where in sorted(used.items()):
         if name not in symbols:
             problems.append(f'ikon sprite-da yoxdur: {name} ({where}) → python3 _dev/build.py icons add {name}')
@@ -903,6 +998,7 @@ def main(argv):
         print(__doc__)
         return 2
     build_lessons()
+    build_glossary_index()
     refresh_navs()
     refresh_footers()
     refresh_about()

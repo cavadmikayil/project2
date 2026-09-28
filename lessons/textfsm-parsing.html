@@ -43,7 +43,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#table"></use></svg> Çıxışı Parse Etmək: TextFSM və Genie</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#table"></use></svg> Çıxışı Parse Etmək: TextFSM və Genie</h1>
                 <span class="lesson-badge">Automation · Parsing</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -53,15 +53,15 @@
                 <a href="#genie" class="nav-link">Genie</a>
                 <a href="#compare" class="nav-link">Müqayisə</a>
                 <a href="#usecase" class="nav-link">Real ssenari</a>
-                <a href="../index.html#automation" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#moon"></use></svg></button>
+                <a href="../index.html#automation" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#table"></use></svg> Giriş: Mətni Məlumata Çevirmək</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#table"></use></svg> Giriş: Mətni Məlumata Çevirmək</h2>
             <p class="lead">
                 <code>show</code> əmrləri insan üçün yazılıb: sütunlar, boşluqlar, başlıqlar. Skript üçün isə lazım olan
                 <strong>strukturlaşdırılmış məlumatdır</strong> — məsələn, hər interfeys üçün <code>{"name": ..., "status": ...}</code>.
@@ -81,7 +81,7 @@ GigabitEthernet0/1     unassigned      YES unset  administratively down down
         </section>
 
         <section id="ntc" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#library"></use></svg> 1. ntc-templates: Hazır Kitabxana</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#library"></use></svg> 1. ntc-templates: Hazır Kitabxana</h2>
             <p class="lead">Network to Code icmasının <strong>ntc-templates</strong> layihəsində Cisco, Arista, Juniper, Huawei və digər platformalar üçün yüzlərlə TextFSM şablonu var.</p>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
@@ -102,7 +102,7 @@ conn.send_command("show version", use_textfsm=True)
         </section>
 
         <section id="own" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#pencil-ruler"></use></svg> 2. Öz TextFSM Şablonunu Yazmaq</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#pencil-ruler"></use></svg> 2. Öz TextFSM Şablonunu Yazmaq</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code># ntp_assoc.textfsm — "show ntp associations" üçün
@@ -140,7 +140,7 @@ bad = [r for r in result if r["STRATUM"] == "16"]      # stratum 16 = sinxronla�
         </section>
 
         <section id="genie" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#sparkles"></use></svg> 3. Cisco Genie / pyATS</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#sparkles"></use></svg> 3. Cisco Genie / pyATS</h2>
             <p class="lead">Cisco-nun öz test framework-u <strong>pyATS</strong> və onun parser kitabxanası <strong>Genie</strong> 2000-dən çox Cisco əmri üçün dərin iç-içə strukturlar qaytarır.</p>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
@@ -160,7 +160,7 @@ pyats diff before after</code></pre>
         </section>
 
         <section id="compare" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#scale"></use></svg> 4. Hansını Seçmək</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#scale"></use></svg> 4. Hansını Seçmək</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th></th><th>Regex</th><th>TextFSM / ntc-templates</th><th>Genie</th><th>API (NETCONF/REST)</th></tr></thead>
@@ -175,7 +175,7 @@ pyats diff before after</code></pre>
         </section>
 
         <section id="usecase" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#search"></use></svg> 5. Real Ssenari: MAC Ünvanı Hansı Portdadır?</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#search"></use></svg> 5. Real Ssenari: MAC Ünvanı Hansı Portdadır?</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>def find_mac(switches, mac):
@@ -202,7 +202,7 @@ print(find_mac(access_switches, "00:1A:2B:3C:4D:5E"))
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
