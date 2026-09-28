@@ -43,7 +43,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#split"></use></svg> VLAN, Trunking və DTP</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#split"></use></svg> VLAN, Trunking və DTP</h1>
                 <span class="lesson-badge">CCNA · Network Access</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -53,29 +53,29 @@
                 <a href="#dtp-modes" class="nav-link">DTP modları</a>
                 <a href="#best" class="nav-link">Tövsiyələr</a>
                 <a href="#lab" class="nav-link">Lab</a>
-                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#moon"></use></svg></button>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#split"></use></svg> Giriş: Şəbəkə Seqmentasiyası və Bağlantı</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#split"></use></svg> Giriş: Şəbəkə Seqmentasiyası və Bağlantı</h2>
             <p class="lead">
                 Bu dərs VLAN texnologiyasının əsas komponentlərini araşdırır: <strong>access portlar</strong>, <strong>VLAN trunking</strong> (802.1Q) və
                 Cisco-nun <strong>Dynamic Trunking Protocol</strong>-u (DTP). Bu elementlər şəbəkəni məntiqi seqmentlərə bölür, switch-lər arasında
                 bir neçə VLAN-ı bir kabel üzərindən daşıyır və cihazlararası əlaqəni idarə edir.
             </p>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#plug"></use></svg> Access port</h3><p class="text-neutral-700">Bir VLAN, tag-sız frame-lər — kompüter, printer, kamera üçün.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#git-merge"></use></svg> Trunk port</h3><p class="text-neutral-700">Çoxlu VLAN, 802.1Q tag ilə — switch–switch, switch–router, switch–server (hypervisor).</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#handshake"></use></svg> DTP</h3><p>Portun trunk olub-olmayacağını qonşu ilə avtomatik danışır. Production-da adətən söndürülür.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#plug"></use></svg> Access port</h3><p class="text-neutral-700">Bir VLAN, tag-sız frame-lər — kompüter, printer, kamera üçün.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#git-merge"></use></svg> Trunk port</h3><p class="text-neutral-700">Çoxlu VLAN, 802.1Q tag ilə — switch–switch, switch–router, switch–server (hypervisor).</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#handshake"></use></svg> DTP</h3><p>Portun trunk olub-olmayacağını qonşu ilə avtomatik danışır. Production-da adətən söndürülür.</p></div>
             </div>
         </section>
 
         <section id="access-ports" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#plug"></use></svg> 1. Access Portlar</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#plug"></use></svg> 1. Access Portlar</h2>
             <p class="text-neutral-700 mb-6">Access port switch-də yalnız bir VLAN-a aid olan və son istifadəçi cihazlarını qoşmaq üçün istifadə olunan portdur. Bu portdan yalnız həmin VLAN-ın trafiki ötürülür və frame-lər tag-sız olur. IP telefon üçün əlavə olaraq <strong>voice VLAN</strong> təyin edilə bilər.</p>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="access-config">Konfiqurasiya</button>
@@ -111,7 +111,7 @@ show interfaces FastEthernet0/1 switchport</code></pre>
         </section>
 
         <section id="vlan-trunking" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#git-merge"></use></svg> 2. VLAN Trunking (802.1Q)</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#git-merge"></use></svg> 2. VLAN Trunking (802.1Q)</h2>
             <p class="text-neutral-700 mb-6">Trunk port bir neçə VLAN-ın trafikini bir linkdən ötürür. <strong>IEEE 802.1Q</strong> frame-ə 4 baytlıq tag əlavə edir (içində 12 bitlik VLAN ID — 1–4094). <strong>Native VLAN</strong>-ın frame-ləri isə tag-sız gedir, ona görə hər iki tərəfdə eyni olmalıdır.</p>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="trunk-config">Konfiqurasiya</button>
@@ -139,13 +139,13 @@ show interfaces GigabitEthernet0/1 switchport</code></pre>
                 </div>
             </div>
             <div class="note-box mt-6">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#triangle-alert"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#triangle-alert"></use></svg>
                 <p class="text-neutral-800"><strong>Native VLAN mismatch:</strong> iki tərəfdə fərqli native VLAN olduqda CDP xəbərdarlıq verir və trafik səhv VLAN-a "sızır".</p>
             </div>
         </section>
 
         <section id="dtp-modes" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#handshake"></use></svg> 3. Dynamic Trunking Protocol (DTP) Modları</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#handshake"></use></svg> 3. Dynamic Trunking Protocol (DTP) Modları</h2>
             <p class="text-neutral-700 mb-6">DTP Cisco-ya məxsus protokoldur və switch portları arasında trunk əlaqəsini avtomatik qurmağa kömək edir. Aşağıdakı cədvəl iki tərəfin modlarından asılı olaraq nəticəni göstərir.</p>
             <div class="table-wrap mb-6">
                 <table class="data-table">
@@ -159,7 +159,7 @@ show interfaces GigabitEthernet0/1 switchport</code></pre>
                 </table>
             </div>
             <div class="note-box mb-6">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#lightbulb"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#lightbulb"></use></svg>
                 <p class="text-neutral-800">Yadda saxlama qaydası: <strong>auto + auto = access</strong> — iki passiv tərəf heç vaxt trunk təklif etmir. Müasir Catalyst switch-lərdə defolt mod adətən <strong>dynamic auto</strong>-dur.</p>
             </div>
             <div class="tab-bar" data-tabs>
@@ -199,20 +199,20 @@ show interfaces FastEthernet0/1 switchport</code></pre>
         </section>
 
         <section id="best" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#shield-check"></use></svg> 4. Tövsiyələr və Təhlükəsizlik</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#shield-check"></use></svg> 4. Tövsiyələr və Təhlükəsizlik</h2>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#ban"></use></svg><p class="text-neutral-700"><strong>DTP-yə güvənməyin:</strong> portları əl ilə <code>access</code> və ya <code>trunk</code> + <code>nonegotiate</code> edin — hücumçu DTP ilə öz portunu trunk edib bütün VLAN-lara çıxa bilər (switch spoofing).</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#tag"></use></svg><p class="text-neutral-700"><strong>Native VLAN:</strong> istifadə olunmayan VLAN (məs. 999) seçin — double tagging (VLAN hopping) hücumuna qarşı.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#list-filter"></use></svg><p class="text-neutral-700"><strong>Allowed VLAN:</strong> trunk-da yalnız lazım olan VLAN-lar.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#power-off"></use></svg><p class="text-neutral-700"><strong>İstifadə olunmayan portlar:</strong> <code>shutdown</code> + ayrıca "parking" VLAN-a.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#ban"></use></svg><p class="text-neutral-700"><strong>DTP-yə güvənməyin:</strong> portları əl ilə <code>access</code> və ya <code>trunk</code> + <code>nonegotiate</code> edin — hücumçu DTP ilə öz portunu trunk edib bütün VLAN-lara çıxa bilər (switch spoofing).</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#tag"></use></svg><p class="text-neutral-700"><strong>Native VLAN:</strong> istifadə olunmayan VLAN (məs. 999) seçin — double tagging (VLAN hopping) hücumuna qarşı.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#list-filter"></use></svg><p class="text-neutral-700"><strong>Allowed VLAN:</strong> trunk-da yalnız lazım olan VLAN-lar.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#power-off"></use></svg><p class="text-neutral-700"><strong>İstifadə olunmayan portlar:</strong> <code>shutdown</code> + ayrıca "parking" VLAN-a.</p></div>
             </div>
         </section>
         <section id="lab" class="section-card lab-section" data-lab="dtp">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#flask-conical"></use></svg> Lab: VLAN-lar, Access və Trunk Portlar</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#flask-conical"></use></svg> Lab: VLAN-lar, Access və Trunk Portlar</h2>
             <div class="card-grid mb-6">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">İki switch arasında 802.1Q trunk qurmaq, VLAN-ları yaratmaq və DTP-ni təhlükəsiz şəkildə söndürmək.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer və ya portalın CLI Simulyatoru (5-ci tapşırıq)</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#timer"></use></svg> Müddət</h3><p>40 dəq · Orta</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">İki switch arasında 802.1Q trunk qurmaq, VLAN-ları yaratmaq və DTP-ni təhlükəsiz şəkildə söndürmək.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer və ya portalın CLI Simulyatoru (5-ci tapşırıq)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#timer"></use></svg> Müddət</h3><p>40 dəq · Orta</p></div>
             </div>
             <h3 class="text-xl font-bold mb-3">Topologiya</h3>
             <div class="code-block lab-topology mb-6">
@@ -250,12 +250,12 @@ show dtp interface gi0/1</code></pre>
             </div>
             <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
             <div class="feature-grid mb-6">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#circle-check"></use></svg><p class="text-neutral-700">auto + auto nəticəsi access-dir — trunk yaranmır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#circle-check"></use></svg><p class="text-neutral-700"><code>show interfaces trunk</code>-da Gi0/1 802.1q, native 99, allowed 10,20,99.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#circle-check"></use></svg><p class="text-neutral-700">Eyni VLAN-dakı PC-lər əlaqə qurur, fərqli VLAN-lar router olmadan qura bilmir.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#circle-check"></use></svg><p class="text-neutral-700">auto + auto nəticəsi access-dir — trunk yaranmır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#circle-check"></use></svg><p class="text-neutral-700"><code>show interfaces trunk</code>-da Gi0/1 802.1q, native 99, allowed 10,20,99.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#circle-check"></use></svg><p class="text-neutral-700">Eyni VLAN-dakı PC-lər əlaqə qurur, fərqli VLAN-lar router olmadan qura bilmir.</p></div>
             </div>
             <details class="lab-solution mb-6">
-                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
                 <div class="code-block mt-3">
                     <button class="copy-btn">Kopyala</button>
                     <pre><code>SW1(config)# vlan 10
@@ -280,7 +280,7 @@ SW1(config-if)# switchport nonegotiate
             </details>
             <div class="lab-footer">
                 <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
-                <button type="button" class="lab-done-btn" data-lab="dtp" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#circle-dot"></use></svg> Labı bitirdim</button>
+                <button type="button" class="lab-done-btn" data-lab="dtp" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#circle-dot"></use></svg> Labı bitirdim</button>
             </div>
         </section>
     </main>
@@ -289,7 +289,7 @@ SW1(config-if)# switchport nonegotiate
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

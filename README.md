@@ -46,6 +46,8 @@ tools/*.html               Alətlər: quiz, CCNA imtahan simulyatoru, CLI simuly
 assets/catalog.js          Bütün kateqoriyalar və dərslərin siyahısı (dashboard və quiz buradan oxuyur)
 assets/questions.js        Bütün quiz sualları
 assets/lesson-sections.js  Hər dərsin bölmələri (build.py yaradır — Dərslər səhifəsi üçün)
+assets/glossary.js         IT terminləri lüğəti (Tools → IT Terminləri Lüğəti): termin, tam ad, izah, kateqoriya
+assets/glossary-index.js   Hər terminin keçdiyi dərslər (build.py dərs mətnlərindən özü tapır)
 assets/icons.svg           İkon sprite-ı
 assets/theme.css/.js       Ümumi dizayn, menyu, footer, qaranlıq rejim
 assets/lesson.css/.js      Dərs komponentləri (kartlar, cədvəllər, tab-lar, "Kopyala" düyməsi)
@@ -179,6 +181,10 @@ Markdown formatı — hər kurs üçün başlıq, playlist linki və videolar s�
 Kursun qısa adı (linkdə `videos.html#fortigate`), izahı, ikonu, sırası və uyğun dərs vəsaitləri `_dev/videos_import.py`-dəki `COURSE_META` və `ORDER`-dədir. Yeni video çəkəndə siyahını yeniləyib skripti yenidən işlədin.
 
 Hər video öz ID-si ilə ayrıca açılır (YouTube-un playlist funksiyasından asılı deyil); iframe `referrerpolicy="strict-origin-when-cross-origin"` və `origin` ilə yaradılır — YouTube bunları tələb edir, olmasa "Error 153" verir. Tələbə "Növbəti" ilə irəliləyir, "Baxdım" ilə qeyd edir; sona qədər baxılan video avtomatik qeyd olunur və növbəti açılır, portal qaldığı videodan davam edir. Eyni video bir neçə kursdadırsa, "Baxdım" hamısında görünür.
+
+### IT terminləri lüğəti
+
+Yeni termin: `assets/glossary.js`-ə bir sətir — `{ t: 'VLAN', f: 'Virtual Local Area Network', d: 'Qısa Azərbaycanca izah', c: 'net' }` — və `python3 _dev/build.py`. Terminin hansı dərslərdə keçdiyini build özü tapır (dərsin adında keçənlər əvvəl, sonra ən çox işləndiyi dərslər); Azərbaycan şəkilçiləri də nəzərə alınır (routerlər, switch-ə). Başqa yazılışlar üçün `m: ['...']`, termin başqa mənada işlənən dərslər üçün `x: ['dərs-adı']`. Heç bir dərsdə keçməyən termin build-də xəta verir.
 
 ## 7. Faydalı link əlavə etmək
 

@@ -43,7 +43,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#file-cog"></use></svg> NETCONF, RESTCONF və YANG</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#file-cog"></use></svg> NETCONF, RESTCONF və YANG</h1>
                 <span class="lesson-badge">Automation · Model-driven</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -53,15 +53,15 @@
                 <a href="#restconf" class="nav-link">RESTCONF</a>
                 <a href="#python" class="nav-link">Python ilə</a>
                 <a href="#telemetry" class="nav-link">Telemetry</a>
-                <a href="../index.html#automation" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#moon"></use></svg></button>
+                <a href="../index.html#automation" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#file-cog"></use></svg> Giriş: Model-Driven Programmability</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#file-cog"></use></svg> Giriş: Model-Driven Programmability</h2>
             <p class="lead">
                 CLI insanlar üçündür: çıxış versiyadan versiyaya dəyişir, xəta mesajları mətn şəklindədir. <strong>Model-driven</strong> yanaşmada
                 cihazın konfiqurasiyası və vəziyyəti <strong>YANG</strong> modeli ilə dəqiq təsvir olunur, proqramlar isə cihazla
@@ -82,7 +82,7 @@
         </section>
 
         <section id="yang" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#list-tree"></use></svg> 1. YANG: Məlumat Modeli</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#list-tree"></use></svg> 1. YANG: Məlumat Modeli</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>module example-vlan {
@@ -101,15 +101,15 @@
                 <p class="code-note">YANG məlumatın strukturunu və qaydalarını müəyyən edir: VLAN ID-si 1–4094 aralığında olmalıdır — 5000 göndərsəniz, cihaz konfiqurasiyanı tətbiq etmədən rədd edir.</p>
             </div>
             <div class="card-grid">
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#box"></use></svg> container</h3><p class="text-neutral-700">Qovluq kimi qruplaşdırma.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#list"></use></svg> list + key</h3><p class="text-neutral-700">Təkrarlanan elementlər (interfeyslər, VLAN-lar), açarla tanınır.</p></div>
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#leaf"></use></svg> leaf</h3><p class="text-neutral-700">Tək dəyər: ad, IP, MTU.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#library"></use></svg> Model mənbələri</h3><p><strong>IETF</strong> və <strong>OpenConfig</strong> (vendor-neytral), <strong>native</strong> (Cisco-IOS-XE-native — bütün CLI imkanları).</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#box"></use></svg> container</h3><p class="text-neutral-700">Qovluq kimi qruplaşdırma.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#list"></use></svg> list + key</h3><p class="text-neutral-700">Təkrarlanan elementlər (interfeyslər, VLAN-lar), açarla tanınır.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#leaf"></use></svg> leaf</h3><p class="text-neutral-700">Tək dəyər: ad, IP, MTU.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#library"></use></svg> Model mənbələri</h3><p><strong>IETF</strong> və <strong>OpenConfig</strong> (vendor-neytral), <strong>native</strong> (Cisco-IOS-XE-native — bütün CLI imkanları).</p></div>
             </div>
         </section>
 
         <section id="netconf" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#terminal"></use></svg> 2. NETCONF</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#terminal"></use></svg> 2. NETCONF</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>! IOS XE-də aktivləşdirmək
@@ -127,7 +127,7 @@ username netadmin privilege 15 secret S3cret!</code></pre>
         </section>
 
         <section id="restconf" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#globe"></use></svg> 3. RESTCONF</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#globe"></use></svg> 3. RESTCONF</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code># Interfeysləri oxumaq (IETF modeli)
@@ -150,7 +150,7 @@ curl -sk -u netadmin:S3cret! -X PUT \
         </section>
 
         <section id="python" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#code"></use></svg> 4. Python: ncclient</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#code"></use></svg> 4. Python: ncclient</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>from ncclient import manager      # pip install ncclient
@@ -180,10 +180,10 @@ with manager.connect(host="10.10.0.254", port=830, username="netadmin",
         </section>
 
         <section id="telemetry" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#activity"></use></svg> 5. Model-Driven Telemetry</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#activity"></use></svg> 5. Model-Driven Telemetry</h2>
             <div class="card-grid">
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#repeat"></use></svg> SNMP polling</h3><p class="text-neutral-700">Monitorinq serveri hər 5 dəqiqədən bir soruşur — qısa pikləri görmür, cihazı yükləyir.</p></div>
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#radio"></use></svg> Streaming telemetry</h3><p class="text-neutral-700">Cihaz özü YANG məlumatını hər 10 saniyədən bir və ya dəyişiklik anında göndərir (gNMI, gRPC dial-out).</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#repeat"></use></svg> SNMP polling</h3><p class="text-neutral-700">Monitorinq serveri hər 5 dəqiqədən bir soruşur — qısa pikləri görmür, cihazı yükləyir.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#radio"></use></svg> Streaming telemetry</h3><p class="text-neutral-700">Cihaz özü YANG məlumatını hər 10 saniyədən bir və ya dəyişiklik anında göndərir (gNMI, gRPC dial-out).</p></div>
             </div>
             <div class="code-block mt-6">
                 <button class="copy-btn">Kopyala</button>
@@ -202,7 +202,7 @@ with manager.connect(host="10.10.0.254", port=830, username="netadmin",
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

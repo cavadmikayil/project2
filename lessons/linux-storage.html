@@ -43,7 +43,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#database"></use></svg> Disk, LVM və RAID</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#database"></use></svg> Disk, LVM və RAID</h1>
                 <span class="lesson-badge">Linux · Storage</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -53,28 +53,28 @@
                 <a href="#extend" class="nav-link">Genişləndirmə</a>
                 <a href="#raid" class="nav-link">mdadm RAID</a>
                 <a href="#swap" class="nav-link">Swap və sağlamlıq</a>
-                <a href="../index.html#linux" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#moon"></use></svg></button>
+                <a href="../index.html#linux" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#database"></use></svg> Giriş: "Diskə Yer Əlavə Et" Tapşırığı</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#database"></use></svg> Giriş: "Diskə Yer Əlavə Et" Tapşırığı</h2>
             <p class="lead">
                 Server administratorunun ən tez-tez aldığı sorğulardan biri: "<code>/var</code> doldu, yer artırın". Fiziki bölmələrlə bu, çətin və riskli işdir;
                 <strong>LVM</strong> ilə isə sistemi dayandırmadan, bir neçə əmrlə edilir. Bu dərs diskdən fayl sisteminə qədər bütün zənciri göstərir.
             </p>
             <div class="card-grid">
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#hard-drive"></use></svg> Disk</h3><p class="text-neutral-700"><code>/dev/sda</code>, <code>/dev/nvme0n1</code>, <code>/dev/vdb</code> (VM).</p></div>
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#layers"></use></svg> Bölmə / LVM</h3><p class="text-neutral-700"><code>/dev/sda1</code> və ya <code>/dev/vg_data/lv_app</code>.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#folder"></use></svg> Fayl sistemi</h3><p>ext4 və ya XFS, mount nöqtəsi ilə qovluq ağacına qoşulur.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#hard-drive"></use></svg> Disk</h3><p class="text-neutral-700"><code>/dev/sda</code>, <code>/dev/nvme0n1</code>, <code>/dev/vdb</code> (VM).</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#layers"></use></svg> Bölmə / LVM</h3><p class="text-neutral-700"><code>/dev/sda1</code> və ya <code>/dev/vg_data/lv_app</code>.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#folder"></use></svg> Fayl sistemi</h3><p>ext4 və ya XFS, mount nöqtəsi ilə qovluq ağacına qoşulur.</p></div>
             </div>
         </section>
 
         <section id="disk" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#hard-drive"></use></svg> 1. Bölmə və Fayl Sistemi</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#hard-drive"></use></svg> 1. Bölmə və Fayl Sistemi</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>lsblk                                   # yeni disk: sdb, bölməsiz
@@ -97,7 +97,7 @@ blkid /dev/sdb1                         # UUID → /etc/fstab-a</code></pre>
         </section>
 
         <section id="lvm" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#layers-3"></use></svg> 2. LVM: Çevik Disk İdarəetməsi</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#layers-3"></use></svg> 2. LVM: Çevik Disk İdarəetməsi</h2>
             <ol class="steps max-w-3xl mx-auto mb-6">
                 <li><p class="text-neutral-700"><strong>PV (Physical Volume):</strong> LVM üçün hazırlanmış disk və ya bölmə.</p></li>
                 <li><p class="text-neutral-700"><strong>VG (Volume Group):</strong> bir neçə PV-nin birləşdiyi yer hovuzu.</p></li>
@@ -119,7 +119,7 @@ lvcreate -s -n snap_app -L 20G /dev/vg_data/lv_app   # snapshot — yeniləməd�
         </section>
 
         <section id="extend" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#maximize-2"></use></svg> 3. Yeri Artırmaq (Fasiləsiz)</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#maximize-2"></use></svg> 3. Yeri Artırmaq (Fasiləsiz)</h2>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="st-newdisk">Yeni disk əlavə olunub</button>
                 <button class="tab-btn inactive-tab" data-pane="st-grow">VM diski böyüdülüb</button>
@@ -143,13 +143,13 @@ lvextend -r -l +100%FREE /dev/vg_data/lv_app</code></pre>
                 </div>
             </div>
             <div class="note-box mt-6">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#lightbulb"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#lightbulb"></use></svg>
                 <p class="text-neutral-800"><code>-r</code> olmadan LV böyüyür, amma fayl sistemi köhnə ölçüdə qalır; onda əl ilə: XFS üçün <code>xfs_growfs /data</code>, ext4 üçün <code>resize2fs /dev/vg_data/lv_app</code>.</p>
             </div>
         </section>
 
         <section id="raid" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#copy"></use></svg> 4. Software RAID: mdadm</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#copy"></use></svg> 4. Software RAID: mdadm</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdb /dev/sdc   # RAID 1
@@ -167,7 +167,7 @@ mdadm /dev/md0 --add /dev/sdd            # rebuild avtomatik başlayır</code></
         </section>
 
         <section id="swap" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#heart-pulse"></use></svg> 5. Swap və Disk Sağlamlığı</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#heart-pulse"></use></svg> 5. Swap və Disk Sağlamlığı</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code># 4 GB swap faylı
@@ -184,7 +184,7 @@ nvme smart-log /dev/nvme0
 dmesg -T | grep -Ei "i/o error|ata[0-9]"</code></pre>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#triangle-alert"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#triangle-alert"></use></svg>
                 <p class="text-neutral-800">Reallocated/pending sektorların sayı artırsa, disk ölmək üzrədir — dərhal backup və dəyişdirmə planı.</p>
             </div>
         </section>
@@ -194,7 +194,7 @@ dmesg -T | grep -Ei "i/o error|ata[0-9]"</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">

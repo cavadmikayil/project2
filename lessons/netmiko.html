@@ -43,7 +43,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#terminal-square"></use></svg> Netmiko: SSH ilə Cihaz İdarəetməsi</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#terminal-square"></use></svg> Netmiko: SSH ilə Cihaz İdarəetməsi</h1>
                 <span class="lesson-badge">Automation · Netmiko</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -53,15 +53,15 @@
                 <a href="#config" class="nav-link">Konfiqurasiya</a>
                 <a href="#many" class="nav-link">Çoxlu cihaz</a>
                 <a href="#safe" class="nav-link">Təhlükəsizlik</a>
-                <a href="../index.html#automation" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#moon"></use></svg></button>
+                <a href="../index.html#automation" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#terminal-square"></use></svg> Giriş: Python-un SSH Klienti</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#terminal-square"></use></svg> Giriş: Python-un SSH Klienti</h2>
             <p class="lead">
                 <strong>Netmiko</strong> — Kirk Byers tərəfindən yaradılmış, SSH üzərindən şəbəkə cihazlarına qoşulmağı sadələşdirən kitabxanadır.
                 O, prompt-ları tanıyır, <code>enable</code> və <code>configure terminal</code> rejimlərinə keçir, <code>--More--</code> səhifələməsini
@@ -74,7 +74,7 @@
         </section>
 
         <section id="connect" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#plug"></use></svg> 1. Qoşulma</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#plug"></use></svg> 1. Qoşulma</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>from netmiko import ConnectHandler
@@ -96,7 +96,7 @@ with ConnectHandler(**r1) as conn:     # blok bitəndə bağlantı avtomatik ba�
         </section>
 
         <section id="show" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#eye"></use></svg> 2. Show Əmrləri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#eye"></use></svg> 2. Show Əmrləri</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>with ConnectHandler(**r1) as conn:
@@ -116,7 +116,7 @@ with ConnectHandler(**r1) as conn:     # blok bitəndə bağlantı avtomatik ba�
         </section>
 
         <section id="config" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#settings"></use></svg> 3. Konfiqurasiya Göndərmək</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#settings"></use></svg> 3. Konfiqurasiya Göndərmək</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>commands = [
@@ -136,13 +136,13 @@ with ConnectHandler(**r1) as conn:
     conn.send_config_from_file("templates/r1_acl.txt")</code></pre>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#triangle-alert"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#triangle-alert"></use></svg>
                 <p class="text-neutral-800"><code>send_config_set</code> xəta olsa da davam edir. Çıxışda <code>% Invalid input</code> axtarın və ya <code>error_pattern=r"% Invalid|% Incomplete"</code> parametri ilə istisna yaradın. Uzaqdan idarə olunan interfeysi səhvən söndürməmək üçün kritik dəyişikliklərdən əvvəl <code>reload in 10</code> istifadə edin.</p>
             </div>
         </section>
 
         <section id="many" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#network"></use></svg> 4. Çoxlu Cihaz: Backup Skripti</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#network"></use></svg> 4. Çoxlu Cihaz: Backup Skripti</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code>import os, yaml
@@ -176,14 +176,14 @@ with ThreadPoolExecutor(max_workers=10) as pool:           # 10 cihaz paralel
         </section>
 
         <section id="safe" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#shield-check"></use></svg> 5. Təhlükəsiz Avtomatlaşdırma</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#shield-check"></use></svg> 5. Təhlükəsiz Avtomatlaşdırma</h2>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#flask-conical"></use></svg><p class="text-neutral-700"><strong>Əvvəlcə lab:</strong> CML, GNS3, EVE-NG və ya DevNet Sandbox.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#list-ordered"></use></svg><p class="text-neutral-700"><strong>Mərhələli çıxış:</strong> əvvəl 1 cihaz, sonra 5, sonra hamısı.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#eye"></use></svg><p class="text-neutral-700"><strong>Dry run:</strong> skript əvvəlcə göndərəcəyi əmrləri çap etsin, təsdiqdən sonra göndərsin.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#history"></use></svg><p class="text-neutral-700"><strong>Əvvəl backup:</strong> dəyişiklikdən əvvəl <code>show run</code>-ı saxlayın.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#user-lock"></use></svg><p class="text-neutral-700"><strong>Ayrıca hesab:</strong> avtomatlaşdırma üçün TACACS+/RADIUS-da məhdud icazəli servis hesabı; əmrlər loglanır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#circle-check"></use></svg><p class="text-neutral-700"><strong>Sonra yoxlama:</strong> dəyişiklikdən sonra <code>show</code> ilə nəticəni avtomatik təsdiqləyin.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#flask-conical"></use></svg><p class="text-neutral-700"><strong>Əvvəlcə lab:</strong> CML, GNS3, EVE-NG və ya DevNet Sandbox.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#list-ordered"></use></svg><p class="text-neutral-700"><strong>Mərhələli çıxış:</strong> əvvəl 1 cihaz, sonra 5, sonra hamısı.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#eye"></use></svg><p class="text-neutral-700"><strong>Dry run:</strong> skript əvvəlcə göndərəcəyi əmrləri çap etsin, təsdiqdən sonra göndərsin.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#history"></use></svg><p class="text-neutral-700"><strong>Əvvəl backup:</strong> dəyişiklikdən əvvəl <code>show run</code>-ı saxlayın.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#user-lock"></use></svg><p class="text-neutral-700"><strong>Ayrıca hesab:</strong> avtomatlaşdırma üçün TACACS+/RADIUS-da məhdud icazəli servis hesabı; əmrlər loglanır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#circle-check"></use></svg><p class="text-neutral-700"><strong>Sonra yoxlama:</strong> dəyişiklikdən sonra <code>show</code> ilə nəticəni avtomatik təsdiqləyin.</p></div>
             </div>
         </section>
     </main>
@@ -192,7 +192,7 @@ with ThreadPoolExecutor(max_workers=10) as pool:           # 10 cihaz paralel
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
