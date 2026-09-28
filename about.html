@@ -34,6 +34,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/lesson.css">
     <link rel="stylesheet" href="assets/theme.css">
+    <link rel="stylesheet" href="assets/tools.css">
     <style>
         .about-hero {
             background: #0a0a0a;
@@ -111,6 +112,62 @@
         body.dark-mode .social-handle { color: #a3a3a3; }
         body.dark-mode .stat-box .icon, body.dark-mode .offer-card h3 .icon { color: #fbbf24; }
         body.dark-mode .social-card:hover, body.dark-mode .offer-card:hover { border-color: #f59e0b; }
+        /* Bələdçi */
+        #guide { scroll-margin-top: 5rem; }
+        .guide-item { scroll-margin-top: 5.5rem; }
+        .guide-toc { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.5rem 0 1.25rem; }
+        .guide-toc a { font-size: 0.82rem; font-weight: 700; color: #262626; padding: 0.35rem 0.75rem; border: 1px solid #e5e5e5; border-radius: 9999px; background: #ffffff; }
+        .guide-toc a:hover { border-color: #f59e0b; color: #92400e; }
+        .guide-item { border: 1px solid #e5e5e5; border-radius: 0.9rem; background: #ffffff; margin-bottom: 0.6rem; }
+        .guide-item > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 0.6rem; padding: 0.9rem 1.1rem; font-weight: 800; color: #0a0a0a; border-radius: 0.9rem; }
+        .guide-item > summary::-webkit-details-marker { display: none; }
+        .guide-item > summary::after { content: ''; margin-left: auto; width: 0.55rem; height: 0.55rem; border-right: 2px solid #a3a3a3; border-bottom: 2px solid #a3a3a3; transform: rotate(45deg); transition: transform .15s; flex-shrink: 0; }
+        .guide-item[open] > summary::after { transform: rotate(-135deg); border-color: #d97706; }
+        .guide-item > summary .icon { color: #d97706; flex-shrink: 0; }
+        .guide-item > summary:hover { background: #fafafa; }
+        .guide-item[open] > summary { background: #fffbeb; border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+        .guide-body { padding: 0.9rem 1.1rem 1.1rem; color: #404040; line-height: 1.65; }
+        .guide-body p + p, .guide-body p + ul, .guide-body ul + p, .guide-body p + ol, .guide-body .table-wrap + p { margin-top: 0.7rem; }
+        .guide-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.55rem; }
+        .guide-list li { position: relative; padding-left: 1.15rem; }
+        .guide-list li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 0.45rem; height: 0.45rem; border-radius: 9999px; background: #f59e0b; }
+        .guide-steps { counter-reset: step; list-style: none; padding: 0; margin: 0.4rem 0 0; display: flex; flex-direction: column; gap: 0.6rem; }
+        .guide-steps li { counter-increment: step; position: relative; padding-left: 2.2rem; }
+        .guide-steps li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 1.55rem; height: 1.55rem; border-radius: 9999px; background: #0a0a0a; color: #fbbf24; font-size: 0.8rem; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+        .guide-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-top: 0.8rem; }
+        .guide-table th { text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; color: #737373; padding: 0.5rem 0.6rem; border-bottom: 2px solid #e5e5e5; }
+        .guide-table td { padding: 0.55rem 0.6rem; border-bottom: 1px solid #f5f5f5; vertical-align: top; }
+        .guide-note { display: flex; gap: 0.5rem; align-items: flex-start; margin-top: 0.9rem; padding: 0.7rem 0.9rem; border-radius: 0.6rem; background: #fffbeb; border-left: 3px solid #f59e0b; font-size: 0.9rem; }
+        .guide-note .icon { color: #d97706; flex-shrink: 0; margin-top: 0.2rem; }
+        kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.8em; padding: 0.1rem 0.4rem; border: 1px solid #d4d4d4; border-bottom-width: 2px; border-radius: 0.3rem; background: #fafafa; color: #171717; }
+        .link-strong { font-weight: 700; color: #b45309; text-decoration: underline; text-underline-offset: 2px; }
+        .data-info { font-weight: 600; color: #262626; }
+        .data-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+        .data-actions .btn { cursor: pointer; }
+        .btn.danger:hover { border-color: #c2410c; color: #9a3412; }
+        .data-msg { margin-top: 0.6rem; font-weight: 600; color: #92400e; min-height: 1.4em; }
+        .faq dt { font-weight: 800; color: #171717; margin-top: 0.9rem; }
+        .faq dt:first-child { margin-top: 0; }
+        .faq dd { margin: 0.25rem 0 0; }
+        @media (max-width: 640px) {
+            .guide-item > summary { padding: 0.8rem 0.9rem; font-size: 0.95rem; }
+            .guide-body { padding: 0.8rem 0.9rem 1rem; }
+            .data-actions .btn { flex: 1 1 100%; }
+            .guide-table { font-size: 0.82rem; }
+        }
+        body.dark-mode .guide-toc a, body.dark-mode .guide-item { background: #171717; border-color: #333333; color: #e5e5e5; }
+        body.dark-mode .guide-item > summary { color: #ffffff; }
+        body.dark-mode .guide-item > summary:hover { background: #1f1f1f; }
+        body.dark-mode .guide-item[open] > summary { background: #2a2113; }
+        body.dark-mode .guide-body, body.dark-mode .data-info { color: #d4d4d4; }
+        body.dark-mode .guide-table th { border-color: #333333; color: #a3a3a3; }
+        body.dark-mode .guide-table td { border-color: #262626; }
+        body.dark-mode .guide-note { background: #2a2113; }
+        body.dark-mode kbd { background: #262626; border-color: #404040; color: #fafafa; }
+        body.dark-mode .faq dt { color: #ffffff; }
+        body.dark-mode .guide-steps li::before { background: #f59e0b; color: #0a0a0a; }
+        body.dark-mode .link-strong { color: #fbbf24; }
+        body.dark-mode .data-msg { color: #fcd34d; }
     </style>
 </head>
 <body class="antialiased">
@@ -118,17 +175,17 @@
     <header class="bg-white shadow-md sticky top-0 z-50" data-site-header>
         <div class="container mx-auto px-6 py-3 flex flex-wrap gap-x-3 gap-y-2 justify-between items-center">
             <a href="index.html" class="flex items-center gap-2 text-lg font-extrabold text-neutral-900">
-                <span class="site-logo"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#graduation-cap"></use></svg></span> Cavad Mikayil Təlim Portalı
+                <span class="site-logo"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#graduation-cap"></use></svg></span> Cavad Mikayil Təlim Portalı
             </a>
             <nav class="site-nav order-last md:order-none md:ml-auto" aria-label="Sayt menyusu">
-                    <a href="index.html" data-nav="home"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#house"></use></svg> Ana Səhifə</a>
-                    <a href="index.html#ccna" data-nav="ccna"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> CCNA</a>
-                    <a href="tools.html" data-nav="tools"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#toolbox"></use></svg> Tools</a>
-                    <a href="videos.html" data-nav="videos"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#circle-play"></use></svg> Video Dərslər</a>
-                    <a href="links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#library"></use></svg> Faydalı Linklər</a>
-                    <a href="about.html" data-nav="about" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#user-round"></use></svg> Haqqında</a>
+                    <a href="index.html" data-nav="home"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#house"></use></svg> Ana Səhifə</a>
+                    <a href="lessons.html" data-nav="lessons"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#book-open"></use></svg> Dərslər</a>
+                    <a href="tools.html" data-nav="tools"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#toolbox"></use></svg> Tools</a>
+                    <a href="videos.html" data-nav="videos"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#circle-play"></use></svg> Video Dərslər</a>
+                    <a href="links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#library"></use></svg> Faydalı</a>
+                    <a href="about.html" data-nav="about" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#user-round"></use></svg> Haqqında</a>
                 </nav>
-            <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#moon"></use></svg></button>
+            <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#moon"></use></svg></button>
         </div>
     </header>
 
@@ -136,7 +193,7 @@
         <section class="about-hero">
             <div class="about-avatar" aria-hidden="true">CM</div>
             <div>
-                <p class="kicker"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#user-round"></use></svg> Haqqında</p>
+                <p class="kicker"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#user-round"></use></svg> Haqqında</p>
                 <h1>Cavad Mikayil <span class="accent">Təlim Portalı</span></h1>
                 <p class="mt-3 max-w-3xl">
                     Bu portal şəbəkə, CCNA, server, helpdesk, kibertəhlükəsizlik və süni intellekt öyrənən tələbələr üçün Cavad Mikayil tərəfindən hazırlanmış pulsuz təlim
@@ -144,36 +201,36 @@
                     nümunələri və interaktiv alətlərlə öyrətməkdir.
                 </p>
                 <div class="flex flex-wrap gap-3 mt-5">
-                    <a href="index.html" class="btn-primary"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Dərslərə başla</a>
-                    <a href="#social" class="btn-secondary-dark"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#users"></use></svg> Sosial şəbəkələr</a>
+                    <a href="lessons.html" class="btn-primary"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Dərslərə başla</a>
+                    <a href="#guide" class="btn-secondary-dark"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#compass"></use></svg> Bələdçi</a>
+                    <a href="#social" class="btn-secondary-dark"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#users"></use></svg> Sosial şəbəkələr</a>
                 </div>
             </div>
         </section>
 
         <div class="stat-row">
-            <div class="stat-box"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#book-open"></use></svg><p class="num">90</p><p class="lbl">dərs, 5 kateqoriya</p></div>
-            <div class="stat-box"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#graduation-cap"></use></svg><p class="num">50</p><p class="lbl">CCNA 200-301 dərsi</p></div>
-            <div class="stat-box"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#notebook-pen"></use></svg><p class="num">270+</p><p class="lbl">izahlı test sualı</p></div>
-            <div class="stat-box"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#library"></use></svg><p class="num">90+</p><p class="lbl">faydalı link</p></div>
+            <div class="stat-box"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#book-open"></use></svg><p class="num" data-count="lessons">140</p><p class="lbl">dərs, 10 istiqamət</p></div>
+            <div class="stat-box"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#circle-play"></use></svg><p class="num" data-count="videos">138</p><p class="lbl">video dərs, 13 kurs</p></div>
+            <div class="stat-box"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#notebook-pen"></use></svg><p class="num" data-count="questions">480</p><p class="lbl">izahlı test sualı</p></div>
+            <div class="stat-box"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#flask-conical"></use></svg><p class="num">50</p><p class="lbl">CCNA lab tapşırığı</p></div>
         </div>
 
         <section class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#layout-grid"></use></svg> Portalda Nə Var?</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#layout-grid"></use></svg> Portalda Nə Var?</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <a class="offer-card" href="index.html#ccna"><h3><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> CCNA Dərsləri (50)</h3><p>OSI, VLAN, STP, OSPF, NAT, ACL, QoS, AAA, Firewall, VPN — Cisco CCNA 200-301 kurikulumunun bütün bölmələri.</p></a>
-                <a class="offer-card" href="index.html#server"><h3><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#server"></use></svg> Server Dərsləri (10)</h3><p>Linux və Windows Server, Active Directory, DNS, Nginx, virtualizasiya, Docker, backup və monitorinq.</p></a>
-                <a class="offer-card" href="index.html#helpdesk"><h3><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#headset"></use></svg> Helpdesk Dərsləri (10)</h3><p>ITIL, troubleshooting metodologiyası, Windows, hardware, printer, hesablar, Microsoft 365 və ünsiyyət.</p></a>
-                <a class="offer-card" href="index.html#security"><h3><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#shield-check"></use></svg> Təhlükəsizlik Dərsləri (10)</h3><p>Kriptoqrafiya, OWASP, identity, phishing, EDR, SIEM, incident response, zəiflik idarəetməsi, GRC.</p></a>
-                <a class="offer-card" href="index.html#ai"><h3><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#sparkles"></use></svg> AI Dərsləri (10)</h3><p>ML və neural network-lər, LLM-lər, prompt engineering, RAG, Ollama, agentlər və AI təhlükəsizliyi.</p></a>
-                <a class="offer-card" href="tools/quiz.html"><h3><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#notebook-pen"></use></svg> Quiz və Subnet Kalkulyatoru</h3><p>Hər dərs üzrə izahlı testlər və subnetting məşqi. Nəticələriniz profilinizdə saxlanılır.</p></a>
-                <a class="offer-card" href="links.html"><h3><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#library"></use></svg> Faydalı Linklər</h3><p>AI alətləri, Cyber Security, CTF, Cloud və Programming üzrə seçilmiş mənbələr.</p></a>
+                <a class="offer-card" href="lessons.html"><h3><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#book-open"></use></svg> Dərslər (140)</h3><p>CCNA, Server, Helpdesk, Təhlükəsizlik, AI, Cloud, DevOps, Network Automation, CompTIA və Linux — 10 istiqamət, hər dərs quiz ilə.</p></a>
+                <a class="offer-card" href="lessons.html#ccna"><h3><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#graduation-cap"></use></svg> CCNA 200-301 (50 dərs + lab)</h3><p>Kurikulumun bütün bölmələri, hər dərsə Packet Tracer lab tapşırığı və real imtahana oxşar simulyator.</p></a>
+                <a class="offer-card" href="videos.html"><h3><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#circle-play"></use></svg> Video Dərslər (13 kurs)</h3><p>FortiGate, CCNA, Windows Server, virtuallaşdırma, MikroTik, pfSense, cloud və s. — sıra ilə, favorilərlə.</p></a>
+                <a class="offer-card" href="tools.html"><h3><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#toolbox"></use></svg> Tools</h3><p>Cisco CLI simulyatoru, imtahan rejimi, subnet, VLSM, IPv6, wildcard kalkulyatorları, flashcard-lar və port arayışı.</p></a>
+                <a class="offer-card" href="careers.html"><h3><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#route"></use></svg> Karyera yolları</h3><p>Helpdesk, şəbəkə mühəndisi, sistem administratoru və SOC analitiki üçün addım-addım yol və sertifikatlar.</p></a>
+                <a class="offer-card" href="links.html"><h3><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#library"></use></svg> Faydalı</h3><p>AI alətləri, Cyber Security, CTF, Cloud və Programming üzrə seçilmiş mənbələr.</p></a>
             </div>
         </section>
 
         <section class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#route"></use></svg> Necə Öyrənmək Tövsiyə Olunur?</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#route"></use></svg> Necə Öyrənmək Tövsiyə Olunur?</h2>
             <ol class="steps max-w-3xl mx-auto">
-                <li><p class="text-neutral-700">Dərsi dashboard-dakı ardıcıllıqla oxuyun və <strong>"Oxudum"</strong> işarəsi qoyun.</p></li>
+                <li><p class="text-neutral-700">Dərsləri <a href="lessons.html" class="link-strong">Dərslər</a> səhifəsindəki ardıcıllıqla oxuyun və <strong>"Oxudum"</strong> işarəsi qoyun.</p></li>
                 <li><p class="text-neutral-700">Əmrləri Cisco Packet Tracer və ya GNS3-də öz əlinizlə təkrarlayın.</p></li>
                 <li><p class="text-neutral-700">Mövzu testini keçin — hər sualın izahı var.</p></li>
                 <li><p class="text-neutral-700">70%-dən aşağı nəticə aldığınız mövzular dashboard-da "Təkrar tövsiyə olunur" bölməsində görünəcək.</p></li>
@@ -181,7 +238,7 @@
         </section>
 
         <section id="social" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#users"></use></svg> Sosial Şəbəkələr və Əlaqə</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#users"></use></svg> Sosial Şəbəkələr və Əlaqə</h2>
             <p class="lead">Yeni dərslər, videolar və məqalələrdən xəbərdar olmaq üçün izləyin. Sual və təklifləriniz üçün email göndərə bilərsiniz.</p>
             <div class="social-grid">
                     <a class="social-card" href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" data-social="instagram">
@@ -190,7 +247,7 @@
                             <span class="social-name">Instagram</span>
                             <span class="social-handle">@cavadmikayil.com_</span>
                         </span>
-                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#external-link"></use></svg>
+                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#external-link"></use></svg>
                     </a>
                     <a class="social-card" href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" data-social="youtube">
                         <span class="social-icon"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></span>
@@ -198,7 +255,7 @@
                             <span class="social-name">YouTube kanalı</span>
                             <span class="social-handle">@cavadmikayil</span>
                         </span>
-                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#external-link"></use></svg>
+                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#external-link"></use></svg>
                     </a>
                     <a class="social-card" href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" data-social="linkedin">
                         <span class="social-icon"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg></span>
@@ -206,7 +263,7 @@
                             <span class="social-name">LinkedIn</span>
                             <span class="social-handle">Peşəkar profil</span>
                         </span>
-                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#external-link"></use></svg>
+                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#external-link"></use></svg>
                     </a>
                     <a class="social-card" href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" data-social="blog">
                         <span class="social-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></span>
@@ -214,7 +271,7 @@
                             <span class="social-name">Blog sayt</span>
                             <span class="social-handle">cavadmikayil.com</span>
                         </span>
-                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#external-link"></use></svg>
+                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#external-link"></use></svg>
                     </a>
                     <a class="social-card" href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" data-social="telegram">
                         <span class="social-icon"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg></span>
@@ -222,7 +279,7 @@
                             <span class="social-name">Telegram</span>
                             <span class="social-handle">@cavadmikayil</span>
                         </span>
-                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#external-link"></use></svg>
+                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#external-link"></use></svg>
                     </a>
                     <a class="social-card" href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" data-social="tiktok">
                         <span class="social-icon"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M448.5 209.9c-44 .1-87-13.6-122.8-39.2l0 178.7c0 33.1-10.1 65.4-29 92.6s-45.6 48-76.6 59.6-64.8 13.5-96.9 5.3-60.9-25.9-82.7-50.8-35.3-56-39-88.9 2.9-66.1 18.6-95.2 40-52.7 69.6-67.7 62.9-20.5 95.7-16l0 89.9c-15-4.7-31.1-4.6-46 .4s-27.9 14.6-37 27.3-14 28.1-13.9 43.9 5.2 31 14.5 43.7 22.4 22.1 37.4 26.9 31.1 4.8 46-.1 28-14.4 37.2-27.1 14.2-28.1 14.2-43.8l0-349.4 88 0c-.1 7.4 .6 14.9 1.9 22.2 3.1 16.3 9.4 31.9 18.7 45.7s21.3 25.6 35.2 34.6c19.9 13.1 43.2 20.1 67 20.1l0 87.4z"/></svg></span>
@@ -230,7 +287,7 @@
                             <span class="social-name">TikTok</span>
                             <span class="social-handle">@cavadmikayil</span>
                         </span>
-                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#external-link"></use></svg>
+                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#external-link"></use></svg>
                     </a>
                     <a class="social-card" href="mailto:info@cavadmikayil.com" data-social="email">
                         <span class="social-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></span>
@@ -238,17 +295,199 @@
                             <span class="social-name">Email</span>
                             <span class="social-handle">info@cavadmikayil.com</span>
                         </span>
-                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#arrow-right"></use></svg>
+                        <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#arrow-right"></use></svg>
                     </a>
             </div>
         </section>
 
-        <section class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#shield-check"></use></svg> Məxfilik</h2>
-            <p class="text-neutral-700">
-                Portalda qeydiyyat və parol yoxdur. Adınız, irəliləyişiniz və test nəticələriniz yalnız istifadə etdiyiniz
-                brauzerdə saxlanılır və heç bir serverə göndərilmir.
-            </p>
+        <section id="guide" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#compass"></use></svg> Bələdçi: Portal Necə İşləyir?</h2>
+            <p class="lead">Portalın hər hissəsinin necə işlədiyi, məlumatlarınızın harada saxlandığı və problem olanda nə etmək lazım olduğu. Başlığa klikləyin — izah açılır.</p>
+            <nav class="guide-toc" aria-label="Bələdçinin bölmələri">
+                <a href="#g-start">Başlanğıc</a><a href="#g-login">Giriş</a><a href="#g-storage">Məlumatlar harada?</a><a href="#g-lost">Nə vaxt silinir?</a><a href="#g-cache">Cache</a><a href="#g-lessons">Dərslər</a><a href="#g-quiz">Quiz və imtahan</a><a href="#g-video">Video dərslər</a><a href="#g-tools">Tools və karyera</a><a href="#g-devices">Başqa cihaz</a><a href="#g-data">Məlumatlarım</a><a href="#g-privacy">Məxfilik</a><a href="#g-faq">Suallar</a>
+            </nav>
+
+            <details id="g-start" class="guide-item" open>
+                <summary><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#rocket"></use></svg> Başlanğıc — 4 addımda</summary>
+                <div class="guide-body">
+                    <ol class="guide-steps">
+                        <li><strong>Ana Səhifədə adınızla daxil olun.</strong> Qeydiyyat və parol yoxdur — ad (və istəsəniz qrup) kifayətdir.</li>
+                        <li><strong>Dərslər</strong> səhifəsindən istiqaməti seçin (CCNA, Linux, Cloud və s.) və dərsin başlığına klikləyin — bölmələr, quiz, lab və uyğun video açılır.</li>
+                        <li>Dərsi oxuyandan sonra <strong>"Oxudum"</strong>, videonu izləyəndən sonra <strong>"Baxdım"</strong> qeyd edin — irəliləyiş Ana Səhifədəki kartlarda görünür.</li>
+                        <li>Mövzu üzrə <strong>Quiz</strong> keçin. 70%-dən aşağı nəticə aldığınız mövzular Ana Səhifədə təkrar üçün tövsiyə olunur.</li>
+                    </ol>
+                </div>
+            </details>
+
+            <details id="g-login" class="guide-item">
+                <summary><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#log-in"></use></svg> Giriş (login) necə işləyir?</summary>
+                <div class="guide-body">
+                    <p>Portalda <strong>server və hesab yoxdur</strong>. "Daxil ol" düyməsi sizin brauzerinizdə adınızla bir <strong>profil</strong> yaradır. Bu profil irəliləyişi ayırmaq üçündür — məsələn, sinifdə bir kompüterdən bir neçə tələbə istifadə edəndə hər kəsin nəticəsi ayrı qalır.</p>
+                    <ul class="guide-list">
+                        <li><strong>Parol yoxdur.</strong> Eyni brauzerdən istifadə edən hər kəs profillərin siyahısını görə və istənilən profilə keçə bilər. Bu, təhlükəsizlik yox, rahatlıq üçündür — şəxsi məlumat yazmayın.</li>
+                        <li><strong>Ad böyük-kiçik hərfə həssas deyil:</strong> "Aysel Məmmədova" və "aysel məmmədova" eyni profildir.</li>
+                        <li><strong>"Çıxış"</strong> yalnız aktiv profili bağlayır, məlumatlar silinmir. Yenidən eyni adla daxil olanda hər şey yerindədir.</li>
+                        <li>Ana Səhifədəki giriş ekranında <strong>"Profil seçin"</strong> siyahısı bu brauzerdəki bütün profilləri göstərir.</li>
+                        <li>Giriş etmədən də dərsləri oxumaq və video izləmək olar — sadəcə irəliləyiş ümumi (adsız) profildə saxlanılır.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details id="g-storage" class="guide-item">
+                <summary><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#database"></use></svg> Məlumatlarım harada saxlanılır?</summary>
+                <div class="guide-body">
+                    <p>Bütün məlumatlar brauzerin <strong>localStorage</strong> adlanan yaddaşında, <strong>yalnız bu cihazda və bu brauzerdə</strong> saxlanılır. Heç bir serverə, bazaya və ya müəllifə göndərilmir. Hər profilin məlumatı ayrıca açarda saxlanılır.</p>
+                    <div class="table-wrap">
+                        <table class="guide-table">
+                            <thead><tr><th>Nə saxlanılır</th><th>Harada görünür</th></tr></thead>
+                            <tbody>
+                                <tr><td>Profillər (ad, qrup) və aktiv profil</td><td>Ana Səhifə, giriş ekranı</td></tr>
+                                <tr><td>"Oxudum" qeyd olunmuş dərslər</td><td>Ana Səhifə, Dərslər, Karyera yolları</td></tr>
+                                <tr><td>Hər quiz mövzusu üzrə ən yaxşı nəticə</td><td>Ana Səhifə, Quiz</td></tr>
+                                <tr><td>Tamamlanmış CCNA lab-ları</td><td>Dərs səhifəsi, Ana Səhifə</td></tr>
+                                <tr><td>CCNA imtahan simulyatoru: davam edən imtahan və tarixçə</td><td>İmtahan simulyatoru</td></tr>
+                                <tr><td>Baxılan videolar, favorilər, hər kursda qaldığınız video</td><td>Video Dərslər, Ana Səhifə</td></tr>
+                                <tr><td>Seçilmiş karyera yolu</td><td>Karyera yolları, Ana Səhifə</td></tr>
+                                <tr><td>Flashcard-lar və CLI simulyatoru tapşırıqları</td><td>Tools</td></tr>
+                                <tr><td>Tema (açıq/qaranlıq), dərslərin görünüşü (qutu/siyahı)</td><td>Bütün səhifələr</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p>Bu məlumatların həcmi çox kiçikdir (adətən bir neçə KB). Aşağıdakı <a href="#g-data" class="link-strong">"Məlumatlarım"</a> bölməsində dəqiq ölçünü görə, yedək ala və silə bilərsiniz.</p>
+                </div>
+            </details>
+
+            <details id="g-lost" class="guide-item">
+                <summary><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#triangle-alert"></use></svg> İrəliləyiş nə vaxt silinə bilər?</summary>
+                <div class="guide-body">
+                    <ul class="guide-list">
+                        <li><strong>Brauzerin "sayt məlumatları" silinəndə:</strong> Chrome/Edge-də "Clear browsing data" → <em>"Cookies and other site data"</em> seçiləndə, Safari-də "Clear History and Website Data" ediləndə.</li>
+                        <li><strong>Gizli (incognito / private) rejimdə:</strong> pəncərə bağlananda hər şey silinir. Portalı adi pəncərədə açın.</li>
+                        <li><strong>iPhone və iPad-də Safari:</strong> sayta 7 gün ərzində heç girilməsə, Safari saytın yaddaşını avtomatik silə bilər. Bunun qarşısını almaq üçün portalı <em>Paylaş → Ana ekrana əlavə et</em> (Add to Home Screen) ilə ana ekrana əlavə edin və ya müntəzəm yedək alın.</li>
+                        <li><strong>Başqa brauzer və ya cihaz:</strong> Chrome-dakı məlumat Edge-də, kompüterdəki telefonda görünmür (bax: "Başqa cihaz").</li>
+                    </ul>
+                    <p class="guide-note"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#info"></use></svg><span>Yalnız <strong>"Cached images and files"</strong> (cache) təmizləmək irəliləyişi <strong>silmir</strong> — o, sadəcə saytın fayllarını yenidən yükləyir.</span></p>
+                </div>
+            </details>
+
+            <details id="g-cache" class="guide-item">
+                <summary><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#refresh-cw"></use></svg> Cache və yeniləmələr</summary>
+                <div class="guide-body">
+                    <p>Brauzer saytın fayllarını (səhifələr, dizayn, ikonlar, şəkillər) sürətli açılması üçün müvəqqəti yadda saxlayır — buna <strong>cache</strong> deyilir. Portal yenilənəndə bəzən köhnə versiya bir neçə dəqiqə görünə bilər.</p>
+                    <ul class="guide-list">
+                        <li><strong>Kompüterdə:</strong> <kbd>Ctrl</kbd> + <kbd>F5</kbd> (Windows) və ya <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> (Mac) — səhifəni cache-siz yeniləyir.</li>
+                        <li><strong>Telefonda:</strong> səhifəni aşağı çəkib yeniləyin və ya tabı bağlayıb yenidən açın.</li>
+                        <li>Yeniləmələr adətən 1–10 dəqiqə ərzində hər kəsə çatır. İkonlar və dizayn faylları versiya nömrəsi ilə yükləndiyi üçün avtomatik yenilənir.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details id="g-lessons" class="guide-item">
+                <summary><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#book-open"></use></svg> Dərslər və dərs səhifələri</summary>
+                <div class="guide-body">
+                    <ul class="guide-list">
+                        <li><strong>Dərslər</strong> səhifəsi bütün dərsləri başlıqlar şəklində göstərir. İstiqamət çipləri ilə süzün, axtarışa mövzu yazın (məs. <em>OSPF</em>, <em>Docker</em>), "Yalnız oxunmamışlar" ilə qalan dərsləri görün.</li>
+                        <li>Başlığa klikləyəndə: qısa izah, <strong>dərsin bölmələri</strong> (birbaşa həmin hissəyə keçid), <strong>Dərs vəsaiti</strong>, <strong>Quiz</strong>, CCNA dərslərində <strong>Lab</strong> və uyğun <strong>video kurs</strong>.</li>
+                        <li>Dərs səhifəsinin yuxarısındakı menyu bölmələr arasında keçid edir. Kod bloklarındakı <strong>"Kopyala"</strong> düyməsi əmri yaddaşa köçürür.</li>
+                        <li>Ana Səhifədə eyni dərslər kart və ya siyahı görünüşündə, irəliləyiş və "davam et" tövsiyəsi ilə göstərilir.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details id="g-quiz" class="guide-item">
+                <summary><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#notebook-pen"></use></svg> Quiz, CCNA lab-ları və imtahan simulyatoru</summary>
+                <div class="guide-body">
+                    <ul class="guide-list">
+                        <li><strong>Quiz:</strong> mövzu və ya bütöv istiqamət seçin, sual sayını təyin edin. Hər cavabdan sonra izah göstərilir. Hər mövzu üzrə <strong>ən yaxşı nəticəniz</strong> saxlanılır.</li>
+                        <li><strong>CCNA lab-ları:</strong> hər CCNA dərsinin sonunda topologiya, tapşırıqlar, yoxlama əmrləri və həll var. Cisco Packet Tracer-də edin və "Lab tamamlandı" qeyd edin.</li>
+                        <li><strong>CCNA imtahan simulyatoru:</strong> real imtahana oxşar — 100 sual, 120 dəqiqə, sualları sonra baxmaq üçün qeyd etmək. Səhifəni təsadüfən bağlasanız, imtahan qaldığı yerdən davam edir. Sonda 6 bölmə üzrə zəif tərəflər göstərilir.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details id="g-video" class="guide-item">
+                <summary><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#circle-play"></use></svg> Video dərslər və favorilər</summary>
+                <div class="guide-body">
+                    <ul class="guide-list">
+                        <li>YouTube kanalındakı kurslar portalda <strong>kursdakı sıra ilə</strong> açılır. <strong>"Növbəti"</strong> və <strong>"Əvvəlki"</strong> ilə keçin və ya siyahıdan istənilən videonu seçin.</li>
+                        <li><strong>"Baxdım"</strong> videonu baxılmış qeyd edir. Sona qədər izlənən video avtomatik qeyd olunur və növbəti video açılır. Portal hər kursda <strong>qaldığınız videonu</strong> yadda saxlayır.</li>
+                        <li><strong>Favorilər:</strong> videonun yanındakı ulduza və ya pleyerin altındakı "Favorilərə al" düyməsinə basın. Bütün kurslardan seçdikləriniz <strong>"Favorilərim"</strong> kartında bir yerdə toplanır.</li>
+                        <li>Eyni video bir neçə kursda ola bilər — bir yerdə "Baxdım" deyəndə hamısında baxılmış görünür.</li>
+                        <li>Videolar YouTube-dan oynadılır, ona görə internet lazımdır. Video açılmırsa, pleyerdəki xəta koduna baxın, reklam bloklayıcını/VPN-i müvəqqəti söndürün və ya "YouTube-da bax" düyməsindən istifadə edin.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details id="g-tools" class="guide-item">
+                <summary><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#toolbox"></use></svg> Tools, karyera yolları və qaranlıq rejim</summary>
+                <div class="guide-body">
+                    <ul class="guide-list">
+                        <li><strong>Tools:</strong> Cisco CLI simulyatoru, subnet, VLSM, IPv6 və wildcard kalkulyatorları, flashcard-lar, port arayışı — hamısı brauzerdə, internetə məlumat göndərmədən işləyir.</li>
+                        <li><strong>Karyera yolları:</strong> Helpdesk, şəbəkə mühəndisi, sistem administratoru, SOC analitiki. Yolu seçin — portal dərsləri ardıcıllıqla göstərir, irəliləyişi "Oxudum" qeydlərindən hesablayır.</li>
+                        <li><strong>Qaranlıq rejim:</strong> yuxarı sağdakı ay düyməsi. Seçim bu brauzerdə yadda qalır.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details id="g-devices" class="guide-item">
+                <summary><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#monitor-smartphone"></use></svg> Başqa cihazda davam etmək</summary>
+                <div class="guide-body">
+                    <p>Server olmadığı üçün cihazlar arasında avtomatik sinxronizasiya yoxdur. İrəliləyişi köçürmək üçün:</p>
+                    <ol class="guide-steps">
+                        <li>Köhnə cihazda aşağıdakı <strong>"Yedək yüklə"</strong> düyməsi ilə faylı endirin.</li>
+                        <li>Faylı yeni cihaza göndərin (email, Telegram, flashkart).</li>
+                        <li>Yeni cihazda bu səhifədə <strong>"Yedəkdən bərpa et"</strong> ilə faylı seçin.</li>
+                    </ol>
+                </div>
+            </details>
+
+            <details id="g-data" class="guide-item" open>
+                <summary><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#hard-drive"></use></svg> Məlumatlarım: yedək, bərpa, silmə</summary>
+                <div class="guide-body">
+                    <p id="data-info" class="data-info">Hesablanır…</p>
+                    <div class="data-actions">
+                        <button type="button" class="btn btn-amber" id="data-export"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#download"></use></svg> Yedək yüklə</button>
+                        <label class="btn btn-ghost" for="data-import"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#upload"></use></svg> Yedəkdən bərpa et</label>
+                        <input type="file" id="data-import" accept="application/json,.json" hidden>
+                        <button type="button" class="btn btn-ghost danger" id="data-clear"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#trash-2"></use></svg> Bütün məlumatları sil</button>
+                    </div>
+                    <p id="data-msg" class="data-msg" role="status" aria-live="polite"></p>
+                    <p class="guide-note"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#info"></use></svg><span>Yedək faylında yalnız portalın öz məlumatları (profillər, irəliləyiş, nəticələr) olur. Bərpa zamanı yalnız portalın məlumatları qəbul edilir, başqa heç nə dəyişmir.</span></p>
+                </div>
+            </details>
+
+            <details id="g-privacy" class="guide-item">
+                <summary><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#shield-check"></use></svg> Məxfilik və təhlükəsizlik</summary>
+                <div class="guide-body">
+                    <ul class="guide-list">
+                        <li>Qeydiyyat, parol, cookie-banner və reklam yoxdur. Adınız və nəticələriniz <strong>heç bir serverə göndərilmir</strong>.</li>
+                        <li>Portalda analytics və izləmə (tracking) skripti yoxdur.</li>
+                        <li>Sayt yalnız <strong>HTTPS</strong> ilə açılır və GitHub Pages-də yerləşir.</li>
+                        <li>Video izləyəndə pleyer YouTube-dan yüklənir — bu zaman YouTube-un öz məxfilik qaydaları tətbiq olunur.</li>
+                        <li>Başqaları ilə paylaşılan kompüterdə işi bitirəndə "Çıxış" edin; lazım olsa, yuxarıdakı düymə ilə məlumatları silin.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details id="g-faq" class="guide-item">
+                <summary><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#circle-help"></use></svg> Tez-tez verilən suallar</summary>
+                <div class="guide-body">
+                    <dl class="faq">
+                        <dt>İrəliləyişim itib, niyə?</dt>
+                        <dd>Ya brauzerin sayt məlumatları silinib, ya gizli rejimdən, ya da başqa brauzer/cihazdan istifadə edirsiniz. Həmçinin eyni adla daxil olduğunuzu yoxlayın. Gələcək üçün müntəzəm yedək alın.</dd>
+                        <dt>"Oxudum" qeydini necə geri alım?</dt>
+                        <dd>Dərslər səhifəsində və ya Ana Səhifədə düyməyə yenidən basın — qeyd götürülür. Videolarda "Baxılıb" düyməsinə basmaq da eyni işi görür.</dd>
+                        <dt>Sayt köhnə görünür, yeniliklər yoxdur.</dt>
+                        <dd>Səhifəni cache-siz yeniləyin: kompüterdə <kbd>Ctrl</kbd> + <kbd>F5</kbd>, telefonda səhifəni aşağı çəkin (bax: "Cache").</dd>
+                        <dt>Video açılmır.</dt>
+                        <dd>İnterneti yoxlayın, reklam bloklayıcı və ya VPN-i müvəqqəti söndürün, başqa brauzerdə sınayın. Olmasa, "YouTube-da bax" düyməsi ilə videonu birbaşa YouTube-da izləyin.</dd>
+                        <dt>Səhv adla daxil olmuşam.</dt>
+                        <dd>"Çıxış" edin və düzgün adla yenidən daxil olun. Səhv profilin məlumatları kiçikdir və heç kimə görünmür; tam təmizləmək üçün "Bütün məlumatları sil" düyməsindən istifadə edə bilərsiniz.</dd>
+                        <dt>Portal pulsuzdur?</dt>
+                        <dd>Bəli, bütün dərslər, testlər, alətlər və videolar tam pulsuzdur.</dd>
+                    </dl>
+                </div>
+            </details>
         </section>
     </main>
 
@@ -256,15 +495,15 @@
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="index.html">Ana Səhifə</a>
-                    <a href="index.html#ccna">CCNA</a>
+                    <a href="lessons.html">Dərslər</a>
                     <a href="tools.html">Tools</a>
                     <a href="videos.html">Video Dərslər</a>
-                    <a href="links.html">Faydalı Linklər</a>
+                    <a href="links.html">Faydalı</a>
                     <a href="about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
                 </nav>
@@ -284,6 +523,92 @@
         </div>
     </footer>
 
+    <script src="assets/student.js"></script>
+    <script src="assets/catalog.js"></script>
+    <script src="assets/videos.js"></script>
+    <script>
+        (function () {
+            const $ = id => document.getElementById(id);
+            const PREFIX = 'edu-portal-';
+            // Rəqəmlər kataloqdan (əl ilə yeniləmək lazım deyil)
+            if (window.CATALOG) document.querySelector('[data-count="lessons"]').textContent = CATALOG.lessons.length;
+            if (window.VIDEO_COURSES) document.querySelector('[data-count="videos"]').textContent =
+                new Set(VIDEO_COURSES.flatMap(c => (c.videos || []).map(v => typeof v === 'string' ? v : v.id))).size;
+
+            // Bələdçi: #g-... linki bağlı bölməni açır
+            function openFromHash() {
+                const el = location.hash && document.getElementById(location.hash.slice(1));
+                if (el && el.tagName === 'DETAILS') { el.open = true; el.scrollIntoView({ block: 'start' }); }
+            }
+            window.addEventListener('hashchange', openFromHash);
+            openFromHash();
+
+            function portalKeys() {
+                const keys = [];
+                try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith(PREFIX)) keys.push(k); } } catch (e) { /* localStorage əlçatmaz */ }
+                return keys.sort();
+            }
+            function msg(text) { $('data-msg').textContent = text; }
+            function info() {
+                const keys = portalKeys();
+                let bytes = 0;
+                try { keys.forEach(k => { bytes += (k.length + (localStorage.getItem(k) || '').length) * 2; }); } catch (e) { /* */ }
+                const profiles = Object.keys(Student.profiles()).length;
+                const me = Student.current();
+                $('data-info').textContent = keys.length
+                    ? `Bu brauzerdə: ${profiles} profil, ${keys.length} qeyd, təxminən ${(bytes / 1024).toFixed(1)} KB.${me ? ' Aktiv profil: ' + me.name + '.' : ''}`
+                    : 'Bu brauzerdə hələ portal məlumatı yoxdur.';
+            }
+
+            $('data-export').addEventListener('click', () => {
+                const data = {};
+                portalKeys().forEach(k => { data[k] = localStorage.getItem(k); });
+                if (!Object.keys(data).length) { msg('Yedək üçün məlumat yoxdur.'); return; }
+                const blob = new Blob([JSON.stringify({ app: 'cavadmikayil-portal', version: 1, exported: new Date().toISOString(), data }, null, 1)], { type: 'application/json' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `portal-yedek-${new Date().toISOString().slice(0, 10)}.json`;
+                document.body.appendChild(a); a.click(); a.remove();
+                setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+                msg(`Yedək faylı endirildi (${Object.keys(data).length} qeyd).`);
+            });
+
+            // Bərpa: yalnız portalın öz açarları və düzgün JSON dəyərləri qəbul olunur
+            const KEY_RE = /^edu-portal-[a-z0-9-]{1,40}(:[^\s:]{1,80})?$/;
+            $('data-import').addEventListener('change', e => {
+                const file = e.target.files && e.target.files[0];
+                e.target.value = '';
+                if (!file) return;
+                if (file.size > 2 * 1024 * 1024) { msg('Fayl çox böyükdür — bu portalın yedək faylı deyil.'); return; }
+                const reader = new FileReader();
+                reader.onload = () => {
+                    let parsed;
+                    try { parsed = JSON.parse(reader.result); } catch (err) { msg('Fayl oxunmadı — bu JSON yedək faylı deyil.'); return; }
+                    if (!parsed || parsed.app !== 'cavadmikayil-portal' || typeof parsed.data !== 'object' || !parsed.data) { msg('Bu fayl portalın yedək faylı deyil.'); return; }
+                    const entries = Object.entries(parsed.data).filter(([k, v]) => {
+                        if (!KEY_RE.test(k) || typeof v !== 'string' || v.length > 500000) return false;
+                        try { JSON.parse(v); return true; } catch (err) { return k === PREFIX + 'theme' && /^(light|dark)$/.test(v); }
+                    });
+                    if (!entries.length) { msg('Faylda bərpa ediləcək məlumat tapılmadı.'); return; }
+                    if (!confirm(`Yedəkdən ${entries.length} qeyd bərpa olunacaq. Eyni adlı mövcud məlumatlar əvəz ediləcək. Davam edilsin?`)) return;
+                    try { entries.forEach(([k, v]) => localStorage.setItem(k, v)); } catch (err) { msg('Brauzer yaddaşına yazıla bilmədi.'); return; }
+                    msg(`Bərpa olundu: ${entries.length} qeyd. Ana Səhifədə profilinizi seçin.`);
+                    info();
+                };
+                reader.readAsText(file);
+            });
+
+            $('data-clear').addEventListener('click', () => {
+                const keys = portalKeys();
+                if (!keys.length) { msg('Silinəcək məlumat yoxdur.'); return; }
+                if (!confirm('Bu brauzerdəki BÜTÜN portal məlumatları (profillər, irəliləyiş, nəticələr, favorilər) silinəcək. Bu əməliyyat geri qaytarılmır. Əvvəlcə yedək almağınız tövsiyə olunur. Silinsin?')) return;
+                keys.forEach(k => { try { localStorage.removeItem(k); } catch (e) { /* */ } });
+                msg('Bütün portal məlumatları silindi.');
+                info();
+            });
+            info();
+        })();
+    </script>
     <script src="assets/theme.js"></script>
 </body>
 </html>

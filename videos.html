@@ -72,7 +72,15 @@
         .list-head { padding: 0.9rem 1rem; border-bottom: 1px solid #e5e5e5; }
         .list-head h3 { font-weight: 800; display: flex; align-items: center; gap: 0.4rem; }
         .video-list { position: relative; max-height: 30rem; overflow-y: auto; list-style: none; padding: 0.35rem; margin: 0; }
-        .video-row { width: 100%; display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.55rem 0.6rem; border-radius: 0.6rem; text-align: left; font-size: 0.9rem; font-weight: 600; color: #262626; }
+        .video-li { display: flex; align-items: flex-start; }
+        .fav-btn { flex-shrink: 0; padding: 0.55rem 0.5rem; color: #d4d4d4; border-radius: 0.5rem; }
+        .fav-btn:hover { color: #d97706; }
+        .fav-btn.on, .fav-toggle.on .icon { color: #f59e0b; }
+        .fav-btn.on .icon, .fav-toggle.on .icon, .fav-card .badge .icon { fill: currentColor; }
+        .fav-toggle.on { background: #fef3c7; color: #78350f; border-color: #f59e0b; }
+        .course-card.fav-card { border-style: dashed; }
+        .course-card.fav-card.active { border-style: solid; }
+        .video-row { flex: 1; min-width: 0; width: 100%; display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.55rem 0.6rem; border-radius: 0.6rem; text-align: left; font-size: 0.9rem; font-weight: 600; color: #262626; }
         .video-row:hover { background: #fafafa; }
         .video-row .num { flex-shrink: 0; width: 1.6rem; font-size: 0.78rem; font-weight: 700; color: #a3a3a3; padding-top: 0.1rem; text-align: right; }
         .video-row .state { flex-shrink: 0; color: #a3a3a3; }
@@ -109,7 +117,9 @@
         body.dark-mode .video-row:hover { background: #1f1f1f; }
         body.dark-mode .video-row.current { background: #2a2113; }
         body.dark-mode .mini-bar { background: #262626; }
-        body.dark-mode .btn.watched { background: #2a2113; color: #fcd34d; }
+        body.dark-mode .btn.watched, body.dark-mode .fav-toggle.on { background: #2a2113; color: #fcd34d; }
+        body.dark-mode .fav-btn { color: #525252; }
+        body.dark-mode .fav-btn.on { color: #fbbf24; }
     </style>
 </head>
 <body class="antialiased">
@@ -117,29 +127,29 @@
     <header class="bg-white shadow-md sticky top-0 z-50" data-site-header>
         <div class="container mx-auto px-6 py-3 flex flex-wrap gap-x-3 gap-y-2 justify-between items-center">
             <a href="index.html" class="flex items-center gap-2 text-lg font-extrabold text-neutral-900">
-                <span class="site-logo"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#graduation-cap"></use></svg></span> Cavad Mikayil Təlim Portalı
+                <span class="site-logo"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#graduation-cap"></use></svg></span> Cavad Mikayil Təlim Portalı
             </a>
             <nav class="site-nav order-last md:order-none md:ml-auto" aria-label="Sayt menyusu">
-                    <a href="index.html" data-nav="home"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#house"></use></svg> Ana Səhifə</a>
-                    <a href="index.html#ccna" data-nav="ccna"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> CCNA</a>
-                    <a href="tools.html" data-nav="tools"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#toolbox"></use></svg> Tools</a>
-                    <a href="videos.html" data-nav="videos" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#circle-play"></use></svg> Video Dərslər</a>
-                    <a href="links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#library"></use></svg> Faydalı Linklər</a>
-                    <a href="about.html" data-nav="about"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#user-round"></use></svg> Haqqında</a>
+                    <a href="index.html" data-nav="home"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#house"></use></svg> Ana Səhifə</a>
+                    <a href="lessons.html" data-nav="lessons"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#book-open"></use></svg> Dərslər</a>
+                    <a href="tools.html" data-nav="tools"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#toolbox"></use></svg> Tools</a>
+                    <a href="videos.html" data-nav="videos" class="active" aria-current="page"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#circle-play"></use></svg> Video Dərslər</a>
+                    <a href="links.html" data-nav="links"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#library"></use></svg> Faydalı</a>
+                    <a href="about.html" data-nav="about"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#user-round"></use></svg> Haqqında</a>
                 </nav>
-            <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#moon"></use></svg></button>
+            <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#moon"></use></svg></button>
         </div>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section class="hub-hero">
-            <p class="kicker"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#circle-play"></use></svg> Video Dərslər</p>
+            <p class="kicker"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#circle-play"></use></svg> Video Dərslər</p>
             <h1>YouTube kursları — <span class="accent">portalda, sıra ilə</span></h1>
             <p class="mt-3 max-w-3xl">Kursu seçin və videolara burada baxın. Videolar kursdakı ardıcıllıqla gəlir; "Növbəti" ilə irəliləyin, baxdıqlarınızı "Baxdım" ilə qeyd edin. Video sona çatanda avtomatik baxılmış sayılır.</p>
         </section>
 
         <div id="login-note" class="note-box mb-6" hidden>
-            <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#info"></use></svg>
+            <svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#info"></use></svg>
             <p class="text-neutral-800">Baxdığınız videoların yadda qalması üçün <a class="font-semibold underline" href="index.html">Ana Səhifədə</a> adınızla daxil olun.</p>
         </div>
 
@@ -152,15 +162,15 @@
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="index.html">Ana Səhifə</a>
-                    <a href="index.html#ccna">CCNA</a>
+                    <a href="lessons.html">Dərslər</a>
                     <a href="tools.html">Tools</a>
                     <a href="videos.html">Video Dərslər</a>
-                    <a href="links.html">Faydalı Linklər</a>
+                    <a href="links.html">Faydalı</a>
                     <a href="about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
                 </nav>
@@ -185,7 +195,7 @@
     <script src="assets/videos.js"></script>
     <script>
         const $ = id => document.getElementById(id);
-        const icon = n => `<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=0f50865d#${n}"></use></svg>`;
+        const icon = n => `<svg class="icon" aria-hidden="true"><use href="assets/icons.svg?v=4a364192#${n}"></use></svg>`;
         const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
         // ---- Məlumat ----------------------------------------------------------------
@@ -197,6 +207,13 @@
             presets: Array.isArray(c.videos) ? c.videos.filter(v => v && v.id && v.title) : [],
             lessons: c.lessons || [], notes: c.notes || {}
         })).filter(c => c.id && c.title && (c.list || c.fixed));
+        const REAL_COUNT = COURSES.length;
+        // Favorilər: bütün kurslardan seçilmiş videolar — siyahının əvvəlində xüsusi "kurs" kimi göstərilir
+        const FAV_KEY = Student.key('edu-portal-video-favs');
+        let favs = Student.read(FAV_KEY, []).filter(v => typeof v === 'string');
+        const FAV = { id: 'favorites', title: 'Favorilərim', desc: 'Ulduz ilə seçdiyiniz videolar — bütün kurslardan bir yerdə.',
+            icon: 'star', list: null, presets: [], lessons: [], notes: {}, isFav: true, get fixed() { return favs.slice(); } };
+        if (REAL_COUNT) COURSES.unshift(FAV);
         const lessonBySlug = {};
         (window.CATALOG ? CATALOG.lessons : []).forEach(l => { lessonBySlug[l.href.replace(/^lessons\/|\.html$/g, '')] = l; });
 
@@ -228,6 +245,12 @@
         function renderCards() {
             $('course-grid').innerHTML = COURSES.map(c => {
                 const pr = progressOf(c);
+                if (c.isFav) return `<button type="button" class="course-card fav-card ${c.id === active ? 'active' : ''}" data-course="${c.id}" role="tab" aria-selected="${c.id === active}">
+                    <span class="badge">${icon('star')}</span>
+                    <h3>Favorilərim</h3>
+                    <span class="desc">${esc(c.desc)}</span>
+                    <span class="meta">${favs.length ? `${favs.length} video · ${pr.n} baxılıb` : 'Hələ favori yoxdur'}</span>
+                </button>`;
                 return `<button type="button" class="course-card ${c.id === active ? 'active' : ''}" data-course="${c.id}" role="tab" aria-selected="${c.id === active}">
                     <span class="badge">${icon(c.icon)}</span>
                     <h3>${esc(c.title)}</h3>
@@ -267,6 +290,7 @@
                                 <div class="controls">
                                     <button type="button" class="btn btn-ghost" id="prev-btn">${icon('skip-back')} Əvvəlki</button>
                                     <button type="button" class="btn btn-ghost" id="watched-btn"></button>
+                                    <button type="button" class="btn btn-ghost" id="fav-btn"></button>
                                     <button type="button" class="btn btn-amber" id="next-btn">Növbəti ${icon('skip-forward')}</button>
                                     <a class="btn btn-ghost" id="yt-link" target="_blank" rel="noopener noreferrer">${icon('brand-youtube')} YouTube-da aç</a>
                                 </div>
@@ -290,9 +314,12 @@
             $('next-btn').addEventListener('click', () => go(cur + 1));
             $('watched-btn').addEventListener('click', () => ids && setWatched(ids[cur], !watched[ids[cur]]));
             $('video-list').addEventListener('click', e => {
+                const f = e.target.closest('[data-fav]');
+                if (f) { toggleFav(f.dataset.fav); return; }
                 const b = e.target.closest('[data-i]');
                 if (b) go(+b.dataset.i);
             });
+            $('fav-btn').addEventListener('click', () => ids && ids[cur] && toggleFav(ids[cur]));
             ids = idsOf(c);
             cur = Math.min(pos[c.id] || 0, ids ? ids.length - 1 : 0);
             renderList(); renderNow();
@@ -302,11 +329,11 @@
             const list = $('video-list');
             if (!list) return;
             if (!ids) { list.innerHTML = `<li class="now-meta p-3">Siyahı yüklənir…</li>`; $('list-progress').textContent = ''; return; }
-            list.innerHTML = ids.map((v, i) => `<li><button type="button" class="video-row ${watched[v] ? 'watched' : ''} ${i === cur ? 'current' : ''}" data-i="${i}" ${i === cur ? 'aria-current="true"' : ''}>
+            list.innerHTML = ids.map((v, i) => `<li class="video-li"><button type="button" class="video-row ${watched[v] ? 'watched' : ''} ${i === cur ? 'current' : ''}" data-i="${i}" ${i === cur ? 'aria-current="true"' : ''}>
                 <span class="num">${i + 1}</span>
                 <span class="state">${icon(i === cur ? 'circle-play' : watched[v] ? 'circle-check' : 'circle')}</span>
                 <span class="t ${presetTitles[v] || titles[v] ? '' : 'pending'}" data-title="${v}">${esc(titleOf(v, i))}</span>
-            </button></li>`).join('');
+            </button><button type="button" class="fav-btn ${isFav(v) ? 'on' : ''}" data-fav="${v}" aria-pressed="${isFav(v)}" aria-label="${isFav(v) ? 'Favorilərdən çıxar' : 'Favorilərə əlavə et'}" title="${isFav(v) ? 'Favorilərdən çıxar' : 'Favorilərə əlavə et'}">${icon('star')}</button></li>`).join('');
             const n = ids.filter(v => watched[v]).length;
             $('list-progress').textContent = `${n} / ${ids.length} video baxılıb`;
             $('list-bar').style.width = (ids.length ? Math.round(100 * n / ids.length) : 0) + '%';
@@ -330,7 +357,25 @@
             $('watched-btn').className = 'btn ' + (w ? 'btn-ghost watched' : 'btn-ghost');
             $('watched-btn').innerHTML = w ? `${icon('circle-check')} Baxılıb` : `${icon('check')} Baxdım`;
             $('watched-btn').setAttribute('aria-pressed', w ? 'true' : 'false');
+            const f = v && isFav(v);
+            $('fav-btn').disabled = !v;
+            $('fav-btn').className = 'btn btn-ghost fav-toggle' + (f ? ' on' : '');
+            $('fav-btn').innerHTML = `${icon('star')} ${f ? 'Favoridə' : 'Favorilərə al'}`;
+            $('fav-btn').setAttribute('aria-pressed', f ? 'true' : 'false');
             $('yt-link').href = v ? `https://www.youtube.com/watch?v=${v}${c.list ? '&list=' + c.list : ''}` : (c.list ? `https://www.youtube.com/playlist?list=${c.list}` : '#');
+        }
+
+        function isFav(v) { return favs.includes(v); }
+        function toggleFav(v) {
+            favs = isFav(v) ? favs.filter(x => x !== v) : favs.concat(v);
+            Student.write(FAV_KEY, favs);
+            if (active === 'favorites') {
+                // Favorilər siyahısında: siyahı yenilənir; boş qalanda boş vəziyyət göstərilir
+                ids = favs.slice();
+                if (!ids.length) { openCourse('favorites', false); return; }
+                if (cur >= ids.length) cur = ids.length - 1;
+            }
+            renderList(); renderNow(); renderCards();
         }
 
         function setWatched(v, on) {
@@ -500,13 +545,23 @@
         }
 
         function openCourse(id, push) {
-            const c = COURSES.find(x => x.id === id) || COURSES[0];
+            const c = COURSES.find(x => x.id === id) || COURSES.find(x => !x.isFav) || COURSES[0];
             active = c.id;
             if (push) history.replaceState(null, '', '#' + c.id);
             renderCards();
             // Mobil zolaqda seçilmiş kurs görünsün
             const grid = $('course-grid'), card = grid.querySelector('.course-card.active');
             if (card && grid.scrollWidth > grid.clientWidth) grid.scrollLeft = card.offsetLeft - grid.offsetLeft;
+            if (c.isFav && !favs.length) {
+                if (player && player.destroy) { try { player.destroy(); } catch (e) { /* köhnə player */ } }
+                player = null; ids = null;
+                $('course-detail').innerHTML = `<section class="section-card empty-state">
+                    <span class="big">${icon('star')}</span>
+                    <h2 class="text-2xl font-extrabold mb-2">Hələ favori video yoxdur</h2>
+                    <p class="text-neutral-600 max-w-xl mx-auto">İstənilən kursda videonun yanındakı ulduza və ya pleyerin altındakı "Favorilərə al" düyməsinə basın — video burada toplanacaq.</p>
+                </section>`;
+                return;
+            }
             renderDetail(c);
             startPlayer(c);
         }
@@ -520,8 +575,8 @@
                 if (d && d.getBoundingClientRect().top > innerHeight * 0.5) d.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
-        $('login-note').hidden = !!Student.current() || !COURSES.length;
-        if (!COURSES.length) renderEmpty();
+        $('login-note').hidden = !!Student.current() || !REAL_COUNT;
+        if (!REAL_COUNT) renderEmpty();
         else openCourse(location.hash.slice(1), false);
     </script>
     <script src="assets/theme.js"></script>

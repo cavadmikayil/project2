@@ -34,8 +34,9 @@ Bundan əlavə: izahlı quiz (270+ sual), Subnet Kalkulyatoru, Faydalı Linklər
 
 ```
 index.html                 Dashboard: giriş, kateqoriya tabları, dərs kartları, statistika
-links.html                 Faydalı Linklər səhifəsi (linklər faylın içindəki CATEGORIES siyahısındadır)
-about.html                 Haqqında səhifəsi
+lessons.html               Dərslər: bütün dərslərin başlıqları; klikləyəndə bölmələr, quiz, lab, video
+links.html                 Faydalı səhifəsi (linklər faylın içindəki CATEGORIES siyahısındadır)
+about.html                 Haqqında + Bələdçi (portal necə işləyir) + məlumatların yedəyi/bərpası/silinməsi
 lessons/*.html             Dərs səhifələri (hazır, saytda açılan fayllar)
 careers.html               Karyera yolları (məlumat assets/careers.js-dədir)
 videos.html                Video Dərslər — YouTube kursları (siyahı assets/videos.js-dədir)
@@ -44,6 +45,7 @@ tools/*.html               Alətlər: quiz, CCNA imtahan simulyatoru, CLI simuly
                            subnet, VLSM, IPv6, wildcard kalkulyatorları, port arayışı
 assets/catalog.js          Bütün kateqoriyalar və dərslərin siyahısı (dashboard və quiz buradan oxuyur)
 assets/questions.js        Bütün quiz sualları
+assets/lesson-sections.js  Hər dərsin bölmələri (build.py yaradır — Dərslər səhifəsi üçün)
 assets/icons.svg           İkon sprite-ı
 assets/theme.css/.js       Ümumi dizayn, menyu, footer, qaranlıq rejim
 assets/lesson.css/.js      Dərs komponentləri (kartlar, cədvəllər, tab-lar, "Kopyala" düyməsi)

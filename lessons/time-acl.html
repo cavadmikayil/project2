@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#alarm-clock"></use></svg> Time-based ACL</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#alarm-clock"></use></svg> Time-based ACL</h1>
                 <span class="lesson-badge">CCNA · Security Fundamentals</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -51,15 +51,15 @@
                 <a href="#placement" class="nav-link">Yerləşdirmə</a>
                 <a href="#troubleshoot" class="nav-link">Troubleshooting</a>
                 <a href="#lab" class="nav-link">Lab</a>
-                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
+                <a href="../index.html#ccna" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#alarm-clock"></use></svg> Giriş: Qaydalar Vaxta Görə</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#alarm-clock"></use></svg> Giriş: Qaydalar Vaxta Görə</h2>
             <p class="lead">
                 Bəzən qayda yalnız müəyyən saatlarda lazımdır: tələbələr dərs vaxtı sosial şəbəkələrə girməsin,
                 qonaq Wi-Fi yalnız iş saatlarında işləsin, gecə backup serverinə yalnız ehtiyat nüsxə trafiki getsin.
@@ -67,13 +67,13 @@
                 yalnız həmin vaxt aralığında aktiv olur.
             </p>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#clock"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#clock"></use></svg>
                 <p class="text-neutral-800">Vaxt cihazın öz saatına görə yoxlanılır. Saat səhvdirsə, qayda səhv vaxtda işləyəcək — ona görə əvvəlcə <strong>NTP</strong> və saat qurşağını düzgün qurun.</p>
             </div>
         </section>
 
         <section id="timerange" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#calendar"></use></svg> 1. Time-range Növləri</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#calendar"></use></svg> 1. Time-range Növləri</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Növ</th><th>Sintaksis</th><th>Nümunə</th></tr></thead>
@@ -88,7 +88,7 @@
         </section>
 
         <section id="scenario" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#terminal"></use></svg> 2. Ssenari: Dərs Saatlarında Məhdudiyyət</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#terminal"></use></svg> 2. Ssenari: Dərs Saatlarında Məhdudiyyət</h2>
             <p class="lead">Tələbə VLAN-ı (192.168.30.0/24) iş günləri 09:00–17:00 arası yalnız DNS və veb (HTTP/HTTPS) istifadə edə bilər, dərsdən sonra isə tam çıxışı var.</p>
             <div class="tab-bar" data-tabs>
                 <button class="tab-btn active-tab" data-pane="ta-config">Konfiqurasiya</button>
@@ -128,17 +128,17 @@ show ip interface GigabitEthernet0/0.30</code></pre>
         </section>
 
         <section id="placement" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#map"></use></svg> 3. ACL-in Yerləşdirilməsi — Xatırlatma</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#map"></use></svg> 3. ACL-in Yerləşdirilməsi — Xatırlatma</h2>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#target"></use></svg><p class="text-neutral-700"><strong>Genişləndirilmiş ACL</strong> mənbəyə mümkün qədər yaxın — lazımsız trafik şəbəkəyə daxil olmadan dayandırılır.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#target"></use></svg><p class="text-neutral-700"><strong>Standart ACL</strong> təyinata yaxın — yalnız mənbə IP-yə baxdığı üçün mənbəyə yaxın qoyulsa, lazımlı trafiki də bloklaya bilər.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#list-ordered"></use></svg><p class="text-neutral-700">Hər interfeysdə, hər istiqamətdə, hər protokol üçün <strong>bir</strong> ACL.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-down"></use></svg><p class="text-neutral-700">Daha <strong>spesifik</strong> sətirlər yuxarıda, ümumi sətirlər aşağıda olmalıdır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#target"></use></svg><p class="text-neutral-700"><strong>Genişləndirilmiş ACL</strong> mənbəyə mümkün qədər yaxın — lazımsız trafik şəbəkəyə daxil olmadan dayandırılır.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#target"></use></svg><p class="text-neutral-700"><strong>Standart ACL</strong> təyinata yaxın — yalnız mənbə IP-yə baxdığı üçün mənbəyə yaxın qoyulsa, lazımlı trafiki də bloklaya bilər.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#list-ordered"></use></svg><p class="text-neutral-700">Hər interfeysdə, hər istiqamətdə, hər protokol üçün <strong>bir</strong> ACL.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#arrow-down"></use></svg><p class="text-neutral-700">Daha <strong>spesifik</strong> sətirlər yuxarıda, ümumi sətirlər aşağıda olmalıdır.</p></div>
             </div>
         </section>
 
         <section id="troubleshoot" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#wrench"></use></svg> 4. ACL Troubleshooting</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#wrench"></use></svg> 4. ACL Troubleshooting</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Simptom</th><th>Səbəb</th></tr></thead>
@@ -153,11 +153,11 @@ show ip interface GigabitEthernet0/0.30</code></pre>
             </div>
         </section>
         <section id="lab" class="section-card lab-section" data-lab="time-acl">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#flask-conical"></use></svg> Lab: İş Saatlarına Görə İnternet Girişi</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#flask-conical"></use></svg> Lab: İş Saatlarına Görə İnternet Girişi</h2>
             <div class="card-grid mb-6">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Time-range ilə qonaq şəbəkəsinə internet girişini yalnız iş saatlarında açmaq.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer (router saatı əl ilə təyin olunur)</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#timer"></use></svg> Müddət</h3><p>30 dəq · Orta</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#target"></use></svg> Məqsəd</h3><p class="text-neutral-700">Time-range ilə qonaq şəbəkəsinə internet girişini yalnız iş saatlarında açmaq.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#wrench"></use></svg> Alət</h3><p class="text-neutral-700">Cisco Packet Tracer (router saatı əl ilə təyin olunur)</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#timer"></use></svg> Müddət</h3><p>30 dəq · Orta</p></div>
             </div>
             <h3 class="text-xl font-bold mb-3">Tapşırıqlar</h3>
             <ol class="steps max-w-3xl mx-auto mb-6">
@@ -176,11 +176,11 @@ show access-lists GUEST-TIME</code></pre>
             </div>
             <h3 class="text-xl font-bold mb-3">Uğur meyarları</h3>
             <div class="feature-grid mb-6">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg><p class="text-neutral-700">İş saatlarında ACL qaydası aktivdir, sonra (inactive) qeydi görünür.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-check"></use></svg><p class="text-neutral-700">Saat düzgün deyilsə, time-based ACL gözlənilməz işləyir — NTP-nin vacibliyi.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#circle-check"></use></svg><p class="text-neutral-700">İş saatlarında ACL qaydası aktivdir, sonra (inactive) qeydi görünür.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#circle-check"></use></svg><p class="text-neutral-700">Saat düzgün deyilsə, time-based ACL gözlənilməz işləyir — NTP-nin vacibliyi.</p></div>
             </div>
             <details class="lab-solution mb-6">
-                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
+                <summary><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#key-round"></use></svg> Həll — əvvəlcə özünüz cəhd edin</summary>
                 <div class="code-block mt-3">
                     <button class="copy-btn">Kopyala</button>
                     <pre><code>R1(config)# time-range WORK-HOURS
@@ -196,7 +196,7 @@ R1(config-if)# ip access-group GUEST-TIME in</code></pre>
             </details>
             <div class="lab-footer">
                 <p class="text-sm text-neutral-600">Packet Tracer faylı (.pkt) verilmir — topologiyanı özünüz qurmaq labın bir hissəsidir.</p>
-                <button type="button" class="lab-done-btn" data-lab="time-acl" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#circle-dot"></use></svg> Labı bitirdim</button>
+                <button type="button" class="lab-done-btn" data-lab="time-acl" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#circle-dot"></use></svg> Labı bitirdim</button>
             </div>
         </section>
     </main>
@@ -205,15 +205,15 @@ R1(config-if)# ip access-group GUEST-TIME in</code></pre>
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
-                    <a href="../index.html#ccna">CCNA</a>
+                    <a href="../lessons.html">Dərslər</a>
                     <a href="../tools.html">Tools</a>
                     <a href="../videos.html">Video Dərslər</a>
-                    <a href="../links.html">Faydalı Linklər</a>
+                    <a href="../links.html">Faydalı</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
                 </nav>

@@ -371,4 +371,7 @@
 <symbol id="skip-back" viewBox="0 0 24 24"><path d="M17.971 4.285A2 2 0 0 1 21 6v12a2 2 0 0 1-3.029 1.715l-9.997-5.998a2 2 0 0 1-.003-3.432z" /> <path d="M3 20V4" /></symbol>
 <symbol id="circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /></symbol>
 <symbol id="list-video" viewBox="0 0 24 24"><path d="M21 5H3" /> <path d="M10 12H3" /> <path d="M10 19H3" /> <path d="M15 12.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997a1 1 0 0 1-1.517-.86z" /></symbol>
+<symbol id="chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol>
+<symbol id="bookmark" viewBox="0 0 24 24"><path d="M17 3a2 2 0 0 1 2 2v15a1 1 0 0 1-1.496.868l-4.512-2.578a2 2 0 0 0-1.984 0l-4.512 2.578A1 1 0 0 1 5 20V5a2 2 0 0 1 2-2z" /></symbol>
+<symbol id="bookmark-check" viewBox="0 0 24 24"><path d="M17 3a2 2 0 0 1 2 2v15a1 1 0 0 1-1.496.868l-4.512-2.578a2 2 0 0 0-1.984 0l-4.512 2.578A1 1 0 0 1 5 20V5a2 2 0 0 1 2-2z" /> <path d="m9 10 2 2 4-4" /></symbol>
 </svg>

@@ -41,7 +41,7 @@
     <header class="bg-white shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
             <div class="flex items-center gap-3 flex-wrap">
-                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#activity"></use></svg> Server Monitorinqi</h1>
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#activity"></use></svg> Server Monitorinqi</h1>
                 <span class="lesson-badge">Server · Əməliyyat</span>
             </div>
             <div class="flex flex-wrap items-center gap-4">
@@ -51,28 +51,28 @@
                 <a href="#prom" class="nav-link">Prometheus</a>
                 <a href="#alerts" class="nav-link">Xəbərdarlıqlar</a>
                 <a href="#dash" class="nav-link">Dashboard</a>
-                <a href="../index.html#server" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#arrow-left"></use></svg> Portal</a>
-                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#moon"></use></svg></button>
+                <a href="../index.html#server" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#moon"></use></svg></button>
             </div>
         </nav>
     </header>
 
     <main class="container mx-auto px-6 py-8 max-w-6xl">
         <section id="intro" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#activity"></use></svg> Giriş: Problemi İstifadəçidən Əvvəl Görmək</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#activity"></use></svg> Giriş: Problemi İstifadəçidən Əvvəl Görmək</h2>
             <p class="lead">
                 Disk gecə saat 3-də 100% dolur, sayt səhər açılmır və ilk xəbər müştəri zəngindən gəlir. <strong>Monitorinq</strong>
                 bunun əksidir: disk 85%-ə çatanda admin xəbərdarlıq alır və problemi heç kim hiss etmədən həll edir.
             </p>
             <div class="card-grid">
-                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#chart-column"></use></svg> Metrics</h3><p class="text-neutral-700">Rəqəmlər zamanla: CPU %, RAM, disk, sorğu sayı, cavab müddəti.</p></div>
-                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#scroll-text"></use></svg> Logs</h3><p class="text-neutral-700">Hadisələrin mətn qeydləri: xətalar, girişlər, sorğular.</p></div>
-                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#route"></use></svg> Traces</h3><p>Bir sorğunun mikroservislər arasında keçdiyi yol — harada ləngidiyini göstərir.</p></div>
+                <div class="info-card accent"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#chart-column"></use></svg> Metrics</h3><p class="text-neutral-700">Rəqəmlər zamanla: CPU %, RAM, disk, sorğu sayı, cavab müddəti.</p></div>
+                <div class="info-card"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#scroll-text"></use></svg> Logs</h3><p class="text-neutral-700">Hadisələrin mətn qeydləri: xətalar, girişlər, sorğular.</p></div>
+                <div class="info-card dark"><h3><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#route"></use></svg> Traces</h3><p>Bir sorğunun mikroservislər arasında keçdiyi yol — harada ləngidiyini göstərir.</p></div>
             </div>
         </section>
 
         <section id="metrics" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#gauge"></use></svg> 1. Nəyi İzləmək Lazımdır?</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#gauge"></use></svg> 1. Nəyi İzləmək Lazımdır?</h2>
             <div class="table-wrap mb-6">
                 <table class="data-table">
                     <thead><tr><th>Metrika</th><th>Xəbərdarlıq həddi (nümunə)</th><th>Niyə</th></tr></thead>
@@ -88,13 +88,13 @@
                 </table>
             </div>
             <div class="note-box">
-                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#lightbulb"></use></svg>
+                <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#lightbulb"></use></svg>
                 <p class="text-neutral-800"><strong>USE metodu</strong> (resurslar üçün): Utilization (istifadə), Saturation (növbə/doyma), Errors. <strong>RED metodu</strong> (xidmətlər üçün): Rate (sorğu sayı), Errors (xəta faizi), Duration (cavab müddəti).</p>
             </div>
         </section>
 
         <section id="stack" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#boxes"></use></svg> 2. Populyar Alətlər</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#boxes"></use></svg> 2. Populyar Alətlər</h2>
             <div class="table-wrap">
                 <table class="data-table">
                     <thead><tr><th>Alət</th><th>Model</th><th>Güclü tərəfi</th></tr></thead>
@@ -110,7 +110,7 @@
         </section>
 
         <section id="prom" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#terminal"></use></svg> 3. Prometheus + Node Exporter + Grafana</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#terminal"></use></svg> 3. Prometheus + Node Exporter + Grafana</h2>
             <div class="code-block">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code># compose.yaml — monitorinq stack-i
@@ -141,7 +141,7 @@ scrape_configs:
         </section>
 
         <section id="alerts" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#bell"></use></svg> 4. Xəbərdarlıq Qaydaları</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#bell"></use></svg> 4. Xəbərdarlıq Qaydaları</h2>
             <div class="code-block mb-6">
                 <button class="copy-btn">Kopyala</button>
                 <pre><code># alerts.yml — disk 85%-dən çox, 10 dəqiqə davam edirsə
@@ -157,14 +157,14 @@ groups:
           summary: "{{ $labels.instance }}: disk {{ $value | humanize }}% doludur"</code></pre>
             </div>
             <div class="feature-grid">
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#bell"></use></svg><p class="text-neutral-700"><strong>Hərəkət tələb edən xəbərdarlıq:</strong> hər alert-ə "nə etməli" (runbook) əlavə edin.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#volume-x"></use></svg><p class="text-neutral-700"><strong>Alert fatigue:</strong> çox səs-küylü xəbərdarlıqlar ignor olunmağa başlayır — hədləri tənzimləyin, <code>for:</code> müddəti qoyun.</p></div>
-                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#send"></use></svg><p class="text-neutral-700"><strong>Kanallar:</strong> email, Telegram, Slack/Teams; kritik olanlar üçün növbətçi (on-call) sistemi.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#bell"></use></svg><p class="text-neutral-700"><strong>Hərəkət tələb edən xəbərdarlıq:</strong> hər alert-ə "nə etməli" (runbook) əlavə edin.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#volume-x"></use></svg><p class="text-neutral-700"><strong>Alert fatigue:</strong> çox səs-küylü xəbərdarlıqlar ignor olunmağa başlayır — hədləri tənzimləyin, <code>for:</code> müddəti qoyun.</p></div>
+                <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#send"></use></svg><p class="text-neutral-700"><strong>Kanallar:</strong> email, Telegram, Slack/Teams; kritik olanlar üçün növbətçi (on-call) sistemi.</p></div>
             </div>
         </section>
 
         <section id="dash" class="section-card">
-            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#layout-grid"></use></svg> 5. Yaxşı Dashboard</h2>
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#layout-grid"></use></svg> 5. Yaxşı Dashboard</h2>
             <ol class="steps max-w-3xl mx-auto">
                 <li><p class="text-neutral-700">Yuxarıda ümumi vəziyyət: hansı xidmətlər işləyir, hansılar yox (yaşıl/qırmızı əvəzinə aydın mətn və ikon).</p></li>
                 <li><p class="text-neutral-700">Sonra istifadəçi təsiri: sorğu sayı, xəta faizi, cavab müddəti (p95).</p></li>
@@ -178,15 +178,15 @@ groups:
         <div class="brand-footer-inner">
             <div class="brand-footer-top">
                 <div>
-                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=0f50865d#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=4a364192#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
                     <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
                 </div>
                 <nav class="brand-footer-links" aria-label="Footer keçidləri">
                     <a href="../index.html">Ana Səhifə</a>
-                    <a href="../index.html#ccna">CCNA</a>
+                    <a href="../lessons.html">Dərslər</a>
                     <a href="../tools.html">Tools</a>
                     <a href="../videos.html">Video Dərslər</a>
-                    <a href="../links.html">Faydalı Linklər</a>
+                    <a href="../links.html">Faydalı</a>
                     <a href="../about.html">Haqqında</a>
                     <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
                 </nav>
