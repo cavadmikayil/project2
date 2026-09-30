@@ -11,6 +11,6 @@ window.TOOLS = [
     { id: 'wildcard', title: 'Wildcard Mask Kalkulyatoru', desc: 'Maska ↔ wildcard ↔ CIDR, ACL və OSPF sətirləri, IP-nin ACL qaydasına uyğunluq testi.', icon: 'list-filter', href: 'tools/wildcard.html', group: 'Kalkulyatorlar' },
     { id: 'videos', title: 'Video Dərslər', desc: 'YouTube kursları portalda: videolar sıra ilə, "Növbəti" və "Baxdım" düymələri, kurs üzrə irəliləyiş.', icon: 'circle-play', href: 'videos.html', group: 'Video' },
     { id: 'careers', title: 'Karyera Yolları', desc: 'Helpdesk, şəbəkə mühəndisi, sistem administratoru və SOC analitiki üçün addım-addım yol, sertifikatlar və irəliləyiş.', icon: 'route', href: 'careers.html', group: 'Planlama' },
-    { id: 'glossary', title: 'IT Terminləri Lüğəti', desc: '445 ingiliscə IT termini və Security+ SY0-701 akronimləri: tam adı, qısa Azərbaycanca izahı və hansı dərslərdə keçdiyi — axtarış və filtrlərlə.', icon: 'book-a', href: 'tools/glossary.html', group: 'Arayış' },
+    { id: 'glossary', title: 'IT Terminləri Lüğəti', desc: '500-dən çox ingiliscə IT termini, Security+ və Network+ akronimləri: tam adı, qısa Azərbaycanca izahı və hansı dərslərdə keçdiyi — axtarış və filtrlərlə.', icon: 'book-a', href: 'tools/glossary.html', group: 'Arayış' },
     { id: 'ports', title: 'Port və Protokol Arayışı', desc: '50 vacib TCP/UDP portu, IP protokol nömrələri və təhlükəsiz alternativlər — axtarışla.', icon: 'plug', href: 'tools/ports.html', group: 'Arayış' }
 ];

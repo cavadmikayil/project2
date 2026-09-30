@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--CSP-->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-Eh094mjIBeEF3NC+J6+70PkpCn68IIVccmaC5kMk0OM='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9IMXqb6/6G8dTYpocMndIx81iZzxK4TwOEIXqvqQOi4='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <!--/CSP-->
     <title>IT Terminləri Lüğəti — Cavad Mikayil Təlim Portalı</title>
@@ -56,9 +56,10 @@
         .term-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.6rem; }
         .term h3 { font-size: 1.15rem; font-weight: 800; color: #0a0a0a; line-height: 1.25; }
         .term .full { font-size: 0.82rem; font-weight: 600; color: #737373; margin-top: 0.1rem; }
-        .term .tags { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem; }
+        .term .exams { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-top: 0.4rem; }
         .term .sp { font-size: 0.68rem; font-weight: 800; color: #fbbf24; background: #0a0a0a; padding: 0.15rem 0.5rem; border-radius: 9999px; white-space: nowrap; }
         .fchip.sp-chip { border-color: #fcd34d; }
+        .chip-label { width: 100%; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: #a3a3a3; margin-top: 0.35rem; }
         .term .cat { font-size: 0.68rem; font-weight: 800; color: #78350f; background: #fef3c7; padding: 0.15rem 0.5rem; border-radius: 9999px; white-space: nowrap; }
         .term .def { color: #404040; font-size: 0.93rem; line-height: 1.55; margin-top: 0.6rem; }
         .term .in { margin-top: 0.75rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
@@ -108,7 +109,7 @@
         <section class="tool-hero">
             <a href="../tools.html" class="tool-back"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#arrow-left"></use></svg> Bütün alətlər</a>
             <h1><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#book-a"></use></svg> IT Terminləri Lüğəti</h1>
-            <p>Dərslərdə keçən ingiliscə IT terminləri və CompTIA Security+ (SY0-701) imtahanının rəsmi akronim siyahısı: tam adı, qısa Azərbaycanca izahı və hansı dərslərdə işləndiyi. Dərsə keçmək üçün adına klikləyin.</p>
+            <p>Dərslərdə keçən ingiliscə IT terminləri və CompTIA imtahanlarının rəsmi akronim siyahıları: tam adı, qısa Azərbaycanca izahı və hansı dərslərdə işləndiyi. Dərsə keçmək üçün adına klikləyin.</p>
         </section>
 
         <section class="section-card">
@@ -176,17 +177,18 @@
         const expanded = new Set();
 
         const params = new URLSearchParams(location.search);
-        // "secplus" kateqoriya deyil — Security+ SY0-701 akronim siyahısındakı terminlərin (s: 1) filtri
-        const SP = { id: 'secplus', label: 'Security+ SY0-701', icon: 'award' };
-        const inFilter = (x, id) => id === 'all' || (id === SP.id ? !!x.s : x.c === id);
-        let active = CATS.concat(SP).some(c => c.id === params.get('c')) ? params.get('c') : 'all';
+        // İmtahan filtrləri (secplus, netplus...) kateqoriya deyil — rəsmi akronim siyahısındakı terminlər (e: [...])
+        const EXAMS = (window.GLOSSARY_EXAMS || []).map(e => ({ ...e, icon: 'award' }));
+        const examById = Object.fromEntries(EXAMS.map(e => [e.id, e]));
+        const inFilter = (x, id) => id === 'all' || (examById[id] ? (x.e || []).includes(id) : x.c === id);
+        let active = CATS.concat(EXAMS).some(c => c.id === params.get('c')) ? params.get('c') : 'all';
         $('q').value = params.get('q') || '';
 
         function renderChips() {
             const count = id => TERMS.filter(x => inFilter(x, id)).length;
-            $('chips').innerHTML = [{ id: 'all', label: 'Hamısı', icon: 'layers' }].concat(CATS, SP).map(c =>
-                `<button type="button" class="fchip ${c.id === SP.id ? 'sp-chip' : ''} ${c.id === active ? 'active' : ''}" data-cat="${c.id}" role="tab" aria-selected="${c.id === active}">${icon(c.icon)} ${esc(c.label)} <span class="n">${count(c.id)}</span></button>`
-            ).join('');
+            const chip = c => `<button type="button" class="fchip ${examById[c.id] ? 'sp-chip' : ''} ${c.id === active ? 'active' : ''}" data-cat="${c.id}" role="tab" aria-selected="${c.id === active}">${icon(c.icon)} ${esc(c.label)} <span class="n">${count(c.id)}</span></button>`;
+            $('chips').innerHTML = [{ id: 'all', label: 'Hamısı', icon: 'layers' }].concat(CATS).map(chip).join('')
+                + (EXAMS.length ? '<span class="chip-label">CompTIA akronimləri</span>' + EXAMS.map(chip).join('') : '');
         }
 
         // Axtarış sözünü vurğulayır (mətn əvvəlcə escape olunur)
@@ -211,8 +213,8 @@
             const rest = total - shown.length;
             return `<article class="term" id="${slugOf(x.t)}">
                 <div class="term-head">
-                    <div><h3>${hl(x.t, term)}</h3><p class="full">${hl(x.f, term)}</p></div>
-                    <div class="tags"><span class="cat">${esc(catById[x.c].label)}</span>${x.s ? '<span class="sp" title="CompTIA Security+ SY0-701 rəsmi akronim siyahısında">Security+</span>' : ''}</div>
+                    <div><h3>${hl(x.t, term)}</h3><p class="full">${hl(x.f, term)}</p>${(x.e || []).length ? `<div class="exams">${x.e.map(id => `<span class="sp" title="CompTIA ${esc(examById[id].label)} rəsmi akronim siyahısında">${esc(examById[id].short)}</span>`).join('')}</div>` : ''}</div>
+                    <span class="cat">${esc(catById[x.c].label)}</span>
                 </div>
                 <p class="def">${hl(x.d, term)}</p>
                 ${lessons.length ? `<div class="in"><span class="lbl">Dərslərdə:</span>${shown.map(l => `<a href="../${l.href}">${esc(l.title)}</a>`).join('')}${
@@ -233,7 +235,7 @@
                 <h2 class="letter" id="L-${L === '0–9' ? '09' : L}">${L}</h2>
                 <div class="terms">${groups[L].map(x => card(x, term)).join('')}</div>`).join('')
                 : `<p class="empty">Heç nə tapılmadı. Başqa söz yoxlayın və ya "Hamısı" kateqoriyasını seçin.</p>`;
-            $('count').textContent = term || active !== 'all' ? `${list.length} termin tapıldı (cəmi ${TERMS.length})` : `${TERMS.length} termin · ${CATS.length} kateqoriya · ${TERMS.filter(x => x.s).length} Security+ akronimi`;
+            $('count').textContent = term || active !== 'all' ? `${list.length} termin tapıldı (cəmi ${TERMS.length})` : `${TERMS.length} termin · ${CATS.length} kateqoriya · ${TERMS.filter(x => (x.e || []).length).length} CompTIA akronimi`;
             const p = new URLSearchParams();
             if (active !== 'all') p.set('c', active);
             if ($('q').value.trim()) p.set('q', $('q').value.trim());
