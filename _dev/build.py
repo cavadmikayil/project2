@@ -811,7 +811,7 @@ def check_glossary():
             problems.append(f'lüğət: naməlum kateqoriya "{item.get("c")}" ({item["t"]})')
         if not item.get('d') or not item.get('f'):
             problems.append(f'lüğət: izah və ya tam ad yoxdur ({item["t"]})')
-        if not index.get(item['t'], [0])[0]:
+        if not item.get('s') and not index.get(item['t'], [0])[0]:   # Security+ akronimləri (s: 1) dərsdə keçməyə bilər
             problems.append(f'lüğət: "{item["t"]}" heç bir dərsdə keçmir — m: [...] ilə yazılışı əlavə edin və ya termini çıxarın')
     return problems
 

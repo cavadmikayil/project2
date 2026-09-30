@@ -184,7 +184,7 @@ Hər video öz ID-si ilə ayrıca açılır (YouTube-un playlist funksiyasından
 
 ### IT terminləri lüğəti
 
-Yeni termin: `assets/glossary.js`-ə bir sətir — `{ t: 'VLAN', f: 'Virtual Local Area Network', d: 'Qısa Azərbaycanca izah', c: 'net' }` — və `python3 _dev/build.py`. Terminin hansı dərslərdə keçdiyini build özü tapır (dərsin adında keçənlər əvvəl, sonra ən çox işləndiyi dərslər); Azərbaycan şəkilçiləri də nəzərə alınır (routerlər, switch-ə). Başqa yazılışlar üçün `m: ['...']`, termin başqa mənada işlənən dərslər üçün `x: ['dərs-adı']`. Heç bir dərsdə keçməyən termin build-də xəta verir.
+Yeni termin: `assets/glossary.js`-ə bir sətir — `{ t: 'VLAN', f: 'Virtual Local Area Network', d: 'Qısa Azərbaycanca izah', c: 'net' }` — və `python3 _dev/build.py`. Terminin hansı dərslərdə keçdiyini build özü tapır (dərsin adında keçənlər əvvəl, sonra ən çox işləndiyi dərslər); Azərbaycan şəkilçiləri də nəzərə alınır (routerlər, switch-ə). Başqa yazılışlar üçün `m: ['...']`, termin başqa mənada işlənən dərslər üçün `x: ['dərs-adı']`. Heç bir dərsdə keçməyən termin build-də xəta verir — istisna `s: 1` ilə işarələnmiş CompTIA Security+ SY0-701 akronimləridir (lüğətdə "Security+ SY0-701" filtri).
 
 ## 7. Faydalı link əlavə etmək
 
