@@ -747,13 +747,14 @@ def _lesson_texts():
 
 def load_glossary():
     script = ("global.window={};require(process.argv[1]);"
-              "console.log(JSON.stringify({g:window.GLOSSARY,c:window.GLOSSARY_CATEGORIES}))")
+              "console.log(JSON.stringify({g:window.GLOSSARY,c:window.GLOSSARY_CATEGORIES,e:window.GLOSSARY_EXAMS||[]}))")
     try:
         out = subprocess.run(['node', '-e', script, str(ROOT / 'assets/glossary.js')],
                              capture_output=True, text=True, check=True).stdout
     except (OSError, subprocess.CalledProcessError):
         return None, None
     data = json.loads(out)
+    load_glossary.exams = {e['id'] for e in data['e']}
     return data['g'], data['c']
 
 
@@ -811,7 +812,10 @@ def check_glossary():
             problems.append(f'lüğət: naməlum kateqoriya "{item.get("c")}" ({item["t"]})')
         if not item.get('d') or not item.get('f'):
             problems.append(f'lüğət: izah və ya tam ad yoxdur ({item["t"]})')
-        if not item.get('s') and not index.get(item['t'], [0])[0]:   # Security+ akronimləri (s: 1) dərsdə keçməyə bilər
+        bad = set(item.get('e', [])) - load_glossary.exams
+        if bad:
+            problems.append(f'lüğət: naməlum imtahan {sorted(bad)} ({item["t"]})')
+        if not item.get('e') and not index.get(item['t'], [0])[0]:   # CompTIA akronimləri (e: [...]) dərsdə keçməyə bilər
             problems.append(f'lüğət: "{item["t"]}" heç bir dərsdə keçmir — m: [...] ilə yazılışı əlavə edin və ya termini çıxarın')
     return problems
 
