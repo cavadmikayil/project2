@@ -1,0 +1,65 @@
+<!--PAGE title="DDoS və DDoS Hücumlarından Qorunmaq" icon="shield-alert" badge="Müəllimin Qeydləri · Təhlükəsizlik" nav="intro:Giriş|what:DDoS nədir?|types:Hücum növləri|protect:Qorunma|plan:Fövqəladə plan"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:shield-alert}} DDoS və DDoS Hücumlarından Qorunmaq</h2>
+            <p class="note-byline">{{i:pen-line}} Müəllimin qeydi · Cavad Mikayil</p>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-ddos/01.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-ddos/01.webp" alt="DDoS Attack — qırmızı kilid və server otağında xaker (örtük şəkli)" width="1432" height="805" loading="lazy" decoding="async"></a>
+            </figure>
+            <div class="note-body">
+                <p>Rəqəmsal dünyada mövcud olan hər bir təşkilat, qurum DDoS (Distributed Denial of Service) kiberhücumlarına qarşı həssas və müdafiəsizdir. Bu tip hücumlar hər hansı bir şirkətin serverində (məsələn, veb sayt ola bilər) xidmətin və ya həmin qurumun şəbəkəsinin normal işləməsinin qarşısını alır, ən qorxuncu da istifadəçilərin ora girişini qadağan edir. Bu yazıda DDoS hücumlarına nəyin səbəb olduğunu və bu hücumlara qarşı alına biləcək təsirli tədbirlərə nəzər yetirəcəyik.</p>
+            </div>
+        </section>
+
+        <section id="what" class="section-card">
+            <h2 class="section-title">{{i:zap}} 1. DDoS Nədir?</h2>
+            <div class="note-body">
+                <p>DDoS, kiberatakı həyata keçirən bir və ya bir neçə şəxsin birdən çox kompüter və ya cihazdan istifadə edərək hər hansı bir serverdə xidmətə normadan artıq ağır trafik göndərdiyi zaman baş verən kiberhücum növüdür.</p>
+                <p>DDoS hücumunda xaker servislərin resurslarını tükətməyə çalışır. Məsələn, hədəfdə olan bir şirkətin veb saytını saxta trafiklə məşğul edir və nəticədə veb saytın trafiki yavaşlayır və ya tamamilə dayandırılmasına səbəb olur. Beləliklə şirkət həmin zaman aralığında böyük miqdarda pul itkisi ilə qarşılaşır.</p>
+                <p>Xakerlər DDoS hücumu zamanı databazaya sızaraq məxfi məlumatları ələ keçirə bilərlər. DDoS hücumları servislərdə olan boşluqlarla və yaxud internetdən açıq şəkildə əldə edilə bilən proqramlar (tools) vasitəsilə həyata keçirilir. Bu hücumlar saatlarla, hətta günlərlə belə davam edə bilər.</p>
+            </div>
+            <div class="note-gallery two">
+                <figure class="note-figure">
+                    <a href="../assets/notes/qeyd-ddos/02.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-ddos/02.webp" alt="DDoS Attack yazısı olan rəqəmsal xəritə fonu" width="1429" height="500" loading="lazy" decoding="async"></a>
+                </figure>
+                <figure class="note-figure">
+                    <a href="../assets/notes/qeyd-ddos/03.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-ddos/03.webp" alt="Bənövşəyi fonda DDoS yazılı kilid" width="1600" height="900" loading="lazy" decoding="async"></a>
+                </figure>
+            </div>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title">{{i:layers}} 2. DDoS Hücumlarının Növləri</h2>
+            <div class="note-body">
+                <div class="card-grid">
+                    <div class="info-card accent"><h3>{{i:waves}} Volumetric Hücumlar</h3><p class="text-neutral-700">Şəbəkəyə böyük həcmdə trafik göndərərək, bant genişliyini həddən artıq yükləməyə cəhdlər olunur.</p></div>
+                    <div class="info-card"><h3>{{i:network}} Protokol Hücumları</h3><p class="text-neutral-700">Xüsusi şəbəkə protokollarına edilən hücumlardır, serverin, şəbəkə cihazlarının resurslarını ən sona qədər istifadə edir və onlarda xidmətdən imtina vəziyyəti yaradır.</p></div>
+                    <div class="info-card dark"><h3>{{i:app-window}} Application Layer Hücumları</h3><p>Veb bazalı proqramlara yönəlmiş hücumlar serverləri həddən artıq yükləyir və xidməti dayandıra bilər.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="protect" class="section-card">
+            <h2 class="section-title">{{i:shield-check}} 3. DDoS Hücumlarından Qorunmaq</h2>
+            <div class="note-body">
+                <ul class="list">
+                    <li><strong>Güclü şəbəkə infrastrukturu:</strong> Daim şəbəkə trafikinin monitorinqi və analizi, yüksək bandwidth-ə sahib olmaq üçün sağlam, güclü bir şəbəkə infrastrukturu ilə bu kimi kiberhücumların qarşısını ala bilərik. Eyni IP ünvanından və ya diapazondan gələn veb-trafikin artması, şəbəkənin yavaşlaması və ya qeyri-müntəzəm işləməsi kimi halları daim izləmək lazımdır. Əlavə olaraq SIEM, WAF, EDR kimi toollardan istifadə edərək şəbəkəni monitorinq edib qorumağa çalışa bilərik.</li>
+                    <li><strong>DDoS qorunması üçün CDN xidmətləri:</strong> CDN — Content Delivery Network vasitəsilə trafikin başqa bir yerə yönləndirilməsi ilə DDoS hücumlarından qorunmaq mümkündür.</li>
+                    <li><strong>NGFW Firewall və Software Firewall-lar:</strong> Şəbəkə trafikini daim analiz edərək filter olunması və zərərli content-lərin, proqramların bloklanması.</li>
+                    <li><strong>Load Balancing:</strong> Trafik yükünü bölüşdürmək üçün yük balanslaşdırma cihazlarından istifadə edə bilərik.</li>
+                    <li><strong>IDS/IPS</strong> — spesifik tənzimlənə bilən hücum aşkarlanması sistemləri: anomaliyaları aşkar edərək hücumları avtomatik dayandırmaq imkanı.</li>
+                </ul>
+            </div>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-ddos/04.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-ddos/04.webp" alt="Monitorlar qarşısında oturan xaker və Data Breach yazısı" width="1432" height="805" loading="lazy" decoding="async"></a>
+            </figure>
+        </section>
+
+        <section id="plan" class="section-card">
+            <h2 class="section-title">{{i:siren}} 4. Fövqəladə Hallar Planı</h2>
+            <div class="note-body">
+                <p>DDoS hücumları zamanı servisin dayanması halında fövqəladə durumlar üçün olan planların hazır olması çox vacibdir. Sürətli reaksiya vermək və effektiv ünsiyyət hücumun təsirlərini minimuma endirməkdə mühüm rol oynayır.</p>
+                <p>DDoS hücumları günümüzün rəqəmsal dünyasında ciddi təhlükə yaradır. Adətən xakerin əsas məqsədi veb-resursların normal fəaliyyətini tamamilə maneə törətməkdir, yəni tam xidməti dayandırmaqdır. Xaker hücumu dayandırmaq üçün pul istəyə bilər. Bəzi hallarda DDoS hücumu rəqabət aparan bir firmanı pisləmək və ya biznesinə zərər vermək üçün istifadə edilə bilər.</p>
+                <p>Ancaq düzgün tədbirlər görülsə, bu cür hücumlardan uğurla qorunmaq mümkündür. Bu məqalədə qeyd olunan mühafizə üsullarını tətbiq etməklə siz təşkilatınızın təhlükəsizliyini artıra və mümkün hücumları minimuma endirə bilərsiniz.</p>
+            </div>
+        </section>
+<!--END-->

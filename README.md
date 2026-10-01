@@ -46,6 +46,7 @@ tools/*.html               Alətlər: quiz, CCNA imtahan simulyatoru, CLI simuly
 assets/catalog.js          Bütün kateqoriyalar və dərslərin siyahısı (dashboard və quiz buradan oxuyur)
 assets/questions.js        Bütün quiz sualları
 assets/lesson-sections.js  Hər dərsin bölmələri (build.py yaradır — Dərslər səhifəsi üçün)
+assets/notes/<dərs>/       Müəllimin Qeydləri dərslərinin şəkilləri (WebP, Word fayllarından çıxarılıb)
 assets/glossary.js         IT terminləri lüğəti (Tools → IT Terminləri Lüğəti): termin, tam ad, izah, kateqoriya
 assets/glossary-index.js   Hər terminin keçdiyi dərslər (build.py dərs mətnlərindən özü tapır)
 assets/icons.svg           İkon sprite-ı
@@ -104,7 +105,7 @@ python3 -m http.server 8000
 6. **Paylaşım şəkli:** `node _dev/og.js` — yeni dərsin Telegram/WhatsApp/LinkedIn önizləmə şəklini yaradır (bölmə 8a). Unudulsa, `build.py` xəbər verir.
 7. **Yoxlayın** (`python3 -m http.server 8000`) və **publish edin** (bölmə 9).
 
-> Bütün 140 dərsin mənbəyi `_dev/lessons/` qovluğundadır. `lessons/` qovluğundakı faylları birbaşa redaktə etməyin — növbəti build dəyişikliyi silər.
+> Bütün 150 dərsin mənbəyi `_dev/lessons/` qovluğundadır. `lessons/` qovluğundakı faylları birbaşa redaktə etməyin — növbəti build dəyişikliyi silər.
 >
 > Dərsə xas CSS və ya JavaScript lazımdırsa (məs. qrafik, axtarış), mənbə faylına iki istəyə bağlı blok əlavə edin:
 > ```html

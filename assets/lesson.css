@@ -162,3 +162,39 @@ body.dark-mode .lesson-badge { background: #262626; }
 .lab-done-btn:hover { background: #262626; }
 .lab-done-btn.is-done { background: #f59e0b; color: #0a0a0a; }
 .lab-done-btn.is-done .icon { color: #0a0a0a; }
+
+/* Müəllimin Qeydləri — mətn, şəkil və qalereya */
+.note-byline { display: flex; align-items: center; justify-content: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 600; color: #737373; margin-bottom: 1.25rem; }
+.note-byline .icon { color: #d97706; }
+.note-body { max-width: 48rem; margin: 0 auto; color: #262626; line-height: 1.75; }
+.note-body > * + * { margin-top: 1rem; }
+.note-body h3 { display: flex; align-items: center; gap: 0.5rem; font-size: 1.2rem; font-weight: 700; color: #0a0a0a; margin-top: 1.75rem; }
+.note-body h3 .num { display: inline-flex; align-items: center; justify-content: center; min-width: 1.8rem; height: 1.8rem; border-radius: 9999px; background: #0a0a0a; color: #fbbf24; font-size: 0.85rem; }
+.note-body .list { padding-left: 1.4rem; }
+.note-body ul.list { list-style: disc; }
+.note-body ol.list { list-style: decimal; }
+.note-body .list ul { list-style: circle; padding-left: 1.4rem; margin-top: 0.35rem; }
+.note-body .list li { margin-top: 0.4rem; }
+.note-body .list li::marker { color: #d97706; font-weight: 700; }
+.note-body code { background: #f5f5f5; border: 1px solid #e5e5e5; border-radius: 0.3rem; padding: 0.05rem 0.35rem; font-size: 0.9em; }
+.note-body .arrow-list { list-style: none; padding: 0; }
+.note-body .arrow-list li + li { margin-top: 0.4rem; }
+.note-body .arrow-list li { display: flex; gap: 0.6rem; padding: 0.55rem 0.85rem; border: 1px solid #e5e5e5; border-radius: 0.6rem; background: #fafafa; }
+.note-body .arrow-list li strong { min-width: 6.5rem; color: #92400e; }
+.note-figure { max-width: 48rem; margin: 1.5rem auto; }
+.note-figure a { display: block; border-radius: 0.75rem; overflow: hidden; border: 1px solid #e5e5e5; background: #ffffff; }
+.note-figure img { width: 100%; height: auto; display: block; }
+.note-figure a:hover { border-color: #f59e0b; }
+.note-figure figcaption { text-align: center; font-size: 0.85rem; color: #737373; margin-top: 0.5rem; }
+.note-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 0.75rem; max-width: 64rem; margin: 1.5rem auto; }
+.note-gallery .note-figure { margin: 0; max-width: none; }
+.note-gallery.two { grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); }
+body.dark-mode .note-byline { color: #a3a3a3; }
+body.dark-mode .note-body { color: #e5e5e5; }
+body.dark-mode .note-body h3 { color: #ffffff; }
+body.dark-mode .note-body h3 .num { background: #f59e0b; color: #0a0a0a; }
+body.dark-mode .note-body code { background: #1f1f1f; border-color: #333333; }
+body.dark-mode .note-body .arrow-list li { background: #1f1f1f; border-color: #333333; }
+body.dark-mode .note-body .arrow-list li strong { color: #fbbf24; }
+body.dark-mode .note-figure a { border-color: #333333; }
+body.dark-mode .note-figure figcaption { color: #a3a3a3; }

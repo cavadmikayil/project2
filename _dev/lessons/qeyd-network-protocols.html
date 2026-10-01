@@ -1,0 +1,67 @@
+<!--PAGE title="Populyar Şəbəkə Protokolları" icon="network" badge="Müəllimin Qeydləri · Şəbəkə" nav="intro:Giriş|ssh:SSH|udp:UDP və TCP|dns:DNS|ftp:FTP|icmp:ICMP"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:network}} Populyar Şəbəkə Protokolları</h2>
+            <p class="note-byline">{{i:pen-line}} Müəllimin qeydi · Cavad Mikayil</p>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-network-protocols/01.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-network-protocols/01.webp" alt="Populyar şəbəkə protokolları: SSH, FTP, DNS (örtük şəkli)" width="1432" height="805" loading="lazy" decoding="async"></a>
+            </figure>
+            <div class="note-body">
+                <p>Bu yazımda sizlərə IT sahəsində ən çox eşidəcəyiniz məşhur şəbəkə protokollarından bir neçəsi barədə bəhs edəcəm.</p>
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead><tr><th>Protokol</th><th>Tam adı</th><th>Qısaca</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>SSH</strong></td><td>Secure Shell</td><td>Təhlükəsiz uzaqdan giriş</td></tr>
+                            <tr><td><strong>UDP</strong></td><td>User Datagram Protocol</td><td>Sürətli, zəmanətsiz ötürmə</td></tr>
+                            <tr><td><strong>TCP</strong></td><td>Transmission Control Protocol</td><td>Etibarlı, ardıcıl ötürmə</td></tr>
+                            <tr><td><strong>DNS</strong></td><td>Domain Name System</td><td>Ad → IP ünvanı</td></tr>
+                            <tr><td><strong>FTP</strong></td><td>File Transfer Protocol</td><td>Fayl ötürmə (21; SFTP — 22)</td></tr>
+                            <tr><td><strong>ICMP</strong></td><td>Internet Control Message Protocol</td><td>Diaqnostika, ping</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="ssh" class="section-card">
+            <h2 class="section-title">{{i:terminal}} SSH</h2>
+            <div class="note-body">
+                <p><strong>SSH (Secure Shell)</strong> şəbəkədə məhsuldar və təhlükəsiz bağlantılar təmin edən bir şəbəkə protokoludur. SSH bir kompüterdən digərinə məlumat ötürmək və ya hər hansı bir sistemə uzaqdan giriş etmək üçün istifadə olunur. SSH şifrələmə və autentifikasiya texnologiyaları ilə məlumatların təhlükəsizliyini təmin edir.</p>
+                <p>SSH ilə biz, məsələn, kompüterimizdən Cisco router-ə uzaqdan qoşulub onu CLI ilə komandalarla idarə edə bilərik. SSH Telnet-ə nisbətən trafiki şifrələdiyi üçün daha təhlükəsiz hesab olunur.</p>
+            </div>
+        </section>
+
+        <section id="udp" class="section-card">
+            <h2 class="section-title">{{i:arrow-right-left}} UDP və TCP</h2>
+            <div class="note-body">
+                <h3>UDP</h3>
+                <p><strong>UDP (User Datagram Protocol)</strong> sadə məlumatların ötürülməsini təmin edən sürətli bir şəbəkə protokoludur. TCP-dən fərqli olaraq, məlumat ötürərkən səhvləri düzəltmə və sıralama zəmanəti vermir. Bu da UDP-ni aşağı gecikmə müddəti tələb edən video, onlayn oyunlar və VoIP kimi tətbiqlər üçün ideal edir.</p>
+                <h3>TCP</h3>
+                <p><strong>TCP (Transmission Control Protocol)</strong> internet üzərindən etibarlı və ardıcıl məlumat ötürülməsini təmin edən bir kommunikasiya protokoludur. TCP məlumat paketlərinin düzgün çatmasını təmin etmək üçün səhvlərin aşkarlanması və düzəldilməsi, paketlərin yenidən sıralanması kimi mexanizmlərdən istifadə edir. Bu, TCP-ni veb səhifələrin yüklənməsi, e-poçt göndərilməsi və fayl ötürülməsi kimi dəqiq məlumat ötürülməsi tələb edən tətbiqlər üçün ideal edir.</p>
+            </div>
+        </section>
+
+        <section id="dns" class="section-card">
+            <h2 class="section-title">{{i:globe}} DNS</h2>
+            <div class="note-body">
+                <p><strong>DNS (Domain Name System)</strong> internet üzərində domen adlarını IP ünvanlarına çevirən (və ya tam tərsi) bir sistemdir. İnsanların oxuya biləcəyi domen adlarını (məsələn, <code>pits.az</code>) kompüterlərin anladığı IP ünvanlarına (məsələn, <code>192.0.2.1</code>) çevirərək internet üzərindən məlumatların düzgün istiqamətlənməsini təmin edir. DNS veb saytlarına və onlayn xidmətlərə asan və sürətli giriş imkanı yaradır.</p>
+                <p>Ətraflı: <a class="font-semibold text-amber-700 hover:underline" href="qeyd-dns-records.html">DNS Record Nədir? Ən Çox İstifadə Olunan Növləri</a></p>
+            </div>
+        </section>
+
+        <section id="ftp" class="section-card">
+            <h2 class="section-title">{{i:folder-open}} FTP</h2>
+            <div class="note-body">
+                <p><strong>FTP (File Transfer Protocol)</strong> faylların bir kompüterdən digərinə şəbəkə üzərində (internet) ötürülməsini təmin edən bir şəbəkə protokoludur. FTP faylların yüklənməsi və endirilməsi, məlumatlara giriş və onları idarə etmək üçün asan və effektiv bir yol təqdim edir. Bir çox hosting xidmətləri və veb serverlər FTP-ni saytın fayllarını idarə etmək üçün istifadə edir.</p>
+                <p>FTP <strong>21</strong> portu üzərindən işləyir, daha təhlükəsiz versiyası olan SFTP isə <strong>22</strong> portu ilə.</p>
+            </div>
+        </section>
+
+        <section id="icmp" class="section-card">
+            <h2 class="section-title">{{i:activity}} ICMP</h2>
+            <div class="note-body">
+                <p><strong>ICMP (Internet Control Message Protocol)</strong> internet protokolları üzərində xəbərdarlıq və diaqnostika mesajlarının göndərilməsini təmin edən bir protokoldur. ICMP şəbəkədəki qarşılıqlı əlaqədə və problem həllində kömək edir. Məsələn, ping icrası və şəbəkə tərəfindən qəbul olunmuş paketlər barədə məlumat almaq — daha çox troubleshooting üçün istifadə olunur.</p>
+                <p>Biz CMD-də <code>ping 8.8.8.8</code> yazmaqla internet (WAN) bağlantımızı yoxlaya bilərik.</p>
+            </div>
+        </section>
+<!--END-->

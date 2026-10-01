@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--CSP-->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <!--/CSP-->
+    <title>Wi-Fi Təhlükəsizliyi: WEP, WPA, WPA2 yoxsa WPA3? — Müəllimin Qeydləri | Cavad Mikayil Təlim Portalı</title>
+    <!--SEO-->
+    <meta name="description" content="Simsiz təhlükəsizlik protokollarının tarixi və fərqləri, WPA3 yenilikləri və Wi-Fi-ı qorumaq üçün tövsiyələr. Müəllimin Qeydləri: Azərbaycan dilində pulsuz dərs vəsaiti, quiz sualları.">
+    <link rel="canonical" href="https://portal.cavadmikayil.com/lessons/qeyd-wifi-security.html">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="author" content="Cavad Mikayil">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../assets/favicon-32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Cavad Mikayil Təlim Portalı">
+    <meta property="og:locale" content="az_AZ">
+    <meta property="og:title" content="Wi-Fi Təhlükəsizliyi: WEP, WPA, WPA2 yoxsa WPA3? — Müəllimin Qeydləri">
+    <meta property="og:description" content="Simsiz təhlükəsizlik protokollarının tarixi və fərqləri, WPA3 yenilikləri və Wi-Fi-ı qorumaq üçün tövsiyələr. Müəllimin Qeydləri: Azərbaycan dilində pulsuz dərs vəsaiti, quiz sualları.">
+    <meta property="og:url" content="https://portal.cavadmikayil.com/lessons/qeyd-wifi-security.html">
+    <meta property="og:image" content="https://portal.cavadmikayil.com/assets/og/lessons/qeyd-wifi-security.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Wi-Fi Təhlükəsizliyi: WEP, WPA, WPA2 yoxsa WPA3? — Müəllimin Qeydləri">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Wi-Fi Təhlükəsizliyi: WEP, WPA, WPA2 yoxsa WPA3? — Müəllimin Qeydləri">
+    <meta name="twitter:description" content="Simsiz təhlükəsizlik protokollarının tarixi və fərqləri, WPA3 yenilikləri və Wi-Fi-ı qorumaq üçün tövsiyələr. Müəllimin Qeydləri: Azərbaycan dilində pulsuz dərs vəsaiti, quiz sualları.">
+    <meta name="twitter:image" content="https://portal.cavadmikayil.com/assets/og/lessons/qeyd-wifi-security.jpg">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Wi-Fi Təhlükəsizliyi: WEP, WPA, WPA2 yoxsa WPA3?", "description": "Simsiz təhlükəsizlik protokollarının tarixi və fərqləri, WPA3 yenilikləri və Wi-Fi-ı qorumaq üçün tövsiyələr. Müəllimin Qeydləri: Azərbaycan dilində pulsuz dərs vəsaiti, quiz sualları.", "url": "https://portal.cavadmikayil.com/lessons/qeyd-wifi-security.html", "image": "https://portal.cavadmikayil.com/assets/og/lessons/qeyd-wifi-security.jpg", "inLanguage": "az", "learningResourceType": "Dərs vəsaiti", "isAccessibleForFree": true, "author": {"@type": "Person", "name": "Cavad Mikayil", "url": "https://portal.cavadmikayil.com/about.html", "jobTitle": "İT təlimçisi, şəbəkə təhlükəsizliyi mühəndisi", "sameAs": ["https://instagram.com/cavadmikayil.com_", "https://youtube.com/@cavadmikayil", "https://az.linkedin.com/in/cavad-mikayil-0a8153212", "https://cavadmikayil.com", "https://t.me/cavadmikayil", "https://tiktok.com/@cavadmikayil"]}, "isPartOf": {"@type": "WebSite", "name": "Cavad Mikayil Təlim Portalı", "url": "https://portal.cavadmikayil.com/"}}</script>
+    <!--/SEO-->
+    <link rel="stylesheet" href="../assets/fonts.css">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+    <link rel="stylesheet" href="../assets/tailwind.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#wifi"></use></svg> Wi-Fi Təhlükəsizliyi: WEP, WPA, WPA2 yoxsa WPA3?</h1>
+                <span class="lesson-badge">Müəllimin Qeydləri · Şəbəkə</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#protocols" class="nav-link">WEP, WPA, WPA2</a>
+                <a href="#wpa3" class="nav-link">WPA3</a>
+                <a href="#protect" class="nav-link">Necə qorumalı?</a>
+                <a href="../index.html#notes" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#wifi"></use></svg> Wi-Fi Şəbəkələrinizi Necə Qorumalı?</h2>
+            <p class="note-byline"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#pen-line"></use></svg> Müəllimin qeydi · Cavad Mikayil</p>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-wifi-security/01.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-wifi-security/01.webp" alt="Wi-Fi Təhlükəsizliyi: WEP, WPA, WPA2, WPA3 və parol (örtük şəkli)" width="1428" height="803" loading="lazy" decoding="async"></a>
+            </figure>
+            <div class="note-body">
+                <p>Kabelsiz şəbəkələr gündəlik həyatımızın ayrılmaz hissəsidir. Evdə, işdə və ictimai yerlərdə istifadə etdiyimiz Wi-Fi şəbəkələrinin təhlükəsizliyi isə çox vaxt diqqətdən kənarda qalır. Şəxsi məlumatlarınızın qorunması üçün doğru təhlükəsizlik protokolunu seçmək olduqca vacibdir. Bu yazımda WEP, WPA, WPA2 və WPA3 simsiz təhlükəsizlik protokollarına baxacağıq.</p>
+                <h3>Wi-Fi təhlükəsizliyi niyə bu qədər əhəmiyyətlidir?</h3>
+                <p>Wi-Fi şəbəkələri fiziki kabellərlə müqayisədə təbiətinə görə daha çox risk daşıyır, çünki simsiz siqnallar divarlardan keçərək kənar şəxslər tərəfindən aşkarlana bilər. Təhlükəsiz olmayan bir Wi-Fi şəbəkəsindən istifadə etdiyiniz zaman internet trafikiniz asanlıqla izlənilə bilər. Bu isə şəxsi məlumatların oğurlanması riskini artırır. Bank hesablarınızdan sosial media şifrələrinizə qədər həssas məlumatlarınız təhlükə altında ola bilər.</p>
+                <p>Həmçinin zəif təhlükəsizlikli şəbəkələr icazəsiz istifadəyə açıqdır. Bu, internet sürətinizin azalmasına, məlumat limitinizin aşılmasına və hətta qanunsuz fəaliyyətlər üçün şəbəkənizin istifadəsi nəticəsində hüquqi problemlərlə üzləşməyinizə səbəb ola bilər.</p>
+            </div>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-wifi-security/02.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-wifi-security/02.webp" alt="Wi-Fi siqnal ikonu" width="1440" height="580" loading="lazy" decoding="async"></a>
+            </figure>
+        </section>
+
+        <section id="protocols" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#history"></use></svg> WEP, WPA və WPA2 Nədir?</h2>
+            <div class="note-body">
+                <h3><span class="num">1</span> WEP (Wired Equivalent Privacy)</h3>
+                <p>1997–1999-cu illərdə təqdim olunan WEP, simsiz şəbəkələr üçün hazırlanmış ilk təhlükəsizlik protokoludur. Məqsədi kabelli şəbəkələr qədər təhlükəsizlik təmin etmək idi. WEP 64-bit və 128-bit şifrələmə seçimləri təklif etsə də, günümüzdə çox zəif hesab olunur. Sadə proqramlarla bir neçə dəqiqə ərzində sındırıla bilər.</p>
+                <h3><span class="num">2</span> WPA (Wi-Fi Protected Access)</h3>
+                <p>WPA 2003-cü ildə WEP-in zəif cəhətlərini aradan qaldırmaq üçün yaradıldı. Bu protokol TKIP (Temporal Key Integrity Protocol) adlı daha güclü bir şifrələmə mexanizmindən istifadə edir və dinamik şifrələmə açarları təklif edir. WPA, WEP-ə nisbətən əhəmiyyətli təhlükəsizlik təkmilləşdirmələri gətirsə də, zamanla bu protokolda da bəzi boşluqlar aşkarlanıb.</p>
+                <h3><span class="num">3</span> WPA2 (Wi-Fi Protected Access 2)</h3>
+                <p>2004-cü ildə təqdim edilən WPA2 bu gün ən geniş yayılmış Wi-Fi təhlükəsizlik protokoludur. WPA2 TKIP əvəzinə daha güclü olan AES (Advanced Encryption Standard) şifrələmə alqoritmindən istifadə edir. Həm fərdi (PSK – Pre-Shared Key), həm də korporativ (Enterprise) istifadə üçün versiyaları mövcuddur. WPA2-PSK ev istifadəçiləri üçün nəzərdə tutulmuşdur, WPA2-Enterprise isə hər bir istifadəçi üçün fərqli identifikasiya tələb edən korporativ mühitlər üçün idealdır. Active Directory DC və RADIUS Server vasitəsilə istifadəçilərin username və parol yazaraq Wi-Fi şəbəkəsinə qoşulmasına imkan tanıyır.</p>
+            </div>
+        </section>
+
+        <section id="wpa3" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#shield-check"></use></svg> WPA3: Təhlükəsizliyin Yeni Səviyyəsi</h2>
+            <div class="note-body">
+                <p>WPA3, 2018-ci ildə Wi-Fi Alliance tərəfindən təqdim edilən ən yeni və ən təhlükəsiz Wi-Fi protokoludur. O, WPA2-dəki təhlükəsizlik boşluqlarını bağlamaq və artan kibertəhlükələrə qarşı daha güclü qoruma təmin etmək məqsədilə hazırlanıb.</p>
+                <div class="feature-grid">
+                    <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#key-round"></use></svg><p class="text-neutral-700"><strong>SAE (Simultaneous Authentication of Equals):</strong> WPA3 brute-force hücumlarına qarşı daha effektiv qorunma təmin edən yeni bir açar mübadiləsi protokolundan istifadə edir.</p></div>
+                    <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#lock"></use></svg><p class="text-neutral-700"><strong>Açıq şəbəkələrdə şifrələmə:</strong> WPA3 ictimai Wi-Fi şəbəkələrində belə məlumatlarınızı müəyyən səviyyədə qorumağa kömək edir.</p></div>
+                    <div class="feature-item"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#history"></use></svg><p class="text-neutral-700"><strong>Forward Secrecy:</strong> Bu xüsusiyyət sayəsində, hətta parolunuz ələ keçirilsə belə, əvvəlki kommunikasiyalar deşifrə oluna bilməz.</p></div>
+                </div>
+                <h3>Doğru təhlükəsizlik növünü seçmək niyə əhəmiyyətlidir?</h3>
+                <p>Yanlış və ya köhnəlmiş bir protokol istifadə etmək məlumatlarınızı ciddi risk altına qoya bilər. WEP kimi köhnə protokollar artıq etibarlı hesab edilmir və bu protokoldan istifadə etmək şəbəkənizin qapılarını açıq qoymaq kimidir. WPA da tamamilə təhlükəsiz sayılmır.</p>
+                <p>Hal-hazırda ən təhlükəsiz seçim, şübhəsiz ki, <strong>WPA2</strong> və ya daha yaxşı olarsa <strong>WPA3</strong> protokollarıdır. Əgər hələ də WEP və ya köhnə WPA istifadə edirsinizsə, kiberhücumlara qarşı müdafiəsizsiniz.</p>
+            </div>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-wifi-security/03.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-wifi-security/03.webp" alt="WEP, WPA, WPA2 və WPA3 müqayisə cədvəli: çıxış ili, şifrələmə alqoritmi, açar ölçüsü və təhlükəsizlik səviyyəsi" width="804" height="532" loading="lazy" decoding="async"></a>
+            </figure>
+        </section>
+
+        <section id="protect" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#lock"></use></svg> Wireless Şəbəkənizi İcazəsiz Girişlərə Qarşı Necə Qoruya Bilərsiniz?</h2>
+            <div class="note-body">
+                <p><strong>Wi-Fi şəbəkənizi təhlükəsiz saxlamaq üçün aşağıdakı addımları izləyə bilərsiniz:</strong></p>
+                <ul class="list">
+                    <li>Mümkünsə, hər zaman WPA2 və ya daha yeni təhlükəsizlik protokollarını (WPA3) istifadə edin.</li>
+                    <li>Güclü və mürəkkəb parollar yaradın. Ən azı 12 simvol uzunluğunda, böyük və kiçik hərflər, rəqəmlər və xüsusi simvollar daxil olan parollar seçin.</li>
+                    <li>Router-inizin default SSID (şəbəkə adı) və admin şifrələrini dəyişdirin. Standart dəyərləri adətən təxmin etmək asandır.</li>
+                    <li>Router-inizin firmware-ni (proqram təminatını) müntəzəm olaraq update edin. Vendorlar aşkar olunan təhlükəsizlik boşluqlarını bağlamaq üçün tez-tez yeniləmələr buraxır.</li>
+                    <li>Guest Wi-Fi — qonaq şəbəkəsi xüsusiyyətindən istifadə edin. Beləliklə, qonaqlarınız əsas şəbəkənizə qoşulmadan internetdən istifadə edə bilər. Captive Portal da aktiv edə bilərsiniz.</li>
+                </ul>
+            </div>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-wifi-security/04.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-wifi-security/04.webp" alt="Wi-Fi router illüstrasiyası" width="768" height="432" loading="lazy" decoding="async"></a>
+            </figure>
+            <div class="note-body">
+                <h3>Wi-Fi şəbəkənizin təhlükəsizliyini artırmaq üçün tövsiyələr</h3>
+                <p><strong>Şəbəkənizin təhlükəsizliyini daha da artırmaq üçün aşağıdakı əlavə tədbirləri ala bilərsiniz:</strong></p>
+                <ul class="list">
+                    <li><strong>MAC Filtering:</strong> Yalnız müəyyən cihazların şəbəkənizə qoşulmasına icazə verərək yad cihazları məhdudlaşdıra bilərsiniz. Lakin bu üsul tək başına kifayət etmir, çünki MAC ünvanları asanlıqla təqlid edilə bilər.</li>
+                    <li><strong>Disable SSID Broadcasting:</strong> SSID yayımını söndürərək şəbəkənizin Wi-Fi-ının görünməsini söndürə bilərsiniz. Bu, şəbəkənizi tamamilə gizlətmir, amma təsadüfi axtarışlarda görünməsinin qarşısını alır.</li>
+                    <li>Xüsusilə parolsuz Open Wi-Fi şəbəkələrində (Starbucks Wi-Fi) məlumatlarınızı şifrələmək və gizlilik üçün VPN istifadə etmək vacibdir.</li>
+                    <li>Router-inizin firewall funksiyasını aktiv edərək istənməyən trafik girişlərini bloklaya bilərsiniz.</li>
+                    <li>Şəbəkənizə qoşulan cihazları müntəzəm olaraq yoxlayın və tanımadığınız cihazları aşkar etsəniz, bloklayın və parolunuzu mütəmadi dəyişdirin.</li>
+                </ul>
+                <div class="note-box">
+                    <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#shield-check"></use></svg>
+                    <p class="text-neutral-800">Wi-Fi şəbəkələrinin qorunması çox vacibdir. Əgər düzgün təhlükəsizlik protokolları seçsəniz, şəbəkəniz və məlumatlarınız daha güvənli olar. <strong>WEP və WPA artıq istifadə üçün tövsiyə olunmur, WPA2 və WPA3 isə ən güclü seçimlərdir.</strong></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="brand-footer">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+                    <a href="../index.html">Ana Səhifə</a>
+                    <a href="../lessons.html">Dərslər</a>
+                    <a href="../tools.html">Tools</a>
+                    <a href="../videos.html">Video Dərslər</a>
+                    <a href="../links.html">Faydalı</a>
+                    <a href="../about.html">Haqqında</a>
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
+            </div>
+            <div class="brand-footer-social-wrap">
+                <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+                    <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" data-social="instagram"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                    <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı" data-social="youtube"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></a>
+                    <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn" data-social="linkedin"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg></a>
+                    <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt" data-social="blog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></a>
+                    <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram" data-social="telegram"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg></a>
+                    <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" data-social="tiktok"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M448.5 209.9c-44 .1-87-13.6-122.8-39.2l0 178.7c0 33.1-10.1 65.4-29 92.6s-45.6 48-76.6 59.6-64.8 13.5-96.9 5.3-60.9-25.9-82.7-50.8-35.3-56-39-88.9 2.9-66.1 18.6-95.2 40-52.7 69.6-67.7 62.9-20.5 95.7-16l0 89.9c-15-4.7-31.1-4.6-46 .4s-27.9 14.6-37 27.3-14 28.1-13.9 43.9 5.2 31 14.5 43.7 22.4 22.1 37.4 26.9 31.1 4.8 46-.1 28-14.4 37.2-27.1 14.2-28.1 14.2-43.8l0-349.4 88 0c-.1 7.4 .6 14.9 1.9 22.2 3.1 16.3 9.4 31.9 18.7 45.7s21.3 25.6 35.2 34.6c19.9 13.1 43.2 20.1 67 20.1l0 87.4z"/></svg></a>
+                    <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email" data-social="email"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></a>
+                </div>
+            </div>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/student.js"></script>
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+
