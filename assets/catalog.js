@@ -4,6 +4,7 @@
 window.CATALOG = {
     // Kateqoriyalar dashboard-da tab kimi bu sırada göstərilir
     categories: [
+        {"id": "notes", "label": "Müəllimin Qeydləri", "short": "Müəllimin Qeydləri", "icon": "notebook-pen", "desc": "Cavad Mikayilin öz qeydləri: DNS, backup, DDoS, EDR, CCTV, Windows Sandbox, Linux, Wi-Fi təhlükəsizliyi, şəbəkə protokolları və Tails OS — şəkillərlə."},
         {"id": "ccna", "label": "CCNA Dərsləri", "short": "CCNA", "icon": "graduation-cap", "desc": "Cisco CCNA 200-301 kurikulumunun bölmələri üzrə, tövsiyə olunan ardıcıllıqla."},
         {"id": "server", "label": "Server Dərsləri", "short": "Server", "icon": "server", "desc": "Linux və Windows server, xidmətlər, virtualizasiya, konteynerlər, backup və monitorinq."},
         {"id": "helpdesk", "label": "Helpdesk Dərsləri", "short": "Helpdesk", "icon": "headset", "desc": "İstifadəçi dəstəyi: proseslər, troubleshooting, Windows, hardware, hesablar və ünsiyyət."},
@@ -13,8 +14,7 @@ window.CATALOG = {
         {"id": "devops", "label": "DevOps Dərsləri", "short": "DevOps", "icon": "infinity", "desc": "DevOps mədəniyyəti, Git, YAML/JSON, CI/CD, GitHub Actions, Ansible, Terraform, observability və DevSecOps."},
         {"id": "automation", "label": "Network Automation Dərsləri", "short": "Automation", "icon": "bot", "desc": "Python, Netmiko, parsing, Jinja2 şablonları, REST API, NETCONF/RESTCONF, Ansible və SDN kontrollerlər."},
         {"id": "comptia", "label": "CompTIA Dərsləri", "short": "CompTIA", "icon": "award", "desc": "A+, Network+ və Security+ imtahanlarına hazırlıq: domenlər, vacib faktlar, ssenarilər və imtahan taktikası."},
-        {"id": "linux", "label": "Linux Dərsləri", "short": "Linux", "icon": "square-terminal", "desc": "İrəli səviyyə Linux: fayl sistemi, icazələr, proseslər, boot və systemd, Bash, mətn emalı, storage, şəbəkə, hardening, performans."},
-        {"id": "notes", "label": "Müəllimin Qeydləri", "short": "Müəllimin Qeydləri", "icon": "notebook-pen", "desc": "Cavad Mikayilin öz qeydləri: DNS, backup, DDoS, EDR, CCTV, Windows Sandbox, Linux, Wi-Fi təhlükəsizliyi, şəbəkə protokolları və Tails OS — şəkillərlə."}
+        {"id": "linux", "label": "Linux Dərsləri", "short": "Linux", "icon": "square-terminal", "desc": "İrəli səviyyə Linux: fayl sistemi, icazələr, proseslər, boot və systemd, Bash, mətn emalı, storage, şəbəkə, hardening, performans."}
     ],
 
     // Hər kateqoriya daxilində sıra = tövsiyə olunan öyrənmə ardıcıllığı; tag = çip (bölmə) adı
