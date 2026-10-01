@@ -53,17 +53,14 @@
             var id = read(CURRENT_KEY, null);
             var all = this.profiles();
             if (!id || !all[id]) return null;
-            return { id: id, name: all[id].name, group: all[id].group };
+            return { id: id, name: all[id].name };
         },
 
-        login: function (name, group) {
+        login: function (name) {
             var id = idFor(name);
             var all = this.profiles();
             var existing = all[id];
-            all[id] = {
-                name: existing ? existing.name : name.trim(),
-                group: (group || '').trim() || (existing ? existing.group : '')
-            };
+            all[id] = { name: existing ? existing.name : name.trim() };
             write(PROFILES_KEY, all);
             write(CURRENT_KEY, id);
             return this.current();
