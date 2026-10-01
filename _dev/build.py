@@ -80,6 +80,7 @@ BADGE_TO_CATEGORY = {
     'Automation': 'automation',
     'CompTIA': 'comptia',
     'Linux': 'linux',
+    'Müəllimin': 'notes',
 }
 
 

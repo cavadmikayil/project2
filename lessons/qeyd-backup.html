@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--CSP-->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <!--/CSP-->
+    <title>Backup Alınması (Ehtiyat Nüsxə) — Müəllimin Qeydləri | Cavad Mikayil Təlim Portalı</title>
+    <!--SEO-->
+    <meta name="description" content="File, Full Image və Clone backup, 3-2-1 qaydası, Hybrid və Veeam, Full / Incremental / Differential. Müəllimin Qeydləri: Azərbaycan dilində pulsuz dərs vəsaiti, quiz sualları.">
+    <link rel="canonical" href="https://portal.cavadmikayil.com/lessons/qeyd-backup.html">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="author" content="Cavad Mikayil">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../assets/favicon-32.png" type="image/png" sizes="32x32">
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Cavad Mikayil Təlim Portalı">
+    <meta property="og:locale" content="az_AZ">
+    <meta property="og:title" content="Backup Alınması (Ehtiyat Nüsxə) — Müəllimin Qeydləri">
+    <meta property="og:description" content="File, Full Image və Clone backup, 3-2-1 qaydası, Hybrid və Veeam, Full / Incremental / Differential. Müəllimin Qeydləri: Azərbaycan dilində pulsuz dərs vəsaiti, quiz sualları.">
+    <meta property="og:url" content="https://portal.cavadmikayil.com/lessons/qeyd-backup.html">
+    <meta property="og:image" content="https://portal.cavadmikayil.com/assets/og/lessons/qeyd-backup.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Backup Alınması (Ehtiyat Nüsxə) — Müəllimin Qeydləri">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Backup Alınması (Ehtiyat Nüsxə) — Müəllimin Qeydləri">
+    <meta name="twitter:description" content="File, Full Image və Clone backup, 3-2-1 qaydası, Hybrid və Veeam, Full / Incremental / Differential. Müəllimin Qeydləri: Azərbaycan dilində pulsuz dərs vəsaiti, quiz sualları.">
+    <meta name="twitter:image" content="https://portal.cavadmikayil.com/assets/og/lessons/qeyd-backup.jpg">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Backup Alınması (Ehtiyat Nüsxə)", "description": "File, Full Image və Clone backup, 3-2-1 qaydası, Hybrid və Veeam, Full / Incremental / Differential. Müəllimin Qeydləri: Azərbaycan dilində pulsuz dərs vəsaiti, quiz sualları.", "url": "https://portal.cavadmikayil.com/lessons/qeyd-backup.html", "image": "https://portal.cavadmikayil.com/assets/og/lessons/qeyd-backup.jpg", "inLanguage": "az", "learningResourceType": "Dərs vəsaiti", "isAccessibleForFree": true, "author": {"@type": "Person", "name": "Cavad Mikayil", "url": "https://portal.cavadmikayil.com/about.html", "jobTitle": "İT təlimçisi, şəbəkə təhlükəsizliyi mühəndisi", "sameAs": ["https://instagram.com/cavadmikayil.com_", "https://youtube.com/@cavadmikayil", "https://az.linkedin.com/in/cavad-mikayil-0a8153212", "https://cavadmikayil.com", "https://t.me/cavadmikayil", "https://tiktok.com/@cavadmikayil"]}, "isPartOf": {"@type": "WebSite", "name": "Cavad Mikayil Təlim Portalı", "url": "https://portal.cavadmikayil.com/"}}</script>
+    <!--/SEO-->
+    <link rel="stylesheet" href="../assets/fonts.css">
+    <link rel="stylesheet" href="../assets/lesson.css">
+    <link rel="stylesheet" href="../assets/theme.css">
+    <link rel="stylesheet" href="../assets/tailwind.css">
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+            <div class="flex items-center gap-3 flex-wrap">
+                <h1 class="text-2xl font-bold flex items-center gap-2"><svg class="icon text-amber-600" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#archive-restore"></use></svg> Backup Alınması (Ehtiyat Nüsxə)</h1>
+                <span class="lesson-badge">Müəllimin Qeydləri · Sistem</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#intro" class="nav-link">Giriş</a>
+                <a href="#types" class="nav-link">Backup növləri</a>
+                <a href="#strategy" class="nav-link">Strategiyalar</a>
+                <a href="#approach" class="nav-link">Full, Incremental, Differential</a>
+                <a href="#storage" class="nav-link">Harada saxlayaq?</a>
+                <a href="../index.html#notes" class="portal-home-link"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#arrow-left"></use></svg> Portal</a>
+                <button class="theme-toggle-btn" aria-label="Tema dəyiş"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#moon"></use></svg></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8 max-w-6xl">
+        <section id="intro" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#archive-restore"></use></svg> Backup Alınması (Ehtiyat Nüsxə)</h2>
+            <p class="note-byline"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#pen-line"></use></svg> Müəllimin qeydi · Cavad Mikayil</p>
+            <div class="note-body">
+                <p>Təsəvvür edin, həftələrlə üzərində işlədiyiniz, gecələr yatmayıb yazdığınız bir kurs işiniz var. Və ya illərlə çəkdirdiyiniz, sizin üçün çox dəyərli olan bütün şəkillər telefonunuzda, kompüterinizdədir. Bir gün birdən kompüteriniz açılmır, telefonunuz suya düşür və ya kiminsə yaddaşı pozulmuş fləşkasından virus keçir. Bütün bu qiymətli məlumatlar bir anda yox olur. Nə qədər dəhşətli səslənir, deyilmi?</p>
+                <p>Məhz belə faciələrin qarşısını almaq üçün <strong>Backup</strong> (Ehtiyat Nüsxə) adlanan "xilasedici" dostumuz köməyə gəlir.</p>
+                <p><strong>Backup</strong> sadəcə məlumatlarınızın kopyasını çıxarıb başqa bir yerdə saxlamaqdır. Məsələn, vacib fayllarınızı bir yerdən başqa bir yerə köçürürsünüz. Orijinal fayllarınıza nəsə olsa, ehtiyat nüsxəsindən onları geri qaytara bilirsiniz. Bu, məlumatlarınız üçün sığorta almaq kimidir.</p>
+                <h3>Bəs Niyə Backup Çox Önəmlidir?</h3>
+                <p>Niyə hər bir tələbə və ya hər hansı bir kompüter istifadəçisi bunu etməlidir? Çünki:</p>
+                <ol class="list">
+                    <li><strong>Gözlənilməz Hallar:</strong> Heç kimə sirr deyil ki, texnika bəzən bizi yarı yolda qoya bilir. Kompüterin sərt diski sıradan çıxa, telefonunuz sınıb işləməyə bilər. Hətta elektrik kəsiləndə belə, bəzi problemlər yarana bilir. Backup sizi bu hallardan qoruyur.</li>
+                    <li><strong>Viruslar və Ransomware:</strong> Bu günlərdə ən böyük təhlükələrdən biri, kompüterə girən və bütün fayllarınızı şifrələyən viruslardır. Bu viruslar adətən fayllarınızı geri qaytarmaq üçün pul tələb edirlər. Əgər sizin backup-ınız varsa, pul ödəməyə ehtiyac qalmır, sadəcə backup-ı bərpa edirsiniz.</li>
+                    <li><strong>Təsadüfi Səhvlər:</strong> Bəzən bir faylı səhvən silirik və ya dəyişdiririk. Backup sayəsində bu səhvi asanlıqla düzəldə bilərsiniz.</li>
+                </ol>
+                <p><strong>Kompüterin formatlanmasından əvvəl</strong> mütləq şəkildə <strong>backup</strong> alınmalıdır. Bu, həm məlumatların qorunmasını təmin edir, həm də hər hansı bir qəza halında məlumatların bərpasını asanlaşdırır.</p>
+            </div>
+        </section>
+
+        <section id="types" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#layers"></use></svg> Backup Növləri: File, Full Image və Clone</h2>
+            <div class="note-body">
+                <p>Ümumiyyətlə, bu tip ssenarilər üçün <strong>3 növ backup</strong> mövcuddur:</p>
+                <ol class="list">
+                    <li><strong>File (Fayl) Backup</strong></li>
+                    <li><strong>Full Image Backup</strong></li>
+                    <li><strong>Clone Backup</strong></li>
+                </ol>
+                <h3><span class="num">1</span> File (Fayl) Backup</h3>
+                <p>Bu, ən sadə və ən çox istifadə olunan backup növüdür.</p>
+                <p>Sadəcə olaraq, sizin üçün dəyərli olan <strong>ayrı-ayrı faylların və qovluqların</strong> kopyasını çıxarmaqdır. Məsələn, "Sənədlərim" qovluğundakı bütün kurs işləri, "Şəkillərim" qovluğundakı fotolar və ya bəzi proqramların xüsusi faylları. Siz bu faylları USB-yə, xarici diskinizə və ya bulud yaddaşına kopyalayırsınız.</p>
+                <p>Evdəki vacib sənədlərin (diplom, doğum haqqında şəhadətnamə) surətini çıxarıb ayrıca bir qovluqda saxlamağa bənzəyir. Əsas sənəd itəndə və ya zədələnəndə, surətindən istifadə edə bilirsiniz.</p>
+                <p>Fayl səviyyəsində <strong>backup</strong> almaq üçün, kompüterin <strong>Desktop</strong>, <strong>Downloads</strong>, <strong>Documents</strong> və <strong>D</strong> diskindəki faylları <strong>backup diskinə</strong> köçürürük. Bu fayllar arasında <strong>Word</strong>, <strong>Excel</strong>, <strong>PDF</strong> və digər vacib sənədlər olur.</p>
+                <p><strong>Backup diskində:</strong></p>
+                <ul class="list">
+                    <li>Həmin şəxsin adı, soyadı, <strong>şirkət</strong> və <strong>departament</strong> məlumatları qeyd edilir.</li>
+                    <li><strong>Tarix</strong> də əlavə edilir (məsələn, <strong>ad soyad, ayın tarixi</strong>).</li>
+                </ul>
+                <p><strong>Fayl Backup</strong> həm <strong>manual — əl ilə</strong>, həm də <strong>Acronis</strong> və <strong>AOMEI</strong> kimi proqramlar ilə alınır.</p>
+            </div>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-backup/01.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-backup/01.webp" alt="AOMEI Backupper proqramında Backup bölməsi: System, Disk, Partition, File, Cloud və Outlook Backup seçimləri" width="1010" height="674" loading="lazy" decoding="async"></a>
+            </figure>
+            <div class="note-body">
+                <h3><span class="num">2</span> Full Image Backup</h3>
+                <p>Bu, fayl backup-dan daha geniş və "dərin" bir backup növüdür.</p>
+                <p><strong>Nədir?</strong> İmaj backup, kompüterinizin (və ya sərt diskinizin) bütün məzmununun, o cümlədən əməliyyat sisteminin (məsələn, Windows), proqramların, sürücülərin və bütün parametrlərin <strong>tamamilə eyni kopyasını</strong> çıxarmaqdır. Nəticədə siz bir <strong>image faylı</strong> (şəkil deyil, texniki termindir) əldə edirsiniz.</p>
+                <p><strong>Nəyə bənzəyir?</strong> Təsəvvür edin ki, siz evinizin bütün əşyalarının, divarlarının, mebellərinin və hər cür detalının dəqiq bir fotoşəkilini çəkirsiniz. Evinizə nəsə olsa, o fotoşəkilə baxaraq hər şeyi dəqiq şəkildə əvvəlki yerinə qoya bilirsiniz. İmaj backup da kompüterin "şəklini" çəkir.</p>
+                <p><strong>Nə zaman lazımdır?</strong> Əgər kompüterinizdə ciddi bir problem (əməliyyat sisteminin sıradan çıxması, virus hücumu) yaranarsa və hər şeyi yenidən qurmaq (format etmək) məcburiyyətində qalsanız, imaj backup sayəsində bütün proqramları və parametrləri yenidən qurmadan kompüterinizi əvvəlki vəziyyətinə qaytara bilərsiniz.</p>
+                <p><strong>Full Image Backup</strong> zamanı kompüterin tam <strong>ehtiyat nüsxəsi</strong> çıxarılır. Buraya:</p>
+                <ul class="list">
+                    <li><strong>Əməliyyat sistemi</strong>,</li>
+                    <li><strong>Fayllar</strong>,</li>
+                    <li><strong>Proqramlar</strong>,</li>
+                    <li><strong>Sistem settinglər</strong> və digər məlumatlar daxildir.</li>
+                </ul>
+                <p><strong>Full Image Backup</strong> ümumiyyətlə aşağıdakı hallarda alınır:</p>
+                <ol class="list">
+                    <li><strong>Yeni kompüterə keçərkən</strong> – köhnə kompüterin tam nüsxəsi yeni kompüterə ötürülür.</li>
+                    <li><strong>Kompüteri format edərkən</strong> – əməliyyat sistemi və digər vacib məlumatların bərpası üçün.</li>
+                    <li><strong>Kritik infrastruktur olan avadanlıqların qorunması</strong> üçün – xüsusi avadanlıqların qoşulduğu risk qrupunda olan kompüterlər üçün bu tip backup vacibdir.</li>
+                </ol>
+                <p><strong>Full Image Backup</strong> alındıqdan sonra hər hansı bir bədbəxt hadisə zamanı, <strong>Acronis</strong> proqramında <strong>Restore</strong> bölməsinə daxil olaraq, aldığımız backupdan məlumatları geri qaytara bilərik.</p>
+                <p><strong>Qeyd:</strong> <strong>Acronis</strong> və <strong>AOMEI</strong> proqramlarından istifadə edərkən iki üsul mövcuddur:</p>
+                <ol class="list">
+                    <li><strong>Hiren's BootCD (Live CD)</strong> ilə açmaq.</li>
+                    <li><strong>Acronis</strong> proqramını Google-dan tapıb <strong>Windows</strong> sisteminə yükləmək.</li>
+                </ol>
+            </div>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-backup/02.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-backup/02.webp" alt="Verilənlər bazası, bulud və disk ikonları — backup anlayışını təsvir edən illüstrasiya" width="1600" height="800" loading="lazy" decoding="async"></a>
+            </figure>
+            <div class="note-body">
+                <h3><span class="num">3</span> Clone Backup</h3>
+                <p>Klon backup, image backup-a çox oxşasa da, əsas bir fərqi var.</p>
+                <p>Klonlama, bir sərt diskin bütün məzmununu olduğu kimi <strong>başqa bir sərt diskə</strong> köçürməkdir. Nəticədə siz eyniləşmiş, birəbir eyni iki sərt disk əldə edirsiniz. Klonlama üçün xüsusi proqramlar istifadə olunur.</p>
+                <p>Ehtiyat üçün eyni maşından bir dənə də almağa bənzəyir. Əsas maşın qəzaya uğrayanda, sadəcə ikinci maşını işə salıb davam edirsiniz.</p>
+                <p>Ən çox istifadə olunduğu hallar:</p>
+                <ul class="list">
+                    <li>Köhnə sərt diskinizi daha sürətli bir SSD ilə əvəz etmək istəyəndə.</li>
+                    <li>Kompüterinizin diski sıradan çıxdıqda, klonlanmış diskdən istifadə edərək dərhal işə davam edə bilərsiniz.</li>
+                </ul>
+                <p><strong>Clone Backup</strong> — bir kompüterin tam nüsxəsini digər kompüterə köçürmək kimidir. Bu, <strong>iki şəkildə</strong> həyata keçirilir:</p>
+                <ul class="list">
+                    <li><strong>Offline:</strong> Backup aparatından (docking station) istifadə olunur.</li>
+                    <li><strong>Online:</strong> <strong>Acronis</strong> və <strong>AOMEI</strong> proqramlarından istifadə olunur.</li>
+                </ul>
+                <p><strong>Clone Backup-un şərtləri:</strong></p>
+                <ul class="list">
+                    <li><strong>Klon alınacaq kompüterin</strong> HDD-sinin ölçüsü <strong>1TB</strong>-dırsa, klonun atılacağı hədəf diskin həcmi ən azından <strong>1TB</strong> olmalıdır, ya da daha böyük olmalıdır.</li>
+                    <li><strong>Backup alınarkən:</strong>
+                        <ul class="list">
+                            <li><strong>Source</strong> (mənbə) bölməsində <strong>backup alacağımız kompüterin</strong> diski seçilir.</li>
+                            <li><strong>Target</strong> (hədəf) bölməsində isə <strong>backup diski</strong> yerləşdirilir.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="note-box">
+                    <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#triangle-alert"></use></svg>
+                    <p class="text-neutral-800"><strong>Diqqət edilməli məqam:</strong> Disklərin (Source və Target) yerləri qarışarsa, məlumatlar səhvən <strong>silinə bilər</strong>.</p>
+                </div>
+            </div>
+            <div class="note-gallery two">
+                <figure class="note-figure">
+                    <a href="../assets/notes/qeyd-backup/03.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-backup/03.webp" alt="İki SATA diski olan docking station — offline klonlama aparatı" width="1600" height="1600" loading="lazy" decoding="async"></a>
+                </figure>
+                <figure class="note-figure">
+                    <a href="../assets/notes/qeyd-backup/04.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-backup/04.webp" alt="Bir sərt diskdən digərinə məlumatın kopyalanması — disk klonlama sxemi" width="810" height="328" loading="lazy" decoding="async"></a>
+                </figure>
+            </div>
+            <div class="note-body">
+                <p><strong>Backup alınması</strong> kompüterin təhlükəsizliyi və məlumatların qorunması üçün əhəmiyyətli bir addımdır. Hər zaman müvafiq backup növü seçilməli və məlumatların təhlükəsiz saxlanması təmin edilməlidir. <strong>Full Image Backup</strong> və <strong>Clone Backup</strong> kimi üsullar, xüsusilə kritik sistemlər üçün daha uyğun ola bilər.</p>
+            </div>
+        </section>
+
+        <section id="strategy" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#shield-check"></use></svg> Yedəkləmə Strategiyaları: 3-2-1, Hybrid və Veeam</h2>
+            <div class="note-body">
+                <h3>3-2-1 Backup</h3>
+                <p><strong>3-2-1 Backup</strong> prinsipinin əsas məqsədi məlumatların təhlükəsizliyini təmin etmək üçün <strong>üç nüsxə</strong> yaratmaqdır:</p>
+                <ul class="list">
+                    <li><strong>3 nüsxə:</strong> Əsas məlumatlar və iki əlavə nüsxə.</li>
+                    <li><strong>2 müxtəlif media növü:</strong> Məlumatların fərqli media üzərində saxlanması (məsələn, lokal disk və bulud yaddaşı).</li>
+                    <li><strong>1 off-site nüsxə:</strong> Bir backup nüsxəsi fiziki olaraq kompüterdən uzaq bir yerdə saxlanmalıdır (məsələn, bulud yaddaşı və ya xarici harddisk).</li>
+                </ul>
+                <p>Bu prinsip, məlumat itkisi və ya fiziki fəlakətlər halında məlumatların bərpasını asanlaşdırır.</p>
+            </div>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-backup/05.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-backup/05.webp" alt="3-2-1 Backup Strategy sxemi: 3 nüsxə, 2 fərqli storage media, 1 offsite nüsxə" width="850" height="450" loading="lazy" decoding="async"></a>
+            </figure>
+            <div class="note-body">
+                <h3>Hybrid Backup</h3>
+                <p><strong>Hybrid Backup</strong> lokal və bulud yedəkləmə üsullarını birləşdirir. Bu yanaşma, məlumatların həm <strong>yerli cihazlarda</strong>, həm də <strong>buludda</strong> saxlanmasını təmin edir.</p>
+                <ul class="list">
+                    <li><strong>Lokal Backup:</strong> Yüksək sürətlə bərpa edilə bilən məlumatları yerli şəbəkə və cihazlarda saxlayır.</li>
+                    <li><strong>Bulud Backup:</strong> Məlumatların fiziki fəlakətlərdən qorunması üçün internet üzərindən uzaq serverlərdə saxlanılır.</li>
+                </ul>
+                <p>Hybrid Backup, həm məlumatların tez bərpasını, həm də uzunmüddətli təhlükəsizliyi təmin etmək üçün effektivdir.</p>
+            </div>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-backup/06.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-backup/06.webp" alt="Hybrid Backup sxemi: virtual server, server, desktop və laptop backup appliance-a, oradan buluda replikasiya olunur" width="1429" height="880" loading="lazy" decoding="async"></a>
+            </figure>
+            <div class="note-body">
+                <h3>Veeam Backup</h3>
+                <p><strong>Veeam Backup</strong>, fiziki və virtual mühitlərdə məlumatların <strong>yüksək etibarlı</strong> və <strong>sürətli</strong> yedəklənməsi üçün geniş istifadə olunan bir proqram təminatıdır. Veeam:</p>
+                <ul class="list">
+                    <li><strong>Məlumatların tam</strong> və <strong>fərdi backup</strong>-ını almağı təmin edir.</li>
+                    <li><strong>Virtual maşınlar (VM)</strong> və <strong>fiziki serverlər</strong> üçün avtomatlaşdırılmış backup prosesləri təklif edir.</li>
+                    <li><strong>Ən yaxşı bərpa zamanını</strong> təmin etmək üçün yüksək performanslı yedəkləmə və bərpa alətləri təqdim edir.</li>
+                    <li><strong>Bulud və hibrid yedəkləmə</strong> dəstəyi ilə istifadəçilərə məlumatların təhlükəsiz saxlanmasını təmin edir.</li>
+                </ul>
+                <p>Veeam Backup, xüsusilə <strong>iş davamlılığı</strong> və <strong>şəbəkə təhlükəsizliyi</strong> üçün idealdır.</p>
+                <p>Bu backup növləri, məlumatların qorunmasını təmin etmək üçün müxtəlif yanaşmalar təqdim edir. <strong>3-2-1 Backup</strong> sadə və effektiv bir prinsipdir, <strong>Hybrid Backup</strong> məlumatların həm sürətli, həm də təhlükəsiz saxlanmasını təmin edir, <strong>Veeam Backup</strong> isə yüksək etibarlı məlumat yedəkləmə və bərpa alətləri ilə qabaqcıl həllər təklif edir.</p>
+            </div>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-backup/07.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-backup/07.webp" alt="Veeam arxitekturası: ESXi source host, backup proxy, WAN və backup repository, Veeam Data Mover" width="461" height="294" loading="lazy" decoding="async"></a>
+            </figure>
+        </section>
+
+        <section id="approach" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#git-compare"></use></svg> Backup Yanaşmaları: Full, Incremental və Differential</h2>
+            <div class="note-body">
+                <p>Backup-ın bir neçə sadə üsulu var:</p>
+                <ol class="list">
+                    <li><strong>Tam Backup (Full Backup):</strong> Bütün fayllarınızın tam kopyasını çıxarmaq. Məsələn, bütün "Sənədlərim" qovluğunu başqa bir yerə kopyalamaq. Bu bir az çox vaxt aparır, amma ən etibarlısıdır.</li>
+                    <li><strong>İnkremental Backup (Incremental Backup):</strong> İlk dəfə tam backup etdikdən sonra yalnız yeni əlavə olunan və ya dəyişdirilən faylları kopyalamaq. Bu, həm vaxtınıza, həm də yaddaş yerinizə qənaət edir.</li>
+                </ol>
+                <h3>Daha dərindən: Incremental Backup</h3>
+                <p><strong>İnkremental Backup</strong> yalnız son <strong>backupdan sonra dəyişən və ya əlavə olunan məlumatları</strong> saxlayır. Bu yanaşma ən çox <strong>yaddaş</strong> və <strong>vaxt</strong> qənaəti təmin edir, çünki yalnız yeni məlumatlar saxlanılır.</p>
+                <ul class="list">
+                    <li><strong>Əvvəlki nüsxə</strong> ilə müqayisədə yalnız dəyişikliklər <strong>backup</strong> edilir.</li>
+                    <li><strong>Bərpa prosesi:</strong> Ən son <strong>tam backup</strong> və sonra hər bir <strong>inkremental backup</strong> bərpa edilməlidir.</li>
+                    <li><strong>Üstünlükləri:</strong> Az yaddaş istifadə edir və sürətli backup almağa imkan verir.</li>
+                    <li><strong>Əksiklikləri:</strong> Bərpa zamanı daha çox vaxt tələb olunur, çünki bütün dəyişikliklər tək-tək bərpa edilir.</li>
+                </ul>
+                <h3>Differential Backup</h3>
+                <p><strong>Differensial Backup</strong> <strong>son tam backupdan sonra</strong> edilən bütün dəyişiklikləri saxlayır. Bu yanaşmada hər dəfə tam backupdan sonrakı bütün məlumat dəyişiklikləri toplanır.</p>
+                <ul class="list">
+                    <li><strong>Tam backupdan sonra</strong> dəyişən bütün məlumatlar <strong>backup</strong> edilir.</li>
+                    <li><strong>Bərpa prosesi:</strong> Yalnız <strong>son tam backup</strong> və <strong>son differential backup</strong> bərpa edilməlidir.</li>
+                    <li><strong>Üstünlükləri:</strong> Bərpa prosesi daha sürətlidir, çünki yalnız iki nüsxə lazımdır.</li>
+                    <li><strong>Əksiklikləri:</strong> Daha çox yaddaş və vaxt tələb edir, çünki əvvəlki versiyaların dəyişikliklərini də saxlayır.</li>
+                </ul>
+                <h3>Full Backup (Tam Backup)</h3>
+                <p><strong>Full Backup</strong> bütün məlumatları tam olaraq ehtiyat nüsxəsinə alır. Bu yanaşma bütün faylların, proqramların və sistemin tam nüsxəsini çıxarır.</p>
+                <ul class="list">
+                    <li><strong>Bütün məlumatlar</strong> bərpa edilə bilən şəkildə saxlanılır.</li>
+                    <li><strong>Bərpa prosesi:</strong> Ən sürətli və asan bərpadır, çünki yalnız bir <strong>tam backup</strong> faylından istifadə edilir.</li>
+                    <li><strong>Üstünlükləri:</strong> Bərpa sürətlidir və sadədir, çünki bütün məlumatlar bir yerdə saxlanılır.</li>
+                    <li><strong>Əksiklikləri:</strong> Yaddaş və vaxt baxımından ən çox resurs istifadə edir, çünki hər dəfə bütün məlumatlar yenidən saxlanılır.</li>
+                </ul>
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead><tr><th>Növ</th><th>Nəyi saxlayır</th><th>Bərpa</th><th>Resurs</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>Incremental</strong></td><td>Yalnız dəyişən məlumatlar</td><td class="no">Uzun ola bilər</td><td class="yes">Qənaətli</td></tr>
+                            <tr><td><strong>Differential</strong></td><td>Son tam backupdan sonra dəyişənlər</td><td>Daha sürətli</td><td>Yaddaş istifadə edir</td></tr>
+                            <tr><td><strong>Full</strong></td><td>Bütün məlumatların tam nüsxəsi</td><td class="yes">Ən sürətli</td><td class="no">Çox resurs tələb edir</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>Bu backup növləri müxtəlif ehtiyaclara uyğun olaraq istifadə edilir. Məlumatların təhlükəsizliyini təmin edərkən, hər birinin üstünlükləri və çatışmazlıqları nəzərə alınmalıdır.</p>
+            </div>
+            <div class="note-gallery two">
+                <figure class="note-figure">
+                    <a href="../assets/notes/qeyd-backup/08.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-backup/08.webp" alt="Full, incremental və differential backup-ın backup repository-də necə yığıldığını göstərən sxem" width="1200" height="1332" loading="lazy" decoding="async"></a>
+                </figure>
+                <figure class="note-figure">
+                    <a href="../assets/notes/qeyd-backup/09.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-backup/09.webp" alt="Backup növlərinin üstünlükləri və çatışmazlıqları cədvəli: Full, Incremental, Differential, Synthetic full, Incremental-forever" width="1200" height="672" loading="lazy" decoding="async"></a>
+                </figure>
+            </div>
+        </section>
+
+        <section id="storage" class="section-card">
+            <h2 class="section-title"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#hard-drive"></use></svg> Bəs Backup-ı Harada Saxlayaq?</h2>
+            <div class="note-body">
+                <ul class="list">
+                    <li><strong>Xarici Yaddaş:</strong> Ən sadə və populyar üsullardan biridir. USB fləşkart, xarici sərt disk və ya SD kart kimi qurğulara fayllarınızı köçürə bilərsiniz.</li>
+                    <li><strong>Bulud Yaddaşı (Cloud Storage):</strong> Bu, fayllarınızı internet üzərindən uzaq serverlərdə saxlamaq deməkdir. Google Drive, Dropbox və ya Yandex Disk kimi xidmətlər buna misal ola bilər. Ən böyük üstünlüyü, fayllarınıza istənilən yerdən və istənilən qurğudan daxil ola bilmənizdir. Həmçinin kompüterinizə nəsə olsa, buludda saxladığınız fayllara heç nə olmur.</li>
+                    <li><strong>İkiqat Təhlükəsizlik:</strong> Ən yaxşı variant hibrid yanaşmadır. Fayllarınızı həm xarici yaddaşda, həm də buludda saxlamaq ən etibarlısıdır. Bu yolla bir variantda problem yaranarsa, digəri sizin xilasınız olur.</li>
+                </ul>
+                <div class="note-box">
+                    <svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#calendar-clock"></use></svg>
+                    <p class="text-neutral-800">Unutmayın ki, backup etmək bir dəfəlik iş deyil. Məlumatlarınızın təhlükəsizliyini təmin etmək üçün bunu mütəmadi olaraq, məsələn, hər həftə və ya ayda bir dəfə etmək lazımdır. Yoxsa birdən vacib bir fayl itirə bilərsiniz. Beləliklə, <strong>backup etməyi bir vərdişə çevirin</strong> və məlumatlarınızın təhlükəsizliyindən əmin olun!</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="brand-footer">
+        <div class="brand-footer-inner">
+            <div class="brand-footer-top">
+                <div>
+                    <a href="../index.html" class="brand-footer-name"><svg class="icon" aria-hidden="true"><use href="../assets/icons.svg?v=f4970381#graduation-cap"></use></svg> Cavad Mikayil Təlim Portalı</a>
+                    <p class="brand-footer-tagline">İnformasiya Texnologiyaları üzrə beynəlxalq sertifikatlı təlimçi, şəbəkə təhlükəsizliyi mühəndisi</p>
+                </div>
+                <nav class="brand-footer-links" aria-label="Footer keçidləri">
+                    <a href="../index.html">Ana Səhifə</a>
+                    <a href="../lessons.html">Dərslər</a>
+                    <a href="../tools.html">Tools</a>
+                    <a href="../videos.html">Video Dərslər</a>
+                    <a href="../links.html">Faydalı</a>
+                    <a href="../about.html">Haqqında</a>
+                    <a href="https://www.cavadmikayil.com" target="_blank" rel="noopener">www.cavadmikayil.com</a>
+                </nav>
+            </div>
+            <div class="brand-footer-social-wrap">
+                <div class="brand-footer-social" aria-label="Sosial şəbəkələr">
+                    <a href="https://instagram.com/cavadmikayil.com_" target="_blank" rel="noopener noreferrer" title="Instagram" aria-label="Instagram" data-social="instagram"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M224.3 141a115 115 0 1 0 -.6 230 115 115 0 1 0 .6-230zm-.6 40.4a74.6 74.6 0 1 1 .6 149.2 74.6 74.6 0 1 1 -.6-149.2zm93.4-45.1a26.8 26.8 0 1 1 53.6 0 26.8 26.8 0 1 1 -53.6 0zm129.7 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM399 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
+                    <a href="https://youtube.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="YouTube kanalı" aria-label="YouTube kanalı" data-social="youtube"><svg class="icon" viewBox="0 0 576 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M549.7 124.1C543.5 100.4 524.9 81.8 501.4 75.5 458.9 64 288.1 64 288.1 64S117.3 64 74.7 75.5C51.2 81.8 32.7 100.4 26.4 124.1 15 167 15 256.4 15 256.4s0 89.4 11.4 132.3c6.3 23.6 24.8 41.5 48.3 47.8 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232.2 337.6l0-162.4 142.7 81.2-142.7 81.2z"/></svg></a>
+                    <a href="https://az.linkedin.com/in/cavad-mikayil-0a8153212" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn" data-social="linkedin"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M100.3 448l-92.9 0 0-299.1 92.9 0 0 299.1zM53.8 108.1C24.1 108.1 0 83.5 0 53.8 0 39.5 5.7 25.9 15.8 15.8s23.8-15.8 38-15.8 27.9 5.7 38 15.8 15.8 23.8 15.8 38c0 29.7-24.1 54.3-53.8 54.3zM447.9 448l-92.7 0 0-145.6c0-34.7-.7-79.2-48.3-79.2-48.3 0-55.7 37.7-55.7 76.7l0 148.1-92.8 0 0-299.1 89.1 0 0 40.8 1.3 0c12.4-23.5 42.7-48.3 87.9-48.3 94 0 111.3 61.9 111.3 142.3l0 164.3-.1 0z"/></svg></a>
+                    <a href="https://cavadmikayil.com" target="_blank" rel="noopener noreferrer" title="Blog sayt" aria-label="Blog sayt" data-social="blog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg></a>
+                    <a href="https://t.me/cavadmikayil" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram" data-social="telegram"><svg class="icon" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M256 8a248 248 0 1 0 0 496 248 248 0 1 0 0-496zM371 176.7c-3.7 39.2-19.9 134.4-28.1 178.3-3.5 18.6-10.3 24.8-16.9 25.4-14.4 1.3-25.3-9.5-39.3-18.7-21.8-14.3-34.2-23.2-55.3-37.2-24.5-16.1-8.6-25 5.3-39.5 3.7-3.8 67.1-61.5 68.3-66.7 .2-.7 .3-3.1-1.2-4.4s-3.6-.8-5.1-.5c-2.2 .5-37.1 23.5-104.6 69.1-9.9 6.8-18.9 10.1-26.9 9.9-8.9-.2-25.9-5-38.6-9.1-15.5-5-27.9-7.7-26.8-16.3 .6-4.5 6.7-9 18.4-13.7 72.3-31.5 120.5-52.3 144.6-62.3 68.9-28.6 83.2-33.6 92.5-33.8 2.1 0 6.6 .5 9.6 2.9 2 1.7 3.2 4.1 3.5 6.7 .5 3.2 .6 6.5 .4 9.8z"/></svg></a>
+                    <a href="https://tiktok.com/@cavadmikayil" target="_blank" rel="noopener noreferrer" title="TikTok" aria-label="TikTok" data-social="tiktok"><svg class="icon" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" stroke="none" d="M448.5 209.9c-44 .1-87-13.6-122.8-39.2l0 178.7c0 33.1-10.1 65.4-29 92.6s-45.6 48-76.6 59.6-64.8 13.5-96.9 5.3-60.9-25.9-82.7-50.8-35.3-56-39-88.9 2.9-66.1 18.6-95.2 40-52.7 69.6-67.7 62.9-20.5 95.7-16l0 89.9c-15-4.7-31.1-4.6-46 .4s-27.9 14.6-37 27.3-14 28.1-13.9 43.9 5.2 31 14.5 43.7 22.4 22.1 37.4 26.9 31.1 4.8 46-.1 28-14.4 37.2-27.1 14.2-28.1 14.2-43.8l0-349.4 88 0c-.1 7.4 .6 14.9 1.9 22.2 3.1 16.3 9.4 31.9 18.7 45.7s21.3 25.6 35.2 34.6c19.9 13.1 43.2 20.1 67 20.1l0 87.4z"/></svg></a>
+                    <a href="mailto:info@cavadmikayil.com" title="Email" aria-label="Email" data-social="email"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></svg></a>
+                </div>
+            </div>
+            <p class="brand-footer-copy">&copy; 2027 <strong>Cavad Mikayil</strong>. Bütün hüquqlar qorunur.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/student.js"></script>
+    <script src="../assets/lesson.js"></script>
+    <script src="../assets/theme.js"></script>
+</body>
+</html>
+

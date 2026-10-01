@@ -1,0 +1,127 @@
+<!--PAGE title="DNS Record Nədir? Ən Çox İstifadə Olunan Növləri" icon="globe" badge="Müəllimin Qeydləri · Şəbəkə" nav="intro:Giriş|address:A, CNAME, AAAA|mail:PTR, MX, NS|service:SRV, TXT|summary:Nəticə"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:globe}} DNS Record Nədir?</h2>
+            <p class="note-byline">{{i:pen-line}} Müəllimin qeydi · Cavad Mikayil</p>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-dns-records/01.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-dns-records/01.webp" alt="DNS Record nədir — ən çox istifadə olunan növləri (örtük şəkli)" width="1430" height="804" loading="lazy" decoding="async"></a>
+            </figure>
+            <div class="note-body">
+                <p>İnternetdə hər şey adlarla işləyir: <strong>google.com</strong>, <strong>youtube.com</strong> və s.<br>Amma kompüterlər ad yox, <strong>IP address</strong> anlayır.<br>Burada köməyə <strong>DNS (Domain Name System)</strong> gəlir.</p>
+                <p>DNS-i <strong>telefon kitabçası</strong> kimi düşün:</p>
+                <ul class="arrow-list">
+                    <li><strong>ad</strong> → nömrə</li>
+                    <li><strong>domain name</strong> → IP address</li>
+                </ul>
+                <p>İndi isə ən çox istifadə olunan <strong>8 DNS Record Type</strong>-a baxaq.</p>
+            </div>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-dns-records/02.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-dns-records/02.webp" alt="DNS record növləri cədvəli: hər record-un nə üçün olduğu və harada istifadə olunduğu" width="760" height="189" loading="lazy" decoding="async"></a>
+            </figure>
+        </section>
+
+        <section id="address" class="section-card">
+            <h2 class="section-title">{{i:map-pin}} A, CNAME və AAAA Record</h2>
+            <div class="note-body">
+                <h3><span class="num">1</span> A (Address) Record</h3>
+                <p>A Record domain adını IPv4 address-ə çevirir.</p>
+                <p>Yəni: Browser deyir ki, “bu sayt hardadır?” – A record cavab verir.</p>
+                <p><code>pitstech.az → 192.168.1.1</code></p>
+                <p>Bu record ən əsas DNS record-dur.<br>Əgər A record yoxdursa, sayt açılmaz.</p>
+                <h3><span class="num">2</span> CNAME (Canonical Name) Record</h3>
+                <p>CNAME Record bir domain-i başqa domain-ə yönləndirir.</p>
+                <p>Məsələn: <code>www.pitstech.az → pitstech.az</code></p>
+                <p>Adətən subdomain-lər üçün istifadə olunur:</p>
+                <ul class="list">
+                    <li>Bir neçə adı eyni sayta bağlamaq üçün</li>
+                    <li>Managementi asanlaşdırmaq üçün əladır.</li>
+                </ul>
+            </div>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-dns-records/03.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-dns-records/03.webp" alt="DNS panelində CNAME və TXT record-larının siyahısı" width="1024" height="473" loading="lazy" decoding="async"></a>
+            </figure>
+            <div class="note-body">
+                <h3><span class="num">3</span> AAAA Record</h3>
+                <p>AAAA Record, A record kimidir, amma fərqi var.<br>Bu record IPv6 address üçün istifadə olunur.</p>
+                <p><code>pitstech.az → 2001:db8::1</code></p>
+                <p><strong>Qeyd:</strong> Əgər saytımız IPv6 dəstəkləyirsə, AAAA record olur.</p>
+            </div>
+        </section>
+
+        <section id="mail" class="section-card">
+            <h2 class="section-title">{{i:mail}} PTR, MX və NS Record</h2>
+            <div class="note-body">
+                <h3><span class="num">4</span> PTR Record</h3>
+                <p>PTR Record əksinə işləyir. Burada:</p>
+                <p><code>IP address → domain name</code></p>
+                <p>Bu prosesə <strong>reverse DNS lookup</strong> deyilir.</p>
+                <p>Harada lazımdır?</p>
+                <ul class="list">
+                    <li>Mail server-lərdə</li>
+                    <li>Server-in real olub-olmadığını yoxlamaq üçün</li>
+                </ul>
+                <p>Çox vaxt email problemlərində PTR record yoxlanılır.</p>
+                <h3><span class="num">5</span> MX (Mail Exchange) Record</h3>
+                <p>MX Record email-lərin hara gedəcəyini göstərir.</p>
+                <p>Məsələn: <code>example.com → mail.example.com</code></p>
+                <p>Kimsə sənə email göndərəndə DNS deyir:<br>“Bu domain-in mail server-i budur”.</p>
+                <p>MX record olmadan email işləməz.</p>
+                <h3><span class="num">6</span> NS (Name Server) Record</h3>
+                <p>NS Record deyir ki: “Bu domain-in DNS cavablarını kim verir?”</p>
+                <p>Yəni hansı DNS Server cavabdehdir. Məsələn:</p>
+                <p><code>ns1.example.com</code><br><code>ns2.example.com</code></p>
+                <p>Domain alanda ilk işlədilən record-lardan biridir.<br>Bunu Cloudflare və ya EasyDNS-ə qeydiyyat edə bilərsiz.</p>
+            </div>
+        </section>
+
+        <section id="service" class="section-card">
+            <h2 class="section-title">{{i:file-text}} SRV və TXT Record</h2>
+            <div class="note-body">
+                <h3><span class="num">7</span> SRV (Service) Record</h3>
+                <p>SRV Record xüsusi servislər üçün istifadə olunur. Bu record aşağıdakı məlumatları saxlayır:</p>
+                <ul class="list">
+                    <li>service</li>
+                    <li>protocol</li>
+                    <li>host</li>
+                    <li>port</li>
+                </ul>
+                <p>Harada istifadə olunur?</p>
+                <ul class="list">
+                    <li>VoIP</li>
+                    <li>XMPP</li>
+                    <li>Microsoft services</li>
+                </ul>
+                <p>Adətən A Record ilə birlikdə işləyir.</p>
+                <h3><span class="num">8</span> TXT (Text) Record</h3>
+                <p>TXT Record DNS-ə mətn əlavə etməyə imkan verir. Ən çox istifadə olunan sahələr:</p>
+                <ul class="list">
+                    <li>SPF</li>
+                    <li>DKIM</li>
+                    <li>Domain verification</li>
+                </ul>
+                <p>Məsələn: <code>v=spf1 include:_spf.google.com ~all</code></p>
+                <p>Email security üçün çox vacibdir.</p>
+            </div>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-dns-records/04.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-dns-records/04.webp" alt="DNS idarəetmə panelində record əlavə etmə siyahısı" width="1024" height="327" loading="lazy" decoding="async"></a>
+            </figure>
+        </section>
+
+        <section id="summary" class="section-card">
+            <h2 class="section-title">{{i:list-checks}} Nəticə: Yadımızda Saxlayaq</h2>
+            <div class="note-body">
+                <ul class="arrow-list">
+                    <li><strong>A / AAAA</strong> → saytın IP address-i</li>
+                    <li><strong>CNAME</strong> → yönləndirmə</li>
+                    <li><strong>MX</strong> → email</li>
+                    <li><strong>NS</strong> → DNS server-lər</li>
+                    <li><strong>PTR</strong> → reverse lookup</li>
+                    <li><strong>SRV</strong> → xüsusi servislər</li>
+                    <li><strong>TXT</strong> → təsdiqləmə və security</li>
+                </ul>
+                <p><strong>DNS-i yaxşı başa düşsən:</strong> sayt problemlərini, email xətalarını, server problemlərini daha rahat həll edərsən.</p>
+            </div>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-dns-records/05.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-dns-records/05.webp" alt="İnfoqrafika: bilməli olduğunuz DNS record növləri və onların iş prinsipi" width="805" height="1024" loading="lazy" decoding="async"></a>
+            </figure>
+        </section>
+<!--END-->

@@ -1,0 +1,66 @@
+<!--PAGE title="EDR Nədir? Endpoint Detection and Response" icon="radar" badge="Müəllimin Qeydləri · Təhlükəsizlik" nav="intro:Giriş|about:EDR haqqında|antivirus:Antivirus yoxsa EDR?|siem:EDR və SIEM|xdr:EDR və XDR"-->
+        <section id="intro" class="section-card">
+            <h2 class="section-title">{{i:radar}} EDR Nədir? Necə İşləyir?</h2>
+            <p class="note-byline">{{i:pen-line}} Müəllimin qeydi · Cavad Mikayil</p>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-edr/01.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-edr/01.webp" alt="EDR Nədir? — SOC otağında monitorları izləyən təhlükəsizlik mütəxəssisləri (örtük şəkli)" width="1112" height="625" loading="lazy" decoding="async"></a>
+            </figure>
+            <div class="note-body">
+                <p>Bu yazımda sizlərə qısa olaraq EDR kibertəhlükəsizlik həlli haqqında məlumat verəcəm, əlavə olaraq EDR ilə Antivirus, SIEM və XDR arasındakı fərqlərdən bəhs edəcəm.</p>
+            </div>
+        </section>
+
+        <section id="about" class="section-card">
+            <h2 class="section-title">{{i:scan-search}} EDR Haqqında</h2>
+            <div class="note-body">
+                <p>EDR — <strong>Endpoint Detection and Response</strong> sözlərinin qısaltması olub, istifadəçi kompüterlərində kibertəhlükələri öncədən müəyyən edib cavab verərək informasiya təhlükəsizliyini artırmaq və məlumat itkisinin qarşısını almağa çalışan möhtəşəm bir həlldir.</p>
+                <p>EDR antivirus proqramlarına əlavə olaraq real vaxt rejimində anlıq olaraq anomal halların, təhdidlərin aşkarlanması, xəbərdarlıq edilməsi, izlənilməsi və qeydə alınması kimi xüsusiyyətlərlə <strong>Forensic Investigation</strong> (kibertəhlükəsizlik sahəsində hüquq mühafizə orqanlarının əməliyyat-axtarış və araşdırma prosesləri) prosesini asanlaşdırır.</p>
+                <p>EDR həmçinin endpoint cihazlarda hər bir faylın, proqramların Run olunması (işə salınması) və ya modifikasiya edilməsi proseslərini, Windows Registry-də olunan dəyişiklikləri, şəbəkə qoşulmalarını və bu kimi kompüterdə baş verə biləcək önəmli dəyişiklikləri loglayaraq (yəni qeyd panelinə bir-bir tarixinə uyğun yazır) kibertəhdidlərin görünməsini təmin edir. Bir sözlə, istifadəçi kompüterləri üçün malware və ya kiberatakaların müəyyən olunması və onların qarşısının alınması üçün yaradılmış bir alətdir.</p>
+            </div>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-edr/02.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-edr/02.webp" alt="EDR mərhələləri: Identify, Protect, Detect, Respond, Recover; antivirusdan fərqli olaraq görünürlük, aşkarlama və cavab" width="1432" height="805" loading="lazy" decoding="async"></a>
+            </figure>
+            <div class="note-body">
+                <div class="note-box">
+                    {{i:lightbulb}}
+                    <p class="text-neutral-800">EDR eyni təyyarələrdə olan <strong>qara qutu</strong> kimidir: o hər şeyi özündə qeyd edir və daha sonra biz də bu məlumatlar ilə kiberhücumları analiz edib gələcəkdə onların bir daha baş verməməsi üçün önləyici tədbirlər görürük.</p>
+                </div>
+                <p>Günümüzdə işçilərinin sayı çoxalan, kritik infrastruktura sahib olan bir çox qurumlar EDR həllindən istifadə edir. Hətta pandemiya ilə artan remote işləyən işçilərin də təhlükəsizliyini təmin etmək üçün VPN-lər ilə birlikdə istifadə oluna bilir, anlıq olaraq trafiki monitorinq edib müəyyən qeydlər apararaq bir sıra təhlükələrin qarşısını alırlar.</p>
+                <p>Araşdırmalara görə hər bir uğurlu kiberhücumun təxminən 90%-i, məlumat itkilərinin isə 70%-i şirkətlərdə olan son istifadəçilərin kompüterlərindən (endpoints), yəni işçilərin kibertəhlükəsizlik haqqında məlumatsız olmalarından dolayı bir sıra səhvlər etdiklərinə görə qaynaqlandığı bilinir. Bu səbəbdən infrastrukturu daim monitorinq edib endpoint-lərin şübhəli davranışlarını loglayıb müəyyən cavab tədbirləri görmək lazımdır ki, insider hücumların az da olsa qarşısını ala bilək.</p>
+            </div>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-edr/03.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-edr/03.webp" alt="How EDR Works sxemi: endpoint-lərdən davranış məlumatı toplanır, Big Data və Machine Learning ilə analiz olunur, IT adminlərə ötürülür və remediation edilir" width="720" height="619" loading="lazy" decoding="async"></a>
+            </figure>
+        </section>
+
+        <section id="antivirus" class="section-card">
+            <h2 class="section-title">{{i:scale}} Antivirus yoxsa EDR? Hansı Daha Effektivdir?</h2>
+            <div class="note-body">
+                <p>Antivirus, antimalware, firewall və ya bir çox endpoint security tool-lar inkişaf etsə də, onlar hələ də öz databazalarında olan fayl və ya <strong>signature-based</strong> müəyyən etmə metodundan istifadə etdikləri üçün endpoint tərəfində qarşılaşa biləcəyimiz təhlükələri müəyyən etməkdə əksik qalırlar. Bu kimi alətlər, məsələn, sosial mühəndislik hücumlarını dayandırmaqda, istifadəçilərin həssas məlumatlarının yayılmasının, fişinq məqsədli zərərli saxta veb saytlara daxil olmalarının qarşısını almaqda yetərsizdir. Onlar sadəcə zərərli proqramları (virus, trojan, spyware, worms, adware və s.) daha öncədən databazaya əlavə edilmiş məlum imzalar əsasında sistemi scan edərək ənənəvi metodlarla aşkarlayıb qarşısını alır. EDR kimi daha geniş bir təhlükəsizlik perspektivində inkişaf etmiş təhdid aşkarlama və cavab vermə imkanlarına sahib olmadığı üçün, ayrıca ən yeni çıxan virus və zero-day boşluqlarını detect etməkdə çox əksik qalır.</p>
+                <div class="card-grid">
+                    <div class="info-card"><h3>{{i:shield}} Antivirus</h3><p class="text-neutral-700">Antiviruslar (Kaspersky, ESET) bilinən virusları imza əsaslı köhnə metodika ilə aşkarlayıb silərək və ya karantinə alaraq qarşısını alır.</p></div>
+                    <div class="info-card accent"><h3>{{i:radar}} EDR</h3><p class="text-neutral-700">EDR isə geniş bir spektrdə kompleks təhdidləri, davranışları analiz edir, Machine Learning kimi qabaqcıl texnologiyadan istifadə edərək aşkar edir, qabaqcıl təhlillər edib istintaq apara bilir, hətta müəyyən cavablar da verə bilir.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="siem" class="section-card">
+            <h2 class="section-title">{{i:activity}} EDR ilə SIEM: Oxşar Cəhətləri və Əsas Fərqlər</h2>
+            <div class="note-body">
+                <p>Bir çox böyük şirkətlərdə <strong>SIEM</strong> (Security Information and Event Management) kibertəhlükəsizlik həlli var ki, bu da bizə bir çox logları tək bir yerdə cəmləşdirib onları analiz etmə imkanı yaradır. SIEM həlli də şirkətin IT infrastrukturunda cloud, endpoint, server kimi bir çox mənbələrdən təhlükəsizlik hadisələrini, məlumatlarını toplayıb real vaxt rejimində izləyib təhlil edərək cavab verməyə kömək edir. Bu məlumatları özündə mərkəzləşdirilmiş bir platformada saxlayıb analiz edə bilir, həmçinin müəyyən təhlükəsizlik qruplarına avtomatik bildirişlər və alarmlar verə bilir.</p>
+                <p>Buna baxmayaraq SIEM olsa belə, əlavə EDR quraşdırıb işlətməkdə fayda var. Çünki SIEM həllinin əsas təyinatı müxtəlif cihaz və avadanlıqlardan, proqramlardan təhlükəsizlik məlumatlarını, logları, statistik məlumatları toplayıb təhlil etməkdir. SIEM EDR kimi real vaxt rejimində endpoint-ləri izləyib təhlükələrin dəqiq şəkildə aşkar olunması və cavab verilməsi kimi qoruma imkanlarına sahib deyil. EDR isə anlıq olaraq endpoint-ləri izləyir, real təhdidləri müəyyən edib təhlillər aparır və müəyyən cavablar verə bilir.</p>
+                <p>EDR SIEM-dən fərqli olaraq bütün IT infrastrukturda olan mənbələrdən deyil, yalnız endpoint-lərdən gələn loglara baxır. Bu iki həll fərqli texnologiyalar olsalar da, oxşar cəhətləri çox olduğu üçün birlikdə işlətməkdə fayda var.</p>
+            </div>
+        </section>
+
+        <section id="xdr" class="section-card">
+            <h2 class="section-title">{{i:workflow}} EDR ilə XDR Arasındakı Fərqlər</h2>
+            <div class="note-body">
+                <p>Bir də <strong>XDR</strong> həlli (Extended Detection and Response) var ki, bu bütün IT infrastrukturunda şəbəkə, server, cloud, endpoint, proqramlar və s. kimi mənbələrdən gələn məlumatları bir araya gətirərək təhlükəsizlik hadisələrini daha geniş bir perspektivlə izləyib analiz edir, şübhəli aktivlikləri və ya davranışları Machine Learning kimi qabaqcıl analitikadan istifadə edərək təhlil edir.</p>
+                <p>EDR isə XDR kimi daha geniş kontekstə sahib deyil, o yalnız endpoint-ləri (kompüter, server, telefon) qorumaqla yükümlü olan bir kibertəhlükəsizlik həllidir.</p>
+            </div>
+            <figure class="note-figure">
+                <a href="../assets/notes/qeyd-edr/04.webp" target="_blank" rel="noopener" title="Şəkli böyüt"><img src="../assets/notes/qeyd-edr/04.webp" alt="XDR olmadan və XDR ilə: XDR bütün mənbələri bir mərkəzdə birləşdirib təhlükəsizlik komandasına təqdim edir" width="969" height="548" loading="lazy" decoding="async"></a>
+            </figure>
+        </section>
+<!--END-->
